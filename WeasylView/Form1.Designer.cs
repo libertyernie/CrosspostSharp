@@ -39,6 +39,7 @@
 			// 
 			// thumbnail1
 			// 
+			this.thumbnail1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.thumbnail1.Location = new System.Drawing.Point(12, 12);
 			this.thumbnail1.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnail1.Name = "thumbnail1";
@@ -48,6 +49,7 @@
 			// 
 			// thumbnail2
 			// 
+			this.thumbnail2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.thumbnail2.Location = new System.Drawing.Point(12, 138);
 			this.thumbnail2.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnail2.Name = "thumbnail2";
@@ -57,15 +59,18 @@
 			// 
 			// thumbnail3
 			// 
+			this.thumbnail3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.thumbnail3.Location = new System.Drawing.Point(12, 264);
 			this.thumbnail3.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnail3.Name = "thumbnail3";
 			this.thumbnail3.Size = new System.Drawing.Size(120, 120);
+			this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.thumbnail3.TabIndex = 2;
 			this.thumbnail3.TabStop = false;
 			// 
 			// thumbnail4
 			// 
+			this.thumbnail4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.thumbnail4.Location = new System.Drawing.Point(12, 390);
 			this.thumbnail4.Margin = new System.Windows.Forms.Padding(0);
 			this.thumbnail4.Name = "thumbnail4";
@@ -83,6 +88,7 @@
 			this.btnUp.TabIndex = 4;
 			this.btnUp.Text = "↑";
 			this.btnUp.UseVisualStyleBackColor = true;
+			this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
 			// 
 			// btnDown
 			// 
@@ -94,9 +100,11 @@
 			this.btnDown.TabIndex = 5;
 			this.btnDown.Text = "↓";
 			this.btnDown.UseVisualStyleBackColor = true;
+			this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
 			// 
 			// mainPictureBox
 			// 
+			this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.mainPictureBox.Location = new System.Drawing.Point(138, 47);
 			this.mainPictureBox.Margin = new System.Windows.Forms.Padding(0);
 			this.mainPictureBox.Name = "mainPictureBox";
@@ -107,9 +115,8 @@
 			// 
 			// Form1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(599, 522);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.ClientSize = new System.Drawing.Size(575, 522);
 			this.Controls.Add(this.mainPictureBox);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);

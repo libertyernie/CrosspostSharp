@@ -46,27 +46,39 @@ namespace WeasylView {
 				thumbnails[j].Click += (o, e) => {
 					if (submissions[j] != null) {
 						imageCache[j] = mainPictureBox.Image = imageCache[j] ?? GetImage(submissions[j].media.submission.First().url);
+						Console.WriteLine(thumbnails[j].Size);
 					}
 				};
 			}
 
 			backid = nextid = null;
 			var gallery = APIInterface.UserGallery(USERNAME, count: 4);
-			PopulateThumbnails(gallery.submissions);
+			PopulateThumbnails(gallery);
 		}
 
-		public void PopulateThumbnails(Submission[] submissions) {
+		public void PopulateThumbnails(Gallery gallery) {
+			imageCache = new Image[4];
 			for (int i=0; i<4; i++) {
-				if (submissions.Length <= i) {
+				if (gallery.submissions.Length <= i) {
 					this.thumbnails[i].Image = null;
 					this.submissions[i] = null;
 				} else {
-					string url = submissions[i].media.thumbnail.First().url;
-					byte[] data = client.DownloadData(url);
-					this.thumbnails[i].Image = Bitmap.FromStream(new MemoryStream(data));
-					this.submissions[i] = submissions[i];
+					this.thumbnails[i].Image = GetImage(gallery.submissions[i].media.thumbnail.First().url);
+					this.submissions[i] = gallery.submissions[i];
 				}
 			}
+			this.backid = gallery.backid;
+			btnUp.Enabled = (backid != null);
+			this.nextid = gallery.nextid;
+			btnDown.Enabled = (nextid != null);
+		}
+
+		private void btnUp_Click(object sender, EventArgs e) {
+			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: 4, backid: this.backid));
+		}
+
+		private void btnDown_Click(object sender, EventArgs e) {
+			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: 4, nextid: this.nextid));
 		}
 	}
 }
