@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LWeasyl {
 	public class MediaFile {
-		public int mediaid { get; set; }
+		public int? mediaid { get; set; }
 		public string url { get; set; }
 		public SubmissionMedia links { get; set; }
 	}

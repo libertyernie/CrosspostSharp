@@ -15,6 +15,7 @@ using LWeasyl;
 namespace WeasylView {
 	public partial class Form1 : Form {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
+		public static readonly int TS = 4;
 
 		private int? backid, nextid;
 		private PictureBox[] thumbnails;
@@ -27,9 +28,8 @@ namespace WeasylView {
 			try {
 				byte[] data = client.DownloadData(url);
 				return Bitmap.FromStream(new MemoryStream(data));
-			} catch (Exception e) {
-				Console.Error.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
-				MessageBox.Show(e.Message);
+			} catch (ArgumentException) {
+				MessageBox.Show("This submission is not an image file.");
 				return null;
 			}
 		}
@@ -37,11 +37,11 @@ namespace WeasylView {
 		public Form1() {
 			InitializeComponent();
 			thumbnails = new PictureBox[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
-			submissions = new Submission[4];
-			imageCache = new Tuple<Image, SubmissionDetail>[4];
+			submissions = new Submission[TS];
+			imageCache = new Tuple<Image, SubmissionDetail>[TS];
 			client = new WebClient();
 
-			for (int i=0; i<4; i++) {
+			for (int i = 0; i < TS; i++) {
 				int j = i;
 				thumbnails[j].Click += (o, e) => {
 					if (submissions[j] != null) {
@@ -51,19 +51,21 @@ namespace WeasylView {
 							imageCache[j] = new Tuple<Image, SubmissionDetail>(image, detail);
 						}
 						mainPictureBox.Image = imageCache[j].Item1;
-						lblDescription.Text = imageCache[j].Item2.description;
+						txtTitle.Text = imageCache[j].Item2.title;
+						txtDescription.Text = imageCache[j].Item2.description;
+						txtTags.Text = string.Join(" ", imageCache[j].Item2.tags.Select(s => "#" + s));
 					}
 				};
 			}
 
 			backid = nextid = null;
-			var gallery = APIInterface.UserGallery(USERNAME, count: 4);
+			var gallery = APIInterface.UserGallery(USERNAME, count: TS);
 			PopulateThumbnails(gallery);
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
-			imageCache = new Tuple<Image, SubmissionDetail>[4];
-			for (int i=0; i<4; i++) {
+			imageCache = new Tuple<Image, SubmissionDetail>[TS];
+			for (int i = 0; i < TS; i++) {
 				if (gallery.submissions.Length <= i) {
 					this.thumbnails[i].Image = null;
 					this.submissions[i] = null;
@@ -79,11 +81,11 @@ namespace WeasylView {
 		}
 
 		private void btnUp_Click(object sender, EventArgs e) {
-			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: 4, backid: this.backid));
+			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: TS, backid: this.backid));
 		}
 
 		private void btnDown_Click(object sender, EventArgs e) {
-			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: 4, nextid: this.nextid));
+			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: TS, nextid: this.nextid));
 		}
 	}
 }
