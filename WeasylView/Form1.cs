@@ -11,36 +11,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LWeasyl;
+using System.Net.Mail;
 
 namespace WeasylView {
 	public partial class Form1 : Form {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 		public static readonly int TS = 4;
 
-		private int? backid, nextid;
 		private PictureBox[] thumbnails;
 		private Submission[] submissions;
 
 		private WebClient client;
-		private Tuple<Image, SubmissionDetail>[] imageCache;
+		private Tuple<byte[], SubmissionDetail>[] imageCache;
 
+		private int? backid, nextid;
 		private float originalFontSize;
-
-		private Image GetImage(string url) {
-			try {
-				byte[] data = client.DownloadData(url);
-				return Bitmap.FromStream(new MemoryStream(data));
-			} catch (ArgumentException) {
-				MessageBox.Show("This submission is not an image file.");
-				return null;
-			}
-		}
+		private byte[] currentImage;
 
 		public Form1() {
 			InitializeComponent();
 			thumbnails = new PictureBox[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 			submissions = new Submission[TS];
-			imageCache = new Tuple<Image, SubmissionDetail>[TS];
+			imageCache = new Tuple<byte[], SubmissionDetail>[TS];
 			client = new WebClient();
 			originalFontSize = txtTitle.Font.SizeInPoints;
 
@@ -49,11 +41,18 @@ namespace WeasylView {
 				thumbnails[j].Click += (o, e) => {
 					if (submissions[j] != null) {
 						if (imageCache[j] == null) {
-							var image = GetImage(submissions[j].media.submission.First().url);
+							byte[] data = client.DownloadData(submissions[j].media.submission.First().url);
 							var detail = APIInterface.ViewSubmission(submissions[j]);
-							imageCache[j] = new Tuple<Image, SubmissionDetail>(image, detail);
+							imageCache[j] = new Tuple<byte[], SubmissionDetail>(data, detail);
 						}
-						mainPictureBox.Image = imageCache[j].Item1;
+						currentImage = imageCache[j].Item1;
+						Image image = null;
+						try {
+							image = Bitmap.FromStream(new MemoryStream(currentImage));
+						} catch (ArgumentException) {
+							MessageBox.Show("This submission is not an image file.");
+						}
+						mainPictureBox.Image = image;
 						txtTitle.Text = imageCache[j].Item2.title;
 						txtDescription.Text = imageCache[j].Item2.description;
 						lblLink.Text = imageCache[j].Item2.link;
@@ -63,18 +62,24 @@ namespace WeasylView {
 			}
 
 			backid = nextid = null;
-			var gallery = APIInterface.UserGallery(USERNAME, count: TS);
-			PopulateThumbnails(gallery);
+			Task<Gallery> t = new Task<Gallery>(() => {
+				return APIInterface.UserGallery(USERNAME, count: TS);
+			});
+			t.Start();
+			t.GetAwaiter().OnCompleted(new Action(() => {
+				PopulateThumbnails(t.Result);
+			}));
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
-			imageCache = new Tuple<Image, SubmissionDetail>[TS];
+			imageCache = new Tuple<byte[], SubmissionDetail>[TS];
 			for (int i = 0; i < TS; i++) {
 				if (gallery.submissions.Length <= i) {
 					this.thumbnails[i].Image = null;
 					this.submissions[i] = null;
 				} else {
-					this.thumbnails[i].Image = GetImage(gallery.submissions[i].media.thumbnail.First().url);
+					byte[] data = client.DownloadData(gallery.submissions[i].media.thumbnail.First().url);
+					this.thumbnails[i].Image = Bitmap.FromStream(new MemoryStream(data));
 					this.submissions[i] = gallery.submissions[i];
 				}
 			}
@@ -105,7 +110,6 @@ namespace WeasylView {
 		private void btnEmail_Click(object sender, EventArgs e) {
 			StringBuilder sb = new StringBuilder();
 			if (chkTitle.Checked) {
-				sb.Append("<p>");
 				List<string> styles = new List<string>();
 				if (chkTitleBold.Checked) styles.Add("font-weight: bold");
 				float size;
@@ -113,23 +117,33 @@ namespace WeasylView {
 				if (styles.Any()) sb.Append("<span style='" + string.Join("; ", styles) + "'>");
 				sb.Append(txtTitle.Text);
 				if (styles.Any()) sb.Append("</span>");
-				sb.Append("</p>");
+				sb.Append("\n\n");
 			}
 			if (chkDescription.Checked) {
 				sb.Append(txtDescription.Text);
+				sb.Append("\n\n");
 			}
 			if (chkLink.Checked) {
-				sb.Append("<p><a href='" + lblLink.Text + "'>" + txtLink.Text + "</a></p>");
+				sb.Append("[" + txtLink.Text + "](lblLink.Text)");
+				sb.Append("\n\n");
 			}
-			sb.Append(" ");
 			if (chkWeasylTag.Checked) {
 				sb.Append("#weasyl ");
 			}
 			if (chkTags.Checked) {
 				sb.Append(txtTags.Text);
 			}
-			System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
-			System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");
+			//System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
+			//System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");
+
+			SmtpClient smtp = new SmtpClient();
+			MailMessage message = new MailMessage();
+			message.To.Add(ConfigurationManager.AppSettings["EmailTo"]);
+			if (chkTitle.Checked) message.Subject = txtTitle.Text;
+			message.Body = "!m " + sb.ToString();
+			message.Attachments.Add(new Attachment(new MemoryStream(currentImage), "nystre.png", "image/png"));
+			message.IsBodyHtml = true;
+			smtp.Send(message);
 		}
 	}
 }
