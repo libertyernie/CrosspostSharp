@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeasylReadOnly {
+namespace LWeasyl {
 	public class Submission {
 		public SubmissionMedia media { get; set; }
 		public string owner { get; set; }

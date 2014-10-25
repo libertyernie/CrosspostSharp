@@ -10,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeasylReadOnly;
+using LWeasyl;
 
 namespace WeasylView {
 	public partial class Form1 : Form {
@@ -21,7 +21,7 @@ namespace WeasylView {
 		private Submission[] submissions;
 
 		private WebClient client;
-		private Image[] imageCache;
+		private Tuple<Image, SubmissionDetail>[] imageCache;
 
 		private Image GetImage(string url) {
 			try {
@@ -38,15 +38,20 @@ namespace WeasylView {
 			InitializeComponent();
 			thumbnails = new PictureBox[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 			submissions = new Submission[4];
-			imageCache = new Image[4];
+			imageCache = new Tuple<Image, SubmissionDetail>[4];
 			client = new WebClient();
 
 			for (int i=0; i<4; i++) {
 				int j = i;
 				thumbnails[j].Click += (o, e) => {
 					if (submissions[j] != null) {
-						imageCache[j] = mainPictureBox.Image = imageCache[j] ?? GetImage(submissions[j].media.submission.First().url);
-						Console.WriteLine(thumbnails[j].Size);
+						if (imageCache[j] == null) {
+							var image = GetImage(submissions[j].media.submission.First().url);
+							var detail = APIInterface.ViewSubmission(submissions[j]);
+							imageCache[j] = new Tuple<Image, SubmissionDetail>(image, detail);
+						}
+						mainPictureBox.Image = imageCache[j].Item1;
+						lblDescription.Text = imageCache[j].Item2.description;
 					}
 				};
 			}
@@ -57,7 +62,7 @@ namespace WeasylView {
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
-			imageCache = new Image[4];
+			imageCache = new Tuple<Image, SubmissionDetail>[4];
 			for (int i=0; i<4; i++) {
 				if (gallery.submissions.Length <= i) {
 					this.thumbnails[i].Image = null;

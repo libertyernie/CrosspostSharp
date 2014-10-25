@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeasylReadOnly {
+namespace LWeasyl {
 	public class MediaFile {
 		public int mediaid { get; set; }
 		public string url { get; set; }
