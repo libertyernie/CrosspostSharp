@@ -56,6 +56,7 @@ namespace WeasylView {
 						mainPictureBox.Image = imageCache[j].Item1;
 						txtTitle.Text = imageCache[j].Item2.title;
 						txtDescription.Text = imageCache[j].Item2.description;
+						lblLink.Text = imageCache[j].Item2.link;
 						txtTags.Text = string.Join(" ", imageCache[j].Item2.tags.Select(s => "#" + s));
 					}
 				};
@@ -99,6 +100,36 @@ namespace WeasylView {
 			float i;
 			float size = float.TryParse(txtTitleSize.Text, out i) ? i : originalFontSize;
 			txtTitle.Font = new Font(txtTitle.Font.FontFamily, size, chkTitleBold.Checked ? FontStyle.Bold : FontStyle.Regular);
+		}
+
+		private void btnEmail_Click(object sender, EventArgs e) {
+			StringBuilder sb = new StringBuilder();
+			if (chkTitle.Checked) {
+				sb.Append("<p>");
+				List<string> styles = new List<string>();
+				if (chkTitleBold.Checked) styles.Add("font-weight: bold");
+				float size;
+				if (float.TryParse(txtTitleSize.Text, out size)) styles.Add("font-size: " + size + "pt");
+				if (styles.Any()) sb.Append("<span style='" + string.Join("; ", styles) + "'>");
+				sb.Append(txtTitle.Text);
+				if (styles.Any()) sb.Append("</span>");
+				sb.Append("</p>");
+			}
+			if (chkDescription.Checked) {
+				sb.Append(txtDescription.Text);
+			}
+			if (chkLink.Checked) {
+				sb.Append("<p><a href='" + lblLink.Text + "'>" + txtLink.Text + "</a></p>");
+			}
+			sb.Append(" ");
+			if (chkWeasylTag.Checked) {
+				sb.Append("#weasyl ");
+			}
+			if (chkTags.Checked) {
+				sb.Append(txtTags.Text);
+			}
+			System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
+			System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");
 		}
 	}
 }

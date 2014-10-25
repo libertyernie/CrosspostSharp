@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace LWeasyl {
 	public class Submission {
+		public string link { get; set; }
 		public SubmissionMedia media { get; set; }
 		public string owner { get; set; }
 		public string owner_login { get; set; }
