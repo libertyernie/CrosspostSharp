@@ -30,7 +30,6 @@
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
 			this.mainPictureBox = new System.Windows.Forms.PictureBox();
-			this.txtTitle = new System.Windows.Forms.TextBox();
 			this.chkTitle = new System.Windows.Forms.CheckBox();
 			this.chkDescription = new System.Windows.Forms.CheckBox();
 			this.txtDescription = new System.Windows.Forms.TextBox();
@@ -40,11 +39,17 @@
 			this.chkLink = new System.Windows.Forms.CheckBox();
 			this.txtLink = new System.Windows.Forms.TextBox();
 			this.btnEmail = new System.Windows.Forms.Button();
+			this.chkTitleBold = new System.Windows.Forms.CheckBox();
+			this.txtTitleSize = new System.Windows.Forms.TextBox();
+			this.txtTitle = new System.Windows.Forms.TextBox();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.lblPt = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// thumbnail1
@@ -116,28 +121,19 @@
 			this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.mainPictureBox.Location = new System.Drawing.Point(138, 12);
 			this.mainPictureBox.Name = "mainPictureBox";
-			this.mainPictureBox.Size = new System.Drawing.Size(360, 294);
+			this.mainPictureBox.Size = new System.Drawing.Size(360, 270);
 			this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.mainPictureBox.TabIndex = 6;
 			this.mainPictureBox.TabStop = false;
-			// 
-			// txtTitle
-			// 
-			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtTitle.Location = new System.Drawing.Point(166, 312);
-			this.txtTitle.Name = "txtTitle";
-			this.txtTitle.Size = new System.Drawing.Size(332, 22);
-			this.txtTitle.TabIndex = 7;
 			// 
 			// chkTitle
 			// 
 			this.chkTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkTitle.Checked = true;
 			this.chkTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTitle.Location = new System.Drawing.Point(138, 312);
+			this.chkTitle.Location = new System.Drawing.Point(138, 288);
 			this.chkTitle.Name = "chkTitle";
-			this.chkTitle.Size = new System.Drawing.Size(22, 22);
+			this.chkTitle.Size = new System.Drawing.Size(18, 28);
 			this.chkTitle.TabIndex = 8;
 			this.chkTitle.UseVisualStyleBackColor = true;
 			// 
@@ -148,7 +144,7 @@
 			this.chkDescription.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkDescription.Location = new System.Drawing.Point(138, 340);
 			this.chkDescription.Name = "chkDescription";
-			this.chkDescription.Size = new System.Drawing.Size(22, 22);
+			this.chkDescription.Size = new System.Drawing.Size(18, 28);
 			this.chkDescription.TabIndex = 10;
 			this.chkDescription.UseVisualStyleBackColor = true;
 			// 
@@ -156,11 +152,12 @@
 			// 
 			this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtDescription.Location = new System.Drawing.Point(166, 340);
+			this.txtDescription.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtDescription.Location = new System.Drawing.Point(162, 340);
 			this.txtDescription.Multiline = true;
 			this.txtDescription.Name = "txtDescription";
 			this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtDescription.Size = new System.Drawing.Size(332, 88);
+			this.txtDescription.Size = new System.Drawing.Size(336, 76);
 			this.txtDescription.TabIndex = 9;
 			this.txtDescription.Text = "L1\r\nL2\r\nL3\r\nL4\r\nL5\r\nL6";
 			// 
@@ -168,9 +165,10 @@
 			// 
 			this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtTags.Location = new System.Drawing.Point(244, 462);
+			this.txtTags.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTags.Location = new System.Drawing.Point(234, 456);
 			this.txtTags.Name = "txtTags";
-			this.txtTags.Size = new System.Drawing.Size(254, 22);
+			this.txtTags.Size = new System.Drawing.Size(264, 28);
 			this.txtTags.TabIndex = 11;
 			// 
 			// chkTags
@@ -180,9 +178,9 @@
 			this.chkTags.Checked = true;
 			this.chkTags.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkTags.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.chkTags.Location = new System.Drawing.Point(216, 463);
+			this.chkTags.Location = new System.Drawing.Point(210, 456);
 			this.chkTags.Name = "chkTags";
-			this.chkTags.Size = new System.Drawing.Size(22, 22);
+			this.chkTags.Size = new System.Drawing.Size(18, 28);
 			this.chkTags.TabIndex = 12;
 			this.chkTags.UseVisualStyleBackColor = true;
 			// 
@@ -192,9 +190,9 @@
 			this.chkWeasylTag.AutoEllipsis = true;
 			this.chkWeasylTag.Checked = true;
 			this.chkWeasylTag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkWeasylTag.Location = new System.Drawing.Point(138, 463);
+			this.chkWeasylTag.Location = new System.Drawing.Point(138, 456);
 			this.chkWeasylTag.Name = "chkWeasylTag";
-			this.chkWeasylTag.Size = new System.Drawing.Size(72, 22);
+			this.chkWeasylTag.Size = new System.Drawing.Size(66, 28);
 			this.chkWeasylTag.TabIndex = 13;
 			this.chkWeasylTag.Text = "#weasyl";
 			this.chkWeasylTag.UseVisualStyleBackColor = true;
@@ -204,9 +202,9 @@
 			this.chkLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkLink.Checked = true;
 			this.chkLink.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkLink.Location = new System.Drawing.Point(138, 434);
+			this.chkLink.Location = new System.Drawing.Point(138, 422);
 			this.chkLink.Name = "chkLink";
-			this.chkLink.Size = new System.Drawing.Size(22, 22);
+			this.chkLink.Size = new System.Drawing.Size(18, 28);
 			this.chkLink.TabIndex = 16;
 			this.chkLink.UseVisualStyleBackColor = true;
 			// 
@@ -214,11 +212,11 @@
 			// 
 			this.txtLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtLink.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtLink.ForeColor = System.Drawing.Color.Blue;
-			this.txtLink.Location = new System.Drawing.Point(166, 434);
+			this.txtLink.Location = new System.Drawing.Point(162, 422);
 			this.txtLink.Name = "txtLink";
-			this.txtLink.Size = new System.Drawing.Size(332, 22);
+			this.txtLink.Size = new System.Drawing.Size(336, 28);
 			this.txtLink.TabIndex = 15;
 			this.txtLink.Text = "View on Weasyl";
 			// 
@@ -232,10 +230,69 @@
 			this.btnEmail.Text = "Email to Tumblr";
 			this.btnEmail.UseVisualStyleBackColor = true;
 			// 
+			// chkTitleBold
+			// 
+			this.chkTitleBold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.chkTitleBold.Appearance = System.Windows.Forms.Appearance.Button;
+			this.chkTitleBold.Location = new System.Drawing.Point(408, 287);
+			this.chkTitleBold.Name = "chkTitleBold";
+			this.chkTitleBold.Size = new System.Drawing.Size(28, 28);
+			this.chkTitleBold.TabIndex = 18;
+			this.chkTitleBold.Text = "B";
+			this.chkTitleBold.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.chkTitleBold.UseVisualStyleBackColor = true;
+			this.chkTitleBold.CheckedChanged += new System.EventHandler(this.chkTitleBold_CheckedChanged);
+			// 
+			// txtTitleSize
+			// 
+			this.txtTitleSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtTitleSize.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTitleSize.Location = new System.Drawing.Point(442, 288);
+			this.txtTitleSize.Name = "txtTitleSize";
+			this.txtTitleSize.Size = new System.Drawing.Size(30, 28);
+			this.txtTitleSize.TabIndex = 19;
+			this.txtTitleSize.TextChanged += new System.EventHandler(this.txtTitleSize_TextChanged);
+			// 
+			// txtTitle
+			// 
+			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtTitle.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTitle.Location = new System.Drawing.Point(0, 0);
+			this.txtTitle.Name = "txtTitle";
+			this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.txtTitle.Size = new System.Drawing.Size(243, 28);
+			this.txtTitle.TabIndex = 7;
+			// 
+			// panel1
+			// 
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.panel1.Controls.Add(this.txtTitle);
+			this.panel1.Location = new System.Drawing.Point(162, 288);
+			this.panel1.Margin = new System.Windows.Forms.Padding(0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(243, 46);
+			this.panel1.TabIndex = 20;
+			// 
+			// lblPt
+			// 
+			this.lblPt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblPt.AutoSize = true;
+			this.lblPt.Location = new System.Drawing.Point(478, 291);
+			this.lblPt.Name = "lblPt";
+			this.lblPt.Size = new System.Drawing.Size(20, 17);
+			this.lblPt.TabIndex = 21;
+			this.lblPt.Text = "pt";
+			// 
 			// Form1
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(510, 525);
+			this.Controls.Add(this.lblPt);
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.txtTitleSize);
+			this.Controls.Add(this.chkTitleBold);
 			this.Controls.Add(this.btnEmail);
 			this.Controls.Add(this.chkLink);
 			this.Controls.Add(this.txtLink);
@@ -245,7 +302,6 @@
 			this.Controls.Add(this.chkDescription);
 			this.Controls.Add(this.txtDescription);
 			this.Controls.Add(this.chkTitle);
-			this.Controls.Add(this.txtTitle);
 			this.Controls.Add(this.mainPictureBox);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);
@@ -254,12 +310,13 @@
 			this.Controls.Add(this.thumbnail2);
 			this.Controls.Add(this.thumbnail1);
 			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Text = "LWeasyl";
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -274,7 +331,6 @@
 		private System.Windows.Forms.Button btnUp;
 		private System.Windows.Forms.Button btnDown;
 		private System.Windows.Forms.PictureBox mainPictureBox;
-		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.CheckBox chkTitle;
 		private System.Windows.Forms.CheckBox chkDescription;
 		private System.Windows.Forms.TextBox txtDescription;
@@ -284,6 +340,11 @@
 		private System.Windows.Forms.CheckBox chkLink;
 		private System.Windows.Forms.TextBox txtLink;
 		private System.Windows.Forms.Button btnEmail;
+		private System.Windows.Forms.CheckBox chkTitleBold;
+		private System.Windows.Forms.TextBox txtTitleSize;
+		private System.Windows.Forms.TextBox txtTitle;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label lblPt;
 	}
 }
 

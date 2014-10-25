@@ -24,6 +24,8 @@ namespace WeasylView {
 		private WebClient client;
 		private Tuple<Image, SubmissionDetail>[] imageCache;
 
+		private float originalFontSize;
+
 		private Image GetImage(string url) {
 			try {
 				byte[] data = client.DownloadData(url);
@@ -40,6 +42,7 @@ namespace WeasylView {
 			submissions = new Submission[TS];
 			imageCache = new Tuple<Image, SubmissionDetail>[TS];
 			client = new WebClient();
+			originalFontSize = txtTitle.Font.SizeInPoints;
 
 			for (int i = 0; i < TS; i++) {
 				int j = i;
@@ -86,6 +89,16 @@ namespace WeasylView {
 
 		private void btnDown_Click(object sender, EventArgs e) {
 			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: TS, nextid: this.nextid));
+		}
+
+		private void chkTitleBold_CheckedChanged(object sender, EventArgs e) {
+			txtTitleSize_TextChanged(sender, e);
+		}
+
+		private void txtTitleSize_TextChanged(object sender, EventArgs e) {
+			float i;
+			float size = float.TryParse(txtTitleSize.Text, out i) ? i : originalFontSize;
+			txtTitle.Font = new Font(txtTitle.Font.FontFamily, size, chkTitleBold.Checked ? FontStyle.Bold : FontStyle.Regular);
 		}
 	}
 }
