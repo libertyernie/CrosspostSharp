@@ -16,54 +16,24 @@ using System.Net.Mail;
 namespace WeasylSync {
 	public partial class Form1 : Form {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
-		public static readonly int TS = 4;
 
-		private PictureBox[] thumbnails;
-		private Submission[] submissions;
+		private WeasylThumbnail[] thumbnails;
+		public byte[] CurrentImage;
 
 		private WebClient client;
-		private Tuple<byte[], SubmissionDetail>[] imageCache;
 
 		private int? backid, nextid;
 		private float originalFontSize;
-		private byte[] currentImage;
 
 		public Form1() {
 			InitializeComponent();
-			thumbnails = new PictureBox[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
-			submissions = new Submission[TS];
-			imageCache = new Tuple<byte[], SubmissionDetail>[TS];
+			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 			client = new WebClient();
 			originalFontSize = txtTitle.Font.SizeInPoints;
 
-			for (int i = 0; i < TS; i++) {
-				int j = i;
-				thumbnails[j].Click += (o, e) => {
-					if (submissions[j] != null) {
-						if (imageCache[j] == null) {
-							byte[] data = client.DownloadData(submissions[j].media.submission.First().url);
-							var detail = APIInterface.ViewSubmission(submissions[j]);
-							imageCache[j] = new Tuple<byte[], SubmissionDetail>(data, detail);
-						}
-						currentImage = imageCache[j].Item1;
-						Image image = null;
-						try {
-							image = Bitmap.FromStream(new MemoryStream(currentImage));
-						} catch (ArgumentException) {
-							MessageBox.Show("This submission is not an image file.");
-						}
-						mainPictureBox.Image = image;
-						txtTitle.Text = imageCache[j].Item2.title;
-						txtDescription.Text = imageCache[j].Item2.description;
-						lblLink.Text = imageCache[j].Item2.link;
-						txtTags.Text = string.Join(" ", imageCache[j].Item2.tags.Select(s => "#" + s));
-					}
-				};
-			}
-
 			backid = nextid = null;
 			Task<Gallery> t = new Task<Gallery>(() => {
-				return APIInterface.UserGallery(USERNAME, count: TS);
+				return APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
 			});
 			t.Start();
 			t.GetAwaiter().OnCompleted(new Action(() => {
@@ -72,15 +42,11 @@ namespace WeasylSync {
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
-			imageCache = new Tuple<byte[], SubmissionDetail>[TS];
-			for (int i = 0; i < TS; i++) {
-				if (gallery.submissions.Length <= i) {
-					this.thumbnails[i].Image = null;
-					this.submissions[i] = null;
+			for (int i = 0; i < this.thumbnails.Length; i++) {
+				if (i < gallery.submissions.Length) {
+					this.thumbnails[i].Submission = gallery.submissions[i];
 				} else {
-					byte[] data = client.DownloadData(gallery.submissions[i].media.thumbnail.First().url);
-					this.thumbnails[i].Image = Bitmap.FromStream(new MemoryStream(data));
-					this.submissions[i] = gallery.submissions[i];
+					this.thumbnails[i].Submission = null;
 				}
 			}
 			this.backid = gallery.backid;
@@ -90,11 +56,11 @@ namespace WeasylSync {
 		}
 
 		private void btnUp_Click(object sender, EventArgs e) {
-			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: TS, backid: this.backid));
+			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: this.backid));
 		}
 
 		private void btnDown_Click(object sender, EventArgs e) {
-			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: TS, nextid: this.nextid));
+			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, nextid: this.nextid));
 		}
 
 		private void chkTitleBold_CheckedChanged(object sender, EventArgs e) {

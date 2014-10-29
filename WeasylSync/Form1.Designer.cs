@@ -23,10 +23,10 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.thumbnail1 = new System.Windows.Forms.PictureBox();
-			this.thumbnail2 = new System.Windows.Forms.PictureBox();
-			this.thumbnail3 = new System.Windows.Forms.PictureBox();
-			this.thumbnail4 = new System.Windows.Forms.PictureBox();
+			this.thumbnail1 = new WeasylThumbnail(this);
+			this.thumbnail2 = new WeasylThumbnail(this);
+			this.thumbnail3 = new WeasylThumbnail(this);
+			this.thumbnail4 = new WeasylThumbnail(this);
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
 			this.mainPictureBox = new System.Windows.Forms.PictureBox();
@@ -312,26 +312,26 @@
 
 		#endregion
 
-		private System.Windows.Forms.PictureBox thumbnail1;
-		private System.Windows.Forms.PictureBox thumbnail2;
-		private System.Windows.Forms.PictureBox thumbnail3;
-		private System.Windows.Forms.PictureBox thumbnail4;
+		private WeasylThumbnail thumbnail1;
+		private WeasylThumbnail thumbnail2;
+		private WeasylThumbnail thumbnail3;
+		private WeasylThumbnail thumbnail4;
 		private System.Windows.Forms.Button btnUp;
 		private System.Windows.Forms.Button btnDown;
-		private System.Windows.Forms.PictureBox mainPictureBox;
+		public System.Windows.Forms.PictureBox mainPictureBox;
 		private System.Windows.Forms.CheckBox chkTitle;
 		private System.Windows.Forms.CheckBox chkDescription;
-		private System.Windows.Forms.TextBox txtDescription;
-		private System.Windows.Forms.TextBox txtTags;
+		public System.Windows.Forms.TextBox txtDescription;
+		public System.Windows.Forms.TextBox txtTags;
 		private System.Windows.Forms.CheckBox chkTags;
 		private System.Windows.Forms.CheckBox chkWeasylTag;
 		private System.Windows.Forms.CheckBox chkLink;
 		private System.Windows.Forms.TextBox txtLink;
 		private System.Windows.Forms.Button btnEmail;
 		private System.Windows.Forms.CheckBox chkTitleBold;
-		private System.Windows.Forms.TextBox txtTitle;
+		public System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label lblLink;
+		public System.Windows.Forms.Label lblLink;
 	}
 }
 
