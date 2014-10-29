@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWeasyl", "LWeasyl/LWeasyl.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWeasyl", "LWeasyl\LWeasyl.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylSync", "WeasylSync\WeasylSync.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsWebBrowserOAuth", "WinFormsWebBrowserOAuth\WinFormsWebBrowserOAuth.csproj", "{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
