@@ -102,21 +102,16 @@ namespace WeasylView {
 		}
 
 		private void txtTitleSize_TextChanged(object sender, EventArgs e) {
-			float i;
-			float size = float.TryParse(txtTitleSize.Text, out i) ? i : originalFontSize;
-			txtTitle.Font = new Font(txtTitle.Font.FontFamily, size, chkTitleBold.Checked ? FontStyle.Bold : FontStyle.Regular);
+			txtTitle.Font = new Font(txtTitle.Font.FontFamily, txtTitle.Font.Size, chkTitleBold.Checked ? FontStyle.Bold : FontStyle.Regular);
 		}
 
 		private void btnEmail_Click(object sender, EventArgs e) {
 			StringBuilder sb = new StringBuilder();
 			if (chkTitle.Checked) {
 				List<string> styles = new List<string>();
-				if (chkTitleBold.Checked) styles.Add("font-weight: bold");
-				float size;
-				if (float.TryParse(txtTitleSize.Text, out size)) styles.Add("font-size: " + size + "pt");
-				if (styles.Any()) sb.Append("<span style='" + string.Join("; ", styles) + "'>");
+				if (chkTitleBold.Checked) sb.Append("**");
 				sb.Append(txtTitle.Text);
-				if (styles.Any()) sb.Append("</span>");
+				if (chkTitleBold.Checked) sb.Append("**");
 				sb.Append("\n\n");
 			}
 			if (chkDescription.Checked) {
@@ -133,17 +128,8 @@ namespace WeasylView {
 			if (chkTags.Checked) {
 				sb.Append(txtTags.Text);
 			}
-			//System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
-			//System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");
-
-			SmtpClient smtp = new SmtpClient();
-			MailMessage message = new MailMessage();
-			message.To.Add(ConfigurationManager.AppSettings["EmailTo"]);
-			if (chkTitle.Checked) message.Subject = txtTitle.Text;
-			message.Body = "!m " + sb.ToString();
-			message.Attachments.Add(new Attachment(new MemoryStream(currentImage), "nystre.png", "image/png"));
-			message.IsBodyHtml = true;
-			smtp.Send(message);
+			System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
+			System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");
 		}
 	}
 }

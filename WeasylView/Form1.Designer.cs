@@ -40,10 +40,8 @@
 			this.txtLink = new System.Windows.Forms.TextBox();
 			this.btnEmail = new System.Windows.Forms.Button();
 			this.chkTitleBold = new System.Windows.Forms.CheckBox();
-			this.txtTitleSize = new System.Windows.Forms.TextBox();
 			this.txtTitle = new System.Windows.Forms.TextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.lblPt = new System.Windows.Forms.Label();
 			this.lblLink = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
@@ -236,7 +234,7 @@
 			// 
 			this.chkTitleBold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkTitleBold.Appearance = System.Windows.Forms.Appearance.Button;
-			this.chkTitleBold.Location = new System.Drawing.Point(408, 284);
+			this.chkTitleBold.Location = new System.Drawing.Point(470, 284);
 			this.chkTitleBold.Name = "chkTitleBold";
 			this.chkTitleBold.Size = new System.Drawing.Size(28, 28);
 			this.chkTitleBold.TabIndex = 18;
@@ -244,16 +242,6 @@
 			this.chkTitleBold.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.chkTitleBold.UseVisualStyleBackColor = true;
 			this.chkTitleBold.CheckedChanged += new System.EventHandler(this.chkTitleBold_CheckedChanged);
-			// 
-			// txtTitleSize
-			// 
-			this.txtTitleSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtTitleSize.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTitleSize.Location = new System.Drawing.Point(442, 285);
-			this.txtTitleSize.Name = "txtTitleSize";
-			this.txtTitleSize.Size = new System.Drawing.Size(30, 28);
-			this.txtTitleSize.TabIndex = 19;
-			this.txtTitleSize.TextChanged += new System.EventHandler(this.txtTitleSize_TextChanged);
 			// 
 			// txtTitle
 			// 
@@ -263,7 +251,7 @@
 			this.txtTitle.Location = new System.Drawing.Point(0, 0);
 			this.txtTitle.Name = "txtTitle";
 			this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtTitle.Size = new System.Drawing.Size(243, 28);
+			this.txtTitle.Size = new System.Drawing.Size(305, 28);
 			this.txtTitle.TabIndex = 7;
 			// 
 			// panel1
@@ -274,18 +262,8 @@
 			this.panel1.Location = new System.Drawing.Point(162, 285);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(243, 46);
+			this.panel1.Size = new System.Drawing.Size(305, 46);
 			this.panel1.TabIndex = 20;
-			// 
-			// lblPt
-			// 
-			this.lblPt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblPt.AutoSize = true;
-			this.lblPt.Location = new System.Drawing.Point(478, 288);
-			this.lblPt.Name = "lblPt";
-			this.lblPt.Size = new System.Drawing.Size(20, 17);
-			this.lblPt.TabIndex = 21;
-			this.lblPt.Text = "pt";
 			// 
 			// lblLink
 			// 
@@ -299,9 +277,7 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(510, 522);
-			this.Controls.Add(this.lblPt);
 			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.txtTitleSize);
 			this.Controls.Add(this.chkTitleBold);
 			this.Controls.Add(this.btnEmail);
 			this.Controls.Add(this.chkLink);
@@ -353,10 +329,8 @@
 		private System.Windows.Forms.TextBox txtLink;
 		private System.Windows.Forms.Button btnEmail;
 		private System.Windows.Forms.CheckBox chkTitleBold;
-		private System.Windows.Forms.TextBox txtTitleSize;
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label lblPt;
 		private System.Windows.Forms.Label lblLink;
 	}
 }
