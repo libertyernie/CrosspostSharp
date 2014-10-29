@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LWeasyl", "LWeasyl.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylView", "WeasylView\WeasylView.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylSync", "WeasylView\WeasylSync.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

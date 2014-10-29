@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using LWeasyl;
 using System.Net.Mail;
 
-namespace WeasylView {
+namespace WeasylSync {
 	public partial class Form1 : Form {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 		public static readonly int TS = 4;

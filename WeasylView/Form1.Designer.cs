@@ -1,4 +1,4 @@
-﻿namespace WeasylView {
+﻿namespace WeasylSync {
 	partial class Form1 {
 		/// <summary>
 		/// Required designer variable.
@@ -297,7 +297,7 @@
 			this.Controls.Add(this.thumbnail1);
 			this.Controls.Add(this.lblLink);
 			this.Name = "Form1";
-			this.Text = "LWeasyl";
+			this.Text = "WeasylSync";
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
