@@ -35,11 +35,8 @@ namespace WeasylSync {
 		public byte[] RawData { get; private set; }
 		public SubmissionDetail Details { get; private set; }
 
-		private Form1 mainForm;
-
-		public WeasylThumbnail(Form1 mainForm) : base() {
+		public WeasylThumbnail() : base() {
 			this.Click += WeasylThumbnail_Click;
-			this.mainForm = mainForm;
 		}
 
 		void WeasylThumbnail_Click(object sender, EventArgs e) {
@@ -61,13 +58,22 @@ namespace WeasylSync {
 				} catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
 				}
-				mainForm.mainPictureBox.Image = image;
-				mainForm.txtTitle.Text = Details.title;
-				mainForm.txtDescription.Text = Details.description;
-				mainForm.lblLink.Text = Details.link;
-				mainForm.txtTags.Text = string.Join(" ", Details.tags.Select(s => "#" + s));
 
-				mainForm.CurrentImage = RawData;
+				for (Control c = this.Parent; c != null; c = c.Parent) {
+					if (c is Form1) {
+						Form1 mainForm = (Form1)c;
+
+						mainForm.mainPictureBox.Image = image;
+						mainForm.txtTitle.Text = Details.title;
+						mainForm.txtDescription.Text = Details.description;
+						mainForm.lblLink.Text = Details.link;
+						mainForm.txtTags.Text = string.Join(" ", Details.tags.Select(s => "#" + s));
+
+						mainForm.CurrentImage = RawData;
+
+						break;
+					}
+				}
 			}
 		}
 	}

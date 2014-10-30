@@ -23,10 +23,10 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.thumbnail1 = new WeasylThumbnail(this);
-			this.thumbnail2 = new WeasylThumbnail(this);
-			this.thumbnail3 = new WeasylThumbnail(this);
-			this.thumbnail4 = new WeasylThumbnail(this);
+			this.thumbnail1 = new WeasylThumbnail();
+			this.thumbnail2 = new WeasylThumbnail();
+			this.thumbnail3 = new WeasylThumbnail();
+			this.thumbnail4 = new WeasylThumbnail();
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
 			this.mainPictureBox = new System.Windows.Forms.PictureBox();
