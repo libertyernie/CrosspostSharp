@@ -41,6 +41,7 @@
 			this.pickDate = new System.Windows.Forms.DateTimePicker();
 			this.pickTime = new System.Windows.Forms.DateTimePicker();
 			this.chkNow = new System.Windows.Forms.CheckBox();
+			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
@@ -127,9 +128,9 @@
 			this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTags.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTags.Location = new System.Drawing.Point(234, 453);
+			this.txtTags.Location = new System.Drawing.Point(162, 453);
 			this.txtTags.Name = "txtTags";
-			this.txtTags.Size = new System.Drawing.Size(304, 28);
+			this.txtTags.Size = new System.Drawing.Size(190, 28);
 			this.txtTags.TabIndex = 11;
 			// 
 			// chkTags
@@ -139,7 +140,7 @@
 			this.chkTags.Checked = true;
 			this.chkTags.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkTags.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.chkTags.Location = new System.Drawing.Point(210, 453);
+			this.chkTags.Location = new System.Drawing.Point(138, 453);
 			this.chkTags.Name = "chkTags";
 			this.chkTags.Size = new System.Drawing.Size(18, 28);
 			this.chkTags.TabIndex = 12;
@@ -147,11 +148,11 @@
 			// 
 			// chkWeasylTag
 			// 
-			this.chkWeasylTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chkWeasylTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkWeasylTag.AutoEllipsis = true;
 			this.chkWeasylTag.Checked = true;
 			this.chkWeasylTag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkWeasylTag.Location = new System.Drawing.Point(138, 453);
+			this.chkWeasylTag.Location = new System.Drawing.Point(358, 453);
 			this.chkWeasylTag.Name = "chkWeasylTag";
 			this.chkWeasylTag.Size = new System.Drawing.Size(66, 28);
 			this.chkWeasylTag.TabIndex = 13;
@@ -258,6 +259,19 @@
 			this.chkNow.UseVisualStyleBackColor = true;
 			this.chkNow.CheckedChanged += new System.EventHandler(this.chkNow_CheckedChanged);
 			// 
+			// chkWeasylSubmitIdTag
+			// 
+			this.chkWeasylSubmitIdTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.chkWeasylSubmitIdTag.AutoEllipsis = true;
+			this.chkWeasylSubmitIdTag.Checked = true;
+			this.chkWeasylSubmitIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(430, 453);
+			this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
+			this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(108, 28);
+			this.chkWeasylSubmitIdTag.TabIndex = 27;
+			this.chkWeasylSubmitIdTag.Text = "#weasyl000000";
+			this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = true;
+			// 
 			// thumbnail4
 			// 
 			this.thumbnail4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -303,6 +317,7 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 522);
+			this.Controls.Add(this.chkWeasylSubmitIdTag);
 			this.Controls.Add(this.chkNow);
 			this.Controls.Add(this.pickTime);
 			this.Controls.Add(this.pickDate);
@@ -361,6 +376,7 @@
 		private System.Windows.Forms.DateTimePicker pickDate;
 		private System.Windows.Forms.DateTimePicker pickTime;
 		private System.Windows.Forms.CheckBox chkNow;
+		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 	}
 }
 

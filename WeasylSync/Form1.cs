@@ -53,6 +53,7 @@ namespace WeasylSync {
 					txtDescription.Text = value.description;
 					lblLink.Text = value.link;
 					txtTags.Text = string.Join(" ", value.tags.Select(s => "#" + s));
+					chkWeasylSubmitIdTag.Text = "#weasyl" + value.submitid;
 					pickDate.Value = pickTime.Value = value.posted_at;
 				}
 			}
