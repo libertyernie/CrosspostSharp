@@ -23,10 +23,6 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.thumbnail1 = new WeasylThumbnail();
-			this.thumbnail2 = new WeasylThumbnail();
-			this.thumbnail3 = new WeasylThumbnail();
-			this.thumbnail4 = new WeasylThumbnail();
 			this.btnUp = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
 			this.mainPictureBox = new System.Windows.Forms.PictureBox();
@@ -41,52 +37,20 @@
 			this.btnEmail = new System.Windows.Forms.Button();
 			this.chkTitleBold = new System.Windows.Forms.CheckBox();
 			this.txtTitle = new System.Windows.Forms.TextBox();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.lblLink = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
+			this.pickDate = new System.Windows.Forms.DateTimePicker();
+			this.pickTime = new System.Windows.Forms.DateTimePicker();
+			this.chkNow = new System.Windows.Forms.CheckBox();
+			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
-			this.panel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// thumbnail1
-			// 
-			this.thumbnail1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.thumbnail1.Location = new System.Drawing.Point(12, 12);
-			this.thumbnail1.Name = "thumbnail1";
-			this.thumbnail1.Size = new System.Drawing.Size(120, 120);
-			this.thumbnail1.TabIndex = 0;
-			this.thumbnail1.TabStop = false;
-			// 
-			// thumbnail2
-			// 
-			this.thumbnail2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.thumbnail2.Location = new System.Drawing.Point(12, 138);
-			this.thumbnail2.Name = "thumbnail2";
-			this.thumbnail2.Size = new System.Drawing.Size(120, 120);
-			this.thumbnail2.TabIndex = 1;
-			this.thumbnail2.TabStop = false;
-			// 
-			// thumbnail3
-			// 
-			this.thumbnail3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.thumbnail3.Location = new System.Drawing.Point(12, 264);
-			this.thumbnail3.Name = "thumbnail3";
-			this.thumbnail3.Size = new System.Drawing.Size(120, 120);
-			this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.thumbnail3.TabIndex = 2;
-			this.thumbnail3.TabStop = false;
-			// 
-			// thumbnail4
-			// 
-			this.thumbnail4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.thumbnail4.Location = new System.Drawing.Point(12, 390);
-			this.thumbnail4.Name = "thumbnail4";
-			this.thumbnail4.Size = new System.Drawing.Size(120, 120);
-			this.thumbnail4.TabIndex = 3;
-			this.thumbnail4.TabStop = false;
 			// 
 			// btnUp
 			// 
@@ -114,23 +78,21 @@
 			// 
 			// mainPictureBox
 			// 
-			this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.mainPictureBox.Location = new System.Drawing.Point(138, 12);
 			this.mainPictureBox.Name = "mainPictureBox";
-			this.mainPictureBox.Size = new System.Drawing.Size(360, 267);
+			this.mainPictureBox.Size = new System.Drawing.Size(400, 225);
 			this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.mainPictureBox.TabIndex = 6;
 			this.mainPictureBox.TabStop = false;
 			// 
 			// chkTitle
 			// 
-			this.chkTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkTitle.Checked = true;
 			this.chkTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTitle.Location = new System.Drawing.Point(138, 285);
+			this.chkTitle.Location = new System.Drawing.Point(138, 243);
 			this.chkTitle.Name = "chkTitle";
 			this.chkTitle.Size = new System.Drawing.Size(18, 28);
 			this.chkTitle.TabIndex = 8;
@@ -138,10 +100,9 @@
 			// 
 			// chkDescription
 			// 
-			this.chkDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkDescription.Checked = true;
 			this.chkDescription.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkDescription.Location = new System.Drawing.Point(138, 337);
+			this.chkDescription.Location = new System.Drawing.Point(138, 305);
 			this.chkDescription.Name = "chkDescription";
 			this.chkDescription.Size = new System.Drawing.Size(18, 28);
 			this.chkDescription.TabIndex = 10;
@@ -149,14 +110,15 @@
 			// 
 			// txtDescription
 			// 
-			this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDescription.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtDescription.Location = new System.Drawing.Point(162, 337);
+			this.txtDescription.Location = new System.Drawing.Point(162, 305);
 			this.txtDescription.Multiline = true;
 			this.txtDescription.Name = "txtDescription";
 			this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtDescription.Size = new System.Drawing.Size(336, 76);
+			this.txtDescription.Size = new System.Drawing.Size(376, 108);
 			this.txtDescription.TabIndex = 9;
 			this.txtDescription.Text = "L1\r\nL2\r\nL3\r\nL4\r\nL5\r\nL6";
 			// 
@@ -167,7 +129,7 @@
 			this.txtTags.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtTags.Location = new System.Drawing.Point(234, 453);
 			this.txtTags.Name = "txtTags";
-			this.txtTags.Size = new System.Drawing.Size(264, 28);
+			this.txtTags.Size = new System.Drawing.Size(304, 28);
 			this.txtTags.TabIndex = 11;
 			// 
 			// chkTags
@@ -215,14 +177,14 @@
 			this.txtLink.ForeColor = System.Drawing.Color.Blue;
 			this.txtLink.Location = new System.Drawing.Point(162, 419);
 			this.txtLink.Name = "txtLink";
-			this.txtLink.Size = new System.Drawing.Size(336, 28);
+			this.txtLink.Size = new System.Drawing.Size(376, 28);
 			this.txtLink.TabIndex = 15;
 			this.txtLink.Text = "View on Weasyl";
 			// 
 			// btnEmail
 			// 
 			this.btnEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnEmail.Location = new System.Drawing.Point(381, 487);
+			this.btnEmail.Location = new System.Drawing.Point(421, 487);
 			this.btnEmail.Name = "btnEmail";
 			this.btnEmail.Size = new System.Drawing.Size(117, 23);
 			this.btnEmail.TabIndex = 17;
@@ -232,9 +194,9 @@
 			// 
 			// chkTitleBold
 			// 
-			this.chkTitleBold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.chkTitleBold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkTitleBold.Appearance = System.Windows.Forms.Appearance.Button;
-			this.chkTitleBold.Location = new System.Drawing.Point(470, 284);
+			this.chkTitleBold.Location = new System.Drawing.Point(510, 243);
 			this.chkTitleBold.Name = "chkTitleBold";
 			this.chkTitleBold.Size = new System.Drawing.Size(28, 28);
 			this.chkTitleBold.TabIndex = 18;
@@ -248,36 +210,103 @@
 			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTitle.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTitle.Location = new System.Drawing.Point(0, 0);
+			this.txtTitle.Location = new System.Drawing.Point(162, 243);
 			this.txtTitle.Name = "txtTitle";
 			this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtTitle.Size = new System.Drawing.Size(305, 28);
+			this.txtTitle.Size = new System.Drawing.Size(342, 28);
 			this.txtTitle.TabIndex = 7;
-			// 
-			// panel1
-			// 
-			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.panel1.Controls.Add(this.txtTitle);
-			this.panel1.Location = new System.Drawing.Point(162, 285);
-			this.panel1.Margin = new System.Windows.Forms.Padding(0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(305, 46);
-			this.panel1.TabIndex = 20;
 			// 
 			// lblLink
 			// 
+			this.lblLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblLink.AutoSize = true;
 			this.lblLink.Location = new System.Drawing.Point(138, 493);
 			this.lblLink.Name = "lblLink";
 			this.lblLink.Size = new System.Drawing.Size(0, 17);
 			this.lblLink.TabIndex = 22;
 			// 
+			// pickDate
+			// 
+			this.pickDate.Enabled = false;
+			this.pickDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+			this.pickDate.Location = new System.Drawing.Point(162, 277);
+			this.pickDate.Name = "pickDate";
+			this.pickDate.Size = new System.Drawing.Size(110, 22);
+			this.pickDate.TabIndex = 23;
+			// 
+			// pickTime
+			// 
+			this.pickTime.Enabled = false;
+			this.pickTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+			this.pickTime.Location = new System.Drawing.Point(278, 277);
+			this.pickTime.Name = "pickTime";
+			this.pickTime.ShowUpDown = true;
+			this.pickTime.Size = new System.Drawing.Size(110, 22);
+			this.pickTime.TabIndex = 24;
+			// 
+			// chkNow
+			// 
+			this.chkNow.Appearance = System.Windows.Forms.Appearance.Button;
+			this.chkNow.Checked = true;
+			this.chkNow.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkNow.Location = new System.Drawing.Point(394, 277);
+			this.chkNow.Name = "chkNow";
+			this.chkNow.Size = new System.Drawing.Size(64, 22);
+			this.chkNow.TabIndex = 26;
+			this.chkNow.Text = "Now";
+			this.chkNow.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.chkNow.UseVisualStyleBackColor = true;
+			this.chkNow.CheckedChanged += new System.EventHandler(this.chkNow_CheckedChanged);
+			// 
+			// thumbnail4
+			// 
+			this.thumbnail4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.thumbnail4.Location = new System.Drawing.Point(12, 390);
+			this.thumbnail4.Name = "thumbnail4";
+			this.thumbnail4.Size = new System.Drawing.Size(120, 120);
+			this.thumbnail4.Submission = null;
+			this.thumbnail4.TabIndex = 3;
+			this.thumbnail4.TabStop = false;
+			// 
+			// thumbnail3
+			// 
+			this.thumbnail3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.thumbnail3.Location = new System.Drawing.Point(12, 264);
+			this.thumbnail3.Name = "thumbnail3";
+			this.thumbnail3.Size = new System.Drawing.Size(120, 120);
+			this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.thumbnail3.Submission = null;
+			this.thumbnail3.TabIndex = 2;
+			this.thumbnail3.TabStop = false;
+			// 
+			// thumbnail2
+			// 
+			this.thumbnail2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.thumbnail2.Location = new System.Drawing.Point(12, 138);
+			this.thumbnail2.Name = "thumbnail2";
+			this.thumbnail2.Size = new System.Drawing.Size(120, 120);
+			this.thumbnail2.Submission = null;
+			this.thumbnail2.TabIndex = 1;
+			this.thumbnail2.TabStop = false;
+			// 
+			// thumbnail1
+			// 
+			this.thumbnail1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.thumbnail1.Location = new System.Drawing.Point(12, 12);
+			this.thumbnail1.Name = "thumbnail1";
+			this.thumbnail1.Size = new System.Drawing.Size(120, 120);
+			this.thumbnail1.Submission = null;
+			this.thumbnail1.TabIndex = 0;
+			this.thumbnail1.TabStop = false;
+			// 
 			// Form1
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(510, 522);
-			this.Controls.Add(this.panel1);
+			this.ClientSize = new System.Drawing.Size(550, 522);
+			this.Controls.Add(this.chkNow);
+			this.Controls.Add(this.pickTime);
+			this.Controls.Add(this.pickDate);
+			this.Controls.Add(this.txtTitle);
 			this.Controls.Add(this.chkTitleBold);
 			this.Controls.Add(this.btnEmail);
 			this.Controls.Add(this.chkLink);
@@ -298,13 +327,11 @@
 			this.Controls.Add(this.lblLink);
 			this.Name = "Form1";
 			this.Text = "WeasylSync";
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -318,20 +345,22 @@
 		private WeasylThumbnail thumbnail4;
 		private System.Windows.Forms.Button btnUp;
 		private System.Windows.Forms.Button btnDown;
-		public System.Windows.Forms.PictureBox mainPictureBox;
+		private System.Windows.Forms.PictureBox mainPictureBox;
 		private System.Windows.Forms.CheckBox chkTitle;
 		private System.Windows.Forms.CheckBox chkDescription;
-		public System.Windows.Forms.TextBox txtDescription;
-		public System.Windows.Forms.TextBox txtTags;
+		private System.Windows.Forms.TextBox txtDescription;
+		private System.Windows.Forms.TextBox txtTags;
 		private System.Windows.Forms.CheckBox chkTags;
 		private System.Windows.Forms.CheckBox chkWeasylTag;
 		private System.Windows.Forms.CheckBox chkLink;
 		private System.Windows.Forms.TextBox txtLink;
 		private System.Windows.Forms.Button btnEmail;
 		private System.Windows.Forms.CheckBox chkTitleBold;
-		public System.Windows.Forms.TextBox txtTitle;
-		private System.Windows.Forms.Panel panel1;
-		public System.Windows.Forms.Label lblLink;
+		private System.Windows.Forms.TextBox txtTitle;
+		private System.Windows.Forms.Label lblLink;
+		private System.Windows.Forms.DateTimePicker pickDate;
+		private System.Windows.Forms.DateTimePicker pickTime;
+		private System.Windows.Forms.CheckBox chkNow;
 	}
 }
 

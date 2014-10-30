@@ -52,25 +52,12 @@ namespace WeasylSync {
 				if (Details == null) {
 					Details = APIInterface.ViewSubmission(Submission);
 				}
-				Image image = null;
-				try {
-					image = Bitmap.FromStream(new MemoryStream(RawData));
-				} catch (ArgumentException) {
-					MessageBox.Show("This submission is not an image file.");
-				}
 
 				for (Control c = this.Parent; c != null; c = c.Parent) {
 					if (c is Form1) {
 						Form1 mainForm = (Form1)c;
-
-						mainForm.mainPictureBox.Image = image;
-						mainForm.txtTitle.Text = Details.title;
-						mainForm.txtDescription.Text = Details.description;
-						mainForm.lblLink.Text = Details.link;
-						mainForm.txtTags.Text = string.Join(" ", Details.tags.Select(s => "#" + s));
-
+						mainForm.Details = Details;
 						mainForm.CurrentImage = RawData;
-
 						break;
 					}
 				}

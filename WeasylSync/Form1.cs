@@ -18,7 +18,45 @@ namespace WeasylSync {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 
 		private WeasylThumbnail[] thumbnails;
-		public byte[] CurrentImage;
+
+		private byte[] currentImage;
+		public byte[] CurrentImage {
+			get {
+				return currentImage;
+			}
+			set {
+				currentImage = value;
+				if (value == null) {
+					mainPictureBox.Image = null;
+				} else {
+					Image image = null;
+					try {
+						image = Bitmap.FromStream(new MemoryStream(value));
+						mainPictureBox.Image = image;
+					} catch (ArgumentException) {
+						MessageBox.Show("This submission is not an image file.");
+						mainPictureBox.Image = null;
+					}
+				}
+			}
+		}
+
+		private SubmissionDetail details;
+		public SubmissionDetail Details {
+			get {
+				return details;
+			}
+			set {
+				details = value;
+				if (value != null) {
+					txtTitle.Text = value.title;
+					txtDescription.Text = value.description;
+					lblLink.Text = value.link;
+					txtTags.Text = string.Join(" ", value.tags.Select(s => "#" + s));
+					pickDate.Value = pickTime.Value = value.posted_at;
+				}
+			}
+		}
 
 		private WebClient client;
 
@@ -96,6 +134,10 @@ namespace WeasylSync {
 			}
 			System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
 			System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");
+		}
+
+		private void chkNow_CheckedChanged(object sender, EventArgs e) {
+			pickDate.Enabled = pickTime.Enabled = !chkNow.Checked;
 		}
 	}
 }
