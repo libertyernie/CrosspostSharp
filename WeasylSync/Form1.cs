@@ -75,20 +75,13 @@ namespace WeasylSync {
 
 			progressBar1.Visible = true;
 			progressBar1.Value = 0;
-			Task<Gallery> t = new Task<Gallery>(() => {
-				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
+			Task t = new Task(() => {
 				incrementProgressBar(64);
+				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
 				PopulateThumbnails(g);
-				return g;
+				setPaging(g.backid, g.nextid);
 			});
 			t.Start();
-			t.GetAwaiter().OnCompleted(() => {
-				this.backid = t.Result.backid;
-				btnUp.Enabled = (backid != null);
-				this.nextid = t.Result.nextid;
-				btnDown.Enabled = (nextid != null);
-			});
-			Console.WriteLine("done");
 		}
 
 		delegate void incrementProgressBarDelegate(int value);
@@ -96,34 +89,58 @@ namespace WeasylSync {
 			if (this.InvokeRequired) {
 				this.BeginInvoke(new incrementProgressBarDelegate(incrementProgressBar), value);
 			} else {
+				progressBar1.Visible = true;
 				value += progressBar1.Value;
-				progressBar1.Value = Math.Min(value + 1, progressBar1.Maximum);
-				progressBar1.Value--;
+				progressBar1.Value = value;
 				lblDiagnostic.Text = value.ToString();
-				Console.WriteLine(progressBar1.Value);
-				if (progressBar1.Value >= progressBar1.Maximum) progressBar1.Visible = false;
+			}
+		}
+
+		delegate void setPagingDelegate(int? backid, int? nextid);
+		public void setPaging(int? backid, int? nextid) {
+			if (this.InvokeRequired) {
+				this.BeginInvoke(new setPagingDelegate(setPaging), backid, nextid);
+			} else {
+				this.backid = backid;
+				btnUp.Enabled = (backid != null);
+				this.nextid = nextid;
+				btnDown.Enabled = (nextid != null);
+
+				progressBar1.Value = 0;
+				progressBar1.Visible = false;
 			}
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
 			for (int i = 0; i < this.thumbnails.Length; i++) {
-				System.Threading.Thread.Sleep(1000);
+				incrementProgressBar(16);
 				if (i < gallery.submissions.Length) {
 					this.thumbnails[i].Submission = gallery.submissions[i];
 				} else {
 					this.thumbnails[i].Submission = null;
 				}
 				Console.WriteLine(gallery.submissions[i].title);
-				incrementProgressBar(16);
 			}
 		}
 
 		private void btnUp_Click(object sender, EventArgs e) {
-			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: this.backid));
+			Task t = new Task(() => {
+				incrementProgressBar(64);
+				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: this.backid);
+				PopulateThumbnails(g);
+				setPaging(g.backid, g.nextid);
+			});
+			t.Start();
 		}
 
 		private void btnDown_Click(object sender, EventArgs e) {
-			PopulateThumbnails(APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, nextid: this.nextid));
+			Task t = new Task(() => {
+				incrementProgressBar(64);
+				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, nextid: this.nextid);
+				PopulateThumbnails(g);
+				setPaging(g.backid, g.nextid);
+			});
+			t.Start();
 		}
 
 		private void chkTitleBold_CheckedChanged(object sender, EventArgs e) {
