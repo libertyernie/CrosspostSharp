@@ -56,7 +56,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="LProgressBar.cs" />
+    <Compile Include="LProgressBar.cs">
+      <SubType>UserControl</SubType>
+	</Compile>
     <Compile Include="LProgressBar.Designer.cs">
       <DependentUpon>LProgressBar.cs</DependentUpon>
     </Compile>

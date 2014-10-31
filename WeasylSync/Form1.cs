@@ -73,8 +73,8 @@ namespace WeasylSync {
 
 			backid = nextid = null;
 
-			progressBar1.Visible = true;
-			progressBar1.Value = 0;
+			lProgressBar1.Visible = true;
+			lProgressBar1.Value = 0;
 			Task t = new Task(() => {
 				incrementProgressBar(64);
 				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
@@ -89,9 +89,9 @@ namespace WeasylSync {
 			if (this.InvokeRequired) {
 				this.BeginInvoke(new incrementProgressBarDelegate(incrementProgressBar), value);
 			} else {
-				progressBar1.Visible = true;
-				value += progressBar1.Value;
-				progressBar1.Value = value;
+				lProgressBar1.Visible = true;
+				value += lProgressBar1.Value;
+				lProgressBar1.Value = value;
 				lblDiagnostic.Text = value.ToString();
 			}
 		}
@@ -106,8 +106,8 @@ namespace WeasylSync {
 				this.nextid = nextid;
 				btnDown.Enabled = (nextid != null);
 
-				progressBar1.Value = 0;
-				progressBar1.Visible = false;
+				lProgressBar1.Value = 0;
+				lProgressBar1.Visible = false;
 			}
 		}
 
