@@ -37,11 +37,13 @@
 			this.btnEmail = new System.Windows.Forms.Button();
 			this.chkTitleBold = new System.Windows.Forms.CheckBox();
 			this.txtTitle = new System.Windows.Forms.TextBox();
-			this.lblLink = new System.Windows.Forms.Label();
 			this.pickDate = new System.Windows.Forms.DateTimePicker();
 			this.pickTime = new System.Windows.Forms.DateTimePicker();
 			this.chkNow = new System.Windows.Forms.CheckBox();
 			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
+			this.lblLink = new System.Windows.Forms.Label();
+			this.progressBar1 = new System.Windows.Forms.ProgressBar();
+			this.lblDiagnostic = new System.Windows.Forms.Label();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
@@ -217,15 +219,6 @@
 			this.txtTitle.Size = new System.Drawing.Size(342, 28);
 			this.txtTitle.TabIndex = 7;
 			// 
-			// lblLink
-			// 
-			this.lblLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblLink.AutoSize = true;
-			this.lblLink.Location = new System.Drawing.Point(138, 493);
-			this.lblLink.Name = "lblLink";
-			this.lblLink.Size = new System.Drawing.Size(0, 17);
-			this.lblLink.TabIndex = 22;
-			// 
 			// pickDate
 			// 
 			this.pickDate.Enabled = false;
@@ -272,6 +265,35 @@
 			this.chkWeasylSubmitIdTag.Text = "#weasyl000000";
 			this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = true;
 			// 
+			// lblLink
+			// 
+			this.lblLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblLink.Location = new System.Drawing.Point(138, 487);
+			this.lblLink.Name = "lblLink";
+			this.lblLink.Size = new System.Drawing.Size(277, 23);
+			this.lblLink.TabIndex = 22;
+			// 
+			// progressBar1
+			// 
+			this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.progressBar1.Location = new System.Drawing.Point(141, 487);
+			this.progressBar1.Maximum = 128;
+			this.progressBar1.Name = "progressBar1";
+			this.progressBar1.Size = new System.Drawing.Size(274, 23);
+			this.progressBar1.Step = 16;
+			this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			this.progressBar1.TabIndex = 28;
+			this.progressBar1.Visible = false;
+			// 
+			// lblDiagnostic
+			// 
+			this.lblDiagnostic.AutoSize = true;
+			this.lblDiagnostic.Location = new System.Drawing.Point(465, 278);
+			this.lblDiagnostic.Name = "lblDiagnostic";
+			this.lblDiagnostic.Size = new System.Drawing.Size(88, 17);
+			this.lblDiagnostic.TabIndex = 29;
+			this.lblDiagnostic.Text = "lblDiagnostic";
+			// 
 			// thumbnail4
 			// 
 			this.thumbnail4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -317,6 +339,8 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 522);
+			this.Controls.Add(this.lblDiagnostic);
+			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.chkWeasylSubmitIdTag);
 			this.Controls.Add(this.chkNow);
 			this.Controls.Add(this.pickTime);
@@ -372,11 +396,13 @@
 		private System.Windows.Forms.Button btnEmail;
 		private System.Windows.Forms.CheckBox chkTitleBold;
 		private System.Windows.Forms.TextBox txtTitle;
-		private System.Windows.Forms.Label lblLink;
 		private System.Windows.Forms.DateTimePicker pickDate;
 		private System.Windows.Forms.DateTimePicker pickTime;
 		private System.Windows.Forms.CheckBox chkNow;
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
+		private System.Windows.Forms.Label lblLink;
+		private System.Windows.Forms.ProgressBar progressBar1;
+		private System.Windows.Forms.Label lblDiagnostic;
 	}
 }
 

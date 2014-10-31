@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LWeasyl;
 using System.Net.Mail;
+using System.Diagnostics;
 
 namespace WeasylSync {
 	public partial class Form1 : Form {
@@ -71,27 +72,50 @@ namespace WeasylSync {
 			originalFontSize = txtTitle.Font.SizeInPoints;
 
 			backid = nextid = null;
+
+			progressBar1.Visible = true;
+			progressBar1.Value = 0;
 			Task<Gallery> t = new Task<Gallery>(() => {
-				return APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
+				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
+				incrementProgressBar(64);
+				PopulateThumbnails(g);
+				return g;
 			});
 			t.Start();
-			t.GetAwaiter().OnCompleted(new Action(() => {
-				PopulateThumbnails(t.Result);
-			}));
+			t.GetAwaiter().OnCompleted(() => {
+				this.backid = t.Result.backid;
+				btnUp.Enabled = (backid != null);
+				this.nextid = t.Result.nextid;
+				btnDown.Enabled = (nextid != null);
+			});
+			Console.WriteLine("done");
+		}
+
+		delegate void incrementProgressBarDelegate(int value);
+		public void incrementProgressBar(int value) {
+			if (this.InvokeRequired) {
+				this.BeginInvoke(new incrementProgressBarDelegate(incrementProgressBar), value);
+			} else {
+				value += progressBar1.Value;
+				progressBar1.Value = Math.Min(value + 1, progressBar1.Maximum);
+				progressBar1.Value--;
+				lblDiagnostic.Text = value.ToString();
+				Console.WriteLine(progressBar1.Value);
+				if (progressBar1.Value >= progressBar1.Maximum) progressBar1.Visible = false;
+			}
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
 			for (int i = 0; i < this.thumbnails.Length; i++) {
+				System.Threading.Thread.Sleep(1000);
 				if (i < gallery.submissions.Length) {
 					this.thumbnails[i].Submission = gallery.submissions[i];
 				} else {
 					this.thumbnails[i].Submission = null;
 				}
+				Console.WriteLine(gallery.submissions[i].title);
+				incrementProgressBar(16);
 			}
-			this.backid = gallery.backid;
-			btnUp.Enabled = (backid != null);
-			this.nextid = gallery.nextid;
-			btnDown.Enabled = (nextid != null);
 		}
 
 		private void btnUp_Click(object sender, EventArgs e) {
