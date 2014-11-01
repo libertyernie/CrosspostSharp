@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,8 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LWeasyl;
-using System.Net.Mail;
-using System.Diagnostics;
 
 namespace WeasylSync {
 	public partial class Form1 : Form {
@@ -73,8 +69,6 @@ namespace WeasylSync {
 
 			backid = nextid = null;
 
-			lProgressBar1.Visible = true;
-			lProgressBar1.Value = 0;
 			UpdateGalleryAsync();
 		}
 
@@ -87,26 +81,28 @@ namespace WeasylSync {
 			}
 		}
 
-		public void PopulateThumbnails(Gallery gallery) {
-			for (int i = 0; i < this.thumbnails.Length; i++) {
-				lProgressBar1.Value += 16;
-				if (i < gallery.submissions.Length) {
-					this.thumbnails[i].Submission = gallery.submissions[i];
-				} else {
-					this.thumbnails[i].Submission = null;
-				}
-			}
-		}
-
 		private Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
+			lProgressBar1.Visible = true;
+			lProgressBar1.Value = 0;
 			Task t = new Task(() => {
-				lProgressBar1.Value += 64;
-				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
-				PopulateThumbnails(g);
-				this.backid = g.backid;
-				this.nextid = g.nextid;
-				lProgressBar1.setVisible_ThreadSafe(false);
-				setPaging();
+				lock (lProgressBar1) {
+					lProgressBar1.Value += 48;
+					var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid, halfwayAction: new Action(() => {
+						lProgressBar1.Value += 16;
+					}));
+					for (int i = 0; i < this.thumbnails.Length; i++) {
+						lProgressBar1.Value += 16;
+						if (i < g.submissions.Length) {
+							this.thumbnails[i].Submission = g.submissions[i];
+						} else {
+							this.thumbnails[i].Submission = null;
+						}
+					}
+					this.backid = g.backid;
+					this.nextid = g.nextid;
+					lProgressBar1.setVisible_ThreadSafe(false);
+					setPaging();
+				}
 			});
 			t.Start();
 			return t;
