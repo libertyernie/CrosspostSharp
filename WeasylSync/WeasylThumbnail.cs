@@ -35,32 +35,42 @@ namespace WeasylSync {
 		public byte[] RawData { get; private set; }
 		public SubmissionDetail Details { get; private set; }
 
-		public WeasylThumbnail() : base() {
+		private Form1 mainForm;
+
+		public WeasylThumbnail(Form1 mainForm) : base() {
+			this.mainForm = mainForm;
 			this.Click += WeasylThumbnail_Click;
 		}
 
 		void WeasylThumbnail_Click(object sender, EventArgs e) {
 			if (Submission != null) {
-				if (RawData == null) {
-					WebRequest req = WebRequest.Create(Submission.media.submission.First().url);
-					WebResponse resp = req.GetResponse();
-					var stream = resp.GetResponseStream();
-					RawData = new byte[resp.ContentLength];
-					int read = 0;
-					while (read < RawData.Length) Console.WriteLine(read += stream.Read(RawData, read, RawData.Length - read));
-				}
-				if (Details == null) {
-					Details = APIInterface.ViewSubmission(Submission);
-				}
+				new Task(() => {
+					lock (mainForm.LProgressBar) {
+						if (RawData == null) {
+							WebRequest req = WebRequest.Create(Submission.media.submission.First().url);
+							WebResponse resp = req.GetResponse();
+							var stream = resp.GetResponseStream();
 
-				for (Control c = this.Parent; c != null; c = c.Parent) {
-					if (c is Form1) {
-						Form1 mainForm = (Form1)c;
-						mainForm.Details = Details;
-						mainForm.CurrentImage = RawData;
-						break;
+							RawData = new byte[resp.ContentLength];
+							mainForm.LProgressBar.Maximum = RawData.Length;
+							mainForm.LProgressBar.Value = 0;
+							mainForm.LProgressBar.Visible = true;
+
+							int read = 0;
+							while (read < RawData.Length) {
+								read += stream.Read(RawData, read, RawData.Length - read);
+								mainForm.LProgressBar.Value = read;
+							}
+						}
+
+						if (Details == null) {
+							Details = APIInterface.ViewSubmission(Submission);
+						}
+
+						mainForm.LProgressBar.Visible = false;
+						mainForm.setCurrentImage(this);
 					}
-				}
+				}).Start();
 			}
 		}
 	}

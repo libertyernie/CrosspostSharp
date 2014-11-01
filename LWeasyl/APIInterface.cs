@@ -12,7 +12,7 @@ namespace LWeasyl
     {
 		private static WebClient client = new WebClient();
 
-		public static Gallery UserGallery(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null, Action halfwayAction = null) {
+		public static Gallery UserGallery(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null) {
 			client.QueryString.Clear();
 			if (since != null) client.QueryString.Add("since", since.Value.ToString("u"));
 			if (count != null) client.QueryString.Add("count", count.ToString());
@@ -20,7 +20,6 @@ namespace LWeasyl
 			if (backid != null) client.QueryString.Add("backid", backid.ToString());
 			if (nextid != null) client.QueryString.Add("nextid", nextid.ToString());
 			string json = client.DownloadString("https://www.weasyl.com/api/users/" + user + "/gallery");
-			if (halfwayAction != null) halfwayAction();
 			return JsonConvert.DeserializeObject<Gallery>(json);
 		}
 

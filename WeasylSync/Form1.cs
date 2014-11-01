@@ -15,93 +15,77 @@ namespace WeasylSync {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 
 		private WeasylThumbnail[] thumbnails;
-
+		private WeasylThumbnail current;
 		private byte[] currentImage;
-		public byte[] CurrentImage {
-			get {
-				return currentImage;
-			}
-			set {
-				currentImage = value;
-				if (value == null) {
-					mainPictureBox.Image = null;
-				} else {
-					Image image = null;
-					try {
-						image = Bitmap.FromStream(new MemoryStream(value));
-						mainPictureBox.Image = image;
-					} catch (ArgumentException) {
-						MessageBox.Show("This submission is not an image file.");
-						mainPictureBox.Image = null;
-					}
-				}
-			}
-		}
-
-		private SubmissionDetail details;
-		public SubmissionDetail Details {
-			get {
-				return details;
-			}
-			set {
-				details = value;
-				if (value != null) {
-					txtTitle.Text = value.title;
-					txtDescription.Text = value.description;
-					lblLink.Text = value.link;
-					txtTags.Text = string.Join(" ", value.tags.Select(s => "#" + s));
-					chkWeasylSubmitIdTag.Text = "#weasyl" + value.submitid;
-					pickDate.Value = pickTime.Value = value.posted_at;
-				}
-			}
-		}
-
-		private WebClient client;
-
 		private int? backid, nextid;
-		private float originalFontSize;
+
+		public LProgressBar LProgressBar {
+			get {
+				return lProgressBar1;
+			}
+		}
+
+		public void setCurrentImage(WeasylThumbnail thumbnail) {
+			if (this.InvokeRequired) {
+				this.BeginInvoke(new Action<WeasylThumbnail>(setCurrentImage), thumbnail);
+				return;
+			}
+
+			this.current = thumbnail;
+			if (current.Details != null) {
+				txtTitle.Text = current.Details.title;
+				txtDescription.Text = current.Details.description;
+				lblLink.Text = current.Details.link;
+				txtTags.Text = string.Join(" ", current.Details.tags.Select(s => "#" + s));
+				chkWeasylSubmitIdTag.Text = "#weasyl" + current.Details.submitid;
+				pickDate.Value = pickTime.Value = current.Details.posted_at;
+			}
+			if (current.RawData == null) {
+				mainPictureBox.Image = null;
+			} else {
+				Image image = null;
+				try {
+					image = Bitmap.FromStream(new MemoryStream(current.RawData));
+					mainPictureBox.Image = image;
+				} catch (ArgumentException) {
+					MessageBox.Show("This submission is not an image file.");
+					mainPictureBox.Image = null;
+				}
+			}
+		}
 
 		public Form1() {
 			InitializeComponent();
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
-			client = new WebClient();
-			originalFontSize = txtTitle.Font.SizeInPoints;
 
 			backid = nextid = null;
 
 			UpdateGalleryAsync();
 		}
 
-		public void setPaging() {
-			if (this.InvokeRequired) {
-				this.BeginInvoke(new Action(setPaging));
-			} else {
-				btnUp.Enabled = (backid != null);
-				btnDown.Enabled = (nextid != null);
-			}
-		}
-
 		private Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
-			lProgressBar1.Visible = true;
-			lProgressBar1.Value = 0;
 			Task t = new Task(() => {
 				lock (lProgressBar1) {
-					lProgressBar1.Value += 48;
-					var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid, halfwayAction: new Action(() => {
-						lProgressBar1.Value += 16;
-					}));
+					lProgressBar1.Maximum = 8;
+					lProgressBar1.Value = 0;
+					lProgressBar1.Visible = true;
+					var g = APIInterface.UserGallery(user: USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
+					lProgressBar1.Value += 4;
 					for (int i = 0; i < this.thumbnails.Length; i++) {
-						lProgressBar1.Value += 16;
 						if (i < g.submissions.Length) {
 							this.thumbnails[i].Submission = g.submissions[i];
 						} else {
 							this.thumbnails[i].Submission = null;
 						}
+						lProgressBar1.Value++;
 					}
 					this.backid = g.backid;
 					this.nextid = g.nextid;
-					lProgressBar1.setVisible_ThreadSafe(false);
-					setPaging();
+					this.BeginInvoke(new Action(() => {
+						btnUp.Enabled = (this.backid != null);
+						btnDown.Enabled = (this.nextid != null);
+					}));
+					lProgressBar1.Visible = false;
 				}
 			});
 			t.Start();

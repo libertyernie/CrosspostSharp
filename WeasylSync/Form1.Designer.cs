@@ -42,11 +42,11 @@
 			this.chkNow = new System.Windows.Forms.CheckBox();
 			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
 			this.lblLink = new System.Windows.Forms.Label();
-			this.lProgressBar1 = new WindowsFormsApplication1.LProgressBar();
-			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
+			this.lProgressBar1 = new WeasylSync.LProgressBar();
+			this.thumbnail4 = new WeasylSync.WeasylThumbnail(this);
+			this.thumbnail3 = new WeasylSync.WeasylThumbnail(this);
+			this.thumbnail2 = new WeasylSync.WeasylThumbnail(this);
+			this.thumbnail1 = new WeasylSync.WeasylThumbnail(this);
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
@@ -389,7 +389,7 @@
 		private System.Windows.Forms.CheckBox chkNow;
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 		private System.Windows.Forms.Label lblLink;
-		private WindowsFormsApplication1.LProgressBar lProgressBar1;
+		private WeasylSync.LProgressBar lProgressBar1;
 	}
 }
 
