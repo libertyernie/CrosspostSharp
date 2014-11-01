@@ -31,7 +31,7 @@ namespace WeasylSync {
 				txtTitle.Text = submission.title;
 				txtDescription.Text = submission.description;
 				lblLink.Text = submission.link;
-				txtTags.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
+				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
 				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
 				pickDate.Value = pickTime.Value = submission.posted_at;
 			}
@@ -54,8 +54,9 @@ namespace WeasylSync {
 			InitializeComponent();
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
-			backid = nextid = null;
+			txtTags2.Text = "#weasyl #" + USERNAME;
 
+			backid = nextid = null;
 			UpdateGalleryAsync();
 		}
 
@@ -121,11 +122,12 @@ namespace WeasylSync {
 				sb.Append("[" + txtLink.Text + "](lblLink.Text)");
 				sb.Append("\n\n");
 			}
-			if (chkWeasylTag.Checked) {
-				sb.Append("#weasyl ");
+			if (chkTags1.Checked) {
+				sb.Append(txtTags1.Text);
 			}
-			if (chkTags.Checked) {
-				sb.Append(txtTags.Text);
+			sb.Append(" ");
+			if (chkTags2.Checked) {
+				sb.Append(txtTags2.Text);
 			}
 			System.IO.File.WriteAllText("C:/Users/Owner/Desktop/dump.html", sb.ToString());
 			System.Diagnostics.Process.Start("C:/Users/Owner/Desktop/dump.html");

@@ -29,9 +29,8 @@
 			this.chkTitle = new System.Windows.Forms.CheckBox();
 			this.chkDescription = new System.Windows.Forms.CheckBox();
 			this.txtDescription = new System.Windows.Forms.TextBox();
-			this.txtTags = new System.Windows.Forms.TextBox();
-			this.chkTags = new System.Windows.Forms.CheckBox();
-			this.chkWeasylTag = new System.Windows.Forms.CheckBox();
+			this.txtTags1 = new System.Windows.Forms.TextBox();
+			this.chkTags1 = new System.Windows.Forms.CheckBox();
 			this.chkLink = new System.Windows.Forms.CheckBox();
 			this.txtLink = new System.Windows.Forms.TextBox();
 			this.btnEmail = new System.Windows.Forms.Button();
@@ -47,6 +46,8 @@
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
+			this.txtTags2 = new System.Windows.Forms.TextBox();
+			this.chkTags2 = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
@@ -120,52 +121,39 @@
 			this.txtDescription.Multiline = true;
 			this.txtDescription.Name = "txtDescription";
 			this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtDescription.Size = new System.Drawing.Size(376, 108);
+			this.txtDescription.Size = new System.Drawing.Size(376, 73);
 			this.txtDescription.TabIndex = 9;
 			this.txtDescription.Text = "L1\r\nL2\r\nL3\r\nL4\r\nL5\r\nL6";
 			// 
-			// txtTags
+			// txtTags1
 			// 
-			this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.txtTags1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtTags.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtTags.Location = new System.Drawing.Point(162, 453);
-			this.txtTags.Name = "txtTags";
-			this.txtTags.Size = new System.Drawing.Size(190, 28);
-			this.txtTags.TabIndex = 11;
+			this.txtTags1.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTags1.Location = new System.Drawing.Point(162, 418);
+			this.txtTags1.Name = "txtTags1";
+			this.txtTags1.Size = new System.Drawing.Size(376, 28);
+			this.txtTags1.TabIndex = 11;
 			// 
-			// chkTags
+			// chkTags1
 			// 
-			this.chkTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.chkTags.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.chkTags.Checked = true;
-			this.chkTags.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTags.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.chkTags.Location = new System.Drawing.Point(138, 453);
-			this.chkTags.Name = "chkTags";
-			this.chkTags.Size = new System.Drawing.Size(18, 28);
-			this.chkTags.TabIndex = 12;
-			this.chkTags.UseVisualStyleBackColor = true;
-			// 
-			// chkWeasylTag
-			// 
-			this.chkWeasylTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.chkWeasylTag.AutoEllipsis = true;
-			this.chkWeasylTag.Checked = true;
-			this.chkWeasylTag.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkWeasylTag.Location = new System.Drawing.Point(358, 453);
-			this.chkWeasylTag.Name = "chkWeasylTag";
-			this.chkWeasylTag.Size = new System.Drawing.Size(66, 28);
-			this.chkWeasylTag.TabIndex = 13;
-			this.chkWeasylTag.Text = "#weasyl";
-			this.chkWeasylTag.UseVisualStyleBackColor = true;
+			this.chkTags1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chkTags1.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.chkTags1.Checked = true;
+			this.chkTags1.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkTags1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.chkTags1.Location = new System.Drawing.Point(138, 418);
+			this.chkTags1.Name = "chkTags1";
+			this.chkTags1.Size = new System.Drawing.Size(18, 28);
+			this.chkTags1.TabIndex = 12;
+			this.chkTags1.UseVisualStyleBackColor = true;
 			// 
 			// chkLink
 			// 
 			this.chkLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkLink.Checked = true;
 			this.chkLink.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkLink.Location = new System.Drawing.Point(138, 419);
+			this.chkLink.Location = new System.Drawing.Point(138, 384);
 			this.chkLink.Name = "chkLink";
 			this.chkLink.Size = new System.Drawing.Size(18, 28);
 			this.chkLink.TabIndex = 16;
@@ -177,7 +165,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtLink.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txtLink.ForeColor = System.Drawing.Color.Blue;
-			this.txtLink.Location = new System.Drawing.Point(162, 419);
+			this.txtLink.Location = new System.Drawing.Point(162, 384);
 			this.txtLink.Name = "txtLink";
 			this.txtLink.Size = new System.Drawing.Size(376, 28);
 			this.txtLink.TabIndex = 15;
@@ -280,12 +268,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(136, 487);
-			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.lProgressBar1.Location = new System.Drawing.Point(138, 487);
+			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.lProgressBar1.Maximum = 128;
 			this.lProgressBar1.Minimum = 0;
 			this.lProgressBar1.Name = "lProgressBar1";
-			this.lProgressBar1.Size = new System.Drawing.Size(278, 23);
+			this.lProgressBar1.Size = new System.Drawing.Size(277, 23);
 			this.lProgressBar1.TabIndex = 30;
 			this.lProgressBar1.Value = 0;
 			// 
@@ -330,10 +318,35 @@
 			this.thumbnail1.TabIndex = 0;
 			this.thumbnail1.TabStop = false;
 			// 
+			// txtTags2
+			// 
+			this.txtTags2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtTags2.Font = new System.Drawing.Font("Arial", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTags2.Location = new System.Drawing.Point(162, 452);
+			this.txtTags2.Name = "txtTags2";
+			this.txtTags2.Size = new System.Drawing.Size(253, 28);
+			this.txtTags2.TabIndex = 31;
+			// 
+			// chkTags2
+			// 
+			this.chkTags2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chkTags2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.chkTags2.Checked = true;
+			this.chkTags2.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkTags2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.chkTags2.Location = new System.Drawing.Point(138, 452);
+			this.chkTags2.Name = "chkTags2";
+			this.chkTags2.Size = new System.Drawing.Size(18, 28);
+			this.chkTags2.TabIndex = 32;
+			this.chkTags2.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 522);
+			this.Controls.Add(this.chkTags2);
+			this.Controls.Add(this.txtTags2);
 			this.Controls.Add(this.lProgressBar1);
 			this.Controls.Add(this.chkWeasylSubmitIdTag);
 			this.Controls.Add(this.chkNow);
@@ -344,9 +357,8 @@
 			this.Controls.Add(this.btnEmail);
 			this.Controls.Add(this.chkLink);
 			this.Controls.Add(this.txtLink);
-			this.Controls.Add(this.chkWeasylTag);
-			this.Controls.Add(this.chkTags);
-			this.Controls.Add(this.txtTags);
+			this.Controls.Add(this.chkTags1);
+			this.Controls.Add(this.txtTags1);
 			this.Controls.Add(this.chkDescription);
 			this.Controls.Add(this.txtDescription);
 			this.Controls.Add(this.chkTitle);
@@ -382,9 +394,8 @@
 		private System.Windows.Forms.CheckBox chkTitle;
 		private System.Windows.Forms.CheckBox chkDescription;
 		private System.Windows.Forms.TextBox txtDescription;
-		private System.Windows.Forms.TextBox txtTags;
-		private System.Windows.Forms.CheckBox chkTags;
-		private System.Windows.Forms.CheckBox chkWeasylTag;
+		private System.Windows.Forms.TextBox txtTags1;
+		private System.Windows.Forms.CheckBox chkTags1;
 		private System.Windows.Forms.CheckBox chkLink;
 		private System.Windows.Forms.TextBox txtLink;
 		private System.Windows.Forms.Button btnEmail;
@@ -396,6 +407,8 @@
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 		private System.Windows.Forms.Label lblLink;
 		private WeasylSync.LProgressBar lProgressBar1;
+		private System.Windows.Forms.TextBox txtTags2;
+		private System.Windows.Forms.CheckBox chkTags2;
 	}
 }
 
