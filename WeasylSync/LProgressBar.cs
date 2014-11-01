@@ -38,14 +38,7 @@ namespace WindowsFormsApplication1
             set
             {
                 _value = value;
-                if (this.InvokeRequired)
-                {
-                    this.BeginInvoke(new refreshDel(this.Refresh));
-                }
-                else
-                {
-                    this.Invalidate();
-                }
+				this.Invalidate();
             }
         }
 

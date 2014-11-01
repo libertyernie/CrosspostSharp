@@ -75,13 +75,7 @@ namespace WeasylSync {
 
 			lProgressBar1.Visible = true;
 			lProgressBar1.Value = 0;
-			Task t = new Task(() => {
-				incrementProgressBar(64);
-				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length);
-				PopulateThumbnails(g);
-				setPaging(g.backid, g.nextid);
-			});
-			t.Start();
+			UpdateGalleryAsync();
 		}
 
 		delegate void incrementProgressBarDelegate(int value);
@@ -123,24 +117,23 @@ namespace WeasylSync {
 			}
 		}
 
-		private void btnUp_Click(object sender, EventArgs e) {
+		private Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
 			Task t = new Task(() => {
 				incrementProgressBar(64);
-				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: this.backid);
+				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
 				PopulateThumbnails(g);
 				setPaging(g.backid, g.nextid);
 			});
 			t.Start();
+			return t;
+		}
+
+		private void btnUp_Click(object sender, EventArgs e) {
+			UpdateGalleryAsync(backid: this.backid);
 		}
 
 		private void btnDown_Click(object sender, EventArgs e) {
-			Task t = new Task(() => {
-				incrementProgressBar(64);
-				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, nextid: this.nextid);
-				PopulateThumbnails(g);
-				setPaging(g.backid, g.nextid);
-			});
-			t.Start();
+			UpdateGalleryAsync(nextid: this.nextid);
 		}
 
 		private void chkTitleBold_CheckedChanged(object sender, EventArgs e) {
