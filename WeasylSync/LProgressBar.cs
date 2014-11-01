@@ -22,8 +22,6 @@ namespace WindowsFormsApplication1
             this.DoubleBuffered = true;
         }
 
-        private delegate void refreshDel();
-
 		[Description("The value at which the progress bar is full."), Category("Behavior")] 
         public int Maximum { get; set; }
 
@@ -41,6 +39,13 @@ namespace WindowsFormsApplication1
 				this.Invalidate();
             }
         }
+
+		public void setVisible_ThreadSafe(bool visible) {
+			if (this.InvokeRequired)
+				this.BeginInvoke(new Action<bool>(setVisible_ThreadSafe), visible);
+			else
+				this.Visible = visible;
+		}
 
         protected override void OnPaint(PaintEventArgs e)
         {

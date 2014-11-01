@@ -78,51 +78,35 @@ namespace WeasylSync {
 			UpdateGalleryAsync();
 		}
 
-		delegate void incrementProgressBarDelegate(int value);
-		public void incrementProgressBar(int value) {
+		public void setPaging() {
 			if (this.InvokeRequired) {
-				this.BeginInvoke(new incrementProgressBarDelegate(incrementProgressBar), value);
+				this.BeginInvoke(new Action(setPaging));
 			} else {
-				lProgressBar1.Visible = true;
-				value += lProgressBar1.Value;
-				lProgressBar1.Value = value;
-				lblDiagnostic.Text = value.ToString();
-			}
-		}
-
-		delegate void setPagingDelegate(int? backid, int? nextid);
-		public void setPaging(int? backid, int? nextid) {
-			if (this.InvokeRequired) {
-				this.BeginInvoke(new setPagingDelegate(setPaging), backid, nextid);
-			} else {
-				this.backid = backid;
 				btnUp.Enabled = (backid != null);
-				this.nextid = nextid;
 				btnDown.Enabled = (nextid != null);
-
-				lProgressBar1.Value = 0;
-				lProgressBar1.Visible = false;
 			}
 		}
 
 		public void PopulateThumbnails(Gallery gallery) {
 			for (int i = 0; i < this.thumbnails.Length; i++) {
-				incrementProgressBar(16);
+				lProgressBar1.Value += 16;
 				if (i < gallery.submissions.Length) {
 					this.thumbnails[i].Submission = gallery.submissions[i];
 				} else {
 					this.thumbnails[i].Submission = null;
 				}
-				Console.WriteLine(gallery.submissions[i].title);
 			}
 		}
 
 		private Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
 			Task t = new Task(() => {
-				incrementProgressBar(64);
+				lProgressBar1.Value += 64;
 				var g = APIInterface.UserGallery(USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
 				PopulateThumbnails(g);
-				setPaging(g.backid, g.nextid);
+				this.backid = g.backid;
+				this.nextid = g.nextid;
+				lProgressBar1.setVisible_ThreadSafe(false);
+				setPaging();
 			});
 			t.Start();
 			return t;

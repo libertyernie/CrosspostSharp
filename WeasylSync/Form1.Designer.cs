@@ -42,7 +42,6 @@
 			this.chkNow = new System.Windows.Forms.CheckBox();
 			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
 			this.lblLink = new System.Windows.Forms.Label();
-			this.lblDiagnostic = new System.Windows.Forms.Label();
 			this.lProgressBar1 = new WindowsFormsApplication1.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
@@ -273,15 +272,6 @@
 			this.lblLink.Size = new System.Drawing.Size(277, 23);
 			this.lblLink.TabIndex = 22;
 			// 
-			// lblDiagnostic
-			// 
-			this.lblDiagnostic.AutoSize = true;
-			this.lblDiagnostic.Location = new System.Drawing.Point(465, 278);
-			this.lblDiagnostic.Name = "lblDiagnostic";
-			this.lblDiagnostic.Size = new System.Drawing.Size(88, 17);
-			this.lblDiagnostic.TabIndex = 29;
-			this.lblDiagnostic.Text = "lblDiagnostic";
-			// 
 			// lProgressBar1
 			// 
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -339,7 +329,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 522);
 			this.Controls.Add(this.lProgressBar1);
-			this.Controls.Add(this.lblDiagnostic);
 			this.Controls.Add(this.chkWeasylSubmitIdTag);
 			this.Controls.Add(this.chkNow);
 			this.Controls.Add(this.pickTime);
@@ -400,7 +389,6 @@
 		private System.Windows.Forms.CheckBox chkNow;
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 		private System.Windows.Forms.Label lblLink;
-		private System.Windows.Forms.Label lblDiagnostic;
 		private WindowsFormsApplication1.LProgressBar lProgressBar1;
 	}
 }
