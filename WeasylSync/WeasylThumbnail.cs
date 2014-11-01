@@ -68,7 +68,7 @@ namespace WeasylSync {
 						}
 
 						mainForm.LProgressBar.Visible = false;
-						mainForm.setCurrentImage(this);
+						mainForm.Invoke(new Action<SubmissionDetail, byte[]>(mainForm.SetCurrentImage), Details, RawData);
 					}
 				}).Start();
 			}

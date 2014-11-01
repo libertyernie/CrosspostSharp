@@ -15,7 +15,7 @@ namespace WeasylSync {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 
 		private WeasylThumbnail[] thumbnails;
-		private WeasylThumbnail current;
+		private SubmissionDetail currentSubmission;
 		private byte[] currentImage;
 		private int? backid, nextid;
 
@@ -25,28 +25,24 @@ namespace WeasylSync {
 			}
 		}
 
-		public void setCurrentImage(WeasylThumbnail thumbnail) {
-			if (this.InvokeRequired) {
-				this.BeginInvoke(new Action<WeasylThumbnail>(setCurrentImage), thumbnail);
-				return;
+		public void SetCurrentImage(SubmissionDetail submission, byte[] image) {
+			this.currentSubmission = submission;
+			if (submission != null) {
+				txtTitle.Text = submission.title;
+				txtDescription.Text = submission.description;
+				lblLink.Text = submission.link;
+				txtTags.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
+				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
+				pickDate.Value = pickTime.Value = submission.posted_at;
 			}
-
-			this.current = thumbnail;
-			if (current.Details != null) {
-				txtTitle.Text = current.Details.title;
-				txtDescription.Text = current.Details.description;
-				lblLink.Text = current.Details.link;
-				txtTags.Text = string.Join(" ", current.Details.tags.Select(s => "#" + s));
-				chkWeasylSubmitIdTag.Text = "#weasyl" + current.Details.submitid;
-				pickDate.Value = pickTime.Value = current.Details.posted_at;
-			}
-			if (current.RawData == null) {
+			this.currentImage = image;
+			if (image == null) {
 				mainPictureBox.Image = null;
 			} else {
-				Image image = null;
+				Image bitmap = null;
 				try {
-					image = Bitmap.FromStream(new MemoryStream(current.RawData));
-					mainPictureBox.Image = image;
+					bitmap = Bitmap.FromStream(new MemoryStream(image));
+					mainPictureBox.Image = bitmap;
 				} catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
 					mainPictureBox.Image = null;
