@@ -37,12 +37,19 @@ namespace WeasylSync {
 
 		private Form1 mainForm;
 
-		public WeasylThumbnail(Form1 mainForm) : base() {
-			this.mainForm = mainForm;
+		public WeasylThumbnail() : base() {
 			this.Click += WeasylThumbnail_Click;
 		}
 
 		void WeasylThumbnail_Click(object sender, EventArgs e) {
+			if (this.mainForm == null) {
+				for (Control c = this.Parent; c != null; c = c.Parent) {
+					if (c is Form1) {
+						this.mainForm = (Form1)c;
+						break;
+					}
+				}
+			}
 			if (Submission != null) {
 				new Task(() => {
 					lock (mainForm.LProgressBar) {

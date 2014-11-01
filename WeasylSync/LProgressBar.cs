@@ -12,23 +12,42 @@ namespace WeasylSync
 {
     public partial class LProgressBar : UserControl
     {
+		private int _value, _minimum, _maximum;
+
         public LProgressBar() {
             InitializeComponent();
 
 			this.Minimum = 0;
 			this.Maximum = 100;
+			this.Value = 0;
+			this.ForeColor = Color.Black;
 
             this.DoubleBuffered = true;
         }
 
-		[Description("The value at which the progress bar is empty."), Category("Behavior")]
-		public int Minimum { get; set; }
+		[Description("The value at which the progress bar is empty. This property is thread-safe."), Category("Behavior")]
+		public int Minimum {
+			get {
+				return _minimum;
+			}
+			set {
+				_minimum = value;
+				Invalidate();
+			}
+		}
 
-		[Description("The value at which the progress bar is full."), Category("Behavior")] 
-        public int Maximum { get; set; }
+		[Description("The value at which the progress bar is full. This property is thread-safe."), Category("Behavior")]
+		public int Maximum {
+			get {
+				return _maximum;
+			}
+			set {
+				_maximum = value;
+				Invalidate();
+			}
+		}
 
-        private int _value;
-		[Description("The initial value of the progress bar."), Category("Behavior")] 
+		[Description("The initial value of the progress bar. This property is thread-safe."), Category("Behavior")] 
         public int Value {
             get
             {
@@ -41,6 +60,19 @@ namespace WeasylSync
             }
         }
 
+		/*private Color _color;
+		[Description("The color of the progress bar. This property is thread-safe."), Category("Behavior")]
+		public Color ForeColor {
+			get {
+				return _color;
+			}
+			set {
+				_color = value;
+				Invalidate();
+			}
+		}*/
+
+		[Description("Determines whether the control is visible or hidden. This property is thread-safe."), Category("Behavior")]
 		public new bool Visible {
 			get {
 				return base.Visible;
@@ -58,7 +90,9 @@ namespace WeasylSync
 			base.OnPaint(e);
             int barwidth = (Value - Minimum) * this.Width / Math.Max(Maximum - Minimum, 1);
 			Console.WriteLine("barwidth " + barwidth);
-            e.Graphics.FillRectangle(new SolidBrush(Color.Black), 0, 0, barwidth, this.Height);
+			using (Brush brush = new SolidBrush(ForeColor)) {
+				e.Graphics.FillRectangle(brush, 0, 0, barwidth, this.Height);
+			}
         }
     }
 }

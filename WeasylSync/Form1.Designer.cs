@@ -43,10 +43,10 @@
 			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
 			this.lblLink = new System.Windows.Forms.Label();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
-			this.thumbnail4 = new WeasylSync.WeasylThumbnail(this);
-			this.thumbnail3 = new WeasylSync.WeasylThumbnail(this);
-			this.thumbnail2 = new WeasylSync.WeasylThumbnail(this);
-			this.thumbnail1 = new WeasylSync.WeasylThumbnail(this);
+			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
@@ -266,20 +266,26 @@
 			// 
 			// lblLink
 			// 
-			this.lblLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblLink.Location = new System.Drawing.Point(138, 487);
 			this.lblLink.Name = "lblLink";
 			this.lblLink.Size = new System.Drawing.Size(277, 23);
 			this.lblLink.TabIndex = 22;
+			this.lblLink.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// lProgressBar1
 			// 
+			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lProgressBar1.Location = new System.Drawing.Point(139, 488);
+			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.lProgressBar1.Location = new System.Drawing.Point(136, 487);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.lProgressBar1.Maximum = 128;
+			this.lProgressBar1.Minimum = 0;
 			this.lProgressBar1.Name = "lProgressBar1";
-			this.lProgressBar1.Size = new System.Drawing.Size(276, 22);
+			this.lProgressBar1.Size = new System.Drawing.Size(278, 23);
 			this.lProgressBar1.TabIndex = 30;
 			this.lProgressBar1.Value = 0;
 			// 
