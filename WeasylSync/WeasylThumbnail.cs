@@ -11,6 +11,8 @@ using System.Windows.Forms;
 
 namespace WeasylSync {
 	public class WeasylThumbnail : PictureBox {
+		// Sets the submission for this thumbnail to display.
+		// The Submission object comes from the Weasyl gallery; the thumbnail is fetched immediately; and the details and actual image are fetched when necessary.
 		private Submission _submission;
 		public Submission Submission {
 			get {
@@ -32,9 +34,11 @@ namespace WeasylSync {
 			}
 		}
 
+		// These variables act as a cache; they will be null until the thumbnail is clicked on.
 		public byte[] RawData { get; private set; }
 		public SubmissionDetail Details { get; private set; }
 
+		// Reference to the parent form
 		private Form1 mainForm;
 
 		public WeasylThumbnail() : base() {
@@ -42,6 +46,7 @@ namespace WeasylSync {
 		}
 
 		void WeasylThumbnail_Click(object sender, EventArgs e) {
+			// Search for the parent form if we don't already have a reference to it
 			if (this.mainForm == null) {
 				for (Control c = this.Parent; c != null; c = c.Parent) {
 					if (c is Form1) {
@@ -51,6 +56,7 @@ namespace WeasylSync {
 				}
 			}
 			if (Submission != null) {
+				// Launch a new thread to download the submission details and raw image data
 				new Task(() => {
 					lock (mainForm.LProgressBar) {
 						if (RawData == null) {
@@ -75,6 +81,8 @@ namespace WeasylSync {
 						}
 
 						mainForm.LProgressBar.Visible = false;
+
+						// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
 						mainForm.Invoke(new Action<SubmissionDetail, byte[]>(mainForm.SetCurrentImage), Details, RawData);
 					}
 				}).Start();

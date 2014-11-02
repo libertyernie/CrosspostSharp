@@ -14,17 +14,26 @@ namespace WeasylSync {
 	public partial class Form1 : Form {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 
+		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
+
+		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
 		private SubmissionDetail currentSubmission;
 		private byte[] currentImage;
+
+		// Used for paging.
 		private int? backid, nextid;
 
+		// Allows WeasylThumbnail access to the progress bar.
+		// Functions that use the progress bar should lock on it first.
 		public LProgressBar LProgressBar {
 			get {
 				return lProgressBar1;
 			}
 		}
 
+		// This function is called after clicking on a WeasylThumbnail.
+		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
 		public void SetCurrentImage(SubmissionDetail submission, byte[] image) {
 			this.currentSubmission = submission;
 			if (submission != null) {
@@ -54,12 +63,16 @@ namespace WeasylSync {
 			InitializeComponent();
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
+			// Global tags that you can include in each submission if you want.
+			// In the future these will be in app.config.
 			txtTags2.Text = "#weasyl #" + USERNAME;
 
 			backid = nextid = null;
 			UpdateGalleryAsync();
 		}
 
+		// Launches a thread to update the thumbnails.
+		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
 			Task t = new Task(() => {
 				lock (lProgressBar1) {
