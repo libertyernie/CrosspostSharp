@@ -47,6 +47,7 @@
 			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
 			this.txtTags2 = new System.Windows.Forms.TextBox();
 			this.chkTags2 = new System.Windows.Forms.CheckBox();
+			this.btnPost = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
@@ -329,10 +330,21 @@
 			this.chkTags2.TabIndex = 32;
 			this.chkTags2.UseVisualStyleBackColor = true;
 			// 
+			// btnPost
+			// 
+			this.btnPost.Location = new System.Drawing.Point(421, 486);
+			this.btnPost.Name = "btnPost";
+			this.btnPost.Size = new System.Drawing.Size(117, 24);
+			this.btnPost.TabIndex = 33;
+			this.btnPost.Text = "Post to Tumblr";
+			this.btnPost.UseVisualStyleBackColor = true;
+			this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
+			// 
 			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 522);
+			this.Controls.Add(this.btnPost);
 			this.Controls.Add(this.chkTags2);
 			this.Controls.Add(this.txtTags2);
 			this.Controls.Add(this.lProgressBar1);
@@ -395,6 +407,7 @@
 		private WeasylSync.LProgressBar lProgressBar1;
 		private System.Windows.Forms.TextBox txtTags2;
 		private System.Windows.Forms.CheckBox chkTags2;
+		private System.Windows.Forms.Button btnPost;
 	}
 }
 

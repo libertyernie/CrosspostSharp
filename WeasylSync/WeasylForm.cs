@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LWeasyl;
+using WinFormsWebBrowserOAuth;
+using Newtonsoft.Json;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -125,6 +127,24 @@ namespace WeasylSync {
 
 		private void chkNow_CheckedChanged(object sender, EventArgs e) {
 			pickDate.Enabled = pickTime.Enabled = !chkNow.Checked;
+		}
+
+		private void btnPost_Click(object sender, EventArgs e) {
+			var oauth = new OAuthTumblr(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
+			string requestToken = oauth.getRequestToken();
+			string verifier = oauth.authorizeToken(); // display WebBrowser
+			if (verifier == null) {
+				MessageBox.Show("Posting cancelled.");
+				return;
+			}
+			string accessToken = oauth.getAccessToken();
+			string accessTokenSecret = oauth.TokenSecret;
+
+			MessageBox.Show(accessToken + Environment.NewLine + accessTokenSecret);
+			File.WriteAllText("tumblrkey.json", JsonConvert.SerializeObject(new {
+				accessToken,
+				accessTokenSecret
+			}));
 		}
 	}
 }
