@@ -39,7 +39,7 @@ namespace WeasylSync {
 		public SubmissionDetail Details { get; private set; }
 
 		// Reference to the parent form
-		private Form1 mainForm;
+		private WeasylForm mainForm;
 
 		public WeasylThumbnail() : base() {
 			this.Click += WeasylThumbnail_Click;
@@ -49,8 +49,8 @@ namespace WeasylSync {
 			// Search for the parent form if we don't already have a reference to it
 			if (this.mainForm == null) {
 				for (Control c = this.Parent; c != null; c = c.Parent) {
-					if (c is Form1) {
-						this.mainForm = (Form1)c;
+					if (c is WeasylForm) {
+						this.mainForm = (WeasylForm)c;
 						break;
 					}
 				}
@@ -59,31 +59,37 @@ namespace WeasylSync {
 				// Launch a new thread to download the submission details and raw image data
 				new Task(() => {
 					lock (mainForm.LProgressBar) {
-						if (RawData == null) {
-							WebRequest req = WebRequest.Create(Submission.media.submission.First().url);
-							WebResponse resp = req.GetResponse();
-							var stream = resp.GetResponseStream();
+						try {
+							if (RawData == null) {
+								mainForm.LProgressBar.Value = 0;
+								mainForm.LProgressBar.Visible = true;
 
-							RawData = new byte[resp.ContentLength];
-							mainForm.LProgressBar.Maximum = RawData.Length;
-							mainForm.LProgressBar.Value = 0;
-							mainForm.LProgressBar.Visible = true;
+								WebRequest req = WebRequest.Create(Submission.media.submission.First().url);
+								WebResponse resp = req.GetResponse();
+								var stream = resp.GetResponseStream();
 
-							int read = 0;
-							while (read < RawData.Length) {
-								read += stream.Read(RawData, read, RawData.Length - read);
-								mainForm.LProgressBar.Value = read;
+								RawData = new byte[resp.ContentLength];
+								mainForm.LProgressBar.Maximum = RawData.Length;
+
+								int read = 0;
+								while (read < RawData.Length) {
+									read += stream.Read(RawData, read, RawData.Length - read);
+									mainForm.LProgressBar.Value = read;
+								}
 							}
+
+							if (Details == null) {
+								Details = APIInterface.ViewSubmission(Submission);
+							}
+
+							mainForm.LProgressBar.Visible = false;
+
+							// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
+							mainForm.Invoke(new Action<SubmissionDetail, byte[]>(mainForm.SetCurrentImage), Details, RawData);
+						} catch (WebException ex) {
+							mainForm.LProgressBar.Visible = false;
+							MessageBox.Show(ex.Message);
 						}
-
-						if (Details == null) {
-							Details = APIInterface.ViewSubmission(Submission);
-						}
-
-						mainForm.LProgressBar.Visible = false;
-
-						// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
-						mainForm.Invoke(new Action<SubmissionDetail, byte[]>(mainForm.SetCurrentImage), Details, RawData);
 					}
 				}).Start();
 			}

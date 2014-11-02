@@ -50,15 +50,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="WeasylForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="WeasylForm.Designer.cs">
+      <DependentUpon>WeasylForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LProgressBar.cs">
       <SubType>UserControl</SubType>
-	</Compile>
+    </Compile>
     <Compile Include="LProgressBar.Designer.cs">
       <DependentUpon>LProgressBar.cs</DependentUpon>
     </Compile>
@@ -69,8 +69,8 @@
     <Compile Include="WeasylThumbnail.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="WeasylForm.resx">
+      <DependentUpon>WeasylForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LProgressBar.resx">
       <DependentUpon>LProgressBar.cs</DependentUpon>

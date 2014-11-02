@@ -1,5 +1,5 @@
 ﻿namespace WeasylSync {
-	partial class Form1 {
+	partial class WeasylForm {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -33,7 +33,6 @@
 			this.chkTags1 = new System.Windows.Forms.CheckBox();
 			this.chkLink = new System.Windows.Forms.CheckBox();
 			this.txtLink = new System.Windows.Forms.TextBox();
-			this.btnEmail = new System.Windows.Forms.Button();
 			this.chkTitleBold = new System.Windows.Forms.CheckBox();
 			this.txtTitle = new System.Windows.Forms.TextBox();
 			this.pickDate = new System.Windows.Forms.DateTimePicker();
@@ -170,17 +169,6 @@
 			this.txtLink.Size = new System.Drawing.Size(376, 28);
 			this.txtLink.TabIndex = 15;
 			this.txtLink.Text = "View on Weasyl";
-			// 
-			// btnEmail
-			// 
-			this.btnEmail.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnEmail.Location = new System.Drawing.Point(421, 487);
-			this.btnEmail.Name = "btnEmail";
-			this.btnEmail.Size = new System.Drawing.Size(117, 23);
-			this.btnEmail.TabIndex = 17;
-			this.btnEmail.Text = "Email to Tumblr";
-			this.btnEmail.UseVisualStyleBackColor = true;
-			this.btnEmail.Click += new System.EventHandler(this.btnEmail_Click);
 			// 
 			// chkTitleBold
 			// 
@@ -341,7 +329,7 @@
 			this.chkTags2.TabIndex = 32;
 			this.chkTags2.UseVisualStyleBackColor = true;
 			// 
-			// Form1
+			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 522);
@@ -354,7 +342,6 @@
 			this.Controls.Add(this.pickDate);
 			this.Controls.Add(this.txtTitle);
 			this.Controls.Add(this.chkTitleBold);
-			this.Controls.Add(this.btnEmail);
 			this.Controls.Add(this.chkLink);
 			this.Controls.Add(this.txtLink);
 			this.Controls.Add(this.chkTags1);
@@ -370,7 +357,7 @@
 			this.Controls.Add(this.thumbnail2);
 			this.Controls.Add(this.thumbnail1);
 			this.Controls.Add(this.lblLink);
-			this.Name = "Form1";
+			this.Name = "WeasylForm";
 			this.Text = "WeasylSync";
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
@@ -398,7 +385,6 @@
 		private System.Windows.Forms.CheckBox chkTags1;
 		private System.Windows.Forms.CheckBox chkLink;
 		private System.Windows.Forms.TextBox txtLink;
-		private System.Windows.Forms.Button btnEmail;
 		private System.Windows.Forms.CheckBox chkTitleBold;
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.DateTimePicker pickDate;
