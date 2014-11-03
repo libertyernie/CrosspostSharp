@@ -11,6 +11,9 @@ using System.Windows.Forms;
 using LWeasyl;
 using WinFormsWebBrowserOAuth;
 using Newtonsoft.Json;
+using DontPanic.TumblrSharp.Client;
+using DontPanic.TumblrSharp;
+using DontPanic.TumblrSharp.OAuth;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -130,20 +133,22 @@ namespace WeasylSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs e) {
-			var oauth = new OAuthTumblr(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
-			string requestToken = oauth.getRequestToken();
-			string verifier = oauth.authorizeToken(); // display WebBrowser
-			if (verifier == null) {
-				MessageBox.Show("Posting cancelled.");
-				return;
+			Token token = TumblrKey.Load();
+			if (token == null) {
+				token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
+				if (token == null) {
+					MessageBox.Show("Posting cancelled.");
+					return;
+				} else {
+					TumblrKey.Save(token);
+				}
 			}
-			string accessToken = oauth.getAccessToken();
-			string accessTokenSecret = oauth.TokenSecret;
-
-			MessageBox.Show(accessToken + Environment.NewLine + accessTokenSecret);
-			File.WriteAllText("tumblrkey.json", JsonConvert.SerializeObject(new {
-				accessToken,
-				accessTokenSecret
+			TumblrClient c = new TumblrClientFactory().Create<TumblrClient>(
+				OAuthConsumer.CONSUMER_KEY,
+				OAuthConsumer.CONSUMER_SECRET,
+				token);
+			c.CreatePostAsync("libertyernie", PostData.CreateText("Test 6, should not work")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
 			}));
 		}
 	}
