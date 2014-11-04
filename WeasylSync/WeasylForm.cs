@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LWeasyl;
-using WinFormsWebBrowserOAuth;
-using Newtonsoft.Json;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;
@@ -44,7 +40,7 @@ namespace WeasylSync {
 			if (submission != null) {
 				txtTitle.Text = submission.title;
 				txtDescription.Text = submission.description;
-				lblLink.Text = submission.link;
+				txtURL.Text = submission.link;
 				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
 				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
 				pickDate.Value = pickTime.Value = submission.posted_at;
@@ -69,8 +65,7 @@ namespace WeasylSync {
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
 			// Global tags that you can include in each submission if you want.
-			// In the future these will be in app.config.
-			txtTags2.Text = "#weasyl #" + USERNAME;
+			txtTags2.Text = ConfigurationManager.AppSettings["global-tags"] ?? "#weasyl";
 
 			backid = nextid = null;
 			UpdateGalleryAsync();
@@ -82,7 +77,7 @@ namespace WeasylSync {
 			Task t = new Task(() => {
 				lock (lProgressBar1) {
 					try {
-						lProgressBar1.Maximum = 8;
+						lProgressBar1.Maximum = 4 + thumbnails.Length;
 						lProgressBar1.Value = 0;
 						lProgressBar1.Visible = true;
 						var g = APIInterface.UserGallery(user: USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
@@ -121,10 +116,6 @@ namespace WeasylSync {
 		}
 
 		private void chkTitleBold_CheckedChanged(object sender, EventArgs e) {
-			txtTitleSize_TextChanged(sender, e);
-		}
-
-		private void txtTitleSize_TextChanged(object sender, EventArgs e) {
 			txtTitle.Font = new Font(txtTitle.Font.FontFamily, txtTitle.Font.Size, chkTitleBold.Checked ? FontStyle.Bold : FontStyle.Regular);
 		}
 
@@ -150,6 +141,12 @@ namespace WeasylSync {
 			c.CreatePostAsync(ConfigurationManager.AppSettings["tumblr-blog"], PostData.CreateText("Test 7, should not work also")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
 				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
 			}));
+		}
+
+		private void chkURL_CheckedChanged(object sender, EventArgs e) {
+			txtFooter.Font = new Font(txtFooter.Font.FontFamily, txtFooter.Font.Size, chkURL.Checked ? FontStyle.Underline : FontStyle.Regular);
+			txtFooter.ForeColor = chkURL.Checked ? Color.Blue : SystemColors.WindowText;
+			txtURL.Enabled = chkURL.Checked;
 		}
 	}
 }
