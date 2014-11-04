@@ -45,6 +45,7 @@
 			this.txtURL = new System.Windows.Forms.TextBox();
 			this.chkURL = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.lblLinkTo = new System.Windows.Forms.Label();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
@@ -98,11 +99,12 @@
 			// 
 			this.chkTitle.Checked = true;
 			this.chkTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTitle.Location = new System.Drawing.Point(138, 243);
+			this.chkTitle.Location = new System.Drawing.Point(138, 269);
 			this.chkTitle.Name = "chkTitle";
-			this.chkTitle.Size = new System.Drawing.Size(18, 20);
+			this.chkTitle.Size = new System.Drawing.Size(18, 19);
 			this.chkTitle.TabIndex = 8;
 			this.chkTitle.UseVisualStyleBackColor = true;
+			this.chkTitle.CheckedChanged += new System.EventHandler(this.chkTitle_CheckedChanged);
 			// 
 			// chkDescription
 			// 
@@ -113,6 +115,7 @@
 			this.chkDescription.Size = new System.Drawing.Size(18, 20);
 			this.chkDescription.TabIndex = 10;
 			this.chkDescription.UseVisualStyleBackColor = true;
+			this.chkDescription.CheckedChanged += new System.EventHandler(this.chkDescription_CheckedChanged);
 			// 
 			// txtDescription
 			// 
@@ -143,6 +146,7 @@
 			this.chkTags1.Size = new System.Drawing.Size(18, 20);
 			this.chkTags1.TabIndex = 12;
 			this.chkTags1.UseVisualStyleBackColor = true;
+			this.chkTags1.CheckedChanged += new System.EventHandler(this.chkTags1_CheckedChanged);
 			// 
 			// chkFooter
 			// 
@@ -154,6 +158,7 @@
 			this.chkFooter.Size = new System.Drawing.Size(18, 20);
 			this.chkFooter.TabIndex = 16;
 			this.chkFooter.UseVisualStyleBackColor = true;
+			this.chkFooter.CheckedChanged += new System.EventHandler(this.chkFooter_CheckedChanged);
 			// 
 			// txtFooter
 			// 
@@ -171,7 +176,9 @@
 			// 
 			this.chkTitleBold.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkTitleBold.Appearance = System.Windows.Forms.Appearance.Button;
-			this.chkTitleBold.Location = new System.Drawing.Point(518, 243);
+			this.chkTitleBold.Checked = true;
+			this.chkTitleBold.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkTitleBold.Location = new System.Drawing.Point(518, 269);
 			this.chkTitleBold.Name = "chkTitleBold";
 			this.chkTitleBold.Size = new System.Drawing.Size(20, 20);
 			this.chkTitleBold.TabIndex = 18;
@@ -184,7 +191,8 @@
 			// 
 			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtTitle.Location = new System.Drawing.Point(162, 243);
+			this.txtTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.txtTitle.Location = new System.Drawing.Point(162, 269);
 			this.txtTitle.Name = "txtTitle";
 			this.txtTitle.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtTitle.Size = new System.Drawing.Size(350, 20);
@@ -192,29 +200,29 @@
 			// 
 			// pickDate
 			// 
-			this.pickDate.Enabled = false;
 			this.pickDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.pickDate.Location = new System.Drawing.Point(162, 269);
+			this.pickDate.Location = new System.Drawing.Point(262, 243);
 			this.pickDate.Name = "pickDate";
-			this.pickDate.Size = new System.Drawing.Size(128, 20);
+			this.pickDate.Size = new System.Drawing.Size(100, 20);
 			this.pickDate.TabIndex = 23;
+			this.pickDate.Visible = false;
 			// 
 			// pickTime
 			// 
-			this.pickTime.Enabled = false;
 			this.pickTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-			this.pickTime.Location = new System.Drawing.Point(296, 269);
+			this.pickTime.Location = new System.Drawing.Point(368, 243);
 			this.pickTime.Name = "pickTime";
 			this.pickTime.ShowUpDown = true;
-			this.pickTime.Size = new System.Drawing.Size(128, 20);
+			this.pickTime.Size = new System.Drawing.Size(100, 20);
 			this.pickTime.TabIndex = 24;
+			this.pickTime.Visible = false;
 			// 
 			// chkNow
 			// 
 			this.chkNow.Appearance = System.Windows.Forms.Appearance.Button;
 			this.chkNow.Checked = true;
 			this.chkNow.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkNow.Location = new System.Drawing.Point(430, 269);
+			this.chkNow.Location = new System.Drawing.Point(474, 243);
 			this.chkNow.Name = "chkNow";
 			this.chkNow.Size = new System.Drawing.Size(64, 20);
 			this.chkNow.TabIndex = 26;
@@ -252,6 +260,7 @@
 			this.chkTags2.Size = new System.Drawing.Size(18, 20);
 			this.chkTags2.TabIndex = 32;
 			this.chkTags2.UseVisualStyleBackColor = true;
+			this.chkTags2.CheckedChanged += new System.EventHandler(this.chkTags2_CheckedChanged);
 			// 
 			// btnPost
 			// 
@@ -265,9 +274,9 @@
 			// 
 			// txtURL
 			// 
-			this.txtURL.Location = new System.Drawing.Point(186, 416);
+			this.txtURL.Location = new System.Drawing.Point(234, 416);
 			this.txtURL.Name = "txtURL";
-			this.txtURL.Size = new System.Drawing.Size(352, 20);
+			this.txtURL.Size = new System.Drawing.Size(304, 20);
 			this.txtURL.TabIndex = 34;
 			// 
 			// chkURL
@@ -295,6 +304,15 @@
 			this.groupBox1.TabIndex = 36;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Tags";
+			// 
+			// lblLinkTo
+			// 
+			this.lblLinkTo.Location = new System.Drawing.Point(186, 415);
+			this.lblLinkTo.Name = "lblLinkTo";
+			this.lblLinkTo.Size = new System.Drawing.Size(42, 20);
+			this.lblLinkTo.TabIndex = 37;
+			this.lblLinkTo.Text = "Link to:";
+			this.lblLinkTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lProgressBar1
 			// 
@@ -356,6 +374,7 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(550, 551);
+			this.Controls.Add(this.lblLinkTo);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.chkURL);
 			this.Controls.Add(this.txtURL);
@@ -421,6 +440,7 @@
 		private System.Windows.Forms.TextBox txtURL;
 		private System.Windows.Forms.CheckBox chkURL;
 		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label lblLinkTo;
 	}
 }
 

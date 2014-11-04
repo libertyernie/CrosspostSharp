@@ -120,7 +120,7 @@ namespace WeasylSync {
 		}
 
 		private void chkNow_CheckedChanged(object sender, EventArgs e) {
-			pickDate.Enabled = pickTime.Enabled = !chkNow.Checked;
+			pickDate.Visible = pickTime.Visible = !chkNow.Checked;
 		}
 
 		private void btnPost_Click(object sender, EventArgs e) {
@@ -143,10 +143,31 @@ namespace WeasylSync {
 			}));
 		}
 
+		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
+			txtTitle.Enabled = chkTitle.Checked;
+		}
+
+		private void chkDescription_CheckedChanged(object sender, EventArgs e) {
+			txtDescription.Enabled = chkDescription.Checked;
+		}
+
+		private void chkFooter_CheckedChanged(object sender, EventArgs e) {
+			txtFooter.Enabled = chkURL.Enabled = chkFooter.Checked;
+			txtURL.Enabled = chkFooter.Checked && chkURL.Checked;
+		}
+
 		private void chkURL_CheckedChanged(object sender, EventArgs e) {
 			txtFooter.Font = new Font(txtFooter.Font.FontFamily, txtFooter.Font.Size, chkURL.Checked ? FontStyle.Underline : FontStyle.Regular);
 			txtFooter.ForeColor = chkURL.Checked ? Color.Blue : SystemColors.WindowText;
-			txtURL.Enabled = chkURL.Checked;
+			txtURL.Enabled = chkFooter.Checked && chkURL.Checked;
+		}
+
+		private void chkTags1_CheckedChanged(object sender, EventArgs e) {
+			txtTags1.Enabled = chkTags1.Checked;
+		}
+
+		private void chkTags2_CheckedChanged(object sender, EventArgs e) {
+			txtTags2.Enabled = chkTags2.Checked;
 		}
 	}
 }
