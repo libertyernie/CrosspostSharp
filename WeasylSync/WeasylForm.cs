@@ -147,7 +147,7 @@ namespace WeasylSync {
 				OAuthConsumer.CONSUMER_KEY,
 				OAuthConsumer.CONSUMER_SECRET,
 				token);
-			c.CreatePostAsync("libertyernie", PostData.CreateText("Test 6, should not work")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+			c.CreatePostAsync(ConfigurationManager.AppSettings["tumblr-blog"], PostData.CreateText("Test 7, should not work also")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
 				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
 			}));
 		}
