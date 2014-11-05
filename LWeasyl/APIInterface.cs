@@ -46,5 +46,23 @@ namespace LWeasyl
 			string json = client.DownloadString("https://www.weasyl.com/api/submissions/" + submitid + "/view");
 			return JsonConvert.DeserializeObject<SubmissionDetail>(json);
 		}
+
+		/// <summary>
+		/// Gets the username and ID of the currently logged in user, if any.
+		/// If there is no current user, this function will return null.
+		/// </summary>
+		public User Whoami() {
+			client.QueryString.Clear();
+			try {
+				string json = client.DownloadString("https://www.weasyl.com/api/whoami");
+				return JsonConvert.DeserializeObject<User>(json);
+			} catch (WebException e) {
+				if (e.Response is HttpWebResponse && ((HttpWebResponse)e.Response).StatusCode == HttpStatusCode.Unauthorized) {
+					return null;
+				} else {
+					throw e;
+				}
+			}
+		}
     }
 }

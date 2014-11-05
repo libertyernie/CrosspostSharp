@@ -68,6 +68,10 @@ namespace WeasylSync {
 			Weasyl = new WeasylAPI() { APIKey = ConfigurationManager.AppSettings["weasyl-api-key"] };
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
+			User user = Weasyl.Whoami();
+			lblWeasylStatus2.Text = user == null ? "not logged in" : user.login;
+			lblWeasylStatus2.ForeColor = user == null ? SystemColors.WindowText : Color.DarkGreen;
+
 			// Global tags that you can include in each submission if you want.
 			txtTags2.Text = ConfigurationManager.AppSettings["global-tags"] ?? "#weasyl";
 

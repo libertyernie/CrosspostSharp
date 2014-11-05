@@ -51,6 +51,10 @@
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
+			this.lblWeasylStatus1 = new System.Windows.Forms.Label();
+			this.lblTumblrStatus1 = new System.Windows.Forms.Label();
+			this.lblWeasylStatus2 = new System.Windows.Forms.Label();
+			this.lblTumblrStatus2 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
@@ -264,7 +268,7 @@
 			// 
 			// btnPost
 			// 
-			this.btnPost.Location = new System.Drawing.Point(421, 515);
+			this.btnPost.Location = new System.Drawing.Point(421, 520);
 			this.btnPost.Name = "btnPost";
 			this.btnPost.Size = new System.Drawing.Size(117, 24);
 			this.btnPost.TabIndex = 33;
@@ -307,9 +311,10 @@
 			// 
 			// lblLinkTo
 			// 
-			this.lblLinkTo.Location = new System.Drawing.Point(186, 415);
+			this.lblLinkTo.Location = new System.Drawing.Point(186, 416);
+			this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
 			this.lblLinkTo.Name = "lblLinkTo";
-			this.lblLinkTo.Size = new System.Drawing.Size(42, 20);
+			this.lblLinkTo.Size = new System.Drawing.Size(42, 18);
 			this.lblLinkTo.TabIndex = 37;
 			this.lblLinkTo.Text = "Link to:";
 			this.lblLinkTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -320,7 +325,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(12, 516);
+			this.lProgressBar1.Location = new System.Drawing.Point(12, 520);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.lProgressBar1.Maximum = 128;
 			this.lProgressBar1.Minimum = 0;
@@ -370,16 +375,60 @@
 			this.thumbnail1.TabIndex = 0;
 			this.thumbnail1.TabStop = false;
 			// 
+			// lblWeasylStatus1
+			// 
+			this.lblWeasylStatus1.Location = new System.Drawing.Point(12, 516);
+			this.lblWeasylStatus1.Margin = new System.Windows.Forms.Padding(3);
+			this.lblWeasylStatus1.Name = "lblWeasylStatus1";
+			this.lblWeasylStatus1.Size = new System.Drawing.Size(48, 24);
+			this.lblWeasylStatus1.TabIndex = 38;
+			this.lblWeasylStatus1.Text = "Weasyl:";
+			this.lblWeasylStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lblTumblrStatus1
+			// 
+			this.lblTumblrStatus1.Location = new System.Drawing.Point(168, 516);
+			this.lblTumblrStatus1.Margin = new System.Windows.Forms.Padding(3);
+			this.lblTumblrStatus1.Name = "lblTumblrStatus1";
+			this.lblTumblrStatus1.Size = new System.Drawing.Size(48, 24);
+			this.lblTumblrStatus1.TabIndex = 39;
+			this.lblTumblrStatus1.Text = "Tumblr:";
+			this.lblTumblrStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lblWeasylStatus2
+			// 
+			this.lblWeasylStatus2.Location = new System.Drawing.Point(66, 516);
+			this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
+			this.lblWeasylStatus2.Name = "lblWeasylStatus2";
+			this.lblWeasylStatus2.Size = new System.Drawing.Size(96, 24);
+			this.lblWeasylStatus2.TabIndex = 40;
+			this.lblWeasylStatus2.Text = "not logged in";
+			this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lblTumblrStatus2
+			// 
+			this.lblTumblrStatus2.Location = new System.Drawing.Point(222, 516);
+			this.lblTumblrStatus2.Margin = new System.Windows.Forms.Padding(3);
+			this.lblTumblrStatus2.Name = "lblTumblrStatus2";
+			this.lblTumblrStatus2.Size = new System.Drawing.Size(96, 24);
+			this.lblTumblrStatus2.TabIndex = 41;
+			this.lblTumblrStatus2.Text = "not logged in";
+			this.lblTumblrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(550, 551);
+			this.ClientSize = new System.Drawing.Size(550, 552);
+			this.Controls.Add(this.lProgressBar1);
+			this.Controls.Add(this.lblTumblrStatus2);
+			this.Controls.Add(this.lblWeasylStatus2);
+			this.Controls.Add(this.lblTumblrStatus1);
+			this.Controls.Add(this.lblWeasylStatus1);
 			this.Controls.Add(this.lblLinkTo);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.chkURL);
 			this.Controls.Add(this.txtURL);
 			this.Controls.Add(this.btnPost);
-			this.Controls.Add(this.lProgressBar1);
 			this.Controls.Add(this.chkNow);
 			this.Controls.Add(this.pickTime);
 			this.Controls.Add(this.pickDate);
@@ -441,6 +490,10 @@
 		private System.Windows.Forms.CheckBox chkURL;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label lblLinkTo;
+		private System.Windows.Forms.Label lblWeasylStatus1;
+		private System.Windows.Forms.Label lblTumblrStatus1;
+		private System.Windows.Forms.Label lblWeasylStatus2;
+		private System.Windows.Forms.Label lblTumblrStatus2;
 	}
 }
 
