@@ -16,6 +16,7 @@ namespace WeasylSync {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 
 		public WeasylAPI Weasyl { get; private set; }
+		private TumblrClient Tumblr;
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
@@ -33,6 +34,42 @@ namespace WeasylSync {
 			get {
 				return lProgressBar1;
 			}
+		}
+
+		public WeasylForm() {
+			InitializeComponent();
+
+			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
+
+			Weasyl = new WeasylAPI() { APIKey = ConfigurationManager.AppSettings["weasyl-api-key"] };
+
+			Token token = TumblrKey.Load();
+			if (token != null) {
+				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
+					OAuthConsumer.CONSUMER_KEY,
+					OAuthConsumer.CONSUMER_SECRET,
+					token);
+			}
+
+			User user = Weasyl.Whoami();
+			lblWeasylStatus2.Text = user == null ? "not logged in" : user.login;
+			lblWeasylStatus2.ForeColor = user == null ? SystemColors.WindowText : Color.DarkGreen;
+
+			if (Tumblr == null) {
+				lblTumblrStatus2.Text = "not logged in";
+				lblTumblrStatus2.ForeColor = SystemColors.WindowText;
+			} else {
+				var t = Tumblr.GetUserInfoAsync();
+				t.Wait();
+				lblTumblrStatus2.Text = t.Result.Name;
+				lblTumblrStatus2.ForeColor = Color.DarkGreen;
+			}
+
+			// Global tags that you can include in each submission if you want.
+			txtTags2.Text = ConfigurationManager.AppSettings["global-tags"] ?? "#weasyl";
+
+			backid = nextid = null;
+			UpdateGalleryAsync();
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
@@ -62,21 +99,17 @@ namespace WeasylSync {
 			}
 		}
 
-		public WeasylForm() {
-			InitializeComponent();
-
-			Weasyl = new WeasylAPI() { APIKey = ConfigurationManager.AppSettings["weasyl-api-key"] };
-			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
-
-			User user = Weasyl.Whoami();
-			lblWeasylStatus2.Text = user == null ? "not logged in" : user.login;
-			lblWeasylStatus2.ForeColor = user == null ? SystemColors.WindowText : Color.DarkGreen;
-
-			// Global tags that you can include in each submission if you want.
-			txtTags2.Text = ConfigurationManager.AppSettings["global-tags"] ?? "#weasyl";
-
-			backid = nextid = null;
-			UpdateGalleryAsync();
+		private void CreateTumblrClient_GetNewToken() {
+			Token token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
+			if (token == null) {
+				return;
+			} else {
+				TumblrKey.Save(token);
+				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
+					OAuthConsumer.CONSUMER_KEY,
+					OAuthConsumer.CONSUMER_SECRET,
+					token);
+			}
 		}
 
 		// Launches a thread to update the thumbnails.
@@ -132,21 +165,12 @@ namespace WeasylSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs e) {
-			Token token = TumblrKey.Load();
-			if (token == null) {
-				token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
-				if (token == null) {
-					MessageBox.Show("Posting cancelled.");
-					return;
-				} else {
-					TumblrKey.Save(token);
-				}
+			if (Tumblr == null) CreateTumblrClient_GetNewToken();
+			if (Tumblr == null) {
+				MessageBox.Show("Posting cancelled.");
+				return;
 			}
-			TumblrClient c = new TumblrClientFactory().Create<TumblrClient>(
-				OAuthConsumer.CONSUMER_KEY,
-				OAuthConsumer.CONSUMER_SECRET,
-				token);
-			c.CreatePostAsync(ConfigurationManager.AppSettings["tumblr-blog"], PostData.CreateText("Test 7, should not work also")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+			Tumblr.CreatePostAsync(ConfigurationManager.AppSettings["tumblr-blog"], PostData.CreateText("Test 7, should not work also")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
 				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
 			}));
 		}

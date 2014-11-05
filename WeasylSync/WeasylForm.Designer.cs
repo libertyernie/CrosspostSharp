@@ -325,7 +325,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(12, 520);
+			this.lProgressBar1.Location = new System.Drawing.Point(15, 520);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.lProgressBar1.Maximum = 128;
 			this.lProgressBar1.Minimum = 0;
