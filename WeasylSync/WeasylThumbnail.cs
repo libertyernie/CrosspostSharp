@@ -79,7 +79,7 @@ namespace WeasylSync {
 							}
 
 							if (Details == null) {
-								Details = APIInterface.ViewSubmission(Submission);
+								Details = mainForm.Weasyl.ViewSubmission(Submission);
 							}
 
 							mainForm.LProgressBar.Visible = false;

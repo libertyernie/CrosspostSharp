@@ -8,11 +8,25 @@ using System.Threading.Tasks;
 
 namespace LWeasyl
 {
-    public static class APIInterface
-    {
-		private static WebClient client = new WebClient();
+    public class WeasylAPI {
 
-		public static Gallery UserGallery(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null) {
+		private WebClient client;
+
+		public string APIKey {
+			set {
+				if (value == null) {
+					client.Headers.Remove("X-Weasyl-API-Key");
+				} else {
+					client.Headers.Add("X-Weasyl-API-Key", value);
+				}
+			}
+		}
+
+		public WeasylAPI() {
+			client = new WebClient();
+		}
+
+		public Gallery UserGallery(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null) {
 			client.QueryString.Clear();
 			if (since != null) client.QueryString.Add("since", since.Value.ToString("u"));
 			if (count != null) client.QueryString.Add("count", count.ToString());
@@ -23,11 +37,11 @@ namespace LWeasyl
 			return JsonConvert.DeserializeObject<Gallery>(json);
 		}
 
-		public static SubmissionDetail ViewSubmission(Submission submission) {
+		public SubmissionDetail ViewSubmission(Submission submission) {
 			return ViewSubmission(submission.submitid);
 		}
 
-		public static SubmissionDetail ViewSubmission(int submitid) {
+		public SubmissionDetail ViewSubmission(int submitid) {
 			client.QueryString.Clear();
 			string json = client.DownloadString("https://www.weasyl.com/api/submissions/" + submitid + "/view");
 			return JsonConvert.DeserializeObject<SubmissionDetail>(json);

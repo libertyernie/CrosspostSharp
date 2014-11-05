@@ -15,6 +15,8 @@ namespace WeasylSync {
 	public partial class WeasylForm : Form {
 		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
 
+		public WeasylAPI Weasyl { get; private set; }
+
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
 
@@ -62,6 +64,8 @@ namespace WeasylSync {
 
 		public WeasylForm() {
 			InitializeComponent();
+
+			Weasyl = new WeasylAPI() { APIKey = ConfigurationManager.AppSettings["weasyl-api-key"] };
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
 			// Global tags that you can include in each submission if you want.
@@ -80,7 +84,7 @@ namespace WeasylSync {
 						lProgressBar1.Maximum = 4 + thumbnails.Length;
 						lProgressBar1.Value = 0;
 						lProgressBar1.Visible = true;
-						var g = APIInterface.UserGallery(user: USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
+						var g = Weasyl.UserGallery(user: USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
 						lProgressBar1.Value += 4;
 						for (int i = 0; i < this.thumbnails.Length; i++) {
 							if (i < g.submissions.Length) {
