@@ -10,10 +10,11 @@ using LWeasyl;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;
+using Newtonsoft.Json;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
-		public static string USERNAME = ConfigurationManager.AppSettings["weasyl-username"];
+		private static Settings GlobalSettings;
 
 		public WeasylAPI Weasyl { get; private set; }
 		private TumblrClient Tumblr;
@@ -39,12 +40,15 @@ namespace WeasylSync {
 		public WeasylForm() {
 			InitializeComponent();
 
+			GlobalSettings = Settings.Load();
+
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
-			Weasyl = new WeasylAPI() { APIKey = ConfigurationManager.AppSettings["weasyl-api-key"] };
+			Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
 
-			Token token = TumblrKey.Load();
-			if (token != null) {
+			Token token = GlobalSettings.TumblrToken;
+			Console.WriteLine("IsValid: " + token.IsValid);
+			if (token != null && token.Key != null && token.Secret != null) {
 				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
 					OAuthConsumer.CONSUMER_KEY,
 					OAuthConsumer.CONSUMER_SECRET,
@@ -66,7 +70,7 @@ namespace WeasylSync {
 			}
 
 			// Global tags that you can include in each submission if you want.
-			txtTags2.Text = ConfigurationManager.AppSettings["global-tags"] ?? "#weasyl";
+			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "#weasyl";
 
 			backid = nextid = null;
 			UpdateGalleryAsync();
@@ -104,7 +108,8 @@ namespace WeasylSync {
 			if (token == null) {
 				return;
 			} else {
-				TumblrKey.Save(token);
+				GlobalSettings.TumblrToken = token;
+				GlobalSettings.Save();
 				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
 					OAuthConsumer.CONSUMER_KEY,
 					OAuthConsumer.CONSUMER_SECRET,
@@ -121,7 +126,7 @@ namespace WeasylSync {
 						lProgressBar1.Maximum = 4 + thumbnails.Length;
 						lProgressBar1.Value = 0;
 						lProgressBar1.Visible = true;
-						var g = Weasyl.UserGallery(user: USERNAME, count: this.thumbnails.Length, backid: backid, nextid: nextid);
+						var g = Weasyl.UserGallery(user: GlobalSettings.Weasyl.Username, count: this.thumbnails.Length, backid: backid, nextid: nextid);
 						lProgressBar1.Value += 4;
 						for (int i = 0; i < this.thumbnails.Length; i++) {
 							if (i < g.submissions.Length) {
@@ -170,7 +175,7 @@ namespace WeasylSync {
 				MessageBox.Show("Posting cancelled.");
 				return;
 			}
-			Tumblr.CreatePostAsync(ConfigurationManager.AppSettings["tumblr-blog"], PostData.CreateText("Test 7, should not work also")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, PostData.CreateText("Test 8")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
 				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
 			}));
 		}

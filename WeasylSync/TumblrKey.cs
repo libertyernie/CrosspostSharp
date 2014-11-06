@@ -11,19 +11,6 @@ using WinFormsWebBrowserOAuth;
 
 namespace WeasylSync {
 	public static class TumblrKey {
-		private static string AccessKeyPath = ConfigurationManager.AppSettings["AccessKeyPath"] ?? "tumblrkey.json";
-
-		public static Token Load(string path = null) {
-			path = path ?? AccessKeyPath;
-			if (!File.Exists(path)) return null;
-			return JsonConvert.DeserializeObject<Token>(File.ReadAllText(path));
-		}
-
-		public static void Save(Token token, string path = null) {
-			path = path ?? AccessKeyPath;
-			File.WriteAllText(path, JsonConvert.SerializeObject(token));
-		}
-
 		public static Token Obtain(string consumerKey, string consumerSecret) {
 			var oauth = new OAuthTumblr(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
 			oauth.getRequestToken();
