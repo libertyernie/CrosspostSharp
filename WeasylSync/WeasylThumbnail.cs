@@ -11,6 +11,13 @@ using System.Windows.Forms;
 
 namespace WeasylSync {
 	public class WeasylThumbnail : PictureBox {
+		private static Dictionary<string, Color> colors = new Dictionary<string, Color>() {
+			{"general", SystemColors.WindowText},
+			{"moderate", Color.FromArgb(32, 171, 230)},
+			{"mature", Color.FromArgb(170, 187, 34)},
+			{"explicit", Color.FromArgb(185, 30, 35)}
+		};
+
 		// Sets the submission for this thumbnail to display.
 		// The Submission object comes from the Weasyl gallery; the thumbnail is fetched immediately; and the details and actual image are fetched when necessary.
 		private Submission _submission;
@@ -27,6 +34,8 @@ namespace WeasylSync {
 					WebRequest req = WebRequest.Create(value.media.thumbnail.First().url);
 					WebResponse resp = req.GetResponse();
 					this.Image = Bitmap.FromStream(resp.GetResponseStream());
+
+					Console.WriteLine(Submission.rating);
 				}
 
 				this.RawData = null;
@@ -43,6 +52,17 @@ namespace WeasylSync {
 
 		public WeasylThumbnail() : base() {
 			this.Click += WeasylThumbnail_Click;
+		}
+
+		protected override void OnPaint(PaintEventArgs pe) {
+			base.OnPaint(pe);
+
+			Color c;
+			if (Submission != null && colors.TryGetValue(Submission.rating, out c)) {
+				using (Pen b = new Pen(c, 2)) {
+					pe.Graphics.DrawRectangle(b, 1, 1, Width-2, Height-2);
+				}
+			}
 		}
 
 		void WeasylThumbnail_Click(object sender, EventArgs e) {

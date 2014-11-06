@@ -89,7 +89,6 @@ namespace WeasylSync
         protected override void OnPaint(PaintEventArgs e) {
 			base.OnPaint(e);
             int barwidth = (Value - Minimum) * this.Width / Math.Max(Maximum - Minimum, 1);
-			Console.WriteLine("barwidth " + barwidth);
 			using (Brush brush = new SolidBrush(ForeColor)) {
 				e.Graphics.FillRectangle(brush, 0, 0, barwidth, this.Height);
 			}
