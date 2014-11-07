@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="TumblrKey.cs" />
     <Compile Include="WeasylForm.cs">
       <SubType>Form</SubType>
@@ -82,6 +88,9 @@
     <Compile Include="WeasylThumbnail.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WeasylForm.resx">
       <DependentUpon>WeasylForm.cs</DependentUpon>
     </EmbeddedResource>

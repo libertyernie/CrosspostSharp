@@ -206,5 +206,13 @@ namespace WeasylSync {
 		private void chkTags2_CheckedChanged(object sender, EventArgs e) {
 			txtTags2.Enabled = chkTags2.Checked;
 		}
+
+		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (SettingsDialog dialog = new SettingsDialog(GlobalSettings)) {
+				Console.WriteLine(dialog.ShowDialog());
+
+				// reset settings info
+			}
+		}
 	}
 }
