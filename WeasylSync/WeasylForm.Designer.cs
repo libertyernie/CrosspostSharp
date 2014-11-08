@@ -55,7 +55,7 @@
 			this.viewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.chkHTMLPreview = new System.Windows.Forms.CheckBox();
-			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+			this.previewPanel = new System.Windows.Forms.Panel();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
@@ -418,17 +418,13 @@
 			this.chkHTMLPreview.UseVisualStyleBackColor = true;
 			this.chkHTMLPreview.CheckedChanged += new System.EventHandler(this.chkHTMLPreview_CheckedChanged);
 			// 
-			// webBrowser1
+			// previewPanel
 			// 
-			this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.webBrowser1.Location = new System.Drawing.Point(142, 284);
-			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(400, 254);
-			this.webBrowser1.TabIndex = 43;
-			this.webBrowser1.Visible = false;
+			this.previewPanel.Location = new System.Drawing.Point(142, 284);
+			this.previewPanel.Name = "previewPanel";
+			this.previewPanel.Size = new System.Drawing.Size(400, 177);
+			this.previewPanel.TabIndex = 43;
+			this.previewPanel.Visible = false;
 			// 
 			// lProgressBar1
 			// 
@@ -489,7 +485,7 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(554, 581);
-			this.Controls.Add(this.webBrowser1);
+			this.Controls.Add(this.previewPanel);
 			this.Controls.Add(this.chkHTMLPreview);
 			this.Controls.Add(this.lProgressBar1);
 			this.Controls.Add(this.lblTumblrStatus2);
@@ -574,7 +570,7 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem viewFolderToolStripMenuItem;
 		private System.Windows.Forms.CheckBox chkHTMLPreview;
-		private System.Windows.Forms.WebBrowser webBrowser1;
+		private System.Windows.Forms.Panel previewPanel;
 	}
 }
 

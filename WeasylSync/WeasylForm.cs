@@ -99,6 +99,7 @@ namespace WeasylSync {
 				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
 				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
 				pickDate.Value = pickTime.Value = submission.posted_at;
+				UpdateHTMLPreview();
 			}
 			this.currentImage = image;
 			if (image == null) {
@@ -163,6 +164,29 @@ namespace WeasylSync {
 			});
 			t.Start();
 			return t;
+		}
+
+		private string CompileHTML() {
+			Console.WriteLine("CompileHTML");
+			StringBuilder html = new StringBuilder();
+
+			if (chkTitle.Checked) {
+				html.Append("<p>");
+				if (chkTitleBold.Checked) html.Append("<b>");
+				html.Append(WebUtility.HtmlEncode(txtTitle.Text));
+				if (chkTitleBold.Checked) html.Append("</b>");
+				html.Append("</p>");
+			}
+
+			if (chkDescription.Checked) {
+				html.Append(txtDescription.Text);
+			}
+
+			if (chkFooter.Checked) {
+				html.Append(txtFooter.Text.Replace("{URL}", txtURL.Text));
+			}
+
+			return html.ToString();
 		}
 
 		private void btnUp_Click(object sender, EventArgs e) {
@@ -254,29 +278,19 @@ namespace WeasylSync {
 	<body>{HTML}</body>
 </html>";
 
-		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
-			webBrowser1.Visible = chkHTMLPreview.Checked;
+		private void UpdateHTMLPreview() {
+			previewPanel.Visible = chkHTMLPreview.Checked;
+			previewPanel.Controls.Clear();
 			if (chkHTMLPreview.Checked) {
-				StringBuilder html = new StringBuilder();
-
-				if (chkTitle.Checked) {
-					html.Append("<p>");
-					if (chkTitleBold.Checked) html.Append("<b>");
-					html.Append(WebUtility.HtmlEncode(txtTitle.Text));
-					if (chkTitleBold.Checked) html.Append("</b>");
-					html.Append("</p>");
-				}
-
-				if (chkDescription.Checked) {
-					html.Append(txtDescription.Text);
-				}
-
-				if (chkFooter.Checked) {
-					html.Append(txtFooter.Text.Replace("{URL}", txtURL.Text));
-				}
-
-				webBrowser1.DocumentText = HTML_PREVIEW.Replace("{HTML}", html.ToString());
+				previewPanel.Controls.Add(new WebBrowser {
+					DocumentText = HTML_PREVIEW.Replace("{HTML}", CompileHTML()),
+					Dock = DockStyle.Fill
+				});
 			}
+		}
+
+		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
+			UpdateHTMLPreview();
 		}
 	}
 }
