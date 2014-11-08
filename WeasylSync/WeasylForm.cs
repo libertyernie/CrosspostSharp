@@ -11,6 +11,7 @@ using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -186,9 +187,10 @@ namespace WeasylSync {
 				MessageBox.Show("Posting cancelled.");
 				return;
 			}
-			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, PostData.CreateText("Test 8")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+			/*Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, PostData.CreateText("Test 8")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
 				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
-			}));
+			}));*/
+
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
@@ -226,6 +228,55 @@ namespace WeasylSync {
 
 		private void viewFolderToolStripMenuItem_Click(object sender, EventArgs e) {
 			System.Diagnostics.Process.Start(".");
+		}
+
+		private static string HTML_PREVIEW = @"
+<html>
+	<head>
+	<style type='text/css'>
+		body {
+			font-family: ""Helvetica Neue"",""HelveticaNeue"",Helvetica,Arial,sans-serif;
+			font-weight: 400;
+			line-height: 1.4;
+			font-size: 14px;
+			font-style: normal;
+			color: #444;
+		}
+		p {
+			margin: 0 0 10px;
+			padding: 0px;
+			border: 0px none;
+			font: inherit;
+			vertical-align: baseline;
+		}
+	</style>
+</head>
+	<body>{HTML}</body>
+</html>";
+
+		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
+			webBrowser1.Visible = chkHTMLPreview.Checked;
+			if (chkHTMLPreview.Checked) {
+				StringBuilder html = new StringBuilder();
+
+				if (chkTitle.Checked) {
+					html.Append("<p>");
+					if (chkTitleBold.Checked) html.Append("<b>");
+					html.Append(WebUtility.HtmlEncode(txtTitle.Text));
+					if (chkTitleBold.Checked) html.Append("</b>");
+					html.Append("</p>");
+				}
+
+				if (chkDescription.Checked) {
+					html.Append(txtDescription.Text);
+				}
+
+				if (chkFooter.Checked) {
+					html.Append(txtFooter.Text.Replace("{URL}", txtURL.Text));
+				}
+
+				webBrowser1.DocumentText = HTML_PREVIEW.Replace("{HTML}", html.ToString());
+			}
 		}
 	}
 }

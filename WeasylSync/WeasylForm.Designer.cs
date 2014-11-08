@@ -54,6 +54,8 @@
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.chkHTMLPreview = new System.Windows.Forms.CheckBox();
+			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
@@ -259,6 +261,7 @@
 			this.txtTags2.Name = "txtTags2";
 			this.txtTags2.Size = new System.Drawing.Size(253, 20);
 			this.txtTags2.TabIndex = 31;
+			this.txtTags2.Text = " ";
 			// 
 			// chkTags2
 			// 
@@ -301,7 +304,7 @@
 			this.groupBox1.Controls.Add(this.chkTags2);
 			this.groupBox1.Location = new System.Drawing.Point(142, 467);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(501, 68);
+			this.groupBox1.Size = new System.Drawing.Size(400, 68);
 			this.groupBox1.TabIndex = 36;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Tags";
@@ -403,6 +406,30 @@
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
+			// chkHTMLPreview
+			// 
+			this.chkHTMLPreview.Appearance = System.Windows.Forms.Appearance.Button;
+			this.chkHTMLPreview.Location = new System.Drawing.Point(142, 258);
+			this.chkHTMLPreview.Name = "chkHTMLPreview";
+			this.chkHTMLPreview.Size = new System.Drawing.Size(61, 20);
+			this.chkHTMLPreview.TabIndex = 42;
+			this.chkHTMLPreview.Text = "Preview";
+			this.chkHTMLPreview.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.chkHTMLPreview.UseVisualStyleBackColor = true;
+			this.chkHTMLPreview.CheckedChanged += new System.EventHandler(this.chkHTMLPreview_CheckedChanged);
+			// 
+			// webBrowser1
+			// 
+			this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.webBrowser1.Location = new System.Drawing.Point(142, 284);
+			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+			this.webBrowser1.Name = "webBrowser1";
+			this.webBrowser1.Size = new System.Drawing.Size(400, 254);
+			this.webBrowser1.TabIndex = 43;
+			this.webBrowser1.Visible = false;
+			// 
 			// lProgressBar1
 			// 
 			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -462,6 +489,8 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(554, 581);
+			this.Controls.Add(this.webBrowser1);
+			this.Controls.Add(this.chkHTMLPreview);
 			this.Controls.Add(this.lProgressBar1);
 			this.Controls.Add(this.lblTumblrStatus2);
 			this.Controls.Add(this.lblWeasylStatus2);
@@ -544,6 +573,8 @@
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem viewFolderToolStripMenuItem;
+		private System.Windows.Forms.CheckBox chkHTMLPreview;
+		private System.Windows.Forms.WebBrowser webBrowser1;
 	}
 }
 
