@@ -24,7 +24,6 @@ namespace WeasylSync {
 
 			txtBlogName.Text = settings.Tumblr.BlogName ?? "";
 			txtFooter.Text = settings.Tumblr.Footer ?? "";
-			chkFooterIsLink.Checked = settings.Tumblr.FooterIsLink;
 			txtTags.Text = settings.Tumblr.Tags;
 
 			UpdateTokenLabel();
@@ -37,15 +36,9 @@ namespace WeasylSync {
 
 			Settings.Tumblr.BlogName = txtBlogName.Text;
 			Settings.Tumblr.Footer = txtFooter.Text;
-			Settings.Tumblr.FooterIsLink = chkFooterIsLink.Checked;
 			Settings.Tumblr.Tags = txtTags.Text;
 
 			Settings.Save();
-		}
-
-		private void chkFooterIsLink_CheckedChanged(object sender, EventArgs e) {
-			txtFooter.Font = new Font(txtFooter.Font, chkFooterIsLink.Checked ? FontStyle.Underline : FontStyle.Regular);
-			txtFooter.ForeColor = chkFooterIsLink.Checked ? Color.Blue : SystemColors.WindowText;
 		}
 
 		private void btnTumblrSignIn_Click(object sender, EventArgs e) {

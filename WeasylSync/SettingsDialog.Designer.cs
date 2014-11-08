@@ -36,7 +36,6 @@
 			this.lblToken = new System.Windows.Forms.Label();
 			this.lblTags = new System.Windows.Forms.Label();
 			this.txtTags = new System.Windows.Forms.TextBox();
-			this.chkFooterIsLink = new System.Windows.Forms.CheckBox();
 			this.lblFooter = new System.Windows.Forms.Label();
 			this.txtFooter = new System.Windows.Forms.TextBox();
 			this.lblBlogName = new System.Windows.Forms.Label();
@@ -108,7 +107,6 @@
 			this.groupTumblr.Controls.Add(this.lblToken);
 			this.groupTumblr.Controls.Add(this.lblTags);
 			this.groupTumblr.Controls.Add(this.txtTags);
-			this.groupTumblr.Controls.Add(this.chkFooterIsLink);
 			this.groupTumblr.Controls.Add(this.lblFooter);
 			this.groupTumblr.Controls.Add(this.txtFooter);
 			this.groupTumblr.Controls.Add(this.lblBlogName);
@@ -176,19 +174,6 @@
 			this.txtTags.Size = new System.Drawing.Size(321, 20);
 			this.txtTags.TabIndex = 5;
 			// 
-			// chkFooterIsLink
-			// 
-			this.chkFooterIsLink.AutoSize = true;
-			this.chkFooterIsLink.Checked = true;
-			this.chkFooterIsLink.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkFooterIsLink.Location = new System.Drawing.Point(83, 80);
-			this.chkFooterIsLink.Name = "chkFooterIsLink";
-			this.chkFooterIsLink.Size = new System.Drawing.Size(165, 17);
-			this.chkFooterIsLink.TabIndex = 4;
-			this.chkFooterIsLink.Text = "Link to submission on Weasyl";
-			this.chkFooterIsLink.UseVisualStyleBackColor = true;
-			this.chkFooterIsLink.CheckedChanged += new System.EventHandler(this.chkFooterIsLink_CheckedChanged);
-			// 
 			// lblFooter
 			// 
 			this.lblFooter.AutoSize = true;
@@ -202,12 +187,10 @@
 			// 
 			this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtFooter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtFooter.ForeColor = System.Drawing.Color.Blue;
 			this.txtFooter.Location = new System.Drawing.Point(83, 45);
 			this.txtFooter.Multiline = true;
 			this.txtFooter.Name = "txtFooter";
-			this.txtFooter.Size = new System.Drawing.Size(321, 29);
+			this.txtFooter.Size = new System.Drawing.Size(321, 52);
 			this.txtFooter.TabIndex = 2;
 			// 
 			// lblBlogName
@@ -263,7 +246,7 @@
 			this.Controls.Add(this.groupTumblr);
 			this.Controls.Add(this.groupWeasyl);
 			this.Name = "SettingsDialog";
-			this.Text = "OptionsDialog";
+			this.Text = "Settings";
 			this.groupWeasyl.ResumeLayout(false);
 			this.groupWeasyl.PerformLayout();
 			this.groupTumblr.ResumeLayout(false);
@@ -286,7 +269,6 @@
 		private System.Windows.Forms.TextBox txtBlogName;
 		private System.Windows.Forms.Label lblTags;
 		private System.Windows.Forms.TextBox txtTags;
-		private System.Windows.Forms.CheckBox chkFooterIsLink;
 		private System.Windows.Forms.Label lblToken;
 		private System.Windows.Forms.Label lblTokenStatus;
 		private System.Windows.Forms.Button btnTumblrSignIn;

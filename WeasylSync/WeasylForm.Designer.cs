@@ -43,7 +43,6 @@
 			this.chkTags2 = new System.Windows.Forms.CheckBox();
 			this.btnPost = new System.Windows.Forms.Button();
 			this.txtURL = new System.Windows.Forms.TextBox();
-			this.chkURL = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.lblLinkTo = new System.Windows.Forms.Label();
 			this.lblWeasylStatus1 = new System.Windows.Forms.Label();
@@ -53,8 +52,8 @@
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.viewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
@@ -174,14 +173,11 @@
 			// 
 			this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtFooter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.txtFooter.ForeColor = System.Drawing.Color.Blue;
 			this.txtFooter.Location = new System.Drawing.Point(166, 400);
 			this.txtFooter.Multiline = true;
 			this.txtFooter.Name = "txtFooter";
 			this.txtFooter.Size = new System.Drawing.Size(376, 35);
 			this.txtFooter.TabIndex = 15;
-			this.txtFooter.Text = "";
 			// 
 			// chkTitleBold
 			// 
@@ -290,22 +286,10 @@
 			// txtURL
 			// 
 			this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.txtURL.Location = new System.Drawing.Point(238, 441);
+			this.txtURL.Location = new System.Drawing.Point(209, 441);
 			this.txtURL.Name = "txtURL";
-			this.txtURL.Size = new System.Drawing.Size(304, 20);
+			this.txtURL.Size = new System.Drawing.Size(333, 20);
 			this.txtURL.TabIndex = 34;
-			// 
-			// chkURL
-			// 
-			this.chkURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.chkURL.Checked = true;
-			this.chkURL.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkURL.Location = new System.Drawing.Point(166, 441);
-			this.chkURL.Name = "chkURL";
-			this.chkURL.Size = new System.Drawing.Size(18, 20);
-			this.chkURL.TabIndex = 35;
-			this.chkURL.UseVisualStyleBackColor = true;
-			this.chkURL.CheckedChanged += new System.EventHandler(this.chkURL_CheckedChanged);
 			// 
 			// groupBox1
 			// 
@@ -325,13 +309,14 @@
 			// lblLinkTo
 			// 
 			this.lblLinkTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblLinkTo.Location = new System.Drawing.Point(190, 441);
+			this.lblLinkTo.AutoSize = true;
+			this.lblLinkTo.Location = new System.Drawing.Point(163, 444);
 			this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
 			this.lblLinkTo.Name = "lblLinkTo";
-			this.lblLinkTo.Size = new System.Drawing.Size(42, 18);
+			this.lblLinkTo.Size = new System.Drawing.Size(40, 13);
 			this.lblLinkTo.TabIndex = 37;
-			this.lblLinkTo.Text = "Link to:";
-			this.lblLinkTo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.lblLinkTo.Text = "{URL}:";
+			this.lblLinkTo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// lblWeasylStatus1
 			// 
@@ -405,18 +390,18 @@
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
-			// helpToolStripMenuItem
-			// 
-			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-			this.helpToolStripMenuItem.Text = "Help";
-			// 
 			// viewFolderToolStripMenuItem
 			// 
 			this.viewFolderToolStripMenuItem.Name = "viewFolderToolStripMenuItem";
 			this.viewFolderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.viewFolderToolStripMenuItem.Text = "View Folder";
 			this.viewFolderToolStripMenuItem.Click += new System.EventHandler(this.viewFolderToolStripMenuItem_Click);
+			// 
+			// helpToolStripMenuItem
+			// 
+			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+			this.helpToolStripMenuItem.Text = "Help";
 			// 
 			// lProgressBar1
 			// 
@@ -484,7 +469,6 @@
 			this.Controls.Add(this.lblWeasylStatus1);
 			this.Controls.Add(this.lblLinkTo);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.chkURL);
 			this.Controls.Add(this.txtURL);
 			this.Controls.Add(this.btnPost);
 			this.Controls.Add(this.chkNow);
@@ -549,7 +533,6 @@
 		private System.Windows.Forms.CheckBox chkTags2;
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.TextBox txtURL;
-		private System.Windows.Forms.CheckBox chkURL;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label lblLinkTo;
 		private System.Windows.Forms.Label lblWeasylStatus1;

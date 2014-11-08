@@ -51,7 +51,7 @@ namespace WeasylSync {
 					},
 					Tumblr = new TumblrSettings {
 						BlogName = "example",
-						Footer = "View on Weasyl",
+						Footer = "<a href=\"{URL}\">View on Weasyl</a>",
 						FooterIsLink = true,
 						Tags = "#art",
 						TokenKey = null,

@@ -200,14 +200,8 @@ namespace WeasylSync {
 		}
 
 		private void chkFooter_CheckedChanged(object sender, EventArgs e) {
-			txtFooter.Enabled = chkURL.Enabled = chkFooter.Checked;
-			txtURL.Enabled = chkFooter.Checked && chkURL.Checked;
-		}
-
-		private void chkURL_CheckedChanged(object sender, EventArgs e) {
-			txtFooter.Font = new Font(txtFooter.Font.FontFamily, txtFooter.Font.Size, chkURL.Checked ? FontStyle.Underline : FontStyle.Regular);
-			txtFooter.ForeColor = chkURL.Checked ? Color.Blue : SystemColors.WindowText;
-			txtURL.Enabled = chkFooter.Checked && chkURL.Checked;
+			txtFooter.Enabled = chkFooter.Checked;
+			txtURL.Enabled = chkFooter.Checked;
 		}
 
 		private void chkTags1_CheckedChanged(object sender, EventArgs e) {
