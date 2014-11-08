@@ -18,8 +18,8 @@ namespace WeasylSync {
 
 		public class TumblrSettings {
 			public string BlogName { get; set; }
+			public string Header { get; set; }
 			public string Footer { get; set; }
-			public bool FooterIsLink { get; set; }
 			public string Tags { get; set; }
 
 			public string TokenKey { get; set; }
@@ -40,7 +40,7 @@ namespace WeasylSync {
 		}
 
 		public static Settings Load(string filename = "WeasylSync.json") {
-			if (File.Exists(filename)) {
+			if (filename != null && File.Exists(filename)) {
 				Settings s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
 				return s;
 			} else {
@@ -51,8 +51,8 @@ namespace WeasylSync {
 					},
 					Tumblr = new TumblrSettings {
 						BlogName = "example",
-						Footer = "<a href=\"{URL}\">View on Weasyl</a>",
-						FooterIsLink = true,
+						Header = "<p><b>{TITLE}</b></p>",
+						Footer = "<p><a href=\"{URL}\">View on Weasyl</a></p>",
 						Tags = "#art",
 						TokenKey = null,
 						TokenSecret = null

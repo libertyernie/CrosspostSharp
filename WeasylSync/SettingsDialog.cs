@@ -18,15 +18,7 @@ namespace WeasylSync {
 		public SettingsDialog(Settings settings) {
 			InitializeComponent();
 			this.Settings = settings.Copy();
-
-			txtWeasylUsername.Text = settings.Weasyl.Username ?? "";
-			txtWeasylAPIKey.Text = settings.Weasyl.APIKey ?? "";
-
-			txtBlogName.Text = settings.Tumblr.BlogName ?? "";
-			txtFooter.Text = settings.Tumblr.Footer ?? "";
-			txtTags.Text = settings.Tumblr.Tags;
-
-			UpdateTokenLabel();
+			FillForm();
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
@@ -35,6 +27,7 @@ namespace WeasylSync {
 			if (Settings.Weasyl.APIKey == "") Settings.Weasyl.APIKey = null;
 
 			Settings.Tumblr.BlogName = txtBlogName.Text;
+			Settings.Tumblr.Header = txtHeader.Text;
 			Settings.Tumblr.Footer = txtFooter.Text;
 			Settings.Tumblr.Tags = txtTags.Text;
 
@@ -47,6 +40,18 @@ namespace WeasylSync {
 			} else {
 				Settings.TumblrToken = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
 			}
+			UpdateTokenLabel();
+		}
+
+		private void FillForm() {
+			txtWeasylUsername.Text = Settings.Weasyl.Username ?? "";
+			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
+
+			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
+			txtHeader.Text = Settings.Tumblr.Header ?? "";
+			txtFooter.Text = Settings.Tumblr.Footer ?? "";
+			txtTags.Text = Settings.Tumblr.Tags;
+
 			UpdateTokenLabel();
 		}
 

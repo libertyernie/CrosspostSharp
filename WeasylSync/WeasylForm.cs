@@ -82,10 +82,10 @@ namespace WeasylSync {
 				}
 			}
 
+			txtHeader.Text = GlobalSettings.Tumblr.Header ?? "";
+			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";
 			// Global tags that you can include in each submission if you want.
 			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "";
-
-			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
@@ -170,12 +170,8 @@ namespace WeasylSync {
 			Console.WriteLine("CompileHTML");
 			StringBuilder html = new StringBuilder();
 
-			if (chkTitle.Checked) {
-				html.Append("<p>");
-				if (chkTitleBold.Checked) html.Append("<b>");
-				html.Append(WebUtility.HtmlEncode(txtTitle.Text));
-				if (chkTitleBold.Checked) html.Append("</b>");
-				html.Append("</p>");
+			if (chkHeader.Checked) {
+				html.Append(txtHeader.Text);
 			}
 
 			if (chkDescription.Checked) {
@@ -183,8 +179,10 @@ namespace WeasylSync {
 			}
 
 			if (chkFooter.Checked) {
-				html.Append(txtFooter.Text.Replace("{URL}", txtURL.Text));
+				html.Append(txtFooter.Text);
 			}
+
+			html.Replace("{TITLE}", WebUtility.HtmlEncode(txtTitle.Text)).Replace("{URL}", txtURL.Text);
 
 			return html.ToString();
 		}
@@ -195,10 +193,6 @@ namespace WeasylSync {
 
 		private void btnDown_Click(object sender, EventArgs e) {
 			UpdateGalleryAsync(nextid: this.nextid);
-		}
-
-		private void chkTitleBold_CheckedChanged(object sender, EventArgs e) {
-			txtTitle.Font = new Font(txtTitle.Font.FontFamily, txtTitle.Font.Size, chkTitleBold.Checked ? FontStyle.Bold : FontStyle.Regular);
 		}
 
 		private void chkNow_CheckedChanged(object sender, EventArgs e) {
@@ -218,7 +212,7 @@ namespace WeasylSync {
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
-			txtTitle.Enabled = chkTitle.Checked;
+			txtHeader.Enabled = chkHeader.Checked;
 		}
 
 		private void chkDescription_CheckedChanged(object sender, EventArgs e) {
