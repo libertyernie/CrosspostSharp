@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblTokenInfo.Text" xml:space="preserve">
-    <value>This application will not see your Tumblr password, but it will
-have access to your Tumblr account. The application-specific
-security keys are stored in WeasylSync.json, so make sure you
-keep that file secure.</value>
+    <value>This application will not see your Tumblr password, but it will have access to your Tumblr account. The application-specific security keys are stored in the file WeasylSync.json, so make sure you keep that file secure.</value>
   </data>
 </root>

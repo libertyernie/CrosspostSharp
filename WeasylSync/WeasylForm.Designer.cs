@@ -54,6 +54,7 @@
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.viewFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
@@ -180,7 +181,7 @@
 			this.txtFooter.Name = "txtFooter";
 			this.txtFooter.Size = new System.Drawing.Size(376, 35);
 			this.txtFooter.TabIndex = 15;
-			this.txtFooter.Text = "View on Weasyl";
+			this.txtFooter.Text = "";
 			// 
 			// chkTitleBold
 			// 
@@ -367,11 +368,12 @@
 			// 
 			// lblTumblrStatus2
 			// 
-			this.lblTumblrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblTumblrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblTumblrStatus2.Location = new System.Drawing.Point(222, 544);
 			this.lblTumblrStatus2.Margin = new System.Windows.Forms.Padding(3);
 			this.lblTumblrStatus2.Name = "lblTumblrStatus2";
-			this.lblTumblrStatus2.Size = new System.Drawing.Size(96, 24);
+			this.lblTumblrStatus2.Size = new System.Drawing.Size(197, 24);
 			this.lblTumblrStatus2.TabIndex = 41;
 			this.lblTumblrStatus2.Text = "not logged in";
 			this.lblTumblrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -390,7 +392,8 @@
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.viewFolderToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -398,7 +401,7 @@
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -408,13 +411,20 @@
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
 			// 
+			// viewFolderToolStripMenuItem
+			// 
+			this.viewFolderToolStripMenuItem.Name = "viewFolderToolStripMenuItem";
+			this.viewFolderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+			this.viewFolderToolStripMenuItem.Text = "View Folder";
+			this.viewFolderToolStripMenuItem.Click += new System.EventHandler(this.viewFolderToolStripMenuItem_Click);
+			// 
 			// lProgressBar1
 			// 
 			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(15, 545);
+			this.lProgressBar1.Location = new System.Drawing.Point(12, 546);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.lProgressBar1.Maximum = 128;
 			this.lProgressBar1.Minimum = 0;
@@ -550,6 +560,7 @@
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem viewFolderToolStripMenuItem;
 	}
 }
 

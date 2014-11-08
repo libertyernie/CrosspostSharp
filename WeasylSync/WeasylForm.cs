@@ -44,11 +44,18 @@ namespace WeasylSync {
 
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
+			LoadFromSettings();
+
+			backid = nextid = null;
+			UpdateGalleryAsync();
+		}
+
+		private void LoadFromSettings() {
 			Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
 
 			Token token = GlobalSettings.TumblrToken;
-			Console.WriteLine("IsValid: " + token.IsValid);
-			if (token != null && token.Key != null && token.Secret != null) {
+			if (token != null && token.IsValid) {
+				if (Tumblr != null) Tumblr.Dispose();
 				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
 					OAuthConsumer.CONSUMER_KEY,
 					OAuthConsumer.CONSUMER_SECRET,
@@ -63,17 +70,21 @@ namespace WeasylSync {
 				lblTumblrStatus2.Text = "not logged in";
 				lblTumblrStatus2.ForeColor = SystemColors.WindowText;
 			} else {
-				var t = Tumblr.GetUserInfoAsync();
-				t.Wait();
-				lblTumblrStatus2.Text = t.Result.Name;
-				lblTumblrStatus2.ForeColor = Color.DarkGreen;
+				try {
+					var t = Tumblr.GetUserInfoAsync();
+					t.Wait();
+					lblTumblrStatus2.Text = t.Result.Name;
+					lblTumblrStatus2.ForeColor = Color.DarkGreen;
+				} catch (AggregateException e) {
+					lblTumblrStatus2.Text = string.Join(", ", e.InnerExceptions.Select(x => x.Message));
+					lblTumblrStatus2.ForeColor = Color.DarkRed;
+				}
 			}
 
 			// Global tags that you can include in each submission if you want.
-			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "#weasyl";
+			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "";
 
-			backid = nextid = null;
-			UpdateGalleryAsync();
+			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
@@ -207,12 +218,20 @@ namespace WeasylSync {
 			txtTags2.Enabled = chkTags2.Checked;
 		}
 
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
 			using (SettingsDialog dialog = new SettingsDialog(GlobalSettings)) {
-				Console.WriteLine(dialog.ShowDialog());
-
-				// reset settings info
+				if (dialog.ShowDialog() != DialogResult.Cancel) {
+					bool refreshGallery = GlobalSettings.Weasyl.Username != dialog.Settings.Weasyl.Username;
+					GlobalSettings = dialog.Settings;
+					GlobalSettings.Save();
+					LoadFromSettings();
+					if (refreshGallery) UpdateGalleryAsync();
+				}
 			}
+		}
+
+		private void viewFolderToolStripMenuItem_Click(object sender, EventArgs e) {
+			System.Diagnostics.Process.Start(".");
 		}
 	}
 }

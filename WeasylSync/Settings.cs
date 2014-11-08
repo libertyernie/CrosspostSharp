@@ -34,8 +34,8 @@ namespace WeasylSync {
 				return new Token(Tumblr.TokenKey, Tumblr.TokenSecret);
 			}
 			set {
-				Tumblr.TokenKey = value.Key;
-				Tumblr.TokenSecret = value.Secret;
+				Tumblr.TokenKey = value == null ? null : value.Key;
+				Tumblr.TokenSecret = value == null ? null : value.Secret;
 			}
 		}
 
@@ -58,13 +58,16 @@ namespace WeasylSync {
 						TokenSecret = null
 					}
 				};
-				s.Save(filename);
 				return s;
 			}
 		}
 
 		public void Save(string filename = "WeasylSync.json") {
 			File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
+		}
+
+		public Settings Copy() {
+			return JsonConvert.DeserializeObject<Settings>(JsonConvert.SerializeObject(this));
 		}
 	}
 }
