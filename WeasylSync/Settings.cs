@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace WeasylSync {
 	public class Settings {
 		public class WeasylSettings {
-			public string Username { get; set; }
 			public string APIKey { get; set; }
 		}
 
@@ -46,8 +45,7 @@ namespace WeasylSync {
 			} else {
 				Settings s = new Settings {
 					Weasyl = new WeasylSettings {
-						Username = "example",
-						APIKey = null,
+						APIKey = null
 					},
 					Tumblr = new TumblrSettings {
 						BlogName = "example",

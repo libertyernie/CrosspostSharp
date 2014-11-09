@@ -22,7 +22,6 @@ namespace WeasylSync {
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
-			Settings.Weasyl.Username = txtWeasylUsername.Text;
 			Settings.Weasyl.APIKey = txtWeasylAPIKey.Text;
 			if (Settings.Weasyl.APIKey == "") Settings.Weasyl.APIKey = null;
 
@@ -44,7 +43,6 @@ namespace WeasylSync {
 		}
 
 		private void FillForm() {
-			txtWeasylUsername.Text = Settings.Weasyl.Username ?? "";
 			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
 
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";

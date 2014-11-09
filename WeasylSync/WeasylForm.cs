@@ -19,6 +19,8 @@ namespace WeasylSync {
 		private static Settings GlobalSettings;
 
 		public WeasylAPI Weasyl { get; private set; }
+		public string WeasylUsername { get; private set; }
+
 		private TumblrClient Tumblr;
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
@@ -49,7 +51,6 @@ namespace WeasylSync {
 			LoadFromSettings();
 
 			backid = nextid = null;
-			UpdateGalleryAsync();
 		}
 
 		private void LoadFromSettings() {
@@ -65,7 +66,9 @@ namespace WeasylSync {
 			}
 
 			User user = Weasyl.Whoami();
-			lblWeasylStatus2.Text = user == null ? "not logged in" : user.login;
+			bool refreshGallery = user == null || WeasylUsername != user.login;
+			WeasylUsername = user == null ? null : user.login;
+			lblWeasylStatus2.Text = WeasylUsername ?? "not logged in";
 			lblWeasylStatus2.ForeColor = user == null ? SystemColors.WindowText : Color.DarkGreen;
 
 			if (Tumblr == null) {
@@ -87,6 +90,8 @@ namespace WeasylSync {
 			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";
 			// Global tags that you can include in each submission if you want.
 			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "";
+
+			if (refreshGallery) UpdateGalleryAsync();
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
@@ -140,18 +145,27 @@ namespace WeasylSync {
 						lProgressBar1.Maximum = 4 + thumbnails.Length;
 						lProgressBar1.Value = 0;
 						lProgressBar1.Visible = true;
-						var g = Weasyl.UserGallery(user: GlobalSettings.Weasyl.Username, count: this.thumbnails.Length, backid: backid, nextid: nextid);
-						lProgressBar1.Value += 4;
-						for (int i = 0; i < this.thumbnails.Length; i++) {
-							if (i < g.submissions.Length) {
-								this.thumbnails[i].Submission = g.submissions[i];
-							} else {
+						if (WeasylUsername != null) {
+							var g = Weasyl.UserGallery(user: WeasylUsername, count: this.thumbnails.Length, backid: backid, nextid: nextid);
+							lProgressBar1.Value += 4;
+							for (int i = 0; i < this.thumbnails.Length; i++) {
+								if (i < g.submissions.Length) {
+									this.thumbnails[i].Submission = g.submissions[i];
+								} else {
+									this.thumbnails[i].Submission = null;
+								}
+								lProgressBar1.Value++;
+							}
+							this.backid = g.backid;
+							this.nextid = g.nextid;
+						} else {
+							lProgressBar1.Value += 8;
+							for (int i = 0; i < this.thumbnails.Length; i++) {
 								this.thumbnails[i].Submission = null;
 							}
-							lProgressBar1.Value++;
+							this.backid = null;
+							this.nextid = null;
 						}
-						this.backid = g.backid;
-						this.nextid = g.nextid;
 						this.BeginInvoke(new Action(() => {
 							btnUp.Enabled = (this.backid != null);
 							btnDown.Enabled = (this.nextid != null);
@@ -267,11 +281,9 @@ namespace WeasylSync {
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
 			using (SettingsDialog dialog = new SettingsDialog(GlobalSettings)) {
 				if (dialog.ShowDialog() != DialogResult.Cancel) {
-					bool refreshGallery = GlobalSettings.Weasyl.Username != dialog.Settings.Weasyl.Username;
 					GlobalSettings = dialog.Settings;
 					GlobalSettings.Save();
 					LoadFromSettings();
-					if (refreshGallery) UpdateGalleryAsync();
 				}
 			}
 		}
