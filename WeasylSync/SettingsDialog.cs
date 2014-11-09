@@ -58,6 +58,7 @@ namespace WeasylSync {
 		private void UpdateTokenLabel() {
 			Token token = Settings.TumblrToken;
 			if (token.IsValid) {
+				btnTumblrSignIn.ContextMenuStrip = null;
 				btnTumblrSignIn.Text = "Sign out";
 				using (TumblrClient client = new TumblrClientFactory().Create<TumblrClient>(
 				OAuthConsumer.CONSUMER_KEY,
@@ -75,9 +76,20 @@ namespace WeasylSync {
 				}
 			} else {
 				lblTokenStatus.ForeColor = SystemColors.WindowText;
+				btnTumblrSignIn.ContextMenuStrip = menuSignIn;
 				btnTumblrSignIn.Text = "Sign in";
 				lblTokenStatus.Text = "Not signed in";
 			}
+		}
+
+		private void menuItemPrivate_Click(object sender, EventArgs e) {
+			btnTumblrSignIn_Click(sender, e);
+		}
+
+		private void menuItemIECookies_Click(object sender, EventArgs e) {
+			IECookiePersist.Suppress(false);
+			btnTumblrSignIn_Click(sender, e);
+			IECookiePersist.Suppress(true);
 		}
 	}
 }

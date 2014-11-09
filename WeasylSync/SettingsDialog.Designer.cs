@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
 			this.groupWeasyl = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -30,8 +31,13 @@
 			this.lblWeasylUsername = new System.Windows.Forms.Label();
 			this.txtWeasylUsername = new System.Windows.Forms.TextBox();
 			this.groupTumblr = new System.Windows.Forms.GroupBox();
+			this.lblHeader = new System.Windows.Forms.Label();
+			this.txtHeader = new System.Windows.Forms.TextBox();
 			this.lblTokenInfo = new System.Windows.Forms.Label();
 			this.btnTumblrSignIn = new System.Windows.Forms.Button();
+			this.menuSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemPrivate = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemIECookies = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblTokenStatus = new System.Windows.Forms.Label();
 			this.lblToken = new System.Windows.Forms.Label();
 			this.lblTags = new System.Windows.Forms.Label();
@@ -42,10 +48,9 @@
 			this.txtBlogName = new System.Windows.Forms.TextBox();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.txtHeader = new System.Windows.Forms.TextBox();
-			this.lblHeader = new System.Windows.Forms.Label();
 			this.groupWeasyl.SuspendLayout();
 			this.groupTumblr.SuspendLayout();
+			this.menuSignIn.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupWeasyl
@@ -122,6 +127,24 @@
 			this.groupTumblr.TabStop = false;
 			this.groupTumblr.Text = "Tumblr";
 			// 
+			// lblHeader
+			// 
+			this.lblHeader.AutoSize = true;
+			this.lblHeader.Location = new System.Drawing.Point(6, 48);
+			this.lblHeader.Name = "lblHeader";
+			this.lblHeader.Size = new System.Drawing.Size(45, 13);
+			this.lblHeader.TabIndex = 13;
+			this.lblHeader.Text = "Header:";
+			// 
+			// txtHeader
+			// 
+			this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.txtHeader.Location = new System.Drawing.Point(83, 45);
+			this.txtHeader.Name = "txtHeader";
+			this.txtHeader.Size = new System.Drawing.Size(321, 20);
+			this.txtHeader.TabIndex = 12;
+			// 
 			// lblTokenInfo
 			// 
 			this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -141,6 +164,28 @@
 			this.btnTumblrSignIn.Text = "Sign in";
 			this.btnTumblrSignIn.UseVisualStyleBackColor = true;
 			this.btnTumblrSignIn.Click += new System.EventHandler(this.btnTumblrSignIn_Click);
+			// 
+			// menuSignIn
+			// 
+			this.menuSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemPrivate,
+            this.menuItemIECookies});
+			this.menuSignIn.Name = "menuSignIn";
+			this.menuSignIn.Size = new System.Drawing.Size(287, 48);
+			// 
+			// menuItemPrivate
+			// 
+			this.menuItemPrivate.Name = "menuItemPrivate";
+			this.menuItemPrivate.Size = new System.Drawing.Size(286, 22);
+			this.menuItemPrivate.Text = "Use private browser session (default)";
+			this.menuItemPrivate.Click += new System.EventHandler(this.menuItemPrivate_Click);
+			// 
+			// menuItemIECookies
+			// 
+			this.menuItemIECookies.Name = "menuItemIECookies";
+			this.menuItemIECookies.Size = new System.Drawing.Size(286, 22);
+			this.menuItemIECookies.Text = "Use cookies/login from Internet Explorer";
+			this.menuItemIECookies.Click += new System.EventHandler(this.menuItemIECookies_Click);
 			// 
 			// lblTokenStatus
 			// 
@@ -237,24 +282,6 @@
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			// 
-			// txtHeader
-			// 
-			this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtHeader.Location = new System.Drawing.Point(83, 45);
-			this.txtHeader.Name = "txtHeader";
-			this.txtHeader.Size = new System.Drawing.Size(321, 20);
-			this.txtHeader.TabIndex = 12;
-			// 
-			// lblHeader
-			// 
-			this.lblHeader.AutoSize = true;
-			this.lblHeader.Location = new System.Drawing.Point(6, 48);
-			this.lblHeader.Name = "lblHeader";
-			this.lblHeader.Size = new System.Drawing.Size(45, 13);
-			this.lblHeader.TabIndex = 13;
-			this.lblHeader.Text = "Header:";
-			// 
 			// SettingsDialog
 			// 
 			this.AcceptButton = this.btnSave;
@@ -272,6 +299,7 @@
 			this.groupWeasyl.PerformLayout();
 			this.groupTumblr.ResumeLayout(false);
 			this.groupTumblr.PerformLayout();
+			this.menuSignIn.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -298,5 +326,8 @@
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Label lblHeader;
 		private System.Windows.Forms.TextBox txtHeader;
+		private System.Windows.Forms.ContextMenuStrip menuSignIn;
+		private System.Windows.Forms.ToolStripMenuItem menuItemPrivate;
+		private System.Windows.Forms.ToolStripMenuItem menuItemIECookies;
 	}
 }
