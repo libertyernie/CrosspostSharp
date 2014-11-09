@@ -12,6 +12,7 @@ using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;
 using Newtonsoft.Json;
 using System.Text;
+using System.Collections.Generic;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -25,7 +26,7 @@ namespace WeasylSync {
 
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
 		private SubmissionDetail currentSubmission;
-		private byte[] currentImage;
+		private BinaryFile currentImage;
 
 		// Used for paging.
 		private int? backid, nextid;
@@ -90,7 +91,7 @@ namespace WeasylSync {
 
 		// This function is called after clicking on a WeasylThumbnail.
 		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
-		public void SetCurrentImage(SubmissionDetail submission, byte[] image) {
+		public void SetCurrentImage(SubmissionDetail submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
 				txtTitle.Text = submission.title;
@@ -101,13 +102,13 @@ namespace WeasylSync {
 				pickDate.Value = pickTime.Value = submission.posted_at;
 				UpdateHTMLPreview();
 			}
-			this.currentImage = image;
-			if (image == null) {
+			this.currentImage = file;
+			if (file == null) {
 				mainPictureBox.Image = null;
 			} else {
 				Image bitmap = null;
 				try {
-					bitmap = Bitmap.FromStream(new MemoryStream(image));
+					bitmap = Bitmap.FromStream(new MemoryStream(file.Data));
 					mainPictureBox.Image = bitmap;
 				} catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
@@ -167,7 +168,6 @@ namespace WeasylSync {
 		}
 
 		private string CompileHTML() {
-			Console.WriteLine("CompileHTML");
 			StringBuilder html = new StringBuilder();
 
 			if (chkHeader.Checked) {
@@ -199,16 +199,48 @@ namespace WeasylSync {
 			pickDate.Visible = pickTime.Visible = !chkNow.Checked;
 		}
 
-		private void btnPost_Click(object sender, EventArgs e) {
+		private void btnPost_Click(object sender, EventArgs args) {
+			if (this.currentImage == null) {
+				MessageBox.Show("No image is selected.");
+				return;
+			}
+
 			if (Tumblr == null) CreateTumblrClient_GetNewToken();
 			if (Tumblr == null) {
 				MessageBox.Show("Posting cancelled.");
 				return;
 			}
-			/*Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, PostData.CreateText("Test 8")).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
-				Console.WriteLine("http://libertyernie.tumblr.com/post/" + t.Result.PostId);
-			}));*/
 
+			string html = CompileHTML();
+			string url = txtURL.Text;
+
+			List<string> tags = new List<string>();
+			if (chkTags1.Checked) {
+				tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			}
+			if (chkTags2.Checked) {
+				tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			}
+			if (chkWeasylSubmitIdTag.Checked) {
+				tags.Add(chkWeasylSubmitIdTag.Text.Replace("#", ""));
+			}
+
+			PostData post = PostData.CreatePhoto(new BinaryFile[] { currentImage }, html, url, tags);
+			if (!chkNow.Checked) {
+				post.Date = pickDate.Value.Date + pickTime.Value.TimeOfDay;
+			}
+
+			lProgressBar1.Value = lProgressBar1.Maximum;
+			lProgressBar1.Visible = true;
+			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+				if (t.Exception != null && t.Exception is AggregateException) {
+					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
+					string display = "An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.";
+					MessageBox.Show(display);
+				} else {
+					lProgressBar1.Visible = false;
+				}
+			}));
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {

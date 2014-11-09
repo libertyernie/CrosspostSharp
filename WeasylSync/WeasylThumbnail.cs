@@ -1,4 +1,5 @@
-﻿using LWeasyl;
+﻿using DontPanic.TumblrSharp;
+using LWeasyl;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,8 +35,6 @@ namespace WeasylSync {
 					WebRequest req = WebRequest.Create(value.media.thumbnail.First().url);
 					WebResponse resp = req.GetResponse();
 					this.Image = Bitmap.FromStream(resp.GetResponseStream());
-
-					Console.WriteLine(Submission.rating);
 				}
 
 				this.RawData = null;
@@ -44,7 +43,7 @@ namespace WeasylSync {
 		}
 
 		// These variables act as a cache; they will be null until the thumbnail is clicked on.
-		public byte[] RawData { get; private set; }
+		public BinaryFile RawData { get; private set; }
 		public SubmissionDetail Details { get; private set; }
 
 		// Reference to the parent form
@@ -84,18 +83,23 @@ namespace WeasylSync {
 								mainForm.LProgressBar.Value = 0;
 								mainForm.LProgressBar.Visible = true;
 
-								WebRequest req = WebRequest.Create(Submission.media.submission.First().url);
+								string url = Submission.media.submission.First().url;
+								string filename = url.Substring(url.LastIndexOf('/') + 1);
+
+								WebRequest req = WebRequest.Create(url);
 								WebResponse resp = req.GetResponse();
 								var stream = resp.GetResponseStream();
 
-								RawData = new byte[resp.ContentLength];
-								mainForm.LProgressBar.Maximum = RawData.Length;
+								byte[] data = new byte[resp.ContentLength];
+								mainForm.LProgressBar.Maximum = data.Length;
 
 								int read = 0;
-								while (read < RawData.Length) {
-									read += stream.Read(RawData, read, RawData.Length - read);
+								while (read < data.Length) {
+									read += stream.Read(data, read, data.Length - read);
 									mainForm.LProgressBar.Value = read;
 								}
+
+								RawData = new BinaryFile(data, filename, resp.ContentType);
 							}
 
 							if (Details == null) {
@@ -105,7 +109,7 @@ namespace WeasylSync {
 							mainForm.LProgressBar.Visible = false;
 
 							// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
-							mainForm.Invoke(new Action<SubmissionDetail, byte[]>(mainForm.SetCurrentImage), Details, RawData);
+							mainForm.Invoke(new Action<SubmissionDetail, BinaryFile>(mainForm.SetCurrentImage), Details, RawData);
 						} catch (WebException ex) {
 							mainForm.LProgressBar.Visible = false;
 							MessageBox.Show(ex.Message);
