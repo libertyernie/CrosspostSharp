@@ -223,16 +223,15 @@ namespace WeasylSync {
 				return;
 			}
 
+			lProgressBar1.Value = lProgressBar1.Maximum;
+			lProgressBar1.Visible = true;
+
 			if (forceNew == false) {
-				Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, chkWeasylSubmitIdTag.Text.Replace("#", "")).ContinueWith((t) => {
-					if (t.Result.Result.Any()) {
-						DialogResult r = MessageBox.Show("A post already exists on this blog with the tag " + chkWeasylSubmitIdTag.Text
-							+ " (post ID: " + t.Result.Result.First().Id + "). Are you sure you want to add a new post?",
-							"Warning", MessageBoxButtons.OKCancel);
-						if (r == DialogResult.OK) {
-							PostToTumblr(true);
-						}
-					} else {
+				string uniquetag = chkWeasylSubmitIdTag.Text.Replace("#", "");
+				Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag).ContinueWith((t) => {
+					if (!t.Result.Result.Any()) {
+						PostToTumblr(true);
+					} else if (new PostAlreadyExistsDialog(uniquetag, t.Result.Result.First().Url).ShowDialog() == DialogResult.OK) {
 						PostToTumblr(true);
 					}
 				});
@@ -241,8 +240,6 @@ namespace WeasylSync {
 
 			PostData post = this.GetOptions().ToPost();
 
-			lProgressBar1.Value = lProgressBar1.Maximum;
-			lProgressBar1.Visible = true;
 			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
 				if (t.Exception != null && t.Exception is AggregateException) {
 					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
