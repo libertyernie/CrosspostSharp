@@ -181,24 +181,18 @@ namespace WeasylSync {
 			return t;
 		}
 
-		private string CompileHTML() {
-			StringBuilder html = new StringBuilder();
-
-			if (chkHeader.Checked) {
-				html.Append(txtHeader.Text);
-			}
-
-			if (chkDescription.Checked) {
-				html.Append(txtDescription.Text);
-			}
-
-			if (chkFooter.Checked) {
-				html.Append(txtFooter.Text);
-			}
-
-			html.Replace("{TITLE}", WebUtility.HtmlEncode(txtTitle.Text)).Replace("{URL}", txtURL.Text);
-
-			return html.ToString();
+		public PostComponents GetOptions() {
+			PostComponents opts = new PostComponents {
+				ImageData = currentImage,
+				Header = chkHeader.Checked ? txtHeader.Text : "",
+				Body = chkDescription.Checked ? txtDescription.Text : "",
+				Footer = chkFooter.Checked ? txtFooter.Text : "",
+				Title = txtTitle.Text,
+				URL = txtURL.Text
+			};
+			if (chkNow.Checked) opts.PostDate = pickDate.Value.Date + pickTime.Value.TimeOfDay;
+			opts.SetTags(txtTags1.Text, txtTags2.Text, chkWeasylSubmitIdTag.Checked ? chkWeasylSubmitIdTag.Text : "");
+			return opts;
 		}
 
 		private void btnUp_Click(object sender, EventArgs e) {
@@ -245,28 +239,11 @@ namespace WeasylSync {
 				return;
 			}
 
-			string html = CompileHTML();
-			string url = txtURL.Text;
-
-			List<string> tags = new List<string>();
-			if (chkTags1.Checked) {
-				tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-			}
-			if (chkTags2.Checked) {
-				tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-			}
-			if (chkWeasylSubmitIdTag.Checked) {
-				tags.Add(chkWeasylSubmitIdTag.Text.Replace("#", ""));
-			}
-
-			PostData post = PostData.CreatePhoto(new BinaryFile[] { currentImage }, html, url, tags);
-			if (!chkNow.Checked) {
-				post.Date = pickDate.Value.Date + pickTime.Value.TimeOfDay;
-			}
+			PostData post = this.GetOptions().ToPost();
 
 			lProgressBar1.Value = lProgressBar1.Maximum;
 			lProgressBar1.Visible = true;
-			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith(new Action<Task<PostCreationInfo>>((t) => {
+			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
 				if (t.Exception != null && t.Exception is AggregateException) {
 					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
 					string display = "An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.";
@@ -274,7 +251,7 @@ namespace WeasylSync {
 				} else {
 					lProgressBar1.Visible = false;
 				}
-			}));
+			});
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
@@ -341,7 +318,7 @@ namespace WeasylSync {
 			previewPanel.Controls.Clear();
 			if (chkHTMLPreview.Checked) {
 				previewPanel.Controls.Add(new WebBrowser {
-					DocumentText = HTML_PREVIEW.Replace("{HTML}", CompileHTML()),
+					DocumentText = HTML_PREVIEW.Replace("{HTML}", this.GetOptions().CompileHTML()),
 					Dock = DockStyle.Fill
 				});
 			}

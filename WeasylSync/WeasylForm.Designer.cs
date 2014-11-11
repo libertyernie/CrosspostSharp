@@ -372,14 +372,14 @@
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
 			// viewFolderToolStripMenuItem
 			// 
 			this.viewFolderToolStripMenuItem.Name = "viewFolderToolStripMenuItem";
-			this.viewFolderToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.viewFolderToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
 			this.viewFolderToolStripMenuItem.Text = "View Folder";
 			this.viewFolderToolStripMenuItem.Click += new System.EventHandler(this.viewFolderToolStripMenuItem_Click);
 			// 
