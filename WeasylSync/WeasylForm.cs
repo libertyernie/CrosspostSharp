@@ -214,6 +214,10 @@ namespace WeasylSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs args) {
+			PostToTumblr();
+		}
+
+		private void PostToTumblr(bool forceNew = false) {
 			if (this.currentImage == null) {
 				MessageBox.Show("No image is selected.");
 				return;
@@ -222,6 +226,22 @@ namespace WeasylSync {
 			if (Tumblr == null) CreateTumblrClient_GetNewToken();
 			if (Tumblr == null) {
 				MessageBox.Show("Posting cancelled.");
+				return;
+			}
+
+			if (forceNew == false) {
+				Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, chkWeasylSubmitIdTag.Text.Replace("#", "")).ContinueWith((t) => {
+					if (t.Result.Result.Any()) {
+						DialogResult r = MessageBox.Show("A post already exists on this blog with the tag " + chkWeasylSubmitIdTag.Text
+							+ " (post ID: " + t.Result.Result.First().Id + "). Are you sure you want to add a new post?",
+							"Warning", MessageBoxButtons.OKCancel);
+						if (r == DialogResult.OK) {
+							PostToTumblr(true);
+						}
+					} else {
+						PostToTumblr(true);
+					}
+				});
 				return;
 			}
 
