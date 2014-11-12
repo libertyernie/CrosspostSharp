@@ -350,5 +350,9 @@ namespace WeasylSync {
 			UpdateHTMLPreview();
 		}
 		#endregion
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var d = new AboutDialog()) d.ShowDialog(this);
+		}
 	}
 }

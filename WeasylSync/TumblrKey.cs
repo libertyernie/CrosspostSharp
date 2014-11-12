@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinFormsWebBrowserOAuth;
+using WinFormsOAuth;
 
 namespace WeasylSync {
 	public static class TumblrKey {

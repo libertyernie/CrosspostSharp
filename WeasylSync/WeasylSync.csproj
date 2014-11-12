@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutDialog.Designer.cs">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="IECookiePersist.cs" />
     <Compile Include="PostAlreadyExistsDialog.cs">
       <SubType>Form</SubType>
@@ -136,9 +142,9 @@
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
       <Name>LWeasyl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinFormsWebBrowserOAuth\WinFormsWebBrowserOAuth.csproj">
+    <ProjectReference Include="..\WinFormsOAuth\WinFormsOAuth.csproj">
       <Project>{d98e0824-0a4a-4105-8f76-1cac1d91ffce}</Project>
-      <Name>WinFormsWebBrowserOAuth</Name>
+      <Name>WinFormsOAuth</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
