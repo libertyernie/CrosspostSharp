@@ -53,6 +53,7 @@ namespace WeasylSync {
 			backid = nextid = null;
 		}
 
+		#region GUI updates
 		private void LoadFromSettings() {
 			Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
 
@@ -122,20 +123,6 @@ namespace WeasylSync {
 			}
 		}
 
-		private void CreateTumblrClient_GetNewToken() {
-			Token token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
-			if (token == null) {
-				return;
-			} else {
-				GlobalSettings.TumblrToken = token;
-				GlobalSettings.Save();
-				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
-					OAuthConsumer.CONSUMER_KEY,
-					OAuthConsumer.CONSUMER_SECRET,
-					token);
-			}
-		}
-
 		// Launches a thread to update the thumbnails.
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
@@ -180,35 +167,78 @@ namespace WeasylSync {
 			t.Start();
 			return t;
 		}
+		#endregion
 
-		public PostComponents GetOptions() {
-			PostComponents opts = new PostComponents {
-				ImageData = currentImage,
-				Header = chkHeader.Checked ? txtHeader.Text : "",
-				Body = chkDescription.Checked ? txtDescription.Text : "",
-				Footer = chkFooter.Checked ? txtFooter.Text : "",
-				Title = txtTitle.Text,
-				URL = txtURL.Text
-			};
-			if (chkNow.Checked) opts.PostDate = pickDate.Value.Date + pickTime.Value.TimeOfDay;
-			opts.SetTags(txtTags1.Text, txtTags2.Text, chkWeasylSubmitIdTag.Checked ? chkWeasylSubmitIdTag.Text : "");
-			return opts;
+		#region HTML compilation
+		public string CompileHTML() {
+			StringBuilder html = new StringBuilder();
+
+			if (chkHeader.Checked) {
+				html.Append(txtHeader.Text);
+			}
+
+			if (chkDescription.Checked) {
+				html.Append(txtDescription.Text);
+			}
+
+			if (chkFooter.Checked) {
+				html.Append(txtFooter.Text);
+			}
+
+			html.Replace("{TITLE}", WebUtility.HtmlEncode(txtTitle.Text)).Replace("{URL}", txtURL.Text);
+
+			return html.ToString();
 		}
 
-		private void btnUp_Click(object sender, EventArgs e) {
-			UpdateGalleryAsync(backid: this.backid);
+		private static string HTML_PREVIEW = @"
+<html>
+	<head>
+	<style type='text/css'>
+		body {
+			font-family: ""Helvetica Neue"",""HelveticaNeue"",Helvetica,Arial,sans-serif;
+			font-weight: 400;
+			line-height: 1.4;
+			font-size: 14px;
+			font-style: normal;
+			color: #444;
 		}
-
-		private void btnDown_Click(object sender, EventArgs e) {
-			UpdateGalleryAsync(nextid: this.nextid);
+		p {
+			margin: 0 0 10px;
+			padding: 0px;
+			border: 0px none;
+			font: inherit;
+			vertical-align: baseline;
 		}
+	</style>
+</head>
+	<body>{HTML}</body>
+</html>";
 
-		private void chkNow_CheckedChanged(object sender, EventArgs e) {
-			pickDate.Visible = pickTime.Visible = !chkNow.Checked;
+		private void UpdateHTMLPreview() {
+			previewPanel.Visible = chkHTMLPreview.Checked;
+			previewPanel.Controls.Clear();
+			if (chkHTMLPreview.Checked) {
+				previewPanel.Controls.Add(new WebBrowser {
+					DocumentText = HTML_PREVIEW.Replace("{HTML}", this.CompileHTML()),
+					Dock = DockStyle.Fill
+				});
+			}
 		}
+		#endregion
 
-		private void btnPost_Click(object sender, EventArgs args) {
-			PostToTumblr();
+		#region Tumblr
+		private void CreateTumblrClient_GetNewToken() {
+			Token token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
+			if (token == null) {
+				return;
+			} else {
+				GlobalSettings.TumblrToken = token;
+				GlobalSettings.Save();
+				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
+					OAuthConsumer.CONSUMER_KEY,
+					OAuthConsumer.CONSUMER_SECRET,
+					token);
+			}
 		}
 
 		private void PostToTumblr(bool forceNew = false) {
@@ -238,7 +268,22 @@ namespace WeasylSync {
 				return;
 			}
 
-			PostData post = this.GetOptions().ToPost();
+			var tags = new List<string>();
+			foreach (string taglist in new string[] { 
+				chkTags1.Checked ? txtTags1.Text : "",
+				chkTags2.Checked ? txtTags2.Text : "",
+				chkWeasylSubmitIdTag.Checked ? chkWeasylSubmitIdTag.Text : ""
+			}) {
+				tags.AddRange(taglist.Replace("#", "").Split(' ').Where(s => s != ""));
+			}
+
+			PostData post;
+			if (this.currentImage != null) {
+				post = PostData.CreatePhoto(new BinaryFile[] { this.currentImage }, CompileHTML(), txtURL.Text, tags);
+			} else {
+				post = PostData.CreateText(CompileHTML(), null, tags);
+			}
+			post.Date = chkNow.Checked ? (DateTimeOffset?)null : (pickDate.Value.Date + pickTime.Value.TimeOfDay);
 
 			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
 				if (t.Exception != null && t.Exception is AggregateException) {
@@ -249,6 +294,24 @@ namespace WeasylSync {
 					lProgressBar1.Visible = false;
 				}
 			});
+		}
+		#endregion
+
+		#region Event handlers
+		private void btnUp_Click(object sender, EventArgs e) {
+			UpdateGalleryAsync(backid: this.backid);
+		}
+
+		private void btnDown_Click(object sender, EventArgs e) {
+			UpdateGalleryAsync(nextid: this.nextid);
+		}
+
+		private void chkNow_CheckedChanged(object sender, EventArgs e) {
+			pickDate.Visible = pickTime.Visible = !chkNow.Checked;
+		}
+
+		private void btnPost_Click(object sender, EventArgs args) {
+			PostToTumblr();
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
@@ -286,43 +349,9 @@ namespace WeasylSync {
 			System.Diagnostics.Process.Start(".");
 		}
 
-		private static string HTML_PREVIEW = @"
-<html>
-	<head>
-	<style type='text/css'>
-		body {
-			font-family: ""Helvetica Neue"",""HelveticaNeue"",Helvetica,Arial,sans-serif;
-			font-weight: 400;
-			line-height: 1.4;
-			font-size: 14px;
-			font-style: normal;
-			color: #444;
-		}
-		p {
-			margin: 0 0 10px;
-			padding: 0px;
-			border: 0px none;
-			font: inherit;
-			vertical-align: baseline;
-		}
-	</style>
-</head>
-	<body>{HTML}</body>
-</html>";
-
-		private void UpdateHTMLPreview() {
-			previewPanel.Visible = chkHTMLPreview.Checked;
-			previewPanel.Controls.Clear();
-			if (chkHTMLPreview.Checked) {
-				previewPanel.Controls.Add(new WebBrowser {
-					DocumentText = HTML_PREVIEW.Replace("{HTML}", this.GetOptions().CompileHTML()),
-					Dock = DockStyle.Fill
-				});
-			}
-		}
-
 		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
 			UpdateHTMLPreview();
 		}
+		#endregion
 	}
 }

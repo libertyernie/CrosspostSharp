@@ -69,7 +69,6 @@
     <Compile Include="PostAlreadyExistsDialog.Designer.cs">
       <DependentUpon>PostAlreadyExistsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PostComponents.cs" />
     <Compile Include="SettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
