@@ -253,47 +253,44 @@ namespace WeasylSync {
 				return;
 			}
 
-			lProgressBar1.Value = lProgressBar1.Maximum;
+			lProgressBar1.Maximum = 2;
+			lProgressBar1.Value = 0;
 			lProgressBar1.Visible = true;
 
 			if (forceNew == false) {
 				string uniquetag = chkWeasylSubmitIdTag.Text.Replace("#", "");
 				Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag).ContinueWith((t) => {
+					lProgressBar1.Value = 1;
 					if (!t.Result.Result.Any()) {
 						PostToTumblr(true);
 					} else if (new PostAlreadyExistsDialog(uniquetag, t.Result.Result.First().Url).ShowDialog() == DialogResult.OK) {
 						PostToTumblr(true);
+					} else {
+						lProgressBar1.Visible = false;
 					}
 				});
 				return;
-			}
-
-			var tags = new List<string>();
-			foreach (string taglist in new string[] { 
-				chkTags1.Checked ? txtTags1.Text : "",
-				chkTags2.Checked ? txtTags2.Text : "",
-				chkWeasylSubmitIdTag.Checked ? chkWeasylSubmitIdTag.Text : ""
-			}) {
-				tags.AddRange(taglist.Replace("#", "").Split(' ').Where(s => s != ""));
-			}
-
-			PostData post;
-			if (this.currentImage != null) {
-				post = PostData.CreatePhoto(new BinaryFile[] { this.currentImage }, CompileHTML(), txtURL.Text, tags);
 			} else {
-				post = PostData.CreateText(CompileHTML(), null, tags);
-			}
-			post.Date = chkNow.Checked ? (DateTimeOffset?)null : (pickDate.Value.Date + pickTime.Value.TimeOfDay);
+				lProgressBar1.Value = 2;
 
-			Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
-				if (t.Exception != null && t.Exception is AggregateException) {
-					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
-					string display = "An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.";
-					MessageBox.Show(display);
-				} else {
+				var tags = new List<string>();
+				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+				if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+				if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+
+				PostData post = PostData.CreatePhoto(new BinaryFile[] { this.currentImage }, CompileHTML(), txtURL.Text, tags);
+				post.Date = chkNow.Checked
+					? (DateTimeOffset?)null
+					: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
+
+				Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
 					lProgressBar1.Visible = false;
-				}
-			});
+					if (t.Exception != null && t.Exception is AggregateException) {
+						var messages = t.Exception.InnerExceptions.Select(x => x.Message);
+						MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
+					}
+				});
+			}
 		}
 		#endregion
 

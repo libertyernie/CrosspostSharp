@@ -19,6 +19,7 @@ namespace WeasylSync {
 			{"explicit", Color.FromArgb(185, 30, 35)}
 		};
 
+		#region Properties and variables
 		// Sets the submission for this thumbnail to display.
 		// The Submission object comes from the Weasyl gallery; the thumbnail is fetched immediately; and the details and actual image are fetched when necessary.
 		private Submission _submission;
@@ -28,17 +29,7 @@ namespace WeasylSync {
 			}
 			set {
 				_submission = value;
-
-				if (value == null) {
-					this.Image = null;
-				} else {
-					WebRequest req = WebRequest.Create(value.media.thumbnail.First().url);
-					WebResponse resp = req.GetResponse();
-					this.Image = Bitmap.FromStream(resp.GetResponseStream());
-				}
-
-				this.RawData = null;
-				this.Details = null;
+				FetchSubmission();
 			}
 		}
 
@@ -48,6 +39,7 @@ namespace WeasylSync {
 
 		// Reference to the parent form
 		private WeasylForm mainForm;
+		#endregion
 
 		public WeasylThumbnail() : base() {
 			this.Click += WeasylThumbnail_Click;
@@ -59,7 +51,63 @@ namespace WeasylSync {
 			Color c;
 			if (Submission != null && colors.TryGetValue(Submission.rating, out c)) {
 				using (Pen b = new Pen(c, 2)) {
-					pe.Graphics.DrawRectangle(b, 1, 1, Width-2, Height-2);
+					pe.Graphics.DrawRectangle(b, 1, 1, Width - 2, Height - 2);
+				}
+			}
+		}
+
+		// Downloads the thumbnail pointed to by the submission info.
+		public void FetchSubmission() {
+			if (Submission == null) {
+				this.Image = null;
+			} else {
+				WebRequest req = WebRequest.Create(Submission.media.thumbnail.First().url);
+				WebResponse resp = req.GetResponse();
+				this.Image = Bitmap.FromStream(resp.GetResponseStream());
+			}
+
+			this.RawData = null;
+			this.Details = null;
+		}
+
+		// Downloads the submission details (including comments) and the submission image. Can be run on a separate thread.
+		private void FetchDetails() {
+			lock (mainForm.LProgressBar) {
+				try {
+					if (RawData == null) {
+						mainForm.LProgressBar.Value = 0;
+						mainForm.LProgressBar.Visible = true;
+
+						string url = Submission.media.submission.First().url;
+						string filename = url.Substring(url.LastIndexOf('/') + 1);
+
+						WebRequest req = WebRequest.Create(url);
+						WebResponse resp = req.GetResponse();
+						var stream = resp.GetResponseStream();
+
+						byte[] data = new byte[resp.ContentLength];
+						mainForm.LProgressBar.Maximum = data.Length;
+
+						int read = 0;
+						while (read < data.Length) {
+							read += stream.Read(data, read, data.Length - read);
+							mainForm.LProgressBar.Value = read;
+						}
+
+						RawData = new BinaryFile(data, filename, resp.ContentType);
+					}
+
+					if (Details == null) {
+						Details = mainForm.Weasyl.ViewSubmission(Submission);
+					}
+
+					mainForm.LProgressBar.Visible = false;
+
+					// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
+					mainForm.Invoke(new Action<SubmissionDetail, BinaryFile>(mainForm.SetCurrentImage), Details, RawData);
+				} catch (WebException ex) {
+					mainForm.LProgressBar.Visible = false;
+					MessageBox.Show(ex.Message);
 				}
 			}
 		}
@@ -76,46 +124,7 @@ namespace WeasylSync {
 			}
 			if (Submission != null) {
 				// Launch a new thread to download the submission details and raw image data
-				new Task(() => {
-					lock (mainForm.LProgressBar) {
-						try {
-							if (RawData == null) {
-								mainForm.LProgressBar.Value = 0;
-								mainForm.LProgressBar.Visible = true;
-
-								string url = Submission.media.submission.First().url;
-								string filename = url.Substring(url.LastIndexOf('/') + 1);
-
-								WebRequest req = WebRequest.Create(url);
-								WebResponse resp = req.GetResponse();
-								var stream = resp.GetResponseStream();
-
-								byte[] data = new byte[resp.ContentLength];
-								mainForm.LProgressBar.Maximum = data.Length;
-
-								int read = 0;
-								while (read < data.Length) {
-									read += stream.Read(data, read, data.Length - read);
-									mainForm.LProgressBar.Value = read;
-								}
-
-								RawData = new BinaryFile(data, filename, resp.ContentType);
-							}
-
-							if (Details == null) {
-								Details = mainForm.Weasyl.ViewSubmission(Submission);
-							}
-
-							mainForm.LProgressBar.Visible = false;
-
-							// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
-							mainForm.Invoke(new Action<SubmissionDetail, BinaryFile>(mainForm.SetCurrentImage), Details, RawData);
-						} catch (WebException ex) {
-							mainForm.LProgressBar.Visible = false;
-							MessageBox.Show(ex.Message);
-						}
-					}
-				}).Start();
+				new Task(FetchDetails).Start();
 			}
 		}
 	}
