@@ -101,6 +101,9 @@
     <Compile Include="WeasylThumbnail.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="AboutDialog.resx">
+      <DependentUpon>AboutDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PostAlreadyExistsDialog.resx">
       <DependentUpon>PostAlreadyExistsDialog.cs</DependentUpon>
     </EmbeddedResource>
