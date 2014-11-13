@@ -52,6 +52,7 @@
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.chkHTMLPreview = new System.Windows.Forms.CheckBox();
 			this.previewPanel = new System.Windows.Forms.Panel();
 			this.txtTitle = new System.Windows.Forms.TextBox();
@@ -61,7 +62,7 @@
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
-			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnViewExistingTumblrPost = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -371,7 +372,7 @@
 			// optionsToolStripMenuItem
 			// 
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
 			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -382,6 +383,13 @@
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
+			// 
+			// aboutToolStripMenuItem
+			// 
+			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.aboutToolStripMenuItem.Text = "About";
+			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
 			// chkHTMLPreview
 			// 
@@ -429,12 +437,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(12, 546);
+			this.lProgressBar1.Location = new System.Drawing.Point(12, 545);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.lProgressBar1.Maximum = 128;
 			this.lProgressBar1.Minimum = 0;
 			this.lProgressBar1.Name = "lProgressBar1";
-			this.lProgressBar1.Size = new System.Drawing.Size(407, 23);
+			this.lProgressBar1.Size = new System.Drawing.Size(321, 24);
 			this.lProgressBar1.TabIndex = 30;
 			this.lProgressBar1.Value = 0;
 			// 
@@ -478,22 +486,27 @@
 			this.thumbnail1.TabIndex = 0;
 			this.thumbnail1.TabStop = false;
 			// 
-			// aboutToolStripMenuItem
+			// btnViewExistingTumblrPost
 			// 
-			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.aboutToolStripMenuItem.Text = "About";
-			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+			this.btnViewExistingTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnViewExistingTumblrPost.Location = new System.Drawing.Point(339, 545);
+			this.btnViewExistingTumblrPost.Name = "btnViewExistingTumblrPost";
+			this.btnViewExistingTumblrPost.Size = new System.Drawing.Size(80, 24);
+			this.btnViewExistingTumblrPost.TabIndex = 44;
+			this.btnViewExistingTumblrPost.Text = "View Existing";
+			this.btnViewExistingTumblrPost.UseVisualStyleBackColor = true;
+			this.btnViewExistingTumblrPost.Click += new System.EventHandler(this.btnViewExistingTumblrPost_Click);
 			// 
 			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(554, 581);
+			this.Controls.Add(this.lProgressBar1);
+			this.Controls.Add(this.btnViewExistingTumblrPost);
 			this.Controls.Add(this.previewPanel);
 			this.Controls.Add(this.lblTitle);
 			this.Controls.Add(this.txtTitle);
 			this.Controls.Add(this.chkHTMLPreview);
-			this.Controls.Add(this.lProgressBar1);
 			this.Controls.Add(this.lblTumblrStatus2);
 			this.Controls.Add(this.lblWeasylStatus2);
 			this.Controls.Add(this.lblTumblrStatus1);
@@ -577,6 +590,7 @@
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+		private System.Windows.Forms.Button btnViewExistingTumblrPost;
 	}
 }
 

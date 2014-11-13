@@ -30,6 +30,9 @@ namespace WeasylSync {
 		private SubmissionDetail currentSubmission;
 		private BinaryFile currentImage;
 
+		// The Tumblr post made from the current submission, if any; looked up by using the #weasyl{submitid} tag.
+		private long? correlatedTumblrPostId;
+
 		// Used for paging.
 		private int? backid, nextid;
 
@@ -120,6 +123,14 @@ namespace WeasylSync {
 					MessageBox.Show("This submission is not an image file.");
 					mainPictureBox.Image = null;
 				}
+			}
+			this.correlatedTumblrPostId = null;
+			if (Tumblr != null) {
+				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
+					if (t.Result.Result.Any()) {
+						this.correlatedTumblrPostId = t.Result.Result.First().Id;
+					}
+				});
 			}
 		}
 
@@ -241,6 +252,11 @@ namespace WeasylSync {
 			}
 		}
 
+		private Task<Posts> GetTaggedPostsForSubmissionAsync() {
+			string uniquetag = chkWeasylSubmitIdTag.Text.Replace("#", "");
+			return Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag);
+		}
+
 		private void PostToTumblr(bool forceNew = false) {
 			if (this.currentImage == null) {
 				MessageBox.Show("No image is selected.");
@@ -258,12 +274,11 @@ namespace WeasylSync {
 			lProgressBar1.Visible = true;
 
 			if (forceNew == false) {
-				string uniquetag = chkWeasylSubmitIdTag.Text.Replace("#", "");
-				Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag).ContinueWith((t) => {
+				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
 					lProgressBar1.Value = 1;
 					if (!t.Result.Result.Any()) {
 						PostToTumblr(true);
-					} else if (new PostAlreadyExistsDialog(uniquetag, t.Result.Result.First().Url).ShowDialog() == DialogResult.OK) {
+					} else if (new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, t.Result.Result.First().Url).ShowDialog() == DialogResult.OK) {
 						PostToTumblr(true);
 					} else {
 						lProgressBar1.Visible = false;
@@ -284,10 +299,13 @@ namespace WeasylSync {
 					: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
 
 				Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
+				//Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, 102485978051, post).ContinueWith((t) => {
 					lProgressBar1.Visible = false;
 					if (t.Exception != null && t.Exception is AggregateException) {
 						var messages = t.Exception.InnerExceptions.Select(x => x.Message);
 						MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
+					} else {
+						correlatedTumblrPostId = t.Result.PostId;
 					}
 				});
 			}
@@ -349,10 +367,18 @@ namespace WeasylSync {
 		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
 			UpdateHTMLPreview();
 		}
-		#endregion
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var d = new AboutDialog()) d.ShowDialog(this);
 		}
+
+		private void btnViewExistingTumblrPost_Click(object sender, EventArgs e) {
+			if (this.correlatedTumblrPostId != null && Tumblr != null) {
+				Tumblr.GetPostAsync(this.correlatedTumblrPostId.Value).ContinueWith((t) => {
+					System.Diagnostics.Process.Start(t.Result.Url);
+				});
+			}
+		}
+		#endregion
 	}
 }

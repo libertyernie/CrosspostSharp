@@ -39,7 +39,7 @@
 			this.lblMessage.Name = "lblMessage";
 			this.lblMessage.Size = new System.Drawing.Size(310, 16);
 			this.lblMessage.TabIndex = 0;
-			this.lblMessage.Text = "A Tumblr post already exists with the tag #{TAG}:";
+			this.lblMessage.Text = "A Tumblr post already exists with the tag {TAG}:";
 			this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// lblQuestion
