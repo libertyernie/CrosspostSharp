@@ -13,6 +13,7 @@ using DontPanic.TumblrSharp.OAuth;
 using Newtonsoft.Json;
 using System.Text;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -29,9 +30,6 @@ namespace WeasylSync {
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
 		private SubmissionDetail currentSubmission;
 		private BinaryFile currentImage;
-
-		// The Tumblr post made from the current submission, if any; looked up by using the #weasyl{submitid} tag.
-		private long? correlatedTumblrPostId;
 
 		// Used for paging.
 		private int? backid, nextid;
@@ -124,14 +122,7 @@ namespace WeasylSync {
 					mainPictureBox.Image = null;
 				}
 			}
-			this.correlatedTumblrPostId = null;
-			if (Tumblr != null) {
-				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
-					if (t.Result.Result.Any()) {
-						this.correlatedTumblrPostId = t.Result.Result.First().Id;
-					}
-				});
-			}
+			UpdateExistingPostLink();
 		}
 
 		// Launches a thread to update the thumbnails.
@@ -177,6 +168,21 @@ namespace WeasylSync {
 			});
 			t.Start();
 			return t;
+		}
+
+		public void SetCorresponsingPostUrl(string url) {
+			if (this.InvokeRequired) {
+				this.Invoke(new Action<string>(SetCorresponsingPostUrl), url);
+				return;
+			}
+			
+			if (string.IsNullOrEmpty(url)) {
+				this.lblAlreadyPosted.Text = "";
+				this.lnkTumblrPost.Text = "";
+			} else {
+				this.lblAlreadyPosted.Text = "Already posted:";
+				this.lnkTumblrPost.Text = url;
+			}
 		}
 		#endregion
 
@@ -238,6 +244,20 @@ namespace WeasylSync {
 		#endregion
 
 		#region Tumblr
+		private void UpdateExistingPostLink() {
+			this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
+			this.lnkTumblrPost.Text = "";
+			if (Tumblr != null) {
+				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
+					if (t.Result.Result.Any()) {
+						SetCorresponsingPostUrl(t.Result.Result.First().Url);
+					} else {
+						SetCorresponsingPostUrl(null);
+					}
+				});
+			}
+		}
+
 		private void CreateTumblrClient_GetNewToken() {
 			Token token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
 			if (token == null) {
@@ -305,7 +325,7 @@ namespace WeasylSync {
 						var messages = t.Exception.InnerExceptions.Select(x => x.Message);
 						MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
 					} else {
-						correlatedTumblrPostId = t.Result.PostId;
+						UpdateExistingPostLink();
 					}
 				});
 			}
@@ -360,10 +380,6 @@ namespace WeasylSync {
 			}
 		}
 
-		private void viewFolderToolStripMenuItem_Click(object sender, EventArgs e) {
-			System.Diagnostics.Process.Start(".");
-		}
-
 		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
 			UpdateHTMLPreview();
 		}
@@ -371,14 +387,10 @@ namespace WeasylSync {
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var d = new AboutDialog()) d.ShowDialog(this);
 		}
-
-		private void btnViewExistingTumblrPost_Click(object sender, EventArgs e) {
-			if (this.correlatedTumblrPostId != null && Tumblr != null) {
-				Tumblr.GetPostAsync(this.correlatedTumblrPostId.Value).ContinueWith((t) => {
-					System.Diagnostics.Process.Start(t.Result.Url);
-				});
-			}
-		}
 		#endregion
+
+		private void lnkTumblrPost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			Process.Start(lnkTumblrPost.Text);
+		}
 	}
 }

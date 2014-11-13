@@ -57,12 +57,13 @@
 			this.previewPanel = new System.Windows.Forms.Panel();
 			this.txtTitle = new System.Windows.Forms.TextBox();
 			this.lblTitle = new System.Windows.Forms.Label();
+			this.lnkTumblrPost = new System.Windows.Forms.LinkLabel();
+			this.lblAlreadyPosted = new System.Windows.Forms.Label();
 			this.lProgressBar1 = new WeasylSync.LProgressBar();
 			this.thumbnail4 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
-			this.btnViewExistingTumblrPost = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -139,7 +140,7 @@
 			this.txtDescription.Multiline = true;
 			this.txtDescription.Name = "txtDescription";
 			this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtDescription.Size = new System.Drawing.Size(376, 73);
+			this.txtDescription.Size = new System.Drawing.Size(376, 79);
 			this.txtDescription.TabIndex = 11;
 			// 
 			// txtTags1
@@ -165,7 +166,7 @@
 			this.chkFooter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkFooter.Checked = true;
 			this.chkFooter.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkFooter.Location = new System.Drawing.Point(142, 415);
+			this.chkFooter.Location = new System.Drawing.Point(142, 421);
 			this.chkFooter.Name = "chkFooter";
 			this.chkFooter.Size = new System.Drawing.Size(18, 20);
 			this.chkFooter.TabIndex = 12;
@@ -176,7 +177,7 @@
 			// 
 			this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtFooter.Location = new System.Drawing.Point(166, 415);
+			this.txtFooter.Location = new System.Drawing.Point(166, 421);
 			this.txtFooter.Name = "txtFooter";
 			this.txtFooter.Size = new System.Drawing.Size(376, 20);
 			this.txtFooter.TabIndex = 13;
@@ -262,7 +263,7 @@
 			// btnPost
 			// 
 			this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnPost.Location = new System.Drawing.Point(425, 545);
+			this.btnPost.Location = new System.Drawing.Point(425, 547);
 			this.btnPost.Name = "btnPost";
 			this.btnPost.Size = new System.Drawing.Size(117, 24);
 			this.btnPost.TabIndex = 17;
@@ -273,7 +274,7 @@
 			// txtURL
 			// 
 			this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.txtURL.Location = new System.Drawing.Point(217, 441);
+			this.txtURL.Location = new System.Drawing.Point(217, 447);
 			this.txtURL.Name = "txtURL";
 			this.txtURL.Size = new System.Drawing.Size(325, 20);
 			this.txtURL.TabIndex = 15;
@@ -286,7 +287,7 @@
 			this.groupBox1.Controls.Add(this.chkWeasylSubmitIdTag);
 			this.groupBox1.Controls.Add(this.txtTags2);
 			this.groupBox1.Controls.Add(this.chkTags2);
-			this.groupBox1.Location = new System.Drawing.Point(142, 467);
+			this.groupBox1.Location = new System.Drawing.Point(142, 473);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(400, 68);
 			this.groupBox1.TabIndex = 16;
@@ -297,7 +298,7 @@
 			// 
 			this.lblLinkTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblLinkTo.AutoSize = true;
-			this.lblLinkTo.Location = new System.Drawing.Point(163, 444);
+			this.lblLinkTo.Location = new System.Drawing.Point(163, 450);
 			this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
 			this.lblLinkTo.Name = "lblLinkTo";
 			this.lblLinkTo.Size = new System.Drawing.Size(40, 13);
@@ -308,7 +309,7 @@
 			// lblWeasylStatus1
 			// 
 			this.lblWeasylStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblWeasylStatus1.Location = new System.Drawing.Point(12, 544);
+			this.lblWeasylStatus1.Location = new System.Drawing.Point(12, 575);
 			this.lblWeasylStatus1.Margin = new System.Windows.Forms.Padding(3);
 			this.lblWeasylStatus1.Name = "lblWeasylStatus1";
 			this.lblWeasylStatus1.Size = new System.Drawing.Size(48, 24);
@@ -319,7 +320,7 @@
 			// lblTumblrStatus1
 			// 
 			this.lblTumblrStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblTumblrStatus1.Location = new System.Drawing.Point(168, 544);
+			this.lblTumblrStatus1.Location = new System.Drawing.Point(263, 575);
 			this.lblTumblrStatus1.Margin = new System.Windows.Forms.Padding(3);
 			this.lblTumblrStatus1.Name = "lblTumblrStatus1";
 			this.lblTumblrStatus1.Size = new System.Drawing.Size(48, 24);
@@ -330,10 +331,10 @@
 			// lblWeasylStatus2
 			// 
 			this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblWeasylStatus2.Location = new System.Drawing.Point(66, 544);
+			this.lblWeasylStatus2.Location = new System.Drawing.Point(66, 575);
 			this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
 			this.lblWeasylStatus2.Name = "lblWeasylStatus2";
-			this.lblWeasylStatus2.Size = new System.Drawing.Size(96, 24);
+			this.lblWeasylStatus2.Size = new System.Drawing.Size(191, 24);
 			this.lblWeasylStatus2.TabIndex = 40;
 			this.lblWeasylStatus2.Text = "not logged in";
 			this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -342,10 +343,10 @@
 			// 
 			this.lblTumblrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblTumblrStatus2.Location = new System.Drawing.Point(222, 544);
+			this.lblTumblrStatus2.Location = new System.Drawing.Point(317, 575);
 			this.lblTumblrStatus2.Margin = new System.Windows.Forms.Padding(3);
 			this.lblTumblrStatus2.Name = "lblTumblrStatus2";
-			this.lblTumblrStatus2.Size = new System.Drawing.Size(197, 24);
+			this.lblTumblrStatus2.Size = new System.Drawing.Size(225, 24);
 			this.lblTumblrStatus2.TabIndex = 41;
 			this.lblTumblrStatus2.Text = "not logged in";
 			this.lblTumblrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -405,15 +406,19 @@
 			// 
 			// previewPanel
 			// 
+			this.previewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.previewPanel.Location = new System.Drawing.Point(142, 284);
 			this.previewPanel.Name = "previewPanel";
-			this.previewPanel.Size = new System.Drawing.Size(400, 177);
+			this.previewPanel.Size = new System.Drawing.Size(400, 257);
 			this.previewPanel.TabIndex = 43;
 			this.previewPanel.Visible = false;
 			// 
 			// txtTitle
 			// 
-			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTitle.Location = new System.Drawing.Point(217, 310);
 			this.txtTitle.Name = "txtTitle";
 			this.txtTitle.Size = new System.Drawing.Size(325, 20);
@@ -421,7 +426,6 @@
 			// 
 			// lblTitle
 			// 
-			this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblTitle.AutoSize = true;
 			this.lblTitle.Location = new System.Drawing.Point(163, 313);
 			this.lblTitle.Margin = new System.Windows.Forms.Padding(3);
@@ -431,18 +435,37 @@
 			this.lblTitle.Text = "{TITLE}:";
 			this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// lnkTumblrPost
+			// 
+			this.lnkTumblrPost.AutoEllipsis = true;
+			this.lnkTumblrPost.Location = new System.Drawing.Point(98, 553);
+			this.lnkTumblrPost.Name = "lnkTumblrPost";
+			this.lnkTumblrPost.Size = new System.Drawing.Size(321, 13);
+			this.lnkTumblrPost.TabIndex = 44;
+			this.lnkTumblrPost.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lnkTumblrPost.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTumblrPost_LinkClicked);
+			// 
+			// lblAlreadyPosted
+			// 
+			this.lblAlreadyPosted.AutoSize = true;
+			this.lblAlreadyPosted.Location = new System.Drawing.Point(12, 553);
+			this.lblAlreadyPosted.Name = "lblAlreadyPosted";
+			this.lblAlreadyPosted.Size = new System.Drawing.Size(0, 13);
+			this.lblAlreadyPosted.TabIndex = 45;
+			this.lblAlreadyPosted.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// lProgressBar1
 			// 
 			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(12, 545);
+			this.lProgressBar1.Location = new System.Drawing.Point(12, 547);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.lProgressBar1.Maximum = 128;
 			this.lProgressBar1.Minimum = 0;
 			this.lProgressBar1.Name = "lProgressBar1";
-			this.lProgressBar1.Size = new System.Drawing.Size(321, 24);
+			this.lProgressBar1.Size = new System.Drawing.Size(407, 24);
 			this.lProgressBar1.TabIndex = 30;
 			this.lProgressBar1.Value = 0;
 			// 
@@ -486,24 +509,14 @@
 			this.thumbnail1.TabIndex = 0;
 			this.thumbnail1.TabStop = false;
 			// 
-			// btnViewExistingTumblrPost
-			// 
-			this.btnViewExistingTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnViewExistingTumblrPost.Location = new System.Drawing.Point(339, 545);
-			this.btnViewExistingTumblrPost.Name = "btnViewExistingTumblrPost";
-			this.btnViewExistingTumblrPost.Size = new System.Drawing.Size(80, 24);
-			this.btnViewExistingTumblrPost.TabIndex = 44;
-			this.btnViewExistingTumblrPost.Text = "View Existing";
-			this.btnViewExistingTumblrPost.UseVisualStyleBackColor = true;
-			this.btnViewExistingTumblrPost.Click += new System.EventHandler(this.btnViewExistingTumblrPost_Click);
-			// 
 			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(554, 581);
+			this.ClientSize = new System.Drawing.Size(554, 611);
 			this.Controls.Add(this.lProgressBar1);
-			this.Controls.Add(this.btnViewExistingTumblrPost);
 			this.Controls.Add(this.previewPanel);
+			this.Controls.Add(this.lblAlreadyPosted);
+			this.Controls.Add(this.lnkTumblrPost);
 			this.Controls.Add(this.lblTitle);
 			this.Controls.Add(this.txtTitle);
 			this.Controls.Add(this.chkHTMLPreview);
@@ -590,7 +603,8 @@
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.Button btnViewExistingTumblrPost;
+		private System.Windows.Forms.LinkLabel lnkTumblrPost;
+		private System.Windows.Forms.Label lblAlreadyPosted;
 	}
 }
 
