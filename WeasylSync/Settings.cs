@@ -23,6 +23,9 @@ namespace WeasylSync {
 
 			public string TokenKey { get; set; }
 			public string TokenSecret { get; set; }
+
+			public bool IncludeWeasylTag { get; set; }
+			public bool LookForWeasylTag { get; set; }
 		}
 
 		public TumblrSettings Tumblr { get; set; }
@@ -53,7 +56,9 @@ namespace WeasylSync {
 						Footer = "<p><a href=\"{URL}\">View on Weasyl</a></p>",
 						Tags = "#art",
 						TokenKey = null,
-						TokenSecret = null
+						TokenSecret = null,
+						IncludeWeasylTag = true,
+						LookForWeasylTag = true
 					}
 				};
 				return s;

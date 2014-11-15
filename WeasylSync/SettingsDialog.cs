@@ -30,6 +30,9 @@ namespace WeasylSync {
 			Settings.Tumblr.Footer = txtFooter.Text;
 			Settings.Tumblr.Tags = txtTags.Text;
 
+			Settings.Tumblr.IncludeWeasylTag = chkWeasylSubmitIdTag.Checked;
+			Settings.Tumblr.LookForWeasylTag = chkTagSearch.Checked;
+
 			Settings.Save();
 		}
 
@@ -49,6 +52,9 @@ namespace WeasylSync {
 			txtHeader.Text = Settings.Tumblr.Header ?? "";
 			txtFooter.Text = Settings.Tumblr.Footer ?? "";
 			txtTags.Text = Settings.Tumblr.Tags;
+
+			chkWeasylSubmitIdTag.Checked = Settings.Tumblr.IncludeWeasylTag;
+			chkTagSearch.Checked = Settings.Tumblr.LookForWeasylTag;
 
 			UpdateTokenLabel();
 		}

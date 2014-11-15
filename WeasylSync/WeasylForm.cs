@@ -96,6 +96,8 @@ namespace WeasylSync {
 			// Global tags that you can include in each submission if you want.
 			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "";
 
+			chkWeasylSubmitIdTag.Checked = GlobalSettings.Tumblr.IncludeWeasylTag;
+
 			if (refreshGallery) UpdateGalleryAsync();
 		}
 
@@ -181,7 +183,11 @@ namespace WeasylSync {
 				return;
 			}
 
-			if (Tumblr != null) {
+			if (!GlobalSettings.Tumblr.LookForWeasylTag) {
+				this.btnPost.Enabled = true;
+				this.lblAlreadyPosted.Text = "";
+				this.lnkTumblrPost.Text = "";
+			} else if (Tumblr != null) {
 				this.btnPost.Enabled = false;
 				this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
 				this.lnkTumblrPost.Text = "";
@@ -414,10 +420,10 @@ namespace WeasylSync {
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var d = new AboutDialog()) d.ShowDialog(this);
 		}
-		#endregion
 
 		private void lnkTumblrPost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTumblrPost.Text);
 		}
+		#endregion
 	}
 }

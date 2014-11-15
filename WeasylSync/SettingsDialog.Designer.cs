@@ -35,9 +35,6 @@
 			this.txtHeader = new System.Windows.Forms.TextBox();
 			this.lblTokenInfo = new System.Windows.Forms.Label();
 			this.btnTumblrSignIn = new System.Windows.Forms.Button();
-			this.menuSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.menuItemPrivate = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuItemIECookies = new System.Windows.Forms.ToolStripMenuItem();
 			this.lblTokenStatus = new System.Windows.Forms.Label();
 			this.lblToken = new System.Windows.Forms.Label();
 			this.lblTags = new System.Windows.Forms.Label();
@@ -46,8 +43,13 @@
 			this.txtFooter = new System.Windows.Forms.TextBox();
 			this.lblBlogName = new System.Windows.Forms.Label();
 			this.txtBlogName = new System.Windows.Forms.TextBox();
+			this.menuSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.menuItemPrivate = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuItemIECookies = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
+			this.chkTagSearch = new System.Windows.Forms.CheckBox();
 			this.groupWeasyl.SuspendLayout();
 			this.groupTumblr.SuspendLayout();
 			this.menuSignIn.SuspendLayout();
@@ -108,6 +110,8 @@
 			// 
 			this.groupTumblr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupTumblr.Controls.Add(this.chkTagSearch);
+			this.groupTumblr.Controls.Add(this.chkWeasylSubmitIdTag);
 			this.groupTumblr.Controls.Add(this.lblHeader);
 			this.groupTumblr.Controls.Add(this.txtHeader);
 			this.groupTumblr.Controls.Add(this.lblTokenInfo);
@@ -122,7 +126,7 @@
 			this.groupTumblr.Controls.Add(this.txtBlogName);
 			this.groupTumblr.Location = new System.Drawing.Point(12, 89);
 			this.groupTumblr.Name = "groupTumblr";
-			this.groupTumblr.Size = new System.Drawing.Size(410, 213);
+			this.groupTumblr.Size = new System.Drawing.Size(410, 259);
 			this.groupTumblr.TabIndex = 4;
 			this.groupTumblr.TabStop = false;
 			this.groupTumblr.Text = "Tumblr";
@@ -164,28 +168,6 @@
 			this.btnTumblrSignIn.Text = "Sign in";
 			this.btnTumblrSignIn.UseVisualStyleBackColor = true;
 			this.btnTumblrSignIn.Click += new System.EventHandler(this.btnTumblrSignIn_Click);
-			// 
-			// menuSignIn
-			// 
-			this.menuSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemPrivate,
-            this.menuItemIECookies});
-			this.menuSignIn.Name = "menuSignIn";
-			this.menuSignIn.Size = new System.Drawing.Size(287, 48);
-			// 
-			// menuItemPrivate
-			// 
-			this.menuItemPrivate.Name = "menuItemPrivate";
-			this.menuItemPrivate.Size = new System.Drawing.Size(286, 22);
-			this.menuItemPrivate.Text = "Use private browser session (default)";
-			this.menuItemPrivate.Click += new System.EventHandler(this.menuItemPrivate_Click);
-			// 
-			// menuItemIECookies
-			// 
-			this.menuItemIECookies.Name = "menuItemIECookies";
-			this.menuItemIECookies.Size = new System.Drawing.Size(286, 22);
-			this.menuItemIECookies.Text = "Use cookies/login from Internet Explorer";
-			this.menuItemIECookies.Click += new System.EventHandler(this.menuItemIECookies_Click);
 			// 
 			// lblTokenStatus
 			// 
@@ -259,11 +241,33 @@
 			this.txtBlogName.Size = new System.Drawing.Size(321, 20);
 			this.txtBlogName.TabIndex = 0;
 			// 
+			// menuSignIn
+			// 
+			this.menuSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuItemPrivate,
+            this.menuItemIECookies});
+			this.menuSignIn.Name = "menuSignIn";
+			this.menuSignIn.Size = new System.Drawing.Size(287, 48);
+			// 
+			// menuItemPrivate
+			// 
+			this.menuItemPrivate.Name = "menuItemPrivate";
+			this.menuItemPrivate.Size = new System.Drawing.Size(286, 22);
+			this.menuItemPrivate.Text = "Use private browser session (default)";
+			this.menuItemPrivate.Click += new System.EventHandler(this.menuItemPrivate_Click);
+			// 
+			// menuItemIECookies
+			// 
+			this.menuItemIECookies.Name = "menuItemIECookies";
+			this.menuItemIECookies.Size = new System.Drawing.Size(286, 22);
+			this.menuItemIECookies.Text = "Use cookies/login from Internet Explorer";
+			this.menuItemIECookies.Click += new System.EventHandler(this.menuItemIECookies_Click);
+			// 
 			// btnSave
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnSave.Location = new System.Drawing.Point(266, 308);
+			this.btnSave.Location = new System.Drawing.Point(266, 354);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 23);
 			this.btnSave.TabIndex = 5;
@@ -275,12 +279,32 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(347, 308);
+			this.btnCancel.Location = new System.Drawing.Point(347, 354);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			// 
+			// chkWeasylSubmitIdTag
+			// 
+			this.chkWeasylSubmitIdTag.AutoSize = true;
+			this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(9, 213);
+			this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
+			this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(299, 17);
+			this.chkWeasylSubmitIdTag.TabIndex = 14;
+			this.chkWeasylSubmitIdTag.Text = "Include #weasyl****** tag by default (e.g. #weasyl705287)";
+			this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = true;
+			// 
+			// chkTagSearch
+			// 
+			this.chkTagSearch.AutoSize = true;
+			this.chkTagSearch.Location = new System.Drawing.Point(9, 236);
+			this.chkTagSearch.Name = "chkTagSearch";
+			this.chkTagSearch.Size = new System.Drawing.Size(357, 17);
+			this.chkTagSearch.TabIndex = 15;
+			this.chkTagSearch.Text = "Use tag to check previous Tumblr posts and allow them to be updated";
+			this.chkTagSearch.UseVisualStyleBackColor = true;
 			// 
 			// SettingsDialog
 			// 
@@ -288,7 +312,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(434, 343);
+			this.ClientSize = new System.Drawing.Size(434, 389);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.groupTumblr);
@@ -329,5 +353,7 @@
 		private System.Windows.Forms.ContextMenuStrip menuSignIn;
 		private System.Windows.Forms.ToolStripMenuItem menuItemPrivate;
 		private System.Windows.Forms.ToolStripMenuItem menuItemIECookies;
+		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
+		private System.Windows.Forms.CheckBox chkTagSearch;
 	}
 }

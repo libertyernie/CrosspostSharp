@@ -237,7 +237,7 @@
 			this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
 			this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(102, 20);
 			this.chkWeasylSubmitIdTag.TabIndex = 4;
-			this.chkWeasylSubmitIdTag.Text = "#weasyl000000";
+			this.chkWeasylSubmitIdTag.Text = "#weasyl******";
 			this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = true;
 			// 
 			// txtTags2
