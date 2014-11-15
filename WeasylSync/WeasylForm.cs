@@ -172,13 +172,37 @@ namespace WeasylSync {
 			t.Start();
 			return t;
 		}
+		#endregion
+
+		#region Tumblr lookup
+		private void UpdateExistingPostLink() {
+			if (this.InvokeRequired) {
+				this.BeginInvoke(new Action(UpdateExistingPostLink));
+				return;
+			}
+
+			if (Tumblr != null) {
+				this.btnPost.Enabled = false;
+				this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
+				this.lnkTumblrPost.Text = "";
+				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
+					this.ExistingPost = t.Result.Result.FirstOrDefault();
+					if (this.ExistingPost != null) {
+						SetCorresponsingPostUrl(this.ExistingPost.Url);
+					} else {
+						SetCorresponsingPostUrl(null);
+					}
+				});
+			}
+		}
 
 		public void SetCorresponsingPostUrl(string url) {
 			if (this.InvokeRequired) {
 				this.Invoke(new Action<string>(SetCorresponsingPostUrl), url);
 				return;
 			}
-			
+
+			this.btnPost.Enabled = true;
 			if (string.IsNullOrEmpty(url)) {
 				this.lblAlreadyPosted.Text = "";
 				this.lnkTumblrPost.Text = "";
@@ -247,26 +271,6 @@ namespace WeasylSync {
 		#endregion
 
 		#region Tumblr
-		private void UpdateExistingPostLink() {
-			if (this.InvokeRequired) {
-				this.BeginInvoke(new Action(UpdateExistingPostLink));
-				return;
-			}
-
-			this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
-			this.lnkTumblrPost.Text = "";
-			if (Tumblr != null) {
-				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
-					this.ExistingPost = t.Result.Result.FirstOrDefault();
-					if (this.ExistingPost != null) {
-						SetCorresponsingPostUrl(this.ExistingPost.Url);
-					} else {
-						SetCorresponsingPostUrl(null);
-					}
-				});
-			}
-		}
-
 		private void CreateTumblrClient_GetNewToken() {
 			Token token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
 			if (token == null) {
