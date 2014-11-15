@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LWeasyl {
+namespace WeasylSyncLib {
 	public class Submission {
 		public string link { get; set; }
 		public SubmissionMedia media { get; set; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LWeasyl {
+namespace WeasylSyncLib {
 	public class SubmissionDetail : Submission {
 		public int comments { get; set; }
 		public string description { get; set; }

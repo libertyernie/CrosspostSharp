@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LWeasyl;
+using WeasylSyncLib;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;

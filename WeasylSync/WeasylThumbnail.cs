@@ -1,5 +1,5 @@
 ﻿using DontPanic.TumblrSharp;
-using LWeasyl;
+using WeasylSyncLib;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
