@@ -10,6 +10,11 @@ using System.Windows.Forms;
 
 namespace WeasylSync {
 	public partial class PostAlreadyExistsDialog : Form {
+		public static class Result {
+			public const DialogResult Replace = DialogResult.Yes;
+			public const DialogResult AddNew = DialogResult.No;
+		}
+
 		public PostAlreadyExistsDialog(string tag, string tumblrUrl) {
 			InitializeComponent();
 

@@ -25,9 +25,10 @@
 		private void InitializeComponent() {
 			this.lblMessage = new System.Windows.Forms.Label();
 			this.lblQuestion = new System.Windows.Forms.Label();
-			this.btnOkay = new System.Windows.Forms.Button();
+			this.btnReplace = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.lnkTumblrPost = new System.Windows.Forms.LinkLabel();
+			this.btnAddNew = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lblMessage
@@ -51,19 +52,19 @@
 			this.lblQuestion.Name = "lblQuestion";
 			this.lblQuestion.Size = new System.Drawing.Size(310, 16);
 			this.lblQuestion.TabIndex = 2;
-			this.lblQuestion.Text = "Are you sure you want to add a new post?";
+			this.lblQuestion.Text = "Would you like to update the existing post or add a new one?";
 			this.lblQuestion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// btnOkay
+			// btnReplace
 			// 
-			this.btnOkay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnOkay.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnOkay.Location = new System.Drawing.Point(166, 101);
-			this.btnOkay.Name = "btnOkay";
-			this.btnOkay.Size = new System.Drawing.Size(75, 23);
-			this.btnOkay.TabIndex = 3;
-			this.btnOkay.Text = "OK";
-			this.btnOkay.UseVisualStyleBackColor = true;
+			this.btnReplace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnReplace.DialogResult = System.Windows.Forms.DialogResult.Yes;
+			this.btnReplace.Location = new System.Drawing.Point(15, 101);
+			this.btnReplace.Name = "btnReplace";
+			this.btnReplace.Size = new System.Drawing.Size(75, 23);
+			this.btnReplace.TabIndex = 3;
+			this.btnReplace.Text = "Replace";
+			this.btnReplace.UseVisualStyleBackColor = true;
 			// 
 			// btnCancel
 			// 
@@ -90,13 +91,27 @@
 			this.lnkTumblrPost.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lnkTumblrPost.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTumblrPost_LinkClicked);
 			// 
+			// btnAddNew
+			// 
+			this.btnAddNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnAddNew.DialogResult = System.Windows.Forms.DialogResult.No;
+			this.btnAddNew.Location = new System.Drawing.Point(96, 101);
+			this.btnAddNew.Name = "btnAddNew";
+			this.btnAddNew.Size = new System.Drawing.Size(75, 23);
+			this.btnAddNew.TabIndex = 5;
+			this.btnAddNew.Text = "Add New";
+			this.btnAddNew.UseVisualStyleBackColor = true;
+			// 
 			// PostAlreadyExistsDialog
 			// 
+			this.AcceptButton = this.btnCancel;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(334, 136);
+			this.Controls.Add(this.btnAddNew);
 			this.Controls.Add(this.btnCancel);
-			this.Controls.Add(this.btnOkay);
+			this.Controls.Add(this.btnReplace);
 			this.Controls.Add(this.lblQuestion);
 			this.Controls.Add(this.lnkTumblrPost);
 			this.Controls.Add(this.lblMessage);
@@ -110,8 +125,9 @@
 
 		private System.Windows.Forms.Label lblMessage;
 		private System.Windows.Forms.Label lblQuestion;
-		private System.Windows.Forms.Button btnOkay;
+		private System.Windows.Forms.Button btnReplace;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.LinkLabel lnkTumblrPost;
+		private System.Windows.Forms.Button btnAddNew;
 	}
 }

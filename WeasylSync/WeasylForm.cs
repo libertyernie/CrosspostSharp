@@ -34,6 +34,9 @@ namespace WeasylSync {
 		// Used for paging.
 		private int? backid, nextid;
 
+		// The existing Tumblr post for the selected Weasyl submission, if any - looked up by using the #weasylXXXXXX tag.
+		private BasePost ExistingPost;
+
 		// Allows WeasylThumbnail access to the progress bar.
 		// Functions that use the progress bar should lock on it first.
 		public LProgressBar LProgressBar {
@@ -245,12 +248,18 @@ namespace WeasylSync {
 
 		#region Tumblr
 		private void UpdateExistingPostLink() {
+			if (this.InvokeRequired) {
+				this.BeginInvoke(new Action(UpdateExistingPostLink));
+				return;
+			}
+
 			this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
 			this.lnkTumblrPost.Text = "";
 			if (Tumblr != null) {
 				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
-					if (t.Result.Result.Any()) {
-						SetCorresponsingPostUrl(t.Result.Result.First().Url);
+					this.ExistingPost = t.Result.Result.FirstOrDefault();
+					if (this.ExistingPost != null) {
+						SetCorresponsingPostUrl(this.ExistingPost.Url);
 					} else {
 						SetCorresponsingPostUrl(null);
 					}
@@ -277,7 +286,7 @@ namespace WeasylSync {
 			return Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag);
 		}
 
-		private void PostToTumblr(bool forceNew = false) {
+		private void PostToTumblr1() {
 			if (this.currentImage == null) {
 				MessageBox.Show("No image is selected.");
 				return;
@@ -293,42 +302,56 @@ namespace WeasylSync {
 			lProgressBar1.Value = 0;
 			lProgressBar1.Visible = true;
 
-			if (forceNew == false) {
-				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
-					lProgressBar1.Value = 1;
-					if (!t.Result.Result.Any()) {
-						PostToTumblr(true);
-					} else if (new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, t.Result.Result.First().Url).ShowDialog() == DialogResult.OK) {
-						PostToTumblr(true);
-					} else {
-						lProgressBar1.Visible = false;
-					}
-				});
-				return;
-			} else {
-				lProgressBar1.Value = 2;
+			lProgressBar1.Value = 1;
 
-				var tags = new List<string>();
-				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-				if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-				if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-
-				PostData post = PostData.CreatePhoto(new BinaryFile[] { this.currentImage }, CompileHTML(), txtURL.Text, tags);
-				post.Date = chkNow.Checked
-					? (DateTimeOffset?)null
-					: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
-
-				Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post).ContinueWith((t) => {
-				//Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, 102485978051, post).ContinueWith((t) => {
+			long? updateid = null;
+			if (this.ExistingPost!= null) {
+				DialogResult result = new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, this.ExistingPost.Url).ShowDialog();
+				if (result == DialogResult.Cancel) {
 					lProgressBar1.Visible = false;
-					if (t.Exception != null && t.Exception is AggregateException) {
-						var messages = t.Exception.InnerExceptions.Select(x => x.Message);
-						MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
-					} else {
-						UpdateExistingPostLink();
-					}
-				});
+					return;
+				} else if (result == PostAlreadyExistsDialog.Result.Replace) {
+					updateid = this.ExistingPost.Id;
+				}
 			}
+
+			if (this.currentImage == null) {
+				MessageBox.Show("No image is selected.");
+				return;
+			}
+
+			if (Tumblr == null) CreateTumblrClient_GetNewToken();
+			if (Tumblr == null) {
+				MessageBox.Show("Posting cancelled.");
+				return;
+			}
+
+			lProgressBar1.Maximum = 2;
+			lProgressBar1.Value = 2;
+			lProgressBar1.Visible = true;
+
+			var tags = new List<string>();
+			if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+
+			PostData post = PostData.CreatePhoto(new BinaryFile[] { this.currentImage }, CompileHTML(), txtURL.Text, tags);
+			post.Date = chkNow.Checked
+				? (DateTimeOffset?)null
+				: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
+
+			Task<PostCreationInfo> task = updateid == null
+				? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
+				: Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
+			task.ContinueWith((t) => {
+				lProgressBar1.Visible = false;
+				if (t.Exception != null && t.Exception is AggregateException) {
+					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
+					MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
+				} else {
+					UpdateExistingPostLink();
+				}
+			});
 		}
 		#endregion
 
@@ -346,7 +369,7 @@ namespace WeasylSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs args) {
-			PostToTumblr();
+			PostToTumblr1();
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
