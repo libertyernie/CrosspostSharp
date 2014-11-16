@@ -126,7 +126,7 @@ namespace WeasylSync {
 			this.currentSubmission = submission;
 			if (submission != null) {
 				txtTitle.Text = submission.title;
-				txtDescription.Text = submission.description;
+				txtDescription.Text = submission.GetDescription(true);
 				txtURL.Text = submission.link;
 				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
 				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
