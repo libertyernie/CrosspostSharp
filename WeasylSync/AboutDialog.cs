@@ -22,5 +22,9 @@ namespace WeasylSync {
 		private void lnkJsonNET_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start("http://james.newtonking.com/json");
 		}
+
+		private void lnkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			Process.Start(lnkWebsite.Text);
+		}
 	}
 }

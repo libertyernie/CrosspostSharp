@@ -107,8 +107,8 @@ namespace WeasylSync {
 			lblWeasylStatus2.Text = WeasylUsername ?? "not logged in";
 			lblWeasylStatus2.ForeColor = WeasylUsername == null ? SystemColors.WindowText : Color.DarkGreen;
 
-			lblTumblrStatus2.Text = TumblrUsername ?? TumblrExceptionMsg;
-			lblTumblrStatus2.ForeColor = TumblrUsername != null ? Color.DarkGreen : Color.DarkRed;
+			lblTumblrStatus2.Text = TumblrUsername ?? TumblrExceptionMsg ?? "not logged in";
+			lblTumblrStatus2.ForeColor = TumblrUsername == null ? SystemColors.WindowText : Color.DarkGreen;
 
 			txtHeader.Text = GlobalSettings.Tumblr.Header ?? "";
 			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";

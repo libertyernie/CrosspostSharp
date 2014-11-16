@@ -7,6 +7,8 @@ WeasylSync is a Windows desktop application that loads individual submissions
 from Weasyl and lets you post them to your Tumblr account, maintaining the
 title, description, and tags.
 
+Only visual submissions (artwork) are supported at this time.
+
 Requirements:
 
 * Windows Vista or higher

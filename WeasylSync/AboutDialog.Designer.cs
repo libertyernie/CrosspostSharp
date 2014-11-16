@@ -32,6 +32,7 @@
 			this.btnOkay = new System.Windows.Forms.Button();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.lnkTumblrSharp = new System.Windows.Forms.LinkLabel();
+			this.lnkWebsite = new System.Windows.Forms.LinkLabel();
 			this.SuspendLayout();
 			// 
 			// lblTitle
@@ -107,7 +108,7 @@
 			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Location = new System.Drawing.Point(12, 43);
+			this.textBox1.Location = new System.Drawing.Point(12, 67);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ReadOnly = true;
@@ -128,11 +129,23 @@
 			this.lnkTumblrSharp.Text = "Tumblr#:";
 			this.lnkTumblrSharp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTumblrSharp_LinkClicked);
 			// 
+			// lnkWebsite
+			// 
+			this.lnkWebsite.AutoSize = true;
+			this.lnkWebsite.Location = new System.Drawing.Point(12, 44);
+			this.lnkWebsite.Name = "lnkWebsite";
+			this.lnkWebsite.Size = new System.Drawing.Size(214, 13);
+			this.lnkWebsite.TabIndex = 11;
+			this.lnkWebsite.TabStop = true;
+			this.lnkWebsite.Text = "https://github.com/libertyernie/WeasylSync";
+			this.lnkWebsite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWebsite_LinkClicked);
+			// 
 			// AboutDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(484, 411);
+			this.Controls.Add(this.lnkWebsite);
 			this.Controls.Add(this.lblBoth);
 			this.Controls.Add(this.lnkJsonNET);
 			this.Controls.Add(this.lblJsonNETCopyright);
@@ -158,5 +171,6 @@
 		private System.Windows.Forms.Label lblBoth;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.LinkLabel lnkTumblrSharp;
+		private System.Windows.Forms.LinkLabel lnkWebsite;
 	}
 }

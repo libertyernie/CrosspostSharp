@@ -51,7 +51,7 @@ namespace WeasylSync {
 						APIKey = null
 					},
 					Tumblr = new TumblrSettings {
-						BlogName = "example",
+						BlogName = "",
 						Header = "<p><b>{TITLE}</b></p>",
 						Footer = "<p><a href=\"{URL}\">View on Weasyl</a></p>",
 						Tags = "#art",
