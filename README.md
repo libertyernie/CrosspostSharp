@@ -59,6 +59,7 @@ represented by the symbol [X].
 * [X] Tags for this submission on Weasyl
 * [X] Other tags (default value is in settings)
 * [X] #weasyl\*\*\*\*\*\* tag
+* Post to Tumblr button
 
 When you post to Tumblr, the header, body and footer templates will be put
 together, and occurences of {TITLE} or {URL} will be replaced with the
@@ -75,6 +76,8 @@ If a checkbox is not checked, the content in the adajcent box will not be used.
 
 Settings
 --------
+
+Settings are stored in the file WeasylSync.json.
 
 * Weasyl
   * API key: discussed above. Your Weasyl username will be detected automatically.
