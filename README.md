@@ -60,14 +60,14 @@ represented by the symbol [X].
 *     URL - any appearance of {URL} will be replaced with this text
 * [X] Tags for this submission on Weasyl
 * [X] Other tags (default value is in settings)
-* [X] #weasyl\*\*\*\*\*\* tag
+* [X] #weasylXXXXXX tag
 * Post to Tumblr button
 
 When you post to Tumblr, the header, body and footer templates will be put
 together, and occurences of {TITLE} or {URL} will be replaced with the
 appropriate values. This will form the photo caption / text.
 
-The tags will be combined and separated by space. The #weasyl\*\*\*\*\*\* tag can be
+The tags will be combined and separated by space. The #weasylXXXXXX tag can be
 added to tie your Tumblr post back to the original on Weasyl, so WeasylSync
 can find it later and offer to update an existing post instead of adding a new
 one. To update a post previously made with WeasylSync, load the corresponding
@@ -93,10 +93,10 @@ Settings are stored in the file WeasylSync.json.
   * TokenKey: The key of your OAuth token for Tumblr authentication.
   * TokenSecret: The secret part of the Tumblr OAuth token. The key and secret
     together are how WeasylSync accesses your Tumblr account.
-  * IncludeWeasylTag: determines whether the #weasyl\*\*\*\*\*\* tag is included by
+  * IncludeWeasylTag: determines whether the #weasylXXXXXX tag is included by
     default.
   * LookForWeasylTag: determines whether WeasylSync will search your Tumblr
-    for posts with a matching #weasyl\*\*\*\*\*\* tag when you load a Weasyl
+    for posts with a matching #weasylXXXXXX tag when you load a Weasyl
 	submission. If you disable this feature, WeasylSync will not offer to update
 	existing posts.
 
