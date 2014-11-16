@@ -141,7 +141,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LWeasyl\WeasylSyncLib.csproj">
+    <ProjectReference Include="..\WeasylSyncLib\WeasylSyncLib.csproj">
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
       <Name>WeasylSyncLib</Name>
     </ProjectReference>

@@ -28,9 +28,9 @@
 			this.groupWeasyl = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.txtWeasylAPIKey = new System.Windows.Forms.TextBox();
-			this.lblWeasylUsername = new System.Windows.Forms.Label();
-			this.txtWeasylUsername = new System.Windows.Forms.TextBox();
 			this.groupTumblr = new System.Windows.Forms.GroupBox();
+			this.chkTagSearch = new System.Windows.Forms.CheckBox();
+			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
 			this.lblHeader = new System.Windows.Forms.Label();
 			this.txtHeader = new System.Windows.Forms.TextBox();
 			this.lblTokenInfo = new System.Windows.Forms.Label();
@@ -48,8 +48,6 @@
 			this.menuItemIECookies = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
-			this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
-			this.chkTagSearch = new System.Windows.Forms.CheckBox();
 			this.groupWeasyl.SuspendLayout();
 			this.groupTumblr.SuspendLayout();
 			this.menuSignIn.SuspendLayout();
@@ -61,11 +59,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupWeasyl.Controls.Add(this.label1);
 			this.groupWeasyl.Controls.Add(this.txtWeasylAPIKey);
-			this.groupWeasyl.Controls.Add(this.lblWeasylUsername);
-			this.groupWeasyl.Controls.Add(this.txtWeasylUsername);
 			this.groupWeasyl.Location = new System.Drawing.Point(12, 12);
 			this.groupWeasyl.Name = "groupWeasyl";
-			this.groupWeasyl.Size = new System.Drawing.Size(410, 71);
+			this.groupWeasyl.Size = new System.Drawing.Size(410, 45);
 			this.groupWeasyl.TabIndex = 0;
 			this.groupWeasyl.TabStop = false;
 			this.groupWeasyl.Text = "Weasyl";
@@ -73,7 +69,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(6, 48);
+			this.label1.Location = new System.Drawing.Point(6, 22);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(48, 13);
 			this.label1.TabIndex = 3;
@@ -83,28 +79,10 @@
 			// 
 			this.txtWeasylAPIKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtWeasylAPIKey.Location = new System.Drawing.Point(83, 45);
+			this.txtWeasylAPIKey.Location = new System.Drawing.Point(83, 19);
 			this.txtWeasylAPIKey.Name = "txtWeasylAPIKey";
 			this.txtWeasylAPIKey.Size = new System.Drawing.Size(321, 20);
 			this.txtWeasylAPIKey.TabIndex = 2;
-			// 
-			// lblWeasylUsername
-			// 
-			this.lblWeasylUsername.AutoSize = true;
-			this.lblWeasylUsername.Location = new System.Drawing.Point(6, 22);
-			this.lblWeasylUsername.Name = "lblWeasylUsername";
-			this.lblWeasylUsername.Size = new System.Drawing.Size(58, 13);
-			this.lblWeasylUsername.TabIndex = 1;
-			this.lblWeasylUsername.Text = "Username:";
-			// 
-			// txtWeasylUsername
-			// 
-			this.txtWeasylUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtWeasylUsername.Location = new System.Drawing.Point(83, 19);
-			this.txtWeasylUsername.Name = "txtWeasylUsername";
-			this.txtWeasylUsername.Size = new System.Drawing.Size(321, 20);
-			this.txtWeasylUsername.TabIndex = 0;
 			// 
 			// groupTumblr
 			// 
@@ -124,12 +102,32 @@
 			this.groupTumblr.Controls.Add(this.txtFooter);
 			this.groupTumblr.Controls.Add(this.lblBlogName);
 			this.groupTumblr.Controls.Add(this.txtBlogName);
-			this.groupTumblr.Location = new System.Drawing.Point(12, 89);
+			this.groupTumblr.Location = new System.Drawing.Point(12, 63);
 			this.groupTumblr.Name = "groupTumblr";
 			this.groupTumblr.Size = new System.Drawing.Size(410, 259);
 			this.groupTumblr.TabIndex = 4;
 			this.groupTumblr.TabStop = false;
 			this.groupTumblr.Text = "Tumblr";
+			// 
+			// chkTagSearch
+			// 
+			this.chkTagSearch.AutoSize = true;
+			this.chkTagSearch.Location = new System.Drawing.Point(9, 236);
+			this.chkTagSearch.Name = "chkTagSearch";
+			this.chkTagSearch.Size = new System.Drawing.Size(357, 17);
+			this.chkTagSearch.TabIndex = 15;
+			this.chkTagSearch.Text = "Use tag to check previous Tumblr posts and allow them to be updated";
+			this.chkTagSearch.UseVisualStyleBackColor = true;
+			// 
+			// chkWeasylSubmitIdTag
+			// 
+			this.chkWeasylSubmitIdTag.AutoSize = true;
+			this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(9, 213);
+			this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
+			this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(299, 17);
+			this.chkWeasylSubmitIdTag.TabIndex = 14;
+			this.chkWeasylSubmitIdTag.Text = "Include #weasyl****** tag by default (e.g. #weasyl705287)";
+			this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = true;
 			// 
 			// lblHeader
 			// 
@@ -267,7 +265,7 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnSave.Location = new System.Drawing.Point(266, 354);
+			this.btnSave.Location = new System.Drawing.Point(266, 328);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 23);
 			this.btnSave.TabIndex = 5;
@@ -279,32 +277,12 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(347, 354);
+			this.btnCancel.Location = new System.Drawing.Point(347, 328);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
-			// 
-			// chkWeasylSubmitIdTag
-			// 
-			this.chkWeasylSubmitIdTag.AutoSize = true;
-			this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(9, 213);
-			this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
-			this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(299, 17);
-			this.chkWeasylSubmitIdTag.TabIndex = 14;
-			this.chkWeasylSubmitIdTag.Text = "Include #weasyl****** tag by default (e.g. #weasyl705287)";
-			this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = true;
-			// 
-			// chkTagSearch
-			// 
-			this.chkTagSearch.AutoSize = true;
-			this.chkTagSearch.Location = new System.Drawing.Point(9, 236);
-			this.chkTagSearch.Name = "chkTagSearch";
-			this.chkTagSearch.Size = new System.Drawing.Size(357, 17);
-			this.chkTagSearch.TabIndex = 15;
-			this.chkTagSearch.Text = "Use tag to check previous Tumblr posts and allow them to be updated";
-			this.chkTagSearch.UseVisualStyleBackColor = true;
 			// 
 			// SettingsDialog
 			// 
@@ -312,7 +290,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(434, 389);
+			this.ClientSize = new System.Drawing.Size(434, 363);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.groupTumblr);
@@ -331,8 +309,6 @@
 		#endregion
 
 		private System.Windows.Forms.GroupBox groupWeasyl;
-		private System.Windows.Forms.TextBox txtWeasylUsername;
-		private System.Windows.Forms.Label lblWeasylUsername;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox txtWeasylAPIKey;
 		private System.Windows.Forms.GroupBox groupTumblr;
