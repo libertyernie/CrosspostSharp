@@ -23,6 +23,8 @@ namespace WeasylSync {
 		public string WeasylUsername { get; private set; }
 
 		private TumblrClient Tumblr;
+		public string TumblrUsername { get; private set; }
+		public string TumblrExceptionMsg { get; private set; }
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
@@ -52,44 +54,61 @@ namespace WeasylSync {
 
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
 
-			LoadFromSettings();
-
 			backid = nextid = null;
+
+			new Task(LoadFromSettings).Start();
 		}
 
 		#region GUI updates
 		private void LoadFromSettings() {
-			Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
+			lock (LProgressBar) {
+				LProgressBar.Value = 0;
+				LProgressBar.Maximum = 2;
+				LProgressBar.Visible = true;
 
-			Token token = GlobalSettings.TumblrToken;
-			if (token != null && token.IsValid) {
-				if (Tumblr != null) Tumblr.Dispose();
-				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
-					OAuthConsumer.CONSUMER_KEY,
-					OAuthConsumer.CONSUMER_SECRET,
-					token);
-			}
+				Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
 
-			User user = Weasyl.Whoami();
-			bool refreshGallery = user == null || WeasylUsername != user.login;
-			WeasylUsername = user == null ? null : user.login;
-			lblWeasylStatus2.Text = WeasylUsername ?? "not logged in";
-			lblWeasylStatus2.ForeColor = user == null ? SystemColors.WindowText : Color.DarkGreen;
-
-			if (Tumblr == null) {
-				lblTumblrStatus2.Text = "not logged in";
-				lblTumblrStatus2.ForeColor = SystemColors.WindowText;
-			} else {
-				try {
-					var t = Tumblr.GetUserInfoAsync();
-					t.Wait();
-					lblTumblrStatus2.Text = t.Result.Name;
-					lblTumblrStatus2.ForeColor = Color.DarkGreen;
-				} catch (AggregateException e) {
-					lblTumblrStatus2.Text = string.Join(", ", e.InnerExceptions.Select(x => x.Message));
-					lblTumblrStatus2.ForeColor = Color.DarkRed;
+				Token token = GlobalSettings.TumblrToken;
+				if (token != null && token.IsValid) {
+					if (Tumblr != null) Tumblr.Dispose();
+					Tumblr = new TumblrClientFactory().Create<TumblrClient>(
+						OAuthConsumer.CONSUMER_KEY,
+						OAuthConsumer.CONSUMER_SECRET,
+						token);
 				}
+
+				User user = Weasyl.Whoami();
+				bool refreshGallery = user == null || WeasylUsername != user.login;
+				WeasylUsername = user == null ? null : user.login;
+
+				LProgressBar.Value = 1;
+
+				if (Tumblr == null) {
+					lblTumblrStatus2.Text = "not logged in";
+					lblTumblrStatus2.ForeColor = SystemColors.WindowText;
+				} else {
+					try {
+						var t = Tumblr.GetUserInfoAsync();
+						t.Wait();
+						TumblrUsername = t.Result.Name;
+						TumblrExceptionMsg = null;
+					} catch (AggregateException e) {
+						TumblrUsername = null;
+						TumblrExceptionMsg = e.InnerException.Message;
+					}
+				}
+
+				LProgressBar.Visible = false;
+				this.BeginInvoke(new Action<bool>(UpdateSettingsInWindow), refreshGallery);
 			}
+		}
+
+		private void UpdateSettingsInWindow(bool refreshGallery) {
+			lblWeasylStatus2.Text = WeasylUsername ?? "not logged in";
+			lblWeasylStatus2.ForeColor = WeasylUsername == null ? SystemColors.WindowText : Color.DarkGreen;
+
+			lblTumblrStatus2.Text = TumblrUsername ?? TumblrExceptionMsg;
+			lblTumblrStatus2.ForeColor = TumblrUsername != null ? Color.DarkGreen : Color.DarkRed;
 
 			txtHeader.Text = GlobalSettings.Tumblr.Header ?? "";
 			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";
