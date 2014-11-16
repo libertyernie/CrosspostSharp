@@ -411,7 +411,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.previewPanel.Location = new System.Drawing.Point(142, 284);
 			this.previewPanel.Name = "previewPanel";
-			this.previewPanel.Size = new System.Drawing.Size(400, 257);
+			this.previewPanel.Size = new System.Drawing.Size(400, 183);
 			this.previewPanel.TabIndex = 43;
 			this.previewPanel.Visible = false;
 			// 
@@ -437,6 +437,8 @@
 			// 
 			// lnkTumblrPost
 			// 
+			this.lnkTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkTumblrPost.AutoEllipsis = true;
 			this.lnkTumblrPost.Location = new System.Drawing.Point(98, 553);
 			this.lnkTumblrPost.Name = "lnkTumblrPost";
@@ -447,6 +449,7 @@
 			// 
 			// lblAlreadyPosted
 			// 
+			this.lblAlreadyPosted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.lblAlreadyPosted.AutoSize = true;
 			this.lblAlreadyPosted.Location = new System.Drawing.Point(12, 553);
 			this.lblAlreadyPosted.Name = "lblAlreadyPosted";
