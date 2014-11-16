@@ -24,14 +24,18 @@ namespace WeasylSyncLib {
 
 				const string baseUrl = "http://www.weasyl.com";
 
+				// Convert all image URLs to absolute URLs
 				foreach (var img in doc.DocumentNode.Descendants("img")) {
 					img.Attributes["src"].Value = new Uri(new Uri(baseUrl), img.Attributes["src"].Value).AbsoluteUri;
 				}
 
+				// Convert all relative links to absolute URLS
 				foreach (var a in doc.DocumentNode.Descendants("a")) {
 					a.Attributes["href"].Value = new Uri(new Uri(baseUrl), a.Attributes["href"].Value).AbsoluteUri;
 
-					if (a.Attributes["class"].Value.Contains("user-icon")) {
+					// For links with a user-icon class, apply styles to the img tag within
+					var classAttribute = a.Attributes["class"];
+					if (classAttribute != null && classAttribute.Value.Contains("user-icon")) {
 						foreach (var img in a.Descendants("img")) {
 							img.Attributes.Add("style", "display: inline-block; height: 50px; vertical-align: middle; width: 50px");
 						}

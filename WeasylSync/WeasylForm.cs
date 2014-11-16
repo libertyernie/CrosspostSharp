@@ -278,6 +278,9 @@ namespace WeasylSync {
 			font: inherit;
 			vertical-align: baseline;
 		}
+		a img {
+			border: 0;
+		}
 	</style>
 </head>
 	<body>{HTML}</body>

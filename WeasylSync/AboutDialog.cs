@@ -15,6 +15,10 @@ namespace WeasylSync {
 			InitializeComponent();
 		}
 
+		private void lnkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			Process.Start(lnkWebsite.Text);
+		}
+
 		private void lnkTumblrSharp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start("http://tumblrsharp.codeplex.com/");
 		}
@@ -23,8 +27,12 @@ namespace WeasylSync {
 			Process.Start("http://james.newtonking.com/json");
 		}
 
-		private void lnkWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			Process.Start(lnkWebsite.Text);
+		private void lnkHtmlAgilityPack_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			Process.Start("http://htmlagilitypack.codeplex.com/");
+		}
+
+		private void lnkHtmlAgilityPackLicense2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			Process.Start("http://htmlagilitypack.codeplex.com/license");
 		}
 	}
 }
