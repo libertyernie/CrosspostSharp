@@ -81,24 +81,30 @@ Settings
 
 Settings are stored in the file WeasylSync.json.
 
+* Defaults
+  * HeaderHTML: default header template.
+  * FooterHTML: default footer template.
+  * Tags: default tags for the second tags box, in case you want to use the
+    same tags on every post.
+  * IncludeWeasylTag: determines whether the #weasylXXXXXX tag is included by
+    default.
+
 * Weasyl
   * API key: discussed above. Your Weasyl username will be detected automatically.
 
 * Tumblr
   * Blog: name of the blog to post to.
-  * Header: default header template (HTML).
-  * Footer: default footer template (HTML).
-  * Tags: default tags for the second tags box, in case you want to use the
-    same tags on every post.
   * TokenKey: The key of your OAuth token for Tumblr authentication.
   * TokenSecret: The secret part of the Tumblr OAuth token. The key and secret
     together are how WeasylSync accesses your Tumblr account.
-  * IncludeWeasylTag: determines whether the #weasylXXXXXX tag is included by
-    default.
-  * LookForWeasylTag: determines whether WeasylSync will search your Tumblr
+  * AutoSidePadding: If this is enabled and you post an image to Tumblr that
+    is taller than it is wide, WeasylSync will add transparent padding to the
+    left and right sides of the image so it doesn't appear too large on the
+    Tumblr dashboard.
+  * FindPreviousPost: determines whether WeasylSync will search your Tumblr
     for posts with a matching #weasylXXXXXX tag when you load a Weasyl
-	submission. If you disable this feature, WeasylSync will not offer to update
-	existing posts.
+    submission. If you disable this feature, WeasylSync will not offer to update
+    existing posts.
 
 Notes
 -----

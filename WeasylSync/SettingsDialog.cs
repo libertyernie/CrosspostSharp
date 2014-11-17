@@ -26,12 +26,14 @@ namespace WeasylSync {
 			if (Settings.Weasyl.APIKey == "") Settings.Weasyl.APIKey = null;
 
 			Settings.Tumblr.BlogName = txtBlogName.Text;
-			Settings.Tumblr.Header = txtHeader.Text;
-			Settings.Tumblr.Footer = txtFooter.Text;
-			Settings.Tumblr.Tags = txtTags.Text;
+			Settings.Tumblr.AutoSidePadding = chkSidePadding.Checked;
+			Settings.Tumblr.FindPreviousPost = chkTagSearch.Checked;
 
-			Settings.Tumblr.IncludeWeasylTag = chkWeasylSubmitIdTag.Checked;
-			Settings.Tumblr.LookForWeasylTag = chkTagSearch.Checked;
+			Settings.Defaults.HeaderHTML = txtHeader.Text;
+			Settings.Defaults.FooterHTML = txtFooter.Text;
+			Settings.Defaults.Tags = txtTags.Text;
+
+			Settings.Defaults.IncludeWeasylTag = chkWeasylSubmitIdTag.Checked;
 
 			Settings.Save();
 		}
@@ -49,12 +51,14 @@ namespace WeasylSync {
 			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
 
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
-			txtHeader.Text = Settings.Tumblr.Header ?? "";
-			txtFooter.Text = Settings.Tumblr.Footer ?? "";
-			txtTags.Text = Settings.Tumblr.Tags;
+			chkSidePadding.Checked = Settings.Tumblr.AutoSidePadding;
+			chkTagSearch.Checked = Settings.Tumblr.FindPreviousPost;
 
-			chkWeasylSubmitIdTag.Checked = Settings.Tumblr.IncludeWeasylTag;
-			chkTagSearch.Checked = Settings.Tumblr.LookForWeasylTag;
+			txtHeader.Text = Settings.Defaults.HeaderHTML ?? "";
+			txtFooter.Text = Settings.Defaults.FooterHTML ?? "";
+			txtTags.Text = Settings.Defaults.Tags;
+
+			chkWeasylSubmitIdTag.Checked = Settings.Defaults.IncludeWeasylTag;
 
 			UpdateTokenLabel();
 		}

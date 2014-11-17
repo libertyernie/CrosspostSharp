@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -21,6 +22,7 @@ namespace WeasylSync {
 
 		public WeasylAPI Weasyl { get; private set; }
 		public string WeasylUsername { get; private set; }
+		public string WeasylExceptionMsg { get; private set; }
 
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
@@ -32,6 +34,9 @@ namespace WeasylSync {
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
 		private SubmissionDetail currentSubmission;
 		private BinaryFile currentImage;
+
+		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
+		private Bitmap currentImageBitmap;
 
 		// Used for paging.
 		private int? backid, nextid;
@@ -77,12 +82,23 @@ namespace WeasylSync {
 						token);
 				}
 
-				User user = Weasyl.Whoami();
+				User user = null;
+				WeasylExceptionMsg = null;
+				try {
+					user = Weasyl.Whoami();
+				} catch (WebException e) {
+					if (e.Response is HttpWebResponse) {
+						WeasylExceptionMsg = ((HttpWebResponse)e.Response).StatusDescription;
+					} else {
+						WeasylExceptionMsg = e.Message;
+					}
+				}
 				bool refreshGallery = user == null || WeasylUsername != user.login;
 				WeasylUsername = user == null ? null : user.login;
 
 				LProgressBar.Value = 1;
 
+				TumblrExceptionMsg = null;
 				if (Tumblr == null) {
 					lblTumblrStatus2.Text = "not logged in";
 					lblTumblrStatus2.ForeColor = SystemColors.WindowText;
@@ -91,7 +107,6 @@ namespace WeasylSync {
 						var t = Tumblr.GetUserInfoAsync();
 						t.Wait();
 						TumblrUsername = t.Result.Name;
-						TumblrExceptionMsg = null;
 					} catch (AggregateException e) {
 						TumblrUsername = null;
 						TumblrExceptionMsg = e.InnerException.Message;
@@ -104,18 +119,18 @@ namespace WeasylSync {
 		}
 
 		private void UpdateSettingsInWindow(bool refreshGallery) {
-			lblWeasylStatus2.Text = WeasylUsername ?? "not logged in";
+			lblWeasylStatus2.Text = WeasylUsername ?? WeasylExceptionMsg ?? "not logged in";
 			lblWeasylStatus2.ForeColor = WeasylUsername == null ? SystemColors.WindowText : Color.DarkGreen;
 
 			lblTumblrStatus2.Text = TumblrUsername ?? TumblrExceptionMsg ?? "not logged in";
 			lblTumblrStatus2.ForeColor = TumblrUsername == null ? SystemColors.WindowText : Color.DarkGreen;
 
-			txtHeader.Text = GlobalSettings.Tumblr.Header ?? "";
-			txtFooter.Text = GlobalSettings.Tumblr.Footer ?? "";
+			txtHeader.Text = GlobalSettings.Defaults.HeaderHTML ?? "";
+			txtFooter.Text = GlobalSettings.Defaults.FooterHTML ?? "";
 			// Global tags that you can include in each submission if you want.
-			txtTags2.Text = GlobalSettings.Tumblr.Tags ?? "";
+			txtTags2.Text = GlobalSettings.Defaults.Tags ?? "";
 
-			chkWeasylSubmitIdTag.Checked = GlobalSettings.Tumblr.IncludeWeasylTag;
+			chkWeasylSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
 
 			if (refreshGallery) UpdateGalleryAsync();
 		}
@@ -137,10 +152,9 @@ namespace WeasylSync {
 			if (file == null) {
 				mainPictureBox.Image = null;
 			} else {
-				Image bitmap = null;
 				try {
-					bitmap = Bitmap.FromStream(new MemoryStream(file.Data));
-					mainPictureBox.Image = bitmap;
+					this.currentImageBitmap = (Bitmap)Bitmap.FromStream(new MemoryStream(file.Data));
+					mainPictureBox.Image = this.currentImageBitmap;
 				} catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
 					mainPictureBox.Image = null;
@@ -202,7 +216,7 @@ namespace WeasylSync {
 				return;
 			}
 
-			if (!GlobalSettings.Tumblr.LookForWeasylTag) {
+			if (!GlobalSettings.Tumblr.FindPreviousPost) {
 				this.btnPost.Enabled = true;
 				this.lblAlreadyPosted.Text = "";
 				this.lnkTumblrPost.Text = "";
@@ -347,17 +361,6 @@ namespace WeasylSync {
 				}
 			}
 
-			if (this.currentImage == null) {
-				MessageBox.Show("No image is selected.");
-				return;
-			}
-
-			if (Tumblr == null) CreateTumblrClient_GetNewToken();
-			if (Tumblr == null) {
-				MessageBox.Show("Posting cancelled.");
-				return;
-			}
-
 			lProgressBar1.Maximum = 2;
 			lProgressBar1.Value = 2;
 			lProgressBar1.Visible = true;
@@ -367,7 +370,11 @@ namespace WeasylSync {
 			if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
 			if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
 
-			PostData post = PostData.CreatePhoto(new BinaryFile[] { this.currentImage }, CompileHTML(), txtURL.Text, tags);
+			BinaryFile imageToPost = GlobalSettings.Tumblr.AutoSidePadding && this.currentImageBitmap.Height > this.currentImageBitmap.Width
+				? MakeSquare(this.currentImageBitmap)
+				: currentImage;
+
+			PostData post = PostData.CreatePhoto(new BinaryFile[] { imageToPost }, CompileHTML(), txtURL.Text, tags);
 			post.Date = chkNow.Checked
 				? (DateTimeOffset?)null
 				: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
@@ -447,5 +454,22 @@ namespace WeasylSync {
 			Process.Start(lnkTumblrPost.Text);
 		}
 		#endregion
+
+		private static BinaryFile MakeSquare(Bitmap oldBitmap) {
+			int newSize = Math.Max(oldBitmap.Width, oldBitmap.Height);
+			Bitmap newBitmap = new Bitmap(newSize, newSize);
+
+			int offsetX = (newSize - oldBitmap.Width) / 2;
+			int offsetY = (newSize - oldBitmap.Height) / 2;
+
+			using (Graphics g = Graphics.FromImage(newBitmap)) {
+				g.DrawImage(oldBitmap, offsetX, offsetY, oldBitmap.Width, oldBitmap.Height);
+			}
+
+			using (MemoryStream stream = new MemoryStream()) {
+				newBitmap.Save(stream, oldBitmap.RawFormat);
+				return new BinaryFile(stream.ToArray());
+			}
+		}
 	}
 }

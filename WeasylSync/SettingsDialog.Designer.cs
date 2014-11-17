@@ -48,9 +48,12 @@
 			this.menuItemIECookies = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnSave = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
+			this.chkSidePadding = new System.Windows.Forms.CheckBox();
+			this.groupDefaults = new System.Windows.Forms.GroupBox();
 			this.groupWeasyl.SuspendLayout();
 			this.groupTumblr.SuspendLayout();
 			this.menuSignIn.SuspendLayout();
+			this.groupDefaults.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupWeasyl
@@ -59,7 +62,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupWeasyl.Controls.Add(this.label1);
 			this.groupWeasyl.Controls.Add(this.txtWeasylAPIKey);
-			this.groupWeasyl.Location = new System.Drawing.Point(12, 12);
+			this.groupWeasyl.Location = new System.Drawing.Point(12, 138);
 			this.groupWeasyl.Name = "groupWeasyl";
 			this.groupWeasyl.Size = new System.Drawing.Size(410, 45);
 			this.groupWeasyl.TabIndex = 0;
@@ -88,23 +91,17 @@
 			// 
 			this.groupTumblr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupTumblr.Controls.Add(this.chkSidePadding);
 			this.groupTumblr.Controls.Add(this.chkTagSearch);
-			this.groupTumblr.Controls.Add(this.chkWeasylSubmitIdTag);
-			this.groupTumblr.Controls.Add(this.lblHeader);
-			this.groupTumblr.Controls.Add(this.txtHeader);
 			this.groupTumblr.Controls.Add(this.lblTokenInfo);
 			this.groupTumblr.Controls.Add(this.btnTumblrSignIn);
 			this.groupTumblr.Controls.Add(this.lblTokenStatus);
 			this.groupTumblr.Controls.Add(this.lblToken);
-			this.groupTumblr.Controls.Add(this.lblTags);
-			this.groupTumblr.Controls.Add(this.txtTags);
-			this.groupTumblr.Controls.Add(this.lblFooter);
-			this.groupTumblr.Controls.Add(this.txtFooter);
 			this.groupTumblr.Controls.Add(this.lblBlogName);
 			this.groupTumblr.Controls.Add(this.txtBlogName);
-			this.groupTumblr.Location = new System.Drawing.Point(12, 63);
+			this.groupTumblr.Location = new System.Drawing.Point(12, 189);
 			this.groupTumblr.Name = "groupTumblr";
-			this.groupTumblr.Size = new System.Drawing.Size(410, 259);
+			this.groupTumblr.Size = new System.Drawing.Size(410, 181);
 			this.groupTumblr.TabIndex = 4;
 			this.groupTumblr.TabStop = false;
 			this.groupTumblr.Text = "Tumblr";
@@ -112,17 +109,17 @@
 			// chkTagSearch
 			// 
 			this.chkTagSearch.AutoSize = true;
-			this.chkTagSearch.Location = new System.Drawing.Point(9, 236);
+			this.chkTagSearch.Location = new System.Drawing.Point(9, 158);
 			this.chkTagSearch.Name = "chkTagSearch";
-			this.chkTagSearch.Size = new System.Drawing.Size(357, 17);
+			this.chkTagSearch.Size = new System.Drawing.Size(375, 17);
 			this.chkTagSearch.TabIndex = 15;
-			this.chkTagSearch.Text = "Use tag to check previous Tumblr posts and allow them to be updated";
+			this.chkTagSearch.Text = "Use #weasyl****** tag to find previous posts and allow them to be updated";
 			this.chkTagSearch.UseVisualStyleBackColor = true;
 			// 
 			// chkWeasylSubmitIdTag
 			// 
 			this.chkWeasylSubmitIdTag.AutoSize = true;
-			this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(9, 213);
+			this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(9, 97);
 			this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
 			this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(299, 17);
 			this.chkWeasylSubmitIdTag.TabIndex = 14;
@@ -132,7 +129,7 @@
 			// lblHeader
 			// 
 			this.lblHeader.AutoSize = true;
-			this.lblHeader.Location = new System.Drawing.Point(6, 48);
+			this.lblHeader.Location = new System.Drawing.Point(6, 22);
 			this.lblHeader.Name = "lblHeader";
 			this.lblHeader.Size = new System.Drawing.Size(45, 13);
 			this.lblHeader.TabIndex = 13;
@@ -142,7 +139,7 @@
 			// 
 			this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtHeader.Location = new System.Drawing.Point(83, 45);
+			this.txtHeader.Location = new System.Drawing.Point(83, 19);
 			this.txtHeader.Name = "txtHeader";
 			this.txtHeader.Size = new System.Drawing.Size(321, 20);
 			this.txtHeader.TabIndex = 12;
@@ -150,7 +147,7 @@
 			// lblTokenInfo
 			// 
 			this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblTokenInfo.Location = new System.Drawing.Point(80, 146);
+			this.lblTokenInfo.Location = new System.Drawing.Point(80, 42);
 			this.lblTokenInfo.Name = "lblTokenInfo";
 			this.lblTokenInfo.Size = new System.Drawing.Size(324, 64);
 			this.lblTokenInfo.TabIndex = 11;
@@ -159,7 +156,7 @@
 			// btnTumblrSignIn
 			// 
 			this.btnTumblrSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnTumblrSignIn.Location = new System.Drawing.Point(329, 123);
+			this.btnTumblrSignIn.Location = new System.Drawing.Point(329, 19);
 			this.btnTumblrSignIn.Name = "btnTumblrSignIn";
 			this.btnTumblrSignIn.Size = new System.Drawing.Size(75, 20);
 			this.btnTumblrSignIn.TabIndex = 10;
@@ -170,7 +167,7 @@
 			// lblTokenStatus
 			// 
 			this.lblTokenStatus.AutoSize = true;
-			this.lblTokenStatus.Location = new System.Drawing.Point(80, 127);
+			this.lblTokenStatus.Location = new System.Drawing.Point(80, 23);
 			this.lblTokenStatus.Name = "lblTokenStatus";
 			this.lblTokenStatus.Size = new System.Drawing.Size(69, 13);
 			this.lblTokenStatus.TabIndex = 9;
@@ -179,7 +176,7 @@
 			// lblToken
 			// 
 			this.lblToken.AutoSize = true;
-			this.lblToken.Location = new System.Drawing.Point(6, 127);
+			this.lblToken.Location = new System.Drawing.Point(6, 23);
 			this.lblToken.Name = "lblToken";
 			this.lblToken.Size = new System.Drawing.Size(41, 13);
 			this.lblToken.TabIndex = 8;
@@ -188,7 +185,7 @@
 			// lblTags
 			// 
 			this.lblTags.AutoSize = true;
-			this.lblTags.Location = new System.Drawing.Point(6, 100);
+			this.lblTags.Location = new System.Drawing.Point(6, 74);
 			this.lblTags.Name = "lblTags";
 			this.lblTags.Size = new System.Drawing.Size(71, 13);
 			this.lblTags.TabIndex = 6;
@@ -198,7 +195,7 @@
 			// 
 			this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtTags.Location = new System.Drawing.Point(83, 97);
+			this.txtTags.Location = new System.Drawing.Point(83, 71);
 			this.txtTags.Name = "txtTags";
 			this.txtTags.Size = new System.Drawing.Size(321, 20);
 			this.txtTags.TabIndex = 5;
@@ -206,7 +203,7 @@
 			// lblFooter
 			// 
 			this.lblFooter.AutoSize = true;
-			this.lblFooter.Location = new System.Drawing.Point(6, 74);
+			this.lblFooter.Location = new System.Drawing.Point(6, 48);
 			this.lblFooter.Name = "lblFooter";
 			this.lblFooter.Size = new System.Drawing.Size(40, 13);
 			this.lblFooter.TabIndex = 3;
@@ -216,7 +213,7 @@
 			// 
 			this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtFooter.Location = new System.Drawing.Point(83, 71);
+			this.txtFooter.Location = new System.Drawing.Point(83, 45);
 			this.txtFooter.Name = "txtFooter";
 			this.txtFooter.Size = new System.Drawing.Size(321, 20);
 			this.txtFooter.TabIndex = 2;
@@ -224,17 +221,17 @@
 			// lblBlogName
 			// 
 			this.lblBlogName.AutoSize = true;
-			this.lblBlogName.Location = new System.Drawing.Point(6, 22);
+			this.lblBlogName.Location = new System.Drawing.Point(6, 112);
 			this.lblBlogName.Name = "lblBlogName";
-			this.lblBlogName.Size = new System.Drawing.Size(31, 13);
+			this.lblBlogName.Size = new System.Drawing.Size(60, 13);
 			this.lblBlogName.TabIndex = 1;
-			this.lblBlogName.Text = "Blog:";
+			this.lblBlogName.Text = "Blog name:";
 			// 
 			// txtBlogName
 			// 
 			this.txtBlogName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.txtBlogName.Location = new System.Drawing.Point(83, 19);
+			this.txtBlogName.Location = new System.Drawing.Point(83, 109);
 			this.txtBlogName.Name = "txtBlogName";
 			this.txtBlogName.Size = new System.Drawing.Size(321, 20);
 			this.txtBlogName.TabIndex = 0;
@@ -265,7 +262,7 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.btnSave.Location = new System.Drawing.Point(266, 328);
+			this.btnSave.Location = new System.Drawing.Point(266, 376);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(75, 23);
 			this.btnSave.TabIndex = 5;
@@ -277,12 +274,38 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(347, 328);
+			this.btnCancel.Location = new System.Drawing.Point(347, 376);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 6;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
+			// 
+			// chkSidePadding
+			// 
+			this.chkSidePadding.AutoSize = true;
+			this.chkSidePadding.Location = new System.Drawing.Point(9, 135);
+			this.chkSidePadding.Name = "chkSidePadding";
+			this.chkSidePadding.Size = new System.Drawing.Size(322, 17);
+			this.chkSidePadding.TabIndex = 16;
+			this.chkSidePadding.Text = "Add transparent padding to sides if image is taller than it is wide";
+			this.chkSidePadding.UseVisualStyleBackColor = true;
+			// 
+			// groupDefaults
+			// 
+			this.groupDefaults.Controls.Add(this.txtHeader);
+			this.groupDefaults.Controls.Add(this.txtTags);
+			this.groupDefaults.Controls.Add(this.chkWeasylSubmitIdTag);
+			this.groupDefaults.Controls.Add(this.lblTags);
+			this.groupDefaults.Controls.Add(this.lblFooter);
+			this.groupDefaults.Controls.Add(this.lblHeader);
+			this.groupDefaults.Controls.Add(this.txtFooter);
+			this.groupDefaults.Location = new System.Drawing.Point(12, 12);
+			this.groupDefaults.Name = "groupDefaults";
+			this.groupDefaults.Size = new System.Drawing.Size(410, 120);
+			this.groupDefaults.TabIndex = 15;
+			this.groupDefaults.TabStop = false;
+			this.groupDefaults.Text = "Defaults";
 			// 
 			// SettingsDialog
 			// 
@@ -290,7 +313,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(434, 363);
+			this.ClientSize = new System.Drawing.Size(434, 411);
+			this.Controls.Add(this.groupDefaults);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.groupTumblr);
@@ -302,6 +326,8 @@
 			this.groupTumblr.ResumeLayout(false);
 			this.groupTumblr.PerformLayout();
 			this.menuSignIn.ResumeLayout(false);
+			this.groupDefaults.ResumeLayout(false);
+			this.groupDefaults.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -331,5 +357,7 @@
 		private System.Windows.Forms.ToolStripMenuItem menuItemIECookies;
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 		private System.Windows.Forms.CheckBox chkTagSearch;
+		private System.Windows.Forms.CheckBox chkSidePadding;
+		private System.Windows.Forms.GroupBox groupDefaults;
 	}
 }

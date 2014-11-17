@@ -9,6 +9,15 @@ using System.Threading.Tasks;
 
 namespace WeasylSync {
 	public class Settings {
+		public int SettingsVersion {
+			get {
+				return 1;
+			}
+			set {
+				// ignore
+			}
+		}
+
 		public class WeasylSettings {
 			public string APIKey { get; set; }
 		}
@@ -17,18 +26,25 @@ namespace WeasylSync {
 
 		public class TumblrSettings {
 			public string BlogName { get; set; }
-			public string Header { get; set; }
-			public string Footer { get; set; }
-			public string Tags { get; set; }
 
 			public string TokenKey { get; set; }
 			public string TokenSecret { get; set; }
 
-			public bool IncludeWeasylTag { get; set; }
-			public bool LookForWeasylTag { get; set; }
+			public bool AutoSidePadding { get; set; }
+			public bool FindPreviousPost { get; set; }
 		}
 
 		public TumblrSettings Tumblr { get; set; }
+
+		public class PostSettings {
+			public string HeaderHTML { get; set; }
+			public string FooterHTML { get; set; }
+			public string Tags { get; set; }
+
+			public bool IncludeWeasylTag { get; set; }
+		}
+
+		public PostSettings Defaults;
 
 		[JsonIgnore]
 		public Token TumblrToken {
@@ -42,27 +58,31 @@ namespace WeasylSync {
 		}
 
 		public static Settings Load(string filename = "WeasylSync.json") {
+			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {
-				Settings s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
-				return s;
-			} else {
-				Settings s = new Settings {
-					Weasyl = new WeasylSettings {
-						APIKey = null
-					},
-					Tumblr = new TumblrSettings {
-						BlogName = "",
-						Header = "<p><b>{TITLE}</b></p>",
-						Footer = "<p><a href=\"{URL}\">View on Weasyl</a></p>",
-						Tags = "#art",
-						TokenKey = null,
-						TokenSecret = null,
-						IncludeWeasylTag = true,
-						LookForWeasylTag = true
-					}
-				};
-				return s;
+				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
 			}
+			s.SettingsVersion = 1;
+			if (s.Weasyl == null)
+				s.Weasyl = new WeasylSettings {
+					APIKey = null
+				};
+			if (s.Tumblr == null)
+				s.Tumblr = new TumblrSettings {
+					BlogName = "",
+					TokenKey = null,
+					TokenSecret = null,
+					AutoSidePadding = true,
+					FindPreviousPost = true
+				};
+			if (s.Defaults == null)
+				s.Defaults = new PostSettings {
+					HeaderHTML = "<p><b>{TITLE}</b></p>",
+					FooterHTML = "<p><a href=\"{URL}\">View on Weasyl</a></p>",
+					Tags = "#art",
+					IncludeWeasylTag = true
+				};
+			return s;
 		}
 
 		public void Save(string filename = "WeasylSync.json") {
