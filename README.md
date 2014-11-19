@@ -1,8 +1,8 @@
 WeasylSync
 ==========
 
-Download: https://dl.dropboxusercontent.com/u/57430384/WeasylSync%201.0.zip
-Mirror: http://www.mediafire.com/download/4tbcnkx4hn8zawf/WeasylSync_1.0.zip
+Download: https://dl.dropboxusercontent.com/u/57430384/WeasylSync%201.0.zip  
+Mirror: http://www.mediafire.com/download/4tbcnkx4hn8zawf/WeasylSync_1.0.zip  
 Source: https://github.com/libertyernie/WeasylSync
 
 --------------------
