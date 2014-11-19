@@ -1,7 +1,11 @@
 WeasylSync
 ==========
 
-https://github.com/libertyernie/WeasylSync
+Download: https://dl.dropboxusercontent.com/u/57430384/WeasylSync%201.0.zip
+Mirror: http://www.mediafire.com/download/4tbcnkx4hn8zawf/WeasylSync_1.0.zip
+Source: https://github.com/libertyernie/WeasylSync
+
+--------------------
 
 WeasylSync is a Windows desktop application that loads individual submissions
 from Weasyl and lets you post them to your Tumblr account, maintaining the
