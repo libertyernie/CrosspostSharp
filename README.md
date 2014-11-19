@@ -106,6 +106,22 @@ Settings are stored in the file WeasylSync.json.
     submission. If you disable this feature, WeasylSync will not offer to update
     existing posts.
 
+Compiling from Source
+---------------------
+
+This project was built with Visual Studio 2013.
+
+The file OAuthConsumer.cs is missing from the WeasylSync project. Get your own
+Tumblr OAuth keys at https://www.tumblr.com/oauth/apps, then put the following
+into OAuthConsumer.cs:
+
+namespace WeasylSync {
+	public static class OAuthConsumer {
+		public static string CONSUMER_KEY = "consumer key goes here";
+		public static string CONSUMER_SECRET = "secret key goes here";
+	}
+}
+
 Notes
 -----
 
