@@ -64,6 +64,13 @@ namespace WeasylSync {
 				WebRequest req = WebRequest.Create(Submission.media.thumbnail.First().url);
 				WebResponse resp = req.GetResponse();
 				this.Image = Bitmap.FromStream(resp.GetResponseStream());
+				if (this.Image.Width > 120 || this.Image.Height > 120) {
+					double largerDimension = Math.Max(this.Image.Width, this.Image.Height);
+					double scale = 120.0 / largerDimension;
+					this.Image = new Bitmap(this.Image,
+						(int)Math.Round(scale * this.Image.Width),
+						(int)Math.Round(scale * this.Image.Height));
+				}
 			}
 
 			this.RawData = null;

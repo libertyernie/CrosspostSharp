@@ -47,7 +47,7 @@
 			this.lblTitle.Name = "lblTitle";
 			this.lblTitle.Size = new System.Drawing.Size(181, 25);
 			this.lblTitle.TabIndex = 0;
-			this.lblTitle.Text = "WeasylSync 1.0";
+			this.lblTitle.Text = "WeasylSync 1.1";
 			// 
 			// lnkJsonNET
 			// 
@@ -82,7 +82,7 @@
 			this.lblJsonNETCopyright.Name = "lblJsonNETCopyright";
 			this.lblJsonNETCopyright.Size = new System.Drawing.Size(217, 13);
 			this.lblJsonNETCopyright.TabIndex = 6;
-			this.lblJsonNETCopyright.Text = "Copyright (c) 2007-2014 James Newton-King";
+			this.lblJsonNETCopyright.Text = "Copyright (c) 2007-2016 James Newton-King";
 			// 
 			// lblBoth
 			// 
