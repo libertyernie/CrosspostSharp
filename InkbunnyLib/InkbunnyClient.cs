@@ -42,7 +42,7 @@ namespace InkbunnyLib {
             //byte[] thumbnail = null,
             IEnumerable<byte[]> files = null
 		) {
-			string boundary = "----MyAppBoundary" + DateTime.Now.Ticks.ToString("x");
+			string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
 			var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_upload.php");
 			request.ContentType = "multipart/form-data; boundary=" + boundary;
@@ -60,7 +60,7 @@ namespace InkbunnyLib {
                     //    sw.WriteLine("--" + boundary);
                     //    sw.WriteLine("Content-Disposition: form-data; name=\"notify\"");
                     //    sw.WriteLine();
-                    //    sw.WriteLine(notify == true ? "true" : "false");
+                    //    sw.WriteLine(notify == true ? "yes" : "no");
                     //}
                     //if (replace != null) {
                     //    sw.WriteLine("--" + boundary);
@@ -111,5 +111,133 @@ namespace InkbunnyLib {
 				}
 			}
 		}
+
+        public async Task<EditSubmissionResponse> EditSubmission(
+            long submission_id,
+            string title = null,
+            string desc = null,
+            string story = null,
+            bool convert_html_entities = false,
+            SubmissionType? type = null,
+            bool? scraps = null,
+            bool? use_twitter = null,
+            TwitterImagePref? twitter_image_pref = null,
+            bool? isPublic = null,
+            bool notifyWatchersWhenPublic = false,
+            IEnumerable<string> keywords = null,
+            InkbunnyRating tag = null,
+            bool guest_block = false,
+            bool friends_only = false
+        ) {
+            string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
+
+            var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_editsubmission.php");
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.Method = "POST";
+
+            using (var stream = await request.GetRequestStreamAsync()) {
+                using (var sw = new StreamWriter(stream)) {
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"submission_id\"");
+                    sw.WriteLine();
+                    sw.WriteLine(submission_id);
+                    if (title != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"title\"");
+                        sw.WriteLine();
+                        sw.WriteLine(title);
+                    }
+                    if (desc != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"desc\"");
+                        sw.WriteLine();
+                        sw.WriteLine(desc);
+                    }
+                    if (story != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"story\"");
+                        sw.WriteLine();
+                        sw.WriteLine(story);
+                    }
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"convert_html_entities\"");
+                    sw.WriteLine();
+                    sw.WriteLine(convert_html_entities ? "yes" : "no");
+                    if (type != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"type\"");
+                        sw.WriteLine();
+                        sw.WriteLine((int)type);
+                    }
+                    if (scraps != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"scraps\"");
+                        sw.WriteLine();
+                        sw.WriteLine(scraps == true ? "yes" : "no");
+                    }
+                    if (use_twitter != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"use_twitter\"");
+                        sw.WriteLine();
+                        sw.WriteLine(use_twitter == true ? "yes" : "no");
+                    }
+                    if (twitter_image_pref != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"twitter_image_pref\"");
+                        sw.WriteLine();
+                        sw.WriteLine((int)twitter_image_pref);
+                    }
+                    if (isPublic != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"visibility\"");
+                        sw.WriteLine();
+                        sw.WriteLine(isPublic == false ? "no"
+                            : notifyWatchersWhenPublic ? "yes" : "yes_nowatch");
+                    }
+                    if (keywords != null) {
+                        sw.WriteLine("--" + boundary);
+                        sw.WriteLine("Content-Disposition: form-data; name=\"keywords\"");
+                        sw.WriteLine();
+                        sw.WriteLine(keywords);
+                    }
+                    if (tag != null) {
+                        for (int i=2; i<=5; i++) {
+                            sw.WriteLine("--" + boundary);
+                            sw.WriteLine("Content-Disposition: form-data; name=\"tag[" + i + "]\"");
+                            sw.WriteLine();
+                            sw.WriteLine(tag[i]);
+                        }
+                    }
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"guest_block\"");
+                    sw.WriteLine();
+                    sw.WriteLine(guest_block == true ? "yes" : "no");
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"friends_only\"");
+                    sw.WriteLine();
+                    sw.WriteLine(friends_only == true ? "yes" : "no");
+
+                    // The submission only seems to upload properly when I put this last...
+                    sw.WriteLine("--" + boundary);
+                    sw.WriteLine("Content-Disposition: form-data; name=\"sid\"");
+                    sw.WriteLine();
+                    sw.WriteLine(loginResponse.sid);
+                    sw.WriteLine("--" + boundary + "--");
+                    sw.Flush();
+                }
+            }
+
+            using (var response = await request.GetResponseAsync()) {
+                using (var responseStream = response.GetResponseStream()) {
+                    using (var sr = new StreamReader(responseStream)) {
+                        var r = JsonConvert.DeserializeObject<EditSubmissionResponse>(sr.ReadToEnd());
+                        if (r.error_code != null) {
+                            throw new Exception(r.error_message);
+                        }
+                        return r;
+                    }
+                }
+            }
+        }
 	}
 }

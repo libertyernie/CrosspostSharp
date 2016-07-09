@@ -399,9 +399,8 @@ namespace WeasylSync {
 
 		#region Inkbunny
 		public void InkbunnyLogin() {
-            //using (LoginDialog d = new LoginDialog()) {
-            //	if (d.ShowDialog() == DialogResult.OK) {
-            var d = new { Username = "lizardsocks", Password = "%$KNe4S6" };
+            using (LoginDialog d = new LoginDialog()) {
+            	if (d.ShowDialog() == DialogResult.OK) {
 					lblInkbunnyStatus2.Text = "Working...";
 					Task.Run(() => {
 						try {
@@ -416,11 +415,11 @@ namespace WeasylSync {
 							MessageBox.Show(ex.Message);
 						}
 					});
-			//	}
-			//}
+				}
+			}
 		}
 
-		public void PostToInkbunny1() {
+		public async Task PostToInkbunny1() {
 			if (this.currentImage == null) {
 				MessageBox.Show("No image is selected.");
 				return;
@@ -437,43 +436,42 @@ namespace WeasylSync {
 			}
 
 			lProgressBar1.Maximum = 2;
-			lProgressBar1.Value = 0;
+			lProgressBar1.Value = 1;
 			lProgressBar1.Visible = true;
 
 			lProgressBar1.Value = 1;
 
-			//lProgressBar1.Maximum = 2;
-			//lProgressBar1.Value = 2;
-			//lProgressBar1.Visible = true;
+            try {
+                long submission_id = await Inkbunny.Upload(files: new byte[][] {
+                    currentImage.Data
+                });
 
-			//var tags = new List<string>();
-			//if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-			//if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-			//if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+                this.BeginInvoke(new Action(() => {
+                    lProgressBar1.Value = 2;
+                }));
 
-			//BinaryFile imageToPost = GlobalSettings.Tumblr.AutoSidePadding && this.currentImageBitmap.Height > this.currentImageBitmap.Width
-			//	? MakeSquare(this.currentImageBitmap)
-			//	: currentImage;
+                var o = await Inkbunny.EditSubmission(
+                    submission_id: submission_id,
+                    title: txtTitle.Text,
+                    desc: txtDescription.Text,
+                    convert_html_entities: true,
+                    type: SubmissionType.Picture,
+                    scraps: false,
+                    isPublic: true,
+                    notifyWatchersWhenPublic: false,
+                    keywords: txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""),
+                    tag: new InkbunnyRating()
+                );
+                Console.WriteLine(o.submission_id);
+                Console.WriteLine(o.twitter_authentication_success);
 
-			//PostData post = PostData.CreatePhoto(new BinaryFile[] { imageToPost }, CompileHTML(), txtURL.Text, tags);
-			//post.Date = chkNow.Checked
-			//	? (DateTimeOffset?)null
-			//	: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
-
-			//Task<PostCreationInfo> task = updateid == null
-			//	? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
-			//	: Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
-			Task<long> task = Inkbunny.Upload(files: new byte[][] {
-                currentImage.Data
-            });
-			task.ContinueWith((t) => {
-				lProgressBar1.Visible = false;
-				if (t.Exception != null && t.Exception is AggregateException) {
-					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
-					MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
-				}
-			});
-		}
+                this.BeginInvoke(new Action(() => {
+                    lProgressBar1.Visible = false;
+                }));
+            } catch (Exception ex) {
+                MessageBox.Show("An error occured: \"" + ex.Message + "\"\r\nCheck to see if the blog name is correct.");
+            }
+        }
 		#endregion
 
 		#region Event handlers

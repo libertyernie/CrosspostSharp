@@ -45,8 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditSubmissionResponse.cs" />
     <Compile Include="InkbunnyClient.cs" />
+    <Compile Include="InkbunnyRating.cs" />
     <Compile Include="InkbunnyResponse.cs" />
+    <Compile Include="SubmissionType.cs" />
+    <Compile Include="TwitterImagePref.cs" />
     <Compile Include="UploadResponse.cs" />
     <Compile Include="LoginResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
