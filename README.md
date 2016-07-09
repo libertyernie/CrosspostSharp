@@ -8,8 +8,8 @@ Source: https://github.com/libertyernie/WeasylSync
 --------------------
 
 WeasylSync is a Windows desktop application that loads individual submissions
-from Weasyl and lets you post them to your Tumblr account, maintaining the
-title, description, and tags.
+from Weasyl and lets you post them to your Tumblr and InkBunny accounts,
+maintaining the title, description, and tags.
 
 Only visual submissions (artwork) are supported at this time.
 
@@ -18,12 +18,17 @@ Requirements:
 * Windows Vista or higher
 * .NET Framework 4.5 or higher
 
+NOTE: In this branch, Inkbunny support is incomplete, and Tumblr support isn't
+accessible at the moment.
+
 Authentication
 --------------
 
 To use this application, you must connect it to both your Weasyl and Tumblr
 accounts. Information for both will be stored in the file WeasylSync.json, so
 keep that file secure!
+
+To upload to Inkbunny, you need to log in each time you run the program.
 
 ### Weasyl
 
@@ -133,9 +138,3 @@ Notes
   the API key is required in this program for two reasons: it allows you to
   fetch info on submissions with a rating above "general", and requiring the
   API key avoids Weasyl bug 471.
-* The OAuth mechanism used by Tumblr (and many web sites) is technically not
-  as secure in desktop and mobile applications as it is on the web:  
-  http://welcome.totheinter.net/2011/01/12/stealing-passwords-is-easy-in-native-mobile-apps-despite-oauth/  
-  However, there would be no easy way to avoid this problem without running an
-  HTTP server on the local machine. In any case, OAuth is the only method
-  Tumblr supports for posting to blogs.

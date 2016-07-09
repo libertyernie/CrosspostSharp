@@ -64,6 +64,8 @@
 			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
 			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
+			this.lblInkbunnyStatus2 = new System.Windows.Forms.Label();
+			this.lblInkbunnyStatus1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -320,7 +322,7 @@
 			// lblTumblrStatus1
 			// 
 			this.lblTumblrStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.lblTumblrStatus1.Location = new System.Drawing.Point(263, 575);
+			this.lblTumblrStatus1.Location = new System.Drawing.Point(372, 575);
 			this.lblTumblrStatus1.Margin = new System.Windows.Forms.Padding(3);
 			this.lblTumblrStatus1.Name = "lblTumblrStatus1";
 			this.lblTumblrStatus1.Size = new System.Drawing.Size(48, 24);
@@ -334,7 +336,7 @@
 			this.lblWeasylStatus2.Location = new System.Drawing.Point(66, 575);
 			this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
 			this.lblWeasylStatus2.Name = "lblWeasylStatus2";
-			this.lblWeasylStatus2.Size = new System.Drawing.Size(191, 24);
+			this.lblWeasylStatus2.Size = new System.Drawing.Size(110, 24);
 			this.lblWeasylStatus2.TabIndex = 40;
 			this.lblWeasylStatus2.Text = "not logged in";
 			this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -343,10 +345,10 @@
 			// 
 			this.lblTumblrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblTumblrStatus2.Location = new System.Drawing.Point(317, 575);
+			this.lblTumblrStatus2.Location = new System.Drawing.Point(426, 575);
 			this.lblTumblrStatus2.Margin = new System.Windows.Forms.Padding(3);
 			this.lblTumblrStatus2.Name = "lblTumblrStatus2";
-			this.lblTumblrStatus2.Size = new System.Drawing.Size(225, 24);
+			this.lblTumblrStatus2.Size = new System.Drawing.Size(116, 24);
 			this.lblTumblrStatus2.TabIndex = 41;
 			this.lblTumblrStatus2.Text = "not logged in";
 			this.lblTumblrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -367,7 +369,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.optionsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// optionsToolStripMenuItem
@@ -512,11 +514,37 @@
 			this.thumbnail1.TabIndex = 0;
 			this.thumbnail1.TabStop = false;
 			// 
+			// lblInkbunnyStatus2
+			// 
+			this.lblInkbunnyStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblInkbunnyStatus2.Location = new System.Drawing.Point(256, 575);
+			this.lblInkbunnyStatus2.Margin = new System.Windows.Forms.Padding(3);
+			this.lblInkbunnyStatus2.Name = "lblInkbunnyStatus2";
+			this.lblInkbunnyStatus2.Size = new System.Drawing.Size(110, 24);
+			this.lblInkbunnyStatus2.TabIndex = 47;
+			this.lblInkbunnyStatus2.Text = "not logged in";
+			this.lblInkbunnyStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblInkbunnyStatus2.Click += new System.EventHandler(this.lblInkbunnyStatus2_Click);
+			// 
+			// lblInkbunnyStatus1
+			// 
+			this.lblInkbunnyStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblInkbunnyStatus1.Location = new System.Drawing.Point(182, 575);
+			this.lblInkbunnyStatus1.Margin = new System.Windows.Forms.Padding(3);
+			this.lblInkbunnyStatus1.Name = "lblInkbunnyStatus1";
+			this.lblInkbunnyStatus1.Size = new System.Drawing.Size(68, 24);
+			this.lblInkbunnyStatus1.TabIndex = 46;
+			this.lblInkbunnyStatus1.Text = "Inkbunny:";
+			this.lblInkbunnyStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
 			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(554, 611);
+			this.Controls.Add(this.lblInkbunnyStatus2);
 			this.Controls.Add(this.lProgressBar1);
+			this.Controls.Add(this.lblInkbunnyStatus1);
 			this.Controls.Add(this.previewPanel);
 			this.Controls.Add(this.lblAlreadyPosted);
 			this.Controls.Add(this.lnkTumblrPost);
@@ -608,6 +636,8 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.LinkLabel lnkTumblrPost;
 		private System.Windows.Forms.Label lblAlreadyPosted;
+		private System.Windows.Forms.Label lblInkbunnyStatus2;
+		private System.Windows.Forms.Label lblInkbunnyStatus1;
 	}
 }
 

@@ -15,6 +15,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using InkbunnyLib;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -27,6 +28,8 @@ namespace WeasylSync {
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
 		public string TumblrExceptionMsg { get; private set; }
+
+		public InkbunnyClient Inkbunny;
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
@@ -394,6 +397,85 @@ namespace WeasylSync {
 		}
 		#endregion
 
+		#region Inkbunny
+		public void InkbunnyLogin() {
+            //using (LoginDialog d = new LoginDialog()) {
+            //	if (d.ShowDialog() == DialogResult.OK) {
+            var d = new { Username = "lizardsocks", Password = "%$KNe4S6" };
+					lblInkbunnyStatus2.Text = "Working...";
+					Task.Run(() => {
+						try {
+							Inkbunny = new InkbunnyClient(d.Username, d.Password);
+							this.BeginInvoke(new Action(() => {
+								lblInkbunnyStatus2.Text = Inkbunny.Username;
+							}));
+						} catch (Exception ex) {
+							this.BeginInvoke(new Action(() => {
+								lblInkbunnyStatus2.Text = "not logged in";
+							}));
+							MessageBox.Show(ex.Message);
+						}
+					});
+			//	}
+			//}
+		}
+
+		public void PostToInkbunny1() {
+			if (this.currentImage == null) {
+				MessageBox.Show("No image is selected.");
+				return;
+			}
+
+			if (Inkbunny == null) {
+				InkbunnyLogin();
+				MessageBox.Show("Please try again.");
+				return;
+			}
+			if (Tumblr == null) {
+				MessageBox.Show("Posting cancelled.");
+				return;
+			}
+
+			lProgressBar1.Maximum = 2;
+			lProgressBar1.Value = 0;
+			lProgressBar1.Visible = true;
+
+			lProgressBar1.Value = 1;
+
+			//lProgressBar1.Maximum = 2;
+			//lProgressBar1.Value = 2;
+			//lProgressBar1.Visible = true;
+
+			//var tags = new List<string>();
+			//if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			//if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			//if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+
+			//BinaryFile imageToPost = GlobalSettings.Tumblr.AutoSidePadding && this.currentImageBitmap.Height > this.currentImageBitmap.Width
+			//	? MakeSquare(this.currentImageBitmap)
+			//	: currentImage;
+
+			//PostData post = PostData.CreatePhoto(new BinaryFile[] { imageToPost }, CompileHTML(), txtURL.Text, tags);
+			//post.Date = chkNow.Checked
+			//	? (DateTimeOffset?)null
+			//	: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
+
+			//Task<PostCreationInfo> task = updateid == null
+			//	? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
+			//	: Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
+			Task<long> task = Inkbunny.Upload(files: new byte[][] {
+                currentImage.Data
+            });
+			task.ContinueWith((t) => {
+				lProgressBar1.Visible = false;
+				if (t.Exception != null && t.Exception is AggregateException) {
+					var messages = t.Exception.InnerExceptions.Select(x => x.Message);
+					MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
+				}
+			});
+		}
+		#endregion
+
 		#region Event handlers
 		private void btnUp_Click(object sender, EventArgs e) {
 			UpdateGalleryAsync(backid: this.backid);
@@ -408,7 +490,8 @@ namespace WeasylSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs args) {
-			PostToTumblr1();
+			//PostToTumblr1();
+			PostToInkbunny1();
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
@@ -452,6 +535,10 @@ namespace WeasylSync {
 
 		private void lnkTumblrPost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTumblrPost.Text);
+		}
+
+		private void lblInkbunnyStatus2_Click(object sender, EventArgs e) {
+			
 		}
 		#endregion
 
