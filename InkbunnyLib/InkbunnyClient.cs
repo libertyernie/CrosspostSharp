@@ -198,7 +198,7 @@ namespace InkbunnyLib {
                         sw.WriteLine("--" + boundary);
                         sw.WriteLine("Content-Disposition: form-data; name=\"keywords\"");
                         sw.WriteLine();
-                        sw.WriteLine(keywords);
+                        sw.WriteLine(string.Join(" ", keywords.Select(s => s.Replace(',', '_').Replace(' ', '_'))));
                     }
                     if (tag != null) {
                         for (int i=2; i<=5; i++) {

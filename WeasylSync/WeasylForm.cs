@@ -145,6 +145,7 @@ namespace WeasylSync {
 			if (submission != null) {
 				txtTitle.Text = submission.title;
 				txtDescription.Text = submission.GetDescription(true);
+                txtInkbunnyDescription.Text = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtURL.Text = submission.link;
 				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
 				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
@@ -249,7 +250,7 @@ namespace WeasylSync {
 				this.lblAlreadyPosted.Text = "";
 				this.lnkTumblrPost.Text = "";
 			} else {
-				this.lblAlreadyPosted.Text = "Already posted:";
+				this.lblAlreadyPosted.Text = "Already on Tumblr:";
 				this.lnkTumblrPost.Text = url;
 			}
 		}
@@ -427,11 +428,7 @@ namespace WeasylSync {
 
 			if (Inkbunny == null) {
 				InkbunnyLogin();
-				MessageBox.Show("Please try again.");
-				return;
-			}
-			if (Tumblr == null) {
-				MessageBox.Show("Posting cancelled.");
+				MessageBox.Show("Weasyl is logging in. Please try again when the status is updated in a few seconds.");
 				return;
 			}
 
@@ -453,7 +450,7 @@ namespace WeasylSync {
                 var o = await Inkbunny.EditSubmission(
                     submission_id: submission_id,
                     title: txtTitle.Text,
-                    desc: txtDescription.Text,
+                    desc: txtInkbunnyDescription.Text,
                     convert_html_entities: true,
                     type: SubmissionType.Picture,
                     scraps: false,
@@ -488,8 +485,7 @@ namespace WeasylSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs args) {
-			//PostToTumblr1();
-			PostToInkbunny1();
+			PostToTumblr1();
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
@@ -533,14 +529,14 @@ namespace WeasylSync {
 
 		private void lnkTumblrPost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTumblrPost.Text);
-		}
+        }
 
-		private void lblInkbunnyStatus2_Click(object sender, EventArgs e) {
-			
-		}
-		#endregion
+        private void btnInkbunnyPost_Click(object sender, EventArgs e) {
+            PostToInkbunny1();
+        }
+        #endregion
 
-		private static BinaryFile MakeSquare(Bitmap oldBitmap) {
+        private static BinaryFile MakeSquare(Bitmap oldBitmap) {
 			int newSize = Math.Max(oldBitmap.Width, oldBitmap.Height);
 			Bitmap newBitmap = new Bitmap(newSize, newSize);
 
