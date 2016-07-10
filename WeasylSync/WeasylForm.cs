@@ -458,11 +458,16 @@ namespace WeasylSync {
                     desc: txtInkbunnyDescription.Text,
                     convert_html_entities: true,
                     type: SubmissionType.Picture,
-                    scraps: false,
-                    isPublic: true,
-                    notifyWatchersWhenPublic: false,
+                    scraps: chkInkbunnyScraps.Checked,
+                    isPublic: chkInkbunnyPublic.Checked,
+                    notifyWatchersWhenPublic: chkInkbunnyNotifyWatchers.Checked,
                     keywords: txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""),
-                    tag: new InkbunnyRating()
+                    tag: new InkbunnyRating() {
+                        Nudity = chkInbunnyTag2.Checked,
+                        Violence = chkInbunnyTag3.Checked,
+                        SexualThemes = chkInbunnyTag4.Checked,
+                        StrongViolence = chkInbunnyTag5.Checked,
+                    }
                 );
                 Console.WriteLine(o.submission_id);
                 Console.WriteLine(o.twitter_authentication_success);
@@ -542,6 +547,10 @@ namespace WeasylSync {
 
         private void btnInkbunnyPost_Click(object sender, EventArgs e) {
             PostToInkbunny1();
+        }
+
+        private void chkInkbunnyPublic_CheckedChanged(object sender, EventArgs e) {
+            chkInkbunnyNotifyWatchers.Enabled = chkInkbunnyPublic.Checked;
         }
         #endregion
 
