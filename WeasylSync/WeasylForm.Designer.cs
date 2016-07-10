@@ -64,25 +64,27 @@
             this.txtInkbunnyDescription = new System.Windows.Forms.TextBox();
             this.btnInkbunnyPost = new System.Windows.Forms.Button();
             this.grpInkbunny = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lProgressBar1 = new WeasylSync.LProgressBar();
-            this.thumbnail4 = new WeasylSync.WeasylThumbnail();
-            this.thumbnail3 = new WeasylSync.WeasylThumbnail();
-            this.thumbnail2 = new WeasylSync.WeasylThumbnail();
             this.thumbnail1 = new WeasylSync.WeasylThumbnail();
+            this.thumbnail2 = new WeasylSync.WeasylThumbnail();
+            this.thumbnail3 = new WeasylSync.WeasylThumbnail();
+            this.thumbnail4 = new WeasylSync.WeasylThumbnail();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.grpInkbunny.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
             this.SuspendLayout();
             // 
             // btnUp
             // 
             this.btnUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUp.Location = new System.Drawing.Point(104, 27);
+            this.btnUp.Location = new System.Drawing.Point(104, 3);
             this.btnUp.Margin = new System.Windows.Forms.Padding(0);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(32, 32);
@@ -94,7 +96,7 @@
             // btnDown
             // 
             this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDown.Location = new System.Drawing.Point(104, 509);
+            this.btnDown.Location = new System.Drawing.Point(104, 485);
             this.btnDown.Margin = new System.Windows.Forms.Padding(0);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(32, 32);
@@ -108,7 +110,7 @@
             this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mainPictureBox.Location = new System.Drawing.Point(142, 27);
+            this.mainPictureBox.Location = new System.Drawing.Point(142, 3);
             this.mainPictureBox.Name = "mainPictureBox";
             this.mainPictureBox.Size = new System.Drawing.Size(400, 225);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -119,7 +121,7 @@
             // 
             this.chkHeader.Checked = true;
             this.chkHeader.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHeader.Location = new System.Drawing.Point(142, 310);
+            this.chkHeader.Location = new System.Drawing.Point(142, 286);
             this.chkHeader.Name = "chkHeader";
             this.chkHeader.Size = new System.Drawing.Size(18, 19);
             this.chkHeader.TabIndex = 6;
@@ -130,7 +132,7 @@
             // 
             this.chkDescription.Checked = true;
             this.chkDescription.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkDescription.Location = new System.Drawing.Point(142, 336);
+            this.chkDescription.Location = new System.Drawing.Point(142, 312);
             this.chkDescription.Name = "chkDescription";
             this.chkDescription.Size = new System.Drawing.Size(18, 20);
             this.chkDescription.TabIndex = 10;
@@ -142,11 +144,11 @@
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(166, 336);
+            this.txtDescription.Location = new System.Drawing.Point(166, 312);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(376, 79);
+            this.txtDescription.Size = new System.Drawing.Size(376, 81);
             this.txtDescription.TabIndex = 11;
             // 
             // txtTags1
@@ -174,7 +176,7 @@
             this.chkFooter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkFooter.Checked = true;
             this.chkFooter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFooter.Location = new System.Drawing.Point(142, 421);
+            this.chkFooter.Location = new System.Drawing.Point(142, 399);
             this.chkFooter.Name = "chkFooter";
             this.chkFooter.Size = new System.Drawing.Size(18, 20);
             this.chkFooter.TabIndex = 12;
@@ -185,7 +187,7 @@
             // 
             this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFooter.Location = new System.Drawing.Point(166, 421);
+            this.txtFooter.Location = new System.Drawing.Point(166, 399);
             this.txtFooter.Name = "txtFooter";
             this.txtFooter.Size = new System.Drawing.Size(376, 20);
             this.txtFooter.TabIndex = 13;
@@ -194,7 +196,7 @@
             // 
             this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHeader.Location = new System.Drawing.Point(166, 310);
+            this.txtHeader.Location = new System.Drawing.Point(166, 286);
             this.txtHeader.Name = "txtHeader";
             this.txtHeader.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtHeader.Size = new System.Drawing.Size(376, 20);
@@ -204,7 +206,7 @@
             // 
             this.pickDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pickDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.pickDate.Location = new System.Drawing.Point(266, 258);
+            this.pickDate.Location = new System.Drawing.Point(266, 234);
             this.pickDate.Name = "pickDate";
             this.pickDate.Size = new System.Drawing.Size(100, 20);
             this.pickDate.TabIndex = 3;
@@ -214,7 +216,7 @@
             // 
             this.pickTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pickTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.pickTime.Location = new System.Drawing.Point(372, 258);
+            this.pickTime.Location = new System.Drawing.Point(372, 234);
             this.pickTime.Name = "pickTime";
             this.pickTime.ShowUpDown = true;
             this.pickTime.Size = new System.Drawing.Size(100, 20);
@@ -227,7 +229,7 @@
             this.chkNow.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkNow.Checked = true;
             this.chkNow.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkNow.Location = new System.Drawing.Point(478, 258);
+            this.chkNow.Location = new System.Drawing.Point(478, 234);
             this.chkNow.Name = "chkNow";
             this.chkNow.Size = new System.Drawing.Size(64, 20);
             this.chkNow.TabIndex = 5;
@@ -271,7 +273,7 @@
             // btnPost
             // 
             this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(425, 544);
+            this.btnPost.Location = new System.Drawing.Point(425, 525);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(117, 24);
             this.btnPost.TabIndex = 17;
@@ -282,7 +284,7 @@
             // txtURL
             // 
             this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtURL.Location = new System.Drawing.Point(217, 447);
+            this.txtURL.Location = new System.Drawing.Point(217, 425);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(325, 20);
             this.txtURL.TabIndex = 15;
@@ -295,7 +297,7 @@
             this.groupBox1.Controls.Add(this.chkWeasylSubmitIdTag);
             this.groupBox1.Controls.Add(this.txtTags2);
             this.groupBox1.Controls.Add(this.chkTags2);
-            this.groupBox1.Location = new System.Drawing.Point(142, 473);
+            this.groupBox1.Location = new System.Drawing.Point(142, 451);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(400, 68);
             this.groupBox1.TabIndex = 16;
@@ -306,7 +308,7 @@
             // 
             this.lblLinkTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLinkTo.AutoSize = true;
-            this.lblLinkTo.Location = new System.Drawing.Point(163, 450);
+            this.lblLinkTo.Location = new System.Drawing.Point(163, 428);
             this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
             this.lblLinkTo.Name = "lblLinkTo";
             this.lblLinkTo.Size = new System.Drawing.Size(40, 13);
@@ -317,7 +319,7 @@
             // lblWeasylStatus1
             // 
             this.lblWeasylStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWeasylStatus1.Location = new System.Drawing.Point(12, 572);
+            this.lblWeasylStatus1.Location = new System.Drawing.Point(9, 555);
             this.lblWeasylStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblWeasylStatus1.Name = "lblWeasylStatus1";
             this.lblWeasylStatus1.Size = new System.Drawing.Size(48, 24);
@@ -328,7 +330,7 @@
             // lblTumblrStatus1
             // 
             this.lblTumblrStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblTumblrStatus1.Location = new System.Drawing.Point(372, 572);
+            this.lblTumblrStatus1.Location = new System.Drawing.Point(369, 555);
             this.lblTumblrStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblTumblrStatus1.Name = "lblTumblrStatus1";
             this.lblTumblrStatus1.Size = new System.Drawing.Size(48, 24);
@@ -339,7 +341,7 @@
             // lblWeasylStatus2
             // 
             this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWeasylStatus2.Location = new System.Drawing.Point(66, 572);
+            this.lblWeasylStatus2.Location = new System.Drawing.Point(63, 555);
             this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblWeasylStatus2.Name = "lblWeasylStatus2";
             this.lblWeasylStatus2.Size = new System.Drawing.Size(110, 24);
@@ -351,7 +353,7 @@
             // 
             this.lblTumblrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTumblrStatus2.Location = new System.Drawing.Point(426, 572);
+            this.lblTumblrStatus2.Location = new System.Drawing.Point(423, 555);
             this.lblTumblrStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblTumblrStatus2.Name = "lblTumblrStatus2";
             this.lblTumblrStatus2.Size = new System.Drawing.Size(116, 24);
@@ -403,7 +405,7 @@
             // chkHTMLPreview
             // 
             this.chkHTMLPreview.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkHTMLPreview.Location = new System.Drawing.Point(142, 258);
+            this.chkHTMLPreview.Location = new System.Drawing.Point(142, 234);
             this.chkHTMLPreview.Name = "chkHTMLPreview";
             this.chkHTMLPreview.Size = new System.Drawing.Size(61, 20);
             this.chkHTMLPreview.TabIndex = 2;
@@ -417,9 +419,9 @@
             this.previewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewPanel.Location = new System.Drawing.Point(142, 284);
+            this.previewPanel.Location = new System.Drawing.Point(142, 286);
             this.previewPanel.Name = "previewPanel";
-            this.previewPanel.Size = new System.Drawing.Size(400, 183);
+            this.previewPanel.Size = new System.Drawing.Size(400, 159);
             this.previewPanel.TabIndex = 43;
             this.previewPanel.Visible = false;
             // 
@@ -429,7 +431,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
             this.txtTitle.ForeColor = System.Drawing.Color.Black;
-            this.txtTitle.Location = new System.Drawing.Point(196, 284);
+            this.txtTitle.Location = new System.Drawing.Point(196, 260);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(346, 20);
             this.txtTitle.TabIndex = 9;
@@ -437,7 +439,7 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(142, 287);
+            this.lblTitle.Location = new System.Drawing.Point(142, 263);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(3);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(48, 13);
@@ -450,9 +452,9 @@
             this.lnkTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkTumblrPost.AutoEllipsis = true;
-            this.lnkTumblrPost.Location = new System.Drawing.Point(142, 599);
+            this.lnkTumblrPost.Location = new System.Drawing.Point(113, 531);
             this.lnkTumblrPost.Name = "lnkTumblrPost";
-            this.lnkTumblrPost.Size = new System.Drawing.Size(400, 13);
+            this.lnkTumblrPost.Size = new System.Drawing.Size(306, 13);
             this.lnkTumblrPost.TabIndex = 44;
             this.lnkTumblrPost.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkTumblrPost.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTumblrPost_LinkClicked);
@@ -461,7 +463,7 @@
             // 
             this.lblAlreadyPosted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblAlreadyPosted.AutoSize = true;
-            this.lblAlreadyPosted.Location = new System.Drawing.Point(15, 599);
+            this.lblAlreadyPosted.Location = new System.Drawing.Point(12, 531);
             this.lblAlreadyPosted.Name = "lblAlreadyPosted";
             this.lblAlreadyPosted.Size = new System.Drawing.Size(0, 13);
             this.lblAlreadyPosted.TabIndex = 45;
@@ -471,18 +473,19 @@
             // 
             this.lblInkbunnyStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblInkbunnyStatus2.Location = new System.Drawing.Point(256, 572);
+            this.lblInkbunnyStatus2.Location = new System.Drawing.Point(253, 555);
             this.lblInkbunnyStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblInkbunnyStatus2.Name = "lblInkbunnyStatus2";
             this.lblInkbunnyStatus2.Size = new System.Drawing.Size(110, 24);
             this.lblInkbunnyStatus2.TabIndex = 47;
-            this.lblInkbunnyStatus2.Text = "not logged in";
+            this.lblInkbunnyStatus2.Text = "click to log in";
             this.lblInkbunnyStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblInkbunnyStatus2.Click += new System.EventHandler(this.lblInkbunnyStatus2_Click);
             // 
             // lblInkbunnyStatus1
             // 
             this.lblInkbunnyStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblInkbunnyStatus1.Location = new System.Drawing.Point(182, 572);
+            this.lblInkbunnyStatus1.Location = new System.Drawing.Point(179, 555);
             this.lblInkbunnyStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblInkbunnyStatus1.Name = "lblInkbunnyStatus1";
             this.lblInkbunnyStatus1.Size = new System.Drawing.Size(68, 24);
@@ -501,13 +504,13 @@
             this.txtInkbunnyDescription.Multiline = true;
             this.txtInkbunnyDescription.Name = "txtInkbunnyDescription";
             this.txtInkbunnyDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInkbunnyDescription.Size = new System.Drawing.Size(395, 59);
+            this.txtInkbunnyDescription.Size = new System.Drawing.Size(419, 121);
             this.txtInkbunnyDescription.TabIndex = 12;
             // 
             // btnInkbunnyPost
             // 
             this.btnInkbunnyPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInkbunnyPost.Location = new System.Drawing.Point(407, 54);
+            this.btnInkbunnyPost.Location = new System.Drawing.Point(431, 116);
             this.btnInkbunnyPost.Name = "btnInkbunnyPost";
             this.btnInkbunnyPost.Size = new System.Drawing.Size(117, 24);
             this.btnInkbunnyPost.TabIndex = 48;
@@ -519,12 +522,54 @@
             // 
             this.grpInkbunny.Controls.Add(this.btnInkbunnyPost);
             this.grpInkbunny.Controls.Add(this.txtInkbunnyDescription);
-            this.grpInkbunny.Location = new System.Drawing.Point(12, 615);
+            this.grpInkbunny.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.grpInkbunny.Location = new System.Drawing.Point(0, 615);
             this.grpInkbunny.Name = "grpInkbunny";
-            this.grpInkbunny.Size = new System.Drawing.Size(530, 84);
+            this.grpInkbunny.Size = new System.Drawing.Size(554, 146);
             this.grpInkbunny.TabIndex = 49;
             this.grpInkbunny.TabStop = false;
             this.grpInkbunny.Text = "Inkbunny";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblInkbunnyStatus2);
+            this.panel1.Controls.Add(this.lProgressBar1);
+            this.panel1.Controls.Add(this.lblInkbunnyStatus1);
+            this.panel1.Controls.Add(this.btnUp);
+            this.panel1.Controls.Add(this.previewPanel);
+            this.panel1.Controls.Add(this.btnDown);
+            this.panel1.Controls.Add(this.mainPictureBox);
+            this.panel1.Controls.Add(this.lblTitle);
+            this.panel1.Controls.Add(this.chkHeader);
+            this.panel1.Controls.Add(this.txtTitle);
+            this.panel1.Controls.Add(this.txtDescription);
+            this.panel1.Controls.Add(this.chkHTMLPreview);
+            this.panel1.Controls.Add(this.chkDescription);
+            this.panel1.Controls.Add(this.lblTumblrStatus2);
+            this.panel1.Controls.Add(this.txtFooter);
+            this.panel1.Controls.Add(this.lblWeasylStatus2);
+            this.panel1.Controls.Add(this.chkFooter);
+            this.panel1.Controls.Add(this.lblTumblrStatus1);
+            this.panel1.Controls.Add(this.txtHeader);
+            this.panel1.Controls.Add(this.lblWeasylStatus1);
+            this.panel1.Controls.Add(this.pickDate);
+            this.panel1.Controls.Add(this.lblLinkTo);
+            this.panel1.Controls.Add(this.pickTime);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.chkNow);
+            this.panel1.Controls.Add(this.txtURL);
+            this.panel1.Controls.Add(this.btnPost);
+            this.panel1.Controls.Add(this.thumbnail1);
+            this.panel1.Controls.Add(this.thumbnail2);
+            this.panel1.Controls.Add(this.thumbnail3);
+            this.panel1.Controls.Add(this.thumbnail4);
+            this.panel1.Controls.Add(this.lblAlreadyPosted);
+            this.panel1.Controls.Add(this.lnkTumblrPost);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(554, 591);
+            this.panel1.TabIndex = 50;
             // 
             // lProgressBar1
             // 
@@ -532,7 +577,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lProgressBar1.Location = new System.Drawing.Point(12, 544);
+            this.lProgressBar1.Location = new System.Drawing.Point(12, 525);
             this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.lProgressBar1.Maximum = 128;
             this.lProgressBar1.Minimum = 0;
@@ -541,39 +586,9 @@
             this.lProgressBar1.TabIndex = 30;
             this.lProgressBar1.Value = 0;
             // 
-            // thumbnail4
-            // 
-            this.thumbnail4.Location = new System.Drawing.Point(12, 417);
-            this.thumbnail4.Name = "thumbnail4";
-            this.thumbnail4.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail4.Submission = null;
-            this.thumbnail4.TabIndex = 3;
-            this.thumbnail4.TabStop = false;
-            // 
-            // thumbnail3
-            // 
-            this.thumbnail3.Location = new System.Drawing.Point(12, 287);
-            this.thumbnail3.Name = "thumbnail3";
-            this.thumbnail3.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail3.Submission = null;
-            this.thumbnail3.TabIndex = 2;
-            this.thumbnail3.TabStop = false;
-            // 
-            // thumbnail2
-            // 
-            this.thumbnail2.Location = new System.Drawing.Point(12, 157);
-            this.thumbnail2.Name = "thumbnail2";
-            this.thumbnail2.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail2.Submission = null;
-            this.thumbnail2.TabIndex = 1;
-            this.thumbnail2.TabStop = false;
-            // 
             // thumbnail1
             // 
-            this.thumbnail1.Location = new System.Drawing.Point(12, 27);
+            this.thumbnail1.Location = new System.Drawing.Point(12, 3);
             this.thumbnail1.Name = "thumbnail1";
             this.thumbnail1.Size = new System.Drawing.Size(124, 124);
             this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -581,43 +596,41 @@
             this.thumbnail1.TabIndex = 0;
             this.thumbnail1.TabStop = false;
             // 
+            // thumbnail2
+            // 
+            this.thumbnail2.Location = new System.Drawing.Point(12, 133);
+            this.thumbnail2.Name = "thumbnail2";
+            this.thumbnail2.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail2.Submission = null;
+            this.thumbnail2.TabIndex = 1;
+            this.thumbnail2.TabStop = false;
+            // 
+            // thumbnail3
+            // 
+            this.thumbnail3.Location = new System.Drawing.Point(12, 263);
+            this.thumbnail3.Name = "thumbnail3";
+            this.thumbnail3.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail3.Submission = null;
+            this.thumbnail3.TabIndex = 2;
+            this.thumbnail3.TabStop = false;
+            // 
+            // thumbnail4
+            // 
+            this.thumbnail4.Location = new System.Drawing.Point(12, 393);
+            this.thumbnail4.Name = "thumbnail4";
+            this.thumbnail4.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail4.Submission = null;
+            this.thumbnail4.TabIndex = 3;
+            this.thumbnail4.TabStop = false;
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(554, 711);
-            this.Controls.Add(this.lblInkbunnyStatus2);
-            this.Controls.Add(this.lProgressBar1);
-            this.Controls.Add(this.lnkTumblrPost);
-            this.Controls.Add(this.lblInkbunnyStatus1);
-            this.Controls.Add(this.previewPanel);
-            this.Controls.Add(this.lblAlreadyPosted);
-            this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.txtTitle);
-            this.Controls.Add(this.chkHTMLPreview);
-            this.Controls.Add(this.lblTumblrStatus2);
-            this.Controls.Add(this.lblWeasylStatus2);
-            this.Controls.Add(this.lblTumblrStatus1);
-            this.Controls.Add(this.lblWeasylStatus1);
-            this.Controls.Add(this.lblLinkTo);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.txtURL);
-            this.Controls.Add(this.btnPost);
-            this.Controls.Add(this.chkNow);
-            this.Controls.Add(this.pickTime);
-            this.Controls.Add(this.pickDate);
-            this.Controls.Add(this.txtHeader);
-            this.Controls.Add(this.chkFooter);
-            this.Controls.Add(this.txtFooter);
-            this.Controls.Add(this.chkDescription);
-            this.Controls.Add(this.txtDescription);
-            this.Controls.Add(this.chkHeader);
-            this.Controls.Add(this.mainPictureBox);
-            this.Controls.Add(this.btnDown);
-            this.Controls.Add(this.btnUp);
-            this.Controls.Add(this.thumbnail4);
-            this.Controls.Add(this.thumbnail3);
-            this.Controls.Add(this.thumbnail2);
-            this.Controls.Add(this.thumbnail1);
+            this.ClientSize = new System.Drawing.Size(554, 761);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.grpInkbunny);
             this.MainMenuStrip = this.menuStrip1;
@@ -630,10 +643,12 @@
             this.menuStrip1.PerformLayout();
             this.grpInkbunny.ResumeLayout(false);
             this.grpInkbunny.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -687,6 +702,7 @@
         private System.Windows.Forms.TextBox txtInkbunnyDescription;
         private System.Windows.Forms.Button btnInkbunnyPost;
         private System.Windows.Forms.GroupBox grpInkbunny;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

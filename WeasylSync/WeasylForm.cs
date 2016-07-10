@@ -64,6 +64,9 @@ namespace WeasylSync {
 
 			backid = nextid = null;
 
+            this.Height -= grpInkbunny.Height;
+            grpInkbunny.Visible = false;
+
 			new Task(LoadFromSettings).Start();
 		}
 
@@ -406,12 +409,14 @@ namespace WeasylSync {
 					Task.Run(() => {
 						try {
 							Inkbunny = new InkbunnyClient(d.Username, d.Password);
-							this.BeginInvoke(new Action(() => {
-								lblInkbunnyStatus2.Text = Inkbunny.Username;
+                            this.BeginInvoke(new Action(() => {
+                                this.Height += grpInkbunny.Height;
+                                grpInkbunny.Visible = true;
+                                lblInkbunnyStatus2.Text = Inkbunny.Username;
 							}));
 						} catch (Exception ex) {
 							this.BeginInvoke(new Action(() => {
-								lblInkbunnyStatus2.Text = "not logged in";
+								lblInkbunnyStatus2.Text = "click to log in";
 							}));
 							MessageBox.Show(ex.Message);
 						}
@@ -428,7 +433,7 @@ namespace WeasylSync {
 
 			if (Inkbunny == null) {
 				InkbunnyLogin();
-				MessageBox.Show("Weasyl is logging in. Please try again when the status is updated in a few seconds.");
+				MessageBox.Show("Inkbunny is logging in. Please try again when the status is updated in a few seconds.");
 				return;
 			}
 
@@ -529,6 +534,10 @@ namespace WeasylSync {
 
 		private void lnkTumblrPost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTumblrPost.Text);
+        }
+
+        private void lblInkbunnyStatus2_Click(object sender, EventArgs e) {
+            InkbunnyLogin();
         }
 
         private void btnInkbunnyPost_Click(object sender, EventArgs e) {
