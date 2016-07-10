@@ -1,14 +1,14 @@
-WeasylSync
-==========
+WeasylSync 1.1
+==============
 
-Download: https://dl.dropboxusercontent.com/u/57430384/WeasylSync%201.0.zip  
-Mirror: http://www.mediafire.com/download/4tbcnkx4hn8zawf/WeasylSync_1.0.zip  
+Download (1.0): https://dl.dropboxusercontent.com/u/57430384/WeasylSync%201.0.zip  
+Mirror (1.0): http://www.mediafire.com/download/4tbcnkx4hn8zawf/WeasylSync_1.0.zip  
 Source: https://github.com/libertyernie/WeasylSync
 
 --------------------
 
 WeasylSync is a Windows desktop application that loads individual submissions
-from Weasyl and lets you post them to your Tumblr and InkBunny accounts,
+from Weasyl and lets you post them to your Tumblr and Inkbunny accounts,
 maintaining the title, description, and tags.
 
 Only visual submissions (artwork) are supported at this time.
@@ -18,17 +18,12 @@ Requirements:
 * Windows Vista or higher
 * .NET Framework 4.5 or higher
 
-NOTE: In this branch, Inkbunny support is incomplete, and Tumblr support isn't
-accessible at the moment.
-
 Authentication
 --------------
 
 To use this application, you must connect it to both your Weasyl and Tumblr
 accounts. Information for both will be stored in the file WeasylSync.json, so
 keep that file secure!
-
-To upload to Inkbunny, you need to log in each time you run the program.
 
 ### Weasyl
 
@@ -47,6 +42,12 @@ will be stored in WeasylSync.json with the other settings.
 If you are already logged into Tumblr in Internet Explorer, you can
 right-click the Sign In button to use your existing IE session and aboid
 having to re-enter your username and password.
+
+### Inkbunny
+
+To upload to Inkbunny, you need to log in each time you run the program. Click
+on the "click to log in" text next to the Inkbunny label on the bottom of the
+window; when Inkbunny finishes logging in, additional controls will appear.
 
 Posting to Tumblr
 -----------------
@@ -118,7 +119,7 @@ Settings are stored in the file WeasylSync.json.
 Compiling from Source
 ---------------------
 
-This project was built with Visual Studio 2013.
+This project was built with Visual Studio 2015.
 
 The file OAuthConsumer.cs is missing from the WeasylSync project. Get your own
 Tumblr OAuth keys at https://www.tumblr.com/oauth/apps, then put the following
@@ -135,6 +136,5 @@ Notes
 -----
 
 * Although Weasyl generally offers submission info without any authentication,
-  the API key is required in this program for two reasons: it allows you to
-  fetch info on submissions with a rating above "general", and requiring the
-  API key avoids Weasyl bug 471.
+  the API key is required in this program because it allows you to fetch info
+  on submissions with a rating above "general".

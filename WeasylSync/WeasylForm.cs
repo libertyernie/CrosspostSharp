@@ -432,9 +432,9 @@ namespace WeasylSync {
 			}
 
 			if (Inkbunny == null) {
-				InkbunnyLogin();
-				MessageBox.Show("Inkbunny is logging in. Please try again when the status is updated in a few seconds.");
-				return;
+				MessageBox.Show("You must log into Inkbunny before posting.");
+                InkbunnyLogin();
+                return;
 			}
 
 			lProgressBar1.Maximum = 2;

@@ -11,9 +11,11 @@ namespace InkbunnyLib {
 	public class InkbunnyClient {
 		private LoginResponse loginResponse;
 
-		public string Username {
+        public string Username { get; private set; }
+
+		public long UserId {
 			get {
-				return loginResponse.user_id.ToString();
+				return loginResponse.user_id;
 			}
 		}
 
@@ -33,6 +35,7 @@ namespace InkbunnyLib {
 					throw new Exception(loginResponse.error_message);
 				}
 			}
+            this.Username = username;
 		}
 
 		public async Task<long> Upload(
