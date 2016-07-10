@@ -66,8 +66,11 @@ namespace InkbunnyLib {
                 case HtmlNodeType.Element:
                     switch (node.Name) {
                         case "p":
+                            if (node.ParentNode?.FirstChild != node) {
+                                outText.Write("\r\n\r\n");
+                            }
+                            break;
                         case "br":
-                            // treat paragraphs as crlf
                             outText.Write("\r\n");
                             break;
                         case "h1":
