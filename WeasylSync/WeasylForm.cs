@@ -120,7 +120,7 @@ namespace WeasylSync {
 				}
 
 				LProgressBar.Visible = false;
-				this.BeginInvoke(new Action<bool>(UpdateSettingsInWindow), refreshGallery);
+				if (this.IsHandleCreated) this.BeginInvoke(new Action<bool>(UpdateSettingsInWindow), refreshGallery);
 			}
 		}
 
@@ -200,7 +200,7 @@ namespace WeasylSync {
 							this.backid = null;
 							this.nextid = null;
 						}
-						this.BeginInvoke(new Action(() => {
+						if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
 							btnUp.Enabled = (this.backid != null);
 							btnDown.Enabled = (this.nextid != null);
 						}));
@@ -219,7 +219,7 @@ namespace WeasylSync {
 		#region Tumblr lookup
 		private void UpdateExistingPostLink() {
 			if (this.InvokeRequired) {
-				this.BeginInvoke(new Action(UpdateExistingPostLink));
+				if (this.IsHandleCreated) this.BeginInvoke(new Action(UpdateExistingPostLink));
 				return;
 			}
 
@@ -409,13 +409,13 @@ namespace WeasylSync {
 					Task.Run(() => {
 						try {
 							Inkbunny = new InkbunnyClient(d.Username, d.Password);
-                            this.BeginInvoke(new Action(() => {
+                            if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
                                 this.Height += grpInkbunny.Height;
                                 grpInkbunny.Visible = true;
                                 lblInkbunnyStatus2.Text = Inkbunny.Username;
 							}));
 						} catch (Exception ex) {
-							this.BeginInvoke(new Action(() => {
+							if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
 								lblInkbunnyStatus2.Text = "click to log in";
 							}));
 							MessageBox.Show(ex.Message);
@@ -448,7 +448,7 @@ namespace WeasylSync {
                     currentImage.Data
                 });
 
-                this.BeginInvoke(new Action(() => {
+                if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
                     lProgressBar1.Value = 2;
                 }));
 
@@ -472,7 +472,7 @@ namespace WeasylSync {
                 Console.WriteLine(o.submission_id);
                 Console.WriteLine(o.twitter_authentication_success);
 
-                this.BeginInvoke(new Action(() => {
+                if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
                     lProgressBar1.Visible = false;
                 }));
             } catch (Exception ex) {
