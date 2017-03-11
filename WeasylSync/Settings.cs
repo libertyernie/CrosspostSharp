@@ -36,7 +36,14 @@ namespace WeasylSync {
 
 		public TumblrSettings Tumblr { get; set; }
 
-		public class PostSettings {
+        public class InkbunnySettings {
+            public string DefaultUsername { get; set; }
+            public string DefaultPassword { get; set; }
+        }
+
+        public InkbunnySettings Inkbunny { get; set; }
+
+        public class PostSettings {
 			public string HeaderHTML { get; set; }
 			public string FooterHTML { get; set; }
 			public string Tags { get; set; }
@@ -75,6 +82,12 @@ namespace WeasylSync {
 					AutoSidePadding = true,
 					FindPreviousPost = true
 				};
+            if (s.Inkbunny == null) {
+                s.Inkbunny = new InkbunnySettings {
+                    DefaultUsername = "",
+                    DefaultPassword = ""
+                };
+            }
 			if (s.Defaults == null)
 				s.Defaults = new PostSettings {
 					HeaderHTML = "<p><b>{TITLE}</b></p>",

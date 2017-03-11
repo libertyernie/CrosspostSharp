@@ -29,6 +29,9 @@ namespace WeasylSync {
 			Settings.Tumblr.AutoSidePadding = chkSidePadding.Checked;
 			Settings.Tumblr.FindPreviousPost = chkTagSearch.Checked;
 
+            Settings.Inkbunny.DefaultUsername = txtIBDefaultUsername.Text;
+            Settings.Inkbunny.DefaultPassword = txtIBDefaultPassword.Text;
+
 			Settings.Defaults.HeaderHTML = txtHeader.Text;
 			Settings.Defaults.FooterHTML = txtFooter.Text;
 			Settings.Defaults.Tags = txtTags.Text;
@@ -53,6 +56,9 @@ namespace WeasylSync {
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
 			chkSidePadding.Checked = Settings.Tumblr.AutoSidePadding;
 			chkTagSearch.Checked = Settings.Tumblr.FindPreviousPost;
+
+            txtIBDefaultUsername.Text = Settings.Inkbunny.DefaultUsername ?? "";
+            txtIBDefaultPassword.Text = Settings.Inkbunny.DefaultPassword ?? "";
 
 			txtHeader.Text = Settings.Defaults.HeaderHTML ?? "";
 			txtFooter.Text = Settings.Defaults.FooterHTML ?? "";

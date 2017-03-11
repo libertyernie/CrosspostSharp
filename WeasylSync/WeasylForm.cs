@@ -10,11 +10,9 @@ using WeasylSyncLib;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;
-using Newtonsoft.Json;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using InkbunnyLib;
 
 namespace WeasylSync {
@@ -404,7 +402,9 @@ namespace WeasylSync {
 		#region Inkbunny
 		public void InkbunnyLogin() {
             using (LoginDialog d = new LoginDialog()) {
-            	if (d.ShowDialog() == DialogResult.OK) {
+                d.Username = GlobalSettings.Inkbunny.DefaultUsername ?? "";
+                d.Password = GlobalSettings.Inkbunny.DefaultPassword ?? "";
+                if (d.ShowDialog() == DialogResult.OK) {
 					lblInkbunnyStatus2.Text = "Working...";
 					Task.Run(() => {
 						try {
