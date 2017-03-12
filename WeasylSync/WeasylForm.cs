@@ -52,6 +52,14 @@ namespace WeasylSync {
             }
         }
 
+        private void InvokeAndForget(Action f) {
+            if (this.IsHandleCreated & this.InvokeRequired) {
+                this.BeginInvoke(f);
+            } else {
+                f();
+            }
+        }
+
         public WeasylForm() {
 			InitializeComponent();
 
@@ -114,7 +122,7 @@ namespace WeasylSync {
 			}
 
             LProgressBar.Visible = false;
-            if (this.IsHandleCreated) this.BeginInvoke(new Action<bool>(UpdateSettingsInWindow), refreshGallery);
+            InvokeAndForget(() => UpdateSettingsInWindow(refreshGallery));
         }
 
 		private void UpdateSettingsInWindow(bool refreshGallery) {
@@ -197,10 +205,10 @@ namespace WeasylSync {
 			} finally {
                 LProgressBar.Visible = false;
 
-                this.BeginInvoke(new Action(() => {
+                InvokeAndForget(() => {
                     btnUp.Enabled = (this.backid != null);
                     btnDown.Enabled = (this.nextid != null);
-                }));
+                });
             }
 		}
 		#endregion
@@ -208,7 +216,7 @@ namespace WeasylSync {
 		#region Tumblr lookup
 		private void UpdateExistingPostLink() {
 			if (this.InvokeRequired) {
-				if (this.IsHandleCreated) this.BeginInvoke(new Action(UpdateExistingPostLink));
+                InvokeAndForget(UpdateExistingPostLink);
 				return;
 			}
 
@@ -382,6 +390,8 @@ namespace WeasylSync {
             } catch (Exception e) {
                 var messages = (e as AggregateException)?.InnerExceptions?.Select(x => x.Message) ?? new string[] { e.Message };
                 MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
+            } finally {
+                LProgressBar.Visible = false;
             }
         }
 		#endregion
@@ -392,18 +402,18 @@ namespace WeasylSync {
                 d.Username = GlobalSettings.Inkbunny.DefaultUsername ?? "";
                 d.Password = GlobalSettings.Inkbunny.DefaultPassword ?? "";
                 if (d.ShowDialog() == DialogResult.OK) {
-                    this.BeginInvoke(new Action(() => lblInkbunnyStatus2.Text = "Working..."));
+                    InvokeAndForget(() => lblInkbunnyStatus2.Text = "Working...");
 					try {
 						Inkbunny = await InkbunnyClient.Create(d.Username, d.Password);
-                        this.BeginInvoke(new Action(() => {
+                        InvokeAndForget(() => {
                             this.Height += grpInkbunny.Height;
                             grpInkbunny.Visible = true;
                             lblInkbunnyStatus2.Text = Inkbunny.Username;
-						}));
+						});
 					} catch (Exception ex) {
-						this.BeginInvoke(new Action(() => {
+                        InvokeAndForget(() => {
 							lblInkbunnyStatus2.Text = "click to log in";
-						}));
+						});
 						MessageBox.Show(ex.Message);
 					}
 				}
@@ -452,10 +462,10 @@ namespace WeasylSync {
                 );
                 Console.WriteLine(o.submission_id);
                 Console.WriteLine(o.twitter_authentication_success);
-
-                LProgressBar.Visible = false;
             } catch (Exception ex) {
                 MessageBox.Show("An error occured: \"" + ex.Message + "\"\r\nCheck to see if the blog name is correct.");
+            } finally {
+                LProgressBar.Visible = false;
             }
         }
 		#endregion
