@@ -106,9 +106,7 @@ namespace WeasylSync {
 				lblTumblrStatus2.ForeColor = SystemColors.WindowText;
 			} else {
 				try {
-					var t = Tumblr.GetUserInfoAsync();
-					t.Wait();
-					TumblrUsername = t.Result.Name;
+                    TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
 				} catch (AggregateException e) {
 					TumblrUsername = null;
 					TumblrExceptionMsg = e.InnerException.Message;
@@ -389,27 +387,25 @@ namespace WeasylSync {
 		#endregion
 
 		#region Inkbunny
-		public void InkbunnyLogin() {
+		public async Task InkbunnyLogin() {
             using (LoginDialog d = new LoginDialog()) {
                 d.Username = GlobalSettings.Inkbunny.DefaultUsername ?? "";
                 d.Password = GlobalSettings.Inkbunny.DefaultPassword ?? "";
                 if (d.ShowDialog() == DialogResult.OK) {
-					lblInkbunnyStatus2.Text = "Working...";
-					Task.Run(() => {
-						try {
-							Inkbunny = new InkbunnyClient(d.Username, d.Password);
-                            if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
-                                this.Height += grpInkbunny.Height;
-                                grpInkbunny.Visible = true;
-                                lblInkbunnyStatus2.Text = Inkbunny.Username;
-							}));
-						} catch (Exception ex) {
-							if (this.IsHandleCreated) this.BeginInvoke(new Action(() => {
-								lblInkbunnyStatus2.Text = "click to log in";
-							}));
-							MessageBox.Show(ex.Message);
-						}
-					});
+                    this.BeginInvoke(new Action(() => lblInkbunnyStatus2.Text = "Working..."));
+					try {
+						Inkbunny = await InkbunnyClient.Create(d.Username, d.Password);
+                        this.BeginInvoke(new Action(() => {
+                            this.Height += grpInkbunny.Height;
+                            grpInkbunny.Visible = true;
+                            lblInkbunnyStatus2.Text = Inkbunny.Username;
+						}));
+					} catch (Exception ex) {
+						this.BeginInvoke(new Action(() => {
+							lblInkbunnyStatus2.Text = "click to log in";
+						}));
+						MessageBox.Show(ex.Message);
+					}
 				}
 			}
 		}

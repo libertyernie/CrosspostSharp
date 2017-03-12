@@ -19,37 +19,47 @@ namespace InkbunnyLib {
 			}
 		}
 
-		public InkbunnyClient(string username, string password) {
-			HttpWebRequest req = WebRequest.CreateHttp("https://inkbunny.net/api_login.php");
-			req.Method = "POST";
-			req.ContentType = "application/x-www-form-urlencoded";
-			req.UserAgent = "WeasylSync/1.1";
-			using (StreamWriter sw = new StreamWriter(req.GetRequestStream())) {
-				sw.Write("username=" + WebUtility.UrlEncode(username));
-				sw.Write('&');
-				sw.Write("password=" + WebUtility.UrlEncode(password));
-			}
-			using (StreamReader sr = new StreamReader(req.GetResponse().GetResponseStream())) {
-				loginResponse = JsonConvert.DeserializeObject<LoginResponse>(sr.ReadToEnd());
-				if (loginResponse.error_code != null) {
-					throw new Exception(loginResponse.error_message);
-				}
-			}
-            this.Username = username;
-		}
+		private InkbunnyClient() { }
 
-		public async Task<long> Upload(
+        public static async Task<InkbunnyClient> Create(string username, string password) {
+            InkbunnyClient client = new InkbunnyClient();
+            client.Username = username;
+
+            HttpWebRequest req = WebRequest.CreateHttp("https://inkbunny.net/api_login.php");
+            req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded";
+            req.UserAgent = "WeasylSync/1.2";
+            using (Stream stream = await req.GetRequestStreamAsync()) {
+                using (StreamWriter sw = new StreamWriter(stream)) {
+                    await sw.WriteAsync($"username={WebUtility.UrlEncode(username)}&password={WebUtility.UrlEncode(password)}");
+                }
+            }
+            WebResponse response = await req.GetResponseAsync();
+            using (Stream stream = response.GetResponseStream()) {
+                using (StreamReader sr = new StreamReader(stream)) {
+                    string json = await sr.ReadToEndAsync();
+                    client.loginResponse = JsonConvert.DeserializeObject<LoginResponse>(json);
+                    if (client.loginResponse.error_code != null) {
+                        throw new Exception(client.loginResponse.error_message);
+                    }
+                }
+            }
+
+            return client;
+        }
+
+        public async Task<long> Upload(
             //long? submission_id = null,
             //bool? notify = null,
             //long? replace = null,
             //byte[] thumbnail = null,
             IEnumerable<byte[]> files = null
-		) {
-			string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
+        ) {
+            string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
-			var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_upload.php");
-			request.ContentType = "multipart/form-data; boundary=" + boundary;
-			request.Method = "POST";
+            var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_upload.php");
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.Method = "POST";
 
             using (var stream = await request.GetRequestStreamAsync()) {
                 using (var sw = new StreamWriter(stream)) {
@@ -233,7 +243,8 @@ namespace InkbunnyLib {
             using (var response = await request.GetResponseAsync()) {
                 using (var responseStream = response.GetResponseStream()) {
                     using (var sr = new StreamReader(responseStream)) {
-                        var r = JsonConvert.DeserializeObject<EditSubmissionResponse>(sr.ReadToEnd());
+                        string json = await sr.ReadToEndAsync();
+                        var r = JsonConvert.DeserializeObject<EditSubmissionResponse>(json);
                         if (r.error_code != null) {
                             throw new Exception(r.error_message);
                         }
