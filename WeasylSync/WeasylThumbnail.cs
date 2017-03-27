@@ -21,9 +21,8 @@ namespace WeasylSync {
 
 		#region Properties and variables
 		// Sets the submission for this thumbnail to display.
-		// The Submission object comes from the Weasyl gallery; the thumbnail is fetched immediately; and the details and actual image are fetched when necessary.
-		private Submission _submission;
-		public Submission Submission {
+		private SubmissionBaseDetail _submission;
+		public SubmissionBaseDetail Submission {
 			get {
 				return _submission;
 			}
@@ -33,9 +32,8 @@ namespace WeasylSync {
 			}
 		}
 
-		// These variables act as a cache; they will be null until the thumbnail is clicked on.
+		// This variable acts as a cache; it will be null until the thumbnail is clicked on.
 		public BinaryFile RawData { get; private set; }
-		public SubmissionDetail Details { get; private set; }
 
 		// Reference to the parent form
 		private WeasylForm mainForm;
@@ -74,7 +72,6 @@ namespace WeasylSync {
 			}
 
 			this.RawData = null;
-			this.Details = null;
 		}
 
 		// Downloads the submission details (including comments) and the submission image. Can be run on a separate thread.
@@ -103,14 +100,10 @@ namespace WeasylSync {
 					RawData = new BinaryFile(data, filename, resp.ContentType);
 				}
 
-				if (Details == null) {
-					Details = await mainForm.Weasyl.ViewSubmission(Submission);
-				}
-
                 mainForm.LProgressBar.Visible = false;
 
                 // SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
-                mainForm.Invoke(new Action<SubmissionDetail, BinaryFile>(mainForm.SetCurrentImage), Details, RawData);
+                mainForm.Invoke(new Action<SubmissionBaseDetail, BinaryFile>(mainForm.SetCurrentImage), Submission, RawData);
 			} catch (WebException ex) {
                 mainForm.LProgressBar.Visible = false;
                 MessageBox.Show(ex.Message);

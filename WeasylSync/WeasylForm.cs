@@ -33,7 +33,7 @@ namespace WeasylSync {
 		private WeasylThumbnail[] thumbnails;
 
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
-		private SubmissionDetail currentSubmission;
+		private SubmissionBaseDetail currentSubmission;
 		private BinaryFile currentImage;
 
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
@@ -144,15 +144,19 @@ namespace WeasylSync {
 
 		// This function is called after clicking on a WeasylThumbnail.
 		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
-		public void SetCurrentImage(SubmissionDetail submission, BinaryFile file) {
+		public void SetCurrentImage(SubmissionBaseDetail submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
 				txtTitle.Text = submission.title;
-				txtDescription.Text = submission.GetDescription(true);
+                txtDescription.Text = submission.GetDescription(true);
                 txtInkbunnyDescription.Text = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtURL.Text = submission.link;
 				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
-				chkWeasylSubmitIdTag.Text = "#weasyl" + submission.submitid;
+                if (submission is SubmissionDetail) {
+                    chkWeasylSubmitIdTag.Text = "#weasyl" + (submission as SubmissionDetail)?.submitid;
+                } else if (submission is CharacterDetail) {
+                    chkWeasylSubmitIdTag.Text = "#weasylcharacter" + (submission as CharacterDetail)?.charid;
+                }
 				pickDate.Value = pickTime.Value = submission.posted_at;
 				UpdateHTMLPreview();
 			}
@@ -174,35 +178,68 @@ namespace WeasylSync {
 		// Launches a thread to update the thumbnails.
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private async Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
-			try {
+            try {
                 LProgressBar.Maximum = 4 + thumbnails.Length;
                 LProgressBar.Value = 0;
                 LProgressBar.Visible = true;
 
-				if (WeasylUsername != null) {
-					var g = await Weasyl.UserGallery(user: WeasylUsername, count: this.thumbnails.Length, backid: backid, nextid: nextid);
-                    LProgressBar.Value += 4;
+                List<Task<SubmissionBaseDetail>> detailTasks = new List<Task<SubmissionBaseDetail>>(4);
+                if (WeasylUsername != null) {
+                    if (loadCharactersToolStripMenuItem.Checked) {
+                        // Scrape from weasyl website
+                        List<int> all_ids = await Weasyl.GetCharacterIds(WeasylUsername);
+                        IEnumerable<int> ids = all_ids;
+                        if (backid != null) {
+                            ids = ids.Where(id => id > backid);
+                        }
+                        if (nextid != null) {
+                            ids = ids.Where(id => id < nextid);
+                        }
+                        ids = ids.Take(4);
+                        // Determine backid and nextid
+                        this.nextid = all_ids.Any(x => x < ids.Min())
+                            ? ids.Min()
+                            : (int?)null;
+                        this.backid = all_ids.Any(x => x > ids.Max())
+                            ? ids.Max()
+                            : (int?)null;
+                        foreach (int id in ids) {
+                            detailTasks.Add(Weasyl.ViewCharacter(id));
+                        }
+                    } else {
+                        var result = await Weasyl.UserGallery(WeasylUsername, backid: backid, nextid: nextid, count: 4);
+                        this.backid = result.backid;
+                        this.nextid = result.nextid;
+                        IEnumerable<int> ids = result.submissions.Select(s => s.submitid);
+                        foreach (int id in ids) {
+                            detailTasks.Add(Weasyl.ViewSubmission(id));
+                        }
+                    }
+                    foreach (Task task in detailTasks) {
+                        task.ContinueWith(t => LProgressBar.Value++);
+                    }
+                    var details = new List<SubmissionBaseDetail>(detailTasks.Count);
+                    foreach (var task in detailTasks) {
+                        details.Add(await task);
+                    }
+                    details = details.OrderByDescending(d => d.posted_at).ToList();
                     for (int i = 0; i < this.thumbnails.Length; i++) {
-						if (i < g.submissions.Length) {
-							this.thumbnails[i].Submission = g.submissions[i];
-						} else {
-							this.thumbnails[i].Submission = null;
-						}
+                        this.thumbnails[i].Submission = i < details.Count
+                            ? details[i]
+                            : null;
                         LProgressBar.Value++;
                     }
-					this.backid = g.backid;
-					this.nextid = g.nextid;
-				} else {
+                } else {
                     LProgressBar.Value += 8;
-					for (int i = 0; i < this.thumbnails.Length; i++) {
-						this.thumbnails[i].Submission = null;
-					}
-					this.backid = null;
-					this.nextid = null;
-				}
-			} catch (WebException ex) {
-				MessageBox.Show(ex.Message);
-			} finally {
+                    for (int i = 0; i < this.thumbnails.Length; i++) {
+                        this.thumbnails[i].Submission = null;
+                    }
+                    this.backid = null;
+                    this.nextid = null;
+                }
+            } catch (WebException ex) {
+                MessageBox.Show(ex.Message);
+            } finally {
                 LProgressBar.Visible = false;
 
                 InvokeAndForget(() => {
@@ -210,11 +247,11 @@ namespace WeasylSync {
                     btnDown.Enabled = (this.nextid != null);
                 });
             }
-		}
-		#endregion
+        }
+        #endregion
 
-		#region Tumblr lookup
-		private void UpdateExistingPostLink() {
+        #region Tumblr lookup
+        private void UpdateExistingPostLink() {
 			if (this.InvokeRequired) {
                 InvokeAndForget(UpdateExistingPostLink);
 				return;
@@ -506,9 +543,14 @@ namespace WeasylSync {
 
 		private void chkTags2_CheckedChanged(object sender, EventArgs e) {
 			txtTags2.Enabled = chkTags2.Checked;
-		}
+        }
 
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
+
+        private void loadCharactersToolStripMenuItem_Click(object sender, EventArgs e) {
+            UpdateGalleryAsync();
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
 			using (SettingsDialog dialog = new SettingsDialog(GlobalSettings)) {
 				if (dialog.ShowDialog() != DialogResult.Cancel) {
 					GlobalSettings = dialog.Settings;
