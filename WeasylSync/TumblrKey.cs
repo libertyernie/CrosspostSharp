@@ -12,7 +12,7 @@ using WinFormsOAuth;
 namespace WeasylSync {
 	public static class TumblrKey {
 		public static Token Obtain(string consumerKey, string consumerSecret) {
-			var oauth = new OAuthTumblr(OAuthConsumer.Tumblr.CONSUMER_KEY, OAuthConsumer.Tumblr.CONSUMER_SECRET);
+			var oauth = new OAuthTumblr(consumerKey, consumerSecret);
 			oauth.getRequestToken();
 			string verifier = oauth.authorizeToken(); // display WebBrowser
 			if (verifier == null) return null;

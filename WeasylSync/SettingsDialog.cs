@@ -45,7 +45,7 @@ namespace WeasylSync {
 			if (string.Equals("Sign out", btnTumblrSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
 				Settings.TumblrToken = null;
 			} else {
-				Settings.TumblrToken = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
+				Settings.TumblrToken = TumblrKey.Obtain(OAuthConsumer.Tumblr.CONSUMER_KEY, OAuthConsumer.Tumblr.CONSUMER_SECRET);
 			}
 			UpdateTokenLabel();
 		}
@@ -75,9 +75,10 @@ namespace WeasylSync {
 				btnTumblrSignIn.ContextMenuStrip = null;
 				btnTumblrSignIn.Text = "Sign out";
 				using (TumblrClient client = new TumblrClientFactory().Create<TumblrClient>(
-				OAuthConsumer.CONSUMER_KEY,
-				OAuthConsumer.CONSUMER_SECRET,
-				token)) {
+				    OAuthConsumer.Tumblr.CONSUMER_KEY,
+				    OAuthConsumer.Tumblr.CONSUMER_SECRET,
+				    token
+                )) {
 					try {
 						Task<UserInfo> t = client.GetUserInfoAsync();
 						t.Wait();

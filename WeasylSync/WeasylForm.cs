@@ -87,8 +87,8 @@ namespace WeasylSync {
 			if (token != null && token.IsValid) {
 				if (Tumblr != null) Tumblr.Dispose();
 				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
-					OAuthConsumer.CONSUMER_KEY,
-					OAuthConsumer.CONSUMER_SECRET,
+					OAuthConsumer.Tumblr.CONSUMER_KEY,
+					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					token);
 			}
 
@@ -355,15 +355,15 @@ namespace WeasylSync {
 
 		#region Tumblr
 		private void CreateTumblrClient_GetNewToken() {
-			Token token = TumblrKey.Obtain(OAuthConsumer.CONSUMER_KEY, OAuthConsumer.CONSUMER_SECRET);
+			Token token = TumblrKey.Obtain(OAuthConsumer.Tumblr.CONSUMER_KEY, OAuthConsumer.Tumblr.CONSUMER_SECRET);
 			if (token == null) {
 				return;
 			} else {
 				GlobalSettings.TumblrToken = token;
 				GlobalSettings.Save();
 				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
-					OAuthConsumer.CONSUMER_KEY,
-					OAuthConsumer.CONSUMER_SECRET,
+					OAuthConsumer.Tumblr.CONSUMER_KEY,
+					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					token);
 			}
 		}

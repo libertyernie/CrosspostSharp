@@ -12,7 +12,7 @@ using WinFormsOAuth;
 namespace WeasylSync {
 	public static class TwitterKey {
 		public static Token Obtain(string consumerKey, string consumerSecret) {
-			var oauth = new OAuthTwitter(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET);
+			var oauth = new OAuthTwitter(consumerKey, consumerSecret);
 			oauth.getRequestToken();
 			string verifier = oauth.authorizeToken(); // display WebBrowser
 			if (verifier == null) return null;
