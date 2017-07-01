@@ -90,6 +90,7 @@
     <Compile Include="SettingsDialog.Designer.cs">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="TwitterKey.cs" />
     <Compile Include="TumblrKey.cs" />
     <Compile Include="WeasylForm.cs">
       <SubType>Form</SubType>
