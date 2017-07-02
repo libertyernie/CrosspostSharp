@@ -69,9 +69,6 @@ namespace WeasylSync {
 
 			backid = nextid = null;
 
-            this.Height -= grpInkbunny.Height;
-            grpInkbunny.Visible = false;
-
             this.Shown += (o, e) => LoadFromSettings();
         }
 
@@ -443,8 +440,6 @@ namespace WeasylSync {
 					try {
 						Inkbunny = await InkbunnyClient.Create(d.Username, d.Password);
                         InvokeAndForget(() => {
-                            this.Height += grpInkbunny.Height;
-                            grpInkbunny.Visible = true;
                             lblInkbunnyStatus2.Text = Inkbunny.Username;
 						});
 					} catch (Exception ex) {
