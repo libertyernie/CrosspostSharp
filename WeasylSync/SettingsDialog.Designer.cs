@@ -23,7 +23,6 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.groupWeasyl = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,9 +43,6 @@
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblFooter = new System.Windows.Forms.Label();
             this.txtFooter = new System.Windows.Forms.TextBox();
-            this.menuSignIn = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuItemPrivate = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuItemIECookies = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupDefaults = new System.Windows.Forms.GroupBox();
@@ -62,7 +58,6 @@
             this.lblTwitterToken = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
-            this.menuSignIn.SuspendLayout();
             this.groupDefaults.SuspendLayout();
             this.groupInkbunny.SuspendLayout();
             this.groupTwitter.SuspendLayout();
@@ -258,28 +253,6 @@
             this.txtFooter.Size = new System.Drawing.Size(321, 20);
             this.txtFooter.TabIndex = 2;
             // 
-            // menuSignIn
-            // 
-            this.menuSignIn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuItemPrivate,
-            this.menuItemIECookies});
-            this.menuSignIn.Name = "menuSignIn";
-            this.menuSignIn.Size = new System.Drawing.Size(268, 48);
-            // 
-            // menuItemPrivate
-            // 
-            this.menuItemPrivate.Name = "menuItemPrivate";
-            this.menuItemPrivate.Size = new System.Drawing.Size(267, 22);
-            this.menuItemPrivate.Text = "Use private browser session (default)";
-            this.menuItemPrivate.Click += new System.EventHandler(this.menuItemPrivate_Click);
-            // 
-            // menuItemIECookies
-            // 
-            this.menuItemIECookies.Name = "menuItemIECookies";
-            this.menuItemIECookies.Size = new System.Drawing.Size(267, 22);
-            this.menuItemIECookies.Text = "Use cookies/login from Internet Explorer";
-            this.menuItemIECookies.Click += new System.EventHandler(this.menuItemIECookies_Click);
-            // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -444,7 +417,6 @@
             this.groupWeasyl.PerformLayout();
             this.groupTumblr.ResumeLayout(false);
             this.groupTumblr.PerformLayout();
-            this.menuSignIn.ResumeLayout(false);
             this.groupDefaults.ResumeLayout(false);
             this.groupDefaults.PerformLayout();
             this.groupInkbunny.ResumeLayout(false);
@@ -475,9 +447,6 @@
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Label lblHeader;
 		private System.Windows.Forms.TextBox txtHeader;
-		private System.Windows.Forms.ContextMenuStrip menuSignIn;
-		private System.Windows.Forms.ToolStripMenuItem menuItemPrivate;
-		private System.Windows.Forms.ToolStripMenuItem menuItemIECookies;
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 		private System.Windows.Forms.CheckBox chkTagSearch;
 		private System.Windows.Forms.CheckBox chkSidePadding;

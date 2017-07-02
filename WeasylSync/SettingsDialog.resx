@@ -120,7 +120,4 @@
   <data name="lblTokenInfo.Text" xml:space="preserve">
     <value>This application will not see your Tumblr password, but it will have access to your Tumblr account. The application-specific security keys are stored in the file WeasylSync.json, so make sure you keep that file secure.</value>
   </data>
-  <metadata name="menuSignIn.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
 </root>

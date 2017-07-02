@@ -103,7 +103,6 @@ namespace WeasylSync {
 				}
 			} else {
 				lblTokenStatus.ForeColor = SystemColors.WindowText;
-				btnTumblrSignIn.ContextMenuStrip = menuSignIn;
 				btnTumblrSignIn.Text = "Sign in";
 				lblTokenStatus.Text = "Not signed in";
 			}
@@ -114,7 +113,6 @@ namespace WeasylSync {
             try {
                 string screenName = twitterCredentials?.GetScreenName();
                 if (screenName == null) {
-                    btnTwitterSignIn.ContextMenuStrip = menuSignIn;
                     btnTwitterSignIn.Text = "Sign in";
                     lblTwitterTokenStatus.ForeColor = SystemColors.WindowText;
                     lblTwitterTokenStatus.Text = "Not signed in";
@@ -129,15 +127,5 @@ namespace WeasylSync {
                 lblTokenStatus.Text = string.Format("{0} ({1}...)", e.Message, twitterCredentials.AccessToken.Substring(0, 8));
             }
         }
-
-        private void menuItemPrivate_Click(object sender, EventArgs e) {
-            (sender as Button)?.PerformClick();
-		}
-
-		private void menuItemIECookies_Click(object sender, EventArgs e) {
-			IECookiePersist.Suppress(false);
-            (sender as Button)?.PerformClick();
-            IECookiePersist.Suppress(true);
-		}
     }
 }
