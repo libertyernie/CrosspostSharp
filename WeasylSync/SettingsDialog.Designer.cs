@@ -51,15 +51,21 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupDefaults = new System.Windows.Forms.GroupBox();
             this.groupInkbunny = new System.Windows.Forms.GroupBox();
-            this.lblIBDefaultUsername = new System.Windows.Forms.Label();
-            this.txtIBDefaultUsername = new System.Windows.Forms.TextBox();
             this.lblIBDefaultPassword = new System.Windows.Forms.Label();
             this.txtIBDefaultPassword = new System.Windows.Forms.TextBox();
+            this.lblIBDefaultUsername = new System.Windows.Forms.Label();
+            this.txtIBDefaultUsername = new System.Windows.Forms.TextBox();
+            this.groupTwitter = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnTwitterSignIn = new System.Windows.Forms.Button();
+            this.lblTwitterTokenStatus = new System.Windows.Forms.Label();
+            this.lblTwitterToken = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.menuSignIn.SuspendLayout();
             this.groupDefaults.SuspendLayout();
             this.groupInkbunny.SuspendLayout();
+            this.groupTwitter.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupWeasyl
@@ -278,7 +284,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(266, 453);
+            this.btnSave.Location = new System.Drawing.Point(266, 536);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 5;
@@ -290,7 +296,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(347, 453);
+            this.btnCancel.Location = new System.Drawing.Point(347, 536);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 6;
@@ -328,24 +334,6 @@
             this.groupInkbunny.TabStop = false;
             this.groupInkbunny.Text = "Inkbunny";
             // 
-            // lblIBDefaultUsername
-            // 
-            this.lblIBDefaultUsername.AutoSize = true;
-            this.lblIBDefaultUsername.Location = new System.Drawing.Point(6, 22);
-            this.lblIBDefaultUsername.Name = "lblIBDefaultUsername";
-            this.lblIBDefaultUsername.Size = new System.Drawing.Size(93, 13);
-            this.lblIBDefaultUsername.TabIndex = 3;
-            this.lblIBDefaultUsername.Text = "Default username:";
-            // 
-            // txtIBDefaultUsername
-            // 
-            this.txtIBDefaultUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIBDefaultUsername.Location = new System.Drawing.Point(105, 19);
-            this.txtIBDefaultUsername.Name = "txtIBDefaultUsername";
-            this.txtIBDefaultUsername.Size = new System.Drawing.Size(299, 20);
-            this.txtIBDefaultUsername.TabIndex = 2;
-            // 
             // lblIBDefaultPassword
             // 
             this.lblIBDefaultPassword.AutoSize = true;
@@ -364,13 +352,86 @@
             this.txtIBDefaultPassword.Size = new System.Drawing.Size(299, 20);
             this.txtIBDefaultPassword.TabIndex = 4;
             // 
+            // lblIBDefaultUsername
+            // 
+            this.lblIBDefaultUsername.AutoSize = true;
+            this.lblIBDefaultUsername.Location = new System.Drawing.Point(6, 22);
+            this.lblIBDefaultUsername.Name = "lblIBDefaultUsername";
+            this.lblIBDefaultUsername.Size = new System.Drawing.Size(93, 13);
+            this.lblIBDefaultUsername.TabIndex = 3;
+            this.lblIBDefaultUsername.Text = "Default username:";
+            // 
+            // txtIBDefaultUsername
+            // 
+            this.txtIBDefaultUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtIBDefaultUsername.Location = new System.Drawing.Point(105, 19);
+            this.txtIBDefaultUsername.Name = "txtIBDefaultUsername";
+            this.txtIBDefaultUsername.Size = new System.Drawing.Size(299, 20);
+            this.txtIBDefaultUsername.TabIndex = 2;
+            // 
+            // groupTwitter
+            // 
+            this.groupTwitter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupTwitter.Controls.Add(this.label2);
+            this.groupTwitter.Controls.Add(this.btnTwitterSignIn);
+            this.groupTwitter.Controls.Add(this.lblTwitterTokenStatus);
+            this.groupTwitter.Controls.Add(this.lblTwitterToken);
+            this.groupTwitter.Location = new System.Drawing.Point(12, 453);
+            this.groupTwitter.Name = "groupTwitter";
+            this.groupTwitter.Size = new System.Drawing.Size(410, 77);
+            this.groupTwitter.TabIndex = 17;
+            this.groupTwitter.TabStop = false;
+            this.groupTwitter.Text = "Twitter";
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(80, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(324, 32);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "This application will not see your Twitter password, but it will have access to y" +
+    "our Twitter account. See the note about Tumblr above.";
+            // 
+            // btnTwitterSignIn
+            // 
+            this.btnTwitterSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTwitterSignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnTwitterSignIn.Name = "btnTwitterSignIn";
+            this.btnTwitterSignIn.Size = new System.Drawing.Size(75, 20);
+            this.btnTwitterSignIn.TabIndex = 10;
+            this.btnTwitterSignIn.Text = "Sign in";
+            this.btnTwitterSignIn.UseVisualStyleBackColor = true;
+            this.btnTwitterSignIn.Click += new System.EventHandler(this.btnTwitterSignIn_Click);
+            // 
+            // lblTwitterTokenStatus
+            // 
+            this.lblTwitterTokenStatus.AutoSize = true;
+            this.lblTwitterTokenStatus.Location = new System.Drawing.Point(80, 23);
+            this.lblTwitterTokenStatus.Name = "lblTwitterTokenStatus";
+            this.lblTwitterTokenStatus.Size = new System.Drawing.Size(69, 13);
+            this.lblTwitterTokenStatus.TabIndex = 9;
+            this.lblTwitterTokenStatus.Text = "Not signed in";
+            // 
+            // lblTwitterToken
+            // 
+            this.lblTwitterToken.AutoSize = true;
+            this.lblTwitterToken.Location = new System.Drawing.Point(6, 23);
+            this.lblTwitterToken.Name = "lblTwitterToken";
+            this.lblTwitterToken.Size = new System.Drawing.Size(41, 13);
+            this.lblTwitterToken.TabIndex = 8;
+            this.lblTwitterToken.Text = "Token:";
+            // 
             // SettingsDialog
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(434, 488);
+            this.ClientSize = new System.Drawing.Size(434, 571);
+            this.Controls.Add(this.groupTwitter);
             this.Controls.Add(this.groupInkbunny);
             this.Controls.Add(this.groupDefaults);
             this.Controls.Add(this.btnCancel);
@@ -388,6 +449,8 @@
             this.groupDefaults.PerformLayout();
             this.groupInkbunny.ResumeLayout(false);
             this.groupInkbunny.PerformLayout();
+            this.groupTwitter.ResumeLayout(false);
+            this.groupTwitter.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -424,5 +487,10 @@
         private System.Windows.Forms.TextBox txtIBDefaultUsername;
         private System.Windows.Forms.Label lblIBDefaultPassword;
         private System.Windows.Forms.TextBox txtIBDefaultPassword;
+        private System.Windows.Forms.GroupBox groupTwitter;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnTwitterSignIn;
+        private System.Windows.Forms.Label lblTwitterTokenStatus;
+        private System.Windows.Forms.Label lblTwitterToken;
     }
 }

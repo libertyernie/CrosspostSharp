@@ -14,6 +14,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using InkbunnyLib;
+using Tweetinvi.Models;
+using Tweetinvi;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -25,7 +27,9 @@ namespace WeasylSync {
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
 
-		public InkbunnyClient Inkbunny;
+        private ITwitterCredentials TwitterCredentials;
+
+        public InkbunnyClient Inkbunny;
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
@@ -74,7 +78,7 @@ namespace WeasylSync {
         private async void LoadFromSettings() {
             try {
                 LProgressBar.Value = 0;
-                LProgressBar.Maximum = 2;
+                LProgressBar.Maximum = 3;
                 LProgressBar.Visible = true;
 
                 Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
@@ -88,7 +92,7 @@ namespace WeasylSync {
                         token);
                 }
 
-                User user = null;
+                WeasylSyncLib.User user = null;
                 try {
                     user = await Weasyl.Whoami();
                     lblWeasylStatus2.Text = user?.login ?? "not logged in";
@@ -119,6 +123,21 @@ namespace WeasylSync {
                         lblTumblrStatus2.Text = e.Message;
                         lblTumblrStatus2.ForeColor = Color.DarkRed;
                     }
+                }
+
+                LProgressBar.Value++;
+
+                TwitterCredentials = GlobalSettings.TwitterCredentials;
+                try {
+                    var twitterUser = Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => Tweetinvi.User.GetAuthenticatedUser());
+                    lblTwitterStatus2.Text = twitterUser?.ScreenName ?? "not logged in";
+                    lblTwitterStatus2.ForeColor = twitterUser == null
+                        ? SystemColors.WindowText
+                        : Color.DarkGreen;
+                } catch (Exception e) {
+                    TwitterCredentials = null;
+                    lblTwitterStatus2.Text = e.Message;
+                    lblTwitterStatus2.ForeColor = Color.DarkRed;
                 }
 
                 LProgressBar.Visible = false;
@@ -178,7 +197,7 @@ namespace WeasylSync {
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
             try {
-                LProgressBar.Maximum = 2 * thumbnails.Length;
+                LProgressBar.Maximum = thumbnails.Length;
                 LProgressBar.Value = 0;
                 LProgressBar.Visible = true;
 
@@ -226,10 +245,9 @@ namespace WeasylSync {
                         this.thumbnails[i].Submission = i < details.Count
                             ? details[i]
                             : null;
-                        LProgressBar.Value++;
                     }
                 } else {
-                    LProgressBar.Value += 2 * this.thumbnails.Length;
+                    LProgressBar.Value += this.thumbnails.Length;
                     for (int i = 0; i < this.thumbnails.Length; i++) {
                         this.thumbnails[i].Submission = null;
                     }

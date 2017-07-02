@@ -22,9 +22,9 @@ namespace WinFormsOAuth
 
         public enum Method { GET, POST, PUT, DELETE };
 		public const string USER_AGENT = null;
-		public const string REQUEST_TOKEN = "http://api.twitter.com/oauth/request_token";
-		public const string AUTHORIZE = "http://api.twitter.com/oauth/authorize";
-		public const string ACCESS_TOKEN = "http://api.twitter.com/oauth/access_token";
+		public const string REQUEST_TOKEN = "https://api.twitter.com/oauth/request_token";
+		public const string AUTHORIZE = "https://api.twitter.com/oauth/authorize";
+		public const string ACCESS_TOKEN = "https://api.twitter.com/oauth/access_token";
 
         public const string CALLBACK = "http://www.example.net";
 

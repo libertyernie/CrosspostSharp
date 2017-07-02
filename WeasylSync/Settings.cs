@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Models;
 
 namespace WeasylSync {
 	public class Settings {
@@ -36,6 +37,13 @@ namespace WeasylSync {
 
 		public TumblrSettings Tumblr { get; set; }
 
+        public class TwitterSettings {
+            public string TokenKey { get; set; }
+            public string TokenSecret { get; set; }
+        }
+
+        public TwitterSettings Twitter { get; set; }
+
         public class InkbunnySettings {
             public string DefaultUsername { get; set; }
             public string DefaultPassword { get; set; }
@@ -62,9 +70,20 @@ namespace WeasylSync {
 				Tumblr.TokenKey = value == null ? null : value.Key;
 				Tumblr.TokenSecret = value == null ? null : value.Secret;
 			}
-		}
+        }
 
-		public static Settings Load(string filename = "WeasylSync.json") {
+        [JsonIgnore]
+        public TwitterCredentials TwitterCredentials {
+            get {
+                return new TwitterCredentials(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, Twitter?.TokenKey, Twitter?.TokenSecret);
+            }
+            set {
+                Twitter.TokenKey = value?.AccessToken;
+                Twitter.TokenSecret = value?.AccessTokenSecret;
+            }
+        }
+
+        public static Settings Load(string filename = "WeasylSync.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
@@ -82,6 +101,11 @@ namespace WeasylSync {
 					AutoSidePadding = true,
 					FindPreviousPost = true
 				};
+            if (s.Twitter == null)
+                s.Twitter = new TwitterSettings {
+                    TokenKey = null,
+                    TokenSecret = null
+                };
             if (s.Inkbunny == null) {
                 s.Inkbunny = new InkbunnySettings {
                     DefaultUsername = "",

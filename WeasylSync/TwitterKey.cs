@@ -1,17 +1,9 @@
-﻿using DontPanic.TumblrSharp.OAuth;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Tweetinvi.Models;
 using WinFormsOAuth;
 
 namespace WeasylSync {
 	public static class TwitterKey {
-		public static Token Obtain(string consumerKey, string consumerSecret) {
+		public static TwitterCredentials Obtain(string consumerKey, string consumerSecret) {
 			var oauth = new OAuthTwitter(consumerKey, consumerSecret);
 			oauth.getRequestToken();
 			string verifier = oauth.authorizeToken(); // display WebBrowser
@@ -19,7 +11,7 @@ namespace WeasylSync {
 
 			string accessToken = oauth.getAccessToken();
 			string accessTokenSecret = oauth.TokenSecret;
-			return new Token(accessToken, accessTokenSecret);
+			return new TwitterCredentials(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 		}
 	}
 }

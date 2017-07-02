@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tweetinvi;
 
 namespace WeasylSync {
 	public partial class SettingsDialog : Form {
@@ -48,9 +49,18 @@ namespace WeasylSync {
 				Settings.TumblrToken = TumblrKey.Obtain(OAuthConsumer.Tumblr.CONSUMER_KEY, OAuthConsumer.Tumblr.CONSUMER_SECRET);
 			}
 			UpdateTokenLabel();
-		}
+        }
 
-		private void FillForm() {
+        private void btnTwitterSignIn_Click(object sender, EventArgs e) {
+            if (string.Equals("Sign out", btnTwitterSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+                Settings.TwitterCredentials = null;
+            } else {
+                Settings.TwitterCredentials = TwitterKey.Obtain(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET);
+            }
+            UpdateTwitterTokenLabel();
+        }
+
+        private void FillForm() {
 			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
 
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
@@ -67,7 +77,9 @@ namespace WeasylSync {
 			chkWeasylSubmitIdTag.Checked = Settings.Defaults.IncludeWeasylTag;
 
 			UpdateTokenLabel();
-		}
+            UpdateTwitterTokenLabel();
+
+        }
 
 		private void UpdateTokenLabel() {
 			Token token = Settings.TumblrToken;
@@ -95,16 +107,37 @@ namespace WeasylSync {
 				btnTumblrSignIn.Text = "Sign in";
 				lblTokenStatus.Text = "Not signed in";
 			}
-		}
+        }
 
-		private void menuItemPrivate_Click(object sender, EventArgs e) {
-			btnTumblrSignIn_Click(sender, e);
+        private void UpdateTwitterTokenLabel() {
+            var twitterCredentials = Settings.TwitterCredentials;
+            try {
+                var user = Auth.ExecuteOperationWithCredentials(twitterCredentials, () => User.GetAuthenticatedUser());
+                if (user == null) {
+                    btnTwitterSignIn.ContextMenuStrip = menuSignIn;
+                    btnTwitterSignIn.Text = "Sign in";
+                    lblTwitterTokenStatus.ForeColor = SystemColors.WindowText;
+                    lblTwitterTokenStatus.Text = "Not signed in";
+                } else {
+                    btnTwitterSignIn.ContextMenuStrip = null;
+                    btnTwitterSignIn.Text = "Sign out";
+                    lblTwitterTokenStatus.ForeColor = Color.Green;
+                    lblTwitterTokenStatus.Text = string.Format("{0} ({1}...)", user.Name, twitterCredentials.AccessToken.Substring(0, 8));
+                }
+            } catch (Exception e) {
+                lblTokenStatus.ForeColor = Color.Red;
+                lblTokenStatus.Text = string.Format("{0} ({1}...)", e.Message, twitterCredentials.AccessToken.Substring(0, 8));
+            }
+        }
+
+        private void menuItemPrivate_Click(object sender, EventArgs e) {
+            (sender as Button)?.PerformClick();
 		}
 
 		private void menuItemIECookies_Click(object sender, EventArgs e) {
 			IECookiePersist.Suppress(false);
-			btnTumblrSignIn_Click(sender, e);
-			IECookiePersist.Suppress(true);
+            (sender as Button)?.PerformClick();
+            IECookiePersist.Suppress(true);
 		}
-	}
+    }
 }
