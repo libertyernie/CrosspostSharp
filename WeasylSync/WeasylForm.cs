@@ -594,6 +594,30 @@ namespace WeasylSync {
         private void chkInkbunnyPublic_CheckedChanged(object sender, EventArgs e) {
             chkInkbunnyNotifyWatchers.Enabled = chkInkbunnyPublic.Checked;
         }
+
+        private async void twitterFollowerInfoToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (TwitterCredentials == null) return;
+            try {
+                LProgressBar.Value = 0;
+                LProgressBar.Maximum = 1;
+                LProgressBar.Visible = true;
+
+                var results = await Task.Run(() => TwitterStats.GetFriendStats(TwitterCredentials, max => LProgressBar.Maximum = max, () => LProgressBar.Value++));
+                LProgressBar.Visible = false;
+
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("Screen name,Tweets (last 14 days - max 100),Retweets,% Retweets");
+                foreach (var user in results.OrderByDescending(r => (double)r.RetweetCount / r.TweetsRetrieved)) {
+                    sb.AppendLine($"@{user.ScreenName},{user.TweetsRetrieved},{user.RetweetCount},{(double)user.RetweetCount / user.TweetsRetrieved}");
+                }
+
+                string tempFile = Path.Combine(Path.GetTempPath(), "tweet-stats.csv");
+                File.WriteAllText(tempFile, sb.ToString());
+                Process.Start("notepad", tempFile);
+            } catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #endregion
 
         private static BinaryFile MakeSquare(Bitmap oldBitmap) {

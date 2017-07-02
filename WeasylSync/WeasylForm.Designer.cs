@@ -83,6 +83,7 @@
             this.tabTwitter = new System.Windows.Forms.TabPage();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
+            this.twitterFollowerInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -390,6 +391,7 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadCharactersToolStripMenuItem,
+            this.twitterFollowerInfoToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -399,14 +401,14 @@
             // 
             this.loadCharactersToolStripMenuItem.CheckOnClick = true;
             this.loadCharactersToolStripMenuItem.Name = "loadCharactersToolStripMenuItem";
-            this.loadCharactersToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.loadCharactersToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.loadCharactersToolStripMenuItem.Text = "Load characters";
             this.loadCharactersToolStripMenuItem.Click += new System.EventHandler(this.loadCharactersToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -421,7 +423,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -788,6 +790,13 @@
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // twitterFollowerInfoToolStripMenuItem
+            // 
+            this.twitterFollowerInfoToolStripMenuItem.Name = "twitterFollowerInfoToolStripMenuItem";
+            this.twitterFollowerInfoToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.twitterFollowerInfoToolStripMenuItem.Text = "Twitter follower info";
+            this.twitterFollowerInfoToolStripMenuItem.Click += new System.EventHandler(this.twitterFollowerInfoToolStripMenuItem_Click);
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -881,6 +890,7 @@
         private System.Windows.Forms.TabPage tabTwitter;
         private System.Windows.Forms.Label lblTwitterStatus1;
         private System.Windows.Forms.Label lblTwitterStatus2;
+        private System.Windows.Forms.ToolStripMenuItem twitterFollowerInfoToolStripMenuItem;
     }
 }
 
