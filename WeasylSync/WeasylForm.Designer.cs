@@ -75,12 +75,11 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTumblr = new System.Windows.Forms.TabPage();
             this.tabInkbunny = new System.Windows.Forms.TabPage();
+            this.lblTags = new System.Windows.Forms.Label();
             this.lProgressBar1 = new WeasylSync.LProgressBar();
             this.thumbnail1 = new WeasylSync.WeasylThumbnail();
             this.thumbnail2 = new WeasylSync.WeasylThumbnail();
             this.thumbnail3 = new WeasylSync.WeasylThumbnail();
-            this.thumbnail4 = new WeasylSync.WeasylThumbnail();
-            this.lblTags = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -91,7 +90,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).BeginInit();
             this.SuspendLayout();
             // 
             // btnUp
@@ -109,7 +107,7 @@
             // btnDown
             // 
             this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDown.Location = new System.Drawing.Point(104, 485);
+            this.btnDown.Location = new System.Drawing.Point(104, 355);
             this.btnDown.Margin = new System.Windows.Forms.Padding(0);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(32, 32);
@@ -125,7 +123,7 @@
             this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainPictureBox.Location = new System.Drawing.Point(142, 3);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(400, 225);
+            this.mainPictureBox.Size = new System.Drawing.Size(400, 332);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mainPictureBox.TabIndex = 6;
             this.mainPictureBox.TabStop = false;
@@ -148,7 +146,7 @@
             this.chkDescription.Location = new System.Drawing.Point(6, 62);
             this.chkDescription.Name = "chkDescription";
             this.chkDescription.Size = new System.Drawing.Size(18, 20);
-            this.chkDescription.TabIndex = 10;
+            this.chkDescription.TabIndex = 8;
             this.chkDescription.UseVisualStyleBackColor = true;
             this.chkDescription.CheckedChanged += new System.EventHandler(this.chkDescription_CheckedChanged);
             // 
@@ -161,18 +159,18 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(508, 92);
-            this.txtDescription.TabIndex = 11;
+            this.txtDescription.Size = new System.Drawing.Size(508, 89);
+            this.txtDescription.TabIndex = 9;
             // 
             // txtTags1
             // 
-            this.txtTags1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTags1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
+            this.txtTags1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags1.ForeColor = System.Drawing.Color.Black;
-            this.txtTags1.Location = new System.Drawing.Point(182, 263);
+            this.txtTags1.Location = new System.Drawing.Point(182, 367);
             this.txtTags1.Name = "txtTags1";
             this.txtTags1.Size = new System.Drawing.Size(360, 20);
-            this.txtTags1.TabIndex = 1;
+            this.txtTags1.TabIndex = 5;
             // 
             // chkTags1
             // 
@@ -191,10 +189,10 @@
             this.chkFooter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkFooter.Checked = true;
             this.chkFooter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFooter.Location = new System.Drawing.Point(6, 160);
+            this.chkFooter.Location = new System.Drawing.Point(288, 157);
             this.chkFooter.Name = "chkFooter";
             this.chkFooter.Size = new System.Drawing.Size(18, 20);
-            this.chkFooter.TabIndex = 12;
+            this.chkFooter.TabIndex = 11;
             this.chkFooter.UseVisualStyleBackColor = true;
             this.chkFooter.CheckedChanged += new System.EventHandler(this.chkFooter_CheckedChanged);
             // 
@@ -202,10 +200,10 @@
             // 
             this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFooter.Location = new System.Drawing.Point(30, 160);
+            this.txtFooter.Location = new System.Drawing.Point(312, 157);
             this.txtFooter.Name = "txtFooter";
-            this.txtFooter.Size = new System.Drawing.Size(246, 20);
-            this.txtFooter.TabIndex = 13;
+            this.txtFooter.Size = new System.Drawing.Size(226, 20);
+            this.txtFooter.TabIndex = 12;
             // 
             // txtHeader
             // 
@@ -260,8 +258,8 @@
             this.chkWeasylSubmitIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(158, 42);
             this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
-            this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(92, 20);
-            this.chkWeasylSubmitIdTag.TabIndex = 4;
+            this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(112, 20);
+            this.chkWeasylSubmitIdTag.TabIndex = 3;
             this.chkWeasylSubmitIdTag.Text = "#weasyl******";
             this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = false;
             // 
@@ -270,7 +268,7 @@
             this.txtTags2.Location = new System.Drawing.Point(33, 42);
             this.txtTags2.Name = "txtTags2";
             this.txtTags2.Size = new System.Drawing.Size(119, 20);
-            this.txtTags2.TabIndex = 3;
+            this.txtTags2.TabIndex = 2;
             this.txtTags2.Text = " ";
             // 
             // chkTags2
@@ -281,41 +279,41 @@
             this.chkTags2.Location = new System.Drawing.Point(9, 42);
             this.chkTags2.Name = "chkTags2";
             this.chkTags2.Size = new System.Drawing.Size(18, 20);
-            this.chkTags2.TabIndex = 2;
+            this.chkTags2.TabIndex = 1;
             this.chkTags2.UseVisualStyleBackColor = true;
             this.chkTags2.CheckedChanged += new System.EventHandler(this.chkTags2_CheckedChanged);
             // 
             // btnPost
             // 
             this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(425, 524);
+            this.btnPost.Location = new System.Drawing.Point(421, 207);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(117, 24);
-            this.btnPost.TabIndex = 17;
+            this.btnPost.TabIndex = 15;
             this.btnPost.Text = "Post to Tumblr";
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
             // txtURL
             // 
-            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtURL.Location = new System.Drawing.Point(53, 186);
+            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtURL.Location = new System.Drawing.Point(335, 181);
             this.txtURL.Name = "txtURL";
-            this.txtURL.Size = new System.Drawing.Size(223, 20);
-            this.txtURL.TabIndex = 15;
+            this.txtURL.Size = new System.Drawing.Size(203, 20);
+            this.txtURL.TabIndex = 14;
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.chkTags1);
             this.groupBox1.Controls.Add(this.chkWeasylSubmitIdTag);
             this.groupBox1.Controls.Add(this.txtTags2);
             this.groupBox1.Controls.Add(this.chkTags2);
-            this.groupBox1.Location = new System.Drawing.Point(282, 160);
+            this.groupBox1.Location = new System.Drawing.Point(6, 157);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(256, 68);
-            this.groupBox1.TabIndex = 16;
+            this.groupBox1.Size = new System.Drawing.Size(276, 68);
+            this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tags";
             // 
@@ -323,22 +321,22 @@
             // 
             this.lblLinkTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLinkTo.AutoSize = true;
-            this.lblLinkTo.Location = new System.Drawing.Point(7, 189);
+            this.lblLinkTo.Location = new System.Drawing.Point(289, 184);
             this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
             this.lblLinkTo.Name = "lblLinkTo";
             this.lblLinkTo.Size = new System.Drawing.Size(40, 13);
-            this.lblLinkTo.TabIndex = 14;
+            this.lblLinkTo.TabIndex = 13;
             this.lblLinkTo.Text = "{URL}:";
             this.lblLinkTo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblWeasylStatus1
             // 
-            this.lblWeasylStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWeasylStatus1.Location = new System.Drawing.Point(9, 554);
+            this.lblWeasylStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWeasylStatus1.Location = new System.Drawing.Point(378, 394);
             this.lblWeasylStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblWeasylStatus1.Name = "lblWeasylStatus1";
             this.lblWeasylStatus1.Size = new System.Drawing.Size(48, 24);
-            this.lblWeasylStatus1.TabIndex = 38;
+            this.lblWeasylStatus1.TabIndex = 0;
             this.lblWeasylStatus1.Text = "Weasyl:";
             this.lblWeasylStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -347,31 +345,29 @@
             this.lblTumblrStatus1.Location = new System.Drawing.Point(6, 6);
             this.lblTumblrStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblTumblrStatus1.Name = "lblTumblrStatus1";
-            this.lblTumblrStatus1.Size = new System.Drawing.Size(48, 20);
-            this.lblTumblrStatus1.TabIndex = 39;
+            this.lblTumblrStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblTumblrStatus1.TabIndex = 0;
             this.lblTumblrStatus1.Text = "Tumblr:";
             this.lblTumblrStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblWeasylStatus2
             // 
-            this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblWeasylStatus2.Location = new System.Drawing.Point(63, 554);
+            this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWeasylStatus2.Location = new System.Drawing.Point(432, 394);
             this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblWeasylStatus2.Name = "lblWeasylStatus2";
             this.lblWeasylStatus2.Size = new System.Drawing.Size(110, 24);
-            this.lblWeasylStatus2.TabIndex = 40;
+            this.lblWeasylStatus2.TabIndex = 1;
             this.lblWeasylStatus2.Text = "not logged in";
             this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTumblrStatus2
             // 
-            this.lblTumblrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTumblrStatus2.Location = new System.Drawing.Point(60, 6);
+            this.lblTumblrStatus2.Location = new System.Drawing.Point(80, 6);
             this.lblTumblrStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblTumblrStatus2.Name = "lblTumblrStatus2";
-            this.lblTumblrStatus2.Size = new System.Drawing.Size(129, 20);
-            this.lblTumblrStatus2.TabIndex = 41;
+            this.lblTumblrStatus2.Size = new System.Drawing.Size(109, 20);
+            this.lblTumblrStatus2.TabIndex = 1;
             this.lblTumblrStatus2.Text = "not logged in";
             this.lblTumblrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -444,49 +440,47 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.previewPanel.Location = new System.Drawing.Point(3, 36);
             this.previewPanel.Name = "previewPanel";
-            this.previewPanel.Size = new System.Drawing.Size(535, 192);
-            this.previewPanel.TabIndex = 43;
+            this.previewPanel.Size = new System.Drawing.Size(540, 197);
+            this.previewPanel.TabIndex = 6;
             this.previewPanel.Visible = false;
             // 
             // txtTitle
             // 
             this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
             this.txtTitle.ForeColor = System.Drawing.Color.Black;
-            this.txtTitle.Location = new System.Drawing.Point(178, 237);
+            this.txtTitle.Location = new System.Drawing.Point(182, 341);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(364, 20);
-            this.txtTitle.TabIndex = 9;
+            this.txtTitle.Size = new System.Drawing.Size(360, 20);
+            this.txtTitle.TabIndex = 3;
             // 
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(142, 240);
+            this.lblTitle.Location = new System.Drawing.Point(142, 344);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(3);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(30, 13);
-            this.lblTitle.TabIndex = 8;
+            this.lblTitle.TabIndex = 2;
             this.lblTitle.Text = "Title:";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lnkTumblrPost
             // 
-            this.lnkTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.lnkTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkTumblrPost.AutoEllipsis = true;
-            this.lnkTumblrPost.Location = new System.Drawing.Point(113, 530);
+            this.lnkTumblrPost.Location = new System.Drawing.Point(113, 400);
             this.lnkTumblrPost.Name = "lnkTumblrPost";
-            this.lnkTumblrPost.Size = new System.Drawing.Size(306, 13);
-            this.lnkTumblrPost.TabIndex = 44;
+            this.lnkTumblrPost.Size = new System.Drawing.Size(259, 13);
+            this.lnkTumblrPost.TabIndex = 10;
             this.lnkTumblrPost.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkTumblrPost.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTumblrPost_LinkClicked);
             // 
             // lblAlreadyPosted
             // 
-            this.lblAlreadyPosted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblAlreadyPosted.AutoSize = true;
-            this.lblAlreadyPosted.Location = new System.Drawing.Point(12, 530);
+            this.lblAlreadyPosted.Location = new System.Drawing.Point(12, 400);
             this.lblAlreadyPosted.Name = "lblAlreadyPosted";
             this.lblAlreadyPosted.Size = new System.Drawing.Size(0, 13);
             this.lblAlreadyPosted.TabIndex = 45;
@@ -497,8 +491,8 @@
             this.lblInkbunnyStatus2.Location = new System.Drawing.Point(76, 6);
             this.lblInkbunnyStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblInkbunnyStatus2.Name = "lblInkbunnyStatus2";
-            this.lblInkbunnyStatus2.Size = new System.Drawing.Size(236, 24);
-            this.lblInkbunnyStatus2.TabIndex = 47;
+            this.lblInkbunnyStatus2.Size = new System.Drawing.Size(236, 20);
+            this.lblInkbunnyStatus2.TabIndex = 1;
             this.lblInkbunnyStatus2.Text = "click to log in";
             this.lblInkbunnyStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblInkbunnyStatus2.Click += new System.EventHandler(this.lblInkbunnyStatus2_Click);
@@ -508,8 +502,8 @@
             this.lblInkbunnyStatus1.Location = new System.Drawing.Point(8, 6);
             this.lblInkbunnyStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblInkbunnyStatus1.Name = "lblInkbunnyStatus1";
-            this.lblInkbunnyStatus1.Size = new System.Drawing.Size(68, 24);
-            this.lblInkbunnyStatus1.TabIndex = 46;
+            this.lblInkbunnyStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblInkbunnyStatus1.TabIndex = 0;
             this.lblInkbunnyStatus1.Text = "Inkbunny:";
             this.lblInkbunnyStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -518,22 +512,21 @@
             this.txtInkbunnyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInkbunnyDescription.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(240)))), ((int)(((byte)(255)))));
             this.txtInkbunnyDescription.ForeColor = System.Drawing.Color.Black;
-            this.txtInkbunnyDescription.Location = new System.Drawing.Point(8, 36);
+            this.txtInkbunnyDescription.Location = new System.Drawing.Point(8, 32);
             this.txtInkbunnyDescription.Multiline = true;
             this.txtInkbunnyDescription.Name = "txtInkbunnyDescription";
             this.txtInkbunnyDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInkbunnyDescription.Size = new System.Drawing.Size(306, 194);
-            this.txtInkbunnyDescription.TabIndex = 12;
+            this.txtInkbunnyDescription.Size = new System.Drawing.Size(306, 198);
+            this.txtInkbunnyDescription.TabIndex = 2;
             // 
             // btnInkbunnyPost
             // 
-            this.btnInkbunnyPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInkbunnyPost.Location = new System.Drawing.Point(425, 136);
+            this.btnInkbunnyPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInkbunnyPost.Location = new System.Drawing.Point(423, 209);
             this.btnInkbunnyPost.Name = "btnInkbunnyPost";
             this.btnInkbunnyPost.Size = new System.Drawing.Size(117, 24);
-            this.btnInkbunnyPost.TabIndex = 48;
+            this.btnInkbunnyPost.TabIndex = 10;
             this.btnInkbunnyPost.Text = "Post to Inkbunny";
             this.btnInkbunnyPost.UseVisualStyleBackColor = true;
             this.btnInkbunnyPost.Click += new System.EventHandler(this.btnInkbunnyPost_Click);
@@ -542,10 +535,10 @@
             // 
             this.chkInbunnyTag5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInbunnyTag5.AutoSize = true;
-            this.chkInbunnyTag5.Location = new System.Drawing.Point(425, 107);
+            this.chkInbunnyTag5.Location = new System.Drawing.Point(425, 101);
             this.chkInbunnyTag5.Name = "chkInbunnyTag5";
             this.chkInbunnyTag5.Size = new System.Drawing.Size(101, 17);
-            this.chkInbunnyTag5.TabIndex = 55;
+            this.chkInbunnyTag5.TabIndex = 9;
             this.chkInbunnyTag5.Text = "Strong Violence";
             this.chkInbunnyTag5.UseVisualStyleBackColor = true;
             // 
@@ -553,10 +546,10 @@
             // 
             this.chkInbunnyTag4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInbunnyTag4.AutoSize = true;
-            this.chkInbunnyTag4.Location = new System.Drawing.Point(425, 84);
+            this.chkInbunnyTag4.Location = new System.Drawing.Point(425, 78);
             this.chkInbunnyTag4.Name = "chkInbunnyTag4";
             this.chkInbunnyTag4.Size = new System.Drawing.Size(99, 17);
-            this.chkInbunnyTag4.TabIndex = 54;
+            this.chkInbunnyTag4.TabIndex = 8;
             this.chkInbunnyTag4.Text = "Sexual Themes";
             this.chkInbunnyTag4.UseVisualStyleBackColor = true;
             // 
@@ -564,10 +557,10 @@
             // 
             this.chkInbunnyTag3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInbunnyTag3.AutoSize = true;
-            this.chkInbunnyTag3.Location = new System.Drawing.Point(425, 61);
+            this.chkInbunnyTag3.Location = new System.Drawing.Point(425, 55);
             this.chkInbunnyTag3.Name = "chkInbunnyTag3";
             this.chkInbunnyTag3.Size = new System.Drawing.Size(67, 17);
-            this.chkInbunnyTag3.TabIndex = 53;
+            this.chkInbunnyTag3.TabIndex = 7;
             this.chkInbunnyTag3.Text = "Violence";
             this.chkInbunnyTag3.UseVisualStyleBackColor = true;
             // 
@@ -575,10 +568,10 @@
             // 
             this.chkInbunnyTag2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInbunnyTag2.AutoSize = true;
-            this.chkInbunnyTag2.Location = new System.Drawing.Point(425, 38);
+            this.chkInbunnyTag2.Location = new System.Drawing.Point(425, 32);
             this.chkInbunnyTag2.Name = "chkInbunnyTag2";
             this.chkInbunnyTag2.Size = new System.Drawing.Size(56, 17);
-            this.chkInbunnyTag2.TabIndex = 52;
+            this.chkInbunnyTag2.TabIndex = 6;
             this.chkInbunnyTag2.Text = "Nudity";
             this.chkInbunnyTag2.UseVisualStyleBackColor = true;
             // 
@@ -588,10 +581,10 @@
             this.chkInkbunnyNotifyWatchers.AutoSize = true;
             this.chkInkbunnyNotifyWatchers.Checked = true;
             this.chkInkbunnyNotifyWatchers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnyNotifyWatchers.Location = new System.Drawing.Point(320, 61);
+            this.chkInkbunnyNotifyWatchers.Location = new System.Drawing.Point(320, 55);
             this.chkInkbunnyNotifyWatchers.Name = "chkInkbunnyNotifyWatchers";
             this.chkInkbunnyNotifyWatchers.Size = new System.Drawing.Size(99, 17);
-            this.chkInkbunnyNotifyWatchers.TabIndex = 51;
+            this.chkInkbunnyNotifyWatchers.TabIndex = 4;
             this.chkInkbunnyNotifyWatchers.Text = "Notify watchers";
             this.chkInkbunnyNotifyWatchers.UseVisualStyleBackColor = true;
             // 
@@ -601,10 +594,10 @@
             this.chkInkbunnyPublic.AutoSize = true;
             this.chkInkbunnyPublic.Checked = true;
             this.chkInkbunnyPublic.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnyPublic.Location = new System.Drawing.Point(320, 38);
+            this.chkInkbunnyPublic.Location = new System.Drawing.Point(320, 32);
             this.chkInkbunnyPublic.Name = "chkInkbunnyPublic";
             this.chkInkbunnyPublic.Size = new System.Drawing.Size(55, 17);
-            this.chkInkbunnyPublic.TabIndex = 50;
+            this.chkInkbunnyPublic.TabIndex = 3;
             this.chkInkbunnyPublic.Text = "Public";
             this.chkInkbunnyPublic.UseVisualStyleBackColor = true;
             this.chkInkbunnyPublic.CheckedChanged += new System.EventHandler(this.chkInkbunnyPublic_CheckedChanged);
@@ -613,10 +606,10 @@
             // 
             this.chkInkbunnyScraps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInkbunnyScraps.AutoSize = true;
-            this.chkInkbunnyScraps.Location = new System.Drawing.Point(320, 84);
+            this.chkInkbunnyScraps.Location = new System.Drawing.Point(320, 78);
             this.chkInkbunnyScraps.Name = "chkInkbunnyScraps";
             this.chkInkbunnyScraps.Size = new System.Drawing.Size(59, 17);
-            this.chkInkbunnyScraps.TabIndex = 49;
+            this.chkInkbunnyScraps.TabIndex = 5;
             this.chkInkbunnyScraps.Text = "Scraps";
             this.chkInkbunnyScraps.UseVisualStyleBackColor = true;
             // 
@@ -632,29 +625,27 @@
             this.panel1.Controls.Add(this.txtTitle);
             this.panel1.Controls.Add(this.lblWeasylStatus2);
             this.panel1.Controls.Add(this.lblWeasylStatus1);
-            this.panel1.Controls.Add(this.btnPost);
             this.panel1.Controls.Add(this.thumbnail1);
             this.panel1.Controls.Add(this.thumbnail2);
             this.panel1.Controls.Add(this.thumbnail3);
-            this.panel1.Controls.Add(this.thumbnail4);
             this.panel1.Controls.Add(this.lblAlreadyPosted);
             this.panel1.Controls.Add(this.lnkTumblrPost);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 590);
-            this.panel1.TabIndex = 50;
+            this.panel1.Size = new System.Drawing.Size(554, 424);
+            this.panel1.TabIndex = 0;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabTumblr);
             this.tabControl1.Controls.Add(this.tabInkbunny);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tabControl1.Location = new System.Drawing.Point(0, 614);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 448);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(554, 262);
-            this.tabControl1.TabIndex = 56;
+            this.tabControl1.TabIndex = 1;
             // 
             // tabTumblr
             // 
@@ -668,6 +659,7 @@
             this.tabTumblr.Controls.Add(this.txtFooter);
             this.tabTumblr.Controls.Add(this.chkHTMLPreview);
             this.tabTumblr.Controls.Add(this.lblLinkTo);
+            this.tabTumblr.Controls.Add(this.btnPost);
             this.tabTumblr.Controls.Add(this.chkFooter);
             this.tabTumblr.Controls.Add(this.txtURL);
             this.tabTumblr.Controls.Add(this.groupBox1);
@@ -703,19 +695,30 @@
             this.tabInkbunny.Text = "Inkbunny";
             this.tabInkbunny.UseVisualStyleBackColor = true;
             // 
+            // lblTags
+            // 
+            this.lblTags.AutoSize = true;
+            this.lblTags.Location = new System.Drawing.Point(142, 370);
+            this.lblTags.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTags.Name = "lblTags";
+            this.lblTags.Size = new System.Drawing.Size(34, 13);
+            this.lblTags.TabIndex = 4;
+            this.lblTags.Text = "Tags:";
+            this.lblTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lProgressBar1
             // 
-            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lProgressBar1.Location = new System.Drawing.Point(12, 524);
+            this.lProgressBar1.Location = new System.Drawing.Point(7, 394);
             this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.lProgressBar1.Maximum = 128;
             this.lProgressBar1.Minimum = 0;
             this.lProgressBar1.Name = "lProgressBar1";
-            this.lProgressBar1.Size = new System.Drawing.Size(407, 24);
-            this.lProgressBar1.TabIndex = 30;
+            this.lProgressBar1.Size = new System.Drawing.Size(360, 24);
+            this.lProgressBar1.TabIndex = 9;
             this.lProgressBar1.Value = 0;
             // 
             // thumbnail1
@@ -748,33 +751,12 @@
             this.thumbnail3.TabIndex = 2;
             this.thumbnail3.TabStop = false;
             // 
-            // thumbnail4
-            // 
-            this.thumbnail4.Location = new System.Drawing.Point(12, 393);
-            this.thumbnail4.Name = "thumbnail4";
-            this.thumbnail4.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail4.Submission = null;
-            this.thumbnail4.TabIndex = 3;
-            this.thumbnail4.TabStop = false;
-            // 
-            // lblTags
-            // 
-            this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(142, 266);
-            this.lblTags.Margin = new System.Windows.Forms.Padding(3);
-            this.lblTags.Name = "lblTags";
-            this.lblTags.Size = new System.Drawing.Size(34, 13);
-            this.lblTags.TabIndex = 46;
-            this.lblTags.Text = "Tags:";
-            this.lblTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(554, 876);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(554, 710);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "WeasylForm";
@@ -794,7 +776,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -805,7 +786,6 @@
 		private WeasylThumbnail thumbnail1;
 		private WeasylThumbnail thumbnail2;
 		private WeasylThumbnail thumbnail3;
-		private WeasylThumbnail thumbnail4;
 		private System.Windows.Forms.Button btnUp;
 		private System.Windows.Forms.Button btnDown;
 		private System.Windows.Forms.PictureBox mainPictureBox;

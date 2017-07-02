@@ -65,7 +65,7 @@ namespace WeasylSync {
 
 			GlobalSettings = Settings.Load();
 
-			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3, thumbnail4 };
+			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3 };
 
 			backid = nextid = null;
 
@@ -73,7 +73,7 @@ namespace WeasylSync {
         }
 
 		#region GUI updates
-        private async Task LoadFromSettings() {
+        private async void LoadFromSettings() {
             LProgressBar.Value = 0;
             LProgressBar.Maximum = 2;
             LProgressBar.Visible = true;
@@ -171,10 +171,9 @@ namespace WeasylSync {
 			}
 			UpdateExistingPostLink();
 		}
-
-		// Launches a thread to update the thumbnails.
+        
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
-		private async Task UpdateGalleryAsync(int? backid = null, int? nextid = null) {
+		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
             try {
                 LProgressBar.Maximum = 4 + thumbnails.Length;
                 LProgressBar.Value = 0;
@@ -204,7 +203,7 @@ namespace WeasylSync {
                             detailTasks.Add(Weasyl.ViewCharacter(id));
                         }
                     } else {
-                        var result = await Weasyl.UserGallery(WeasylUsername, backid: backid, nextid: nextid, count: 4);
+                        var result = await Weasyl.UserGallery(WeasylUsername, backid: backid, nextid: nextid, count: thumbnails.Length);
                         this.backid = result.backid;
                         this.nextid = result.nextid;
                         IEnumerable<int> ids = result.submissions.Select(s => s.submitid);
@@ -213,7 +212,7 @@ namespace WeasylSync {
                         }
                     }
                     foreach (Task task in detailTasks) {
-                        task.ContinueWith(t => LProgressBar.Value++);
+                        var _ = task.ContinueWith(t => LProgressBar.Value++);
                     }
                     var details = new List<SubmissionBaseDetail>(detailTasks.Count);
                     foreach (var task in detailTasks) {
