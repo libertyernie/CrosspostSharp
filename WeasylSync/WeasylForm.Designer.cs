@@ -80,6 +80,9 @@
             this.thumbnail1 = new WeasylSync.WeasylThumbnail();
             this.thumbnail2 = new WeasylSync.WeasylThumbnail();
             this.thumbnail3 = new WeasylSync.WeasylThumbnail();
+            this.tabTwitter = new System.Windows.Forms.TabPage();
+            this.lblTwitterStatus1 = new System.Windows.Forms.Label();
+            this.lblTwitterStatus2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -90,6 +93,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
+            this.tabTwitter.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -640,6 +644,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabTumblr);
             this.tabControl1.Controls.Add(this.tabInkbunny);
+            this.tabControl1.Controls.Add(this.tabTwitter);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 448);
             this.tabControl1.Name = "tabControl1";
@@ -751,6 +756,38 @@
             this.thumbnail3.TabIndex = 2;
             this.thumbnail3.TabStop = false;
             // 
+            // tabTwitter
+            // 
+            this.tabTwitter.Controls.Add(this.lblTwitterStatus1);
+            this.tabTwitter.Controls.Add(this.lblTwitterStatus2);
+            this.tabTwitter.Location = new System.Drawing.Point(4, 22);
+            this.tabTwitter.Name = "tabTwitter";
+            this.tabTwitter.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTwitter.Size = new System.Drawing.Size(546, 236);
+            this.tabTwitter.TabIndex = 2;
+            this.tabTwitter.Text = "Twitter";
+            this.tabTwitter.UseVisualStyleBackColor = true;
+            // 
+            // lblTwitterStatus1
+            // 
+            this.lblTwitterStatus1.Location = new System.Drawing.Point(6, 6);
+            this.lblTwitterStatus1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTwitterStatus1.Name = "lblTwitterStatus1";
+            this.lblTwitterStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblTwitterStatus1.TabIndex = 2;
+            this.lblTwitterStatus1.Text = "Twitter:";
+            this.lblTwitterStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblTwitterStatus2
+            // 
+            this.lblTwitterStatus2.Location = new System.Drawing.Point(80, 6);
+            this.lblTwitterStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTwitterStatus2.Name = "lblTwitterStatus2";
+            this.lblTwitterStatus2.Size = new System.Drawing.Size(109, 20);
+            this.lblTwitterStatus2.TabIndex = 3;
+            this.lblTwitterStatus2.Text = "not logged in";
+            this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -776,6 +813,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
+            this.tabTwitter.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -840,6 +878,9 @@
         private System.Windows.Forms.TabPage tabInkbunny;
         private System.Windows.Forms.TabPage tabTumblr;
         private System.Windows.Forms.Label lblTags;
+        private System.Windows.Forms.TabPage tabTwitter;
+        private System.Windows.Forms.Label lblTwitterStatus1;
+        private System.Windows.Forms.Label lblTwitterStatus2;
     }
 }
 

@@ -21,11 +21,9 @@ namespace WeasylSync {
 
 		public WeasylAPI Weasyl { get; private set; }
 		public string WeasylUsername { get; private set; }
-		public string WeasylExceptionMsg { get; private set; }
 
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
-		public string TumblrExceptionMsg { get; private set; }
 
 		public InkbunnyClient Inkbunny;
 
@@ -74,69 +72,74 @@ namespace WeasylSync {
 
 		#region GUI updates
         private async void LoadFromSettings() {
-            LProgressBar.Value = 0;
-            LProgressBar.Maximum = 2;
-            LProgressBar.Visible = true;
+            try {
+                LProgressBar.Value = 0;
+                LProgressBar.Maximum = 2;
+                LProgressBar.Visible = true;
 
-			Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
+                Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
 
-			Token token = GlobalSettings.TumblrToken;
-			if (token != null && token.IsValid) {
-				if (Tumblr != null) Tumblr.Dispose();
-				Tumblr = new TumblrClientFactory().Create<TumblrClient>(
-					OAuthConsumer.Tumblr.CONSUMER_KEY,
-					OAuthConsumer.Tumblr.CONSUMER_SECRET,
-					token);
-			}
+                Token token = GlobalSettings.TumblrToken;
+                if (token != null && token.IsValid) {
+                    if (Tumblr != null) Tumblr.Dispose();
+                    Tumblr = new TumblrClientFactory().Create<TumblrClient>(
+                        OAuthConsumer.Tumblr.CONSUMER_KEY,
+                        OAuthConsumer.Tumblr.CONSUMER_SECRET,
+                        token);
+                }
 
-			User user = null;
-			WeasylExceptionMsg = null;
-			try {
-				user = await Weasyl.Whoami();
-			} catch (WebException e) {
-				if (e.Response is HttpWebResponse) {
-					WeasylExceptionMsg = ((HttpWebResponse)e.Response).StatusDescription;
-				} else {
-					WeasylExceptionMsg = e.Message;
-				}
-			}
-			bool refreshGallery = user == null || WeasylUsername != user.login;
-			WeasylUsername = user == null ? null : user.login;
+                User user = null;
+                try {
+                    user = await Weasyl.Whoami();
+                    lblWeasylStatus2.Text = user?.login ?? "not logged in";
+                    lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
+                        ? SystemColors.WindowText
+                        : Color.DarkGreen;
+                } catch (Exception e) {
+                    lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
+                    lblWeasylStatus2.ForeColor = Color.DarkRed;
+                }
+                bool refreshGallery = user == null || WeasylUsername != user.login;
+                WeasylUsername = user == null ? null : user.login;
 
-            LProgressBar.Value = 1;
+                LProgressBar.Value++;
 
-			TumblrExceptionMsg = null;
-			if (Tumblr == null) {
-				lblTumblrStatus2.Text = "not logged in";
-				lblTumblrStatus2.ForeColor = SystemColors.WindowText;
-			} else {
-				try {
-                    TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
-				} catch (AggregateException e) {
-					TumblrUsername = null;
-					TumblrExceptionMsg = e.InnerException.Message;
-				}
-			}
+                if (Tumblr == null) {
+                    lblTumblrStatus2.Text = "not logged in";
+                    lblTumblrStatus2.ForeColor = SystemColors.WindowText;
+                } else {
+                    try {
+                        TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
+                        lblTumblrStatus2.Text = TumblrUsername ?? "not logged in";
+                        lblTumblrStatus2.ForeColor = TumblrUsername == null
+                            ? SystemColors.WindowText
+                            : Color.DarkGreen;
+                    } catch (Exception e) {
+                        TumblrUsername = null;
+                        lblTumblrStatus2.Text = e.Message;
+                        lblTumblrStatus2.ForeColor = Color.DarkRed;
+                    }
+                }
 
-            LProgressBar.Visible = false;
-            InvokeAndForget(() => UpdateSettingsInWindow(refreshGallery));
+                LProgressBar.Visible = false;
+
+                txtHeader.Text = GlobalSettings.Defaults.HeaderHTML ?? "";
+                txtFooter.Text = GlobalSettings.Defaults.FooterHTML ?? "";
+                // Global tags that you can include in each submission if you want.
+                txtTags2.Text = GlobalSettings.Defaults.Tags ?? "";
+
+                chkWeasylSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
+
+                if (refreshGallery) UpdateGalleryAsync();
+            } catch (Exception e) {
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.StackTrace);
+                MessageBox.Show(e.Message);
+            }
         }
 
 		private void UpdateSettingsInWindow(bool refreshGallery) {
-			lblWeasylStatus2.Text = WeasylUsername ?? WeasylExceptionMsg ?? "not logged in";
-			lblWeasylStatus2.ForeColor = WeasylUsername == null ? SystemColors.WindowText : Color.DarkGreen;
-
-			lblTumblrStatus2.Text = TumblrUsername ?? TumblrExceptionMsg ?? "not logged in";
-			lblTumblrStatus2.ForeColor = TumblrUsername == null ? SystemColors.WindowText : Color.DarkGreen;
-
-			txtHeader.Text = GlobalSettings.Defaults.HeaderHTML ?? "";
-			txtFooter.Text = GlobalSettings.Defaults.FooterHTML ?? "";
-			// Global tags that you can include in each submission if you want.
-			txtTags2.Text = GlobalSettings.Defaults.Tags ?? "";
-
-			chkWeasylSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
-
-			if (refreshGallery) UpdateGalleryAsync();
+			
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
@@ -175,7 +178,7 @@ namespace WeasylSync {
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
             try {
-                LProgressBar.Maximum = 4 + thumbnails.Length;
+                LProgressBar.Maximum = 2 * thumbnails.Length;
                 LProgressBar.Value = 0;
                 LProgressBar.Visible = true;
 
@@ -226,7 +229,7 @@ namespace WeasylSync {
                         LProgressBar.Value++;
                     }
                 } else {
-                    LProgressBar.Value += 8;
+                    LProgressBar.Value += 2 * this.thumbnails.Length;
                     for (int i = 0; i < this.thumbnails.Length; i++) {
                         this.thumbnails[i].Submission = null;
                     }
@@ -247,45 +250,37 @@ namespace WeasylSync {
         #endregion
 
         #region Tumblr lookup
-        private void UpdateExistingPostLink() {
-			if (this.InvokeRequired) {
-                InvokeAndForget(UpdateExistingPostLink);
-				return;
-			}
+        private async void UpdateExistingPostLink() {
+            try {
+                if (this.InvokeRequired) {
+                    InvokeAndForget(UpdateExistingPostLink);
+                    return;
+                }
 
-			if (!GlobalSettings.Tumblr.FindPreviousPost) {
-				this.btnPost.Enabled = true;
-				this.lblAlreadyPosted.Text = "";
-				this.lnkTumblrPost.Text = "";
-			} else if (Tumblr != null) {
-				this.btnPost.Enabled = false;
-				this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
-				this.lnkTumblrPost.Text = "";
-				this.GetTaggedPostsForSubmissionAsync().ContinueWith((t) => {
-					this.ExistingPost = t.Result.Result.FirstOrDefault();
-					if (this.ExistingPost != null) {
-						SetCorresponsingPostUrl(this.ExistingPost.Url);
-					} else {
-						SetCorresponsingPostUrl(null);
-					}
-				});
-			}
-		}
-
-		public void SetCorresponsingPostUrl(string url) {
-			if (this.InvokeRequired) {
-				this.Invoke(new Action<string>(SetCorresponsingPostUrl), url);
-				return;
-			}
-
-			this.btnPost.Enabled = true;
-			if (string.IsNullOrEmpty(url)) {
-				this.lblAlreadyPosted.Text = "";
-				this.lnkTumblrPost.Text = "";
-			} else {
-				this.lblAlreadyPosted.Text = "Already on Tumblr:";
-				this.lnkTumblrPost.Text = url;
-			}
+                if (!GlobalSettings.Tumblr.FindPreviousPost) {
+                    this.btnPost.Enabled = true;
+                    this.lblAlreadyPosted.Text = "";
+                    this.lnkTumblrPost.Text = "";
+                } else if (Tumblr != null) {
+                    this.btnPost.Enabled = false;
+                    this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
+                    this.lnkTumblrPost.Text = "";
+                    var posts = await this.GetTaggedPostsForSubmissionAsync();
+                    this.ExistingPost = posts.Result.FirstOrDefault();
+                    this.btnPost.Enabled = true;
+                    if (this.ExistingPost == null) {
+                        this.lblAlreadyPosted.Text = "";
+                        this.lnkTumblrPost.Text = "";
+                    } else {
+                        this.lblAlreadyPosted.Text = "Already on Tumblr:";
+                        this.lnkTumblrPost.Text = this.ExistingPost.Url;
+                    }
+                }
+            } catch (Exception e) {
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.StackTrace);
+                MessageBox.Show(e.Message);
+            }
 		}
 		#endregion
 
@@ -369,58 +364,60 @@ namespace WeasylSync {
 			return await Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag);
 		}
 
-		private async Task PostToTumblr1() {
-			if (this.currentImage == null) {
-				MessageBox.Show("No image is selected.");
-				return;
-			}
-
-			if (Tumblr == null) CreateTumblrClient_GetNewToken();
-			if (Tumblr == null) {
-				MessageBox.Show("Posting cancelled.");
-				return;
-			}
-            
-            LProgressBar.Maximum = 2;
-            LProgressBar.Value = 1;
-            LProgressBar.Visible = true;
-
-			long? updateid = null;
-			if (this.ExistingPost != null) {
-				DialogResult result = new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, this.ExistingPost.Url).ShowDialog();
-				if (result == DialogResult.Cancel) {
-                    LProgressBar.Visible = false;
-					return;
-				} else if (result == PostAlreadyExistsDialog.Result.Replace) {
-					updateid = this.ExistingPost.Id;
-				}
-			}
-            
-            LProgressBar.Maximum = 2;
-            LProgressBar.Value = 2;
-            LProgressBar.Visible = true;
-
-			var tags = new List<string>();
-			if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-			if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-			if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-
-			BinaryFile imageToPost = GlobalSettings.Tumblr.AutoSidePadding && this.currentImageBitmap.Height > this.currentImageBitmap.Width
-				? MakeSquare(this.currentImageBitmap)
-				: currentImage;
-
-			PostData post = PostData.CreatePhoto(new BinaryFile[] { imageToPost }, CompileHTML(), txtURL.Text, tags);
-			post.Date = chkNow.Checked
-				? (DateTimeOffset?)null
-				: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
-
-			Task<PostCreationInfo> task = updateid == null
-				? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
-				: Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
+		private async void PostToTumblr1() {
             try {
+                if (this.currentImage == null) {
+				    MessageBox.Show("No image is selected.");
+				    return;
+			    }
+
+			    if (Tumblr == null) CreateTumblrClient_GetNewToken();
+			    if (Tumblr == null) {
+				    MessageBox.Show("Posting cancelled.");
+				    return;
+			    }
+            
+                LProgressBar.Maximum = 2;
+                LProgressBar.Value = 1;
+                LProgressBar.Visible = true;
+
+			    long? updateid = null;
+			    if (this.ExistingPost != null) {
+				    DialogResult result = new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, this.ExistingPost.Url).ShowDialog();
+				    if (result == DialogResult.Cancel) {
+                        LProgressBar.Visible = false;
+					    return;
+				    } else if (result == PostAlreadyExistsDialog.Result.Replace) {
+					    updateid = this.ExistingPost.Id;
+				    }
+			    }
+            
+                LProgressBar.Maximum = 2;
+                LProgressBar.Value = 2;
+                LProgressBar.Visible = true;
+
+			    var tags = new List<string>();
+			    if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			    if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+			    if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+
+			    BinaryFile imageToPost = GlobalSettings.Tumblr.AutoSidePadding && this.currentImageBitmap.Height > this.currentImageBitmap.Width
+				    ? MakeSquare(this.currentImageBitmap)
+				    : currentImage;
+
+			    PostData post = PostData.CreatePhoto(new BinaryFile[] { imageToPost }, CompileHTML(), txtURL.Text, tags);
+			    post.Date = chkNow.Checked
+				    ? (DateTimeOffset?)null
+				    : (pickDate.Value.Date + pickTime.Value.TimeOfDay);
+
+			    Task<PostCreationInfo> task = updateid == null
+				    ? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
+				    : Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
                 PostCreationInfo info = await task;
                 UpdateExistingPostLink();
             } catch (Exception e) {
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.StackTrace);
                 var messages = (e as AggregateException)?.InnerExceptions?.Select(x => x.Message) ?? new string[] { e.Message };
                 MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
             } finally {
@@ -430,7 +427,7 @@ namespace WeasylSync {
 		#endregion
 
 		#region Inkbunny
-		public async Task InkbunnyLogin() {
+		public async void InkbunnyLogin() {
             using (LoginDialog d = new LoginDialog()) {
                 d.Username = GlobalSettings.Inkbunny.DefaultUsername ?? "";
                 d.Password = GlobalSettings.Inkbunny.DefaultPassword ?? "";
@@ -451,23 +448,23 @@ namespace WeasylSync {
 			}
 		}
 
-		public async Task PostToInkbunny1() {
-			if (this.currentImage == null) {
-				MessageBox.Show("No image is selected.");
-				return;
-			}
-
-			if (Inkbunny == null) {
-				MessageBox.Show("You must log into Inkbunny before posting.");
-                InkbunnyLogin();
-                return;
-			}
-            
-            LProgressBar.Maximum = 2;
-            LProgressBar.Value = 1;
-            LProgressBar.Visible = true;
-
+		public async void PostToInkbunny1() {
             try {
+                if (this.currentImage == null) {
+				    MessageBox.Show("No image is selected.");
+				    return;
+			    }
+
+			    if (Inkbunny == null) {
+				    MessageBox.Show("You must log into Inkbunny before posting.");
+                    InkbunnyLogin();
+                    return;
+			    }
+            
+                LProgressBar.Maximum = 2;
+                LProgressBar.Value = 1;
+                LProgressBar.Visible = true;
+
                 long submission_id = await Inkbunny.Upload(files: new byte[][] {
                     currentImage.Data
                 });
@@ -494,6 +491,8 @@ namespace WeasylSync {
                 Console.WriteLine(o.submission_id);
                 Console.WriteLine(o.twitter_authentication_success);
             } catch (Exception ex) {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
                 MessageBox.Show("An error occured: \"" + ex.Message + "\"\r\nCheck to see if the blog name is correct.");
             } finally {
                 LProgressBar.Visible = false;
