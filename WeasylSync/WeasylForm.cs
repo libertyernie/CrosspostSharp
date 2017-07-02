@@ -129,9 +129,9 @@ namespace WeasylSync {
 
                 TwitterCredentials = GlobalSettings.TwitterCredentials;
                 try {
-                    var twitterUser = Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => Tweetinvi.User.GetAuthenticatedUser());
-                    lblTwitterStatus2.Text = twitterUser?.ScreenName ?? "not logged in";
-                    lblTwitterStatus2.ForeColor = twitterUser == null
+                    string screenName = TwitterCredentials?.GetScreenName();
+                    lblTwitterStatus2.Text = screenName ?? "not logged in";
+                    lblTwitterStatus2.ForeColor = screenName == null
                         ? SystemColors.WindowText
                         : Color.DarkGreen;
                 } catch (Exception e) {

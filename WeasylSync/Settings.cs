@@ -75,7 +75,9 @@ namespace WeasylSync {
         [JsonIgnore]
         public TwitterCredentials TwitterCredentials {
             get {
-                return new TwitterCredentials(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, Twitter?.TokenKey, Twitter?.TokenSecret);
+                return Twitter?.TokenKey == null || Twitter?.TokenSecret == null
+                    ? null
+                    : new TwitterCredentials(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, Twitter.TokenKey, Twitter.TokenSecret);
             }
             set {
                 Twitter.TokenKey = value?.AccessToken;

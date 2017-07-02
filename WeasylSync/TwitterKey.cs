@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models;
+﻿using Tweetinvi;
+using Tweetinvi.Models;
 using WinFormsOAuth;
 
 namespace WeasylSync {
@@ -13,5 +14,11 @@ namespace WeasylSync {
 			string accessTokenSecret = oauth.TokenSecret;
 			return new TwitterCredentials(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 		}
+
+        public static string GetScreenName(this ITwitterCredentials credentials) {
+            return credentials == null
+                ? null
+                : Auth.ExecuteOperationWithCredentials(credentials, () => User.GetAuthenticatedUser())?.ScreenName;
+        }
 	}
 }

@@ -112,8 +112,8 @@ namespace WeasylSync {
         private void UpdateTwitterTokenLabel() {
             var twitterCredentials = Settings.TwitterCredentials;
             try {
-                var user = Auth.ExecuteOperationWithCredentials(twitterCredentials, () => User.GetAuthenticatedUser());
-                if (user == null) {
+                string screenName = twitterCredentials?.GetScreenName();
+                if (screenName == null) {
                     btnTwitterSignIn.ContextMenuStrip = menuSignIn;
                     btnTwitterSignIn.Text = "Sign in";
                     lblTwitterTokenStatus.ForeColor = SystemColors.WindowText;
@@ -122,7 +122,7 @@ namespace WeasylSync {
                     btnTwitterSignIn.ContextMenuStrip = null;
                     btnTwitterSignIn.Text = "Sign out";
                     lblTwitterTokenStatus.ForeColor = Color.Green;
-                    lblTwitterTokenStatus.Text = string.Format("{0} ({1}...)", user.Name, twitterCredentials.AccessToken.Substring(0, 8));
+                    lblTwitterTokenStatus.Text = string.Format("{0} ({1}...)", screenName, twitterCredentials.AccessToken.Substring(0, 8));
                 }
             } catch (Exception e) {
                 lblTokenStatus.ForeColor = Color.Red;
