@@ -817,8 +817,6 @@
 			// chkIncludeIdTag
 			// 
 			this.chkIncludeIdTag.AutoSize = true;
-			this.chkIncludeIdTag.Checked = true;
-			this.chkIncludeIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkIncludeIdTag.Location = new System.Drawing.Point(213, 32);
 			this.chkIncludeIdTag.Name = "chkIncludeIdTag";
 			this.chkIncludeIdTag.Size = new System.Drawing.Size(267, 17);
