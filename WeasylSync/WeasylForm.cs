@@ -192,7 +192,9 @@ namespace WeasylSync {
                     ? $"{plainText.Substring(0, maxLength - 1)}…"
                     : plainText;
                 txtURL.Text = submission.link;
-                txtTwitterLinkToAppend.Text = submission.link;
+                lnkTwitterLinkToInclude.Text = submission.link;
+                
+                chkTweetPotentiallySensitive.Checked = submission.rating != "general";
 
                 txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
                 if (submission is SubmissionDetail) {
@@ -503,6 +505,17 @@ namespace WeasylSync {
                     InkbunnyLogin();
                     return;
 			    }
+
+                var rating = new InkbunnyRating() {
+                    Nudity = chkInbunnyTag2.Checked,
+                    Violence = chkInbunnyTag3.Checked,
+                    SexualThemes = chkInbunnyTag4.Checked,
+                    StrongViolence = chkInbunnyTag5.Checked,
+                };
+                if (currentSubmission.rating != "general" || !rating.Any) {
+                    DialogResult r = MessageBox.Show(this, $"This image is rated \"{currentSubmission.rating}\" on Weasyl. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                    if (r != DialogResult.OK) return;
+                }
             
                 LProgressBar.Maximum = 2;
                 LProgressBar.Value = 1;
@@ -524,12 +537,7 @@ namespace WeasylSync {
                     isPublic: chkInkbunnyPublic.Checked,
                     notifyWatchersWhenPublic: chkInkbunnyNotifyWatchers.Checked,
                     keywords: txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""),
-                    tag: new InkbunnyRating() {
-                        Nudity = chkInbunnyTag2.Checked,
-                        Violence = chkInbunnyTag3.Checked,
-                        SexualThemes = chkInbunnyTag4.Checked,
-                        StrongViolence = chkInbunnyTag5.Checked,
-                    }
+                    tag: rating
                 );
                 Console.WriteLine(o.submission_id);
                 Console.WriteLine(o.twitter_authentication_success);
@@ -608,6 +616,10 @@ namespace WeasylSync {
 			Process.Start(lnkTumblrPost.Text);
         }
 
+        private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start(lnkTwitterLinkToInclude.Text);
+        }
+
         private void lblInkbunnyStatus2_Click(object sender, EventArgs e) {
             InkbunnyLogin();
         }
@@ -640,7 +652,7 @@ namespace WeasylSync {
 
             int length = text.Length;
             if (chkIncludeLink.Checked) {
-                text += $" {txtTwitterLinkToAppend.Text}";
+                text += $" {lnkTwitterLinkToInclude.Text}";
                 length += (shortURLLengthHttps + 1);
             }
             if (length > 140) {
@@ -654,6 +666,10 @@ namespace WeasylSync {
                 if (chkIncludeImage.Checked) {
                     IMedia media = Upload.UploadImage(currentImageOriginalData);
                     options.Medias = new List<IMedia> { media };
+                }
+
+                if (chkTweetPotentiallySensitive.Checked) {
+                    options.PossiblySensitive = true;
                 }
 
                 ITweet tweet = Tweet.PublishTweet(text, options);

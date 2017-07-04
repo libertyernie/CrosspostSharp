@@ -7,6 +7,8 @@ namespace InkbunnyLib {
         public bool SexualThemes { get; set; }
         public bool StrongViolence { get; set; }
 
+        public bool Any => Nudity || Violence || SexualThemes || StrongViolence;
+
         internal string this[int index] {
             get {
                 if (index == 2) return Nudity ? "yes" : "no";
