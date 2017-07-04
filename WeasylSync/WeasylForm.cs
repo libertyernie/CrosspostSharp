@@ -183,17 +183,11 @@ namespace WeasylSync {
                 txtDescription.Text = submission.GetDescription(true);
                 string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
                 txtInkbunnyDescription.Text = bbCode;
-                string plainText = Regex.Replace(bbCode, @"\[\/?(b|i|u|q|url=?[^\]]*)\]", "");
-                int maxLength = 140;
-                if (chkIncludeLink.Checked) {
-                    maxLength -= (shortURLLengthHttps + 1);
-                }
-                txtTweetText.Text = plainText.Length > maxLength
-                    ? $"{plainText.Substring(0, maxLength - 1)}…"
-                    : plainText;
                 txtURL.Text = submission.link;
+
+                ResetTweetText();
+
                 lnkTwitterLinkToInclude.Text = submission.link;
-                
                 chkTweetPotentiallySensitive.Checked = submission.rating != "general";
 
                 txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
@@ -202,7 +196,8 @@ namespace WeasylSync {
                 } else if (submission is CharacterDetail) {
                     chkWeasylSubmitIdTag.Text = "#weasylcharacter" + (submission as CharacterDetail)?.charid;
                 }
-				pickDate.Value = pickTime.Value = submission.posted_at;
+
+                pickDate.Value = pickTime.Value = submission.posted_at;
 				UpdateHTMLPreview();
 			}
 			this.currentImage = file;
@@ -220,6 +215,33 @@ namespace WeasylSync {
 			}
 			UpdateExistingPostLink();
 		}
+
+        private void ResetTweetText() {
+            List<string> plainTextList = new List<string>(2);
+            if (chkIncludeTitle.Checked) {
+				plainTextList.Add(currentSubmission.title);
+            }
+            if (chkIncludeDescription.Checked) {
+                string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
+				plainTextList.Add(Regex.Replace(bbCode, @"\[\/?(b|i|u|q|url=?[^\]]*)\]", ""));
+            }
+			string plainText = string.Join("﹘", plainTextList.Where(s => s != ""));
+
+            int maxLength = 140;
+            if (chkIncludeLink.Checked) {
+                maxLength -= (shortURLLengthHttps + 1);
+            }
+
+            string tag = chkIncludeIdTag.Checked
+                ? $" {TwitterIdTag.Get(currentSubmission)}"
+                : "";
+            maxLength -= tag.Where(c => !char.IsLowSurrogate(c)).Count();
+
+            txtTweetText.Text = plainText.Length > maxLength
+                ? $"{plainText.Substring(0, maxLength - 1)}…"
+                : plainText;
+            txtTweetText.Text += tag;
+        }
         
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
@@ -633,13 +655,15 @@ namespace WeasylSync {
         }
 
         private void txtTweetText_TextChanged(object sender, EventArgs e) {
-            int length = txtTweetText.Text.Length;
-            if (chkIncludeLink.Checked) length += (shortURLLengthHttps + 1);
+            int length = txtTweetText.Text.Where(c => !char.IsLowSurrogate(c)).Count();
+            if (chkIncludeLink.Checked) {
+                length += (shortURLLengthHttps + 1);
+            }
             lblTweetLength.Text = $"{length}/140";
         }
 
         private void chkIncludeLink_CheckedChanged(object sender, EventArgs e) {
-            txtTweetText_TextChanged(sender, e);
+            ResetTweetText();
         }
 
         private void btnTweet_Click(object sender, EventArgs e) {
@@ -650,7 +674,7 @@ namespace WeasylSync {
 
             string text = txtTweetText.Text;
 
-            int length = text.Length;
+            int length = text.Where(c => !char.IsLowSurrogate(c)).Count();
             if (chkIncludeLink.Checked) {
                 text += $" {lnkTwitterLinkToInclude.Text}";
                 length += (shortURLLengthHttps + 1);
@@ -681,6 +705,18 @@ namespace WeasylSync {
                     MessageBox.Show(tweet?.FullText ?? tweet?.Text);
                 }
             });
+        }
+
+        private void chkIncludeTitle_CheckedChanged(object sender, EventArgs e) {
+            ResetTweetText();
+        }
+
+        private void chkIncludeDescription_CheckedChanged(object sender, EventArgs e) {
+            ResetTweetText();
+        }
+
+        private void chkIncludeHashtag_CheckedChanged(object sender, EventArgs e) {
+            ResetTweetText();
         }
         #endregion
 
