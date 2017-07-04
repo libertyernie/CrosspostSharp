@@ -83,11 +83,12 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.chkIncludeLink = new System.Windows.Forms.CheckBox();
             this.btnTweet = new System.Windows.Forms.Button();
+            this.lblTweetLength = new System.Windows.Forms.Label();
+            this.txtTwitterLinkToAppend = new System.Windows.Forms.TextBox();
             this.lProgressBar1 = new WeasylSync.LProgressBar();
             this.thumbnail1 = new WeasylSync.WeasylThumbnail();
             this.thumbnail2 = new WeasylSync.WeasylThumbnail();
             this.thumbnail3 = new WeasylSync.WeasylThumbnail();
-            this.lblTweetLength = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -718,6 +719,7 @@
             // 
             // tabTwitter
             // 
+            this.tabTwitter.Controls.Add(this.txtTwitterLinkToAppend);
             this.tabTwitter.Controls.Add(this.lblTweetLength);
             this.tabTwitter.Controls.Add(this.btnTweet);
             this.tabTwitter.Controls.Add(this.chkIncludeLink);
@@ -770,6 +772,8 @@
             // 
             this.chkIncludeImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkIncludeImage.AutoSize = true;
+            this.chkIncludeImage.Checked = true;
+            this.chkIncludeImage.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkIncludeImage.Location = new System.Drawing.Point(6, 213);
             this.chkIncludeImage.Name = "chkIncludeImage";
             this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
@@ -783,10 +787,11 @@
             this.chkIncludeLink.AutoSize = true;
             this.chkIncludeLink.Location = new System.Drawing.Point(104, 213);
             this.chkIncludeLink.Name = "chkIncludeLink";
-            this.chkIncludeLink.Size = new System.Drawing.Size(130, 17);
+            this.chkIncludeLink.Size = new System.Drawing.Size(85, 17);
             this.chkIncludeLink.TabIndex = 6;
-            this.chkIncludeLink.Text = "Include link to Weasyl";
+            this.chkIncludeLink.Text = "Append link:";
             this.chkIncludeLink.UseVisualStyleBackColor = true;
+            this.chkIncludeLink.CheckedChanged += new System.EventHandler(this.chkIncludeLink_CheckedChanged);
             // 
             // btnTweet
             // 
@@ -797,6 +802,24 @@
             this.btnTweet.TabIndex = 7;
             this.btnTweet.Text = "Tweet";
             this.btnTweet.UseVisualStyleBackColor = true;
+            this.btnTweet.Click += new System.EventHandler(this.btnTweet_Click);
+            // 
+            // lblTweetLength
+            // 
+            this.lblTweetLength.Location = new System.Drawing.Point(409, 212);
+            this.lblTweetLength.Name = "lblTweetLength";
+            this.lblTweetLength.Size = new System.Drawing.Size(50, 17);
+            this.lblTweetLength.TabIndex = 8;
+            this.lblTweetLength.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtTwitterLinkToAppend
+            // 
+            this.txtTwitterLinkToAppend.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTwitterLinkToAppend.Location = new System.Drawing.Point(195, 210);
+            this.txtTwitterLinkToAppend.Name = "txtTwitterLinkToAppend";
+            this.txtTwitterLinkToAppend.Size = new System.Drawing.Size(208, 20);
+            this.txtTwitterLinkToAppend.TabIndex = 9;
             // 
             // lProgressBar1
             // 
@@ -842,14 +865,6 @@
             this.thumbnail3.Submission = null;
             this.thumbnail3.TabIndex = 2;
             this.thumbnail3.TabStop = false;
-            // 
-            // lblTweetLength
-            // 
-            this.lblTweetLength.Location = new System.Drawing.Point(409, 212);
-            this.lblTweetLength.Name = "lblTweetLength";
-            this.lblTweetLength.Size = new System.Drawing.Size(50, 17);
-            this.lblTweetLength.TabIndex = 8;
-            this.lblTweetLength.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // WeasylForm
             // 
@@ -950,6 +965,7 @@
         private System.Windows.Forms.CheckBox chkIncludeImage;
         private System.Windows.Forms.TextBox txtTweetText;
         private System.Windows.Forms.Label lblTweetLength;
+        private System.Windows.Forms.TextBox txtTwitterLinkToAppend;
     }
 }
 

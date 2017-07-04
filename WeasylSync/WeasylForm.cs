@@ -17,6 +17,7 @@ using InkbunnyLib;
 using Tweetinvi.Models;
 using Tweetinvi;
 using System.Text.RegularExpressions;
+using Tweetinvi.Parameters;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -29,6 +30,8 @@ namespace WeasylSync {
 		public string TumblrUsername { get; private set; }
 
         private ITwitterCredentials TwitterCredentials;
+        private int shortURLLength;
+        private int shortURLLengthHttps;
 
         public InkbunnyClient Inkbunny;
 
@@ -41,9 +44,10 @@ namespace WeasylSync {
 
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
 		private Bitmap currentImageBitmap;
+        private byte[] currentImageOriginalData;
 
-		// Used for paging.
-		private int? backid, nextid;
+        // Used for paging.
+        private int? backid, nextid;
 
 		// The existing Tumblr post for the selected Weasyl submission, if any - looked up by using the #weasylXXXXXX tag.
 		private BasePost ExistingPost;
@@ -135,6 +139,14 @@ namespace WeasylSync {
                     lblTwitterStatus2.ForeColor = screenName == null
                         ? SystemColors.WindowText
                         : Color.DarkGreen;
+
+                    if (screenName != null) {
+                        Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+                            var conf = Tweetinvi.Help.GetTwitterConfiguration();
+                            shortURLLength = conf.ShortURLLength;
+                            shortURLLengthHttps = conf.ShortURLLengthHttps;
+                        });
+                    }
                 } catch (Exception e) {
                     TwitterCredentials = null;
                     lblTwitterStatus2.Text = e.Message;
@@ -172,11 +184,17 @@ namespace WeasylSync {
                 string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
                 txtInkbunnyDescription.Text = bbCode;
                 string plainText = Regex.Replace(bbCode, @"\[\/?(b|i|u|q|url=?[^\]]*)\]", "");
-                txtTweetText.Text = plainText.Length > 140
-                    ? $"{plainText.Substring(0, 139)}…"
+                int maxLength = 140;
+                if (chkIncludeLink.Checked) {
+                    maxLength -= (shortURLLengthHttps + 1);
+                }
+                txtTweetText.Text = plainText.Length > maxLength
+                    ? $"{plainText.Substring(0, maxLength - 1)}…"
                     : plainText;
                 txtURL.Text = submission.link;
-				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
+                txtTwitterLinkToAppend.Text = submission.link;
+
+                txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
                 if (submission is SubmissionDetail) {
                     chkWeasylSubmitIdTag.Text = "#weasyl" + (submission as SubmissionDetail)?.submitid;
                 } else if (submission is CharacterDetail) {
@@ -190,7 +208,8 @@ namespace WeasylSync {
 				mainPictureBox.Image = null;
 			} else {
 				try {
-					this.currentImageBitmap = (Bitmap)Bitmap.FromStream(new MemoryStream(file.Data));
+                    this.currentImageOriginalData = file.Data;
+                    this.currentImageBitmap = (Bitmap)Image.FromStream(new MemoryStream(file.Data));
 					mainPictureBox.Image = this.currentImageBitmap;
 				} catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
@@ -602,7 +621,50 @@ namespace WeasylSync {
         }
 
         private void txtTweetText_TextChanged(object sender, EventArgs e) {
-            lblTweetLength.Text = $"{txtTweetText.Text.Length}/140";
+            int length = txtTweetText.Text.Length;
+            if (chkIncludeLink.Checked) length += (shortURLLengthHttps + 1);
+            lblTweetLength.Text = $"{length}/140";
+        }
+
+        private void chkIncludeLink_CheckedChanged(object sender, EventArgs e) {
+            txtTweetText_TextChanged(sender, e);
+        }
+
+        private void btnTweet_Click(object sender, EventArgs e) {
+            if (TwitterCredentials == null) {
+                MessageBox.Show("You must log into Twitter from the Options screen to send a tweet.");
+                return;
+            }
+
+            string text = txtTweetText.Text;
+
+            int length = text.Length;
+            if (chkIncludeLink.Checked) {
+                text += $" {txtTwitterLinkToAppend.Text}";
+                length += (shortURLLengthHttps + 1);
+            }
+            if (length > 140) {
+                MessageBox.Show("This tweet is over 140 characters. Please shorten it or remove the Weasyl link (if present.)");
+                return;
+            }
+
+            Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+                var options = new PublishTweetOptionalParameters();
+
+                if (chkIncludeImage.Checked) {
+                    IMedia media = Upload.UploadImage(currentImageOriginalData);
+                    options.Medias = new List<IMedia> { media };
+                }
+
+                ITweet tweet = Tweet.PublishTweet(text, options);
+
+                if (tweet == null) {
+                    string desc = ExceptionHandler.GetLastException().TwitterDescription;
+                    MessageBox.Show(this, desc, "Could not send tweet");
+                } else {
+                    MessageBox.Show(tweet?.FullText ?? tweet?.Text);
+                }
+            });
         }
         #endregion
 
