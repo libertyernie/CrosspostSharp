@@ -32,6 +32,7 @@ namespace WeasylSync {
 		private ITwitterCredentials TwitterCredentials;
 		private int shortURLLength;
 		private int shortURLLengthHttps;
+		private List<ITweet> tweetCache;
 
 		public InkbunnyClient Inkbunny;
 
@@ -69,6 +70,7 @@ namespace WeasylSync {
 
 		public WeasylForm() {
 			InitializeComponent();
+			tweetCache = new List<ITweet>();
 
 			GlobalSettings = Settings.Load();
 
@@ -146,6 +148,10 @@ namespace WeasylSync {
 							shortURLLength = conf.ShortURLLength;
 							shortURLLengthHttps = conf.ShortURLLengthHttps;
 						});
+
+						if (!tweetCache.Any()) {
+							tweetCache.AddRange(await GetMoreOldTweets());
+						}
 					}
 				} catch (Exception e) {
 					TwitterCredentials = null;
@@ -186,6 +192,7 @@ namespace WeasylSync {
 				txtURL.Text = submission.link;
 
 				ResetTweetText();
+				FindExistingTweet();
 
 				lnkTwitterLinkToInclude.Text = submission.link;
 				chkTweetPotentiallySensitive.Checked = submission.rating != "general";
@@ -242,7 +249,48 @@ namespace WeasylSync {
 				: plainText;
 			txtTweetText.Text += tag;
 		}
-		
+
+		private async void FindExistingTweet() {
+			try {
+				string tag = TwitterIdTag.Get(currentSubmission);
+				foreach (var tweet in tweetCache) {
+					if (tweet.FullText.Contains(tag)) {
+						tweetBrowser.Navigate("https://mobile.twitter.com/twitter/status/" + tweet.IdStr,
+							null,
+							null,
+							"User-Agent: Mozilla/5.0 (Trident/7.0; rv:11.0) like Gecko");
+						return;
+					}
+				}
+				tweetBrowser.Navigate($"about:Tweet not found (the tag {tag} was not found in your 200 most recent tweets.)");
+			} catch (Exception e) {
+				MessageBox.Show(e.Message);
+			}
+		}
+
+		private Task<IEnumerable<ITweet>> GetMoreOldTweets() {
+			if (TwitterCredentials == null)
+				return Task.FromResult(Enumerable.Empty<ITweet>());
+
+			long sinceId = tweetCache.Select(t => t.Id).DefaultIfEmpty(20).Max();
+			return Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+				var user = Tweetinvi.User.GetAuthenticatedUser();
+				var parameters = new UserTimelineParameters {
+					MaximumNumberOfTweetsToRetrieve = 200,
+					TrimUser = true,
+					SinceId = sinceId
+				};
+				var tweets = Timeline.GetUserTimeline(user, parameters);
+				if (tweets == null) {
+					var x = ExceptionHandler.GetLastException();
+					throw new Exception(x.TwitterDescription, x.WebException);
+				}
+				return tweets
+					.Where(t => t.CreatedBy.Id == user.Id)
+					.Where(t => t.FullText.Contains("🎨") || t.FullText.Contains("🆔"));
+			}));
+		}
+
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
 			try {
@@ -684,13 +732,17 @@ namespace WeasylSync {
 				return;
 			}
 
-			Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+			LProgressBar.Value = 0;
+			LProgressBar.Maximum = 2;
+			LProgressBar.Visible = true;
+			Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
 				var options = new PublishTweetOptionalParameters();
 
 				if (chkIncludeImage.Checked) {
 					IMedia media = Upload.UploadImage(currentImageOriginalData);
 					options.Medias = new List<IMedia> { media };
 				}
+				LProgressBar.Value = 1;
 
 				if (chkTweetPotentiallySensitive.Checked) {
 					options.PossiblySensitive = true;
@@ -702,9 +754,11 @@ namespace WeasylSync {
 					string desc = ExceptionHandler.GetLastException().TwitterDescription;
 					MessageBox.Show(this, desc, "Could not send tweet");
 				} else {
-					MessageBox.Show(tweet?.FullText ?? tweet?.Text);
+					this.tweetCache.Add(tweet);
+					this.InvokeAndForget(() => FindExistingTweet());
 				}
-			});
+				LProgressBar.Visible = false;
+			}));
 		}
 
 		private void chkIncludeTitle_CheckedChanged(object sender, EventArgs e) {
