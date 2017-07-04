@@ -34,7 +34,7 @@
 			// lblMessage
 			// 
 			this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblMessage.Location = new System.Drawing.Point(12, 9);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(3);
 			this.lblMessage.Name = "lblMessage";
@@ -46,7 +46,7 @@
 			// lblQuestion
 			// 
 			this.lblQuestion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lblQuestion.Location = new System.Drawing.Point(12, 53);
 			this.lblQuestion.Margin = new System.Windows.Forms.Padding(3);
 			this.lblQuestion.Name = "lblQuestion";
@@ -80,7 +80,7 @@
 			// lnkTumblrPost
 			// 
 			this.lnkTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkTumblrPost.Location = new System.Drawing.Point(12, 31);
 			this.lnkTumblrPost.Margin = new System.Windows.Forms.Padding(3);
 			this.lnkTumblrPost.Name = "lnkTumblrPost";

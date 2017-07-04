@@ -78,10 +78,10 @@ namespace WeasylSync {
 		private async Task FetchDetails() {
 			try {
 				if (RawData == null) {
-                    mainForm.LProgressBar.Value = 0;
-                    mainForm.LProgressBar.Visible = true;
+					mainForm.LProgressBar.Value = 0;
+					mainForm.LProgressBar.Visible = true;
 
-                    string url = Submission.media.submission.First().url;
+					string url = Submission.media.submission.First().url;
 					string filename = url.Substring(url.LastIndexOf('/') + 1);
 
 					WebRequest req = WebRequest.Create(url);
@@ -89,24 +89,24 @@ namespace WeasylSync {
 					var stream = resp.GetResponseStream();
 
 					byte[] data = new byte[resp.ContentLength];
-                    mainForm.LProgressBar.Maximum = data.Length;
+					mainForm.LProgressBar.Maximum = data.Length;
 
-                    int read = 0;
+					int read = 0;
 					while (read < data.Length) {
 						read += await stream.ReadAsync(data, read, data.Length - read);
-                        mainForm.LProgressBar.Value = read;
-                    }
+						mainForm.LProgressBar.Value = read;
+					}
 
 					RawData = new BinaryFile(data, filename, resp.ContentType);
 				}
 
-                mainForm.LProgressBar.Visible = false;
+				mainForm.LProgressBar.Visible = false;
 
-                // SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
-                mainForm.Invoke(new Action<SubmissionBaseDetail, BinaryFile>(mainForm.SetCurrentImage), Submission, RawData);
+				// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
+				mainForm.Invoke(new Action<SubmissionBaseDetail, BinaryFile>(mainForm.SetCurrentImage), Submission, RawData);
 			} catch (WebException ex) {
-                mainForm.LProgressBar.Visible = false;
-                MessageBox.Show(ex.Message);
+				mainForm.LProgressBar.Visible = false;
+				MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -121,8 +121,8 @@ namespace WeasylSync {
 				}
 			}
 			if (Submission != null) {
-                // Launch a new thread to download the submission details and raw image data
-                FetchDetails();
+				// Launch a new thread to download the submission details and raw image data
+				FetchDetails();
 			}
 		}
 	}

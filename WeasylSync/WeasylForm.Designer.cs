@@ -134,7 +134,7 @@
 			// mainPictureBox
 			// 
 			this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.mainPictureBox.Location = new System.Drawing.Point(142, 3);
 			this.mainPictureBox.Name = "mainPictureBox";
@@ -168,8 +168,8 @@
 			// txtDescription
 			// 
 			this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtDescription.Location = new System.Drawing.Point(30, 62);
 			this.txtDescription.Multiline = true;
 			this.txtDescription.Name = "txtDescription";
@@ -180,7 +180,7 @@
 			// txtTags1
 			// 
 			this.txtTags1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTags1.ForeColor = System.Drawing.Color.Black;
 			this.txtTags1.Location = new System.Drawing.Point(182, 367);
 			this.txtTags1.Name = "txtTags1";
@@ -214,7 +214,7 @@
 			// txtFooter
 			// 
 			this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtFooter.Location = new System.Drawing.Point(312, 157);
 			this.txtFooter.Name = "txtFooter";
 			this.txtFooter.Size = new System.Drawing.Size(226, 20);
@@ -223,7 +223,7 @@
 			// txtHeader
 			// 
 			this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtHeader.Location = new System.Drawing.Point(30, 36);
 			this.txtHeader.Name = "txtHeader";
 			this.txtHeader.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -312,7 +312,7 @@
 			// txtURL
 			// 
 			this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtURL.Location = new System.Drawing.Point(335, 181);
 			this.txtURL.Name = "txtURL";
 			this.txtURL.Size = new System.Drawing.Size(203, 20);
@@ -389,8 +389,8 @@
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+			this.toolsToolStripMenuItem,
+			this.helpToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(554, 24);
@@ -400,8 +400,8 @@
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadCharactersToolStripMenuItem,
-            this.optionsToolStripMenuItem});
+			this.loadCharactersToolStripMenuItem,
+			this.optionsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -424,7 +424,7 @@
 			// helpToolStripMenuItem
 			// 
 			this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+			this.aboutToolStripMenuItem});
 			this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.helpToolStripMenuItem.Text = "Help";
@@ -451,8 +451,8 @@
 			// previewPanel
 			// 
 			this.previewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.previewPanel.Location = new System.Drawing.Point(3, 36);
 			this.previewPanel.Name = "previewPanel";
 			this.previewPanel.Size = new System.Drawing.Size(540, 197);
@@ -462,7 +462,7 @@
 			// txtTitle
 			// 
 			this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTitle.ForeColor = System.Drawing.Color.Black;
 			this.txtTitle.Location = new System.Drawing.Point(182, 341);
 			this.txtTitle.Name = "txtTitle";
@@ -483,7 +483,7 @@
 			// lnkTumblrPost
 			// 
 			this.lnkTumblrPost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkTumblrPost.AutoEllipsis = true;
 			this.lnkTumblrPost.Location = new System.Drawing.Point(113, 400);
 			this.lnkTumblrPost.Name = "lnkTumblrPost";
@@ -525,8 +525,8 @@
 			// txtInkbunnyDescription
 			// 
 			this.txtInkbunnyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtInkbunnyDescription.ForeColor = System.Drawing.Color.Black;
 			this.txtInkbunnyDescription.Location = new System.Drawing.Point(8, 32);
 			this.txtInkbunnyDescription.Multiline = true;
@@ -665,7 +665,7 @@
 			// lProgressBar1
 			// 
 			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
 			this.lProgressBar1.Location = new System.Drawing.Point(7, 394);
@@ -830,7 +830,7 @@
 			// webBrowser1
 			// 
 			this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.webBrowser1.Location = new System.Drawing.Point(272, 55);
 			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
 			this.webBrowser1.Name = "webBrowser1";
@@ -853,7 +853,7 @@
 			// lnkTwitterLinkToInclude
 			// 
 			this.lnkTwitterLinkToInclude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkTwitterLinkToInclude.AutoEllipsis = true;
 			this.lnkTwitterLinkToInclude.Location = new System.Drawing.Point(192, 214);
 			this.lnkTwitterLinkToInclude.Margin = new System.Windows.Forms.Padding(3);
@@ -912,8 +912,8 @@
 			// 
 			this.txtTweetText.AcceptsReturn = true;
 			this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.txtTweetText.Location = new System.Drawing.Point(6, 55);
 			this.txtTweetText.Multiline = true;
 			this.txtTweetText.Name = "txtTweetText";
@@ -1017,35 +1017,35 @@
 		private System.Windows.Forms.Label lblAlreadyPosted;
 		private System.Windows.Forms.Label lblInkbunnyStatus2;
 		private System.Windows.Forms.Label lblInkbunnyStatus1;
-        private System.Windows.Forms.TextBox txtInkbunnyDescription;
-        private System.Windows.Forms.Button btnInkbunnyPost;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.CheckBox chkInkbunnyNotifyWatchers;
-        private System.Windows.Forms.CheckBox chkInkbunnyPublic;
-        private System.Windows.Forms.CheckBox chkInkbunnyScraps;
-        private System.Windows.Forms.CheckBox chkInbunnyTag5;
-        private System.Windows.Forms.CheckBox chkInbunnyTag4;
-        private System.Windows.Forms.CheckBox chkInbunnyTag3;
-        private System.Windows.Forms.CheckBox chkInbunnyTag2;
-        private System.Windows.Forms.ToolStripMenuItem loadCharactersToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabInkbunny;
-        private System.Windows.Forms.TabPage tabTumblr;
-        private System.Windows.Forms.Label lblTags;
-        private System.Windows.Forms.TabPage tabTwitter;
-        private System.Windows.Forms.Label lblTwitterStatus1;
-        private System.Windows.Forms.Label lblTwitterStatus2;
-        private System.Windows.Forms.Button btnTweet;
-        private System.Windows.Forms.CheckBox chkIncludeLink;
-        private System.Windows.Forms.CheckBox chkIncludeImage;
-        private System.Windows.Forms.TextBox txtTweetText;
-        private System.Windows.Forms.Label lblTweetLength;
-        private System.Windows.Forms.CheckBox chkTweetPotentiallySensitive;
-        private System.Windows.Forms.LinkLabel lnkTwitterLinkToInclude;
-        private System.Windows.Forms.WebBrowser webBrowser1;
-        private System.Windows.Forms.CheckBox chkIncludeIdTag;
-        private System.Windows.Forms.CheckBox chkIncludeDescription;
-        private System.Windows.Forms.CheckBox chkIncludeTitle;
-    }
+		private System.Windows.Forms.TextBox txtInkbunnyDescription;
+		private System.Windows.Forms.Button btnInkbunnyPost;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.CheckBox chkInkbunnyNotifyWatchers;
+		private System.Windows.Forms.CheckBox chkInkbunnyPublic;
+		private System.Windows.Forms.CheckBox chkInkbunnyScraps;
+		private System.Windows.Forms.CheckBox chkInbunnyTag5;
+		private System.Windows.Forms.CheckBox chkInbunnyTag4;
+		private System.Windows.Forms.CheckBox chkInbunnyTag3;
+		private System.Windows.Forms.CheckBox chkInbunnyTag2;
+		private System.Windows.Forms.ToolStripMenuItem loadCharactersToolStripMenuItem;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabInkbunny;
+		private System.Windows.Forms.TabPage tabTumblr;
+		private System.Windows.Forms.Label lblTags;
+		private System.Windows.Forms.TabPage tabTwitter;
+		private System.Windows.Forms.Label lblTwitterStatus1;
+		private System.Windows.Forms.Label lblTwitterStatus2;
+		private System.Windows.Forms.Button btnTweet;
+		private System.Windows.Forms.CheckBox chkIncludeLink;
+		private System.Windows.Forms.CheckBox chkIncludeImage;
+		private System.Windows.Forms.TextBox txtTweetText;
+		private System.Windows.Forms.Label lblTweetLength;
+		private System.Windows.Forms.CheckBox chkTweetPotentiallySensitive;
+		private System.Windows.Forms.LinkLabel lnkTwitterLinkToInclude;
+		private System.Windows.Forms.WebBrowser webBrowser1;
+		private System.Windows.Forms.CheckBox chkIncludeIdTag;
+		private System.Windows.Forms.CheckBox chkIncludeDescription;
+		private System.Windows.Forms.CheckBox chkIncludeTitle;
+	}
 }
 

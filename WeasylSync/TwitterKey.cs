@@ -15,10 +15,10 @@ namespace WeasylSync {
 			return new TwitterCredentials(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 		}
 
-        public static string GetScreenName(this ITwitterCredentials credentials) {
-            return credentials == null
-                ? null
-                : Auth.ExecuteOperationWithCredentials(credentials, () => User.GetAuthenticatedUser())?.ScreenName;
-        }
+		public static string GetScreenName(this ITwitterCredentials credentials) {
+			return credentials == null
+				? null
+				: Auth.ExecuteOperationWithCredentials(credentials, () => User.GetAuthenticatedUser())?.ScreenName;
+		}
 	}
 }

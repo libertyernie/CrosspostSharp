@@ -18,17 +18,17 @@ namespace WeasylSync {
 			get {
 				return txtUsername.Text;
 			}
-            set {
-                txtUsername.Text = value;
-            }
+			set {
+				txtUsername.Text = value;
+			}
 		}
 		public string Password {
 			get {
 				return txtPassword.Text;
 			}
-            set {
-                txtPassword.Text = value;
-            }
+			set {
+				txtPassword.Text = value;
+			}
 		}
 	}
 }

@@ -10,20 +10,20 @@ using System.Windows.Forms;
 
 namespace WeasylSync
 {
-    public partial class LProgressBar : UserControl
-    {
+	public partial class LProgressBar : UserControl
+	{
 		private int _value, _minimum, _maximum;
 
-        public LProgressBar() {
-            InitializeComponent();
+		public LProgressBar() {
+			InitializeComponent();
 
 			this.Minimum = 0;
 			this.Maximum = 100;
 			this.Value = 0;
 			this.ForeColor = Color.Black;
 
-            this.DoubleBuffered = true;
-        }
+			this.DoubleBuffered = true;
+		}
 
 		[Description("The value at which the progress bar is empty. This property is thread-safe."), Category("Behavior")]
 		public int Minimum {
@@ -48,17 +48,17 @@ namespace WeasylSync
 		}
 
 		[Description("The initial value of the progress bar. This property is thread-safe."), Category("Behavior")] 
-        public int Value {
-            get
-            {
-                return _value;
-            }
-            set
-            {
-                _value = value;
+		public int Value {
+			get
+			{
+				return _value;
+			}
+			set
+			{
+				_value = value;
 				Invalidate();
-            }
-        }
+			}
+		}
 
 		/*private Color _color;
 		[Description("The color of the progress bar. This property is thread-safe."), Category("Behavior")]
@@ -86,12 +86,12 @@ namespace WeasylSync
 			}
 		}
 
-        protected override void OnPaint(PaintEventArgs e) {
+		protected override void OnPaint(PaintEventArgs e) {
 			base.OnPaint(e);
-            int barwidth = (Value - Minimum) * this.Width / Math.Max(Maximum - Minimum, 1);
+			int barwidth = (Value - Minimum) * this.Width / Math.Max(Maximum - Minimum, 1);
 			using (Brush brush = new SolidBrush(ForeColor)) {
 				e.Graphics.FillRectangle(brush, 0, 0, barwidth, this.Height);
 			}
-        }
-    }
+		}
+	}
 }
