@@ -16,6 +16,7 @@ using System.Diagnostics;
 using InkbunnyLib;
 using Tweetinvi.Models;
 using Tweetinvi;
+using System.Text.RegularExpressions;
 
 namespace WeasylSync {
 	public partial class WeasylForm : Form {
@@ -168,8 +169,13 @@ namespace WeasylSync {
 			if (submission != null) {
 				txtTitle.Text = submission.title;
                 txtDescription.Text = submission.GetDescription(true);
-                txtInkbunnyDescription.Text = HtmlToBBCode.ConvertHtml(txtDescription.Text);
-				txtURL.Text = submission.link;
+                string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
+                txtInkbunnyDescription.Text = bbCode;
+                string plainText = Regex.Replace(bbCode, @"\[\/?(b|i|u|q|url=?[^\]]*)\]", "");
+                txtTweetText.Text = plainText.Length > 140
+                    ? $"{plainText.Substring(0, 139)}…"
+                    : plainText;
+                txtURL.Text = submission.link;
 				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
                 if (submission is SubmissionDetail) {
                     chkWeasylSubmitIdTag.Text = "#weasyl" + (submission as SubmissionDetail)?.submitid;
@@ -593,6 +599,10 @@ namespace WeasylSync {
 
         private void chkInkbunnyPublic_CheckedChanged(object sender, EventArgs e) {
             chkInkbunnyNotifyWatchers.Enabled = chkInkbunnyPublic.Checked;
+        }
+
+        private void txtTweetText_TextChanged(object sender, EventArgs e) {
+            lblTweetLength.Text = $"{txtTweetText.Text.Length}/140";
         }
         #endregion
 
