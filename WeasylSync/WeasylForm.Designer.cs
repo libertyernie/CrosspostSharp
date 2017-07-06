@@ -73,38 +73,39 @@
 			this.chkInkbunnyScraps = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.lblTags = new System.Windows.Forms.Label();
-			this.lProgressBar1 = new WeasylSync.LProgressBar();
-			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabTumblr = new System.Windows.Forms.TabPage();
 			this.tabInkbunny = new System.Windows.Forms.TabPage();
 			this.tabTwitter = new System.Windows.Forms.TabPage();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.txtTweetText = new System.Windows.Forms.TextBox();
+			this.tweetBrowser = new System.Windows.Forms.WebBrowser();
 			this.chkIncludeTitle = new System.Windows.Forms.CheckBox();
 			this.chkIncludeDescription = new System.Windows.Forms.CheckBox();
-			this.chkIncludeIdTag = new System.Windows.Forms.CheckBox();
-			this.tweetBrowser = new System.Windows.Forms.WebBrowser();
 			this.chkTweetPotentiallySensitive = new System.Windows.Forms.CheckBox();
 			this.lnkTwitterLinkToInclude = new System.Windows.Forms.LinkLabel();
 			this.lblTweetLength = new System.Windows.Forms.Label();
 			this.btnTweet = new System.Windows.Forms.Button();
 			this.chkIncludeLink = new System.Windows.Forms.CheckBox();
 			this.chkIncludeImage = new System.Windows.Forms.CheckBox();
-			this.txtTweetText = new System.Windows.Forms.TextBox();
 			this.lblTwitterStatus1 = new System.Windows.Forms.Label();
 			this.lblTwitterStatus2 = new System.Windows.Forms.Label();
+			this.lProgressBar1 = new WeasylSync.LProgressBar();
+			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
+			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
 			this.tabControl1.SuspendLayout();
 			this.tabTumblr.SuspendLayout();
 			this.tabInkbunny.SuspendLayout();
 			this.tabTwitter.SuspendLayout();
+			this.panel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnUp
@@ -662,51 +663,6 @@
 			this.lblTags.Text = "Tags:";
 			this.lblTags.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// lProgressBar1
-			// 
-			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.lProgressBar1.Location = new System.Drawing.Point(7, 394);
-			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this.lProgressBar1.Maximum = 128;
-			this.lProgressBar1.Minimum = 0;
-			this.lProgressBar1.Name = "lProgressBar1";
-			this.lProgressBar1.Size = new System.Drawing.Size(360, 24);
-			this.lProgressBar1.TabIndex = 9;
-			this.lProgressBar1.Value = 0;
-			// 
-			// thumbnail1
-			// 
-			this.thumbnail1.Location = new System.Drawing.Point(12, 3);
-			this.thumbnail1.Name = "thumbnail1";
-			this.thumbnail1.Size = new System.Drawing.Size(124, 124);
-			this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.thumbnail1.Submission = null;
-			this.thumbnail1.TabIndex = 0;
-			this.thumbnail1.TabStop = false;
-			// 
-			// thumbnail2
-			// 
-			this.thumbnail2.Location = new System.Drawing.Point(12, 133);
-			this.thumbnail2.Name = "thumbnail2";
-			this.thumbnail2.Size = new System.Drawing.Size(124, 124);
-			this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.thumbnail2.Submission = null;
-			this.thumbnail2.TabIndex = 1;
-			this.thumbnail2.TabStop = false;
-			// 
-			// thumbnail3
-			// 
-			this.thumbnail3.Location = new System.Drawing.Point(12, 263);
-			this.thumbnail3.Name = "thumbnail3";
-			this.thumbnail3.Size = new System.Drawing.Size(124, 124);
-			this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.thumbnail3.Submission = null;
-			this.thumbnail3.TabIndex = 2;
-			this.thumbnail3.TabStop = false;
-			// 
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.tabTumblr);
@@ -769,17 +725,15 @@
 			// 
 			// tabTwitter
 			// 
+			this.tabTwitter.Controls.Add(this.panel2);
 			this.tabTwitter.Controls.Add(this.chkIncludeTitle);
 			this.tabTwitter.Controls.Add(this.chkIncludeDescription);
-			this.tabTwitter.Controls.Add(this.chkIncludeIdTag);
-			this.tabTwitter.Controls.Add(this.tweetBrowser);
 			this.tabTwitter.Controls.Add(this.chkTweetPotentiallySensitive);
 			this.tabTwitter.Controls.Add(this.lnkTwitterLinkToInclude);
 			this.tabTwitter.Controls.Add(this.lblTweetLength);
 			this.tabTwitter.Controls.Add(this.btnTweet);
 			this.tabTwitter.Controls.Add(this.chkIncludeLink);
 			this.tabTwitter.Controls.Add(this.chkIncludeImage);
-			this.tabTwitter.Controls.Add(this.txtTweetText);
 			this.tabTwitter.Controls.Add(this.lblTwitterStatus1);
 			this.tabTwitter.Controls.Add(this.lblTwitterStatus2);
 			this.tabTwitter.Location = new System.Drawing.Point(4, 22);
@@ -789,6 +743,37 @@
 			this.tabTwitter.TabIndex = 2;
 			this.tabTwitter.Text = "Twitter";
 			this.tabTwitter.UseVisualStyleBackColor = true;
+			// 
+			// panel2
+			// 
+			this.panel2.Controls.Add(this.txtTweetText);
+			this.panel2.Controls.Add(this.tweetBrowser);
+			this.panel2.Location = new System.Drawing.Point(6, 55);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(532, 129);
+			this.panel2.TabIndex = 13;
+			// 
+			// txtTweetText
+			// 
+			this.txtTweetText.AcceptsReturn = true;
+			this.txtTweetText.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtTweetText.Location = new System.Drawing.Point(0, 0);
+			this.txtTweetText.Multiline = true;
+			this.txtTweetText.Name = "txtTweetText";
+			this.txtTweetText.Size = new System.Drawing.Size(212, 129);
+			this.txtTweetText.TabIndex = 5;
+			this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
+			// 
+			// tweetBrowser
+			// 
+			this.tweetBrowser.AllowWebBrowserDrop = false;
+			this.tweetBrowser.Dock = System.Windows.Forms.DockStyle.Right;
+			this.tweetBrowser.Location = new System.Drawing.Point(212, 0);
+			this.tweetBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+			this.tweetBrowser.Name = "tweetBrowser";
+			this.tweetBrowser.ScriptErrorsSuppressed = true;
+			this.tweetBrowser.Size = new System.Drawing.Size(320, 129);
+			this.tweetBrowser.TabIndex = 6;
 			// 
 			// chkIncludeTitle
 			// 
@@ -814,37 +799,13 @@
 			this.chkIncludeDescription.UseVisualStyleBackColor = true;
 			this.chkIncludeDescription.CheckedChanged += new System.EventHandler(this.chkIncludeDescription_CheckedChanged);
 			// 
-			// chkIncludeIdTag
-			// 
-			this.chkIncludeIdTag.AutoSize = true;
-			this.chkIncludeIdTag.Location = new System.Drawing.Point(213, 32);
-			this.chkIncludeIdTag.Name = "chkIncludeIdTag";
-			this.chkIncludeIdTag.Size = new System.Drawing.Size(267, 17);
-			this.chkIncludeIdTag.TabIndex = 4;
-			this.chkIncludeIdTag.Text = "Include tag so WeasylSync can find this tweet later";
-			this.chkIncludeIdTag.UseVisualStyleBackColor = true;
-			this.chkIncludeIdTag.CheckedChanged += new System.EventHandler(this.chkIncludeHashtag_CheckedChanged);
-			// 
-			// tweetBrowser
-			// 
-			this.tweetBrowser.AllowWebBrowserDrop = false;
-			this.tweetBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.tweetBrowser.Location = new System.Drawing.Point(218, 55);
-			this.tweetBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-			this.tweetBrowser.Name = "tweetBrowser";
-			this.tweetBrowser.ScriptErrorsSuppressed = true;
-			this.tweetBrowser.Size = new System.Drawing.Size(320, 129);
-			this.tweetBrowser.TabIndex = 6;
-			// 
 			// chkTweetPotentiallySensitive
 			// 
 			this.chkTweetPotentiallySensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkTweetPotentiallySensitive.AutoSize = true;
 			this.chkTweetPotentiallySensitive.Checked = true;
 			this.chkTweetPotentiallySensitive.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkTweetPotentiallySensitive.Location = new System.Drawing.Point(3, 190);
+			this.chkTweetPotentiallySensitive.Location = new System.Drawing.Point(6, 190);
 			this.chkTweetPotentiallySensitive.Name = "chkTweetPotentiallySensitive";
 			this.chkTweetPotentiallySensitive.Size = new System.Drawing.Size(157, 17);
 			this.chkTweetPotentiallySensitive.TabIndex = 7;
@@ -856,10 +817,10 @@
 			this.lnkTwitterLinkToInclude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lnkTwitterLinkToInclude.AutoEllipsis = true;
-			this.lnkTwitterLinkToInclude.Location = new System.Drawing.Point(192, 214);
+			this.lnkTwitterLinkToInclude.Location = new System.Drawing.Point(195, 214);
 			this.lnkTwitterLinkToInclude.Margin = new System.Windows.Forms.Padding(3);
 			this.lnkTwitterLinkToInclude.Name = "lnkTwitterLinkToInclude";
-			this.lnkTwitterLinkToInclude.Size = new System.Drawing.Size(211, 13);
+			this.lnkTwitterLinkToInclude.Size = new System.Drawing.Size(208, 13);
 			this.lnkTwitterLinkToInclude.TabIndex = 10;
 			this.lnkTwitterLinkToInclude.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTwitterLinkToInclude_LinkClicked);
 			// 
@@ -888,7 +849,7 @@
 			this.chkIncludeLink.AutoSize = true;
 			this.chkIncludeLink.Checked = true;
 			this.chkIncludeLink.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkIncludeLink.Location = new System.Drawing.Point(101, 213);
+			this.chkIncludeLink.Location = new System.Drawing.Point(104, 213);
 			this.chkIncludeLink.Name = "chkIncludeLink";
 			this.chkIncludeLink.Size = new System.Drawing.Size(85, 17);
 			this.chkIncludeLink.TabIndex = 9;
@@ -902,24 +863,12 @@
 			this.chkIncludeImage.AutoSize = true;
 			this.chkIncludeImage.Checked = true;
 			this.chkIncludeImage.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkIncludeImage.Location = new System.Drawing.Point(3, 213);
+			this.chkIncludeImage.Location = new System.Drawing.Point(6, 213);
 			this.chkIncludeImage.Name = "chkIncludeImage";
 			this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
 			this.chkIncludeImage.TabIndex = 8;
 			this.chkIncludeImage.Text = "Include image";
 			this.chkIncludeImage.UseVisualStyleBackColor = true;
-			// 
-			// txtTweetText
-			// 
-			this.txtTweetText.AcceptsReturn = true;
-			this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.txtTweetText.Location = new System.Drawing.Point(6, 55);
-			this.txtTweetText.Multiline = true;
-			this.txtTweetText.Name = "txtTweetText";
-			this.txtTweetText.Size = new System.Drawing.Size(206, 129);
-			this.txtTweetText.TabIndex = 5;
-			this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
 			// 
 			// lblTwitterStatus1
 			// 
@@ -941,6 +890,51 @@
 			this.lblTwitterStatus2.Text = "not logged in";
 			this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
+			// lProgressBar1
+			// 
+			this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
+			this.lProgressBar1.Location = new System.Drawing.Point(7, 394);
+			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.lProgressBar1.Maximum = 128;
+			this.lProgressBar1.Minimum = 0;
+			this.lProgressBar1.Name = "lProgressBar1";
+			this.lProgressBar1.Size = new System.Drawing.Size(360, 24);
+			this.lProgressBar1.TabIndex = 9;
+			this.lProgressBar1.Value = 0;
+			// 
+			// thumbnail1
+			// 
+			this.thumbnail1.Location = new System.Drawing.Point(12, 3);
+			this.thumbnail1.Name = "thumbnail1";
+			this.thumbnail1.Size = new System.Drawing.Size(124, 124);
+			this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.thumbnail1.Submission = null;
+			this.thumbnail1.TabIndex = 0;
+			this.thumbnail1.TabStop = false;
+			// 
+			// thumbnail2
+			// 
+			this.thumbnail2.Location = new System.Drawing.Point(12, 133);
+			this.thumbnail2.Name = "thumbnail2";
+			this.thumbnail2.Size = new System.Drawing.Size(124, 124);
+			this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.thumbnail2.Submission = null;
+			this.thumbnail2.TabIndex = 1;
+			this.thumbnail2.TabStop = false;
+			// 
+			// thumbnail3
+			// 
+			this.thumbnail3.Location = new System.Drawing.Point(12, 263);
+			this.thumbnail3.Name = "thumbnail3";
+			this.thumbnail3.Size = new System.Drawing.Size(124, 124);
+			this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.thumbnail3.Submission = null;
+			this.thumbnail3.TabIndex = 2;
+			this.thumbnail3.TabStop = false;
+			// 
 			// WeasylForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -958,9 +952,6 @@
 			this.menuStrip1.PerformLayout();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
 			this.tabControl1.ResumeLayout(false);
 			this.tabTumblr.ResumeLayout(false);
 			this.tabTumblr.PerformLayout();
@@ -968,6 +959,11 @@
 			this.tabInkbunny.PerformLayout();
 			this.tabTwitter.ResumeLayout(false);
 			this.tabTwitter.PerformLayout();
+			this.panel2.ResumeLayout(false);
+			this.panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1043,9 +1039,9 @@
 		private System.Windows.Forms.CheckBox chkTweetPotentiallySensitive;
 		private System.Windows.Forms.LinkLabel lnkTwitterLinkToInclude;
 		private System.Windows.Forms.WebBrowser tweetBrowser;
-		private System.Windows.Forms.CheckBox chkIncludeIdTag;
 		private System.Windows.Forms.CheckBox chkIncludeDescription;
 		private System.Windows.Forms.CheckBox chkIncludeTitle;
+		private System.Windows.Forms.Panel panel2;
 	}
 }
 

@@ -45,7 +45,6 @@ namespace WeasylSync {
 
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
 		private Bitmap currentImageBitmap;
-		private byte[] currentImageOriginalData;
 
 		// Used for paging.
 		private int? backid, nextid;
@@ -212,7 +211,6 @@ namespace WeasylSync {
 				mainPictureBox.Image = null;
 			} else {
 				try {
-					this.currentImageOriginalData = file.Data;
 					this.currentImageBitmap = (Bitmap)Image.FromStream(new MemoryStream(file.Data));
 					mainPictureBox.Image = this.currentImageBitmap;
 				} catch (ArgumentException) {
@@ -239,22 +237,16 @@ namespace WeasylSync {
 				maxLength -= (shortURLLengthHttps + 1);
 			}
 
-			string tag = chkIncludeIdTag.Checked
-				? $" {TwitterIdTag.Get(currentSubmission)}"
-				: "";
-			maxLength -= tag.Where(c => !char.IsLowSurrogate(c)).Count();
-
 			txtTweetText.Text = plainText.Length > maxLength
 				? $"{plainText.Substring(0, maxLength - 1)}…"
 				: plainText;
-			txtTweetText.Text += tag;
 		}
 
-		private async void FindExistingTweet() {
+		private void FindExistingTweet() {
 			try {
-				string tag = TwitterIdTag.Get(currentSubmission);
+				string url = this.currentSubmission.link;
 				foreach (var tweet in tweetCache) {
-					if (tweet.FullText.Contains(tag)) {
+					if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
 						tweetBrowser.Navigate("https://mobile.twitter.com/twitter/status/" + tweet.IdStr,
 							null,
 							null,
@@ -262,7 +254,7 @@ namespace WeasylSync {
 						return;
 					}
 				}
-				tweetBrowser.Navigate($"about:Tweet not found (the tag {tag} was not found in your 200 most recent tweets.)");
+				tweetBrowser.Navigate($"about:Tweet not found (the link to Weasyl was not found in your 200 most recent tweets.)");
 			} catch (Exception e) {
 				MessageBox.Show(e.Message);
 			}
@@ -286,8 +278,7 @@ namespace WeasylSync {
 					throw new Exception(x.TwitterDescription, x.WebException);
 				}
 				return tweets
-					.Where(t => t.CreatedBy.Id == user.Id)
-					.Where(t => t.FullText.Contains("🎨") || t.FullText.Contains("🆔"));
+					.Where(t => t.CreatedBy.Id == user.Id);
 			}));
 		}
 
@@ -739,7 +730,7 @@ namespace WeasylSync {
 				var options = new PublishTweetOptionalParameters();
 
 				if (chkIncludeImage.Checked) {
-					IMedia media = Upload.UploadImage(currentImageOriginalData);
+					IMedia media = Upload.UploadImage(currentImage.Data);
 					options.Medias = new List<IMedia> { media };
 				}
 				LProgressBar.Value = 1;
@@ -769,7 +760,7 @@ namespace WeasylSync {
 			ResetTweetText();
 		}
 
-		private void chkIncludeHashtag_CheckedChanged(object sender, EventArgs e) {
+		private void chkIncludeTag_CheckedChanged(object sender, EventArgs e) {
 			ResetTweetText();
 		}
 		#endregion

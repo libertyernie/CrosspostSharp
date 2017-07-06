@@ -75,7 +75,7 @@ namespace WeasylSync {
 		}
 
 		// Downloads the submission details (including comments) and the submission image. Can be run on a separate thread.
-		private async Task FetchDetails() {
+		private async void FetchDetails() {
 			try {
 				if (RawData == null) {
 					mainForm.LProgressBar.Value = 0;
