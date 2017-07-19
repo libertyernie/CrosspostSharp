@@ -272,6 +272,8 @@ namespace WeasylSync {
 					TrimUser = true,
 					SinceId = sinceId
 				};
+
+				TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
 				var tweets = Timeline.GetUserTimeline(user, parameters);
 				if (tweets == null) {
 					var x = ExceptionHandler.GetLastException();
@@ -573,7 +575,7 @@ namespace WeasylSync {
 					SexualThemes = chkInbunnyTag4.Checked,
 					StrongViolence = chkInbunnyTag5.Checked,
 				};
-				if (currentSubmission.rating != "general" || !rating.Any) {
+				if (currentSubmission.rating != "general" && !rating.Any) {
 					DialogResult r = MessageBox.Show(this, $"This image is rated \"{currentSubmission.rating}\" on Weasyl. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 					if (r != DialogResult.OK) return;
 				}
