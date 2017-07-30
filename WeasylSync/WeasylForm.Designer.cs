@@ -950,7 +950,7 @@
 			this.Controls.Add(this.menuStrip1);
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "WeasylForm";
-			this.Text = "WeasylSync";
+			this.Text = "DASync";
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

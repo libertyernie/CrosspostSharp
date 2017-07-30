@@ -1,15 +1,13 @@
-WeasylSync 1.1
+WeasylSync 2.0
 ==============
 
-Download (1.0): https://dl.dropboxusercontent.com/u/57430384/WeasylSync%201.0.zip  
-Mirror (1.0): http://www.mediafire.com/download/4tbcnkx4hn8zawf/WeasylSync_1.0.zip  
-Source: https://github.com/libertyernie/WeasylSync
+Source: https://github.com/libertyernie/WeasylSync/branches/deviantart
 
 --------------------
 
 WeasylSync is a Windows desktop application that loads individual submissions
-from Weasyl and lets you post them to your Tumblr and Inkbunny accounts,
-maintaining the title, description, and tags.
+from Weasyl or DeviantArt and lets you post them to your Tumblr and Inkbunny
+accounts, maintaining the title, description, and tags.
 
 Only visual submissions (artwork) are supported at this time.
 
@@ -21,9 +19,9 @@ Requirements:
 Authentication
 --------------
 
-To use this application, you must connect it to both your Weasyl and Tumblr
-accounts. Information for both will be stored in the file WeasylSync.json, so
-keep that file secure!
+To use this application, you must connect it to your Weasyl or DeviantArt
+account. Information for all accounts will be stored in the file
+WeasylSync.json, so keep that file secure!
 
 ### Weasyl
 
@@ -32,6 +30,10 @@ Copy the API key from the page and paste it into the Options dialog in
 WeasylSync (Tools -> Options).
 
 You can revoke an API key at any time by going to the same page.
+
+### DeviantArt
+
+TBD
 
 ### Tumblr
 
@@ -52,7 +54,7 @@ window; when Inkbunny finishes logging in, additional controls will appear.
 Posting to Tumblr
 -----------------
 
-When you're logged into Weasyl with your API key, your four most recent
+When you're logged into Weasyl/DA with your API key, your four most recent
 submissions will appear along the left side of the window. Click the thumbnail
 to load the full image and fill in the information boxes.
 
@@ -69,8 +71,8 @@ represented by the symbol [X].
 * [X] Footer template (HTML)
 *     URL - any appearance of {URL} will be replaced with this text
 * [X] Tags for this submission on Weasyl
-* [X] Other tags (default value is in settings)
-* [X] #weasylXXXXXX tag
+* [X] Other tags (default value is in settings)/DA
+* [X] #weasylXXXXXX / #daXXXXXX tag
 * Post to Tumblr button
 
 When you post to Tumblr, the header, body and footer templates will be put
@@ -102,6 +104,9 @@ Settings are stored in the file WeasylSync.json.
 * Weasyl
   * API key: discussed above. Your Weasyl username will be detected automatically.
 
+* DeviantArt
+  * TBD
+
 * Tumblr
   * Blog: name of the blog to post to.
   * TokenKey: The key of your OAuth token for Tumblr authentication.
@@ -116,10 +121,13 @@ Settings are stored in the file WeasylSync.json.
     submission. If you disable this feature, WeasylSync will not offer to update
     existing posts.
 
+* Twitter / Inkbunny
+  * No documentation yet, but it works.
+
 Compiling from Source
 ---------------------
 
-This project was built with Visual Studio 2015.
+This project was built with Visual Studio 2017.
 
 The file OAuthConsumer.cs is missing from the WeasylSync project. Get your own
 Tumblr OAuth keys at https://www.tumblr.com/oauth/apps, then put the following
@@ -130,11 +138,12 @@ namespace WeasylSync {
 		public static string CONSUMER_KEY = "consumer key goes here";
 		public static string CONSUMER_SECRET = "secret key goes here";
 	}
+	public static class Twitter {
+		public static string CONSUMER_KEY = "consumer key goes here";
+		public static string CONSUMER_SECRET = "secret key goes here";
+	}
+	public static class DeviantArt {
+		public static int CLIENT_ID = 0; // client_id goes here
+		public static string CLIENT_SECRET = "client_secret goes here";
+	}
 }
-
-Notes
------
-
-* Although Weasyl generally offers submission info without any authentication,
-  the API key is required in this program because it allows you to fetch info
-  on submissions with a rating above "general".
