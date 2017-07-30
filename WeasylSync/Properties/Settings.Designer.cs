@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WeasylSync.Properties {
+namespace DASync.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

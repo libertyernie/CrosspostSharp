@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tweetinvi;
 
-namespace WeasylSync {
+namespace DASync {
 	public partial class SettingsDialog : Form {
 		public Settings Settings { get; private set; }
 

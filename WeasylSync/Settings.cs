@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 
-namespace WeasylSync {
+namespace DASync {
 	public class Settings {
 		public int SettingsVersion {
 			get {

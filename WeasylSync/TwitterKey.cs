@@ -2,7 +2,7 @@
 using Tweetinvi.Models;
 using WinFormsOAuth;
 
-namespace WeasylSync {
+namespace DASync {
 	public static class TwitterKey {
 		public static TwitterCredentials Obtain(string consumerKey, string consumerSecret) {
 			var oauth = new OAuthTwitter(consumerKey, consumerSecret);

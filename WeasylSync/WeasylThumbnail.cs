@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WeasylSync {
+namespace DASync {
 	public class WeasylThumbnail : PictureBox {
 		private static Dictionary<string, Color> colors = new Dictionary<string, Color>() {
 			{"general", SystemColors.WindowText},

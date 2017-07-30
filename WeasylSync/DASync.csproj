@@ -7,8 +7,8 @@
     <ProjectGuid>{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WeasylSync</RootNamespace>
-    <AssemblyName>WeasylSync</AssemblyName>
+    <RootNamespace>DASync</RootNamespace>
+    <AssemblyName>DASync</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>

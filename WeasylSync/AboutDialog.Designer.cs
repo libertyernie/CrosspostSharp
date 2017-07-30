@@ -1,4 +1,4 @@
-﻿namespace WeasylSync {
+﻿namespace DASync {
 	partial class AboutDialog {
 		/// <summary>
 		/// Required designer variable.

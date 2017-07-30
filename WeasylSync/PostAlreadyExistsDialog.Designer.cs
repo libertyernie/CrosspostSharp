@@ -1,4 +1,4 @@
-﻿namespace WeasylSync {
+﻿namespace DASync {
 	partial class PostAlreadyExistsDialog {
 		/// <summary>
 		/// Required designer variable.

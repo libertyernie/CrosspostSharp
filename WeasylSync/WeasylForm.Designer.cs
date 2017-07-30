@@ -1,4 +1,4 @@
-﻿namespace WeasylSync {
+﻿namespace DASync {
 	partial class WeasylForm {
 		/// <summary>
 		/// Required designer variable.
@@ -90,10 +90,10 @@
 			this.chkIncludeImage = new System.Windows.Forms.CheckBox();
 			this.lblTwitterStatus1 = new System.Windows.Forms.Label();
 			this.lblTwitterStatus2 = new System.Windows.Forms.Label();
-			this.lProgressBar1 = new WeasylSync.LProgressBar();
-			this.thumbnail1 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail2 = new WeasylSync.WeasylThumbnail();
-			this.thumbnail3 = new WeasylSync.WeasylThumbnail();
+			this.lProgressBar1 = new DASync.LProgressBar();
+			this.thumbnail1 = new DASync.WeasylThumbnail();
+			this.thumbnail2 = new DASync.WeasylThumbnail();
+			this.thumbnail3 = new DASync.WeasylThumbnail();
 			((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -995,7 +995,7 @@
 		private System.Windows.Forms.DateTimePicker pickTime;
 		private System.Windows.Forms.CheckBox chkNow;
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
-		private WeasylSync.LProgressBar lProgressBar1;
+		private DASync.LProgressBar lProgressBar1;
 		private System.Windows.Forms.TextBox txtTags2;
 		private System.Windows.Forms.CheckBox chkTags2;
 		private System.Windows.Forms.Button btnPost;

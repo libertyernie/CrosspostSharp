@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsOAuth;
 
-namespace WeasylSync {
+namespace DASync {
 	static class Program {
 		
 		/// <summary>

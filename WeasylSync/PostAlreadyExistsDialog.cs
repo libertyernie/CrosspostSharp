@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WeasylSync {
+namespace DASync {
 	public partial class PostAlreadyExistsDialog : Form {
 		public static class Result {
 			public const DialogResult Replace = DialogResult.Yes;

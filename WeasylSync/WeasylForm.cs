@@ -19,7 +19,7 @@ using Tweetinvi;
 using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
 
-namespace WeasylSync {
+namespace DASync {
 	public partial class WeasylForm : Form {
 		private static Settings GlobalSettings;
 
