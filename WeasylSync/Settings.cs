@@ -85,7 +85,7 @@ namespace DASync {
 			}
 		}
 
-		public static Settings Load(string filename = "WeasylSync.json") {
+		public static Settings Load(string filename = "DASync.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
@@ -124,7 +124,7 @@ namespace DASync {
 			return s;
 		}
 
-		public void Save(string filename = "WeasylSync.json") {
+		public void Save(string filename = "DASync.json") {
 			File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
 		}
 
