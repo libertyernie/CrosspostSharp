@@ -38,7 +38,6 @@ namespace ArtSync {
 			public string TokenSecret { get; set; }
 
 			public bool AutoSidePadding { get; set; }
-			public bool FindPreviousPost { get; set; }
 		}
 
 		public TumblrSettings Tumblr { get; set; }
@@ -110,8 +109,7 @@ namespace ArtSync {
 					BlogName = "",
 					TokenKey = null,
 					TokenSecret = null,
-					AutoSidePadding = true,
-					FindPreviousPost = true
+					AutoSidePadding = true
 				};
 			if (s.Twitter == null)
 				s.Twitter = new TwitterSettings {

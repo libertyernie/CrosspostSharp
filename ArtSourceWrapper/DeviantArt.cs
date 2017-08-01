@@ -39,7 +39,7 @@ namespace ArtSourceWrapper {
                 "https://www.example.com",
                 refreshToken ?? "",
                 null,
-                new[] { DeviantartApi.Login.Scope.Browse });
+                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User });
             if (result.IsLoginError) {
                 throw new DeviantArtException(result.LoginErrorText);
             }
@@ -52,6 +52,9 @@ namespace ArtSourceWrapper {
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
                 throw new DeviantArtException(result.ErrorText);
+            }
+            if (!string.IsNullOrEmpty(result.Object.Error)) {
+                throw new DeviantArtException(result.Object.ErrorDescription);
             }
             return result.Object.Username;
         }
@@ -110,6 +113,14 @@ namespace ArtSourceWrapper {
                 HasLess = _offset > 0,
                 HasMore = galleryResponse.Object.HasMore
             };
+        }
+
+        public static async Task<bool> LogoutAsync() {
+            bool success = true;
+            foreach (string token in new[] { DeviantartApi.Requester.AccessToken, DeviantartApi.Requester.RefreshToken }) {
+                success = success && await DeviantartApi.Login.LogoutAsync(token);
+            }
+            return success;
         }
     }
 

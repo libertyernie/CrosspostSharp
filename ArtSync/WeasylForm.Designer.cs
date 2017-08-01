@@ -353,7 +353,7 @@
 			this.lblWeasylStatus1.Name = "lblWeasylStatus1";
 			this.lblWeasylStatus1.Size = new System.Drawing.Size(48, 24);
 			this.lblWeasylStatus1.TabIndex = 0;
-			this.lblWeasylStatus1.Text = "Weasyl:";
+			this.lblWeasylStatus1.Text = "";
 			this.lblWeasylStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// lblTumblrStatus1

@@ -80,16 +80,34 @@ namespace ArtSync {
 			try {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
+                
+                bool refreshGallery = false;
+                if (string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken) ^ !(SourceWrapper is DeviantArtWrapper)) {
+                    SourceWrapper = null;
+                    refreshGallery = true;
 
-                var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-                SourceWrapper = w;
-                string oldToken = GlobalSettings.DeviantArt.RefreshToken;
-                string newToken = await w.UpdateTokens(oldToken);
-                if (oldToken != newToken) {
-                    GlobalSettings.DeviantArt.RefreshToken = newToken;
-                    GlobalSettings.Save();
+                    if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
+                        try {
+                            var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                            SourceWrapper = w;
+                            string oldToken = GlobalSettings.DeviantArt.RefreshToken;
+                            string newToken = await w.UpdateTokens(oldToken);
+                            if (oldToken != newToken) {
+                                GlobalSettings.DeviantArt.RefreshToken = newToken;
+                                GlobalSettings.Save();
+                            }
+                            lblWeasylStatus1.Text = "dA:";
+                        } catch (DeviantArtException e) when (e.Message == "User canceled") {
+                            GlobalSettings.DeviantArt.RefreshToken = null;
+                            SourceWrapper = null;
+                        }
+                    }
+
+                    if (SourceWrapper == null) {
+                        lblWeasylStatus1.Text = "Weasyl:";
+                        SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
+                    }
                 }
-                //SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
 
                 Token token = GlobalSettings.TumblrToken;
 				if (token != null && token.IsValid) {
@@ -111,7 +129,9 @@ namespace ArtSync {
 					lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
 					lblWeasylStatus2.ForeColor = Color.DarkRed;
 				}
-				bool refreshGallery = user == null || SourceUsername != user;
+				if (user == null || SourceUsername != user) {
+                    refreshGallery = true;
+                }
                 SourceUsername = user;
 
                 LProgressBar.Report(1 / 3f);
@@ -324,11 +344,7 @@ namespace ArtSync {
 					return;
 				}
 
-				if (!GlobalSettings.Tumblr.FindPreviousPost) {
-					this.btnPost.Enabled = true;
-					this.lblAlreadyPosted.Text = "";
-					this.lnkTumblrPost.Text = "";
-				} else if (Tumblr != null) {
+				if (Tumblr != null) {
 					this.btnPost.Enabled = false;
 					this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
 					this.lnkTumblrPost.Text = "";

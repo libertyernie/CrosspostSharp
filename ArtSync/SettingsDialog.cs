@@ -1,4 +1,5 @@
-﻿using DontPanic.TumblrSharp;
+﻿using ArtSourceWrapper;
+using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
 using System;
@@ -16,10 +17,10 @@ namespace ArtSync {
 	public partial class SettingsDialog : Form {
 		public Settings Settings { get; private set; }
 
-		public SettingsDialog(Settings settings) {
+        public SettingsDialog(Settings settings) {
 			InitializeComponent();
 			this.Settings = settings.Copy();
-			FillForm();
+            FillForm();
 		}
 
 		private void btnSave_Click(object sender, EventArgs e) {
@@ -28,7 +29,6 @@ namespace ArtSync {
 
 			Settings.Tumblr.BlogName = txtBlogName.Text;
 			Settings.Tumblr.AutoSidePadding = chkSidePadding.Checked;
-			Settings.Tumblr.FindPreviousPost = chkTagSearch.Checked;
 
 			Settings.Inkbunny.DefaultUsername = txtIBDefaultUsername.Text;
 			Settings.Inkbunny.DefaultPassword = txtIBDefaultPassword.Text;
@@ -40,9 +40,24 @@ namespace ArtSync {
 			Settings.Defaults.IncludeWeasylTag = chkWeasylSubmitIdTag.Checked;
 
 			Settings.Save();
-		}
+        }
 
-		private void btnTumblrSignIn_Click(object sender, EventArgs e) {
+        private async void btnDeviantArtSignIn_Click(object sender, EventArgs e) {
+            try {
+                if (string.Equals("Sign out", btnDeviantArtSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+                    await DeviantArtWrapper.LogoutAsync();
+                    Settings.DeviantArt.RefreshToken = null;
+                } else {
+                    var dA = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                    Settings.DeviantArt.RefreshToken = await dA.UpdateTokens();
+                }
+                UpdateDeviantArtTokenLabel();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.Message);
+            }
+        }
+
+        private void btnTumblrSignIn_Click(object sender, EventArgs e) {
 			if (string.Equals("Sign out", btnTumblrSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
 				Settings.TumblrToken = null;
 			} else {
@@ -65,7 +80,6 @@ namespace ArtSync {
 
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
 			chkSidePadding.Checked = Settings.Tumblr.AutoSidePadding;
-			chkTagSearch.Checked = Settings.Tumblr.FindPreviousPost;
 
 			txtIBDefaultUsername.Text = Settings.Inkbunny.DefaultUsername ?? "";
 			txtIBDefaultPassword.Text = Settings.Inkbunny.DefaultPassword ?? "";
@@ -76,12 +90,22 @@ namespace ArtSync {
 
 			chkWeasylSubmitIdTag.Checked = Settings.Defaults.IncludeWeasylTag;
 
-			UpdateTokenLabel();
+            UpdateDeviantArtTokenLabel();
+            UpdateTokenLabel();
 			UpdateTwitterTokenLabel();
+        }
 
-		}
+        private void UpdateDeviantArtTokenLabel() {
+            if (Settings.DeviantArt.RefreshToken != null) {
+                btnDeviantArtSignIn.Text = "Sign out";
+                lblDeviantArtTokenStatus.Text = Settings.DeviantArt.RefreshToken;
+            } else {
+				btnDeviantArtSignIn.Text = "Sign in";
+                lblDeviantArtTokenStatus.Text = "Not signed in";
+			}
+        }
 
-		private void UpdateTokenLabel() {
+        private void UpdateTokenLabel() {
 			Token token = Settings.TumblrToken;
 			if (token.IsValid) {
 				btnTumblrSignIn.ContextMenuStrip = null;
@@ -127,5 +151,5 @@ namespace ArtSync {
 				lblTokenStatus.Text = string.Format("{0} ({1}...)", e.Message, twitterCredentials.AccessToken.Substring(0, 8));
 			}
 		}
-	}
+    }
 }
