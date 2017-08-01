@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylSyncLib", "WeasylSyncLib\WeasylSyncLib.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
@@ -17,7 +17,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InkbunnyLib", "InkbunnyLib\InkbunnyLib.csproj", "{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSourceWrapper", "ArtSourceWrapper\ArtSourceWrapper.csproj", "{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "DeviantartApi\DeviantartApi\DeviantartApi.shproj", "{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj", "{891FD4C3-111B-4C55-A59E-89DE662A9497}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DeviantartApi\DeviantartApi\DeviantartApi.projitems*{891fd4c3-111b-4c55-a59e-89de662a9497}*SharedItemsImports = 4
+		DeviantartApi\DeviantartApi\DeviantartApi.projitems*{9187b96c-686c-4b4c-b4f0-28adc91d41ae}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -39,6 +49,14 @@ Global
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

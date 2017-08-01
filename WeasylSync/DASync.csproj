@@ -244,13 +244,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
+      <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
+      <Name>ArtSourceWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WeasylSyncLib\WeasylSyncLib.csproj">
-      <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
-      <Name>WeasylSyncLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinFormsOAuth\WinFormsOAuth.csproj">
       <Project>{d98e0824-0a4a-4105-8f76-1cac1d91ffce}</Project>

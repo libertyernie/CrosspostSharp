@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeasylSyncLib;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.OAuth;
@@ -18,13 +17,14 @@ using Tweetinvi.Models;
 using Tweetinvi;
 using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
+using ArtSourceWrapper;
 
 namespace DASync {
 	public partial class WeasylForm : Form {
 		private static Settings GlobalSettings;
 
-		public WeasylAPI Weasyl { get; private set; }
-		public string WeasylUsername { get; private set; }
+		public Wrapper SourceWrapper { get; private set; }
+		public string SourceUsername { get; private set; }
 
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
@@ -40,7 +40,7 @@ namespace DASync {
 		private WeasylThumbnail[] thumbnails;
 
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
-		private SubmissionBaseDetail currentSubmission;
+		private SubmissionWrapper currentSubmission;
 		private BinaryFile currentImage;
 
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
@@ -87,9 +87,16 @@ namespace DASync {
 				LProgressBar.Maximum = 3;
 				LProgressBar.Visible = true;
 
-				Weasyl = new WeasylAPI() { APIKey = GlobalSettings.Weasyl.APIKey };
+                var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                SourceWrapper = w;
+                string oldToken = GlobalSettings.DeviantArt.RefreshToken;
+                string newToken = await w.UpdateTokens(oldToken);
+                if (oldToken != newToken) {
+                    GlobalSettings.DeviantArt.RefreshToken = newToken;
+                    GlobalSettings.Save();
+                }
 
-				Token token = GlobalSettings.TumblrToken;
+                Token token = GlobalSettings.TumblrToken;
 				if (token != null && token.IsValid) {
 					if (Tumblr != null) Tumblr.Dispose();
 					Tumblr = new TumblrClientFactory().Create<TumblrClient>(
@@ -98,10 +105,10 @@ namespace DASync {
 						token);
 				}
 
-				WeasylSyncLib.User user = null;
+				string user = null;
 				try {
-					user = await Weasyl.Whoami();
-					lblWeasylStatus2.Text = user?.login ?? "not logged in";
+					user = await SourceWrapper.Whoami();
+					lblWeasylStatus2.Text = user ?? "not logged in";
 					lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
 						? SystemColors.WindowText
 						: Color.DarkGreen;
@@ -109,8 +116,8 @@ namespace DASync {
 					lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
 					lblWeasylStatus2.ForeColor = Color.DarkRed;
 				}
-				bool refreshGallery = user == null || WeasylUsername != user.login;
-				WeasylUsername = user == null ? null : user.login;
+				bool refreshGallery = user == null || SourceUsername != user;
+                SourceUsername = user;
 
 				LProgressBar.Value++;
 
@@ -181,29 +188,25 @@ namespace DASync {
 
 		// This function is called after clicking on a WeasylThumbnail.
 		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
-		public void SetCurrentImage(SubmissionBaseDetail submission, BinaryFile file) {
+		public void SetCurrentImage(SubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
-				txtTitle.Text = submission.title;
-				txtDescription.Text = submission.GetDescription(true);
+				txtTitle.Text = submission.Title;
+				txtDescription.Text = submission.HTMLDescription;
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtInkbunnyDescription.Text = bbCode;
-				txtURL.Text = submission.link;
+				txtURL.Text = submission.URL;
 
 				ResetTweetText();
 				FindExistingTweet();
 
-				lnkTwitterLinkToInclude.Text = submission.link;
-				chkTweetPotentiallySensitive.Checked = submission.rating != "general";
+				lnkTwitterLinkToInclude.Text = submission.URL;
+                chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
-				txtTags1.Text = string.Join(" ", submission.tags.Select(s => "#" + s));
-				if (submission is SubmissionDetail) {
-					chkWeasylSubmitIdTag.Text = "#weasyl" + (submission as SubmissionDetail)?.submitid;
-				} else if (submission is CharacterDetail) {
-					chkWeasylSubmitIdTag.Text = "#weasylcharacter" + (submission as CharacterDetail)?.charid;
-				}
+				txtTags1.Text = string.Join(" ", submission.Tags.Select(s => "#" + s));
+                chkWeasylSubmitIdTag.Text = submission.GeneratedUniqueTag;
 
-				pickDate.Value = pickTime.Value = submission.posted_at;
+				pickDate.Value = pickTime.Value = submission.Timestamp;
 				UpdateHTMLPreview();
 			}
 			this.currentImage = file;
@@ -224,7 +227,7 @@ namespace DASync {
 		private void ResetTweetText() {
 			List<string> plainTextList = new List<string>(2);
 			if (chkIncludeTitle.Checked) {
-				plainTextList.Add(currentSubmission.title);
+				plainTextList.Add(currentSubmission.Title);
 			}
 			if (chkIncludeDescription.Checked) {
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
@@ -244,7 +247,7 @@ namespace DASync {
 
 		private void FindExistingTweet() {
 			try {
-				string url = this.currentSubmission.link;
+				string url = this.currentSubmission.URL;
 				foreach (var tweet in tweetCache) {
 					if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
 						tweetBrowser.Navigate("https://mobile.twitter.com/twitter/status/" + tweet.IdStr,
@@ -287,74 +290,37 @@ namespace DASync {
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
 		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
 			try {
-				LProgressBar.Maximum = thumbnails.Length;
-				LProgressBar.Value = 0;
-				LProgressBar.Visible = true;
+                if (SourceWrapper == null) return;
 
-				List<Task<SubmissionBaseDetail>> detailTasks = new List<Task<SubmissionBaseDetail>>(4);
-				if (WeasylUsername != null) {
-					if (loadCharactersToolStripMenuItem.Checked) {
-						// Scrape from weasyl website
-						List<int> all_ids = await Weasyl.GetCharacterIds(WeasylUsername);
-						IEnumerable<int> ids = all_ids;
-						if (backid != null) {
-							ids = ids.Where(id => id > backid);
-						}
-						if (nextid != null) {
-							ids = ids.Where(id => id < nextid);
-						}
-						ids = ids.Take(4);
-						// Determine backid and nextid
-						this.nextid = all_ids.Any(x => x < ids.Min())
-							? ids.Min()
-							: (int?)null;
-						this.backid = all_ids.Any(x => x > ids.Max())
-							? ids.Max()
-							: (int?)null;
-						foreach (int id in ids) {
-							detailTasks.Add(Weasyl.ViewCharacter(id));
-						}
-					} else {
-						var result = await Weasyl.UserGallery(WeasylUsername, backid: backid, nextid: nextid, count: thumbnails.Length);
-						this.backid = result.backid;
-						this.nextid = result.nextid;
-						IEnumerable<int> ids = result.submissions.Select(s => s.submitid);
-						foreach (int id in ids) {
-							detailTasks.Add(Weasyl.ViewSubmission(id));
-						}
-					}
-					foreach (Task task in detailTasks) {
-						var _ = task.ContinueWith(t => LProgressBar.Value++);
-					}
-					var details = new List<SubmissionBaseDetail>(detailTasks.Count);
-					foreach (var task in detailTasks) {
-						details.Add(await task);
-					}
-					details = details.OrderByDescending(d => d.posted_at).ToList();
-					for (int i = 0; i < this.thumbnails.Length; i++) {
-						this.thumbnails[i].Submission = i < details.Count
-							? details[i]
-							: null;
-					}
-				} else {
-					LProgressBar.Value += this.thumbnails.Length;
-					for (int i = 0; i < this.thumbnails.Length; i++) {
-						this.thumbnails[i].Submission = null;
-					}
-					this.backid = null;
-					this.nextid = null;
+                LProgressBar.Value = 0;
+                LProgressBar.Visible = true;
+
+                var result = await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
+                    BackId = backid,
+                    NextId = nextid,
+                    Count = 4,
+                    Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
+                    SetProgressMax = max => lProgressBar1.Maximum = max,
+                    IncrementProgress = () => lProgressBar1.Value++
+                });
+                this.backid = result.BackId;
+                this.nextid = result.NextId;
+				for (int i = 0; i < this.thumbnails.Length; i++) {
+					this.thumbnails[i].Submission = i < result.Submissions.Count
+						? result.Submissions[i]
+						: null;
 				}
 			} catch (WebException ex) {
 				MessageBox.Show(ex.Message);
-			} finally {
-				LProgressBar.Visible = false;
+            } finally {
+                LProgressBar.Visible = false;
 
-				InvokeAndForget(() => {
-					btnUp.Enabled = (this.backid != null);
-					btnDown.Enabled = (this.nextid != null);
-				});
-			}
-		}
+                InvokeAndForget(() => {
+                    btnUp.Enabled = (this.backid != null);
+                    btnDown.Enabled = (this.nextid != null);
+                });
+            }
+        }
 		#endregion
 
 		#region Tumblr lookup
@@ -575,8 +541,8 @@ namespace DASync {
 					SexualThemes = chkInbunnyTag4.Checked,
 					StrongViolence = chkInbunnyTag5.Checked,
 				};
-				if (currentSubmission.rating != "general" && !rating.Any) {
-					DialogResult r = MessageBox.Show(this, $"This image is rated \"{currentSubmission.rating}\" on Weasyl. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+				if (currentSubmission.PotentiallySensitive && !rating.Any) {
+					DialogResult r = MessageBox.Show(this, $"This image has a non-general rating on the source site. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 					if (r != DialogResult.OK) return;
 				}
 			

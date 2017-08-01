@@ -25,7 +25,13 @@ namespace DASync {
 
 		public WeasylSettings Weasyl { get; set; }
 
-		public class TumblrSettings {
+        public class DeviantArtSettings {
+            public string RefreshToken { get; set; }
+        }
+
+        public DeviantArtSettings DeviantArt { get; set; }
+
+        public class TumblrSettings {
 			public string BlogName { get; set; }
 
 			public string TokenKey { get; set; }
@@ -95,7 +101,11 @@ namespace DASync {
 				s.Weasyl = new WeasylSettings {
 					APIKey = null
 				};
-			if (s.Tumblr == null)
+            if (s.DeviantArt == null)
+                s.DeviantArt = new DeviantArtSettings {
+                    RefreshToken = null
+                };
+            if (s.Tumblr == null)
 				s.Tumblr = new TumblrSettings {
 					BlogName = "",
 					TokenKey = null,

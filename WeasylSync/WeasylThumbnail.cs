@@ -1,5 +1,5 @@
-﻿using DontPanic.TumblrSharp;
-using WeasylSyncLib;
+﻿using ArtSourceWrapper;
+using DontPanic.TumblrSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,17 +12,10 @@ using System.Windows.Forms;
 
 namespace DASync {
 	public class WeasylThumbnail : PictureBox {
-		private static Dictionary<string, Color> colors = new Dictionary<string, Color>() {
-			{"general", SystemColors.WindowText},
-			{"moderate", Color.FromArgb(32, 171, 230)},
-			{"mature", Color.FromArgb(170, 187, 34)},
-			{"explicit", Color.FromArgb(185, 30, 35)}
-		};
-
 		#region Properties and variables
 		// Sets the submission for this thumbnail to display.
-		private SubmissionBaseDetail _submission;
-		public SubmissionBaseDetail Submission {
+		private ISubmissionWrapper _submission;
+		public ISubmissionWrapper Submission {
 			get {
 				return _submission;
 			}
@@ -46,12 +39,11 @@ namespace DASync {
 		protected override void OnPaint(PaintEventArgs pe) {
 			base.OnPaint(pe);
 
-			Color c;
-			if (Submission != null && colors.TryGetValue(Submission.rating, out c)) {
-				using (Pen b = new Pen(c, 2)) {
-					pe.Graphics.DrawRectangle(b, 1, 1, Width - 2, Height - 2);
-				}
-			}
+            if (Submission != null) {
+                using (Pen b = new Pen(Submission?.BorderColor ?? SystemColors.WindowText, 2)) {
+                    pe.Graphics.DrawRectangle(b, 1, 1, Width - 2, Height - 2);
+                }
+            }
 		}
 
 		// Downloads the thumbnail pointed to by the submission info.
@@ -59,7 +51,7 @@ namespace DASync {
 			if (Submission == null) {
 				this.Image = null;
 			} else {
-				WebRequest req = WebRequest.Create(Submission.media.thumbnail.First().url);
+				WebRequest req = WebRequest.Create(Submission.ThumbnailURL ?? Submission.ImageURL);
 				WebResponse resp = req.GetResponse();
 				this.Image = Bitmap.FromStream(resp.GetResponseStream());
 				if (this.Image.Width > 120 || this.Image.Height > 120) {
@@ -81,7 +73,7 @@ namespace DASync {
 					mainForm.LProgressBar.Value = 0;
 					mainForm.LProgressBar.Visible = true;
 
-					string url = Submission.media.submission.First().url;
+					string url = Submission.ImageURL;
 					string filename = url.Substring(url.LastIndexOf('/') + 1);
 
 					WebRequest req = WebRequest.Create(url);
@@ -102,8 +94,8 @@ namespace DASync {
 
 				mainForm.LProgressBar.Visible = false;
 
-				// SetCurrentImage needs to be run on the main thread, but we want to maintain the lock on the progress bar until it is complete.
-				mainForm.Invoke(new Action<SubmissionBaseDetail, BinaryFile>(mainForm.SetCurrentImage), Submission, RawData);
+				// SetCurrentImage needs to be run on the main thread
+				mainForm.Invoke(new Action(() => mainForm.SetCurrentImage(Submission, RawData)));
 			} catch (WebException ex) {
 				mainForm.LProgressBar.Visible = false;
 				MessageBox.Show(ex.Message);
