@@ -48,8 +48,8 @@ namespace ArtSourceWrapper {
             if (WeasylUsername != null) {
                 if (p.Weasyl_LoadCharacters) {
                     // Scrape from weasyl website
-                    p.Progress?.Report(1 / 5f);
                     List<int> all_ids = await _client.GetCharacterIds(WeasylUsername);
+                    p.Progress?.Report(1 / 5f);
                     IEnumerable<int> ids = all_ids;
                     if (backId != null) {
                         ids = ids.Where(id => id > backId);
@@ -69,8 +69,8 @@ namespace ArtSourceWrapper {
                         detailTasks.Add(_client.ViewCharacter(id));
                     }
                 } else {
-                    p.Progress?.Report(1 / 5f);
                     var result = await _client.UserGallery(WeasylUsername, backid: backId, nextid: nextId, count: p.Count);
+                    p.Progress?.Report(1 / 5f);
                     _backId = result.backid;
                     _nextId = result.nextid;
                     IEnumerable<int> ids = result.submissions.Select(s => s.submitid);
@@ -78,8 +78,7 @@ namespace ArtSourceWrapper {
                         detailTasks.Add(_client.ViewSubmission(id));
                     }
                 }
-                p.Progress?.Report(2 / 5f);
-                int completedCount = 2;
+                int completedCount = 1;
                 foreach (Task task in detailTasks) {
                     var _ = task.ContinueWith(t => p.Progress?.Report(++completedCount / 5f));
                 }

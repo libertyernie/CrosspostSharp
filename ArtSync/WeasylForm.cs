@@ -439,7 +439,7 @@ namespace ArtSync {
 					return;
 				}
 
-                LProgressBar.Report(0.5);
+                LProgressBar.Report(0);
 				LProgressBar.Visible = true;
 
 				long? updateid = null;
@@ -453,8 +453,7 @@ namespace ArtSync {
 					}
 				}
 
-                LProgressBar.Report(1);
-                LProgressBar.Visible = true;
+                LProgressBar.Report(0.5);
 
 				var tags = new List<string>();
 				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
@@ -532,14 +531,14 @@ namespace ArtSync {
 					if (r != DialogResult.OK) return;
 				}
 
-                LProgressBar.Report(0.5);
+                LProgressBar.Report(0);
                 LProgressBar.Visible = true;
 
 				long submission_id = await Inkbunny.Upload(files: new byte[][] {
 					currentImage.Data
 				});
 
-                LProgressBar.Report(1);
+                LProgressBar.Report(0.5);
 
                 var o = await Inkbunny.EditSubmission(
 					submission_id: submission_id,
@@ -676,7 +675,7 @@ namespace ArtSync {
 				return;
 			}
 
-            LProgressBar.Report(0.5);
+            LProgressBar.Report(0);
             LProgressBar.Visible = true;
 			Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
 				var options = new PublishTweetOptionalParameters();
@@ -685,7 +684,7 @@ namespace ArtSync {
 					IMedia media = Upload.UploadImage(currentImage.Data);
 					options.Medias = new List<IMedia> { media };
                 }
-                LProgressBar.Report(1);
+                LProgressBar.Report(0.5);
 
                 if (chkTweetPotentiallySensitive.Checked) {
 					options.PossiblySensitive = true;
