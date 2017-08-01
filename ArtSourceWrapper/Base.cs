@@ -26,6 +26,8 @@ namespace ArtSourceWrapper {
 
     public class UpdateGalleryResult {
         public IList<ISubmissionWrapper> Submissions;
+        public bool HasLess;
+        public bool HasMore;
 
         internal UpdateGalleryResult() { }
     }

@@ -88,11 +88,15 @@ namespace ArtSourceWrapper {
                 }
                 details = details.OrderByDescending(d => d.posted_at).ToList();
                 return new UpdateGalleryResult {
-                    Submissions = details.Select(d => (ISubmissionWrapper)new WeasylSubmissionWrapper(d)).ToList()
+                    Submissions = details.Select(d => (ISubmissionWrapper)new WeasylSubmissionWrapper(d)).ToList(),
+                    HasLess = true,
+                    HasMore = true
                 };
             } else {
                 return new UpdateGalleryResult {
-                    Submissions = Enumerable.Empty<ISubmissionWrapper>().ToList()
+                    Submissions = Enumerable.Empty<ISubmissionWrapper>().ToList(),
+                    HasLess = false,
+                    HasMore = false,
                 };
             }
         }

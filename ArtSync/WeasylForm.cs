@@ -303,6 +303,11 @@ namespace ArtSync {
 						? result.Submissions[i]
 						: null;
 				}
+
+                InvokeAndForget(() => {
+                    btnUp.Enabled = result.HasLess;
+                    btnDown.Enabled = result.HasMore;
+                });
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name);
             } finally {
