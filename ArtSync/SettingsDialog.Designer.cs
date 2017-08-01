@@ -55,10 +55,10 @@
             this.lblTwitterTokenStatus = new System.Windows.Forms.Label();
             this.lblTwitterToken = new System.Windows.Forms.Label();
             this.groupDeviantArt = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnDeviantArtSignIn = new System.Windows.Forms.Button();
             this.lblDeviantArtTokenStatus = new System.Windows.Forms.Label();
             this.lblDeviantArtToken = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
@@ -396,6 +396,16 @@
             this.groupDeviantArt.TabStop = false;
             this.groupDeviantArt.Text = "DeviantArt";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(329, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "If both Weasyl and DeviantArt are available, DeviantArt will be used.";
+            // 
             // btnDeviantArtSignIn
             // 
             this.btnDeviantArtSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -424,16 +434,6 @@
             this.lblDeviantArtToken.Size = new System.Drawing.Size(41, 13);
             this.lblDeviantArtToken.TabIndex = 4;
             this.lblDeviantArtToken.Text = "Token:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(6, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(329, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "If both Weasyl and DeviantArt are available, DeviantArt will be used.";
             // 
             // SettingsDialog
             // 

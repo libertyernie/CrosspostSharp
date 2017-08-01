@@ -1,7 +1,7 @@
 ArtSync 2.0
 ===========
 
-Source: https://github.com/libertyernie/WeasylSync/branches/deviantart
+Source: https://github.com/libertyernie/ArtSync
 
 --------------------
 

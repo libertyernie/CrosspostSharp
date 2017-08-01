@@ -10,15 +10,6 @@ using Tweetinvi.Models;
 
 namespace ArtSync {
 	public class Settings {
-		public int SettingsVersion {
-			get {
-				return 1;
-			}
-			set {
-				// ignore
-			}
-		}
-
 		public class WeasylSettings {
 			public string APIKey { get; set; }
 		}
@@ -95,7 +86,6 @@ namespace ArtSync {
 			if (filename != null && File.Exists(filename)) {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
 			}
-			s.SettingsVersion = 1;
 			if (s.Weasyl == null)
 				s.Weasyl = new WeasylSettings {
 					APIKey = null
@@ -125,7 +115,7 @@ namespace ArtSync {
 			if (s.Defaults == null)
 				s.Defaults = new PostSettings {
 					HeaderHTML = "<p><b>{TITLE}</b></p>",
-					FooterHTML = "<p><a href=\"{URL}\">View on Weasyl</a></p>",
+					FooterHTML = "<p><a href=\"{URL}\">View on {SITENAME}</a></p>",
 					Tags = "#art",
 					IncludeWeasylTag = true
 				};

@@ -96,7 +96,6 @@ namespace ArtSync {
                                 GlobalSettings.DeviantArt.RefreshToken = newToken;
                                 GlobalSettings.Save();
                             }
-                            lblWeasylStatus1.Text = "dA:";
                         } catch (DeviantArtException e) when (e.Message == "User canceled") {
                             GlobalSettings.DeviantArt.RefreshToken = null;
                             SourceWrapper = null;
@@ -104,9 +103,10 @@ namespace ArtSync {
                     }
 
                     if (SourceWrapper == null) {
-                        lblWeasylStatus1.Text = "Weasyl:";
                         SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
                     }
+
+                    lblWeasylStatus1.Text = SourceWrapper.SiteName + ":";
                 }
 
                 Token token = GlobalSettings.TumblrToken;
@@ -120,7 +120,7 @@ namespace ArtSync {
 
 				string user = null;
 				try {
-					user = await SourceWrapper.Whoami();
+					user = await SourceWrapper.WhoamiAsync();
 					lblWeasylStatus2.Text = user ?? "not logged in";
 					lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
 						? SystemColors.WindowText
@@ -272,7 +272,7 @@ namespace ArtSync {
 						return;
 					}
 				}
-				tweetBrowser.Navigate($"about:Tweet not found (the link to Weasyl was not found in your 200 most recent tweets.)");
+				tweetBrowser.Navigate($"about:Tweet not found (the link to {SourceWrapper.SiteName} was not found in your 200 most recent tweets.)");
 			} catch (Exception e) {
 				MessageBox.Show(e.Message);
 			}
@@ -311,8 +311,8 @@ namespace ArtSync {
                 LProgressBar.Visible = true;
 
                 var result =
-                    back ? await SourceWrapper.PreviousPage()
-                    : next ? await SourceWrapper.NextPage()
+                    back ? await SourceWrapper.PreviousPageAsync()
+                    : next ? await SourceWrapper.NextPageAsync()
                     : await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
                         Count = 4,
                         Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
@@ -383,7 +383,9 @@ namespace ArtSync {
 				html.Append(txtFooter.Text);
 			}
 
-			html.Replace("{TITLE}", WebUtility.HtmlEncode(txtTitle.Text)).Replace("{URL}", txtURL.Text);
+			html.Replace("{TITLE}", WebUtility.HtmlEncode(txtTitle.Text))
+                .Replace("{URL}", txtURL.Text)
+                .Replace("{SITENAME}", SourceWrapper.SiteName);
 
 			return html.ToString();
 		}

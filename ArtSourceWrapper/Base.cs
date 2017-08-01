@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
     public interface IWrapper {
-        Task<string> Whoami();
+        string SiteName { get; }
+        Task<string> WhoamiAsync();
         Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p);
-        Task<UpdateGalleryResult> NextPage();
-        Task<UpdateGalleryResult> PreviousPage();
+        Task<UpdateGalleryResult> NextPageAsync();
+        Task<UpdateGalleryResult> PreviousPageAsync();
     }
 
     public class UpdateGalleryParameters {

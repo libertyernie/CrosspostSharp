@@ -13,11 +13,13 @@ namespace ArtSourceWrapper {
         private UpdateGalleryParameters _lastUpdateGalleryParameters;
         private int? _backId, _nextId;
 
+        public string SiteName => "Weasyl";
+
         public WeasylWrapper(string apiKey) {
             _client = new WeasylAPI { APIKey = apiKey };
         }
 
-        public async Task<string> Whoami() {
+        public async Task<string> WhoamiAsync() {
             return (await _client.Whoami())?.login;
         }
 
@@ -26,14 +28,14 @@ namespace ArtSourceWrapper {
             return UpdateGalleryInternalAsync();
         }
 
-        public Task<UpdateGalleryResult> NextPage() {
+        public Task<UpdateGalleryResult> NextPageAsync() {
             if (_lastUpdateGalleryParameters == null) {
                 throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
             }
             return UpdateGalleryInternalAsync(nextId: _nextId);
         }
 
-        public Task<UpdateGalleryResult> PreviousPage() {
+        public Task<UpdateGalleryResult> PreviousPageAsync() {
             if (_lastUpdateGalleryParameters == null) {
                 throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
             }
@@ -44,7 +46,7 @@ namespace ArtSourceWrapper {
             var p = _lastUpdateGalleryParameters;
 
             List<Task<SubmissionBaseDetail>> detailTasks = new List<Task<SubmissionBaseDetail>>(4);
-            string WeasylUsername = await Whoami();
+            string WeasylUsername = await WhoamiAsync();
             if (WeasylUsername != null) {
                 if (p.Weasyl_LoadCharacters) {
                     // Scrape from weasyl website

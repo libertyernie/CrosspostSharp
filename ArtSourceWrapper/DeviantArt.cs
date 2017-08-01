@@ -17,6 +17,8 @@ namespace ArtSourceWrapper {
         private IProgress<double> _lastProgressHandler;
         private uint _offset, _count;
 
+        public string SiteName => "DeviantArt";
+
         public DeviantArtWrapper(string clientId, string clientSecret) {
             _clientId = clientId;
             _clientSecret = clientSecret;
@@ -46,7 +48,7 @@ namespace ArtSourceWrapper {
             return result.RefreshToken;
         }
 
-        public async Task<string> Whoami() {
+        public async Task<string> WhoamiAsync() {
             if (!_initialLogin) await UpdateTokens();
 
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
@@ -69,12 +71,12 @@ namespace ArtSourceWrapper {
             return await UpdateGalleryInternalAsync();
         }
 
-        public async Task<UpdateGalleryResult> NextPage() {
+        public async Task<UpdateGalleryResult> NextPageAsync() {
             _offset += 4;
             return await UpdateGalleryInternalAsync();
         }
 
-        public async Task<UpdateGalleryResult> PreviousPage() {
+        public async Task<UpdateGalleryResult> PreviousPageAsync() {
             _offset -= 4;
             if (_offset < 0) _offset = 0;
             return await UpdateGalleryInternalAsync();
@@ -128,7 +130,18 @@ namespace ArtSourceWrapper {
         public bool PotentiallySensitive => Deviation.IsMature;
 
         public string GeneratedUniqueTag => $"#da{Deviation.DeviationId}";
-        public string HTMLDescription => Metadata?.Description ?? "";
+        public string HTMLDescription {
+            get {
+                string html = Metadata?.Description;
+                if (html == null) return null;
+
+                if (html.IndexOf("<p>", StringComparison.CurrentCultureIgnoreCase) == -1) {
+                    html = $"<p>{html}</p>";
+                }
+
+                return html;
+            }
+        }
         public IEnumerable<string> Tags => Metadata?.Tags?.Select(t => t.TagName) ?? Enumerable.Empty<string>();
         public DateTime Timestamp => Deviation.PublishedTime;
         public string Title => Deviation.Title;
