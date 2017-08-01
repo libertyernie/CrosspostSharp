@@ -28,14 +28,14 @@ namespace ArtSourceWrapper {
 
         public Task<UpdateGalleryResult> NextPage() {
             if (_lastUpdateGalleryParameters == null) {
-                throw new Exception("Cannot call UpdateGalleryAsync before NextPage/PreviousPage.");
+                throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
             }
             return UpdateGalleryInternalAsync(nextId: _nextId);
         }
 
         public Task<UpdateGalleryResult> PreviousPage() {
             if (_lastUpdateGalleryParameters == null) {
-                throw new Exception("Cannot call UpdateGalleryAsync before NextPage/PreviousPage.");
+                throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
             }
             return UpdateGalleryInternalAsync(backId: _backId);
         }

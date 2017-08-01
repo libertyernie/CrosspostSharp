@@ -13,12 +13,15 @@ namespace ArtSourceWrapper {
     public class DeviantArtWrapper : IWrapper {
         private string _clientId, _clientSecret;
         private bool _initialLogin;
+
+        private IProgress<double> _lastProgressHandler;
         private DeviantartApi.Requests.Gallery.AllRequest _lastGalleryRequest;
 
         public DeviantArtWrapper(string clientId, string clientSecret) {
             _clientId = clientId;
             _clientSecret = clientSecret;
             _initialLogin = false;
+            _lastProgressHandler = null;
             _lastGalleryRequest = null;
         }
 
@@ -55,11 +58,29 @@ namespace ArtSourceWrapper {
         public async Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
             if (!_initialLogin) await UpdateTokens();
 
+            _lastProgressHandler = p.Progress;
             _lastGalleryRequest = new DeviantartApi.Requests.Gallery.AllRequest() {
                 Limit = checked((uint)p.Count)
             };
 
-            var galleryResponse = await _lastGalleryRequest.ExecuteAsync();
+            return await NextPage();
+        }
+
+        public async Task<UpdateGalleryResult> NextPage() {
+            if (_lastGalleryRequest == null) {
+                throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
+            }
+
+            var galleryResponse = await _lastGalleryRequest.GetNextPageAsync();
+            _lastProgressHandler?.Report(0.5);
+            return await UpdateGalleryInternalAsync(galleryResponse);
+        }
+
+        public Task<UpdateGalleryResult> PreviousPage() {
+            throw new NotSupportedException();
+        }
+
+        private async Task<UpdateGalleryResult> UpdateGalleryInternalAsync(DeviantartApi.Requests.Response<ArrayOfResults<Deviation>> galleryResponse) {
             if (galleryResponse.IsError) {
                 throw new DeviantArtException(galleryResponse.ErrorText);
             }
@@ -70,6 +91,7 @@ namespace ArtSourceWrapper {
             var metadataResponse = await new DeviantartApi.Requests.Deviation.MetadataRequest() {
                 DeviationIds = new HashSet<string>(galleryResponse.Object.Results.Select(d => d.DeviationId))
             }.ExecuteAsync();
+            _lastProgressHandler?.Report(1);
             if (metadataResponse.IsError) {
                 throw new DeviantArtException(metadataResponse.ErrorText);
             }
@@ -84,14 +106,6 @@ namespace ArtSourceWrapper {
                     return w;
                 }).ToList()
             };
-        }
-
-        public Task<UpdateGalleryResult> NextPage() {
-            throw new NotImplementedException();
-        }
-
-        public Task<UpdateGalleryResult> PreviousPage() {
-            throw new NotImplementedException();
         }
     }
 
