@@ -1,4 +1,4 @@
-﻿namespace DASync {
+﻿namespace ArtSync {
 	partial class PostAlreadyExistsDialog {
 		/// <summary>
 		/// Required designer variable.

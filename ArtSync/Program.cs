@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinFormsOAuth;
 
-namespace DASync {
+namespace ArtSync {
 	static class Program {
 		
 		/// <summary>

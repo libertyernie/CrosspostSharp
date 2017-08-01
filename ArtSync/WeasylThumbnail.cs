@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DASync {
+namespace ArtSync {
 	public class WeasylThumbnail : PictureBox {
 		#region Properties and variables
 		// Sets the submission for this thumbnail to display.

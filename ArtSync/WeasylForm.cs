@@ -19,11 +19,11 @@ using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
 using ArtSourceWrapper;
 
-namespace DASync {
+namespace ArtSync {
 	public partial class WeasylForm : Form {
 		private static Settings GlobalSettings;
 
-		public Wrapper SourceWrapper { get; private set; }
+		public IWrapper SourceWrapper { get; private set; }
 		public string SourceUsername { get; private set; }
 
 		private TumblrClient Tumblr;
@@ -40,7 +40,7 @@ namespace DASync {
 		private WeasylThumbnail[] thumbnails;
 
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
-		private SubmissionWrapper currentSubmission;
+		private ISubmissionWrapper currentSubmission;
 		private BinaryFile currentImage;
 
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
@@ -188,7 +188,7 @@ namespace DASync {
 
 		// This function is called after clicking on a WeasylThumbnail.
 		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
-		public void SetCurrentImage(SubmissionWrapper submission, BinaryFile file) {
+		public void SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
 				txtTitle.Text = submission.Title;
@@ -288,21 +288,22 @@ namespace DASync {
 		}
 
 		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
-		private async void UpdateGalleryAsync(int? backid = null, int? nextid = null) {
+		private async void UpdateGalleryAsync(bool back = false, bool next = false) {
 			try {
                 if (SourceWrapper == null) return;
 
                 LProgressBar.Value = 0;
                 LProgressBar.Visible = true;
 
-                var result = await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
-                    BackId = backid,
-                    NextId = nextid,
-                    Count = 4,
-                    Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
-                    SetProgressMax = max => lProgressBar1.Maximum = max,
-                    IncrementProgress = () => lProgressBar1.Value++
-                });
+                var result =
+                    back ? await SourceWrapper.PreviousPage()
+                    : next ? await SourceWrapper.NextPage()
+                    : await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
+                        Count = 4,
+                        Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
+                        SetProgressMax = max => lProgressBar1.Maximum = max,
+                        IncrementProgress = () => lProgressBar1.Value++
+                    });
                 this.backid = result.BackId;
                 this.nextid = result.NextId;
 				for (int i = 0; i < this.thumbnails.Length; i++) {
@@ -582,11 +583,11 @@ namespace DASync {
 
 		#region Event handlers
 		private void btnUp_Click(object sender, EventArgs e) {
-			UpdateGalleryAsync(backid: this.backid);
+			UpdateGalleryAsync(back: true);
 		}
 
 		private void btnDown_Click(object sender, EventArgs e) {
-			UpdateGalleryAsync(nextid: this.nextid);
+			UpdateGalleryAsync(next: true);
 		}
 
 		private void chkNow_CheckedChanged(object sender, EventArgs e) {

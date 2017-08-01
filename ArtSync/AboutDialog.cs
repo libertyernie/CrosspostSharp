@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DASync {
+namespace ArtSync {
 	public partial class AboutDialog : Form {
 		public AboutDialog() {
 			InitializeComponent();

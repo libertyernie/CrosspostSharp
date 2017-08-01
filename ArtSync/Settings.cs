@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 
-namespace DASync {
+namespace ArtSync {
 	public class Settings {
 		public int SettingsVersion {
 			get {

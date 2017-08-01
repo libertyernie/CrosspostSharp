@@ -3,4 +3,4 @@ obj
 .vs
 *.suo
 packages
-WeasylSync/OAuthConsumer.cs
+ArtSync/OAuthConsumer.cs

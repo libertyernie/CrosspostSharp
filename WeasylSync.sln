@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylSyncLib", "WeasylSyncLib\WeasylSyncLib.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DASync", "WeasylSync\DASync.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSync", "ArtSync\ArtSync.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsOAuth", "WinFormsOAuth\WinFormsOAuth.csproj", "{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}"
 EndProject

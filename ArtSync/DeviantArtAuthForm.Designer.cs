@@ -1,4 +1,4 @@
-﻿namespace DASync {
+﻿namespace ArtSync {
     partial class DeviantArtAuthForm {
         /// <summary>
         /// Required designer variable.

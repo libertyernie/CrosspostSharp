@@ -1,4 +1,4 @@
-﻿namespace DASync {
+﻿namespace ArtSync {
 	partial class LoginDialog {
 		/// <summary>
 		/// Required designer variable.
