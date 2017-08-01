@@ -17,8 +17,7 @@ namespace ArtSourceWrapper {
         public int Count;
         public bool Weasyl_LoadCharacters;
 
-        public Action<int> SetProgressMax;
-        public Action IncrementProgress;
+        public IProgress<double> Progress;
 
         public UpdateGalleryParameters() {
             Count = 4;
@@ -26,8 +25,6 @@ namespace ArtSourceWrapper {
     }
 
     public class UpdateGalleryResult {
-        public int? BackId;
-        public int? NextId;
         public IList<ISubmissionWrapper> Submissions;
 
         internal UpdateGalleryResult() { }

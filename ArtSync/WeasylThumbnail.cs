@@ -70,7 +70,7 @@ namespace ArtSync {
 		private async void FetchDetails() {
 			try {
 				if (RawData == null) {
-					mainForm.LProgressBar.Value = 0;
+                    mainForm.LProgressBar.Report(0);
 					mainForm.LProgressBar.Visible = true;
 
 					string url = Submission.ImageURL;
@@ -81,12 +81,11 @@ namespace ArtSync {
 					var stream = resp.GetResponseStream();
 
 					byte[] data = new byte[resp.ContentLength];
-					mainForm.LProgressBar.Maximum = data.Length;
 
 					int read = 0;
 					while (read < data.Length) {
 						read += await stream.ReadAsync(data, read, data.Length - read);
-						mainForm.LProgressBar.Value = read;
+						mainForm.LProgressBar.Report(1.0 * read / data.Length);
 					}
 
 					RawData = new BinaryFile(data, filename, resp.ContentType);

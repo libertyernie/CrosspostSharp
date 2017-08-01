@@ -904,12 +904,9 @@
 			this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
 			this.lProgressBar1.Location = new System.Drawing.Point(7, 394);
 			this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-			this.lProgressBar1.Maximum = 128;
-			this.lProgressBar1.Minimum = 0;
 			this.lProgressBar1.Name = "lProgressBar1";
 			this.lProgressBar1.Size = new System.Drawing.Size(360, 24);
 			this.lProgressBar1.TabIndex = 9;
-			this.lProgressBar1.Value = 0;
 			// 
 			// thumbnail1
 			// 

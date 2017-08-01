@@ -45,8 +45,6 @@ namespace ArtSourceWrapper {
             if (!_initialLogin) await UpdateTokens();
 
             return new UpdateGalleryResult {
-                BackId = null,
-                NextId = null,
                 Submissions = new List<ISubmissionWrapper>(0)
             };
         }

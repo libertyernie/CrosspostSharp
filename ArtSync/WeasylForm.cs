@@ -46,9 +46,6 @@ namespace ArtSync {
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
 		private Bitmap currentImageBitmap;
 
-		// Used for paging.
-		private int? backid, nextid;
-
 		// The existing Tumblr post for the selected Weasyl submission, if any - looked up by using the #weasylXXXXXX tag.
 		private BasePost ExistingPost;
 
@@ -75,26 +72,24 @@ namespace ArtSync {
 
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3 };
 
-			backid = nextid = null;
-
 			this.Shown += (o, e) => LoadFromSettings();
 		}
 
 		#region GUI updates
 		private async void LoadFromSettings() {
 			try {
-				LProgressBar.Value = 0;
-				LProgressBar.Maximum = 3;
+                LProgressBar.Report(0);
 				LProgressBar.Visible = true;
 
-                var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                /*var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
                 SourceWrapper = w;
                 string oldToken = GlobalSettings.DeviantArt.RefreshToken;
                 string newToken = await w.UpdateTokens(oldToken);
                 if (oldToken != newToken) {
                     GlobalSettings.DeviantArt.RefreshToken = newToken;
                     GlobalSettings.Save();
-                }
+                }*/
+                SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
 
                 Token token = GlobalSettings.TumblrToken;
 				if (token != null && token.IsValid) {
@@ -119,9 +114,9 @@ namespace ArtSync {
 				bool refreshGallery = user == null || SourceUsername != user;
                 SourceUsername = user;
 
-				LProgressBar.Value++;
+                LProgressBar.Report(1 / 3f);
 
-				if (Tumblr == null) {
+                if (Tumblr == null) {
 					lblTumblrStatus2.Text = "not logged in";
 					lblTumblrStatus2.ForeColor = SystemColors.WindowText;
 				} else {
@@ -136,11 +131,11 @@ namespace ArtSync {
 						lblTumblrStatus2.Text = e.Message;
 						lblTumblrStatus2.ForeColor = Color.DarkRed;
 					}
-				}
+                }
 
-				LProgressBar.Value++;
+                LProgressBar.Report(2 / 3f);
 
-				TwitterCredentials = GlobalSettings.TwitterCredentials;
+                TwitterCredentials = GlobalSettings.TwitterCredentials;
 				try {
 					string screenName = TwitterCredentials?.GetScreenName();
 					lblTwitterStatus2.Text = screenName ?? "not logged in";
@@ -292,7 +287,7 @@ namespace ArtSync {
 			try {
                 if (SourceWrapper == null) return;
 
-                LProgressBar.Value = 0;
+                LProgressBar.Report(0);
                 LProgressBar.Visible = true;
 
                 var result =
@@ -301,11 +296,8 @@ namespace ArtSync {
                     : await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
                         Count = 4,
                         Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
-                        SetProgressMax = max => lProgressBar1.Maximum = max,
-                        IncrementProgress = () => lProgressBar1.Value++
+                        Progress = LProgressBar
                     });
-                this.backid = result.BackId;
-                this.nextid = result.NextId;
 				for (int i = 0; i < this.thumbnails.Length; i++) {
 					this.thumbnails[i].Submission = i < result.Submissions.Count
 						? result.Submissions[i]
@@ -315,11 +307,6 @@ namespace ArtSync {
 				MessageBox.Show(ex.Message);
             } finally {
                 LProgressBar.Visible = false;
-
-                InvokeAndForget(() => {
-                    btnUp.Enabled = (this.backid != null);
-                    btnDown.Enabled = (this.nextid != null);
-                });
             }
         }
 		#endregion
@@ -451,9 +438,8 @@ namespace ArtSync {
 					MessageBox.Show("Posting cancelled.");
 					return;
 				}
-			
-				LProgressBar.Maximum = 2;
-				LProgressBar.Value = 1;
+
+                LProgressBar.Report(0.5);
 				LProgressBar.Visible = true;
 
 				long? updateid = null;
@@ -466,10 +452,9 @@ namespace ArtSync {
 						updateid = this.ExistingPost.Id;
 					}
 				}
-			
-				LProgressBar.Maximum = 2;
-				LProgressBar.Value = 2;
-				LProgressBar.Visible = true;
+
+                LProgressBar.Report(1);
+                LProgressBar.Visible = true;
 
 				var tags = new List<string>();
 				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
@@ -546,18 +531,17 @@ namespace ArtSync {
 					DialogResult r = MessageBox.Show(this, $"This image has a non-general rating on the source site. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 					if (r != DialogResult.OK) return;
 				}
-			
-				LProgressBar.Maximum = 2;
-				LProgressBar.Value = 1;
-				LProgressBar.Visible = true;
+
+                LProgressBar.Report(0.5);
+                LProgressBar.Visible = true;
 
 				long submission_id = await Inkbunny.Upload(files: new byte[][] {
 					currentImage.Data
 				});
 
-				LProgressBar.Value = 2;
+                LProgressBar.Report(1);
 
-				var o = await Inkbunny.EditSubmission(
+                var o = await Inkbunny.EditSubmission(
 					submission_id: submission_id,
 					title: txtTitle.Text,
 					desc: txtInkbunnyDescription.Text,
@@ -692,19 +676,18 @@ namespace ArtSync {
 				return;
 			}
 
-			LProgressBar.Value = 0;
-			LProgressBar.Maximum = 2;
-			LProgressBar.Visible = true;
+            LProgressBar.Report(0.5);
+            LProgressBar.Visible = true;
 			Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
 				var options = new PublishTweetOptionalParameters();
 
 				if (chkIncludeImage.Checked) {
 					IMedia media = Upload.UploadImage(currentImage.Data);
 					options.Medias = new List<IMedia> { media };
-				}
-				LProgressBar.Value = 1;
+                }
+                LProgressBar.Report(1);
 
-				if (chkTweetPotentiallySensitive.Checked) {
+                if (chkTweetPotentiallySensitive.Checked) {
 					options.PossiblySensitive = true;
 				}
 

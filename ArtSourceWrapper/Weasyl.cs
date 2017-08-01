@@ -42,15 +42,14 @@ namespace ArtSourceWrapper {
 
         private async Task<UpdateGalleryResult> UpdateGalleryInternalAsync(int? backId = null, int? nextId = null) {
             var p = _lastUpdateGalleryParameters;
-            p.SetProgressMax?.Invoke(p.Count + 1);
 
             List<Task<SubmissionBaseDetail>> detailTasks = new List<Task<SubmissionBaseDetail>>(4);
             string WeasylUsername = await Whoami();
             if (WeasylUsername != null) {
                 if (p.Weasyl_LoadCharacters) {
                     // Scrape from weasyl website
+                    p.Progress?.Report(1 / 5f);
                     List<int> all_ids = await _client.GetCharacterIds(WeasylUsername);
-                    p.IncrementProgress?.Invoke();
                     IEnumerable<int> ids = all_ids;
                     if (backId != null) {
                         ids = ids.Where(id => id > backId);
@@ -70,8 +69,8 @@ namespace ArtSourceWrapper {
                         detailTasks.Add(_client.ViewCharacter(id));
                     }
                 } else {
+                    p.Progress?.Report(1 / 5f);
                     var result = await _client.UserGallery(WeasylUsername, backid: backId, nextid: nextId, count: p.Count);
-                    p.IncrementProgress?.Invoke();
                     _backId = result.backid;
                     _nextId = result.nextid;
                     IEnumerable<int> ids = result.submissions.Select(s => s.submitid);
@@ -79,8 +78,10 @@ namespace ArtSourceWrapper {
                         detailTasks.Add(_client.ViewSubmission(id));
                     }
                 }
+                p.Progress?.Report(2 / 5f);
+                int completedCount = 2;
                 foreach (Task task in detailTasks) {
-                    var _ = task.ContinueWith(t => p.IncrementProgress?.Invoke());
+                    var _ = task.ContinueWith(t => p.Progress?.Report(++completedCount / 5f));
                 }
                 var details = new List<SubmissionBaseDetail>(detailTasks.Count);
                 foreach (var task in detailTasks) {
