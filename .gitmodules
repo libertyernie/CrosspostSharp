@@ -1,0 +1,3 @@
+[submodule "DeviantartApi"]
+	path = DeviantartApi
+	url = https://github.com/libertyernie/DeviantartApi
