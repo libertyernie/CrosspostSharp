@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DASync")]
+[assembly: AssemblyTitle("ArtSync")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DASync")]
+[assembly: AssemblyProduct("ArtSync")]
 [assembly: AssemblyCopyright("Copyright © 2014-2017 libertyernie")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

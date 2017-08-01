@@ -91,7 +91,7 @@ namespace ArtSync {
 			}
 		}
 
-		public static Settings Load(string filename = "DASync.json") {
+		public static Settings Load(string filename = "ArtSync.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
@@ -134,7 +134,7 @@ namespace ArtSync {
 			return s;
 		}
 
-		public void Save(string filename = "DASync.json") {
+		public void Save(string filename = "ArtSync.json") {
 			File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
 		}
 

@@ -1,5 +1,5 @@
-DASync 2.0
-==========
+ArtSync 2.0
+===========
 
 Source: https://github.com/libertyernie/WeasylSync/branches/deviantart
 
@@ -21,7 +21,7 @@ Authentication
 
 To use this application, you must connect it to your DeviantArt
 account. Information for all accounts will be stored in the file
-DASync.json, so keep that file secure!
+ArtSync.json, so keep that file secure!
 
 ### DeviantArt
 
@@ -31,11 +31,7 @@ TBD
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign into Tumblr using OAuth. Once signed in, the OAuth token
-will be stored in DASync.json with the other settings.
-
-If you are already logged into Tumblr in Internet Explorer, you can
-right-click the Sign In button to use your existing IE session and aboid
-having to re-enter your username and password.
+will be stored in ArtSync.json with the other settings.
 
 ### Inkbunny
 
@@ -72,9 +68,9 @@ together, and occurences of {TITLE} or {URL} will be replaced with the
 appropriate values. This will form the photo caption / text.
 
 The tags will be combined and separated by space. The #daXXXXXX tag can be
-added to tie your Tumblr post back to the original on DeviantArt, so DASync
+added to tie your Tumblr post back to the original on DeviantArt, so ArtSync
 can find it later and offer to update an existing post instead of adding a new
-one. To update a post previously made with DASync, load the corresponding
+one. To update a post previously made with ArtSync, load the corresponding
 DeviantArt submission (the post URL will appear at the bottom of the window)
 click "Post to Tumblr." Updating only works with Tumblr, not Twitter or
 Inkbunny.
@@ -84,7 +80,7 @@ If a checkbox is not checked, the content in the adajcent box will not be used.
 Settings
 --------
 
-Settings are stored in the file DASync.json.
+Settings are stored in the file ArtSync.json.
 
 * Defaults
   * HeaderHTML: default header template.
@@ -101,14 +97,14 @@ Settings are stored in the file DASync.json.
   * Blog: name of the blog to post to.
   * TokenKey: The key of your OAuth token for Tumblr authentication.
   * TokenSecret: The secret part of the Tumblr OAuth token. The key and secret
-    together are how DASync accesses your Tumblr account.
+    together are how ArtSync accesses your Tumblr account.
   * AutoSidePadding: If this is enabled and you post an image to Tumblr that
-    is taller than it is wide, DASync will add transparent padding to the
+    is taller than it is wide, ArtSync will add transparent padding to the
     left and right sides of the image so it doesn't appear too large on the
     Tumblr dashboard.
-  * FindPreviousPost: determines whether DASync will search your Tumblr
+  * FindPreviousPost: determines whether ArtSync will search your Tumblr
     for posts with a matching #daXXXXXX tag when you load a DeviantArt
-    submission. If you disable this feature, DASync will not offer to update
+    submission. If you disable this feature, ArtSync will not offer to update
     existing posts.
 
 * Twitter / Inkbunny
@@ -119,11 +115,10 @@ Compiling from Source
 
 This project was built with Visual Studio 2017.
 
-The file OAuthConsumer.cs is missing from the DASync project. Get your own
-Tumblr OAuth keys at https://www.tumblr.com/oauth/apps, then put the following
-into OAuthConsumer.cs:
+The file OAuthConsumer.cs is missing from the ArtSync project. Get your own
+OAuth keys, then put the following into OAuthConsumer.cs:
 
-namespace DASync {
+namespace ArtSync {
 	public static class OAuthConsumer {
 		public static class Tumblr {
 			public static string CONSUMER_KEY = "consumer key goes here";
@@ -134,7 +129,7 @@ namespace DASync {
 			public static string CONSUMER_SECRET = "secret key goes here";
 		}
 		public static class DeviantArt {
-			public static int CLIENT_ID = 0; // client_id goes here
+			public static string CLIENT_ID = "client_id goes here";
 			public static string CLIENT_SECRET = "client_secret goes here";
 		}
 	}
