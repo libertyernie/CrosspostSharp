@@ -81,15 +81,15 @@ namespace ArtSync {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
 
-                /*var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
                 SourceWrapper = w;
                 string oldToken = GlobalSettings.DeviantArt.RefreshToken;
                 string newToken = await w.UpdateTokens(oldToken);
                 if (oldToken != newToken) {
                     GlobalSettings.DeviantArt.RefreshToken = newToken;
                     GlobalSettings.Save();
-                }*/
-                SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
+                }
+                //SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
 
                 Token token = GlobalSettings.TumblrToken;
 				if (token != null && token.IsValid) {
@@ -303,8 +303,8 @@ namespace ArtSync {
 						? result.Submissions[i]
 						: null;
 				}
-			} catch (WebException ex) {
-				MessageBox.Show(ex.Message);
+			} catch (Exception ex) {
+				MessageBox.Show(this, ex.Message, ex.GetType().Name);
             } finally {
                 LProgressBar.Visible = false;
             }
