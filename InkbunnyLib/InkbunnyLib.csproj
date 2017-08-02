@@ -53,6 +53,8 @@
     <Compile Include="HtmlToBBCode.cs" />
     <Compile Include="InkbunnyClient.cs" />
     <Compile Include="InkbunnyRating.cs" />
+    <Compile Include="InkbunnySubmission.cs" />
+    <Compile Include="SearchResponse.cs" />
     <Compile Include="InkbunnyResponse.cs" />
     <Compile Include="SubmissionType.cs" />
     <Compile Include="TwitterImagePref.cs" />

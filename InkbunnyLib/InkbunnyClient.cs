@@ -9,15 +9,10 @@ using System.Threading.Tasks;
 
 namespace InkbunnyLib {
 	public class InkbunnyClient {
-		private LoginResponse loginResponse;
+		private string _sid;
 
         public string Username { get; private set; }
-
-		public long UserId {
-			get {
-				return loginResponse.user_id;
-			}
-		}
+		public long UserId { get; private set; }
 
 		private InkbunnyClient() { }
 
@@ -38,23 +33,19 @@ namespace InkbunnyLib {
             using (Stream stream = response.GetResponseStream()) {
                 using (StreamReader sr = new StreamReader(stream)) {
                     string json = await sr.ReadToEndAsync();
-                    client.loginResponse = JsonConvert.DeserializeObject<LoginResponse>(json);
-                    if (client.loginResponse.error_code != null) {
-                        throw new Exception(client.loginResponse.error_message);
+                    var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(json);
+                    if (loginResponse.error_code != null) {
+                        throw new Exception(loginResponse.error_message);
                     }
+                    client._sid = loginResponse.sid;
+                    client.UserId = loginResponse.user_id;
                 }
             }
 
             return client;
         }
 
-        public async Task<long> Upload(
-            //long? submission_id = null,
-            //bool? notify = null,
-            //long? replace = null,
-            //byte[] thumbnail = null,
-            IEnumerable<byte[]> files = null
-        ) {
+        public async Task<long> Upload(IEnumerable<byte[]> files = null) {
             string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
             var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_upload.php");
@@ -63,24 +54,6 @@ namespace InkbunnyLib {
 
             using (var stream = await request.GetRequestStreamAsync()) {
                 using (var sw = new StreamWriter(stream)) {
-                    //if (submission_id != null) {
-                    //    sw.WriteLine("--" + boundary);
-                    //    sw.WriteLine("Content-Disposition: form-data; name=\"submission_id\"");
-                    //    sw.WriteLine();
-                    //    sw.WriteLine(submission_id);
-                    //}
-                    //if (notify != null) {
-                    //    sw.WriteLine("--" + boundary);
-                    //    sw.WriteLine("Content-Disposition: form-data; name=\"notify\"");
-                    //    sw.WriteLine();
-                    //    sw.WriteLine(notify == true ? "yes" : "no");
-                    //}
-                    //if (replace != null) {
-                    //    sw.WriteLine("--" + boundary);
-                    //    sw.WriteLine("Content-Disposition: form-data; name=\"replace\"");
-                    //    sw.WriteLine();
-                    //    sw.WriteLine(replace);
-                    //}
                     if (files != null) {
                         foreach (byte[] file in files) {
                             sw.WriteLine("--" + boundary);
@@ -92,21 +65,12 @@ namespace InkbunnyLib {
                             sw.WriteLine();
                         }
                     }
-                    //if (thumbnail != null) {
-                    //    sw.WriteLine("--" + boundary);
-                    //    sw.WriteLine("Content-Disposition: form-data; name=\"uploadedthumbnail[]\"; filename=\"\"");
-                    //    sw.WriteLine();
-                    //    sw.Flush();
-                    //    stream.Write(thumbnail, 0, thumbnail.Length);
-                    //    stream.Flush();
-                    //    sw.WriteLine();
-                    //}
 
                     // The submission only seems to upload properly when I put this last...
                     sw.WriteLine("--" + boundary);
                     sw.WriteLine("Content-Disposition: form-data; name=\"sid\"");
                     sw.WriteLine();
-                    sw.WriteLine(loginResponse.sid);
+                    sw.WriteLine(_sid);
                     sw.WriteLine("--" + boundary + "--");
                     sw.Flush();
                 }
@@ -234,7 +198,7 @@ namespace InkbunnyLib {
                     sw.WriteLine("--" + boundary);
                     sw.WriteLine("Content-Disposition: form-data; name=\"sid\"");
                     sw.WriteLine();
-                    sw.WriteLine(loginResponse.sid);
+                    sw.WriteLine(_sid);
                     sw.WriteLine("--" + boundary + "--");
                     sw.Flush();
                 }
@@ -253,5 +217,59 @@ namespace InkbunnyLib {
                 }
             }
         }
-	}
+
+        private async Task<SearchResponse> Search(Dictionary<string, object> parameters) {
+            string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
+
+            var request = WebRequest.Create("https://inkbunny.net/api_search.php");
+            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.Method = "POST";
+
+            if (!parameters.ContainsKey("sid")) {
+                parameters.Add("sid", _sid);
+            }
+
+            using (var sw = new StreamWriter(await request.GetRequestStreamAsync())) {
+                foreach (var pair in parameters) {
+                    if (pair.Key.Contains("\"")) throw new Exception("Cannot include quotation marks in key name");
+                    if (pair.Value == null) continue;
+                    await sw.WriteLineAsync("--" + boundary);
+                    await sw.WriteLineAsync($"Content-Disposition: form-data; name=\"{pair.Key}\"");
+                    await sw.WriteLineAsync();
+                    await sw.WriteLineAsync(pair.Value.ToString());
+                    await sw.WriteLineAsync("--" + boundary + "--");
+                }
+                await sw.FlushAsync();
+            }
+
+            using (var response = await request.GetResponseAsync()) {
+                using (var responseStream = response.GetResponseStream()) {
+                    using (var sr = new StreamReader(responseStream)) {
+                        string json = await sr.ReadToEndAsync();
+                        var r = JsonConvert.DeserializeObject<SearchResponse>(json);
+                        if (r.error_code != null) {
+                            throw new Exception(r.error_message);
+                        }
+                        return r;
+                    }
+                }
+            }
+        }
+
+        public Task<SearchResponse> Search(string username, int? count = null) {
+            return Search(new Dictionary<string, object> {
+                ["username"] = username,
+                ["submissions_per_page"] = count,
+                ["get_rid"] = "yes"
+            });
+        }
+
+        public Task<SearchResponse> Search(SearchResponse resp, int page, int? count = null) {
+            return Search(new Dictionary<string, object> {
+                ["rid"] = resp.rid,
+                ["submissions_per_page"] = count,
+                ["page"] = page
+            });
+        }
+    }
 }
