@@ -256,6 +256,18 @@ namespace InkbunnyLib {
             }
         }
 
+        public Task<SearchResponse> SearchByMD5(byte[] md5Hash) {
+            return SearchByMD5(string.Join("", md5Hash.Select(b => ((int)b).ToString("x2"))));
+        }
+
+        public Task<SearchResponse> SearchByMD5(string md5Hash) {
+            return Search(new Dictionary<string, object> {
+                ["text"] = md5Hash,
+                ["keywords"] = "no",
+                ["md5"] = "yes"
+            });
+        }
+
         public Task<SearchResponse> Search(string username, int? count = null) {
             return Search(new Dictionary<string, object> {
                 ["username"] = username,

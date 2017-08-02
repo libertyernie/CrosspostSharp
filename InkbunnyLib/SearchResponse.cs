@@ -25,8 +25,8 @@ namespace InkbunnyLib {
         public int page;
         public string rid;
         public string rid_ttl;
-        public SearchParam[] search_params;
-        public Keyword[] keyword_list;
-        public InkbunnySubmission[] submissions;
+        public IEnumerable<SearchParam> search_params;
+        public IEnumerable<Keyword> keyword_list;
+        public IEnumerable<InkbunnySubmission> submissions;
     }
 }
