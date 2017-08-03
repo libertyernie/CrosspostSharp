@@ -80,6 +80,8 @@
             this.lnkTumblrFound = new System.Windows.Forms.LinkLabel();
             this.lblTumblrFound = new System.Windows.Forms.Label();
             this.tabInkbunny = new System.Windows.Forms.TabPage();
+            this.lnkInkbunnyFound = new System.Windows.Forms.LinkLabel();
+            this.lblInkbunnyFound = new System.Windows.Forms.Label();
             this.tabTwitter = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtTweetText = new System.Windows.Forms.TextBox();
@@ -94,8 +96,6 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
-            this.lnkInkbunnyFound = new System.Windows.Forms.LinkLabel();
-            this.lblInkbunnyFound = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -767,6 +767,26 @@
             this.tabInkbunny.Text = "Inkbunny";
             this.tabInkbunny.UseVisualStyleBackColor = true;
             // 
+            // lnkInkbunnyFound
+            // 
+            this.lnkInkbunnyFound.AutoEllipsis = true;
+            this.lnkInkbunnyFound.Location = new System.Drawing.Point(86, 36);
+            this.lnkInkbunnyFound.Name = "lnkInkbunnyFound";
+            this.lnkInkbunnyFound.Size = new System.Drawing.Size(454, 13);
+            this.lnkInkbunnyFound.TabIndex = 12;
+            this.lnkInkbunnyFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkInkbunnyFound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkInkbunnyFound_LinkClicked);
+            // 
+            // lblInkbunnyFound
+            // 
+            this.lblInkbunnyFound.Location = new System.Drawing.Point(6, 32);
+            this.lblInkbunnyFound.Margin = new System.Windows.Forms.Padding(3);
+            this.lblInkbunnyFound.Name = "lblInkbunnyFound";
+            this.lblInkbunnyFound.Size = new System.Drawing.Size(74, 20);
+            this.lblInkbunnyFound.TabIndex = 11;
+            this.lblInkbunnyFound.Text = "Existing post:";
+            this.lblInkbunnyFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tabTwitter
             // 
             this.tabTwitter.Controls.Add(this.panel2);
@@ -939,25 +959,6 @@
             this.lblTwitterStatus2.TabIndex = 1;
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lnkInkbunnyFound
-            // 
-            this.lnkInkbunnyFound.AutoEllipsis = true;
-            this.lnkInkbunnyFound.Location = new System.Drawing.Point(86, 36);
-            this.lnkInkbunnyFound.Name = "lnkInkbunnyFound";
-            this.lnkInkbunnyFound.Size = new System.Drawing.Size(454, 13);
-            this.lnkInkbunnyFound.TabIndex = 12;
-            this.lnkInkbunnyFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblInkbunnyFound
-            // 
-            this.lblInkbunnyFound.Location = new System.Drawing.Point(6, 32);
-            this.lblInkbunnyFound.Margin = new System.Windows.Forms.Padding(3);
-            this.lblInkbunnyFound.Name = "lblInkbunnyFound";
-            this.lblInkbunnyFound.Size = new System.Drawing.Size(74, 20);
-            this.lblInkbunnyFound.TabIndex = 11;
-            this.lblInkbunnyFound.Text = "Existing post:";
-            this.lblInkbunnyFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // WeasylForm
             // 

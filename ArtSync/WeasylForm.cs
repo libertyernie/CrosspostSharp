@@ -374,7 +374,7 @@ namespace ArtSync {
                     if (existing == null) {
                         this.lnkInkbunnyFound.Text = $"MD5 hash not found ({hashStr})";
                     } else {
-                        this.lnkInkbunnyFound.Text = existing.file_url_full;
+                        this.lnkInkbunnyFound.Text = $"https://inkbunny.net/submissionview.php?id={existing.submission_id}";
                         this.lnkInkbunnyFound.Enabled = true;
                     }
                 }
@@ -667,6 +667,11 @@ namespace ArtSync {
         private void lnkTumblrFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             if (lnkTumblrFound.Text.StartsWith("http"))
                 Process.Start(lnkTumblrFound.Text);
+        }
+
+        private void lnkInkbunnyFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (lnkInkbunnyFound.Text.StartsWith("http"))
+                Process.Start(lnkInkbunnyFound.Text);
         }
 
         private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
