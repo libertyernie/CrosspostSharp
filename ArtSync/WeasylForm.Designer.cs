@@ -83,9 +83,6 @@
             this.lnkInkbunnyFound = new System.Windows.Forms.LinkLabel();
             this.lblInkbunnyFound = new System.Windows.Forms.Label();
             this.tabTwitter = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.txtTweetText = new System.Windows.Forms.TextBox();
-            this.tweetBrowser = new System.Windows.Forms.WebBrowser();
             this.chkIncludeTitle = new System.Windows.Forms.CheckBox();
             this.chkIncludeDescription = new System.Windows.Forms.CheckBox();
             this.chkTweetPotentiallySensitive = new System.Windows.Forms.CheckBox();
@@ -96,6 +93,9 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
+            this.txtTweetText = new System.Windows.Forms.TextBox();
+            this.lnkTwitterFound = new System.Windows.Forms.LinkLabel();
+            this.lblTwitterFound = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -107,7 +107,6 @@
             this.tabTumblr.SuspendLayout();
             this.tabInkbunny.SuspendLayout();
             this.tabTwitter.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -789,7 +788,9 @@
             // 
             // tabTwitter
             // 
-            this.tabTwitter.Controls.Add(this.panel2);
+            this.tabTwitter.Controls.Add(this.lnkTwitterFound);
+            this.tabTwitter.Controls.Add(this.lblTwitterFound);
+            this.tabTwitter.Controls.Add(this.txtTweetText);
             this.tabTwitter.Controls.Add(this.chkIncludeTitle);
             this.tabTwitter.Controls.Add(this.chkIncludeDescription);
             this.tabTwitter.Controls.Add(this.chkTweetPotentiallySensitive);
@@ -808,49 +809,12 @@
             this.tabTwitter.Text = "Twitter";
             this.tabTwitter.UseVisualStyleBackColor = true;
             // 
-            // panel2
-            // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.Controls.Add(this.txtTweetText);
-            this.panel2.Controls.Add(this.tweetBrowser);
-            this.panel2.Location = new System.Drawing.Point(6, 55);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(532, 129);
-            this.panel2.TabIndex = 13;
-            // 
-            // txtTweetText
-            // 
-            this.txtTweetText.AcceptsReturn = true;
-            this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTweetText.Location = new System.Drawing.Point(0, 0);
-            this.txtTweetText.Multiline = true;
-            this.txtTweetText.Name = "txtTweetText";
-            this.txtTweetText.Size = new System.Drawing.Size(212, 129);
-            this.txtTweetText.TabIndex = 5;
-            this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
-            // 
-            // tweetBrowser
-            // 
-            this.tweetBrowser.AllowWebBrowserDrop = false;
-            this.tweetBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tweetBrowser.Location = new System.Drawing.Point(212, 0);
-            this.tweetBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.tweetBrowser.Name = "tweetBrowser";
-            this.tweetBrowser.ScriptErrorsSuppressed = true;
-            this.tweetBrowser.Size = new System.Drawing.Size(320, 129);
-            this.tweetBrowser.TabIndex = 6;
-            // 
             // chkIncludeTitle
             // 
             this.chkIncludeTitle.AutoSize = true;
             this.chkIncludeTitle.Checked = true;
             this.chkIncludeTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeTitle.Location = new System.Drawing.Point(6, 32);
+            this.chkIncludeTitle.Location = new System.Drawing.Point(6, 58);
             this.chkIncludeTitle.Name = "chkIncludeTitle";
             this.chkIncludeTitle.Size = new System.Drawing.Size(80, 17);
             this.chkIncludeTitle.TabIndex = 2;
@@ -861,7 +825,7 @@
             // chkIncludeDescription
             // 
             this.chkIncludeDescription.AutoSize = true;
-            this.chkIncludeDescription.Location = new System.Drawing.Point(92, 32);
+            this.chkIncludeDescription.Location = new System.Drawing.Point(92, 58);
             this.chkIncludeDescription.Name = "chkIncludeDescription";
             this.chkIncludeDescription.Size = new System.Drawing.Size(115, 17);
             this.chkIncludeDescription.TabIndex = 3;
@@ -960,6 +924,38 @@
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // txtTweetText
+            // 
+            this.txtTweetText.AcceptsReturn = true;
+            this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtTweetText.Location = new System.Drawing.Point(6, 81);
+            this.txtTweetText.Multiline = true;
+            this.txtTweetText.Name = "txtTweetText";
+            this.txtTweetText.Size = new System.Drawing.Size(534, 103);
+            this.txtTweetText.TabIndex = 5;
+            this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
+            // 
+            // lnkTwitterFound
+            // 
+            this.lnkTwitterFound.AutoEllipsis = true;
+            this.lnkTwitterFound.Location = new System.Drawing.Point(86, 36);
+            this.lnkTwitterFound.Name = "lnkTwitterFound";
+            this.lnkTwitterFound.Size = new System.Drawing.Size(454, 13);
+            this.lnkTwitterFound.TabIndex = 14;
+            this.lnkTwitterFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkTwitterFound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTwitterFound_LinkClicked);
+            // 
+            // lblTwitterFound
+            // 
+            this.lblTwitterFound.Location = new System.Drawing.Point(6, 32);
+            this.lblTwitterFound.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTwitterFound.Name = "lblTwitterFound";
+            this.lblTwitterFound.Size = new System.Drawing.Size(74, 20);
+            this.lblTwitterFound.TabIndex = 13;
+            this.lblTwitterFound.Text = "Existing post:";
+            this.lblTwitterFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -987,8 +983,6 @@
             this.tabInkbunny.PerformLayout();
             this.tabTwitter.ResumeLayout(false);
             this.tabTwitter.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1057,18 +1051,18 @@
 		private System.Windows.Forms.Button btnTweet;
 		private System.Windows.Forms.CheckBox chkIncludeLink;
 		private System.Windows.Forms.CheckBox chkIncludeImage;
-		private System.Windows.Forms.TextBox txtTweetText;
 		private System.Windows.Forms.Label lblTweetLength;
 		private System.Windows.Forms.CheckBox chkTweetPotentiallySensitive;
 		private System.Windows.Forms.LinkLabel lnkTwitterLinkToInclude;
-		private System.Windows.Forms.WebBrowser tweetBrowser;
 		private System.Windows.Forms.CheckBox chkIncludeDescription;
 		private System.Windows.Forms.CheckBox chkIncludeTitle;
-		private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblTumblrFound;
         private System.Windows.Forms.LinkLabel lnkTumblrFound;
         private System.Windows.Forms.LinkLabel lnkInkbunnyFound;
         private System.Windows.Forms.Label lblInkbunnyFound;
+        private System.Windows.Forms.LinkLabel lnkTwitterFound;
+        private System.Windows.Forms.Label lblTwitterFound;
+        private System.Windows.Forms.TextBox txtTweetText;
     }
 }
 

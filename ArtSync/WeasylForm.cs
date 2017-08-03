@@ -214,7 +214,6 @@ namespace ArtSync {
 				txtURL.Text = submission.URL;
 
 				ResetTweetText();
-				FindExistingTweet();
 
 				lnkTwitterLinkToInclude.Text = submission.URL;
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
@@ -236,7 +235,8 @@ namespace ArtSync {
 					MessageBox.Show("This submission is not an image file.");
 					mainPictureBox.Image = null;
 				}
-			}
+            }
+            UpdateExistingTweetLink();
             try {
                 await Task.WhenAll(
                     UpdateExistingTumblrPostLink(),
@@ -266,24 +266,6 @@ namespace ArtSync {
 			txtTweetText.Text = plainText.Length > maxLength
 				? $"{plainText.Substring(0, maxLength - 1)}…"
 				: plainText;
-		}
-
-		private void FindExistingTweet() {
-			try {
-				string url = this.currentSubmission.URL;
-				foreach (var tweet in tweetCache) {
-					if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
-						tweetBrowser.Navigate("https://mobile.twitter.com/twitter/status/" + tweet.IdStr,
-							null,
-							null,
-							"User-Agent: Mozilla/5.0 (Trident/7.0; rv:11.0) like Gecko");
-						return;
-					}
-				}
-				tweetBrowser.Navigate($"about:Tweet not found (the link to {SourceWrapper.SiteName} was not found in your 200 most recent tweets.)");
-			} catch (Exception e) {
-				MessageBox.Show(e.Message);
-			}
 		}
 
 		private Task<IEnumerable<ITweet>> GetMoreOldTweets() {
@@ -379,6 +361,19 @@ namespace ArtSync {
                     }
                 }
             }
+        }
+
+        private void UpdateExistingTweetLink() {
+            string url = this.currentSubmission.URL;
+            foreach (var tweet in tweetCache) {
+                if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
+                    this.lnkTwitterFound.Enabled = true;
+                    this.lnkTwitterFound.Text = "https://mobile.twitter.com/twitter/status/" + tweet.IdStr;
+                    return;
+                }
+            }
+            this.lnkTwitterFound.Enabled = false;
+            this.lnkTwitterFound.Text = $"Link to original not found in {tweetCache.Count} most recent tweets";
         }
         #endregion
 
@@ -674,6 +669,11 @@ namespace ArtSync {
                 Process.Start(lnkInkbunnyFound.Text);
         }
 
+        private void lnkTwitterFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (lnkTwitterFound.Text.StartsWith("http"))
+                Process.Start(lnkTwitterFound.Text);
+        }
+
         private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTwitterLinkToInclude.Text);
 		}
@@ -742,7 +742,7 @@ namespace ArtSync {
 					MessageBox.Show(this, desc, "Could not send tweet");
 				} else {
 					this.tweetCache.Add(tweet);
-					this.InvokeAndForget(() => FindExistingTweet());
+					this.InvokeAndForget(() => UpdateExistingTweetLink());
 				}
 				LProgressBar.Visible = false;
 			}));
