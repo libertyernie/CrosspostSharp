@@ -9,17 +9,15 @@ using System.Threading.Tasks;
 
 namespace InkbunnyLib {
 	public class InkbunnyClient {
-		private string _sid;
-
-        public string Username { get; private set; }
+		public string Sid { get; private set; }
 		public long UserId { get; private set; }
 
-		private InkbunnyClient() { }
+		public InkbunnyClient(string sid, long userId) {
+            Sid = sid;
+            UserId = userId;
+        }
 
         public static async Task<InkbunnyClient> Create(string username, string password) {
-            InkbunnyClient client = new InkbunnyClient();
-            client.Username = username;
-
             HttpWebRequest req = WebRequest.CreateHttp("https://inkbunny.net/api_login.php");
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";
@@ -37,12 +35,9 @@ namespace InkbunnyLib {
                     if (loginResponse.error_code != null) {
                         throw new Exception(loginResponse.error_message);
                     }
-                    client._sid = loginResponse.sid;
-                    client.UserId = loginResponse.user_id;
+                    return new InkbunnyClient(loginResponse.sid, loginResponse.user_id);
                 }
             }
-
-            return client;
         }
 
         public async Task<long> Upload(IEnumerable<byte[]> files = null) {
@@ -70,7 +65,7 @@ namespace InkbunnyLib {
                     sw.WriteLine("--" + boundary);
                     sw.WriteLine("Content-Disposition: form-data; name=\"sid\"");
                     sw.WriteLine();
-                    sw.WriteLine(_sid);
+                    sw.WriteLine(Sid);
                     sw.WriteLine("--" + boundary + "--");
                     sw.Flush();
                 }
@@ -198,7 +193,7 @@ namespace InkbunnyLib {
                     sw.WriteLine("--" + boundary);
                     sw.WriteLine("Content-Disposition: form-data; name=\"sid\"");
                     sw.WriteLine();
-                    sw.WriteLine(_sid);
+                    sw.WriteLine(Sid);
                     sw.WriteLine("--" + boundary + "--");
                     sw.Flush();
                 }
@@ -226,7 +221,7 @@ namespace InkbunnyLib {
             request.Method = "POST";
 
             if (!parameters.ContainsKey("sid")) {
-                parameters.Add("sid", _sid);
+                parameters.Add("sid", Sid);
             }
 
             using (var sw = new StreamWriter(await request.GetRequestStreamAsync())) {
@@ -256,6 +251,16 @@ namespace InkbunnyLib {
             }
         }
 
+        public class CannotDetermineUsernameException : Exception {
+            public CannotDetermineUsernameException() : base("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.") { }
+        }
+
+        public async Task<string> GetUsername() {
+            var response = await Search(UserId, 1);
+            if (!response.submissions.Any()) throw new CannotDetermineUsernameException();
+            return response.submissions.First().username;
+        }
+
         public Task<SearchResponse> SearchByMD5(byte[] md5Hash) {
             return SearchByMD5(string.Join("", md5Hash.Select(b => ((int)b).ToString("x2"))));
         }
@@ -268,9 +273,9 @@ namespace InkbunnyLib {
             });
         }
 
-        public Task<SearchResponse> Search(string username, int? count = null) {
+        public Task<SearchResponse> Search(long user_id, int? count = null) {
             return Search(new Dictionary<string, object> {
-                ["username"] = username,
+                ["user_id"] = user_id,
                 ["submissions_per_page"] = count,
                 ["get_rid"] = "yes"
             });

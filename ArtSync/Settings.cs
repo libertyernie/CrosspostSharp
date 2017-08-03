@@ -41,8 +41,8 @@ namespace ArtSync {
 		public TwitterSettings Twitter { get; set; }
 
 		public class InkbunnySettings {
-			public string DefaultUsername { get; set; }
-			public string DefaultPassword { get; set; }
+			public string Sid { get; set; }
+            public long? UserId { get; set; }
 		}
 
 		public InkbunnySettings Inkbunny { get; set; }
@@ -108,8 +108,7 @@ namespace ArtSync {
 				};
 			if (s.Inkbunny == null) {
 				s.Inkbunny = new InkbunnySettings {
-					DefaultUsername = "",
-					DefaultPassword = ""
+                    Sid = null
 				};
 			}
 			if (s.Defaults == null)

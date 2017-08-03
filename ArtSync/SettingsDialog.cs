@@ -30,9 +30,6 @@ namespace ArtSync {
 			Settings.Tumblr.BlogName = txtBlogName.Text;
 			Settings.Tumblr.AutoSidePadding = chkSidePadding.Checked;
 
-			Settings.Inkbunny.DefaultUsername = txtIBDefaultUsername.Text;
-			Settings.Inkbunny.DefaultPassword = txtIBDefaultPassword.Text;
-
 			Settings.Defaults.HeaderHTML = txtHeader.Text;
 			Settings.Defaults.FooterHTML = txtFooter.Text;
 			Settings.Defaults.Tags = txtTags.Text;
@@ -63,10 +60,29 @@ namespace ArtSync {
 			} else {
 				Settings.TumblrToken = TumblrKey.Obtain(OAuthConsumer.Tumblr.CONSUMER_KEY, OAuthConsumer.Tumblr.CONSUMER_SECRET);
 			}
-			UpdateTokenLabel();
-		}
+			UpdateTumblrTokenLabel();
+        }
 
-		private void btnTwitterSignIn_Click(object sender, EventArgs e) {
+        private async void btnInkbunnySignIn_Click(object sender, EventArgs e) {
+            if (string.Equals("Sign out", btnInkbunnySignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+                Settings.Inkbunny.Sid = null;
+                Settings.Inkbunny.UserId = null;
+            } else {
+                using (LoginDialog d = new LoginDialog()) {
+                    if (d.ShowDialog() != DialogResult.OK) return;
+                    try {
+                        var client = await InkbunnyLib.InkbunnyClient.Create(d.Username, d.Password);
+                        Settings.Inkbunny.Sid = client.Sid;
+                        Settings.Inkbunny.UserId = client.UserId;
+                    } catch (Exception ex) {
+                        MessageBox.Show("Could not log into Inkbunny: " + ex.Message);
+                    }
+                }
+            }
+            UpdateInkbunnyTokenLabel();
+        }
+
+        private void btnTwitterSignIn_Click(object sender, EventArgs e) {
 			if (string.Equals("Sign out", btnTwitterSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
 				Settings.TwitterCredentials = null;
 			} else {
@@ -81,9 +97,6 @@ namespace ArtSync {
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
 			chkSidePadding.Checked = Settings.Tumblr.AutoSidePadding;
 
-			txtIBDefaultUsername.Text = Settings.Inkbunny.DefaultUsername ?? "";
-			txtIBDefaultPassword.Text = Settings.Inkbunny.DefaultPassword ?? "";
-
 			txtHeader.Text = Settings.Defaults.HeaderHTML ?? "";
 			txtFooter.Text = Settings.Defaults.FooterHTML ?? "";
 			txtTags.Text = Settings.Defaults.Tags;
@@ -91,7 +104,7 @@ namespace ArtSync {
 			chkWeasylSubmitIdTag.Checked = Settings.Defaults.IncludeWeasylTag;
 
             UpdateDeviantArtTokenLabel();
-            UpdateTokenLabel();
+            UpdateTumblrTokenLabel();
 			UpdateTwitterTokenLabel();
         }
 
@@ -105,7 +118,7 @@ namespace ArtSync {
 			}
         }
 
-        private void UpdateTokenLabel() {
+        private void UpdateTumblrTokenLabel() {
 			Token token = Settings.TumblrToken;
 			if (token.IsValid) {
 				btnTumblrSignIn.ContextMenuStrip = null;
@@ -132,7 +145,19 @@ namespace ArtSync {
 			}
 		}
 
-		private void UpdateTwitterTokenLabel() {
+        private void UpdateInkbunnyTokenLabel() {
+            if (Settings.Inkbunny.Sid == null) {
+                btnInkbunnySignIn.Text = "Sign in";
+                lblInkbunnyTokenStatus.ForeColor = Color.Green;
+                lblInkbunnyTokenStatus.Text = "";
+            } else {
+                btnInkbunnySignIn.Text = "Sign out";
+                lblInkbunnyTokenStatus.ForeColor = SystemColors.WindowText;
+                lblInkbunnyTokenStatus.Text = Settings.Inkbunny.Sid;
+            }
+        }
+
+        private void UpdateTwitterTokenLabel() {
 			var twitterCredentials = Settings.TwitterCredentials;
 			try {
 				string screenName = twitterCredentials?.GetScreenName();

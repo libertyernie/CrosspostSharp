@@ -83,6 +83,9 @@
             this.lnkInkbunnyFound = new System.Windows.Forms.LinkLabel();
             this.lblInkbunnyFound = new System.Windows.Forms.Label();
             this.tabTwitter = new System.Windows.Forms.TabPage();
+            this.lnkTwitterFound = new System.Windows.Forms.LinkLabel();
+            this.lblTwitterFound = new System.Windows.Forms.Label();
+            this.txtTweetText = new System.Windows.Forms.TextBox();
             this.chkIncludeTitle = new System.Windows.Forms.CheckBox();
             this.chkIncludeDescription = new System.Windows.Forms.CheckBox();
             this.chkTweetPotentiallySensitive = new System.Windows.Forms.CheckBox();
@@ -93,9 +96,6 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
-            this.txtTweetText = new System.Windows.Forms.TextBox();
-            this.lnkTwitterFound = new System.Windows.Forms.LinkLabel();
-            this.lblTwitterFound = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -483,14 +483,16 @@
             // 
             // lblInkbunnyStatus2
             // 
+            this.lblInkbunnyStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblInkbunnyStatus2.AutoEllipsis = true;
             this.lblInkbunnyStatus2.Location = new System.Drawing.Point(80, 6);
             this.lblInkbunnyStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblInkbunnyStatus2.Name = "lblInkbunnyStatus2";
-            this.lblInkbunnyStatus2.Size = new System.Drawing.Size(109, 20);
+            this.lblInkbunnyStatus2.Size = new System.Drawing.Size(460, 20);
             this.lblInkbunnyStatus2.TabIndex = 1;
-            this.lblInkbunnyStatus2.Text = "click to log in";
+            this.lblInkbunnyStatus2.Text = "not logged in";
             this.lblInkbunnyStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblInkbunnyStatus2.Click += new System.EventHandler(this.lblInkbunnyStatus2_Click);
             // 
             // lblInkbunnyStatus1
             // 
@@ -725,6 +727,8 @@
             // 
             // lnkTumblrFound
             // 
+            this.lnkTumblrFound.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkTumblrFound.AutoEllipsis = true;
             this.lnkTumblrFound.Location = new System.Drawing.Point(86, 36);
             this.lnkTumblrFound.Name = "lnkTumblrFound";
@@ -768,6 +772,8 @@
             // 
             // lnkInkbunnyFound
             // 
+            this.lnkInkbunnyFound.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkInkbunnyFound.AutoEllipsis = true;
             this.lnkInkbunnyFound.Location = new System.Drawing.Point(86, 36);
             this.lnkInkbunnyFound.Name = "lnkInkbunnyFound";
@@ -808,6 +814,40 @@
             this.tabTwitter.TabIndex = 2;
             this.tabTwitter.Text = "Twitter";
             this.tabTwitter.UseVisualStyleBackColor = true;
+            // 
+            // lnkTwitterFound
+            // 
+            this.lnkTwitterFound.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkTwitterFound.AutoEllipsis = true;
+            this.lnkTwitterFound.Location = new System.Drawing.Point(86, 36);
+            this.lnkTwitterFound.Name = "lnkTwitterFound";
+            this.lnkTwitterFound.Size = new System.Drawing.Size(454, 13);
+            this.lnkTwitterFound.TabIndex = 14;
+            this.lnkTwitterFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkTwitterFound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTwitterFound_LinkClicked);
+            // 
+            // lblTwitterFound
+            // 
+            this.lblTwitterFound.Location = new System.Drawing.Point(6, 32);
+            this.lblTwitterFound.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTwitterFound.Name = "lblTwitterFound";
+            this.lblTwitterFound.Size = new System.Drawing.Size(74, 20);
+            this.lblTwitterFound.TabIndex = 13;
+            this.lblTwitterFound.Text = "Existing post:";
+            this.lblTwitterFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtTweetText
+            // 
+            this.txtTweetText.AcceptsReturn = true;
+            this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtTweetText.Location = new System.Drawing.Point(6, 81);
+            this.txtTweetText.Multiline = true;
+            this.txtTweetText.Name = "txtTweetText";
+            this.txtTweetText.Size = new System.Drawing.Size(534, 103);
+            this.txtTweetText.TabIndex = 5;
+            this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
             // 
             // chkIncludeTitle
             // 
@@ -916,45 +956,15 @@
             // 
             // lblTwitterStatus2
             // 
+            this.lblTwitterStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTwitterStatus2.Location = new System.Drawing.Point(80, 6);
             this.lblTwitterStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblTwitterStatus2.Name = "lblTwitterStatus2";
-            this.lblTwitterStatus2.Size = new System.Drawing.Size(109, 20);
+            this.lblTwitterStatus2.Size = new System.Drawing.Size(460, 20);
             this.lblTwitterStatus2.TabIndex = 1;
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtTweetText
-            // 
-            this.txtTweetText.AcceptsReturn = true;
-            this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtTweetText.Location = new System.Drawing.Point(6, 81);
-            this.txtTweetText.Multiline = true;
-            this.txtTweetText.Name = "txtTweetText";
-            this.txtTweetText.Size = new System.Drawing.Size(534, 103);
-            this.txtTweetText.TabIndex = 5;
-            this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
-            // 
-            // lnkTwitterFound
-            // 
-            this.lnkTwitterFound.AutoEllipsis = true;
-            this.lnkTwitterFound.Location = new System.Drawing.Point(86, 36);
-            this.lnkTwitterFound.Name = "lnkTwitterFound";
-            this.lnkTwitterFound.Size = new System.Drawing.Size(454, 13);
-            this.lnkTwitterFound.TabIndex = 14;
-            this.lnkTwitterFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lnkTwitterFound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTwitterFound_LinkClicked);
-            // 
-            // lblTwitterFound
-            // 
-            this.lblTwitterFound.Location = new System.Drawing.Point(6, 32);
-            this.lblTwitterFound.Margin = new System.Windows.Forms.Padding(3);
-            this.lblTwitterFound.Name = "lblTwitterFound";
-            this.lblTwitterFound.Size = new System.Drawing.Size(74, 20);
-            this.lblTwitterFound.TabIndex = 13;
-            this.lblTwitterFound.Text = "Existing post:";
-            this.lblTwitterFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // WeasylForm
             // 

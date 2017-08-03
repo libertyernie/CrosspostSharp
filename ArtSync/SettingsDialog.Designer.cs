@@ -23,7 +23,6 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.groupWeasyl = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtWeasylAPIKey = new System.Windows.Forms.TextBox();
@@ -45,11 +44,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupDefaults = new System.Windows.Forms.GroupBox();
-            this.groupInkbunny = new System.Windows.Forms.GroupBox();
-            this.lblIBDefaultPassword = new System.Windows.Forms.Label();
-            this.txtIBDefaultPassword = new System.Windows.Forms.TextBox();
-            this.lblIBDefaultUsername = new System.Windows.Forms.Label();
-            this.txtIBDefaultUsername = new System.Windows.Forms.TextBox();
+            this.groupInkbunnyDest = new System.Windows.Forms.GroupBox();
             this.groupTwitter = new System.Windows.Forms.GroupBox();
             this.btnTwitterSignIn = new System.Windows.Forms.Button();
             this.lblTwitterTokenStatus = new System.Windows.Forms.Label();
@@ -59,10 +54,13 @@
             this.btnDeviantArtSignIn = new System.Windows.Forms.Button();
             this.lblDeviantArtTokenStatus = new System.Windows.Forms.Label();
             this.lblDeviantArtToken = new System.Windows.Forms.Label();
+            this.btnInkbunnySignIn = new System.Windows.Forms.Button();
+            this.lblInkbunnyTokenStatus = new System.Windows.Forms.Label();
+            this.lblInkbunnyToken = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
-            this.groupInkbunny.SuspendLayout();
+            this.groupInkbunnyDest.SuspendLayout();
             this.groupTwitter.SuspendLayout();
             this.groupDeviantArt.SuspendLayout();
             this.SuspendLayout();
@@ -178,11 +176,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTokenInfo.Location = new System.Drawing.Point(12, 478);
+            this.lblTokenInfo.Location = new System.Drawing.Point(12, 452);
             this.lblTokenInfo.Name = "lblTokenInfo";
-            this.lblTokenInfo.Size = new System.Drawing.Size(410, 45);
+            this.lblTokenInfo.Size = new System.Drawing.Size(410, 71);
             this.lblTokenInfo.TabIndex = 6;
-            this.lblTokenInfo.Text = resources.GetString("lblTokenInfo.Text");
+            this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
+    "ounts. The security tokens are stored in the file ArtSync.json, so make sure you" +
+    " keep that file secure.";
             // 
             // chkWeasylSubmitIdTag
             // 
@@ -287,56 +287,19 @@
             this.groupDefaults.TabStop = false;
             this.groupDefaults.Text = "Defaults";
             // 
-            // groupInkbunny
+            // groupInkbunnyDest
             // 
-            this.groupInkbunny.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupInkbunnyDest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupInkbunny.Controls.Add(this.lblIBDefaultPassword);
-            this.groupInkbunny.Controls.Add(this.txtIBDefaultPassword);
-            this.groupInkbunny.Controls.Add(this.lblIBDefaultUsername);
-            this.groupInkbunny.Controls.Add(this.txtIBDefaultUsername);
-            this.groupInkbunny.Location = new System.Drawing.Point(12, 353);
-            this.groupInkbunny.Name = "groupInkbunny";
-            this.groupInkbunny.Size = new System.Drawing.Size(410, 71);
-            this.groupInkbunny.TabIndex = 4;
-            this.groupInkbunny.TabStop = false;
-            this.groupInkbunny.Text = "Inkbunny";
-            // 
-            // lblIBDefaultPassword
-            // 
-            this.lblIBDefaultPassword.AutoSize = true;
-            this.lblIBDefaultPassword.Location = new System.Drawing.Point(6, 48);
-            this.lblIBDefaultPassword.Name = "lblIBDefaultPassword";
-            this.lblIBDefaultPassword.Size = new System.Drawing.Size(92, 13);
-            this.lblIBDefaultPassword.TabIndex = 2;
-            this.lblIBDefaultPassword.Text = "Default password:";
-            // 
-            // txtIBDefaultPassword
-            // 
-            this.txtIBDefaultPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIBDefaultPassword.Location = new System.Drawing.Point(105, 45);
-            this.txtIBDefaultPassword.Name = "txtIBDefaultPassword";
-            this.txtIBDefaultPassword.Size = new System.Drawing.Size(299, 20);
-            this.txtIBDefaultPassword.TabIndex = 3;
-            // 
-            // lblIBDefaultUsername
-            // 
-            this.lblIBDefaultUsername.AutoSize = true;
-            this.lblIBDefaultUsername.Location = new System.Drawing.Point(6, 22);
-            this.lblIBDefaultUsername.Name = "lblIBDefaultUsername";
-            this.lblIBDefaultUsername.Size = new System.Drawing.Size(93, 13);
-            this.lblIBDefaultUsername.TabIndex = 0;
-            this.lblIBDefaultUsername.Text = "Default username:";
-            // 
-            // txtIBDefaultUsername
-            // 
-            this.txtIBDefaultUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIBDefaultUsername.Location = new System.Drawing.Point(105, 19);
-            this.txtIBDefaultUsername.Name = "txtIBDefaultUsername";
-            this.txtIBDefaultUsername.Size = new System.Drawing.Size(299, 20);
-            this.txtIBDefaultUsername.TabIndex = 1;
+            this.groupInkbunnyDest.Controls.Add(this.btnInkbunnySignIn);
+            this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyToken);
+            this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyTokenStatus);
+            this.groupInkbunnyDest.Location = new System.Drawing.Point(12, 353);
+            this.groupInkbunnyDest.Name = "groupInkbunnyDest";
+            this.groupInkbunnyDest.Size = new System.Drawing.Size(410, 45);
+            this.groupInkbunnyDest.TabIndex = 4;
+            this.groupInkbunnyDest.TabStop = false;
+            this.groupInkbunnyDest.Text = "Inkbunny (destination)";
             // 
             // groupTwitter
             // 
@@ -345,7 +308,7 @@
             this.groupTwitter.Controls.Add(this.btnTwitterSignIn);
             this.groupTwitter.Controls.Add(this.lblTwitterTokenStatus);
             this.groupTwitter.Controls.Add(this.lblTwitterToken);
-            this.groupTwitter.Location = new System.Drawing.Point(12, 430);
+            this.groupTwitter.Location = new System.Drawing.Point(12, 404);
             this.groupTwitter.Name = "groupTwitter";
             this.groupTwitter.Size = new System.Drawing.Size(410, 45);
             this.groupTwitter.TabIndex = 5;
@@ -435,6 +398,35 @@
             this.lblDeviantArtToken.TabIndex = 4;
             this.lblDeviantArtToken.Text = "Token:";
             // 
+            // btnInkbunnySignIn
+            // 
+            this.btnInkbunnySignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnInkbunnySignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnInkbunnySignIn.Name = "btnInkbunnySignIn";
+            this.btnInkbunnySignIn.Size = new System.Drawing.Size(75, 20);
+            this.btnInkbunnySignIn.TabIndex = 8;
+            this.btnInkbunnySignIn.Text = "Sign in";
+            this.btnInkbunnySignIn.UseVisualStyleBackColor = true;
+            this.btnInkbunnySignIn.Click += new System.EventHandler(this.btnInkbunnySignIn_Click);
+            // 
+            // lblInkbunnyTokenStatus
+            // 
+            this.lblInkbunnyTokenStatus.AutoSize = true;
+            this.lblInkbunnyTokenStatus.Location = new System.Drawing.Point(80, 23);
+            this.lblInkbunnyTokenStatus.Name = "lblInkbunnyTokenStatus";
+            this.lblInkbunnyTokenStatus.Size = new System.Drawing.Size(69, 13);
+            this.lblInkbunnyTokenStatus.TabIndex = 7;
+            this.lblInkbunnyTokenStatus.Text = "Not signed in";
+            // 
+            // lblInkbunnyToken
+            // 
+            this.lblInkbunnyToken.AutoSize = true;
+            this.lblInkbunnyToken.Location = new System.Drawing.Point(6, 23);
+            this.lblInkbunnyToken.Name = "lblInkbunnyToken";
+            this.lblInkbunnyToken.Size = new System.Drawing.Size(41, 13);
+            this.lblInkbunnyToken.TabIndex = 6;
+            this.lblInkbunnyToken.Text = "Token:";
+            // 
             // SettingsDialog
             // 
             this.AcceptButton = this.btnSave;
@@ -445,7 +437,7 @@
             this.Controls.Add(this.groupDeviantArt);
             this.Controls.Add(this.groupTwitter);
             this.Controls.Add(this.lblTokenInfo);
-            this.Controls.Add(this.groupInkbunny);
+            this.Controls.Add(this.groupInkbunnyDest);
             this.Controls.Add(this.groupDefaults);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -459,8 +451,8 @@
             this.groupTumblr.PerformLayout();
             this.groupDefaults.ResumeLayout(false);
             this.groupDefaults.PerformLayout();
-            this.groupInkbunny.ResumeLayout(false);
-            this.groupInkbunny.PerformLayout();
+            this.groupInkbunnyDest.ResumeLayout(false);
+            this.groupInkbunnyDest.PerformLayout();
             this.groupTwitter.ResumeLayout(false);
             this.groupTwitter.PerformLayout();
             this.groupDeviantArt.ResumeLayout(false);
@@ -492,11 +484,7 @@
 		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
 		private System.Windows.Forms.CheckBox chkSidePadding;
 		private System.Windows.Forms.GroupBox groupDefaults;
-		private System.Windows.Forms.GroupBox groupInkbunny;
-		private System.Windows.Forms.Label lblIBDefaultUsername;
-		private System.Windows.Forms.TextBox txtIBDefaultUsername;
-		private System.Windows.Forms.Label lblIBDefaultPassword;
-		private System.Windows.Forms.TextBox txtIBDefaultPassword;
+		private System.Windows.Forms.GroupBox groupInkbunnyDest;
 		private System.Windows.Forms.GroupBox groupTwitter;
 		private System.Windows.Forms.Button btnTwitterSignIn;
 		private System.Windows.Forms.Label lblTwitterTokenStatus;
@@ -506,5 +494,8 @@
         private System.Windows.Forms.Label lblDeviantArtTokenStatus;
         private System.Windows.Forms.Label lblDeviantArtToken;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnInkbunnySignIn;
+        private System.Windows.Forms.Label lblInkbunnyToken;
+        private System.Windows.Forms.Label lblInkbunnyTokenStatus;
     }
 }

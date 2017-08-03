@@ -119,6 +119,10 @@ namespace ArtSync {
 						token);
 				}
 
+                if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
+                    Inkbunny = new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value);
+                }
+
 				string user = null;
 				try {
 					user = await SourceWrapper.WhoamiAsync();
@@ -135,7 +139,7 @@ namespace ArtSync {
                 }
                 SourceUsername = user;
 
-                LProgressBar.Report(1 / 3f);
+                LProgressBar.Report(1 / 4f);
 
                 if (Tumblr == null) {
 					lblTumblrStatus2.Text = "not logged in";
@@ -154,7 +158,23 @@ namespace ArtSync {
 					}
                 }
 
-                LProgressBar.Report(2 / 3f);
+                LProgressBar.Report(2 / 4f);
+
+                if (Inkbunny == null) {
+                    lblInkbunnyStatus2.Text = "not logged in";
+                    lblInkbunnyStatus2.ForeColor = SystemColors.WindowText;
+                } else {
+                    try {
+                        lblInkbunnyStatus2.Text = await Inkbunny.GetUsername();
+                        lblInkbunnyStatus2.ForeColor = Color.DarkGreen;
+                    } catch (Exception e) {
+                        Inkbunny = null;
+                        lblTumblrStatus2.Text = e.Message;
+                        lblTumblrStatus2.ForeColor = Color.DarkRed;
+                    }
+                }
+
+                LProgressBar.Report(3 / 4f);
 
                 TwitterCredentials = GlobalSettings.TwitterCredentials;
 				try {
@@ -519,27 +539,6 @@ namespace ArtSync {
 		#endregion
 
 		#region Inkbunny
-		public async void InkbunnyLogin() {
-			using (LoginDialog d = new LoginDialog()) {
-				d.Username = GlobalSettings.Inkbunny.DefaultUsername ?? "";
-				d.Password = GlobalSettings.Inkbunny.DefaultPassword ?? "";
-				if (d.ShowDialog() == DialogResult.OK) {
-					InvokeAndForget(() => lblInkbunnyStatus2.Text = "Working...");
-					try {
-						Inkbunny = await InkbunnyClient.Create(d.Username, d.Password);
-						InvokeAndForget(() => {
-							lblInkbunnyStatus2.Text = Inkbunny.Username;
-						});
-					} catch (Exception ex) {
-						InvokeAndForget(() => {
-							lblInkbunnyStatus2.Text = "click to log in";
-						});
-						MessageBox.Show(ex.Message);
-					}
-				}
-			}
-		}
-
 		public async void PostToInkbunny1() {
 			try {
 				if (this.currentImage == null) {
@@ -549,7 +548,6 @@ namespace ArtSync {
 
 				if (Inkbunny == null) {
 					MessageBox.Show("You must log into Inkbunny before posting.");
-					InkbunnyLogin();
 					return;
 				}
 
@@ -676,10 +674,6 @@ namespace ArtSync {
 
         private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTwitterLinkToInclude.Text);
-		}
-
-		private void lblInkbunnyStatus2_Click(object sender, EventArgs e) {
-			InkbunnyLogin();
 		}
 
 		private void btnInkbunnyPost_Click(object sender, EventArgs e) {
