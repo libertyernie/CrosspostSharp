@@ -18,6 +18,7 @@ using Tweetinvi;
 using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
 using ArtSourceWrapper;
+using System.Security.Cryptography;
 
 namespace ArtSync {
 	public partial class WeasylForm : Form {
@@ -47,7 +48,7 @@ namespace ArtSync {
 		private Bitmap currentImageBitmap;
 
 		// The existing Tumblr post for the selected Weasyl submission, if any - looked up by using the #weasylXXXXXX tag.
-		private BasePost ExistingPost;
+		private BasePost ExistingTumblrPost;
 
 		// Allows WeasylThumbnail access to the progress bar.
 		public LProgressBar LProgressBar {
@@ -203,7 +204,7 @@ namespace ArtSync {
 
 		// This function is called after clicking on a WeasylThumbnail.
 		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
-		public void SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
+		public async void SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
 				txtTitle.Text = submission.Title;
@@ -236,8 +237,15 @@ namespace ArtSync {
 					mainPictureBox.Image = null;
 				}
 			}
-			UpdateExistingPostLink();
-		}
+            try {
+                await Task.WhenAll(
+                    UpdateExistingTumblrPostLink(),
+                    UpdateExistingInkbunnyPostLink()
+                );
+            } catch (Exception) {
+                MessageBox.Show("Could not check for existing post on one or more sites.");
+            }
+        }
 
 		private void ResetTweetText() {
 			List<string> plainTextList = new List<string>(2);
@@ -336,39 +344,46 @@ namespace ArtSync {
         }
 		#endregion
 
-		#region Tumblr lookup
-		private async void UpdateExistingPostLink() {
-			try {
-				if (this.InvokeRequired) {
-					InvokeAndForget(UpdateExistingPostLink);
-					return;
-				}
-
-				if (Tumblr != null) {
-					this.btnPost.Enabled = false;
-					this.lblAlreadyPosted.Text = "Checking your Tumblr for tag " + chkWeasylSubmitIdTag.Text + "...";
-					this.lnkTumblrPost.Text = "";
-					var posts = await this.GetTaggedPostsForSubmissionAsync();
-					this.ExistingPost = posts.Result.FirstOrDefault();
-					this.btnPost.Enabled = true;
-					if (this.ExistingPost == null) {
-						this.lblAlreadyPosted.Text = "";
-						this.lnkTumblrPost.Text = "";
-					} else {
-						this.lblAlreadyPosted.Text = "Already on Tumblr:";
-						this.lnkTumblrPost.Text = this.ExistingPost.Url;
-					}
-				}
-			} catch (Exception e) {
-				Console.Error.WriteLine(e.Message);
-				Console.Error.WriteLine(e.StackTrace);
-				MessageBox.Show(e.Message);
+		#region Lookup
+		private async Task UpdateExistingTumblrPostLink() {
+            if (Tumblr != null) {
+                this.btnPost.Enabled = false;
+                this.lnkTumblrFound.Enabled = false;
+                this.lnkTumblrFound.Text = $"checking your Tumblr for tag {chkWeasylSubmitIdTag.Text}...";
+                var posts = await this.GetTaggedPostsForSubmissionAsync();
+				this.ExistingTumblrPost = posts.Result.FirstOrDefault();
+				this.btnPost.Enabled = true;
+				if (this.ExistingTumblrPost == null) {
+					this.lnkTumblrFound.Text = $"tag not found ({chkWeasylSubmitIdTag.Text})";
+				} else {
+					this.lnkTumblrFound.Text = this.ExistingTumblrPost.Url;
+                    this.lnkTumblrFound.Enabled = true;
+                }
 			}
-		}
-		#endregion
+        }
 
-		#region HTML compilation
-		public string CompileHTML() {
+        private async Task UpdateExistingInkbunnyPostLink() {
+            if (Inkbunny != null) {
+                using (var m = MD5.Create()) {
+                    byte[] hash = m.ComputeHash(this.currentImage.Data);
+                    string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));
+                    this.lnkInkbunnyFound.Enabled = false;
+                    this.lnkInkbunnyFound.Text = $"checking Inkbunny for MD5 hash {hashStr}...";
+                    var resp = await Inkbunny.SearchByMD5(hashStr);
+                    var existing = resp.submissions.FirstOrDefault();
+                    if (existing == null) {
+                        this.lnkInkbunnyFound.Text = $"MD5 hash not found ({hashStr})";
+                    } else {
+                        this.lnkInkbunnyFound.Text = existing.file_url_full;
+                        this.lnkInkbunnyFound.Enabled = true;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region HTML compilation
+        public string CompileHTML() {
 			StringBuilder html = new StringBuilder();
 
 			if (chkHeader.Checked) {
@@ -466,13 +481,13 @@ namespace ArtSync {
 				LProgressBar.Visible = true;
 
 				long? updateid = null;
-				if (this.ExistingPost != null) {
-					DialogResult result = new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, this.ExistingPost.Url).ShowDialog();
+				if (this.ExistingTumblrPost != null) {
+					DialogResult result = new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, this.ExistingTumblrPost.Url).ShowDialog();
 					if (result == DialogResult.Cancel) {
 						LProgressBar.Visible = false;
 						return;
 					} else if (result == PostAlreadyExistsDialog.Result.Replace) {
-						updateid = this.ExistingPost.Id;
+						updateid = this.ExistingTumblrPost.Id;
 					}
 				}
 
@@ -496,7 +511,7 @@ namespace ArtSync {
 					? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
 					: Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
 				PostCreationInfo info = await task;
-				UpdateExistingPostLink();
+				await UpdateExistingTumblrPostLink();
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
@@ -577,7 +592,8 @@ namespace ArtSync {
 				);
 				Console.WriteLine(o.submission_id);
 				Console.WriteLine(o.twitter_authentication_success);
-			} catch (Exception ex) {
+                await UpdateExistingInkbunnyPostLink();
+            } catch (Exception ex) {
 				Console.Error.WriteLine(ex.Message);
 				Console.Error.WriteLine(ex.StackTrace);
 				MessageBox.Show("An error occured: \"" + ex.Message + "\"\r\nCheck to see if the blog name is correct.");
@@ -646,13 +662,14 @@ namespace ArtSync {
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var d = new AboutDialog()) d.ShowDialog(this);
-		}
+        }
 
-		private void lnkTumblrPost_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			Process.Start(lnkTumblrPost.Text);
-		}
+        private void lnkTumblrFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (lnkTumblrFound.Text.StartsWith("http"))
+                Process.Start(lnkTumblrFound.Text);
+        }
 
-		private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+        private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTwitterLinkToInclude.Text);
 		}
 
@@ -755,5 +772,5 @@ namespace ArtSync {
 				return new BinaryFile(stream.ToArray());
 			}
 		}
-	}
+    }
 }
