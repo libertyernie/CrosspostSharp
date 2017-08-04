@@ -25,7 +25,6 @@ namespace ArtSync {
 		private static Settings GlobalSettings;
 
 		public IWrapper SourceWrapper { get; private set; }
-		public string SourceUsername { get; private set; }
 
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
@@ -81,34 +80,45 @@ namespace ArtSync {
 			try {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
-                
-                bool refreshGallery = false;
-                if (string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken) ^ !(SourceWrapper is DeviantArtWrapper)) {
-                    SourceWrapper = null;
-                    refreshGallery = true;
 
-                    if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
-                        try {
-                            var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-                            SourceWrapper = w;
-                            string oldToken = GlobalSettings.DeviantArt.RefreshToken;
-                            string newToken = await w.UpdateTokens(oldToken);
-                            if (oldToken != newToken) {
-                                GlobalSettings.DeviantArt.RefreshToken = newToken;
-                                GlobalSettings.Save();
-                            }
-                        } catch (DeviantArtException e) when (e.Message == "User canceled") {
-                            GlobalSettings.DeviantArt.RefreshToken = null;
-                            SourceWrapper = null;
+                List<IWrapper> wrappers = new List<IWrapper>();
+
+                if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
+                    try {
+                        var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                        string oldToken = GlobalSettings.DeviantArt.RefreshToken;
+                        string newToken = await w.UpdateTokens(oldToken);
+                        if (oldToken != newToken) {
+                            GlobalSettings.DeviantArt.RefreshToken = newToken;
+                            GlobalSettings.Save();
                         }
+                        wrappers.Add(w);
+                    } catch (DeviantArtException e) when (e.Message == "User canceled") {
+                        GlobalSettings.DeviantArt.RefreshToken = null;
                     }
-
-                    if (SourceWrapper == null) {
-                        SourceWrapper = new WeasylWrapper(GlobalSettings.Weasyl.APIKey);
-                    }
-
-                    lblWeasylStatus1.Text = SourceWrapper.SiteName + ":";
                 }
+
+                if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
+                    wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
+                }
+
+                if (wrappers.Count == 0) {
+                    wrappers.Add(new EmptyWrapper());
+                }
+                
+                if (wrappers.Count == 1) {
+                    SourceWrapper = wrappers.Single();
+                } else {
+                    var form = new SourceChoiceForm(wrappers) {
+                        SelectedWrapper = SourceWrapper ?? wrappers.First()
+                    };
+                    var dialogResult = form.ShowDialog(this);
+                    SourceWrapper = dialogResult == DialogResult.OK
+                        ? form.SelectedWrapper
+                        : new EmptyWrapper();
+                }
+
+                lblWeasylStatus1.Text = SourceWrapper.SiteName + ":";
 
                 Token token = GlobalSettings.TumblrToken;
 				if (token != null && token.IsValid) {
@@ -134,10 +144,6 @@ namespace ArtSync {
 					lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
 					lblWeasylStatus2.ForeColor = Color.DarkRed;
 				}
-				if (user == null || SourceUsername != user) {
-                    refreshGallery = true;
-                }
-                SourceUsername = user;
 
                 LProgressBar.Report(1 / 4f);
 
@@ -211,7 +217,7 @@ namespace ArtSync {
                 chkTumblrSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
                 chkInkbunnySubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
 
-                if (refreshGallery) UpdateGalleryAsync();
+                UpdateGalleryAsync();
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
@@ -647,8 +653,7 @@ namespace ArtSync {
 		private void chkTags2_CheckedChanged(object sender, EventArgs e) {
 			txtTags2.Enabled = chkTags2.Checked;
 		}
-
-
+        
 		private void loadCharactersToolStripMenuItem_Click(object sender, EventArgs e) {
 			UpdateGalleryAsync();
 		}

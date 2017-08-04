@@ -177,6 +177,12 @@
     <Compile Include="SettingsDialog.Designer.cs">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="SourceChoiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SourceChoiceForm.Designer.cs">
+      <DependentUpon>SourceChoiceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TwitterKey.cs" />
     <Compile Include="TumblrKey.cs" />
     <Compile Include="WeasylForm.cs">
@@ -212,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SourceChoiceForm.resx">
+      <DependentUpon>SourceChoiceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WeasylForm.resx">
       <DependentUpon>WeasylForm.cs</DependentUpon>

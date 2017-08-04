@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base.cs" />
+    <Compile Include="Empty.cs" />
     <Compile Include="DeviantArt.cs" />
     <Compile Include="Weasyl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

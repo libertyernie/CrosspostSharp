@@ -30,7 +30,9 @@ namespace ArtSourceWrapper {
         public bool HasLess;
         public bool HasMore;
 
-        internal UpdateGalleryResult() { }
+        internal UpdateGalleryResult() {
+            Submissions = new ISubmissionWrapper[0];
+        }
     }
 
     public interface ISubmissionWrapper {
