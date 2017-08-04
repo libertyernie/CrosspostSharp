@@ -76,142 +76,179 @@ namespace ArtSync {
 		}
 
 		#region GUI updates
+        private async Task GetNewWrapper() {
+            List<IWrapper> wrappers = new List<IWrapper>();
+
+            if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
+                try {
+                    var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                    string oldToken = GlobalSettings.DeviantArt.RefreshToken;
+                    string newToken = await w.UpdateTokens(oldToken);
+                    if (oldToken != newToken) {
+                        GlobalSettings.DeviantArt.RefreshToken = newToken;
+                        GlobalSettings.Save();
+                    }
+                    wrappers.Add(w);
+                } catch (DeviantArtException e) when (e.Message == "User canceled") {
+                    GlobalSettings.DeviantArt.RefreshToken = null;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
+                wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
+            }
+
+            if (wrappers.Count == 0) {
+                wrappers.Add(new EmptyWrapper());
+            }
+
+            if (wrappers.Count == 1) {
+                SourceWrapper = wrappers.Single();
+            } else {
+                var form = new SourceChoiceForm(wrappers) {
+                    SelectedWrapper = SourceWrapper ?? wrappers.First()
+                };
+                var dialogResult = form.ShowDialog(this);
+                SourceWrapper = dialogResult == DialogResult.OK
+                    ? form.SelectedWrapper
+                    : new EmptyWrapper();
+            }
+
+            lblWeasylStatus1.Text = SourceWrapper.SiteName + ":";
+
+            string user = null;
+            try {
+                user = await SourceWrapper.WhoamiAsync();
+                lblWeasylStatus2.Text = user ?? "not logged in";
+                lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
+                    ? SystemColors.WindowText
+                    : Color.DarkGreen;
+            } catch (Exception e) {
+                lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
+                lblWeasylStatus2.ForeColor = Color.DarkRed;
+            }
+        }
+
+        private async Task GetNewTumblrClient() {
+            Token token = GlobalSettings.TumblrToken;
+            if (token != null && token.IsValid) {
+                if (Tumblr != null) Tumblr.Dispose();
+                Tumblr = new TumblrClientFactory().Create<TumblrClient>(
+                    OAuthConsumer.Tumblr.CONSUMER_KEY,
+                    OAuthConsumer.Tumblr.CONSUMER_SECRET,
+                    token);
+            }
+
+            if (Tumblr == null) {
+                lblTumblrStatus2.Text = "not logged in";
+                lblTumblrStatus2.ForeColor = SystemColors.WindowText;
+            } else {
+                try {
+                    TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
+                    lblTumblrStatus2.Text = TumblrUsername ?? "not logged in";
+                    lblTumblrStatus2.ForeColor = TumblrUsername == null
+                        ? SystemColors.WindowText
+                        : Color.DarkGreen;
+                } catch (Exception e) {
+                    TumblrUsername = null;
+                    lblTumblrStatus2.Text = e.Message;
+                    lblTumblrStatus2.ForeColor = Color.DarkRed;
+                }
+            }
+        }
+
+        private async Task GetNewInkbunnyClient() {
+            if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
+                Inkbunny = new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value);
+            }
+
+            if (Inkbunny == null) {
+                lblInkbunnyStatus2.Text = "not logged in";
+                lblInkbunnyStatus2.ForeColor = SystemColors.WindowText;
+            } else {
+                try {
+                    lblInkbunnyStatus2.Text = await Inkbunny.GetUsername();
+                    lblInkbunnyStatus2.ForeColor = Color.DarkGreen;
+                } catch (Exception e) {
+                    Inkbunny = null;
+                    lblTumblrStatus2.Text = e.Message;
+                    lblTumblrStatus2.ForeColor = Color.DarkRed;
+                }
+            }
+        }
+
+        private async Task GetNewTwitterClient() {
+            TwitterCredentials = GlobalSettings.TwitterCredentials;
+            try {
+                string screenName = TwitterCredentials?.GetScreenName();
+                lblTwitterStatus2.Text = screenName ?? "not logged in";
+                lblTwitterStatus2.ForeColor = screenName == null
+                    ? SystemColors.WindowText
+                    : Color.DarkGreen;
+
+                if (screenName != null) {
+                    Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+                        var conf = Tweetinvi.Help.GetTwitterConfiguration();
+                        shortURLLength = conf.ShortURLLength;
+                        shortURLLengthHttps = conf.ShortURLLengthHttps;
+                    });
+
+                    if (!tweetCache.Any()) {
+                        tweetCache.AddRange(await GetMoreOldTweets());
+                    }
+                }
+            } catch (Exception e) {
+                TwitterCredentials = null;
+                lblTwitterStatus2.Text = e.Message;
+                lblTwitterStatus2.ForeColor = Color.DarkRed;
+            }
+        }
+
 		private async void LoadFromSettings() {
 			try {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
 
-                List<IWrapper> wrappers = new List<IWrapper>();
+                DateTime dt = DateTime.Now;
 
-                if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
-                    try {
-                        var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-                        string oldToken = GlobalSettings.DeviantArt.RefreshToken;
-                        string newToken = await w.UpdateTokens(oldToken);
-                        if (oldToken != newToken) {
-                            GlobalSettings.DeviantArt.RefreshToken = newToken;
-                            GlobalSettings.Save();
-                        }
-                        wrappers.Add(w);
-                    } catch (DeviantArtException e) when (e.Message == "User canceled") {
-                        GlobalSettings.DeviantArt.RefreshToken = null;
-                    }
+                var tasks = new Task[] {
+                    GetNewWrapper(),
+                    GetNewTumblrClient(),
+                    GetNewInkbunnyClient(),
+                    GetNewTwitterClient()
+                };
+
+                int progress = 0;
+                foreach (var t in tasks) {
+                    var _ = t.ContinueWith(x => LProgressBar.Report(++progress / 4f));
                 }
 
-                if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                    wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
-                }
-
-                if (wrappers.Count == 0) {
-                    wrappers.Add(new EmptyWrapper());
-                }
-                
-                if (wrappers.Count == 1) {
-                    SourceWrapper = wrappers.Single();
-                } else {
-                    var form = new SourceChoiceForm(wrappers) {
-                        SelectedWrapper = SourceWrapper ?? wrappers.First()
-                    };
-                    var dialogResult = form.ShowDialog(this);
-                    SourceWrapper = dialogResult == DialogResult.OK
-                        ? form.SelectedWrapper
-                        : new EmptyWrapper();
-                }
-
-                lblWeasylStatus1.Text = SourceWrapper.SiteName + ":";
-
-                Token token = GlobalSettings.TumblrToken;
-				if (token != null && token.IsValid) {
-					if (Tumblr != null) Tumblr.Dispose();
-					Tumblr = new TumblrClientFactory().Create<TumblrClient>(
-						OAuthConsumer.Tumblr.CONSUMER_KEY,
-						OAuthConsumer.Tumblr.CONSUMER_SECRET,
-						token);
-				}
-
-                if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
-                    Inkbunny = new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value);
-                }
-
-				string user = null;
-				try {
-					user = await SourceWrapper.WhoamiAsync();
-					lblWeasylStatus2.Text = user ?? "not logged in";
-					lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
-						? SystemColors.WindowText
-						: Color.DarkGreen;
-				} catch (Exception e) {
-					lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
-					lblWeasylStatus2.ForeColor = Color.DarkRed;
-				}
+                await Task.WhenAll(tasks);
+                /*/
+                await GetNewWrapper();
 
                 LProgressBar.Report(1 / 4f);
 
-                if (Tumblr == null) {
-					lblTumblrStatus2.Text = "not logged in";
-					lblTumblrStatus2.ForeColor = SystemColors.WindowText;
-				} else {
-					try {
-						TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
-						lblTumblrStatus2.Text = TumblrUsername ?? "not logged in";
-						lblTumblrStatus2.ForeColor = TumblrUsername == null
-							? SystemColors.WindowText
-							: Color.DarkGreen;
-					} catch (Exception e) {
-						TumblrUsername = null;
-						lblTumblrStatus2.Text = e.Message;
-						lblTumblrStatus2.ForeColor = Color.DarkRed;
-					}
-                }
+                await GetNewTumblrClient();
 
                 LProgressBar.Report(2 / 4f);
 
-                if (Inkbunny == null) {
-                    lblInkbunnyStatus2.Text = "not logged in";
-                    lblInkbunnyStatus2.ForeColor = SystemColors.WindowText;
-                } else {
-                    try {
-                        lblInkbunnyStatus2.Text = await Inkbunny.GetUsername();
-                        lblInkbunnyStatus2.ForeColor = Color.DarkGreen;
-                    } catch (Exception e) {
-                        Inkbunny = null;
-                        lblTumblrStatus2.Text = e.Message;
-                        lblTumblrStatus2.ForeColor = Color.DarkRed;
-                    }
-                }
+                await GetNewInkbunnyClient();
 
                 LProgressBar.Report(3 / 4f);
 
-                TwitterCredentials = GlobalSettings.TwitterCredentials;
-				try {
-					string screenName = TwitterCredentials?.GetScreenName();
-					lblTwitterStatus2.Text = screenName ?? "not logged in";
-					lblTwitterStatus2.ForeColor = screenName == null
-						? SystemColors.WindowText
-						: Color.DarkGreen;
+                await GetNewTwitterClient();
+                /**/
 
-					if (screenName != null) {
-						Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
-							var conf = Tweetinvi.Help.GetTwitterConfiguration();
-							shortURLLength = conf.ShortURLLength;
-							shortURLLengthHttps = conf.ShortURLLengthHttps;
-						});
-
-						if (!tweetCache.Any()) {
-							tweetCache.AddRange(await GetMoreOldTweets());
-						}
-					}
-				} catch (Exception e) {
-					TwitterCredentials = null;
-					lblTwitterStatus2.Text = e.Message;
-					lblTwitterStatus2.ForeColor = Color.DarkRed;
-				}
+                MessageBox.Show($"{DateTime.Now - dt}");
 
 				LProgressBar.Visible = false;
 
+                // Tumblr settings
 				txtHeader.Text = GlobalSettings.Defaults.HeaderHTML ?? "";
 				txtFooter.Text = GlobalSettings.Defaults.FooterHTML ?? "";
-				// Global tags that you can include in each submission if you want.
+
+				// Global tags that you can include in each Tumblr submission if you want.
 				txtTags2.Text = GlobalSettings.Defaults.Tags ?? "";
 
                 chkTumblrSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
@@ -303,7 +340,7 @@ namespace ArtSync {
 
 			long sinceId = tweetCache.Select(t => t.Id).DefaultIfEmpty(20).Max();
 			return Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
-				var user = Tweetinvi.User.GetAuthenticatedUser();
+				var user = User.GetAuthenticatedUser();
 				var parameters = new UserTimelineParameters {
 					MaximumNumberOfTweetsToRetrieve = 200,
 					TrimUser = true,
