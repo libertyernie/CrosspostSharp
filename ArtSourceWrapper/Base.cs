@@ -42,6 +42,7 @@ namespace ArtSourceWrapper {
         string GeneratedUniqueTag { get; }
         DateTime Timestamp { get; }
 
+        string ViewURL { get; }
         string ImageURL { get; }
         string ThumbnailURL { get; }
         Color? BorderColor { get; }

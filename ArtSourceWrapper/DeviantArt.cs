@@ -147,6 +147,7 @@ namespace ArtSourceWrapper {
         public string Title => Deviation.Title;
         public string URL => Deviation.Url;
 
+        public string ViewURL => Deviation.Url;
         public string ImageURL => Deviation.Content.Src;
         public string ThumbnailURL => Deviation.Thumbs.FirstOrDefault()?.Src;
 

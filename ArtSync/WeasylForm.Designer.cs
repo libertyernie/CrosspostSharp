@@ -96,6 +96,7 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
+            this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -353,7 +354,7 @@
             this.lblWeasylStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblWeasylStatus1.Name = "lblWeasylStatus1";
             this.lblWeasylStatus1.Size = new System.Drawing.Size(63, 24);
-            this.lblWeasylStatus1.TabIndex = 0;
+            this.lblWeasylStatus1.TabIndex = 8;
             this.lblWeasylStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTumblrStatus1
@@ -373,7 +374,7 @@
             this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblWeasylStatus2.Name = "lblWeasylStatus2";
             this.lblWeasylStatus2.Size = new System.Drawing.Size(110, 24);
-            this.lblWeasylStatus2.TabIndex = 1;
+            this.lblWeasylStatus2.TabIndex = 9;
             this.lblWeasylStatus2.Text = "not logged in";
             this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -454,9 +455,9 @@
             this.previewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewPanel.Location = new System.Drawing.Point(3, 32);
+            this.previewPanel.Location = new System.Drawing.Point(3, 58);
             this.previewPanel.Name = "previewPanel";
-            this.previewPanel.Size = new System.Drawing.Size(540, 201);
+            this.previewPanel.Size = new System.Drawing.Size(540, 175);
             this.previewPanel.TabIndex = 18;
             this.previewPanel.Visible = false;
             // 
@@ -625,6 +626,7 @@
             this.panel1.Controls.Add(this.thumbnail1);
             this.panel1.Controls.Add(this.thumbnail2);
             this.panel1.Controls.Add(this.thumbnail3);
+            this.panel1.Controls.Add(this.lnkOriginalUrl);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
@@ -648,10 +650,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lProgressBar1.Location = new System.Drawing.Point(10, 394);
+            this.lProgressBar1.Location = new System.Drawing.Point(12, 394);
             this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.lProgressBar1.Name = "lProgressBar1";
-            this.lProgressBar1.Size = new System.Drawing.Size(350, 24);
+            this.lProgressBar1.Size = new System.Drawing.Size(348, 24);
             this.lProgressBar1.TabIndex = 9;
             // 
             // thumbnail1
@@ -966,6 +968,18 @@
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lnkOriginalUrl
+            // 
+            this.lnkOriginalUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkOriginalUrl.AutoEllipsis = true;
+            this.lnkOriginalUrl.Location = new System.Drawing.Point(12, 400);
+            this.lnkOriginalUrl.Name = "lnkOriginalUrl";
+            this.lnkOriginalUrl.Size = new System.Drawing.Size(348, 13);
+            this.lnkOriginalUrl.TabIndex = 7;
+            this.lnkOriginalUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkOriginalUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOriginalUrl_LinkClicked);
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1073,6 +1087,7 @@
         private System.Windows.Forms.LinkLabel lnkTwitterFound;
         private System.Windows.Forms.Label lblTwitterFound;
         private System.Windows.Forms.TextBox txtTweetText;
+        private System.Windows.Forms.LinkLabel lnkOriginalUrl;
     }
 }
 

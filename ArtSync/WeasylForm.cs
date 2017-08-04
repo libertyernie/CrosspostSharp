@@ -245,6 +245,7 @@ namespace ArtSync {
 				UpdateHTMLPreview();
 			}
 			this.currentImage = file;
+            this.lnkOriginalUrl.Text = submission?.ViewURL ?? "";
 			if (file == null) {
 				mainPictureBox.Image = null;
 			} else {
@@ -655,6 +656,11 @@ namespace ArtSync {
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var d = new AboutDialog()) d.ShowDialog(this);
+        }
+
+        private void lnkOriginalUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (lnkOriginalUrl.Text.StartsWith("http"))
+                Process.Start(lnkOriginalUrl.Text);
         }
 
         private void lnkTumblrFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {

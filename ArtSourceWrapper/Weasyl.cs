@@ -118,6 +118,7 @@ namespace ArtSourceWrapper {
         public string Title => Submission.title;
         public string URL => Submission.link;
 
+        public string ViewURL => Submission.link;
         public string ImageURL => Submission.media.submission.First().url;
         public string ThumbnailURL => Submission.media.thumbnail.First().url;
 
