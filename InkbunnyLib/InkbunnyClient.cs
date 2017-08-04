@@ -101,122 +101,47 @@ namespace InkbunnyLib {
             bool guest_block = false,
             bool friends_only = false
         ) {
-            string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
-
-            var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_editsubmission.php");
-            request.ContentType = "multipart/form-data; boundary=" + boundary;
-            request.Method = "POST";
-
-            using (var stream = await request.GetRequestStreamAsync()) {
-                using (var sw = new StreamWriter(stream)) {
-                    sw.WriteLine("--" + boundary);
-                    sw.WriteLine("Content-Disposition: form-data; name=\"submission_id\"");
-                    sw.WriteLine();
-                    sw.WriteLine(submission_id);
-                    if (title != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"title\"");
-                        sw.WriteLine();
-                        sw.WriteLine(title);
-                    }
-                    if (desc != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"desc\"");
-                        sw.WriteLine();
-                        sw.WriteLine(desc);
-                    }
-                    if (story != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"story\"");
-                        sw.WriteLine();
-                        sw.WriteLine(story);
-                    }
-                    sw.WriteLine("--" + boundary);
-                    sw.WriteLine("Content-Disposition: form-data; name=\"convert_html_entities\"");
-                    sw.WriteLine();
-                    sw.WriteLine(convert_html_entities ? "yes" : "no");
-                    if (type != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"type\"");
-                        sw.WriteLine();
-                        sw.WriteLine((int)type);
-                    }
-                    if (scraps != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"scraps\"");
-                        sw.WriteLine();
-                        sw.WriteLine(scraps == true ? "yes" : "no");
-                    }
-                    if (use_twitter != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"use_twitter\"");
-                        sw.WriteLine();
-                        sw.WriteLine(use_twitter == true ? "yes" : "no");
-                    }
-                    if (twitter_image_pref != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"twitter_image_pref\"");
-                        sw.WriteLine();
-                        sw.WriteLine((int)twitter_image_pref);
-                    }
-                    if (isPublic != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"visibility\"");
-                        sw.WriteLine();
-                        sw.WriteLine(isPublic == false ? "no"
-                            : notifyWatchersWhenPublic ? "yes" : "yes_nowatch");
-                    }
-                    if (keywords != null) {
-                        sw.WriteLine("--" + boundary);
-                        sw.WriteLine("Content-Disposition: form-data; name=\"keywords\"");
-                        sw.WriteLine();
-                        sw.WriteLine(string.Join(" ", keywords.Select(s => s.Replace(',', '_').Replace(' ', '_'))));
-                    }
-                    if (tag != null) {
-                        for (int i=2; i<=5; i++) {
-                            sw.WriteLine("--" + boundary);
-                            sw.WriteLine("Content-Disposition: form-data; name=\"tag[" + i + "]\"");
-                            sw.WriteLine();
-                            sw.WriteLine(tag[i]);
-                        }
-                    }
-                    sw.WriteLine("--" + boundary);
-                    sw.WriteLine("Content-Disposition: form-data; name=\"guest_block\"");
-                    sw.WriteLine();
-                    sw.WriteLine(guest_block == true ? "yes" : "no");
-                    sw.WriteLine("--" + boundary);
-                    sw.WriteLine("Content-Disposition: form-data; name=\"friends_only\"");
-                    sw.WriteLine();
-                    sw.WriteLine(friends_only == true ? "yes" : "no");
-
-                    // The submission only seems to upload properly when I put this last...
-                    sw.WriteLine("--" + boundary);
-                    sw.WriteLine("Content-Disposition: form-data; name=\"sid\"");
-                    sw.WriteLine();
-                    sw.WriteLine(Sid);
-                    sw.WriteLine("--" + boundary + "--");
-                    sw.Flush();
+            var dict = new Dictionary<string, object> {
+                ["submission_id"] = submission_id,
+                ["title"] = title,
+                ["desc"] = desc,
+                ["story"] = story,
+                ["convert_html_entities"] = convert_html_entities.ToYesNo(),
+                ["type"] = type?.ToString("d"),
+                ["scraps"] = scraps?.ToYesNo(),
+                ["use_twitter"] = use_twitter?.ToYesNo(),
+                ["twitter_image_pref"] = twitter_image_pref?.ToString("d"),
+                ["visibility"] = isPublic == false ? "no"
+                            : notifyWatchersWhenPublic ? "yes"
+                            : "yes_nowatch",
+                ["keywords"] = keywords == null
+                            ? null
+                            : string.Join(" ", keywords.Select(s => s.Replace(',', '_').Replace(' ', '_'))),
+                ["friends_only"] = guest_block.ToYesNo(),
+                ["friends_only"] = friends_only.ToYesNo(),
+            };
+            if (tag != null) {
+                for (int i = 2; i <= 5; i++) {
+                    dict.Add($"tag[{i}]", tag[i]);
                 }
             }
 
-            using (var response = await request.GetResponseAsync()) {
-                using (var responseStream = response.GetResponseStream()) {
-                    using (var sr = new StreamReader(responseStream)) {
-                        string json = await sr.ReadToEndAsync();
-                        var r = JsonConvert.DeserializeObject<EditSubmissionResponse>(json);
-                        if (r.error_code != null) {
-                            throw new Exception(r.error_message);
-                        }
-                        return r;
-                    }
-                }
-            }
+            string json = await PostMultipart("https://inkbunny.net/api_editsubmission.php", dict);
+            return JsonConvert.DeserializeObject<EditSubmissionResponse>(json);
         }
 
-        private async Task<SearchResponse> Search(Dictionary<string, object> parameters) {
+        public async Task DeleteSubmission(long submission_id) {
+            var dict = new Dictionary<string, object> {
+                ["submission_id"] = submission_id
+            };
+
+            await PostMultipart("https://inkbunny.net/api_delsubmission.php", dict);
+        }
+
+        private async Task<string> PostMultipart(string url, Dictionary<string, object> parameters) {
             string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
-            var request = WebRequest.Create("https://inkbunny.net/api_search.php");
+            var request = WebRequest.Create(url);
             request.ContentType = "multipart/form-data; boundary=" + boundary;
             request.Method = "POST";
 
@@ -232,8 +157,8 @@ namespace InkbunnyLib {
                     await sw.WriteLineAsync($"Content-Disposition: form-data; name=\"{pair.Key}\"");
                     await sw.WriteLineAsync();
                     await sw.WriteLineAsync(pair.Value.ToString());
-                    await sw.WriteLineAsync("--" + boundary + "--");
                 }
+                await sw.WriteLineAsync("--" + boundary + "--");
                 await sw.FlushAsync();
             }
 
@@ -241,14 +166,19 @@ namespace InkbunnyLib {
                 using (var responseStream = response.GetResponseStream()) {
                     using (var sr = new StreamReader(responseStream)) {
                         string json = await sr.ReadToEndAsync();
-                        var r = JsonConvert.DeserializeObject<SearchResponse>(json);
+                        var r = JsonConvert.DeserializeObject<InkbunnyResponse>(json);
                         if (r.error_code != null) {
                             throw new Exception(r.error_message);
                         }
-                        return r;
+                        return json;
                     }
                 }
             }
+        }
+
+        private async Task<SearchResponse> Search(Dictionary<string, object> parameters) {
+            string json = await PostMultipart("https://inkbunny.net/api_search.php", parameters);
+            return JsonConvert.DeserializeObject<SearchResponse>(json);
         }
 
         public class CannotDetermineUsernameException : Exception {

@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanExtensions.cs" />
     <Compile Include="EditSubmissionResponse.cs" />
     <Compile Include="HtmlToBBCode.cs" />
     <Compile Include="InkbunnyClient.cs" />
