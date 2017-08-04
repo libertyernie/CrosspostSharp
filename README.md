@@ -1,4 +1,4 @@
-ArtSync 2.0
+ArtSync 2.1
 ===========
 
 Source: https://github.com/libertyernie/ArtSync
@@ -23,6 +23,16 @@ To use this application, you must connect it to your DeviantArt or Weasyl
 account. Information for all accounts will be stored in the file ArtSync.json,
 so keep that file secure!
 
+When you're logged into DeviantArt or Weasyl, your three most recent
+submissions will appear along the left side of the window. Click the thumbnail
+to load the full image and fill in the information boxes.
+
+The general layout of the window is as follows (top to bottom).
+
+* Image
+* Title
+* Tags/keywords for this submission
+
 ### Weasyl
 
 You can obtain a Weasyl API key at https://www.weasyl.com/control/apikeys.
@@ -35,32 +45,22 @@ You can revoke an API key at any time by going to the same page.
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign into DeviantArt using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json with the other settings.
+will be stored in ArtSync.json.
 
 ### Tumblr
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign into Tumblr using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json with the other settings.
+will be stored in ArtSync.json.
 
 ### Inkbunny
 
-To upload to Inkbunny, you need to log in each time you run the program. Click
-on the "click to log in" text next to the Inkbunny label on the bottom of the
-window; when Inkbunny finishes logging in, you will be able to post.
+Use the "Sign In" button in Tools -> Options to launch a dialog window that
+asks for your username and password. This will obtain a user ID and SID that
+will be stored in ArtSync.json.
 
 Posting to Tumblr
 -----------------
-
-When you're logged into DeviantArt or Weasyl, your three most recent
-submissions will appear along the left side of the window. Click the thumbnail
-to load the full image and fill in the information boxes.
-
-The general layout of the window is as follows (top to bottom).
-
-* Image
-* Title - any appearance of {TITLE} will be replaced with this text
-* Tags for this submission on DeviantArt / Weasyl
 
 Tumblr tab:
 * Preview button (click this button to preview the Tumblr post description as
@@ -70,7 +70,7 @@ Tumblr tab:
 * Header template (HTML) - default is the title, in bold text
 * Body template (HTML) - default is the description
 * Tags
-  * Include global tags (the DeviantArt or Weasyl tags shown above)
+  * Include the tags from the original site (as shown above)
   * Additional tags to include (default: #art)
   * A unique tag to add so ArtSync can find this post later
 * Footer template (HTML)
@@ -91,6 +91,9 @@ Inkbunny.
 
 If a checkbox is not checked, the content in the adajcent box will not be used.
 
+Posting to Inkbunny
+-------------------
+
 Inkbunny tab:
 * "Click to log in" label (click to log in with your username and password)
 * Description (BBCode)
@@ -98,6 +101,14 @@ Inkbunny tab:
 * Notify watchers
 * Scraps
 * Checkboxes for all four Inkbunny rating levels
+* A unique tag to add so ArtSync can find this post later
+
+As with Tumblr, the unique tag will help ArtSync find an existing Inkbunny
+post. (Updating an existing post is not supported at this time.) ArtSync will
+also try to find an existing Inkbunny post by using the MD5 hash of the image.
+
+Posting to Twitter
+------------------
 
 Twitter tab:
 * Include title (repopulates tweet area)
@@ -106,7 +117,10 @@ Twitter tab:
 * Potentially sensitive material
 * Include image (image will be included as media in the tweet)
 * Append link (link will be appended to the tweet; this also lets ArtSync find
-  the tweet later and show it to you)
+  the tweet later and show you a link)
+
+Updating/deleting tweets is not supported; go to Twitter if you want to delete
+a tweet.
 
 Settings
 --------
@@ -144,10 +158,8 @@ Settings are stored in the file ArtSync.json.
   * TokenSecret: Gives ArtSync access to your Twitter account (with TokenKey).
 
 * Inkbunny
-  * DefaultUsername: Username to pre-fill when opening the Inkbunny login
-    window.
-  * DefaultPassword: Password to pre-fill when opening the Inkbunny login
-    window.
+  * Sid: The "sid" value used in the Inkbunny API.
+  * UserId: Your Inkbunny user ID.
 
 Compiling from Source
 ---------------------
@@ -173,3 +185,7 @@ namespace ArtSync {
 		}
 	}
 }
+
+If DeviantartApi doesn't build correctly, open DeviantartApi.sln, build all
+projects there (which will restore NuGet packages), then go back to
+ArtSync.sln and rebuild.
