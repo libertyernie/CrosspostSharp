@@ -23,6 +23,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "Deviantart
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj", "{891FD4C3-111B-4C55-A59E-89DE662A9497}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "InkbunnyLib.Example", "InkbunnyLib.Example\InkbunnyLib.Example.vbproj", "{C6A8F5CA-0EBF-42B9-A478-E6064D3D5569}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DeviantartApi\DeviantartApi\DeviantartApi.projitems*{891fd4c3-111b-4c55-a59e-89de662a9497}*SharedItemsImports = 4
@@ -57,6 +59,10 @@ Global
 		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6A8F5CA-0EBF-42B9-A478-E6064D3D5569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6A8F5CA-0EBF-42B9-A478-E6064D3D5569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6A8F5CA-0EBF-42B9-A478-E6064D3D5569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6A8F5CA-0EBF-42B9-A478-E6064D3D5569}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

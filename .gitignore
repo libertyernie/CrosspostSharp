@@ -1,6 +1,7 @@
 bin
 obj
 .vs
+*.user
 *.suo
 packages
 ArtSync/OAuthConsumer.cs
