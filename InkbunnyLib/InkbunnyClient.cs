@@ -261,16 +261,24 @@ namespace InkbunnyLib {
             return response.submissions.First().username;
         }
 
-        public Task<SearchResponse> SearchByMD5(byte[] md5Hash) {
+        public Task<IEnumerable<InkbunnySubmission>> SearchByMD5(byte[] md5Hash) {
             return SearchByMD5(string.Join("", md5Hash.Select(b => ((int)b).ToString("x2"))));
         }
 
-        public Task<SearchResponse> SearchByMD5(string md5Hash) {
-            return Search(new Dictionary<string, object> {
+        public async Task<IEnumerable<InkbunnySubmission>> SearchByMD5(string md5Hash) {
+            var resp = await Search(new Dictionary<string, object> {
                 ["text"] = md5Hash,
                 ["keywords"] = "no",
                 ["md5"] = "yes"
             });
+            return resp.submissions;
+        }
+
+        public async Task<IEnumerable<InkbunnySubmission>> SearchByKeyword(string keyword) {
+            var resp = await Search(new Dictionary<string, object> {
+                ["text"] = keyword
+            });
+            return resp.submissions;
         }
 
         public Task<SearchResponse> Search(long user_id, int? count = null) {

@@ -208,9 +208,10 @@ namespace ArtSync {
 				// Global tags that you can include in each submission if you want.
 				txtTags2.Text = GlobalSettings.Defaults.Tags ?? "";
 
-				chkWeasylSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
+                chkTumblrSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
+                chkInkbunnySubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
 
-				if (refreshGallery) UpdateGalleryAsync();
+                if (refreshGallery) UpdateGalleryAsync();
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
@@ -239,9 +240,10 @@ namespace ArtSync {
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
 				txtTags1.Text = string.Join(" ", submission.Tags.Select(s => "#" + s));
-                chkWeasylSubmitIdTag.Text = submission.GeneratedUniqueTag;
+                chkTumblrSubmitIdTag.Text = submission.GeneratedUniqueTag;
+                chkInkbunnySubmitIdTag.Text = submission.GeneratedUniqueTag;
 
-				pickDate.Value = pickTime.Value = submission.Timestamp;
+                pickDate.Value = pickTime.Value = submission.Timestamp;
 				UpdateHTMLPreview();
 			}
 			this.currentImage = file;
@@ -352,12 +354,12 @@ namespace ArtSync {
             if (Tumblr != null) {
                 this.btnPost.Enabled = false;
                 this.lnkTumblrFound.Enabled = false;
-                this.lnkTumblrFound.Text = $"checking your Tumblr for tag {chkWeasylSubmitIdTag.Text}...";
+                this.lnkTumblrFound.Text = $"checking your Tumblr for tag {chkTumblrSubmitIdTag.Text}...";
                 var posts = await this.GetTaggedPostsForSubmissionAsync();
 				this.ExistingTumblrPost = posts.Result.FirstOrDefault();
 				this.btnPost.Enabled = true;
 				if (this.ExistingTumblrPost == null) {
-					this.lnkTumblrFound.Text = $"tag not found ({chkWeasylSubmitIdTag.Text})";
+					this.lnkTumblrFound.Text = $"tag not found ({chkTumblrSubmitIdTag.Text})";
 				} else {
 					this.lnkTumblrFound.Text = this.ExistingTumblrPost.Url;
                     this.lnkTumblrFound.Enabled = true;
@@ -367,19 +369,25 @@ namespace ArtSync {
 
         private async Task UpdateExistingInkbunnyPostLink() {
             if (Inkbunny != null) {
-                using (var m = MD5.Create()) {
-                    byte[] hash = m.ComputeHash(this.currentImage.Data);
-                    string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));
-                    this.lnkInkbunnyFound.Enabled = false;
-                    this.lnkInkbunnyFound.Text = $"checking Inkbunny for MD5 hash {hashStr}...";
-                    var resp = await Inkbunny.SearchByMD5(hashStr);
-                    var existing = resp.submissions.FirstOrDefault();
-                    if (existing == null) {
-                        this.lnkInkbunnyFound.Text = $"MD5 hash not found ({hashStr})";
-                    } else {
-                        this.lnkInkbunnyFound.Text = $"https://inkbunny.net/submissionview.php?id={existing.submission_id}";
-                        this.lnkInkbunnyFound.Enabled = true;
+                string keyword = chkInkbunnySubmitIdTag.Text.Replace("#", "");
+                this.lnkInkbunnyFound.Text = $"checking Inkbunny for keyword {keyword}...";
+                var resp1 = await Inkbunny.SearchByKeyword(keyword);
+                var existing = resp1.FirstOrDefault();
+                if (existing == null) {
+                    using (var m = MD5.Create()) {
+                        byte[] hash = m.ComputeHash(this.currentImage.Data);
+                        string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));
+                        this.lnkInkbunnyFound.Enabled = false;
+                        this.lnkInkbunnyFound.Text = $"checking Inkbunny for MD5 hash {hashStr}...";
+                        var resp2 = await Inkbunny.SearchByMD5(hashStr);
+                        existing = resp2.FirstOrDefault();
                     }
+                }
+                if (existing == null) {
+                    this.lnkInkbunnyFound.Text = $"keyword not found ({keyword})";
+                } else {
+                    this.lnkInkbunnyFound.Text = $"https://inkbunny.net/submissionview.php?id={existing.submission_id}";
+                    this.lnkInkbunnyFound.Enabled = true;
                 }
             }
         }
@@ -476,7 +484,7 @@ namespace ArtSync {
 		}
 
 		private async Task<Posts> GetTaggedPostsForSubmissionAsync() {
-			string uniquetag = chkWeasylSubmitIdTag.Text.Replace("#", "");
+			string uniquetag = chkTumblrSubmitIdTag.Text.Replace("#", "");
 			return await Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag);
 		}
 
@@ -498,7 +506,7 @@ namespace ArtSync {
 
 				long? updateid = null;
 				if (this.ExistingTumblrPost != null) {
-					DialogResult result = new PostAlreadyExistsDialog(chkWeasylSubmitIdTag.Text, this.ExistingTumblrPost.Url).ShowDialog();
+					DialogResult result = new PostAlreadyExistsDialog(chkTumblrSubmitIdTag.Text, this.ExistingTumblrPost.Url).ShowDialog();
 					if (result == DialogResult.Cancel) {
 						LProgressBar.Visible = false;
 						return;
@@ -512,7 +520,7 @@ namespace ArtSync {
 				var tags = new List<string>();
 				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
 				if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
-				if (chkWeasylSubmitIdTag.Checked) tags.AddRange(chkWeasylSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+				if (chkTumblrSubmitIdTag.Checked) tags.AddRange(chkTumblrSubmitIdTag.Text.Replace("#", "").Split(' ').Where(s => s != ""));
 
 				BinaryFile imageToPost = GlobalSettings.Tumblr.AutoSidePadding && this.currentImageBitmap.Height > this.currentImageBitmap.Width
 					? MakeSquare(this.currentImageBitmap)
@@ -572,6 +580,11 @@ namespace ArtSync {
 
                 LProgressBar.Report(0.5);
 
+                var keywords = txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != "").ToList();
+                if (chkInkbunnySubmitIdTag.Checked) {
+                    keywords.Add(chkInkbunnySubmitIdTag.Text.Replace("#", ""));
+                }
+
                 var o = await Inkbunny.EditSubmission(
 					submission_id: submission_id,
 					title: txtTitle.Text,
@@ -581,7 +594,7 @@ namespace ArtSync {
 					scraps: chkInkbunnyScraps.Checked,
 					isPublic: chkInkbunnyPublic.Checked,
 					notifyWatchersWhenPublic: chkInkbunnyNotifyWatchers.Checked,
-					keywords: txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""),
+					keywords: keywords,
 					tag: rating
 				);
 				Console.WriteLine(o.submission_id);

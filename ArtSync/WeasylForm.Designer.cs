@@ -37,7 +37,7 @@
             this.pickDate = new System.Windows.Forms.DateTimePicker();
             this.pickTime = new System.Windows.Forms.DateTimePicker();
             this.chkNow = new System.Windows.Forms.CheckBox();
-            this.chkWeasylSubmitIdTag = new System.Windows.Forms.CheckBox();
+            this.chkTumblrSubmitIdTag = new System.Windows.Forms.CheckBox();
             this.txtTags2 = new System.Windows.Forms.TextBox();
             this.chkTags2 = new System.Windows.Forms.CheckBox();
             this.btnPost = new System.Windows.Forms.Button();
@@ -97,6 +97,7 @@
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
             this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
+            this.chkInkbunnySubmitIdTag = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -269,17 +270,17 @@
             this.chkNow.UseVisualStyleBackColor = true;
             this.chkNow.CheckedChanged += new System.EventHandler(this.chkNow_CheckedChanged);
             // 
-            // chkWeasylSubmitIdTag
+            // chkTumblrSubmitIdTag
             // 
-            this.chkWeasylSubmitIdTag.AutoEllipsis = true;
-            this.chkWeasylSubmitIdTag.Checked = true;
-            this.chkWeasylSubmitIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWeasylSubmitIdTag.Location = new System.Drawing.Point(158, 42);
-            this.chkWeasylSubmitIdTag.Name = "chkWeasylSubmitIdTag";
-            this.chkWeasylSubmitIdTag.Size = new System.Drawing.Size(112, 20);
-            this.chkWeasylSubmitIdTag.TabIndex = 3;
-            this.chkWeasylSubmitIdTag.Text = "#weasyl******";
-            this.chkWeasylSubmitIdTag.UseVisualStyleBackColor = false;
+            this.chkTumblrSubmitIdTag.AutoEllipsis = true;
+            this.chkTumblrSubmitIdTag.Checked = true;
+            this.chkTumblrSubmitIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTumblrSubmitIdTag.Location = new System.Drawing.Point(158, 42);
+            this.chkTumblrSubmitIdTag.Name = "chkTumblrSubmitIdTag";
+            this.chkTumblrSubmitIdTag.Size = new System.Drawing.Size(112, 20);
+            this.chkTumblrSubmitIdTag.TabIndex = 3;
+            this.chkTumblrSubmitIdTag.Text = "#weasyl******";
+            this.chkTumblrSubmitIdTag.UseVisualStyleBackColor = false;
             // 
             // txtTags2
             // 
@@ -325,7 +326,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.chkTags1);
-            this.groupBox1.Controls.Add(this.chkWeasylSubmitIdTag);
+            this.groupBox1.Controls.Add(this.chkTumblrSubmitIdTag);
             this.groupBox1.Controls.Add(this.txtTags2);
             this.groupBox1.Controls.Add(this.chkTags2);
             this.groupBox1.Location = new System.Drawing.Point(6, 157);
@@ -515,8 +516,8 @@
             this.txtInkbunnyDescription.Multiline = true;
             this.txtInkbunnyDescription.Name = "txtInkbunnyDescription";
             this.txtInkbunnyDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInkbunnyDescription.Size = new System.Drawing.Size(306, 172);
-            this.txtInkbunnyDescription.TabIndex = 2;
+            this.txtInkbunnyDescription.Size = new System.Drawing.Size(306, 150);
+            this.txtInkbunnyDescription.TabIndex = 4;
             // 
             // btnInkbunnyPost
             // 
@@ -524,7 +525,7 @@
             this.btnInkbunnyPost.Location = new System.Drawing.Point(423, 209);
             this.btnInkbunnyPost.Name = "btnInkbunnyPost";
             this.btnInkbunnyPost.Size = new System.Drawing.Size(117, 24);
-            this.btnInkbunnyPost.TabIndex = 10;
+            this.btnInkbunnyPost.TabIndex = 13;
             this.btnInkbunnyPost.Text = "Post to Inkbunny";
             this.btnInkbunnyPost.UseVisualStyleBackColor = true;
             this.btnInkbunnyPost.Click += new System.EventHandler(this.btnInkbunnyPost_Click);
@@ -536,7 +537,7 @@
             this.chkInbunnyTag5.Location = new System.Drawing.Point(425, 127);
             this.chkInbunnyTag5.Name = "chkInbunnyTag5";
             this.chkInbunnyTag5.Size = new System.Drawing.Size(101, 17);
-            this.chkInbunnyTag5.TabIndex = 9;
+            this.chkInbunnyTag5.TabIndex = 11;
             this.chkInbunnyTag5.Text = "Strong Violence";
             this.chkInbunnyTag5.UseVisualStyleBackColor = true;
             // 
@@ -547,7 +548,7 @@
             this.chkInbunnyTag4.Location = new System.Drawing.Point(425, 104);
             this.chkInbunnyTag4.Name = "chkInbunnyTag4";
             this.chkInbunnyTag4.Size = new System.Drawing.Size(99, 17);
-            this.chkInbunnyTag4.TabIndex = 8;
+            this.chkInbunnyTag4.TabIndex = 10;
             this.chkInbunnyTag4.Text = "Sexual Themes";
             this.chkInbunnyTag4.UseVisualStyleBackColor = true;
             // 
@@ -558,7 +559,7 @@
             this.chkInbunnyTag3.Location = new System.Drawing.Point(425, 81);
             this.chkInbunnyTag3.Name = "chkInbunnyTag3";
             this.chkInbunnyTag3.Size = new System.Drawing.Size(67, 17);
-            this.chkInbunnyTag3.TabIndex = 7;
+            this.chkInbunnyTag3.TabIndex = 9;
             this.chkInbunnyTag3.Text = "Violence";
             this.chkInbunnyTag3.UseVisualStyleBackColor = true;
             // 
@@ -569,7 +570,7 @@
             this.chkInbunnyTag2.Location = new System.Drawing.Point(425, 58);
             this.chkInbunnyTag2.Name = "chkInbunnyTag2";
             this.chkInbunnyTag2.Size = new System.Drawing.Size(56, 17);
-            this.chkInbunnyTag2.TabIndex = 6;
+            this.chkInbunnyTag2.TabIndex = 8;
             this.chkInbunnyTag2.Text = "Nudity";
             this.chkInbunnyTag2.UseVisualStyleBackColor = true;
             // 
@@ -582,7 +583,7 @@
             this.chkInkbunnyNotifyWatchers.Location = new System.Drawing.Point(320, 81);
             this.chkInkbunnyNotifyWatchers.Name = "chkInkbunnyNotifyWatchers";
             this.chkInkbunnyNotifyWatchers.Size = new System.Drawing.Size(99, 17);
-            this.chkInkbunnyNotifyWatchers.TabIndex = 4;
+            this.chkInkbunnyNotifyWatchers.TabIndex = 6;
             this.chkInkbunnyNotifyWatchers.Text = "Notify watchers";
             this.chkInkbunnyNotifyWatchers.UseVisualStyleBackColor = true;
             // 
@@ -595,7 +596,7 @@
             this.chkInkbunnyPublic.Location = new System.Drawing.Point(320, 58);
             this.chkInkbunnyPublic.Name = "chkInkbunnyPublic";
             this.chkInkbunnyPublic.Size = new System.Drawing.Size(55, 17);
-            this.chkInkbunnyPublic.TabIndex = 3;
+            this.chkInkbunnyPublic.TabIndex = 5;
             this.chkInkbunnyPublic.Text = "Public";
             this.chkInkbunnyPublic.UseVisualStyleBackColor = true;
             this.chkInkbunnyPublic.CheckedChanged += new System.EventHandler(this.chkInkbunnyPublic_CheckedChanged);
@@ -607,7 +608,7 @@
             this.chkInkbunnyScraps.Location = new System.Drawing.Point(320, 104);
             this.chkInkbunnyScraps.Name = "chkInkbunnyScraps";
             this.chkInkbunnyScraps.Size = new System.Drawing.Size(59, 17);
-            this.chkInkbunnyScraps.TabIndex = 5;
+            this.chkInkbunnyScraps.TabIndex = 7;
             this.chkInkbunnyScraps.Text = "Scraps";
             this.chkInkbunnyScraps.UseVisualStyleBackColor = true;
             // 
@@ -751,6 +752,7 @@
             // 
             // tabInkbunny
             // 
+            this.tabInkbunny.Controls.Add(this.chkInkbunnySubmitIdTag);
             this.tabInkbunny.Controls.Add(this.lnkInkbunnyFound);
             this.tabInkbunny.Controls.Add(this.lblInkbunnyFound);
             this.tabInkbunny.Controls.Add(this.lblInkbunnyStatus2);
@@ -780,7 +782,7 @@
             this.lnkInkbunnyFound.Location = new System.Drawing.Point(86, 36);
             this.lnkInkbunnyFound.Name = "lnkInkbunnyFound";
             this.lnkInkbunnyFound.Size = new System.Drawing.Size(454, 13);
-            this.lnkInkbunnyFound.TabIndex = 12;
+            this.lnkInkbunnyFound.TabIndex = 3;
             this.lnkInkbunnyFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkInkbunnyFound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkInkbunnyFound_LinkClicked);
             // 
@@ -790,7 +792,7 @@
             this.lblInkbunnyFound.Margin = new System.Windows.Forms.Padding(3);
             this.lblInkbunnyFound.Name = "lblInkbunnyFound";
             this.lblInkbunnyFound.Size = new System.Drawing.Size(74, 20);
-            this.lblInkbunnyFound.TabIndex = 11;
+            this.lblInkbunnyFound.TabIndex = 2;
             this.lblInkbunnyFound.Text = "Existing post:";
             this.lblInkbunnyFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -980,6 +982,18 @@
             this.lnkOriginalUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkOriginalUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOriginalUrl_LinkClicked);
             // 
+            // chkInkbunnySubmitIdTag
+            // 
+            this.chkInkbunnySubmitIdTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInkbunnySubmitIdTag.Checked = true;
+            this.chkInkbunnySubmitIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkInkbunnySubmitIdTag.Location = new System.Drawing.Point(8, 214);
+            this.chkInkbunnySubmitIdTag.Name = "chkInkbunnySubmitIdTag";
+            this.chkInkbunnySubmitIdTag.Size = new System.Drawing.Size(409, 17);
+            this.chkInkbunnySubmitIdTag.TabIndex = 12;
+            this.chkInkbunnySubmitIdTag.Text = "#weasyl******";
+            this.chkInkbunnySubmitIdTag.UseVisualStyleBackColor = false;
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1031,7 +1045,7 @@
 		private System.Windows.Forms.DateTimePicker pickDate;
 		private System.Windows.Forms.DateTimePicker pickTime;
 		private System.Windows.Forms.CheckBox chkNow;
-		private System.Windows.Forms.CheckBox chkWeasylSubmitIdTag;
+		private System.Windows.Forms.CheckBox chkTumblrSubmitIdTag;
 		private ArtSync.LProgressBar lProgressBar1;
 		private System.Windows.Forms.TextBox txtTags2;
 		private System.Windows.Forms.CheckBox chkTags2;
@@ -1088,6 +1102,7 @@
         private System.Windows.Forms.Label lblTwitterFound;
         private System.Windows.Forms.TextBox txtTweetText;
         private System.Windows.Forms.LinkLabel lnkOriginalUrl;
+        private System.Windows.Forms.CheckBox chkInkbunnySubmitIdTag;
     }
 }
 
