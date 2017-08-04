@@ -92,10 +92,9 @@ namespace ArtSync {
 				}
 
 				mainForm.LProgressBar.Visible = false;
-
-				// SetCurrentImage needs to be run on the main thread
-				mainForm.Invoke(new Action(() => mainForm.SetCurrentImage(Submission, RawData)));
-			} catch (WebException ex) {
+                
+				await mainForm.SetCurrentImage(Submission, RawData);
+			} catch (Exception ex) {
 				mainForm.LProgressBar.Visible = false;
 				MessageBox.Show(ex.Message);
 			}

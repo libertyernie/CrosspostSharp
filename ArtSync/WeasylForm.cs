@@ -56,14 +56,6 @@ namespace ArtSync {
 			}
 		}
 
-		private void InvokeAndForget(Action f) {
-			if (this.IsHandleCreated & this.InvokeRequired) {
-				this.BeginInvoke(f);
-			} else {
-				f();
-			}
-		}
-
 		public WeasylForm() {
 			InitializeComponent();
 			tweetCache = new List<ITweet>();
@@ -209,8 +201,6 @@ namespace ArtSync {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
 
-                DateTime dt = DateTime.Now;
-
                 var tasks = new Task[] {
                     GetNewWrapper(),
                     GetNewTumblrClient(),
@@ -224,23 +214,6 @@ namespace ArtSync {
                 }
 
                 await Task.WhenAll(tasks);
-                /*/
-                await GetNewWrapper();
-
-                LProgressBar.Report(1 / 4f);
-
-                await GetNewTumblrClient();
-
-                LProgressBar.Report(2 / 4f);
-
-                await GetNewInkbunnyClient();
-
-                LProgressBar.Report(3 / 4f);
-
-                await GetNewTwitterClient();
-                /**/
-
-                MessageBox.Show($"{DateTime.Now - dt}");
 
 				LProgressBar.Visible = false;
 
@@ -258,17 +231,12 @@ namespace ArtSync {
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
-				MessageBox.Show(e.Message);
+				MessageBox.Show(this, e.Message, e.GetType().ToString());
 			}
 		}
 
-		private void UpdateSettingsInWindow(bool refreshGallery) {
-			
-		}
-
 		// This function is called after clicking on a WeasylThumbnail.
-		// It needs to be run on the GUI thread - WeasylThumbnail handles this using Invoke.
-		public async void SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
+		public async Task SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
 				txtTitle.Text = submission.Title;
@@ -357,8 +325,7 @@ namespace ArtSync {
 					.Where(t => t.CreatedBy.Id == user.Id);
 			}));
 		}
-
-		// Progress is posted back to the LProgressBar, which handles its own thread safety using BeginInvoke.
+        
 		private async void UpdateGalleryAsync(bool back = false, bool next = false) {
 			try {
                 if (SourceWrapper == null) return;
@@ -379,11 +346,9 @@ namespace ArtSync {
 						? result.Submissions[i]
 						: null;
 				}
-
-                InvokeAndForget(() => {
-                    btnUp.Enabled = result.HasLess;
-                    btnDown.Enabled = result.HasMore;
-                });
+                
+                btnUp.Enabled = result.HasLess;
+                btnDown.Enabled = result.HasMore;
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name);
             } finally {
@@ -531,7 +496,7 @@ namespace ArtSync {
 			return await Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, uniquetag);
 		}
 
-		private async void PostToTumblr1() {
+		private async void PostToTumblr() {
 			try {
 				if (this.currentImage == null) {
 					MessageBox.Show("No image is selected.");
@@ -591,7 +556,7 @@ namespace ArtSync {
 		#endregion
 
 		#region Inkbunny
-		public async void PostToInkbunny1() {
+		public async void PostToInkbunny() {
 			try {
 				if (this.currentImage == null) {
 					MessageBox.Show("No image is selected.");
@@ -646,7 +611,7 @@ namespace ArtSync {
             } catch (Exception ex) {
 				Console.Error.WriteLine(ex.Message);
 				Console.Error.WriteLine(ex.StackTrace);
-				MessageBox.Show("An error occured: \"" + ex.Message + "\"\r\nCheck to see if the blog name is correct.");
+				MessageBox.Show(this, ex.Message, ex.GetType().ToString());
 			} finally {
 				LProgressBar.Visible = false;
 			}
@@ -655,7 +620,13 @@ namespace ArtSync {
 
 		#region Event handlers
 		private void btnUp_Click(object sender, EventArgs e) {
-			UpdateGalleryAsync(back: true);
+            try {
+                UpdateGalleryAsync(back: true);
+            } catch (Exception ex) {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+                MessageBox.Show("An error occured: \"" + ex.Message);
+            }
 		}
 
 		private void btnDown_Click(object sender, EventArgs e) {
@@ -667,7 +638,7 @@ namespace ArtSync {
 		}
 
 		private void btnPost_Click(object sender, EventArgs args) {
-			PostToTumblr1();
+			PostToTumblr();
 		}
 
 		private void chkTitle_CheckedChanged(object sender, EventArgs e) {
@@ -738,7 +709,7 @@ namespace ArtSync {
 		}
 
 		private void btnInkbunnyPost_Click(object sender, EventArgs e) {
-			PostToInkbunny1();
+			PostToInkbunny();
 		}
 
 		private void chkInkbunnyPublic_CheckedChanged(object sender, EventArgs e) {
@@ -797,7 +768,7 @@ namespace ArtSync {
 					MessageBox.Show(this, desc, "Could not send tweet");
 				} else {
 					this.tweetCache.Add(tweet);
-					this.InvokeAndForget(() => UpdateExistingTweetLink());
+					UpdateExistingTweetLink();
 				}
 				LProgressBar.Visible = false;
 			}));

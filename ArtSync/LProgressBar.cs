@@ -22,20 +22,6 @@ namespace ArtSync
 			this.DoubleBuffered = true;
 		}
 
-		[Description("Determines whether the control is visible or hidden. This property is thread-safe."), Category("Behavior")]
-		public new bool Visible {
-			get {
-				return base.Visible;
-			}
-			set {
-				if (this.InvokeRequired) {
-					this.BeginInvoke(value ? new Action(Show) : new Action(Hide));
-				} else {
-					base.Visible = value;
-				}
-			}
-		}
-
         public void Report(double value) {
             _value = value;
             Invalidate();
