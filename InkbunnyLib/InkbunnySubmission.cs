@@ -21,7 +21,10 @@ namespace InkbunnyLib {
         public string thumbnail_url_medium_noncustom;
         public string thumbnail_url_large_noncustom;
         public string thumbnail_url_huge_noncustom;
-        public string latest_file_name;
+		public string file_url_full;
+		public string file_url_screen;
+		public string file_url_preview;
+		public string latest_file_name;
         public string latest_thumbnail_url_medium;
         public string latest_thumbnail_url_large;
         public string latest_thumbnail_url_huge;
@@ -36,7 +39,31 @@ namespace InkbunnyLib {
         public string latest_mimetype;
         public int rating_id;
         public string rating_name;
-        public SubmissionType submission_type_id;
+		public int? thumb_huge_x;
+		public int? thumb_huge_y;
+		public int? thumb_large_x;
+		public int? thumb_large_y;
+		public int? thumb_medium_x;
+		public int? thumb_medium_y;
+		public int? thumb_huge_noncustom_x;
+		public int? thumb_huge_noncustom_y;
+		public int? thumb_large_noncustom_x;
+		public int? thumb_large_noncustom_y;
+		public int? thumb_medium_noncustom_x;
+		public int? thumb_medium_noncustom_y;
+		public int? latest_thumb_huge_x;
+		public int? latest_thumb_huge_y;
+		public int? latest_thumb_large_x;
+		public int? latest_thumb_large_y;
+		public int? latest_thumb_medium_x;
+		public int? latest_thumb_medium_y;
+		public int? latest_thumb_huge_noncustom_x;
+		public int? latest_thumb_huge_noncustom_y;
+		public int? latest_thumb_large_noncustom_x;
+		public int? latest_thumb_large_noncustom_y;
+		public int? latest_thumb_medium_noncustom_x;
+		public int? latest_thumb_medium_noncustom_y;
+		public SubmissionType submission_type_id;
         public string type_name;
         public string digitalsales;
         public string printsales;
@@ -46,17 +73,44 @@ namespace InkbunnyLib {
     }
 
 	public class InkbunnySearchSubmission : InkbunnySubmission {
-		public string file_url_full;
-		public string file_url_screen;
-		public string file_url_preview;
+		public string unread_datetime;
+		public string unread_datetime_usertime;
+		public string updated;
+		public int? stars;
 	}
 
 	public class InkbunnySubmissionDetail : InkbunnySubmission {
 		public IEnumerable<InkbunnyFile> files;
+		public IEnumerable<InkbunnyKeyword> keywords;
+		// pools
+		// prints
+		public string favorite;
+		public int favorites_count;
+		public string user_icon_file_name;
+		public string user_icon_url_large;
+		public string user_icon_url_medium;
+		public string user_icon_url_small;
+		public string latest_file_url_full;
+		public string latest_file_url_screen;
+		public string latest_file_url_preview;
 		public string description;
 		public string description_bbcode_parsed;
 		public string writing;
 		public string writing_bbcode_parsed;
+		public int pools_count;
+		// TODO add ratings
+		public int comments_count;
+		public int views;
+		public string sales_description;
+		public string forsale;
+		public decimal? digital_price;
+	}
+
+	public class InkbunnyKeyword {
+		public int keyword_id;
+		public string keyword_name;
+		public string contributed;
+		public int submissions_count;
 	}
 
 	public class InkbunnyFile {
@@ -75,6 +129,24 @@ namespace InkbunnyLib {
 		public int submission_id;
 		public int user_id;
 		public int submission_file_order;
+		public int full_size_x;
+		public int full_size_y;
+		public int screen_size_x;
+		public int screen_size_y;
+		public int preview_size_x;
+		public int preview_size_y;
+		public int? thumb_huge_x;
+		public int? thumb_huge_y;
+		public int? thumb_large_x;
+		public int? thumb_large_y;
+		public int? thumb_medium_x;
+		public int? thumb_medium_y;
+		public int? thumb_huge_noncustom_x;
+		public int? thumb_huge_noncustom_y;
+		public int? thumb_large_noncustom_x;
+		public int? thumb_large_noncustom_y;
+		public int? thumb_medium_noncustom_x;
+		public int? thumb_medium_noncustom_y;
 		public string initial_file_md5;
 		public string full_file_md5;
 		public string large_file_md5;

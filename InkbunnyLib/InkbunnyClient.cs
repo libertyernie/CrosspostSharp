@@ -97,7 +97,7 @@ namespace InkbunnyLib {
             bool? isPublic = null,
             bool notifyWatchersWhenPublic = false,
             IEnumerable<string> keywords = null,
-            InkbunnyRating tag = null,
+            InkbunnyRatings tag = null,
             bool guest_block = false,
             bool friends_only = false
         ) {

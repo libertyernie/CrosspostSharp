@@ -568,7 +568,7 @@ namespace ArtSync {
 					return;
 				}
 
-				var rating = new InkbunnyRating() {
+				var rating = new InkbunnyRatings() {
 					Nudity = chkInbunnyTag2.Checked,
 					Violence = chkInbunnyTag3.Checked,
 					SexualThemes = chkInbunnyTag4.Checked,

@@ -9,12 +9,20 @@ Module Module1
     Async Function AsyncMain() As Task
         Dim imageData = File.ReadAllBytes("C:\Windows\Web\Wallpaper\Theme1\img3.jpg")
 
-        Console.Write("Enter username: ")
-        Dim username = Console.ReadLine()
-        Console.Write("Enter password: ")
-        Dim password = Console.ReadLine()
+        Dim ib As InkbunnyClient = Nothing
+        Do
+            Try
+                Console.Write("Enter username: ")
+                Dim username = Console.ReadLine()
+                Console.Write("Enter password: ")
+                Dim password = Console.ReadLine()
 
-        Dim ib = Await InkbunnyClient.Create(username, password)
+                ib = Await InkbunnyClient.Create(username, password)
+                Exit Do
+            Catch e As Exception
+                Console.WriteLine(e.Message)
+            End Try
+        Loop
 
         Console.WriteLine(Await ib.GetUsername)
 

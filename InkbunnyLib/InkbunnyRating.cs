@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace InkbunnyLib {
-    public class InkbunnyRating {
+    public class InkbunnyRatings {
         public bool Nudity { get; set; }
         public bool Violence { get; set; }
         public bool SexualThemes { get; set; }
