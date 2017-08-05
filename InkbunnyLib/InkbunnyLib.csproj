@@ -55,6 +55,7 @@
     <Compile Include="InkbunnyClient.cs" />
     <Compile Include="InkbunnyRating.cs" />
     <Compile Include="InkbunnySubmission.cs" />
+    <Compile Include="InkbunnyTFBoolean.cs" />
     <Compile Include="SubmissionDetailsResponse.cs" />
     <Compile Include="SearchResponse.cs" />
     <Compile Include="InkbunnyResponse.cs" />

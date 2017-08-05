@@ -1,14 +1,14 @@
 ﻿Imports System.IO
+Imports Newtonsoft.Json
 
 Module Module1
 
     Sub Main()
-        AsyncMain().GetAwaiter().GetResult()
+        'PostAndDelete().GetAwaiter().GetResult()
+        SearchAndGetDetails().GetAwaiter().GetResult()
     End Sub
 
-    Async Function AsyncMain() As Task
-        Dim imageData = File.ReadAllBytes("C:\Windows\Web\Wallpaper\Theme1\img3.jpg")
-
+    Async Function GetClient() As Task(Of InkbunnyClient)
         Dim ib As InkbunnyClient = Nothing
         Do
             Try
@@ -17,12 +17,38 @@ Module Module1
                 Console.Write("Enter password: ")
                 Dim password = Console.ReadLine()
 
-                ib = Await InkbunnyClient.Create(username, password)
-                Exit Do
+                Return Await InkbunnyClient.Create(username, password)
             Catch e As Exception
-                Console.WriteLine(e.Message)
+                Console.Error.WriteLine(e.Message)
             End Try
         Loop
+    End Function
+
+    Async Function SearchAndGetDetails() As Task
+        Dim ib = Await GetClient()
+
+        Try
+            Dim searchResults = Await ib.SearchByUserId(Nothing, 50)
+
+            For Each s In searchResults.submissions
+                If (s.scraps) Then
+                    Console.WriteLine("  scraps")
+                End If
+            Next
+
+            Dim details = Await ib.GetSubmissions(searchResults.submissions.Select(Function(s) s.submission_id))
+        Catch e As Exception
+            Console.Error.WriteLine(e.Message)
+            Console.Error.WriteLine(e.StackTrace)
+        End Try
+
+        Await ib.Logout()
+    End Function
+
+    Async Function PostAndDelete() As Task
+        Dim imageData = File.ReadAllBytes("C:\Windows\Web\Wallpaper\Theme1\img3.jpg")
+
+        Dim ib = Await GetClient()
 
         Console.WriteLine(Await ib.GetUsername)
 
