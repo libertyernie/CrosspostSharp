@@ -29,9 +29,9 @@ Module Module1
 
         Console.WriteLine("Submission ID: " & resp.submission_id)
 
-        Dim details = Await ib.GetSubmissions({resp.submission_id}, show_description:=True)
-        Console.WriteLine("Title: " & details.submissions(0).title)
-        Console.WriteLine("Description: " & details.submissions(0).description)
+        Dim details = Await ib.GetSubmission(resp.submission_id, show_description:=True)
+        Console.WriteLine("Title: " & details.title)
+        Console.WriteLine("Description: " & details.description)
 
         Console.WriteLine("Press enter to edit this submission.")
         Console.ReadLine()

@@ -138,6 +138,23 @@ namespace InkbunnyLib {
             await PostMultipart("https://inkbunny.net/api_delsubmission.php", dict);
 		}
 
+		public async Task<InkbunnySubmissionDetail> GetSubmission(
+			int submission_id,
+			bool show_description = false,
+			bool show_description_bbcode_parsed = false,
+			bool show_writing = false,
+			bool show_writing_bbcode_parsed = false
+		) {
+			var resp = await GetSubmissions(
+				submission_ids: new[] { submission_id },
+				show_description: show_description,
+				show_description_bbcode_parsed: show_description_bbcode_parsed,
+				show_writing: show_writing,
+				show_writing_bbcode_parsed: show_writing_bbcode_parsed
+			);
+			return resp.submissions.First();
+		}
+
 		public async Task<SubmissionDetailsResponse> GetSubmissions(
 			IEnumerable<int> submission_ids,
 			bool show_description = false,
