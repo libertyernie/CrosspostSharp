@@ -21,11 +21,23 @@ Module Module1
         Dim submission_id = Await ib.Upload({imageData})
 
         Dim resp = Await ib.EditSubmission(submission_id,
-                    title:="API test " & Date.UtcNow.ToString(),
+                    title:="API test",
                     desc:="I'm just testing upload with the Inkbunny API.",
                     type:=SubmissionType.Sketch,
                     scraps:=True,
                     notifyWatchersWhenPublic:=False)
+
+        Console.WriteLine("Submission ID: " & resp.submission_id)
+
+        Dim details = Await ib.GetSubmissions({resp.submission_id}, show_description:=True)
+        Console.WriteLine("Title: " & details.submissions(0).title)
+        Console.WriteLine("Description: " & details.submissions(0).description)
+
+        Console.WriteLine("Press enter to edit this submission.")
+        Console.ReadLine()
+
+        resp = Await ib.EditSubmission(submission_id,
+                    desc:="I'm just testing editing with the Inkbunny API.")
 
         Console.WriteLine("Submission ID: " & resp.submission_id)
         Console.WriteLine("Press enter to delete this submission.")

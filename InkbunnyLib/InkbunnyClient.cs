@@ -130,15 +130,34 @@ namespace InkbunnyLib {
             return JsonConvert.DeserializeObject<EditSubmissionResponse>(json);
         }
 
-        public async Task DeleteSubmission(long submission_id) {
+        public async Task DeleteSubmission(int submission_id) {
             var dict = new Dictionary<string, object> {
                 ["submission_id"] = submission_id
             };
 
             await PostMultipart("https://inkbunny.net/api_delsubmission.php", dict);
-        }
+		}
 
-        private async Task<string> PostMultipart(string url, Dictionary<string, object> parameters) {
+		public async Task<SubmissionDetailsResponse> GetSubmissions(
+			IEnumerable<int> submission_ids,
+			bool show_description = false,
+			bool show_description_bbcode_parsed = false,
+			bool show_writing = false,
+			bool show_writing_bbcode_parsed = false
+		) {
+			var dict = new Dictionary<string, object> {
+				["submission_ids"] = string.Join(",", submission_ids),
+				["show_description"] = show_description.ToYesNo(),
+				["show_description_bbcode_parsed"] = show_description_bbcode_parsed.ToYesNo(),
+				["show_writing"] = show_writing.ToYesNo(),
+				["show_writing_bbcode_parsed"] = show_writing_bbcode_parsed.ToYesNo(),
+			};
+
+			var json = await PostMultipart("https://inkbunny.net/api_submissions.php", dict);
+			return JsonConvert.DeserializeObject<SubmissionDetailsResponse>(json);
+		}
+
+		private async Task<string> PostMultipart(string url, Dictionary<string, object> parameters) {
             string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
             var request = WebRequest.Create(url);
@@ -191,11 +210,11 @@ namespace InkbunnyLib {
             return response.submissions.First().username;
         }
 
-        public Task<IEnumerable<InkbunnySubmission>> SearchByMD5(byte[] md5Hash) {
+        public Task<IEnumerable<InkbunnySearchSubmission>> SearchByMD5(byte[] md5Hash) {
             return SearchByMD5(string.Join("", md5Hash.Select(b => ((int)b).ToString("x2"))));
         }
 
-        public async Task<IEnumerable<InkbunnySubmission>> SearchByMD5(string md5Hash) {
+        public async Task<IEnumerable<InkbunnySearchSubmission>> SearchByMD5(string md5Hash) {
             var resp = await Search(new Dictionary<string, object> {
                 ["text"] = md5Hash,
                 ["keywords"] = "no",
@@ -204,7 +223,7 @@ namespace InkbunnyLib {
             return resp.submissions;
         }
 
-        public async Task<IEnumerable<InkbunnySubmission>> SearchByKeyword(string keyword) {
+        public async Task<IEnumerable<InkbunnySearchSubmission>> SearchByKeyword(string keyword) {
             var resp = await Search(new Dictionary<string, object> {
                 ["text"] = keyword
             });

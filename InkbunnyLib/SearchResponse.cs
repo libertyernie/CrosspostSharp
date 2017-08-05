@@ -27,6 +27,6 @@ namespace InkbunnyLib {
         public string rid_ttl;
         public IEnumerable<SearchParam> search_params;
         public IEnumerable<Keyword> keyword_list;
-        public IEnumerable<InkbunnySubmission> submissions;
+        public IEnumerable<InkbunnySearchSubmission> submissions;
     }
 }
