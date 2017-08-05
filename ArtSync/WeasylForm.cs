@@ -568,13 +568,12 @@ namespace ArtSync {
 					return;
 				}
 
-				var rating = new InkbunnyRatings() {
-					Nudity = chkInbunnyTag2.Checked,
-					Violence = chkInbunnyTag3.Checked,
-					SexualThemes = chkInbunnyTag4.Checked,
-					StrongViolence = chkInbunnyTag5.Checked,
-				};
-				if (currentSubmission.PotentiallySensitive && !rating.Any) {
+				var rating = new List<InkbunnyRatingTag>();
+				if (chkInbunnyTag2.Checked) rating.Add(InkbunnyRatingTag.Nudity);
+				if (chkInbunnyTag3.Checked) rating.Add(InkbunnyRatingTag.Violence);
+				if (chkInbunnyTag4.Checked) rating.Add(InkbunnyRatingTag.SexualThemes);
+				if (chkInbunnyTag5.Checked) rating.Add(InkbunnyRatingTag.StrongViolence);
+				if (currentSubmission.PotentiallySensitive && !rating.Any()) {
 					DialogResult r = MessageBox.Show(this, $"This image has a non-general rating on the source site. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 					if (r != DialogResult.OK) return;
 				}

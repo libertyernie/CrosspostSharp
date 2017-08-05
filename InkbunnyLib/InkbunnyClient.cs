@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace InkbunnyLib {
 	public class InkbunnyClient {
 		public string Sid { get; private set; }
-		public long UserId { get; private set; }
+		public int UserId { get; private set; }
 
-		public InkbunnyClient(string sid, long userId) {
+		public InkbunnyClient(string sid, int userId) {
             Sid = sid;
             UserId = userId;
         }
@@ -97,7 +97,7 @@ namespace InkbunnyLib {
             bool? isPublic = null,
             bool notifyWatchersWhenPublic = false,
             IEnumerable<string> keywords = null,
-            InkbunnyRatings tag = null,
+			IEnumerable<InkbunnyRatingTag> tag = null,
             bool guest_block = false,
             bool friends_only = false
         ) {
@@ -121,8 +121,8 @@ namespace InkbunnyLib {
                 ["friends_only"] = friends_only.ToYesNo(),
             };
             if (tag != null) {
-                for (int i = 2; i <= 5; i++) {
-                    dict.Add($"tag[{i}]", tag[i]);
+                foreach (var t in tag) {
+                    dict.Add($"tag[{t.ToString("d")}]", "yes");
                 }
             }
 
@@ -222,7 +222,7 @@ namespace InkbunnyLib {
         }
 
         public async Task<string> GetUsername() {
-            var response = await Search(UserId, 1);
+            var response = await SearchByUserId(UserId, 1);
             if (!response.submissions.Any()) throw new CannotDetermineUsernameException();
             return response.submissions.First().username;
         }
@@ -247,7 +247,7 @@ namespace InkbunnyLib {
             return resp.submissions;
         }
 
-        public Task<SearchResponse> Search(long user_id, int? count = null) {
+        public Task<SearchResponse> SearchByUserId(int? user_id, int? count = null) {
             return Search(new Dictionary<string, object> {
                 ["user_id"] = user_id,
                 ["submissions_per_page"] = count,
@@ -262,5 +262,9 @@ namespace InkbunnyLib {
                 ["page"] = page
             });
         }
+
+		public Task Logout() {
+			return PostMultipart("https://inkbunny.net/api_logout.php", new Dictionary<string, object>());
+		}
     }
 }

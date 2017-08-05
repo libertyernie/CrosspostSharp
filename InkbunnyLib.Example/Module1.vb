@@ -54,6 +54,8 @@ Module Module1
         Await ib.DeleteSubmission(resp.submission_id)
 
         Console.WriteLine("Submission deleted.")
+
+        Await ib.Logout()
     End Function
 
 End Module

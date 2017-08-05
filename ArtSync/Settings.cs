@@ -42,7 +42,7 @@ namespace ArtSync {
 
 		public class InkbunnySettings {
 			public string Sid { get; set; }
-            public long? UserId { get; set; }
+            public int? UserId { get; set; }
 		}
 
 		public InkbunnySettings Inkbunny { get; set; }

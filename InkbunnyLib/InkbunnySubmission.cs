@@ -37,7 +37,7 @@ namespace InkbunnyLib {
         public string mimetype;
         public int pagecount;
         public string latest_mimetype;
-        public int rating_id;
+        public InkbunnyRating rating_id;
         public string rating_name;
 		public int? thumb_huge_x;
 		public int? thumb_huge_y;
@@ -98,12 +98,19 @@ namespace InkbunnyLib {
 		public string writing;
 		public string writing_bbcode_parsed;
 		public int pools_count;
-		// TODO add ratings
+		public IEnumerable<InkbunnyRatingTagInfo> ratings;
 		public int comments_count;
 		public int views;
 		public string sales_description;
 		public string forsale;
 		public decimal? digital_price;
+	}
+
+	public class InkbunnyRatingTagInfo {
+		public InkbunnyRatingTag content_tag_id;
+		public string name;
+		public string description;
+		public InkbunnyRating rating_id;
 	}
 
 	public class InkbunnyKeyword {
@@ -129,12 +136,12 @@ namespace InkbunnyLib {
 		public int submission_id;
 		public int user_id;
 		public int submission_file_order;
-		public int full_size_x;
-		public int full_size_y;
-		public int screen_size_x;
-		public int screen_size_y;
-		public int preview_size_x;
-		public int preview_size_y;
+		public int? full_size_x;
+		public int? full_size_y;
+		public int? screen_size_x;
+		public int? screen_size_y;
+		public int? preview_size_x;
+		public int? preview_size_y;
 		public int? thumb_huge_x;
 		public int? thumb_huge_y;
 		public int? thumb_large_x;
