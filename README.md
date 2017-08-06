@@ -164,7 +164,7 @@ Settings are stored in the file ArtSync.json.
 Compiling from Source
 ---------------------
 
-This project was built with Visual Studio 2017.
+This project can be built with Visual Studio 2015 or 2017.
 
 The file OAuthConsumer.cs is missing from the ArtSync project. Get your own
 OAuth keys, then put the following into OAuthConsumer.cs:

@@ -13,6 +13,10 @@ namespace InkbunnyLib {
 		public static implicit operator bool(InkbunnyTFBoolean i) {
 			return i.value;
 		}
+
+		public override string ToString() {
+			return $"{nameof(InkbunnyTFBoolean)}: {value}";
+		}
 	}
 
 	public class InkbunnyTFBooleanConverter : JsonConverter {

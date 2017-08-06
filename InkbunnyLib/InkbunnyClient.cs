@@ -101,8 +101,8 @@ namespace InkbunnyLib {
             bool guest_block = false,
             bool friends_only = false
         ) {
-            var dict = new Dictionary<string, object> {
-                ["submission_id"] = submission_id,
+            var dict = new Dictionary<string, string> {
+                ["submission_id"] = submission_id.ToString(),
                 ["title"] = title,
                 ["desc"] = desc,
                 ["story"] = story,
@@ -131,8 +131,8 @@ namespace InkbunnyLib {
         }
 
         public async Task DeleteSubmission(int submission_id) {
-            var dict = new Dictionary<string, object> {
-                ["submission_id"] = submission_id
+            var dict = new Dictionary<string, string> {
+                ["submission_id"] = submission_id.ToString()
             };
 
             await PostMultipart("https://inkbunny.net/api_delsubmission.php", dict);
@@ -162,7 +162,7 @@ namespace InkbunnyLib {
 			bool show_writing = false,
 			bool show_writing_bbcode_parsed = false
 		) {
-			var dict = new Dictionary<string, object> {
+			var dict = new Dictionary<string, string> {
 				["submission_ids"] = string.Join(",", submission_ids),
 				["show_description"] = show_description.ToYesNo(),
 				["show_description_bbcode_parsed"] = show_description_bbcode_parsed.ToYesNo(),
@@ -174,7 +174,7 @@ namespace InkbunnyLib {
 			return JsonConvert.DeserializeObject<SubmissionDetailsResponse>(json);
 		}
 
-		private async Task<string> PostMultipart(string url, Dictionary<string, object> parameters) {
+		private async Task<string> PostMultipart(string url, Dictionary<string, string> parameters) {
             string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
             var request = WebRequest.Create(url);
@@ -212,7 +212,7 @@ namespace InkbunnyLib {
             }
         }
 
-        private async Task<SearchResponse> Search(Dictionary<string, object> parameters) {
+        private async Task<SearchResponse> Search(Dictionary<string, string> parameters) {
             string json = await PostMultipart("https://inkbunny.net/api_search.php", parameters);
             return JsonConvert.DeserializeObject<SearchResponse>(json);
         }
@@ -222,49 +222,72 @@ namespace InkbunnyLib {
         }
 
         public async Task<string> GetUsername() {
-            var response = await SearchByUserId(UserId, 1);
+            var response = await Search(new Mode1SearchParameters {
+				UserId = UserId
+			}, 1);
             if (!response.submissions.Any()) throw new CannotDetermineUsernameException();
             return response.submissions.First().username;
         }
 
-        public Task<IEnumerable<InkbunnySearchSubmission>> SearchByMD5(byte[] md5Hash) {
+        /*public Task<SearchResponse> SearchByMD5(byte[] md5Hash) {
             return SearchByMD5(string.Join("", md5Hash.Select(b => ((int)b).ToString("x2"))));
         }
 
-        public async Task<IEnumerable<InkbunnySearchSubmission>> SearchByMD5(string md5Hash) {
-            var resp = await Search(new Dictionary<string, object> {
-                ["text"] = md5Hash,
-                ["keywords"] = "no",
-                ["md5"] = "yes"
-            });
-            return resp.submissions;
+		public async Task<SearchResponse> SearchByMD5(string md5Hash) {
+			var resp = await Search(new Mode1SearchParameters {
+				Text = md5Hash,
+				Keywords = false,
+				MD5 = true
+			});
+			return resp;
+		}
+
+		public async Task<SearchResponse> SearchByKeyword(string keyword) {
+			var resp = await Search(new Mode1SearchParameters {
+				Text = keyword
+			});
+			return resp;
+		}
+
+		public Task<SearchResponse> SearchByUserId(int? user_id, int? count = null) {
+			return Search(new Mode1SearchParameters {
+				UserId = user_id
+			}, submissions_per_page: count);
+		}*/
+
+		public Task<SearchResponse> Search(Mode1SearchParameters searchParams, int? submissions_per_page = null) {
+			var dict = (searchParams ?? new Mode1SearchParameters()).ToPostParams();
+			dict.Add("submissions_per_page", submissions_per_page?.ToString());
+			dict.Add("get_rid", "yes");
+			return Search(dict);
         }
 
-        public async Task<IEnumerable<InkbunnySearchSubmission>> SearchByKeyword(string keyword) {
-            var resp = await Search(new Dictionary<string, object> {
-                ["text"] = keyword
-            });
-            return resp.submissions;
-        }
-
-        public Task<SearchResponse> SearchByUserId(int? user_id, int? count = null) {
-            return Search(new Dictionary<string, object> {
-                ["user_id"] = user_id,
-                ["submissions_per_page"] = count,
-                ["get_rid"] = "yes"
-            });
-        }
-
-        public Task<SearchResponse> Search(SearchResponse resp, int page, int? count = null) {
-            return Search(new Dictionary<string, object> {
+        private Task<SearchResponse> Search(SearchResponse resp, int page, int? submissions_per_page = null) {
+            return Search(new Dictionary<string, string> {
                 ["rid"] = resp.rid,
-                ["submissions_per_page"] = count,
-                ["page"] = page
+                ["submissions_per_page"] = submissions_per_page?.ToString(),
+                ["page"] = page.ToString()
             });
-        }
+		}
+
+		public Task<SearchResponse> NextPage(SearchResponse resp, int? submissions_per_page = null) {
+			return Search(new Dictionary<string, string> {
+				["rid"] = resp.rid,
+				["submissions_per_page"] = submissions_per_page?.ToString(),
+				["page"] = (resp.page + 1).ToString()
+			});
+		}
+
+		public Task<SearchResponse> PrevPage(SearchResponse resp, int? submissions_per_page = null) {
+			return Search(new Dictionary<string, string> {
+				["rid"] = resp.rid,
+				["submissions_per_page"] = submissions_per_page?.ToString(),
+				["page"] = (resp.page - 1).ToString()
+			});
+		}
 
 		public Task Logout() {
-			return PostMultipart("https://inkbunny.net/api_logout.php", new Dictionary<string, object>());
+			return PostMultipart("https://inkbunny.net/api_logout.php", new Dictionary<string, string>());
 		}
     }
 }

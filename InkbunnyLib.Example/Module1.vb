@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports Newtonsoft.Json
 
 Module Module1
 
@@ -28,15 +27,34 @@ Module Module1
         Dim ib = Await GetClient()
 
         Try
-            Dim searchResults = Await ib.SearchByUserId(Nothing, 50)
+            Dim searchResults = Await ib.Search(New Mode1SearchParameters(), 50)
 
-            For Each s In searchResults.submissions
-                If (s.scraps) Then
-                    Console.WriteLine("  scraps")
+            Dim details = Await ib.GetSubmissions(searchResults.submissions.Select(Function(s) s.submission_id), show_description:=True)
+            For Each s In details.submissions
+                If s.hidden Then
+                    Console.WriteLine("(Hidden - skipping)")
+                    Continue For
                 End If
-            Next
 
-            Dim details = Await ib.GetSubmissions(searchResults.submissions.Select(Function(s) s.submission_id))
+                Dim ratings = s.ratings.OrderByDescending(Function(r) r.content_tag_id)
+                Dim id = ratings.FirstOrDefault()?.content_tag_id
+                If id IsNot Nothing Then
+                    Console.Write($"({id}) ")
+                End If
+
+                Dim desc = s.description.Replace(vbCr, "").Split(vbLf)(0)
+                If desc.Length > 20 Then
+                    desc = desc.Substring(0, 19) & "..."
+                End If
+                Console.WriteLine(s.title)
+                If (s.scraps) Then
+                    Console.WriteLine("  (Scrap)")
+                End If
+                If (s.guest_block) Then
+                    Console.WriteLine("  (Not visible to guests)")
+                End If
+                Console.WriteLine("  " & desc)
+            Next
         Catch e As Exception
             Console.Error.WriteLine(e.Message)
             Console.Error.WriteLine(e.StackTrace)
