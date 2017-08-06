@@ -3,7 +3,6 @@
 Module Module1
 
     Sub Main()
-        'PostAndDelete().GetAwaiter().GetResult()
         SearchAndGetDetails().GetAwaiter().GetResult()
     End Sub
 
@@ -27,7 +26,27 @@ Module Module1
         Dim ib = Await GetClient()
 
         Try
-            Dim searchResults = Await ib.Search(New Mode1SearchParameters(), 50)
+            Dim searchResults = Await ib.Search(New Mode1SearchParameters(), 10)
+            For Each s In searchResults.submissions
+                If s.hidden Then
+                    Console.WriteLine("(Hidden - skipping)")
+                    Continue For
+                End If
+                Console.WriteLine(s.title)
+            Next
+
+            Console.WriteLine("----------")
+
+            searchResults = Await ib.NextPage(searchResults, 10)
+            For Each s In searchResults.submissions
+                If s.hidden Then
+                    Console.WriteLine("(Hidden - skipping)")
+                    Continue For
+                End If
+                Console.WriteLine(s.title)
+            Next
+
+            Console.WriteLine("----------")
 
             Dim details = Await ib.GetSubmissions(searchResults.submissions.Select(Function(s) s.submission_id), show_description:=True)
             For Each s In details.submissions

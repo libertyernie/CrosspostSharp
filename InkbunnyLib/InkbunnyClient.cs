@@ -217,60 +217,32 @@ namespace InkbunnyLib {
             return JsonConvert.DeserializeObject<SearchResponse>(json);
         }
 
-        public class CannotDetermineUsernameException : Exception {
-            public CannotDetermineUsernameException() : base("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.") { }
-        }
-
         public async Task<string> GetUsername() {
-            var response = await Search(new Mode1SearchParameters {
+            var submission = await SearchFirstOrDefault(new Mode1SearchParameters {
 				UserId = UserId
-			}, 1);
-            if (!response.submissions.Any()) throw new CannotDetermineUsernameException();
-            return response.submissions.First().username;
-        }
-
-        /*public Task<SearchResponse> SearchByMD5(byte[] md5Hash) {
-            return SearchByMD5(string.Join("", md5Hash.Select(b => ((int)b).ToString("x2"))));
-        }
-
-		public async Task<SearchResponse> SearchByMD5(string md5Hash) {
-			var resp = await Search(new Mode1SearchParameters {
-				Text = md5Hash,
-				Keywords = false,
-				MD5 = true
 			});
-			return resp;
+            if (submission != null) throw new Exception("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.");
+            return submission.username;
 		}
 
-		public async Task<SearchResponse> SearchByKeyword(string keyword) {
-			var resp = await Search(new Mode1SearchParameters {
-				Text = keyword
-			});
-			return resp;
+		public async Task<InkbunnySearchSubmission> SearchFirstOrDefault(Mode1SearchParameters searchParams) {
+			var resp = await Search(searchParams, 1, false);
+			return resp.submissions.FirstOrDefault();
 		}
 
-		public Task<SearchResponse> SearchByUserId(int? user_id, int? count = null) {
-			return Search(new Mode1SearchParameters {
-				UserId = user_id
-			}, submissions_per_page: count);
-		}*/
-
-		public Task<SearchResponse> Search(Mode1SearchParameters searchParams, int? submissions_per_page = null) {
+		public Task<SearchResponse> Search(Mode1SearchParameters searchParams, int? submissions_per_page = null, bool get_rid = true) {
 			var dict = (searchParams ?? new Mode1SearchParameters()).ToPostParams();
 			dict.Add("submissions_per_page", submissions_per_page?.ToString());
-			dict.Add("get_rid", "yes");
+			if (get_rid) {
+				dict.Add("get_rid", "yes");
+			}
 			return Search(dict);
         }
 
-        private Task<SearchResponse> Search(SearchResponse resp, int page, int? submissions_per_page = null) {
-            return Search(new Dictionary<string, string> {
-                ["rid"] = resp.rid,
-                ["submissions_per_page"] = submissions_per_page?.ToString(),
-                ["page"] = page.ToString()
-            });
-		}
-
 		public Task<SearchResponse> NextPage(SearchResponse resp, int? submissions_per_page = null) {
+			if (resp.rid == null) {
+				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
+			}
 			return Search(new Dictionary<string, string> {
 				["rid"] = resp.rid,
 				["submissions_per_page"] = submissions_per_page?.ToString(),
@@ -279,6 +251,9 @@ namespace InkbunnyLib {
 		}
 
 		public Task<SearchResponse> PrevPage(SearchResponse resp, int? submissions_per_page = null) {
+			if (resp.rid == null) {
+				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
+			}
 			return Search(new Dictionary<string, string> {
 				["rid"] = resp.rid,
 				["submissions_per_page"] = submissions_per_page?.ToString(),
