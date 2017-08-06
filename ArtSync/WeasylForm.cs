@@ -163,8 +163,8 @@ namespace ArtSync {
                     lblInkbunnyStatus2.ForeColor = Color.DarkGreen;
                 } catch (Exception e) {
                     Inkbunny = null;
-                    lblTumblrStatus2.Text = e.Message;
-                    lblTumblrStatus2.ForeColor = Color.DarkRed;
+                    lblInkbunnyStatus2.Text = e.Message;
+                    lblInkbunnyStatus2.ForeColor = Color.DarkRed;
                 }
             }
         }

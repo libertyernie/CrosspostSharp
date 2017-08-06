@@ -222,7 +222,7 @@ namespace InkbunnyLib {
             var submission = await SearchFirstOrDefaultAsync(new InkbunnySearchParameters {
 				UserId = UserId
 			});
-            if (submission != null) throw new Exception("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.");
+            if (submission == null) throw new Exception("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.");
             return submission.username;
 		}
 
