@@ -51,7 +51,7 @@
     <Compile Include="Enumerations.cs" />
     <Compile Include="InkbunnySearchParameters.cs" />
     <Compile Include="InkbunnySubmission.cs" />
-    <Compile Include="InkbunnyBoolean.cs" />
+    <Compile Include="InkbunnyResponseBoolean.cs" />
     <Compile Include="Responses\InkbunnySubmissionDetailsResponse.cs" />
     <Compile Include="Responses\InkbunnySearchResponse.cs" />
     <Compile Include="Responses\InkbunnyResponse.cs" />

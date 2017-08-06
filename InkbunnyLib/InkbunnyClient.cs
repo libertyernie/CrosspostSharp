@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using InkbunnyLib.Responses;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -230,7 +231,7 @@ namespace InkbunnyLib {
 			return resp.submissions.FirstOrDefault();
 		}
 
-		public Task<InkbunnySearchResponse> SearchAsync(InkbunnySearchParameters searchParams, int? submissions_per_page = null, bool get_rid = true) {
+		public Task<InkbunnySearchResponse> SearchAsync(InkbunnySearchParameters searchParams = null, int? submissions_per_page = null, bool get_rid = true) {
 			var dict = (searchParams ?? new InkbunnySearchParameters()).ToPostParams();
 			dict.Add("submissions_per_page", submissions_per_page?.ToString());
 			if (get_rid) {
