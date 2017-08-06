@@ -71,7 +71,7 @@ namespace ArtSync {
                 using (LoginDialog d = new LoginDialog()) {
                     if (d.ShowDialog() != DialogResult.OK) return;
                     try {
-                        var client = await InkbunnyLib.InkbunnyClient.Create(d.Username, d.Password);
+                        var client = await InkbunnyLib.InkbunnyClient.CreateAsync(d.Username, d.Password);
                         Settings.Inkbunny.Sid = client.Sid;
                         Settings.Inkbunny.UserId = client.UserId;
                     } catch (Exception ex) {

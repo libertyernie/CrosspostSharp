@@ -159,7 +159,7 @@ namespace ArtSync {
                 lblInkbunnyStatus2.ForeColor = SystemColors.WindowText;
             } else {
                 try {
-                    lblInkbunnyStatus2.Text = await Inkbunny.GetUsername();
+                    lblInkbunnyStatus2.Text = await Inkbunny.GetUsernameAsync();
                     lblInkbunnyStatus2.ForeColor = Color.DarkGreen;
                 } catch (Exception e) {
                     Inkbunny = null;
@@ -379,7 +379,7 @@ namespace ArtSync {
             if (Inkbunny != null) {
                 string keyword = chkInkbunnySubmitIdTag.Text.Replace("#", "");
                 this.lnkInkbunnyFound.Text = $"checking Inkbunny for keyword {keyword}...";
-                var existing = await Inkbunny.SearchFirstOrDefault(new InkbunnyMode1SearchParameters {
+                var existing = await Inkbunny.SearchFirstOrDefaultAsync(new InkbunnySearchParameters {
 					UserId = Inkbunny.UserId,
 					Text = keyword
 				});
@@ -389,7 +389,7 @@ namespace ArtSync {
                         string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));
                         this.lnkInkbunnyFound.Enabled = false;
                         this.lnkInkbunnyFound.Text = $"checking Inkbunny for MD5 hash {hashStr}...";
-						existing = await Inkbunny.SearchFirstOrDefault(new InkbunnyMode1SearchParameters {
+						existing = await Inkbunny.SearchFirstOrDefaultAsync(new InkbunnySearchParameters {
 							Text = hashStr,
 							Keywords = false,
 							MD5 = true
@@ -586,7 +586,7 @@ namespace ArtSync {
                 LProgressBar.Report(0);
                 LProgressBar.Visible = true;
 
-				long submission_id = await Inkbunny.Upload(files: new byte[][] {
+				long submission_id = await Inkbunny.UploadAsync(files: new byte[][] {
 					currentImage.Data
 				});
 
@@ -597,7 +597,7 @@ namespace ArtSync {
                     keywords.Add(chkInkbunnySubmitIdTag.Text.Replace("#", ""));
                 }
 
-                var o = await Inkbunny.EditSubmission(
+                var o = await Inkbunny.EditSubmissionAsync(
 					submission_id: submission_id,
 					title: txtTitle.Text,
 					desc: txtInkbunnyDescription.Text,

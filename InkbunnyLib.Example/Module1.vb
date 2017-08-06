@@ -15,7 +15,7 @@ Module Module1
                 Console.Write("Enter password: ")
                 Dim password = Console.ReadLine()
 
-                Return Await InkbunnyClient.Create(username, password)
+                Return Await InkbunnyClient.CreateAsync(username, password)
             Catch e As Exception
                 Console.Error.WriteLine(e.Message)
             End Try
@@ -26,7 +26,7 @@ Module Module1
         Dim ib = Await GetClient()
 
         Try
-            Dim searchResults = Await ib.Search(New InkbunnyMode1SearchParameters(), 10)
+            Dim searchResults = Await ib.SearchAsync(New InkbunnySearchParameters(), 10)
             For Each s In searchResults.submissions
                 If s.hidden Then
                     Console.WriteLine("(Hidden - skipping)")
@@ -37,7 +37,7 @@ Module Module1
 
             Console.WriteLine("----------")
 
-            searchResults = Await ib.NextPage(searchResults, 10)
+            searchResults = Await ib.NextPageAsync(searchResults, 10)
             For Each s In searchResults.submissions
                 If s.hidden Then
                     Console.WriteLine("(Hidden - skipping)")
@@ -48,7 +48,7 @@ Module Module1
 
             Console.WriteLine("----------")
 
-            Dim details = Await ib.GetSubmissions(searchResults.submissions.Select(Function(s) s.submission_id), show_description:=True)
+            Dim details = Await ib.GetSubmissionsAsync(searchResults.submissions.Select(Function(s) s.submission_id), show_description:=True)
             For Each s In details.submissions
                 If s.hidden Then
                     Console.WriteLine("(Hidden - skipping)")
@@ -79,7 +79,7 @@ Module Module1
             Console.Error.WriteLine(e.StackTrace)
         End Try
 
-        Await ib.Logout()
+        Await ib.LogoutAsync()
     End Function
 
     Async Function PostAndDelete() As Task
@@ -87,11 +87,11 @@ Module Module1
 
         Dim ib = Await GetClient()
 
-        Console.WriteLine(Await ib.GetUsername)
+        Console.WriteLine(Await ib.GetUsernameAsync)
 
-        Dim submission_id = Await ib.Upload({imageData})
+        Dim submission_id = Await ib.UploadAsync({imageData})
 
-        Dim resp = Await ib.EditSubmission(submission_id,
+        Dim resp = Await ib.EditSubmissionAsync(submission_id,
                     title:="API test",
                     desc:="I'm just testing upload with the Inkbunny API.",
                     type:=InkbunnySubmissionType.Sketch,
@@ -100,25 +100,25 @@ Module Module1
 
         Console.WriteLine("Submission ID: " & resp.submission_id)
 
-        Dim details = Await ib.GetSubmission(resp.submission_id, show_description:=True)
+        Dim details = Await ib.GetSubmissionAsync(resp.submission_id, show_description:=True)
         Console.WriteLine("Title: " & details.title)
         Console.WriteLine("Description: " & details.description)
 
         Console.WriteLine("Press enter to edit this submission.")
         Console.ReadLine()
 
-        resp = Await ib.EditSubmission(submission_id,
+        resp = Await ib.EditSubmissionAsync(submission_id,
                     desc:="I'm just testing editing with the Inkbunny API.")
 
         Console.WriteLine("Submission ID: " & resp.submission_id)
         Console.WriteLine("Press enter to delete this submission.")
         Console.ReadLine()
 
-        Await ib.DeleteSubmission(resp.submission_id)
+        Await ib.DeleteSubmissionAsync(resp.submission_id)
 
         Console.WriteLine("Submission deleted.")
 
-        Await ib.Logout()
+        Await ib.LogoutAsync()
     End Function
 
 End Module
