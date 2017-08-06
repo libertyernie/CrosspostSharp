@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-    public enum SubmissionType {
+    public enum InkbunnySubmissionType {
         Picture = 1,
         Sketch = 2,
         PictureSeries = 3,

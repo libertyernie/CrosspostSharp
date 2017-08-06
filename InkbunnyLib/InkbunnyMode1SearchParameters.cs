@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-	public class Mode1SearchParameters {
+	public class InkbunnyMode1SearchParameters {
 		public enum JoinType { or, and }
 		public enum SalesStatus { forsale, digital, prints }
 		public enum Order {
@@ -36,7 +36,7 @@ namespace InkbunnyLib {
 		public int? UserId;
 		public int? FavsUserId;
 		public bool UnreadSubmissions;
-		public SubmissionType? Type;
+		public InkbunnySubmissionType? Type;
 		public SalesStatus? Sales;
 		public int? PoolId;
 		public Order OrderBy = Order.create_datetime;

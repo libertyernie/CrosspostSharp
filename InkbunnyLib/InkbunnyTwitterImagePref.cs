@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-    public enum TwitterImagePref {
+    public enum InkbunnyTwitterImagePref {
         TextOnly = 0,
         Thumbnail = 1,
         FullPicture = 2

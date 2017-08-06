@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-	public class LoginResponse : InkbunnyResponse {
+	public class InkbunnyLoginResponse : InkbunnyResponse {
 		public string sid { get; set; }
 		public int user_id { get; set; }
 		public string ratingsmask { get; set; }

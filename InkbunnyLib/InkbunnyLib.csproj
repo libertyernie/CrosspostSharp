@@ -50,20 +50,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanExtensions.cs" />
-    <Compile Include="EditSubmissionResponse.cs" />
+    <Compile Include="InkbunnyEditSubmissionResponse.cs" />
     <Compile Include="HtmlToBBCode.cs" />
     <Compile Include="InkbunnyClient.cs" />
     <Compile Include="InkbunnyRating.cs" />
-    <Compile Include="Mode1SearchParameters.cs" />
+    <Compile Include="InkbunnyMode1SearchParameters.cs" />
     <Compile Include="InkbunnySubmission.cs" />
     <Compile Include="InkbunnyTFBoolean.cs" />
-    <Compile Include="SubmissionDetailsResponse.cs" />
-    <Compile Include="SearchResponse.cs" />
+    <Compile Include="InkbunnySubmissionDetailsResponse.cs" />
+    <Compile Include="InkbunnySearchResponse.cs" />
     <Compile Include="InkbunnyResponse.cs" />
-    <Compile Include="SubmissionType.cs" />
-    <Compile Include="TwitterImagePref.cs" />
-    <Compile Include="UploadResponse.cs" />
-    <Compile Include="LoginResponse.cs" />
+    <Compile Include="InkbunnySubmissionType.cs" />
+    <Compile Include="InkbunnyTwitterImagePref.cs" />
+    <Compile Include="InkbunnyUploadResponse.cs" />
+    <Compile Include="InkbunnyLoginResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

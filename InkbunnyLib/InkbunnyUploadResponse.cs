@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-	public class UploadResponse : InkbunnyResponse {
+	public class InkbunnyUploadResponse : InkbunnyResponse {
 		public string sid { get; set; }
 		public long submission_id { get; set; }
 	}

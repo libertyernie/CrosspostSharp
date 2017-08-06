@@ -26,7 +26,7 @@ Module Module1
         Dim ib = Await GetClient()
 
         Try
-            Dim searchResults = Await ib.Search(New Mode1SearchParameters(), 10)
+            Dim searchResults = Await ib.Search(New InkbunnyMode1SearchParameters(), 10)
             For Each s In searchResults.submissions
                 If s.hidden Then
                     Console.WriteLine("(Hidden - skipping)")
@@ -94,7 +94,7 @@ Module Module1
         Dim resp = Await ib.EditSubmission(submission_id,
                     title:="API test",
                     desc:="I'm just testing upload with the Inkbunny API.",
-                    type:=SubmissionType.Sketch,
+                    type:=InkbunnySubmissionType.Sketch,
                     scraps:=True,
                     notifyWatchersWhenPublic:=False)
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-    public class SearchResponse : InkbunnyResponse {
+    public class InkbunnySearchResponse : InkbunnyResponse {
         public class SearchParam {
             public int keyword_id;
             public string keyword_name;
@@ -25,8 +25,8 @@ namespace InkbunnyLib {
         public int page;
         public string rid;
         public string rid_ttl;
-        public IEnumerable<SearchParam> search_params;
-        public IEnumerable<Keyword> keyword_list;
-        public IEnumerable<InkbunnySearchSubmission> submissions;
+        public IList<SearchParam> search_params;
+        public IList<Keyword> keyword_list;
+        public IList<InkbunnySearchSubmission> submissions;
     }
 }

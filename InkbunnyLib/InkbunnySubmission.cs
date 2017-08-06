@@ -63,7 +63,7 @@ namespace InkbunnyLib {
 		public int? latest_thumb_large_noncustom_y;
 		public int? latest_thumb_medium_noncustom_x;
 		public int? latest_thumb_medium_noncustom_y;
-		public SubmissionType submission_type_id;
+		public InkbunnySubmissionType submission_type_id;
         public string type_name;
         public InkbunnyTFBoolean digitalsales;
         public InkbunnyTFBoolean printsales;

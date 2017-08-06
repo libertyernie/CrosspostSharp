@@ -31,7 +31,7 @@ namespace InkbunnyLib {
             using (Stream stream = response.GetResponseStream()) {
                 using (StreamReader sr = new StreamReader(stream)) {
                     string json = await sr.ReadToEndAsync();
-                    var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(json);
+                    var loginResponse = JsonConvert.DeserializeObject<InkbunnyLoginResponse>(json);
                     if (loginResponse.error_code != null) {
                         throw new Exception(loginResponse.error_message);
                     }
@@ -74,7 +74,7 @@ namespace InkbunnyLib {
             using (var response = await request.GetResponseAsync()) {
 				using (var responseStream = response.GetResponseStream()) {
 					using (var sr = new StreamReader(responseStream)) {
-						UploadResponse r = JsonConvert.DeserializeObject<UploadResponse>(sr.ReadToEnd());
+						InkbunnyUploadResponse r = JsonConvert.DeserializeObject<InkbunnyUploadResponse>(sr.ReadToEnd());
 						if (r.error_code != null) {
 							throw new Exception(r.error_message);
 						}
@@ -84,16 +84,16 @@ namespace InkbunnyLib {
 			}
 		}
 
-        public async Task<EditSubmissionResponse> EditSubmission(
+        public async Task<InkbunnyEditSubmissionResponse> EditSubmission(
             long submission_id,
             string title = null,
             string desc = null,
             string story = null,
             bool convert_html_entities = false,
-            SubmissionType? type = null,
+            InkbunnySubmissionType? type = null,
             bool? scraps = null,
             bool? use_twitter = null,
-            TwitterImagePref? twitter_image_pref = null,
+            InkbunnyTwitterImagePref? twitter_image_pref = null,
             bool? isPublic = null,
             bool notifyWatchersWhenPublic = false,
             IEnumerable<string> keywords = null,
@@ -127,7 +127,7 @@ namespace InkbunnyLib {
             }
 
             string json = await PostMultipart("https://inkbunny.net/api_editsubmission.php", dict);
-            return JsonConvert.DeserializeObject<EditSubmissionResponse>(json);
+            return JsonConvert.DeserializeObject<InkbunnyEditSubmissionResponse>(json);
         }
 
         public async Task DeleteSubmission(int submission_id) {
@@ -155,7 +155,7 @@ namespace InkbunnyLib {
 			return resp.submissions.First();
 		}
 
-		public async Task<SubmissionDetailsResponse> GetSubmissions(
+		public async Task<InkbunnySubmissionDetailsResponse> GetSubmissions(
 			IEnumerable<int> submission_ids,
 			bool show_description = false,
 			bool show_description_bbcode_parsed = false,
@@ -171,7 +171,7 @@ namespace InkbunnyLib {
 			};
 
 			var json = await PostMultipart("https://inkbunny.net/api_submissions.php", dict);
-			return JsonConvert.DeserializeObject<SubmissionDetailsResponse>(json);
+			return JsonConvert.DeserializeObject<InkbunnySubmissionDetailsResponse>(json);
 		}
 
 		private async Task<string> PostMultipart(string url, Dictionary<string, string> parameters) {
@@ -212,26 +212,26 @@ namespace InkbunnyLib {
             }
         }
 
-        private async Task<SearchResponse> Search(Dictionary<string, string> parameters) {
+        private async Task<InkbunnySearchResponse> Search(Dictionary<string, string> parameters) {
             string json = await PostMultipart("https://inkbunny.net/api_search.php", parameters);
-            return JsonConvert.DeserializeObject<SearchResponse>(json);
+            return JsonConvert.DeserializeObject<InkbunnySearchResponse>(json);
         }
 
         public async Task<string> GetUsername() {
-            var submission = await SearchFirstOrDefault(new Mode1SearchParameters {
+            var submission = await SearchFirstOrDefault(new InkbunnyMode1SearchParameters {
 				UserId = UserId
 			});
             if (submission != null) throw new Exception("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.");
             return submission.username;
 		}
 
-		public async Task<InkbunnySearchSubmission> SearchFirstOrDefault(Mode1SearchParameters searchParams) {
+		public async Task<InkbunnySearchSubmission> SearchFirstOrDefault(InkbunnyMode1SearchParameters searchParams) {
 			var resp = await Search(searchParams, 1, false);
 			return resp.submissions.FirstOrDefault();
 		}
 
-		public Task<SearchResponse> Search(Mode1SearchParameters searchParams, int? submissions_per_page = null, bool get_rid = true) {
-			var dict = (searchParams ?? new Mode1SearchParameters()).ToPostParams();
+		public Task<InkbunnySearchResponse> Search(InkbunnyMode1SearchParameters searchParams, int? submissions_per_page = null, bool get_rid = true) {
+			var dict = (searchParams ?? new InkbunnyMode1SearchParameters()).ToPostParams();
 			dict.Add("submissions_per_page", submissions_per_page?.ToString());
 			if (get_rid) {
 				dict.Add("get_rid", "yes");
@@ -239,7 +239,7 @@ namespace InkbunnyLib {
 			return Search(dict);
         }
 
-		public Task<SearchResponse> NextPage(SearchResponse resp, int? submissions_per_page = null) {
+		public Task<InkbunnySearchResponse> NextPage(InkbunnySearchResponse resp, int? submissions_per_page = null) {
 			if (resp.rid == null) {
 				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
 			}
@@ -250,7 +250,7 @@ namespace InkbunnyLib {
 			});
 		}
 
-		public Task<SearchResponse> PrevPage(SearchResponse resp, int? submissions_per_page = null) {
+		public Task<InkbunnySearchResponse> PrevPage(InkbunnySearchResponse resp, int? submissions_per_page = null) {
 			if (resp.rid == null) {
 				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
 			}

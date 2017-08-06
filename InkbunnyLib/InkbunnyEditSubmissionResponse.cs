@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-    public class EditSubmissionResponse : InkbunnyResponse {
+    public class InkbunnyEditSubmissionResponse : InkbunnyResponse {
         public long submission_id { get; set; }
         public bool? twitter_authentication_success { get; set; }
     }

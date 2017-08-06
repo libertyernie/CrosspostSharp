@@ -379,7 +379,7 @@ namespace ArtSync {
             if (Inkbunny != null) {
                 string keyword = chkInkbunnySubmitIdTag.Text.Replace("#", "");
                 this.lnkInkbunnyFound.Text = $"checking Inkbunny for keyword {keyword}...";
-                var existing = await Inkbunny.SearchFirstOrDefault(new Mode1SearchParameters {
+                var existing = await Inkbunny.SearchFirstOrDefault(new InkbunnyMode1SearchParameters {
 					UserId = Inkbunny.UserId,
 					Text = keyword
 				});
@@ -389,7 +389,7 @@ namespace ArtSync {
                         string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));
                         this.lnkInkbunnyFound.Enabled = false;
                         this.lnkInkbunnyFound.Text = $"checking Inkbunny for MD5 hash {hashStr}...";
-						existing = await Inkbunny.SearchFirstOrDefault(new Mode1SearchParameters {
+						existing = await Inkbunny.SearchFirstOrDefault(new InkbunnyMode1SearchParameters {
 							Text = hashStr,
 							Keywords = false,
 							MD5 = true
@@ -602,7 +602,7 @@ namespace ArtSync {
 					title: txtTitle.Text,
 					desc: txtInkbunnyDescription.Text,
 					convert_html_entities: true,
-					type: SubmissionType.Picture,
+					type: InkbunnySubmissionType.Picture,
 					scraps: chkInkbunnyScraps.Checked,
 					isPublic: chkInkbunnyPublic.Checked,
 					notifyWatchersWhenPublic: chkInkbunnyNotifyWatchers.Checked,
