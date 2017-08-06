@@ -27,7 +27,7 @@ namespace WeasylSyncLib {
     }
     
     public abstract class SubmissionBaseDetail : SubmissionBase {
-        protected abstract string HTMLDescription { get; }
+        public abstract string HTMLDescription { get; }
 
         public int comments { get; set; }
         public bool favorited { get; set; }
@@ -35,39 +35,6 @@ namespace WeasylSyncLib {
         public bool friends_only { get; set; }
         public string[] tags { get; set; }
         public int views { get; set; }
-        
-        public string GetDescription(bool makeLinksAbsolute) {
-            if (makeLinksAbsolute) {
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.LoadHtml(HTMLDescription);
-
-                const string baseUrl = "http://www.weasyl.com";
-
-                // Convert all image URLs to absolute URLs
-                foreach (var img in doc.DocumentNode.Descendants("img")) {
-                    img.Attributes["src"].Value = new Uri(new Uri(baseUrl), img.Attributes["src"].Value).AbsoluteUri;
-                }
-
-                // Convert all relative links to absolute URLS
-                foreach (var a in doc.DocumentNode.Descendants("a")) {
-                    a.Attributes["href"].Value = new Uri(new Uri(baseUrl), a.Attributes["href"].Value).AbsoluteUri;
-
-                    // For links with a user-icon class, apply styles to the img tag within
-                    var classAttribute = a.Attributes["class"];
-                    if (classAttribute != null && classAttribute.Value.Contains("user-icon")) {
-                        foreach (var img in a.Descendants("img")) {
-                            img.Attributes.Add("style", "display: inline-block; height: 50px; vertical-align: middle; width: 50px");
-                        }
-                    }
-                }
-
-                StringWriter writer = new StringWriter();
-                doc.Save(writer);
-                return writer.ToString();
-            } else {
-                return HTMLDescription;
-            }
-        }
     }
 
     public class SubmissionDetail : SubmissionBaseDetail {
@@ -79,7 +46,7 @@ namespace WeasylSyncLib {
         public string folder_name { get; set; }
         public int? folderid { get; set; }
 
-        protected override string HTMLDescription {
+        public override string HTMLDescription {
             get {
                 return description;
             }
@@ -96,7 +63,7 @@ namespace WeasylSyncLib {
         public string species { get; set; }
         public string weight { get; set; }
 
-        protected override string HTMLDescription {
+        public override string HTMLDescription {
             get {
                 return $"<p> Name: {title} <br> Age: {age} <br> Gender: {gender} <br> Height: {height} <br> Weight: {weight} <br> Species: {species} </p> {content}";
             }

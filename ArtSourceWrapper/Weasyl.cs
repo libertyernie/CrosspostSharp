@@ -112,7 +112,7 @@ namespace ArtSourceWrapper {
             Submission is CharacterDetail ? $"#weasylcharacter{((CharacterDetail)Submission).charid}"
             : Submission is SubmissionDetail ? $"#weasyl{((SubmissionDetail)Submission).submitid}"
             : null;
-        public string HTMLDescription => Submission.GetDescription(true);
+        public string HTMLDescription => HtmlLinkUtils.MakeLinksAbsolute(Submission.HTMLDescription, "http://www.weasyl.com");
         public IEnumerable<string> Tags => Submission.tags;
         public DateTime Timestamp => Submission.posted_at;
         public string Title => Submission.title;
