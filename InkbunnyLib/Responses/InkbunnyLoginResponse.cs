@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InkbunnyLib {
+namespace InkbunnyLib.Responses {
 	public class InkbunnyLoginResponse : InkbunnyResponse {
-		public string sid { get; set; }
-		public int user_id { get; set; }
-		public string ratingsmask { get; set; }
+        public string sid;
+        public int user_id;
+        public string ratingsmask;
 	}
 }

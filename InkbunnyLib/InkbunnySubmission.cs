@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace InkbunnyLib {
     public abstract class InkbunnySubmission {
         public int submission_id;
-        public InkbunnyTFBoolean hidden;
+        public InkbunnyBoolean hidden;
         public string username;
         public int user_id;
         public string create_datetime;
@@ -32,8 +32,8 @@ namespace InkbunnyLib {
         public string latest_thumbnail_url_large_noncustom;
         public string latest_thumbnail_url_huge_noncustom;
         public string title;
-        public InkbunnyTFBoolean deleted;
-        public InkbunnyTFBoolean @public;
+        public InkbunnyBoolean deleted;
+        public InkbunnyBoolean @public;
         public string mimetype;
         public int pagecount;
         public string latest_mimetype;
@@ -65,17 +65,17 @@ namespace InkbunnyLib {
 		public int? latest_thumb_medium_noncustom_y;
 		public InkbunnySubmissionType submission_type_id;
         public string type_name;
-        public InkbunnyTFBoolean digitalsales;
-        public InkbunnyTFBoolean printsales;
-        public InkbunnyTFBoolean friends_only;
-        public InkbunnyTFBoolean guest_block;
-        public InkbunnyTFBoolean scraps;
+        public InkbunnyBoolean digitalsales;
+        public InkbunnyBoolean printsales;
+        public InkbunnyBoolean friends_only;
+        public InkbunnyBoolean guest_block;
+        public InkbunnyBoolean scraps;
     }
 
 	public class InkbunnySearchSubmission : InkbunnySubmission {
 		public string unread_datetime;
 		public string unread_datetime_usertime;
-		public InkbunnyTFBoolean updated;
+		public InkbunnyBoolean updated;
 		public int? stars;
 	}
 
@@ -84,7 +84,7 @@ namespace InkbunnyLib {
 		public IEnumerable<InkbunnyKeyword> keywords;
 		// pools
 		// prints
-		public InkbunnyTFBoolean favorite;
+		public InkbunnyBoolean favorite;
 		public int favorites_count;
 		public string user_icon_file_name;
 		public string user_icon_url_large;
@@ -102,7 +102,7 @@ namespace InkbunnyLib {
 		public int comments_count;
 		public int views;
 		public string sales_description;
-		public InkbunnyTFBoolean forsale;
+		public InkbunnyBoolean forsale;
 		public decimal? digital_price;
 	}
 
@@ -116,7 +116,7 @@ namespace InkbunnyLib {
 	public class InkbunnyKeyword {
 		public int keyword_id;
 		public string keyword_name;
-		public InkbunnyTFBoolean contributed;
+		public InkbunnyBoolean contributed;
 		public int submissions_count;
 	}
 

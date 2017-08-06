@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InkbunnyLib {
+namespace InkbunnyLib.Responses {
     public class InkbunnyEditSubmissionResponse : InkbunnyResponse {
-        public long submission_id { get; set; }
-        public bool? twitter_authentication_success { get; set; }
+        public long submission_id;
+        public bool? twitter_authentication_success;
     }
 }

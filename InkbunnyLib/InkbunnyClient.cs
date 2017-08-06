@@ -17,7 +17,7 @@ namespace InkbunnyLib {
             UserId = userId;
         }
 
-        public static async Task<InkbunnyClient> Create(string username, string password) {
+        public static async Task<InkbunnyClient> CreateAsync(string username, string password) {
             HttpWebRequest req = WebRequest.CreateHttp("https://inkbunny.net/api_login.php");
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";
@@ -40,7 +40,7 @@ namespace InkbunnyLib {
             }
         }
 
-        public async Task<long> Upload(IEnumerable<byte[]> files = null) {
+        public async Task<long> UploadAsync(IEnumerable<byte[]> files = null) {
             string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
             var request = (HttpWebRequest)WebRequest.Create("https://inkbunny.net/api_upload.php");
@@ -84,7 +84,7 @@ namespace InkbunnyLib {
 			}
 		}
 
-        public async Task<InkbunnyEditSubmissionResponse> EditSubmission(
+        public async Task<InkbunnyEditSubmissionResponse> EditSubmissionAsync(
             long submission_id,
             string title = null,
             string desc = null,
@@ -126,26 +126,26 @@ namespace InkbunnyLib {
                 }
             }
 
-            string json = await PostMultipart("https://inkbunny.net/api_editsubmission.php", dict);
+            string json = await PostMultipartAsync("https://inkbunny.net/api_editsubmission.php", dict);
             return JsonConvert.DeserializeObject<InkbunnyEditSubmissionResponse>(json);
         }
 
-        public async Task DeleteSubmission(int submission_id) {
+        public async Task DeleteSubmissionAsync(int submission_id) {
             var dict = new Dictionary<string, string> {
                 ["submission_id"] = submission_id.ToString()
             };
 
-            await PostMultipart("https://inkbunny.net/api_delsubmission.php", dict);
+            await PostMultipartAsync("https://inkbunny.net/api_delsubmission.php", dict);
 		}
 
-		public async Task<InkbunnySubmissionDetail> GetSubmission(
+		public async Task<InkbunnySubmissionDetail> GetSubmissionAsync(
 			int submission_id,
 			bool show_description = false,
 			bool show_description_bbcode_parsed = false,
 			bool show_writing = false,
 			bool show_writing_bbcode_parsed = false
 		) {
-			var resp = await GetSubmissions(
+			var resp = await GetSubmissionsAsync(
 				submission_ids: new[] { submission_id },
 				show_description: show_description,
 				show_description_bbcode_parsed: show_description_bbcode_parsed,
@@ -155,7 +155,7 @@ namespace InkbunnyLib {
 			return resp.submissions.First();
 		}
 
-		public async Task<InkbunnySubmissionDetailsResponse> GetSubmissions(
+		public async Task<InkbunnySubmissionDetailsResponse> GetSubmissionsAsync(
 			IEnumerable<int> submission_ids,
 			bool show_description = false,
 			bool show_description_bbcode_parsed = false,
@@ -170,11 +170,11 @@ namespace InkbunnyLib {
 				["show_writing_bbcode_parsed"] = show_writing_bbcode_parsed.ToYesNo(),
 			};
 
-			var json = await PostMultipart("https://inkbunny.net/api_submissions.php", dict);
+			var json = await PostMultipartAsync("https://inkbunny.net/api_submissions.php", dict);
 			return JsonConvert.DeserializeObject<InkbunnySubmissionDetailsResponse>(json);
 		}
 
-		private async Task<string> PostMultipart(string url, Dictionary<string, string> parameters) {
+		private async Task<string> PostMultipartAsync(string url, Dictionary<string, string> parameters) {
             string boundary = "----WeasylSync" + DateTime.Now.Ticks.ToString("x");
 
             var request = WebRequest.Create(url);
@@ -212,57 +212,57 @@ namespace InkbunnyLib {
             }
         }
 
-        private async Task<InkbunnySearchResponse> Search(Dictionary<string, string> parameters) {
-            string json = await PostMultipart("https://inkbunny.net/api_search.php", parameters);
+        private async Task<InkbunnySearchResponse> SearchAsync(Dictionary<string, string> parameters) {
+            string json = await PostMultipartAsync("https://inkbunny.net/api_search.php", parameters);
             return JsonConvert.DeserializeObject<InkbunnySearchResponse>(json);
         }
 
-        public async Task<string> GetUsername() {
-            var submission = await SearchFirstOrDefault(new InkbunnyMode1SearchParameters {
+        public async Task<string> GetUsernameAsync() {
+            var submission = await SearchFirstOrDefaultAsync(new InkbunnySearchParameters {
 				UserId = UserId
 			});
             if (submission != null) throw new Exception("Cannot determine your Inkbunny username. Try uploading a submission to Inkbunny first.");
             return submission.username;
 		}
 
-		public async Task<InkbunnySearchSubmission> SearchFirstOrDefault(InkbunnyMode1SearchParameters searchParams) {
-			var resp = await Search(searchParams, 1, false);
+		public async Task<InkbunnySearchSubmission> SearchFirstOrDefaultAsync(InkbunnySearchParameters searchParams) {
+			var resp = await SearchAsync(searchParams, 1, false);
 			return resp.submissions.FirstOrDefault();
 		}
 
-		public Task<InkbunnySearchResponse> Search(InkbunnyMode1SearchParameters searchParams, int? submissions_per_page = null, bool get_rid = true) {
-			var dict = (searchParams ?? new InkbunnyMode1SearchParameters()).ToPostParams();
+		public Task<InkbunnySearchResponse> SearchAsync(InkbunnySearchParameters searchParams, int? submissions_per_page = null, bool get_rid = true) {
+			var dict = (searchParams ?? new InkbunnySearchParameters()).ToPostParams();
 			dict.Add("submissions_per_page", submissions_per_page?.ToString());
 			if (get_rid) {
 				dict.Add("get_rid", "yes");
 			}
-			return Search(dict);
+			return SearchAsync(dict);
         }
 
-		public Task<InkbunnySearchResponse> NextPage(InkbunnySearchResponse resp, int? submissions_per_page = null) {
+		public Task<InkbunnySearchResponse> NextPageAsync(InkbunnySearchResponse resp, int? submissions_per_page = null) {
 			if (resp.rid == null) {
 				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
 			}
-			return Search(new Dictionary<string, string> {
+			return SearchAsync(new Dictionary<string, string> {
 				["rid"] = resp.rid,
 				["submissions_per_page"] = submissions_per_page?.ToString(),
 				["page"] = (resp.page + 1).ToString()
 			});
 		}
 
-		public Task<InkbunnySearchResponse> PrevPage(InkbunnySearchResponse resp, int? submissions_per_page = null) {
+		public Task<InkbunnySearchResponse> PrevPageAsync(InkbunnySearchResponse resp, int? submissions_per_page = null) {
 			if (resp.rid == null) {
 				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
 			}
-			return Search(new Dictionary<string, string> {
+			return SearchAsync(new Dictionary<string, string> {
 				["rid"] = resp.rid,
 				["submissions_per_page"] = submissions_per_page?.ToString(),
 				["page"] = (resp.page - 1).ToString()
 			});
 		}
 
-		public Task Logout() {
-			return PostMultipart("https://inkbunny.net/api_logout.php", new Dictionary<string, string>());
+		public Task LogoutAsync() {
+			return PostMultipartAsync("https://inkbunny.net/api_logout.php", new Dictionary<string, string>());
 		}
     }
 }

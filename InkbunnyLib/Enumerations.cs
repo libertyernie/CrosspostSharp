@@ -1,10 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InkbunnyLib {
+	public enum InkbunnyRating {
+		General = 0,
+		Mature = 1,
+		Adult = 2
+	}
+
+	public enum InkbunnyRatingTag {
+		Nudity = 2,
+		Violence = 3,
+		SexualThemes = 4,
+		StrongViolence = 5
+	}
+
     public enum InkbunnySubmissionType {
         Picture = 1,
         Sketch = 2,
@@ -20,5 +29,11 @@ namespace InkbunnyLib {
         WritingDocument = 12,
         CharacterSheet = 13,
         Photography = 14
+    }
+
+    public enum InkbunnyTwitterImagePref {
+        TextOnly = 0,
+        Thumbnail = 1,
+        FullPicture = 2
     }
 }

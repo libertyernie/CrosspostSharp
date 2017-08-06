@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InkbunnyLib {
-	public class InkbunnyMode1SearchParameters {
+	public class InkbunnySearchParameters {
 		public enum JoinType { or, and }
 		public enum SalesStatus { forsale, digital, prints }
 		public enum Order {

@@ -46,19 +46,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BooleanExtensions.cs" />
-    <Compile Include="InkbunnyEditSubmissionResponse.cs" />
+    <Compile Include="Responses\InkbunnyEditSubmissionResponse.cs" />
     <Compile Include="InkbunnyClient.cs" />
-    <Compile Include="InkbunnyRating.cs" />
-    <Compile Include="InkbunnyMode1SearchParameters.cs" />
+    <Compile Include="Enumerations.cs" />
+    <Compile Include="InkbunnySearchParameters.cs" />
     <Compile Include="InkbunnySubmission.cs" />
-    <Compile Include="InkbunnyTFBoolean.cs" />
-    <Compile Include="InkbunnySubmissionDetailsResponse.cs" />
-    <Compile Include="InkbunnySearchResponse.cs" />
-    <Compile Include="InkbunnyResponse.cs" />
-    <Compile Include="InkbunnySubmissionType.cs" />
-    <Compile Include="InkbunnyTwitterImagePref.cs" />
-    <Compile Include="InkbunnyUploadResponse.cs" />
-    <Compile Include="InkbunnyLoginResponse.cs" />
+    <Compile Include="InkbunnyBoolean.cs" />
+    <Compile Include="Responses\InkbunnySubmissionDetailsResponse.cs" />
+    <Compile Include="Responses\InkbunnySearchResponse.cs" />
+    <Compile Include="Responses\InkbunnyResponse.cs" />
+    <Compile Include="Responses\InkbunnyUploadResponse.cs" />
+    <Compile Include="Responses\InkbunnyLoginResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

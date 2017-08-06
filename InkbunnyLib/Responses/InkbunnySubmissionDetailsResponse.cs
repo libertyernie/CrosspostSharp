@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InkbunnyLib {
+namespace InkbunnyLib.Responses {
     public class InkbunnySubmissionDetailsResponse : InkbunnyResponse {
         public string sid;
         public string user_location;

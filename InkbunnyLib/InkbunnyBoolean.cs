@@ -7,32 +7,32 @@ using System.Threading.Tasks;
 
 namespace InkbunnyLib {
 	[JsonConverter(typeof(InkbunnyTFBooleanConverter))]
-	public struct InkbunnyTFBoolean {
+	public struct InkbunnyBoolean {
 		public bool value;
 
-		public static implicit operator bool(InkbunnyTFBoolean i) {
+		public static implicit operator bool(InkbunnyBoolean i) {
 			return i.value;
 		}
 
 		public override string ToString() {
-			return $"{nameof(InkbunnyTFBoolean)}: {value}";
+			return value ? "t" : "f";
 		}
 	}
 
 	public class InkbunnyTFBooleanConverter : JsonConverter {
 		public override bool CanConvert(Type objectType) {
-			return objectType == typeof(InkbunnyTFBoolean);
+			return objectType == typeof(InkbunnyBoolean);
 		}
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 			string v = reader.Value?.ToString();
-			if (v == "t") return new InkbunnyTFBoolean { value = true };
-			if (v == "f") return new InkbunnyTFBoolean { value = false };
+			if (v == "t") return new InkbunnyBoolean { value = true };
+			if (v == "f") return new InkbunnyBoolean { value = false };
 			throw new JsonReaderException("Expected value of 't' or 'f' for InkbunnyTFBoolean. Path: " + reader.Path);
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
-			var i = (InkbunnyTFBoolean)value;
+			var i = (InkbunnyBoolean)value;
 			writer.WriteValue(i.value ? "t" : "f");
 		}
 	}
