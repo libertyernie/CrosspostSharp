@@ -11,19 +11,21 @@ namespace ArtSourceWrapper {
 	public class InkbunnyWrapper : IWrapper {
 		private InkbunnyClient _client;
 		private InkbunnySearchResponse _lastResponse;
-		private int _lastCount;
+        private UpdateGalleryParameters _lastUpdateGalleryParameters;
 
-		public InkbunnyWrapper(InkbunnyClient client) {
+        public InkbunnyWrapper(InkbunnyClient client) {
 			_client = client;
 		}
 
 		public string SiteName => "Inkbunny";
 
 		private async Task<UpdateGalleryResult> Wrap(InkbunnySearchResponse response) {
-			var details = await _client.GetSubmissionsAsync(
+            _lastUpdateGalleryParameters.Progress?.Report(0.5f);
+            var details = await _client.GetSubmissionsAsync(
 				response.submissions.Select(s => s.submission_id),
 				show_description_bbcode_parsed: true);
-			return new UpdateGalleryResult {
+            _lastUpdateGalleryParameters.Progress?.Report(1);
+            return new UpdateGalleryResult {
 				Submissions = details.submissions
 					.OrderByDescending(s => s.submission_id)
 					.Where(s => !s.hidden)
@@ -39,19 +41,19 @@ namespace ArtSourceWrapper {
 
 		public async Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
 			_lastResponse = await _client.SearchAsync(new InkbunnySearchParameters {
-				//UserId = _client.UserId
+				UserId = _client.UserId
 			}, submissions_per_page: p.Count);
-			_lastCount = p.Count;
+            _lastUpdateGalleryParameters = p;
 			return await Wrap(_lastResponse);
 		}
 
 		public async Task<UpdateGalleryResult> NextPageAsync() {
-			_lastResponse = await _client.NextPageAsync(_lastResponse, submissions_per_page: _lastCount);
+			_lastResponse = await _client.NextPageAsync(_lastResponse, submissions_per_page: _lastUpdateGalleryParameters.Count);
 			return await Wrap(_lastResponse);
 		}
 
 		public async Task<UpdateGalleryResult> PreviousPageAsync() {
-			_lastResponse = await _client.PrevPageAsync(_lastResponse, submissions_per_page: _lastCount);
+			_lastResponse = await _client.PrevPageAsync(_lastResponse, submissions_per_page: _lastUpdateGalleryParameters.Count);
 			return await Wrap(_lastResponse);
 		}
 
