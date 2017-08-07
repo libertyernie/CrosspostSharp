@@ -90,14 +90,6 @@ namespace ArtSync {
                 wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
             }
 
-			//if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
-			//	wrappers.Add(new InkbunnyWrapper(new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value)));
-			//}
-
-            //if (GlobalSettings.TwitterCredentials != null) {
-            //    wrappers.Add(new TwitterWrapper(GlobalSettings.TwitterCredentials));
-            //}
-
             if (Inkbunny != null) {
                 wrappers.Add(new InkbunnyWrapper(Inkbunny));
             }

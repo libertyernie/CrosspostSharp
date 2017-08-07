@@ -1,4 +1,5 @@
-﻿using DontPanic.TumblrSharp.Client;
+﻿using DontPanic.TumblrSharp;
+using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,8 +19,7 @@ namespace ArtSourceWrapper {
         private bool _blogOwnerVerified;
 
         private UpdateGalleryParameters _lastUpdateGalleryParameters;
-        private List<Task<UpdateGalleryResult>> _cache;
-        private int _currentPage;
+        private int _currentOffset;
 
         public TumblrWrapper(TumblrClient client, string blogName) {
             _client = client;
@@ -29,31 +29,46 @@ namespace ArtSourceWrapper {
 
         public string SiteName => "Tumblr";
 
-        public Task<UpdateGalleryResult> NextPageAsync() {
-            throw new NotImplementedException();
-        }
+		private async Task<UpdateGalleryResult> GetPosts() {
+			if (_currentOffset < 0) _currentOffset = 0;
+
+			if (!_blogOwnerVerified) {
+				var user = await _client.GetUserInfoAsync();
+				if (user.Blogs.Any(b => b.Name == _blogName)) {
+					_blogOwnerVerified = true;
+				} else {
+					throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the user {user.Name}.");
+				}
+			}
+
+			var posts = await _client.GetPostsAsync(
+				_blogName,
+				_currentOffset,
+				_lastUpdateGalleryParameters.Count,
+				type: PostType.Photo);
+			var list = posts.Result.Select(post => (PhotoPost)post).ToList();
+			return new UpdateGalleryResult {
+				HasLess = _currentOffset > 0,
+				HasMore = list.Any(),
+				Submissions = list.Select(post => (ISubmissionWrapper)new TumblrSubmissionWrapper(post)).ToList()
+			};
+		}
+
+		public Task<UpdateGalleryResult> NextPageAsync() {
+			_currentOffset += _lastUpdateGalleryParameters?.Count ?? 1;
+			return GetPosts();
+		}
 
         public Task<UpdateGalleryResult> PreviousPageAsync() {
-            throw new NotImplementedException();
-        }
+			_currentOffset -= _lastUpdateGalleryParameters?.Count ?? 1;
+			return GetPosts();
+		}
 
-        public async Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
-            if (!_blogOwnerVerified) {
-                var user = await _client.GetUserInfoAsync();
-                if (user.Blogs.Any(b => b.Name == _blogName)) {
-                    _blogOwnerVerified = true;
-                } else {
-                    throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the user {user.Name}.");
-                }
-            }
-            var posts = await _client.GetPostsAsync(_blogName, 0, 3, DontPanic.TumblrSharp.PostType.Photo, true, true);
-            var list = posts.Result.Select(post => (PhotoPost)post).ToList();
-            return new UpdateGalleryResult {
-                HasLess = false,
-                HasMore = false,
-                Submissions = list.Where(post => post.RebloggedFromId == 0).Select(post => (ISubmissionWrapper)new TumblrSubmissionWrapper(post)).ToList()
-            };
-        }
+        public Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
+			_lastUpdateGalleryParameters = p;
+			_currentOffset = 0;
+			return GetPosts();
+		}
 
         public async Task<string> WhoamiAsync() {
             var user = await _client.GetUserInfoAsync();
@@ -85,6 +100,6 @@ namespace ArtSourceWrapper {
                 return Post.Photo.OriginalSize.ImageUrl;
             }
         }
-        public Color? BorderColor => null;
+        public Color? BorderColor => Post.RebloggedFromId != 0 ? Color.Green : (Color?)null;
     }
 }
