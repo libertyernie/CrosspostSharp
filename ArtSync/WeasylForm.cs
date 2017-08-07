@@ -220,9 +220,7 @@ namespace ArtSync {
                 await Task.WhenAll(tasks);
 
 				LProgressBar.Visible = false;
-
-                // Tumblr settings
-				txtHeader.Text = GlobalSettings.Defaults.HeaderHTML ?? "";
+                
 				txtFooter.Text = GlobalSettings.Defaults.FooterHTML ?? "";
 
 				// Global tags that you can include in each Tumblr submission if you want.
@@ -243,7 +241,8 @@ namespace ArtSync {
 		public async Task SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
-				txtTitle.Text = submission.Title;
+                txtHeader.Text = GlobalSettings.Defaults.HeaderHTML?.Replace("{TITLE}", submission.Title) ?? "";
+                txtInkbunnyTitle.Text = submission.Title;
 				txtDescription.Text = submission.HTMLDescription;
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtInkbunnyDescription.Text = bbCode;
@@ -254,7 +253,7 @@ namespace ArtSync {
 				lnkTwitterLinkToInclude.Text = submission.ViewURL;
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
-				txtTags1.Text = string.Join(" ", submission.Tags.Select(s => "#" + s));
+				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", submission.Tags.Select(s => "#" + s));
                 chkTumblrSubmitIdTag.Text = submission.GeneratedUniqueTag;
                 chkInkbunnySubmitIdTag.Text = submission.GeneratedUniqueTag;
 
@@ -439,8 +438,7 @@ namespace ArtSync {
 				html.Append(txtFooter.Text);
 			}
 
-			html.Replace("{TITLE}", WebUtility.HtmlEncode(txtTitle.Text))
-                .Replace("{URL}", txtURL.Text)
+			html.Replace("{URL}", txtURL.Text)
                 .Replace("{SITENAME}", SourceWrapper.SiteName);
 
 			return html.ToString();
@@ -596,14 +594,14 @@ namespace ArtSync {
 
                 LProgressBar.Report(0.5);
 
-                var keywords = txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != "").ToList();
+                var keywords = txtInkbunnyTags.Text.Replace("#", "").Split(' ').Where(s => s != "").ToList();
                 if (chkInkbunnySubmitIdTag.Checked) {
                     keywords.Add(chkInkbunnySubmitIdTag.Text.Replace("#", ""));
                 }
 
                 var o = await Inkbunny.EditSubmissionAsync(
 					submission_id: submission_id,
-					title: txtTitle.Text,
+					title: txtInkbunnyTitle.Text,
 					desc: txtInkbunnyDescription.Text,
 					convert_html_entities: true,
 					type: InkbunnySubmissionType.Picture,
