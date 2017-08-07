@@ -80,13 +80,22 @@ namespace ArtSync {
 					WebResponse resp = await req.GetResponseAsync();
 					var stream = resp.GetResponseStream();
 
-					byte[] data = new byte[resp.ContentLength];
+                    byte[] data;
+                    if (resp.ContentLength == -1) {
+                        // simple method, no progress bar
+                        using (var ms = new MemoryStream()) {
+                            await stream.CopyToAsync(ms);
+                            data = ms.ToArray();
+                        }
+                    } else {
+                        data = new byte[resp.ContentLength];
 
-					int read = 0;
-					while (read < data.Length) {
-						read += await stream.ReadAsync(data, read, data.Length - read);
-						mainForm.LProgressBar.Report(1.0 * read / data.Length);
-					}
+                        int read = 0;
+                        while (read < data.Length) {
+                            read += await stream.ReadAsync(data, read, data.Length - read);
+                            mainForm.LProgressBar.Report(1.0 * read / data.Length);
+                        }
+                    }
 
 					RawData = new BinaryFile(data, filename, resp.ContentType);
 				}
