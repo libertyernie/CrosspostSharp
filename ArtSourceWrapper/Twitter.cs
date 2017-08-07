@@ -17,6 +17,8 @@ namespace ArtSourceWrapper {
     public class TwitterWrapper : IWrapper {
         private readonly TwitterCredentials _credentials;
 
+        private IUser _user;
+
         private UpdateGalleryParameters _lastUpdateGalleryParameters;
         private List<Task<UpdateGalleryResult>> _cache;
         private int _currentPage;
@@ -33,12 +35,14 @@ namespace ArtSourceWrapper {
                 // Find the oldest tweet that exists in the already obtained page.
                 long minObtainedTweetId = 0;
                 if (page > 0) {
-                    var lastPage = await GetPage(page - 1);
+                    var lastPage = await _cache[page - 1];
                     minObtainedTweetId = lastPage.Submissions.Select(w => (w as TwitterSubmissionWrapper)?.Tweet?.Id ?? 0).Min();
                 }
 
-                var user = await UserAsync.GetAuthenticatedUser();
-                if (user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
+                if (_user == null) {
+                    _user = await UserAsync.GetAuthenticatedUser();
+                    if (_user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
+                }
 
                 List<TwitterSubmissionWrapper> wrappers = new List<TwitterSubmissionWrapper>();
                 bool hasMore = true;
@@ -54,10 +58,10 @@ namespace ArtSourceWrapper {
                         ExcludeReplies = false,
                         IncludeEntities = true,
                         IncludeRTS = true,
-                        MaximumNumberOfTweetsToRetrieve = _lastUpdateGalleryParameters.Count - wrappers.Count
+                        MaximumNumberOfTweetsToRetrieve = _lastUpdateGalleryParameters.Count * 2
                     };
                     ps.MaxId = minObtainedTweetId - 1;
-                    var tweets = await TimelineAsync.GetUserTimeline(user, ps);
+                    var tweets = await TimelineAsync.GetUserTimeline(_user, ps);
 
                     // If no tweets were returned, then there are no more tweets
                     if (!tweets.Any()) {
