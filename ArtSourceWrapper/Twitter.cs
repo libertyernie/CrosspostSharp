@@ -24,28 +24,43 @@ namespace ArtSourceWrapper {
         private Task<UpdateGalleryResult> UpdateGalleryInternalAsync() {
             return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 var user = await UserAsync.GetAuthenticatedUser();
-                List<TwitterSubmissionWrapper> wrappers = new List<TwitterSubmissionWrapper>();
                 _lastUpdateGalleryParameters.Progress?.Report(0.5f);
-                var ps = new UserTimelineParameters {
-                    ExcludeReplies = false,
-                    IncludeEntities = true,
-                    IncludeRTS = false,
-                    MaximumNumberOfTweetsToRetrieve = _lastUpdateGalleryParameters.Count
-                };
-                ps.MaxId = _lastMinId - 1;
-                var tweets = await TimelineAsync.GetUserTimeline(user, ps);
-                foreach (var t in tweets) {
-                    var firstPhoto = t.Media.Where(m => m.MediaType == "photo").FirstOrDefault();
-                    wrappers.Add(new TwitterSubmissionWrapper(t, firstPhoto));
+
+                List<TwitterSubmissionWrapper> wrappers = new List<TwitterSubmissionWrapper>();
+                bool hasMore = true;
+
+                while (wrappers.Count < _lastUpdateGalleryParameters.Count) {
+                    var ps = new UserTimelineParameters {
+                        ExcludeReplies = false,
+                        IncludeEntities = true,
+                        IncludeRTS = true,
+                        MaximumNumberOfTweetsToRetrieve = _lastUpdateGalleryParameters.Count - wrappers.Count
+                    };
+                    ps.MaxId = _lastMinId - 1;
+                    var tweets = await TimelineAsync.GetUserTimeline(user, ps);
+
+                    if (!tweets.Any()) {
+                        hasMore = false;
+                        break;
+                    }
+
+                    _lastUpdateGalleryParameters.Progress?.Report(0.9f);
+
+                    foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
+                        if (t.IsRetweet) continue;
+
+                        var firstPhoto = t.Media.Where(m => m.MediaType == "photo").FirstOrDefault();
+                        wrappers.Add(new TwitterSubmissionWrapper(t, firstPhoto));
+                    }
+
+                    _lastMinId = wrappers.Select(w => w.Tweet.Id).DefaultIfEmpty(0).Min();
                 }
 
                 _lastUpdateGalleryParameters.Progress?.Report(1);
 
-                _lastMinId = wrappers.Select(w => w.Tweet.Id).DefaultIfEmpty(0).Min();
-
                 return new UpdateGalleryResult {
                     HasLess = false,
-                    HasMore = wrappers.Any(),
+                    HasMore = hasMore,
                     Submissions = wrappers.Select(w => (ISubmissionWrapper)w).ToList()
                 };
             });
