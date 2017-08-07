@@ -245,7 +245,9 @@ namespace ArtSync {
 		public async Task SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			if (submission != null) {
-                txtHeader.Text = GlobalSettings.Defaults.HeaderHTML?.Replace("{TITLE}", submission.Title) ?? "";
+                txtHeader.Text = string.IsNullOrEmpty(submission.Title)
+                    ? ""
+                    : GlobalSettings.Defaults.HeaderHTML?.Replace("{TITLE}", submission.Title) ?? "";
                 txtInkbunnyTitle.Text = submission.Title;
 				txtDescription.Text = submission.HTMLDescription;
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);

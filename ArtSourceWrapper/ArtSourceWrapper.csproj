@@ -115,7 +115,6 @@
     <Compile Include="Empty.cs" />
     <Compile Include="DeviantArt.cs" />
     <Compile Include="HtmlLinkUtils.cs" />
-    <Compile Include="HtmlToBBCode.cs" />
     <Compile Include="Inkbunny.cs" />
     <Compile Include="Twitter.cs" />
     <Compile Include="Weasyl.cs" />
