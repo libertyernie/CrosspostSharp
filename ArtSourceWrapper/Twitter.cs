@@ -46,21 +46,26 @@ namespace ArtSourceWrapper {
 
                 List<TwitterSubmissionWrapper> wrappers = new List<TwitterSubmissionWrapper>();
                 bool hasMore = true;
-
-                // Keep track of progress (1/2, 3/4, 7/8, ...)
-                // Multiple calls may be needed (because retweets are skipped).
-                float progress = 0;
+                
+                // Multiple calls may be needed (because retweets and tweets w/o photos are skipped).
+                int i = 0;
                 while (wrappers.Count < _lastUpdateGalleryParameters.Count) {
-                    progress = (1 + progress) / 2;
-                    _lastUpdateGalleryParameters.Progress?.Report(progress);
+                    int count = (int)Math.Min(200, 25 * Math.Pow(2, i));
+
+                    if (++i > 10) {
+                        throw new TwitterWrapperException("No pictures were found in your recent tweets.");
+                    }
 
                     var ps = new UserTimelineParameters {
                         ExcludeReplies = false,
                         IncludeEntities = true,
                         IncludeRTS = true,
-                        MaximumNumberOfTweetsToRetrieve = _lastUpdateGalleryParameters.Count * 2
+                        MaximumNumberOfTweetsToRetrieve = count
                     };
                     ps.MaxId = minObtainedTweetId - 1;
+
+                    // Get the tweets
+                    _lastUpdateGalleryParameters.Progress?.Report(i / 10.0);
                     var tweets = await TimelineAsync.GetUserTimeline(_user, ps);
 
                     // If no tweets were returned, then there are no more tweets
@@ -71,18 +76,18 @@ namespace ArtSourceWrapper {
 
                     // Wrap tweets
                     // Take no more than the size of the consumer's page (_lastUpdateGalleryParameters.Count)
-                    // Skip retweets
-                    // Include tweets without photos (at least for now)
+                    // Skip retweets and tweets with no photos
                     foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
+                        minObtainedTweetId = Math.Min(minObtainedTweetId, t.Id);
+
                         if (t.IsRetweet) continue;
 
                         var firstPhoto = t.Media.Where(m => m.MediaType == "photo").FirstOrDefault();
-                        wrappers.Add(new TwitterSubmissionWrapper(t, firstPhoto));
+                        if (firstPhoto == null) continue;
 
+                        wrappers.Add(new TwitterSubmissionWrapper(t, firstPhoto));
                         if (wrappers.Count == _lastUpdateGalleryParameters.Count) break;
                     }
-
-                    minObtainedTweetId = wrappers.Select(w => (w as TwitterSubmissionWrapper)?.Tweet?.Id ?? 0).DefaultIfEmpty(minObtainedTweetId).Min();
                 }
 
                 // Progress is done
