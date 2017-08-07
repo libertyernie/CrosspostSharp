@@ -10,74 +10,112 @@ using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 
 namespace ArtSourceWrapper {
+    public class TwitterWrapperException : Exception {
+        public TwitterWrapperException(string message) : base(message) { }
+    }
+
     public class TwitterWrapper : IWrapper {
-        private TwitterCredentials _credentials;
-        private long _lastMinId;
+        private readonly TwitterCredentials _credentials;
+
         private UpdateGalleryParameters _lastUpdateGalleryParameters;
+        private List<Task<UpdateGalleryResult>> _cache;
+        private int _currentPage;
 
         public TwitterWrapper(TwitterCredentials credentials) {
             _credentials = credentials;
+            _cache = new List<Task<UpdateGalleryResult>>();
         }
 
         public string SiteName => "Twitter";
 
-        private Task<UpdateGalleryResult> UpdateGalleryInternalAsync() {
+        private Task<UpdateGalleryResult> CreatePage(int page) {
             return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
+                // Find the oldest tweet that exists in the already obtained page.
+                long minObtainedTweetId = 0;
+                if (page > 0) {
+                    var lastPage = await GetPage(page - 1);
+                    minObtainedTweetId = lastPage.Submissions.Select(w => (w as TwitterSubmissionWrapper)?.Tweet?.Id ?? 0).Min();
+                }
+
                 var user = await UserAsync.GetAuthenticatedUser();
-                _lastUpdateGalleryParameters.Progress?.Report(0.5f);
+                if (user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
 
                 List<TwitterSubmissionWrapper> wrappers = new List<TwitterSubmissionWrapper>();
                 bool hasMore = true;
 
+                // Keep track of progress (1/2, 3/4, 7/8, ...)
+                // Multiple calls may be needed (because retweets are skipped).
+                float progress = 0;
                 while (wrappers.Count < _lastUpdateGalleryParameters.Count) {
+                    progress = (1 + progress) / 2;
+                    _lastUpdateGalleryParameters.Progress?.Report(progress);
+
                     var ps = new UserTimelineParameters {
                         ExcludeReplies = false,
                         IncludeEntities = true,
                         IncludeRTS = true,
                         MaximumNumberOfTweetsToRetrieve = _lastUpdateGalleryParameters.Count - wrappers.Count
                     };
-                    ps.MaxId = _lastMinId - 1;
+                    ps.MaxId = minObtainedTweetId - 1;
                     var tweets = await TimelineAsync.GetUserTimeline(user, ps);
 
+                    // If no tweets were returned, then there are no more tweets
                     if (!tweets.Any()) {
                         hasMore = false;
                         break;
                     }
 
-                    _lastUpdateGalleryParameters.Progress?.Report(0.9f);
-
+                    // Wrap tweets
+                    // Take no more than the size of the consumer's page (_lastUpdateGalleryParameters.Count)
+                    // Skip retweets
+                    // Include tweets without photos (at least for now)
                     foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
                         if (t.IsRetweet) continue;
 
                         var firstPhoto = t.Media.Where(m => m.MediaType == "photo").FirstOrDefault();
                         wrappers.Add(new TwitterSubmissionWrapper(t, firstPhoto));
+
+                        if (wrappers.Count == _lastUpdateGalleryParameters.Count) break;
                     }
 
-                    _lastMinId = wrappers.Select(w => w.Tweet.Id).DefaultIfEmpty(0).Min();
+                    minObtainedTweetId = wrappers.Select(w => (w as TwitterSubmissionWrapper)?.Tweet?.Id ?? 0).DefaultIfEmpty(minObtainedTweetId).Min();
                 }
 
+                // Progress is done
                 _lastUpdateGalleryParameters.Progress?.Report(1);
 
                 return new UpdateGalleryResult {
-                    HasLess = false,
+                    HasLess = page > 0,
                     HasMore = hasMore,
                     Submissions = wrappers.Select(w => (ISubmissionWrapper)w).ToList()
                 };
             });
         }
 
+        private Task<UpdateGalleryResult> GetPage(int page) {
+            if (page < 0) page = 0;
+            _currentPage = page;
+
+            // Get all pages up to and including this one
+            while (_cache.Count <= page) {
+                _cache.Add(CreatePage(_cache.Count));
+            }
+
+            return _cache[page];
+        }
+
         public Task<UpdateGalleryResult> NextPageAsync() {
-            return UpdateGalleryInternalAsync();
+            return GetPage(_currentPage + 1);
         }
 
         public Task<UpdateGalleryResult> PreviousPageAsync() {
-            throw new NotSupportedException();
+            return GetPage(_currentPage - 1);
         }
 
         public Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
             _lastUpdateGalleryParameters = p;
-            _lastMinId = 0;
-            return UpdateGalleryInternalAsync();
+            _cache.Clear();
+            return GetPage(0);
         }
 
         public Task<string> WhoamiAsync() {
