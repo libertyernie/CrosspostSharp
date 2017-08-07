@@ -104,12 +104,8 @@ namespace ArtSourceWrapper {
         public string GeneratedUniqueTag => "#tweet" + Tweet.IdStr;
         public DateTime Timestamp => Tweet.TweetLocalCreationDate;
         public string ViewURL => Tweet.Url;
-        public string ImageURL {
-            get {
-                return ThumbnailURL;
-            }
-        }
-        public string ThumbnailURL => Media?.MediaURLHttps ?? Tweet.CreatedBy?.ProfileImageUrl ?? "about:blank";
+        public string ImageURL => Media != null ? $"{Media.MediaURLHttps}:large" : Tweet.CreatedBy.ProfileImageUrl;
+        public string ThumbnailURL => Media != null ? $"{Media.MediaURLHttps}:thumb" : Tweet.CreatedBy.ProfileImageUrl;
         public Color? BorderColor => Tweet.PossiblySensitive
             ? Color.FromArgb(225, 141, 67)
             : (Color?)null;
