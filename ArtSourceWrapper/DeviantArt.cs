@@ -150,13 +150,9 @@ namespace ArtSourceWrapper {
         public string ImageURL => Deviation.Content.Src;
         public string ThumbnailURL => Deviation.Thumbs.FirstOrDefault()?.Src;
 
-        public Color? BorderColor {
-            get {
-                return Deviation.IsMature
-                    ? Color.FromArgb(225, 141, 67)
-                    : (Color?)null;
-            }
-        }
+        public Color? BorderColor => Deviation.IsMature
+            ? Color.FromArgb(225, 141, 67)
+            : (Color?)null;
 
         public Deviation Deviation { get; private set; }
         public DeviationMetadata.MetadataClass Metadata { get; private set; }

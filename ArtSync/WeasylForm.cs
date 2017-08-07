@@ -94,6 +94,10 @@ namespace ArtSync {
 				wrappers.Add(new InkbunnyWrapper(new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value)));
 			}
 
+            if (GlobalSettings.TwitterCredentials != null) {
+                wrappers.Add(new TwitterWrapper(GlobalSettings.TwitterCredentials));
+            }
+
 			if (wrappers.Count == 0) {
                 wrappers.Add(new EmptyWrapper());
             }
