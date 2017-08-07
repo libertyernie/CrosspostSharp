@@ -605,21 +605,23 @@ namespace ArtSync {
                     keywords.Add(chkInkbunnySubmitIdTag.Text.Replace("#", ""));
                 }
 
-                var o = await Inkbunny.EditSubmissionAsync(
-					submission_id: submission_id,
-					title: txtInkbunnyTitle.Text,
-					desc: txtInkbunnyDescription.Text,
-					convert_html_entities: true,
-					type: InkbunnySubmissionType.Picture,
-					scraps: chkInkbunnyScraps.Checked,
-					isPublic: chkInkbunnyPublic.Checked,
-					notifyWatchersWhenPublic: chkInkbunnyNotifyWatchers.Checked,
-					keywords: keywords,
-					tag: rating
-				);
-				Console.WriteLine(o.submission_id);
-				Console.WriteLine(o.twitter_authentication_success);
-                await UpdateExistingInkbunnyPostLink();
+                if (txtInkbunnyTitle.Text == "") {
+                    MessageBox.Show("Please enter a title for this submission to use on Inkbunny.");
+                } else {
+                    var o = await Inkbunny.EditSubmissionAsync(
+                        submission_id: submission_id,
+                        title: txtInkbunnyTitle.Text,
+                        desc: txtInkbunnyDescription.Text,
+                        convert_html_entities: true,
+                        type: InkbunnySubmissionType.Picture,
+                        scraps: chkInkbunnyScraps.Checked,
+                        isPublic: chkInkbunnyPublic.Checked,
+                        notifyWatchersWhenPublic: chkInkbunnyNotifyWatchers.Checked,
+                        keywords: keywords,
+                        tag: rating
+                    );
+                    await UpdateExistingInkbunnyPostLink();
+                }
             } catch (Exception ex) {
 				Console.Error.WriteLine(ex.Message);
 				Console.Error.WriteLine(ex.StackTrace);
