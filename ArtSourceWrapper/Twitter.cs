@@ -16,7 +16,7 @@ namespace ArtSourceWrapper {
     }
 
     public class TwitterWrapper : IWrapper {
-        private readonly TwitterCredentials _credentials;
+        private readonly ITwitterCredentials _credentials;
 
         private IUser _user;
 
@@ -24,7 +24,7 @@ namespace ArtSourceWrapper {
         private List<Task<UpdateGalleryResult>> _cache;
         private int _currentPage;
 
-        public TwitterWrapper(TwitterCredentials credentials) {
+        public TwitterWrapper(ITwitterCredentials credentials) {
             _credentials = credentials;
             _cache = new List<Task<UpdateGalleryResult>>();
         }
@@ -155,7 +155,7 @@ namespace ArtSourceWrapper {
         public bool PotentiallySensitive => Tweet.PossiblySensitive;
         public IEnumerable<string> Tags => Tweet.Hashtags.Select(h => h.Text);
         public string GeneratedUniqueTag => "#tweet" + Tweet.IdStr;
-        public DateTime Timestamp => Tweet.TweetLocalCreationDate;
+        public DateTime Timestamp => Tweet.CreatedAt;
         public string ViewURL => Tweet.Url;
         public string ImageURL => Media != null ? $"{Media.MediaURLHttps}:large" : Tweet.CreatedBy.ProfileImageUrl;
         public string ThumbnailURL => Media != null ? $"{Media.MediaURLHttps}:thumb" : Tweet.CreatedBy.ProfileImageUrl;

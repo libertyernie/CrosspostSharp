@@ -90,15 +90,27 @@ namespace ArtSync {
                 wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
             }
 
-			if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
-				wrappers.Add(new InkbunnyWrapper(new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value)));
-			}
+			//if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
+			//	wrappers.Add(new InkbunnyWrapper(new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value)));
+			//}
 
-            if (GlobalSettings.TwitterCredentials != null) {
-                wrappers.Add(new TwitterWrapper(GlobalSettings.TwitterCredentials));
+            //if (GlobalSettings.TwitterCredentials != null) {
+            //    wrappers.Add(new TwitterWrapper(GlobalSettings.TwitterCredentials));
+            //}
+
+            if (Inkbunny != null) {
+                wrappers.Add(new InkbunnyWrapper(Inkbunny));
             }
 
-			if (wrappers.Count == 0) {
+            if (TwitterCredentials != null) {
+                wrappers.Add(new TwitterWrapper(TwitterCredentials));
+            }
+
+            if (Tumblr != null) {
+                wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
+            }
+
+            if (wrappers.Count == 0) {
                 wrappers.Add(new EmptyWrapper());
             }
 
@@ -210,7 +222,6 @@ namespace ArtSync {
 				LProgressBar.Visible = true;
 
                 var tasks = new Task[] {
-                    GetNewWrapper(),
                     GetNewTumblrClient(),
                     GetNewInkbunnyClient(),
                     GetNewTwitterClient()
@@ -218,10 +229,12 @@ namespace ArtSync {
 
                 int progress = 0;
                 foreach (var t in tasks) {
-                    var _ = t.ContinueWith(x => LProgressBar.Report(++progress / 4f));
+                    var _ = t.ContinueWith(x => LProgressBar.Report(++progress / (tasks.Length + 1.0)));
                 }
 
                 await Task.WhenAll(tasks);
+
+                await GetNewWrapper();
 
 				LProgressBar.Visible = false;
                 
