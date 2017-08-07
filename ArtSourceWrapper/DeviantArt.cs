@@ -129,7 +129,7 @@ namespace ArtSourceWrapper {
     public class DeviantArtSubmissionWrapper : ISubmissionWrapper {
         public bool PotentiallySensitive => Deviation.IsMature;
 
-        public string GeneratedUniqueTag => $"#da{Deviation.DeviationId}";
+        public string GeneratedUniqueTag => $"#deviantart-{Deviation.DeviationId}";
         public string HTMLDescription {
             get {
                 string html = Metadata?.Description;
@@ -145,7 +145,6 @@ namespace ArtSourceWrapper {
         public IEnumerable<string> Tags => Metadata?.Tags?.Select(t => t.TagName) ?? Enumerable.Empty<string>();
         public DateTime Timestamp => Deviation.PublishedTime;
         public string Title => Deviation.Title;
-        public string URL => Deviation.Url;
 
         public string ViewURL => Deviation.Url;
         public string ImageURL => Deviation.Content.Src;

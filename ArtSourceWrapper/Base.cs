@@ -38,7 +38,6 @@ namespace ArtSourceWrapper {
     public interface ISubmissionWrapper {
         string Title { get; }
         string HTMLDescription { get; }
-        string URL { get; }
         bool PotentiallySensitive { get; }
         IEnumerable<string> Tags { get; }
         string GeneratedUniqueTag { get; }

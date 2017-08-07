@@ -116,7 +116,6 @@ namespace ArtSourceWrapper {
         public IEnumerable<string> Tags => Submission.tags;
         public DateTime Timestamp => Submission.posted_at;
         public string Title => Submission.title;
-        public string URL => Submission.link;
 
         public string ViewURL => Submission.link;
         public string ImageURL => Submission.media.submission.First().url;

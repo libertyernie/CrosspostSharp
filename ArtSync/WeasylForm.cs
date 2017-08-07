@@ -90,7 +90,11 @@ namespace ArtSync {
                 wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
             }
 
-            if (wrappers.Count == 0) {
+			if (GlobalSettings.Inkbunny.Sid != null && GlobalSettings.Inkbunny.UserId != null) {
+				wrappers.Add(new InkbunnyWrapper(new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value)));
+			}
+
+			if (wrappers.Count == 0) {
                 wrappers.Add(new EmptyWrapper());
             }
 
@@ -243,11 +247,11 @@ namespace ArtSync {
 				txtDescription.Text = submission.HTMLDescription;
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtInkbunnyDescription.Text = bbCode;
-				txtURL.Text = submission.URL;
+				txtURL.Text = submission.ViewURL;
 
 				ResetTweetText();
 
-				lnkTwitterLinkToInclude.Text = submission.URL;
+				lnkTwitterLinkToInclude.Text = submission.ViewURL;
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
 				txtTags1.Text = string.Join(" ", submission.Tags.Select(s => "#" + s));
@@ -337,7 +341,7 @@ namespace ArtSync {
                     back ? await SourceWrapper.PreviousPageAsync()
                     : next ? await SourceWrapper.NextPageAsync()
                     : await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
-                        Count = 4,
+                        Count = 3,
                         Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
                         Progress = LProgressBar
                     });
@@ -406,7 +410,7 @@ namespace ArtSync {
         }
 
         private void UpdateExistingTweetLink() {
-            string url = this.currentSubmission.URL;
+            string url = this.currentSubmission.ViewURL;
             foreach (var tweet in tweetCache) {
                 if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
                     this.lnkTwitterFound.Enabled = true;

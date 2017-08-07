@@ -50,6 +50,7 @@
     <Compile Include="DeviantArt.cs" />
     <Compile Include="HtmlLinkUtils.cs" />
     <Compile Include="HtmlToBBCode.cs" />
+    <Compile Include="Inkbunny.cs" />
     <Compile Include="Weasyl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,6 +58,10 @@
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
+      <Project>{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}</Project>
+      <Name>InkbunnyLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\WeasylSyncLib\WeasylSyncLib.csproj">
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>

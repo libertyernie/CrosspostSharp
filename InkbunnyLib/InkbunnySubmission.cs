@@ -10,9 +10,9 @@ namespace InkbunnyLib {
         public InkbunnyResponseBoolean hidden;
         public string username;
         public int user_id;
-        public string create_datetime;
+        public DateTimeOffset create_datetime;
         public string create_datetime_usertime;
-        public string last_file_update_datetime;
+        public DateTimeOffset last_file_update_datetime;
         public string last_file_update_datetime_usertime;
         public string file_name;
         public string thumbnail_url_medium;
