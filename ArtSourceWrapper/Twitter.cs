@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi;
@@ -145,7 +146,12 @@ namespace ArtSourceWrapper {
         }
 
         public string Title => "";
-        public string HTMLDescription => Tweet.FullText;
+        public string HTMLDescription {
+            get {
+                string text = Tweet.FullText.Replace(Media.URL, "");
+                return "<p>" + WebUtility.HtmlEncode(text).Replace("\n", "<br/>") + "</p>";
+            }
+        }
         public bool PotentiallySensitive => Tweet.PossiblySensitive;
         public IEnumerable<string> Tags => Tweet.Hashtags.Select(h => h.Text);
         public string GeneratedUniqueTag => "#tweet" + Tweet.IdStr;
