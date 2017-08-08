@@ -249,6 +249,8 @@ namespace ArtSync {
 		// This function is called after clicking on a WeasylThumbnail.
 		public async Task SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
+			tabControl1.Enabled = submission?.OwnWork == true;
+
 			if (submission != null) {
                 txtHeader.Text = string.IsNullOrEmpty(submission.Title)
                     ? ""
@@ -374,12 +376,10 @@ namespace ArtSync {
 		#region Lookup
 		private async Task UpdateExistingTumblrPostLink() {
             if (Tumblr != null) {
-                this.btnPost.Enabled = false;
                 this.lnkTumblrFound.Enabled = false;
                 this.lnkTumblrFound.Text = $"checking your Tumblr for tag {chkTumblrSubmitIdTag.Text}...";
                 var posts = await this.GetTaggedPostsForSubmissionAsync();
 				this.ExistingTumblrPost = posts.Result.FirstOrDefault();
-				this.btnPost.Enabled = true;
 				if (this.ExistingTumblrPost == null) {
 					this.lnkTumblrFound.Text = $"tag not found ({chkTumblrSubmitIdTag.Text})";
 				} else {

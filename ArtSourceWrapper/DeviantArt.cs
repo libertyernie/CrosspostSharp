@@ -154,7 +154,9 @@ namespace ArtSourceWrapper {
             ? Color.FromArgb(225, 141, 67)
             : (Color?)null;
 
-        public Deviation Deviation { get; private set; }
+		public bool OwnWork => true;
+
+		public Deviation Deviation { get; private set; }
         public DeviationMetadata.MetadataClass Metadata { get; private set; }
 
         public DeviantArtSubmissionWrapper(Deviation deviation, DeviationMetadata.MetadataClass metadata = null) {

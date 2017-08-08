@@ -3,6 +3,8 @@ using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -16,7 +18,7 @@ namespace ArtSourceWrapper {
     public class TumblrWrapper : IWrapper {
         private readonly TumblrClient _client;
         private string _blogName;
-        private bool _blogOwnerVerified;
+		private IEnumerable<string> _blogNames;
 
         private UpdateGalleryParameters _lastUpdateGalleryParameters;
         private int _currentOffset;
@@ -24,7 +26,6 @@ namespace ArtSourceWrapper {
         public TumblrWrapper(TumblrClient client, string blogName) {
             _client = client;
             _blogName = blogName;
-            _blogOwnerVerified = false;
         }
 
         public string SiteName => "Tumblr";
@@ -32,25 +33,25 @@ namespace ArtSourceWrapper {
 		private async Task<UpdateGalleryResult> GetPosts() {
 			if (_currentOffset < 0) _currentOffset = 0;
 
-			if (!_blogOwnerVerified) {
+			if (_blogNames == null) {
 				var user = await _client.GetUserInfoAsync();
-				if (user.Blogs.Any(b => b.Name == _blogName)) {
-					_blogOwnerVerified = true;
-				} else {
-					throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the user {user.Name}.");
-				}
+				_blogNames = user.Blogs.Select(b => b.Name).ToList();
+			}
+			if (!_blogNames.Contains(_blogName)) {
+				throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the currently logged in user. (Make sure the name is spelled and capitalized correctly.)");
 			}
 
 			var posts = await _client.GetPostsAsync(
 				_blogName,
 				_currentOffset,
 				_lastUpdateGalleryParameters.Count,
-				type: PostType.Photo);
+				type: PostType.Photo,
+				includeReblogInfo: true);
 			var list = posts.Result.Select(post => (PhotoPost)post).ToList();
 			return new UpdateGalleryResult {
 				HasLess = _currentOffset > 0,
 				HasMore = list.Any(),
-				Submissions = list.Select(post => (ISubmissionWrapper)new TumblrSubmissionWrapper(post)).ToList()
+				Submissions = list.Select(post => (ISubmissionWrapper)new TumblrSubmissionWrapper(post, _blogNames.Contains(post.RebloggedRootName ?? post.BlogName))).ToList()
 			};
 		}
 
@@ -77,10 +78,14 @@ namespace ArtSourceWrapper {
     }
 
     public class TumblrSubmissionWrapper : ISubmissionWrapper {
-        public readonly PhotoPost Post;
+		public readonly PhotoPost Post;
 
-        public TumblrSubmissionWrapper(PhotoPost post) {
+		private readonly bool _ownWork;
+		public bool OwnWork => _ownWork;
+
+		public TumblrSubmissionWrapper(PhotoPost post, bool ownWork) {
             Post = post;
+			_ownWork = ownWork;
         }
 
         public string Title => "";
@@ -93,13 +98,13 @@ namespace ArtSourceWrapper {
         public string ImageURL => Post.Photo.OriginalSize.ImageUrl;
         public string ThumbnailURL {
             get {
-                foreach (var alt in Post.Photo.AlternateSizes.OrderBy(s => s.Width)) {
+				foreach (var alt in Post.Photo.AlternateSizes.OrderBy(s => s.Width)) {
                     if (alt.Width < 120 && alt.Height < 120) continue;
                     return alt.ImageUrl;
                 }
                 return Post.Photo.OriginalSize.ImageUrl;
             }
         }
-        public Color? BorderColor => Post.RebloggedFromId != 0 ? Color.Green : (Color?)null;
-    }
+        public Color? BorderColor => !OwnWork ? Color.Gray : (Color?)null;
+	}
 }

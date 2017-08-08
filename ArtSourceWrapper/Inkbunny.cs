@@ -87,7 +87,9 @@ namespace ArtSourceWrapper {
 		public DateTime Timestamp => Submission.create_datetime.ToLocalTime().LocalDateTime;
 		public string Title => Submission.title;
 		public string ViewURL => "https://inkbunny.net/submissionview.php?id=" + Submission.submission_id;
-		
+
+		public bool OwnWork => true;
+
 		public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission) {
 			Submission = submission;
 		}

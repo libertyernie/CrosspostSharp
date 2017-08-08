@@ -47,5 +47,7 @@ namespace ArtSourceWrapper {
         string ImageURL { get; }
         string ThumbnailURL { get; }
         Color? BorderColor { get; }
+
+		bool OwnWork { get; }
     }
 }

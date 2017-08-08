@@ -162,5 +162,7 @@ namespace ArtSourceWrapper {
         public Color? BorderColor => Tweet.PossiblySensitive
             ? Color.FromArgb(225, 141, 67)
             : (Color?)null;
-    }
+
+		public bool OwnWork => !Tweet.IsRetweet;
+	}
 }
