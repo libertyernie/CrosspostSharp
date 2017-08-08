@@ -21,38 +21,31 @@ namespace ArtSourceWrapper {
         private IUser _user;
 
         private UpdateGalleryParameters _lastUpdateGalleryParameters;
-        private List<Task<UpdateGalleryResult>> _cache;
-        private int _currentPage;
+        private List<TwitterSubmissionWrapper> _cache;
+        private int _currentOffset;
 
         public TwitterWrapper(ITwitterCredentials credentials) {
             _credentials = credentials;
-            _cache = new List<Task<UpdateGalleryResult>>();
+            _cache = new List<TwitterSubmissionWrapper>();
         }
 
         public string SiteName => "Twitter";
 
-        private Task<UpdateGalleryResult> CreatePage(int page) {
+        private Task<List<TwitterSubmissionWrapper>> GetSubmissions(int count) {
             return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
+                List<TwitterSubmissionWrapper> list = _cache?.ToList() ?? new List<TwitterSubmissionWrapper>();
+
                 // Find the oldest tweet that exists in the already obtained page.
-                long minObtainedTweetId = 0;
-                if (page > 0) {
-                    var lastPage = await _cache[page - 1];
-                    minObtainedTweetId = lastPage.Submissions.Select(w => (w as TwitterSubmissionWrapper)?.Tweet?.Id ?? 0).Min();
-                }
+                long minObtainedTweetId = list.Select(w => w.Tweet.Id).DefaultIfEmpty(0).Min();
 
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();
                     if (_user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
                 }
 
-                List<TwitterSubmissionWrapper> wrappers = new List<TwitterSubmissionWrapper>();
-                bool hasMore = true;
-                
                 // Multiple calls may be needed (because retweets and tweets w/o photos are skipped).
                 int i = 0;
-                while (wrappers.Count < _lastUpdateGalleryParameters.Count) {
-                    int count = (int)Math.Min(200, 25 * Math.Pow(2, i));
-
+                while (list.Count < count) {
                     if (++i > 10) {
                         throw new TwitterWrapperException("No pictures were found in your recent tweets.");
                     }
@@ -61,7 +54,7 @@ namespace ArtSourceWrapper {
                         ExcludeReplies = false,
                         IncludeEntities = true,
                         IncludeRTS = true,
-                        MaximumNumberOfTweetsToRetrieve = count
+                        MaximumNumberOfTweetsToRetrieve = 200
                     };
                     ps.MaxId = minObtainedTweetId - 1;
 
@@ -69,9 +62,10 @@ namespace ArtSourceWrapper {
                     _lastUpdateGalleryParameters.Progress?.Report(i / 10.0);
                     var tweets = await TimelineAsync.GetUserTimeline(_user, ps);
 
+                    tweets = tweets.Where(t => t.CreatedAt > new DateTime(2017, 7, 1)).ToList();
+
                     // If no tweets were returned, then there are no more tweets
                     if (!tweets.Any()) {
-                        hasMore = false;
                         break;
                     }
 
@@ -86,46 +80,52 @@ namespace ArtSourceWrapper {
                         var firstPhoto = t.Media.Where(m => m.MediaType == "photo").FirstOrDefault();
                         if (firstPhoto == null) continue;
 
-                        wrappers.Add(new TwitterSubmissionWrapper(t, firstPhoto));
-                        if (wrappers.Count == _lastUpdateGalleryParameters.Count) break;
+                        list.Add(new TwitterSubmissionWrapper(t, firstPhoto));
                     }
                 }
 
-                // Progress is done
-                _lastUpdateGalleryParameters.Progress?.Report(1);
-
-                return new UpdateGalleryResult {
-                    HasLess = page > 0,
-                    HasMore = hasMore,
-                    Submissions = wrappers.Select(w => (ISubmissionWrapper)w).ToList()
-                };
+                return _cache = list;
             });
         }
 
-        private Task<UpdateGalleryResult> GetPage(int page) {
-            if (page < 0) page = 0;
-            _currentPage = page;
-
-            // Get all pages up to and including this one
-            while (_cache.Count <= page) {
-                _cache.Add(CreatePage(_cache.Count));
-            }
-
-            return _cache[page];
+        public async Task<UpdateGalleryResult> NextPageAsync() {
+            int count = _lastUpdateGalleryParameters.Count;
+            _currentOffset += count;
+            var list = await GetSubmissions(_currentOffset + count + 1);
+            var list2 = new List<ISubmissionWrapper>();
+            list2.AddRange(list.Skip(_currentOffset).Take(count));
+            return new UpdateGalleryResult {
+                HasLess = true,
+                HasMore = list.Count > _currentOffset + count,
+                Submissions = list2
+            };
         }
 
-        public Task<UpdateGalleryResult> NextPageAsync() {
-            return GetPage(_currentPage + 1);
+        public async Task<UpdateGalleryResult> PreviousPageAsync() {
+            int count = _lastUpdateGalleryParameters.Count;
+            _currentOffset -= count;
+            var list = await GetSubmissions(_currentOffset + count + 1);
+            var list2 = new List<ISubmissionWrapper>();
+            list2.AddRange(list.Skip(_currentOffset).Take(count));
+            return new UpdateGalleryResult {
+                HasLess = _currentOffset > 0,
+                HasMore = list.Count > _currentOffset + count,
+                Submissions = list2
+            };
         }
 
-        public Task<UpdateGalleryResult> PreviousPageAsync() {
-            return GetPage(_currentPage - 1);
-        }
-
-        public Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
+        public async Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
             _lastUpdateGalleryParameters = p;
             _cache.Clear();
-            return GetPage(0);
+            _currentOffset = 0;
+            var list = (await GetSubmissions(3))
+                .Select(w => (ISubmissionWrapper)w)
+                .ToList();
+            return new UpdateGalleryResult {
+                HasLess = false,
+                HasMore = true,
+                Submissions = list
+            };
         }
 
         public Task<string> WhoamiAsync() {
