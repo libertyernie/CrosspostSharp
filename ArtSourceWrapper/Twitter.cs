@@ -34,9 +34,12 @@ namespace ArtSourceWrapper {
         private Task<List<TwitterSubmissionWrapper>> GetSubmissions(int count) {
             return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 List<TwitterSubmissionWrapper> list = _cache?.ToList() ?? new List<TwitterSubmissionWrapper>();
+				int originalCount = list.Count;
 
                 // Find the oldest tweet that exists in the already obtained page.
-                long minObtainedTweetId = list.Select(w => w.Tweet.Id).DefaultIfEmpty(0).Min();
+                long? minObtainedTweetId = list.Any()
+					? list.Select(w => w.Tweet.Id).Min()
+					: (long?)null;
 
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();
@@ -44,36 +47,36 @@ namespace ArtSourceWrapper {
                 }
 
                 // Multiple calls may be needed (because retweets and tweets w/o photos are skipped).
-                int i = 0;
+				int tries = 0;
                 while (list.Count < count) {
-                    if (++i > 10) {
-                        throw new TwitterWrapperException("No pictures were found in your recent tweets.");
-                    }
+					if (tries++ > 10) {
+						throw new TwitterWrapperException("No pictures were found in your recent tweets.");
+					}
 
-                    var ps = new UserTimelineParameters {
+					var ps = new UserTimelineParameters {
                         ExcludeReplies = false,
                         IncludeEntities = true,
                         IncludeRTS = true,
-                        MaximumNumberOfTweetsToRetrieve = 200
+                        MaximumNumberOfTweetsToRetrieve = 5
                     };
-                    ps.MaxId = minObtainedTweetId - 1;
+					ps.MaxId = (minObtainedTweetId ?? 0) - 1;
 
-                    // Get the tweets
-                    _lastUpdateGalleryParameters.Progress?.Report(i / 10.0);
+					// Get the tweets
+					double newlyAdded = list.Count - originalCount;
+					double needed = count - originalCount;
+                    _lastUpdateGalleryParameters.Progress?.Report(newlyAdded / needed);
                     var tweets = await TimelineAsync.GetUserTimeline(_user, ps);
 
-                    tweets = tweets.Where(t => t.CreatedAt > new DateTime(2017, 7, 1)).ToList();
-
-                    // If no tweets were returned, then there are no more tweets
-                    if (!tweets.Any()) {
-                        break;
-                    }
+					// If no tweets were returned, then there are no more tweets
+					if (!tweets.Any()) {
+						break;
+					}
 
                     // Wrap tweets
                     // Take no more than the size of the consumer's page (_lastUpdateGalleryParameters.Count)
                     // Skip retweets and tweets with no photos
                     foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
-                        minObtainedTweetId = Math.Min(minObtainedTweetId, t.Id);
+                        minObtainedTweetId = Math.Min(minObtainedTweetId ?? long.MaxValue, t.Id);
 
                         if (t.IsRetweet) continue;
 
@@ -81,6 +84,7 @@ namespace ArtSourceWrapper {
                         if (firstPhoto == null) continue;
 
                         list.Add(new TwitterSubmissionWrapper(t, firstPhoto));
+						tries = 0;
                     }
                 }
 
@@ -118,7 +122,7 @@ namespace ArtSourceWrapper {
             _lastUpdateGalleryParameters = p;
             _cache.Clear();
             _currentOffset = 0;
-            var list = (await GetSubmissions(3))
+            var list = (await GetSubmissions(p.Count + 1))
                 .Select(w => (ISubmissionWrapper)w)
                 .ToList();
             return new UpdateGalleryResult {
