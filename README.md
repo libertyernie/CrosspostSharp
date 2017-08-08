@@ -19,19 +19,13 @@ Requirements:
 Authentication
 --------------
 
-To use this application, you must connect it to your DeviantArt or Weasyl
-account. Information for all accounts will be stored in the file ArtSync.json,
+To use this application, you must connect it to one of your accounts.
+Information for all accounts will be stored in the file ArtSync.json,
 so keep that file secure!
 
-When you're logged into DeviantArt or Weasyl, your three most recent
+When you're logged into a source site, your three most recent
 submissions will appear along the left side of the window. Click the thumbnail
 to load the full image and fill in the information boxes.
-
-The general layout of the window is as follows (top to bottom).
-
-* Image
-* Title
-* Tags/keywords for this submission
 
 ### Weasyl
 
@@ -41,17 +35,23 @@ ArtSync (Tools -> Options).
 
 You can revoke an API key at any time by going to the same page.
 
-### DeviantArt
+### DeviantArt / Tumblr / Twitter
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
-will let you sign into DeviantArt using OAuth. Once signed in, the OAuth token
+will let you sign in using OAuth. Once signed in, the OAuth token
 will be stored in ArtSync.json.
 
-### Tumblr
+#### Tumblr
 
-Use the "Sign In" button in Tools -> Options to launch a browser window, which
-will let you sign into Tumblr using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json.
+Only photo posts will be shown. Reblogs will be included, but ArtSync won't
+allow you to post them to other sites.
+
+#### Twitter
+
+Retweets, and tweets without photos, will be omitted.
+
+The browser window uses Internet Explorer internally, so you may see a notice
+from Twitter that you have logged in with Internet Explorer from a new device.
 
 ### Inkbunny
 
@@ -78,8 +78,8 @@ Tumblr tab:
 * Post to Tumblr button
 
 When you post to Tumblr, the header, body and footer templates will be put
-together, and occurences of {TITLE} or {URL} will be replaced with the
-appropriate values. This will form the photo caption / text.
+together, and occurences of {URL} will be replaced with the
+appropriate value. This will form the photo caption / text.
 
 The tags will be combined and separated by space. The unique tag can be
 added to tie your Tumblr post back to the original on DeviantArt, so ArtSync
