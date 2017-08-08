@@ -307,8 +307,8 @@ namespace ArtSync {
                     UpdateExistingTumblrPostLink(),
                     UpdateExistingInkbunnyPostLink()
                 );
-            } catch (Exception) {
-                MessageBox.Show("Could not check for existing post on one or more sites.");
+            } catch (Exception ex) {
+                MessageBox.Show(this, "Could not check for existing post on one or more sites.", ex.GetType().Name);
             }
         }
 
@@ -412,7 +412,7 @@ namespace ArtSync {
 					UserId = Inkbunny.UserId,
 					Text = keyword
 				});
-                if (existing == null) {
+                if (existing == null && this.currentImage != null) {
                     using (var m = MD5.Create()) {
                         byte[] hash = m.ComputeHash(this.currentImage.Data);
                         string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));

@@ -30,7 +30,7 @@ namespace ArtSourceWrapper {
 					.OrderByDescending(s => s.submission_id)
 					.Where(s => !s.hidden)
 					.Select(s => {
-						ISubmissionWrapper w = new InkbunnySubmissionWrapper(s);
+						ISubmissionWrapper w = new InkbunnySubmissionWrapper(s, _client.Sid);
 						return w;
 					})
 					.ToList(),
@@ -80,18 +80,23 @@ namespace ArtSourceWrapper {
 
 		public string GeneratedUniqueTag => "#inkbunny" + Submission.submission_id;
 		public string HTMLDescription => Submission.description_bbcode_parsed;
-		public string ImageURL => Submission.file_url_full;
+        public string ImageURL => Public
+            ? Submission.file_url_full
+            : null;
 		public bool PotentiallySensitive => Submission.rating_id != InkbunnyRating.General;
 		public IEnumerable<string> Tags => Submission.keywords.Select(k => k.keyword_name);
-		public string ThumbnailURL => Submission.thumbnail_url_medium ?? Submission.thumbnail_url_medium_noncustom;
+        public string ThumbnailURL => Public
+            ? Submission.thumbnail_url_medium ?? Submission.thumbnail_url_medium_noncustom
+            : null;
 		public DateTime Timestamp => Submission.create_datetime.ToLocalTime().LocalDateTime;
 		public string Title => Submission.title;
 		public string ViewURL => "https://inkbunny.net/submissionview.php?id=" + Submission.submission_id;
 
 		public bool OwnWork => true;
+        public bool Public => Submission.@public;
 
-		public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission) {
+        public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission, string sid) {
 			Submission = submission;
-		}
+        }
 	}
 }
