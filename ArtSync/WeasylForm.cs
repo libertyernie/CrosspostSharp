@@ -832,9 +832,36 @@ namespace ArtSync {
                     txtSaveDir.Text = dialog.SelectedPath;
                 }
             }
-        }
+		}
 
-        private void btnSaveLocal_Click(object sender, EventArgs e) {
+		private void UpdateSaveDirPreview() {
+			saveDirPreviewPanel.Controls.Clear();
+			string path = txtSaveDir.Text;
+			if (Directory.Exists(path)) {
+				var webBrowser = new WebBrowser();
+				webBrowser.Dock = DockStyle.Fill;
+				saveDirPreviewPanel.Controls.Add(webBrowser);
+				webBrowser.Navigate(txtSaveDir.Text);
+				webBrowser.AllowNavigation = false;
+			}
+		}
+
+		private void chkSaveDirPreview_CheckedChanged(object sender, EventArgs a) {
+			txtSaveDir.Enabled = !chkSaveDirPreview.Checked;
+			if (chkSaveDirPreview.Checked) {
+				UpdateSaveDirPreview();
+			} else {
+				saveDirPreviewPanel.Controls.Clear();
+			}
+		}
+
+		private void txtSaveDir_TextChanged(object sender, EventArgs e) {
+			if (chkSaveDirPreview.Checked) {
+				UpdateSaveDirPreview();
+			}
+		}
+
+		private void btnSaveLocal_Click(object sender, EventArgs e) {
             string path = Path.Combine(txtSaveDir.Text, txtSaveFilename.Text);
             if (File.Exists(path)) {
                 var result = MessageBox.Show(this, $"The file {txtSaveFilename.Text} already exists. Would you like to overwrite it?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -861,5 +888,5 @@ namespace ArtSync {
 				return new BinaryFile(stream.ToArray());
 			}
 		}
-    }
+	}
 }
