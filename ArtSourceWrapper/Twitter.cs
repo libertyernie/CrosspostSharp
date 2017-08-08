@@ -57,7 +57,7 @@ namespace ArtSourceWrapper {
                         ExcludeReplies = false,
                         IncludeEntities = true,
                         IncludeRTS = true,
-                        MaximumNumberOfTweetsToRetrieve = 5
+                        MaximumNumberOfTweetsToRetrieve = 200
                     };
 					ps.MaxId = (minObtainedTweetId ?? 0) - 1;
 
@@ -80,11 +80,12 @@ namespace ArtSourceWrapper {
 
                         if (t.IsRetweet) continue;
 
-                        var firstPhoto = t.Media.Where(m => m.MediaType == "photo").FirstOrDefault();
-                        if (firstPhoto == null) continue;
-
-                        list.Add(new TwitterSubmissionWrapper(t, firstPhoto));
-						tries = 0;
+						foreach (var m in t.Media) {
+							if (m.MediaType == "photo") {
+								list.Add(new TwitterSubmissionWrapper(t, m));
+								tries = 0;
+							}
+						}
                     }
                 }
 
