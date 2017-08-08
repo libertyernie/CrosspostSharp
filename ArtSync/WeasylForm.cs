@@ -277,11 +277,26 @@ namespace ArtSync {
             this.lnkOriginalUrl.Text = submission?.ViewURL ?? "";
 			if (file == null) {
 				mainPictureBox.Image = null;
-			} else {
-				try {
+                txtSaveFilename.Text = "";
+            } else {
+                char[] invalid = Path.GetInvalidFileNameChars();
+                string basename = submission?.Title;
+                if (string.IsNullOrEmpty(basename)) {
+                    basename = submission?.GeneratedUniqueTag?.Replace("#", "");
+                }
+                if (string.IsNullOrEmpty(basename)) {
+                    basename = "image";
+                }
+                basename = new string(basename.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+                string ext = file.MimeType.StartsWith("image/")
+                    ? $".{file.MimeType.Replace("image/", "")}"
+                    : "";
+                txtSaveFilename.Text = basename + ext;
+
+                try {
 					this.currentImageBitmap = (Bitmap)Image.FromStream(new MemoryStream(file.Data));
 					mainPictureBox.Image = this.currentImageBitmap;
-				} catch (ArgumentException) {
+                } catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
 					mainPictureBox.Image = null;
 				}
@@ -768,27 +783,31 @@ namespace ArtSync {
             LProgressBar.Report(0);
             LProgressBar.Visible = true;
 			Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
-				var options = new PublishTweetOptionalParameters();
+                try {
+                    var options = new PublishTweetOptionalParameters();
 
-				if (chkIncludeImage.Checked) {
-					IMedia media = Upload.UploadImage(currentImage.Data);
-					options.Medias = new List<IMedia> { media };
+                    if (chkIncludeImage.Checked) {
+                        IMedia media = Upload.UploadImage(currentImage.Data);
+                        options.Medias = new List<IMedia> { media };
+                    }
+                    LProgressBar.Report(0.5);
+
+                    if (chkTweetPotentiallySensitive.Checked) {
+                        options.PossiblySensitive = true;
+                    }
+
+                    ITweet tweet = Tweet.PublishTweet(text, options);
+
+                    if (tweet == null) {
+                        string desc = ExceptionHandler.GetLastException().TwitterDescription;
+                        MessageBox.Show(this, desc, "Could not send tweet");
+                    } else {
+                        this.tweetCache.Add(tweet);
+                        UpdateExistingTweetLink();
+                    }
+                } catch (Exception ex) {
+                    MessageBox.Show(this, ex.Message, ex.GetType().Name);
                 }
-                LProgressBar.Report(0.5);
-
-                if (chkTweetPotentiallySensitive.Checked) {
-					options.PossiblySensitive = true;
-				}
-
-				ITweet tweet = Tweet.PublishTweet(text, options);
-
-				if (tweet == null) {
-					string desc = ExceptionHandler.GetLastException().TwitterDescription;
-					MessageBox.Show(this, desc, "Could not send tweet");
-				} else {
-					this.tweetCache.Add(tweet);
-					UpdateExistingTweetLink();
-				}
 				LProgressBar.Visible = false;
 			}));
 		}
@@ -804,9 +823,28 @@ namespace ArtSync {
 		private void chkIncludeTag_CheckedChanged(object sender, EventArgs e) {
 			ResetTweetText();
 		}
-		#endregion
+        
+        private void btnSaveDirBrowse_Click(object sender, EventArgs e) {
+            using (var dialog = new FolderBrowserDialog()) {
+                dialog.SelectedPath = txtSaveDir.Text;
+                if (dialog.ShowDialog(this) == DialogResult.OK) {
+                    txtSaveDir.Text = dialog.SelectedPath;
+                }
+            }
+        }
 
-		private static BinaryFile MakeSquare(Bitmap oldBitmap) {
+        private void btnSaveLocal_Click(object sender, EventArgs e) {
+            string path = Path.Combine(txtSaveDir.Text, txtSaveFilename.Text);
+            if (File.Exists(path)) {
+                var result = MessageBox.Show(this, $"The file {txtSaveFilename.Text} already exists. Would you like to overwrite it?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.Cancel) return;
+            }
+
+            File.WriteAllBytes(path, this.currentImage.Data);
+        }
+        #endregion
+
+        private static BinaryFile MakeSquare(Bitmap oldBitmap) {
 			int newSize = Math.Max(oldBitmap.Width, oldBitmap.Height);
 			Bitmap newBitmap = new Bitmap(newSize, newSize);
 
