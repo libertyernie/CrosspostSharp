@@ -64,7 +64,8 @@ namespace ArtSync {
 
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3 };
 
-			this.Shown += (o, e) => LoadFromSettings();
+            txtSaveDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            this.Shown += (o, e) => LoadFromSettings();
 		}
 
 		#region GUI updates
@@ -836,8 +837,8 @@ namespace ArtSync {
         private void btnSaveLocal_Click(object sender, EventArgs e) {
             string path = Path.Combine(txtSaveDir.Text, txtSaveFilename.Text);
             if (File.Exists(path)) {
-                var result = MessageBox.Show(this, $"The file {txtSaveFilename.Text} already exists. Would you like to overwrite it?", "Save", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (result == DialogResult.Cancel) return;
+                var result = MessageBox.Show(this, $"The file {txtSaveFilename.Text} already exists. Would you like to overwrite it?", "Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No) return;
             }
 
             File.WriteAllBytes(path, this.currentImage.Data);
