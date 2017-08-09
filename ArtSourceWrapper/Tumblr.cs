@@ -15,63 +15,55 @@ namespace ArtSourceWrapper {
         public TumblrWrapperException(string message) : base(message) { }
     }
 
-    public class TumblrWrapper : IWrapper {
+    public class TumblrWrapper : SiteWrapper<TumblrSubmissionWrapper, long> {
         private readonly TumblrClient _client;
         private string _blogName;
-		private IEnumerable<string> _blogNames;
-
-        private UpdateGalleryParameters _lastUpdateGalleryParameters;
-        private int _currentOffset;
+        private IEnumerable<string> _blogNames;
 
         public TumblrWrapper(TumblrClient client, string blogName) {
             _client = client;
             _blogName = blogName;
         }
 
-        public string SiteName => "Tumblr";
+        public override string SiteName => "Tumblr";
 
-		private async Task<UpdateGalleryResult> GetPosts() {
-			if (_currentOffset < 0) _currentOffset = 0;
+        public override async Task<bool> FetchAsync() {
+            List<TumblrSubmissionWrapper> list = _cache?.ToList() ?? new List<TumblrSubmissionWrapper>();
 
-			if (_blogNames == null) {
-				var user = await _client.GetUserInfoAsync();
-				_blogNames = user.Blogs.Select(b => b.Name).ToList();
-			}
-			if (!_blogNames.Contains(_blogName)) {
-				throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the currently logged in user. (Make sure the name is spelled and capitalized correctly.)");
-			}
+            if (_blogNames == null) {
+                var user = await _client.GetUserInfoAsync();
+                _blogNames = user.Blogs.Select(b => b.Name).ToList();
+            }
+            if (!_blogNames.Contains(_blogName)) {
+                throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the currently logged in user. (Make sure the name is spelled and capitalized correctly.)");
+            }
 
-			var posts = await _client.GetPostsAsync(
-				_blogName,
-				_currentOffset,
-				_lastUpdateGalleryParameters.Count,
-				type: PostType.Photo,
-				includeReblogInfo: true);
-			var list = posts.Result.Select(post => (PhotoPost)post).ToList();
-			return new UpdateGalleryResult {
-				HasLess = _currentOffset > 0,
-				HasMore = list.Any(),
-				Submissions = list.Select(post => (ISubmissionWrapper)new TumblrSubmissionWrapper(post, _blogNames.Contains(post.RebloggedRootName ?? post.BlogName))).ToList()
-			};
-		}
+            long position = _nextPosition ?? 0;
 
-		public Task<UpdateGalleryResult> NextPageAsync() {
-			_currentOffset += _lastUpdateGalleryParameters?.Count ?? 1;
-			return GetPosts();
-		}
+            var posts = await _client.GetPostsAsync(
+                _blogName,
+                position,
+                type: PostType.Photo,
+                includeReblogInfo: true);
 
-        public Task<UpdateGalleryResult> PreviousPageAsync() {
-			_currentOffset -= _lastUpdateGalleryParameters?.Count ?? 1;
-			return GetPosts();
-		}
+            if (!posts.Result.Any()) {
+                return false;
+            }
 
-        public Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
-			_lastUpdateGalleryParameters = p;
-			_currentOffset = 0;
-			return GetPosts();
-		}
+            position += posts.Result.Length;
 
-        public async Task<string> WhoamiAsync() {
+            list.AddRange(posts.Result
+                .Select(post => post as PhotoPost)
+                .Where(post => post != null)
+                .Where(post => _blogNames.Contains(post.RebloggedRootName ?? post.BlogName))
+                .Select(post => new TumblrSubmissionWrapper(post)));
+
+            _cache = list;
+            _nextPosition = position;
+            return true;
+        }
+
+        public override async Task<string> WhoamiAsync() {
             var user = await _client.GetUserInfoAsync();
             return user.Name;
         }
@@ -79,13 +71,11 @@ namespace ArtSourceWrapper {
 
     public class TumblrSubmissionWrapper : ISubmissionWrapper {
 		public readonly PhotoPost Post;
+        
+		public bool OwnWork => true;
 
-		private readonly bool _ownWork;
-		public bool OwnWork => _ownWork;
-
-		public TumblrSubmissionWrapper(PhotoPost post, bool ownWork) {
+		public TumblrSubmissionWrapper(PhotoPost post) {
             Post = post;
-			_ownWork = ownWork;
         }
 
         public string Title => "";
@@ -105,6 +95,6 @@ namespace ArtSourceWrapper {
                 return Post.Photo.OriginalSize.ImageUrl;
             }
         }
-        public Color? BorderColor => !OwnWork ? Color.Gray : (Color?)null;
+        public Color? BorderColor => null;
 	}
 }

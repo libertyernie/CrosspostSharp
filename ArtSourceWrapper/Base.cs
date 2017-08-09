@@ -25,6 +25,74 @@ namespace ArtSourceWrapper {
         }
     }
 
+    public abstract class SiteWrapper<T, NextPosition> : IWrapper where T : ISubmissionWrapper where NextPosition : struct {
+        public abstract string SiteName { get; }
+        public abstract Task<string> WhoamiAsync();
+        public abstract Task<bool> FetchAsync();
+
+        protected List<T> _cache;
+        protected NextPosition? _nextPosition;
+
+        public IReadOnlyList<T> Cache => _cache;
+
+        public SiteWrapper() {
+            _cache = new List<T>();
+        }
+
+        public async Task<List<T>> FetchSliceAsync(int index, int count, IProgress<double> progress = null) {
+            int startCount = Cache.Count;
+            while (Cache.Count < index + count) {
+                progress?.Report(1.0 * (Cache.Count - startCount + 1) / (index + count - startCount));
+                bool more = await FetchAsync();
+                if (!more) {
+                    // reached end of list
+                    break;
+                }
+            }
+            return Cache.Skip(index).Take(count).ToList();
+        }
+
+        public void Clear() {
+            _cache.Clear();
+            _nextPosition = null;
+        }
+
+        private UpdateGalleryParameters _lastUpdateGalleryParameters;
+        private int _currentOffset;
+
+        Task<string> IWrapper.WhoamiAsync() => WhoamiAsync();
+
+        private async Task<UpdateGalleryResult> Convert() {
+            var list = await FetchSliceAsync(_currentOffset, _lastUpdateGalleryParameters.Count, _lastUpdateGalleryParameters.Progress);
+            return new UpdateGalleryResult {
+                HasLess = _currentOffset > 0,
+                HasMore = list.Any(),
+                Submissions = list.Select(w => {
+                    ISubmissionWrapper w2 = w;
+                    return w2;
+                }).ToList()
+            };
+        }
+
+        Task<UpdateGalleryResult> IWrapper.UpdateGalleryAsync(UpdateGalleryParameters p) {
+            _lastUpdateGalleryParameters = p;
+            _currentOffset = 0;
+            Clear();
+            return Convert();
+        }
+
+        Task<UpdateGalleryResult> IWrapper.NextPageAsync() {
+            _currentOffset += _lastUpdateGalleryParameters.Count;
+            return Convert();
+        }
+
+        Task<UpdateGalleryResult> IWrapper.PreviousPageAsync() {
+            _currentOffset -= _lastUpdateGalleryParameters.Count;
+            if (_currentOffset < 0) _currentOffset = 0;
+            return Convert();
+        }
+    }
+
     public class UpdateGalleryResult {
         public IList<ISubmissionWrapper> Submissions;
         public bool HasLess;
