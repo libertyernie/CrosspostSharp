@@ -37,7 +37,7 @@ Module Module1
 
             Console.WriteLine("----------")
 
-            searchResults = Await ib.NextPageAsync(searchResults, 10)
+            searchResults = Await ib.SearchAsync(searchResults.sid, searchResults.page + 1, 10)
             For Each s In searchResults.submissions
                 If s.hidden Then
                     Console.WriteLine("(Hidden - skipping)")

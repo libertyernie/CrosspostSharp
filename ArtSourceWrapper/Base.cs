@@ -71,18 +71,6 @@ namespace ArtSourceWrapper {
                 : 0;
         }
 
-        public async Task<List<T>> FetchSliceAsync(int index, int count, IProgress<double> progress = null) {
-            int startCount = Cache.Count;
-            while (Cache.Count < index + count) {
-                progress?.Report(1.0 * (Cache.Count - startCount + 1) / (index + count - startCount));
-                if (await FetchAsync() == -1) {
-                    // reached end of list
-                    break;
-                }
-            }
-            return Cache.Skip(index).Take(count).ToList();
-        }
-
         public void Clear() {
             _cache.Clear();
             _nextPosition = null;

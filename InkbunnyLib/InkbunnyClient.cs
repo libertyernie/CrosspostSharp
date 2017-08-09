@@ -240,27 +240,16 @@ namespace InkbunnyLib {
 			return SearchAsync(dict);
         }
 
-		public Task<InkbunnySearchResponse> NextPageAsync(InkbunnySearchResponse resp, int? submissions_per_page = null) {
-			if (resp.rid == null) {
-				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
-			}
-			return SearchAsync(new Dictionary<string, string> {
-				["rid"] = resp.rid,
-				["submissions_per_page"] = submissions_per_page?.ToString(),
-				["page"] = (resp.page + 1).ToString()
-			});
-		}
-
-		public Task<InkbunnySearchResponse> PrevPageAsync(InkbunnySearchResponse resp, int? submissions_per_page = null) {
-			if (resp.rid == null) {
-				throw new ArgumentException("The provided SearchResponse must have a 'rid'");
-			}
-			return SearchAsync(new Dictionary<string, string> {
-				["rid"] = resp.rid,
-				["submissions_per_page"] = submissions_per_page?.ToString(),
-				["page"] = (resp.page - 1).ToString()
-			});
-		}
+        public Task<InkbunnySearchResponse> SearchAsync(string rid, int page, int? submissions_per_page = null) {
+            if (rid == null) {
+                throw new ArgumentNullException(nameof(rid));
+            }
+            return SearchAsync(new Dictionary<string, string> {
+                ["rid"] = rid,
+                ["submissions_per_page"] = submissions_per_page?.ToString(),
+                ["page"] = page.ToString()
+            });
+        }
 
 		public Task LogoutAsync() {
 			return PostMultipartAsync("https://inkbunny.net/api_logout.php", new Dictionary<string, string>());

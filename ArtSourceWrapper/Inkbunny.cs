@@ -8,59 +8,38 @@ using System.Drawing;
 using InkbunnyLib.Responses;
 
 namespace ArtSourceWrapper {
-	public class InkbunnyWrapper : IWrapper {
+	public class InkbunnyWrapper : SiteWrapper<InkbunnySubmissionWrapper, int> {
 		private InkbunnyClient _client;
-		private InkbunnySearchResponse _lastResponse;
-        private UpdateGalleryParameters _lastUpdateGalleryParameters;
+        private string _rid;
 
         public InkbunnyWrapper(InkbunnyClient client) {
 			_client = client;
 		}
 
-		public string SiteName => "Inkbunny";
+		public override string SiteName => "Inkbunny";
 
-		private async Task<UpdateGalleryResult> Wrap(InkbunnySearchResponse response) {
-            _lastUpdateGalleryParameters.Progress?.Report(0.5f);
-            var details = await _client.GetSubmissionsAsync(
-				response.submissions.Select(s => s.submission_id),
-				show_description_bbcode_parsed: true);
-            _lastUpdateGalleryParameters.Progress?.Report(1);
-            return new UpdateGalleryResult {
-				Submissions = details.submissions
-					.OrderByDescending(s => s.submission_id)
-					.Where(s => !s.hidden)
-					.Select(s => {
-						ISubmissionWrapper w = new InkbunnySubmissionWrapper(s, _client.Sid);
-						return w;
-					})
-					.ToList(),
-				HasLess = response.page > 1,
-				HasMore = response.page < response.pages_count
-			};
-		}
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+            var response = startPosition == null
+                ? await _client.SearchAsync(new InkbunnySearchParameters { UserId = _client.UserId, DaysLimit = 30 })
+                : await _client.SearchAsync(_rid, startPosition.Value + 1);
+            
+            if (response.pages_count < (startPosition ?? 1)) {
+                return new InternalFetchResult(response.page + 1, isEnded: true);
+            }
 
-		public async Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
-			_lastResponse = await _client.SearchAsync(new InkbunnySearchParameters {
-				UserId = _client.UserId
-			}, submissions_per_page: p.Count);
-            _lastUpdateGalleryParameters = p;
-			return await Wrap(_lastResponse);
-		}
+            _rid = response.rid;
+            var details = await _client.GetSubmissionsAsync(response.submissions.Select(s => s.submission_id));
+            var wrappers = details.submissions
+                .Where(s => s.@public)
+                .OrderByDescending(s => s.create_datetime)
+                .Select(s => new InkbunnySubmissionWrapper(s));
+            return new InternalFetchResult(wrappers, response.page + 1);
+        }
 
-		public async Task<UpdateGalleryResult> NextPageAsync() {
-			_lastResponse = await _client.NextPageAsync(_lastResponse, submissions_per_page: _lastUpdateGalleryParameters.Count);
-			return await Wrap(_lastResponse);
-		}
-
-		public async Task<UpdateGalleryResult> PreviousPageAsync() {
-			_lastResponse = await _client.PrevPageAsync(_lastResponse, submissions_per_page: _lastUpdateGalleryParameters.Count);
-			return await Wrap(_lastResponse);
-		}
-
-		public Task<string> WhoamiAsync() {
+        public override Task<string> WhoamiAsync() {
 			return _client.GetUsernameAsync();
 		}
-	}
+    }
 
 	public class InkbunnySubmissionWrapper : ISubmissionWrapper {
 		public readonly InkbunnySubmissionDetail Submission;
@@ -80,22 +59,17 @@ namespace ArtSourceWrapper {
 
 		public string GeneratedUniqueTag => "#inkbunny" + Submission.submission_id;
 		public string HTMLDescription => Submission.description_bbcode_parsed;
-        public string ImageURL => Public
-            ? Submission.file_url_full
-            : null;
+        public string ImageURL => Submission.file_url_full;
 		public bool PotentiallySensitive => Submission.rating_id != InkbunnyRating.General;
 		public IEnumerable<string> Tags => Submission.keywords.Select(k => k.keyword_name);
-        public string ThumbnailURL => Public
-            ? Submission.thumbnail_url_medium ?? Submission.thumbnail_url_medium_noncustom
-            : null;
+        public string ThumbnailURL => Submission.thumbnail_url_medium ?? Submission.thumbnail_url_medium_noncustom;
 		public DateTime Timestamp => Submission.create_datetime.ToLocalTime().LocalDateTime;
 		public string Title => Submission.title;
 		public string ViewURL => "https://inkbunny.net/submissionview.php?id=" + Submission.submission_id;
 
 		public bool OwnWork => true;
-        public bool Public => Submission.@public;
 
-        public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission, string sid) {
+        public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission) {
 			Submission = submission;
         }
 	}
