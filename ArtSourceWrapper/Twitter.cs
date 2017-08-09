@@ -25,10 +25,8 @@ namespace ArtSourceWrapper {
             _credentials = credentials;
         }
 
-        public override async Task<bool> FetchAsync() {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
-                List<TwitterSubmissionWrapper> list = _cache?.ToList() ?? new List<TwitterSubmissionWrapper>();
-
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();
                     if (_user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
@@ -40,19 +38,20 @@ namespace ArtSourceWrapper {
                     IncludeRTS = true,
                     MaximumNumberOfTweetsToRetrieve = 200
                 };
-                ps.MaxId = _nextPosition ?? -1;
+                ps.MaxId = startPosition ?? -1;
 
                 // Get the tweets
                 var tweets = await TimelineAsync.GetUserTimeline(_user, ps);
 
                 // If no tweets were returned, then there are no more tweets
                 if (!tweets.Any()) {
-                    return false;
+                    return new InternalFetchResult(ps.MaxId, isEnded: true);
                 }
 
                 // Wrap tweets
                 // Take no more than the size of the consumer's page (_lastUpdateGalleryParameters.Count)
                 // Skip retweets and tweets with no photos
+                var list = new List<TwitterSubmissionWrapper>();
                 foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
                     if (t.IsRetweet) continue;
 
@@ -63,9 +62,7 @@ namespace ArtSourceWrapper {
                     }
                 }
 
-                _cache = list;
-                _nextPosition = tweets.Select(t => t.Id).Min() - 1;
-                return true;
+                return new InternalFetchResult(list, tweets.Select(t => t.Id).Min() - 1);
             });
         }
 

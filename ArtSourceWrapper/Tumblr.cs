@@ -27,9 +27,7 @@ namespace ArtSourceWrapper {
 
         public override string SiteName => "Tumblr";
 
-        public override async Task<bool> FetchAsync() {
-            List<TumblrSubmissionWrapper> list = _cache?.ToList() ?? new List<TumblrSubmissionWrapper>();
-
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
             if (_blogNames == null) {
                 var user = await _client.GetUserInfoAsync();
                 _blogNames = user.Blogs.Select(b => b.Name).ToList();
@@ -38,7 +36,7 @@ namespace ArtSourceWrapper {
                 throw new TumblrWrapperException($"The blog {_blogName} does not appear to be owned by the currently logged in user. (Make sure the name is spelled and capitalized correctly.)");
             }
 
-            long position = _nextPosition ?? 0;
+            long position = startPosition ?? 0;
 
             var posts = await _client.GetPostsAsync(
                 _blogName,
@@ -47,20 +45,18 @@ namespace ArtSourceWrapper {
                 includeReblogInfo: true);
 
             if (!posts.Result.Any()) {
-                return false;
+                return new InternalFetchResult(position, isEnded: true);
             }
 
             position += posts.Result.Length;
 
-            list.AddRange(posts.Result
+            var list = posts.Result
                 .Select(post => post as PhotoPost)
                 .Where(post => post != null)
                 .Where(post => _blogNames.Contains(post.RebloggedRootName ?? post.BlogName))
-                .Select(post => new TumblrSubmissionWrapper(post)));
+                .Select(post => new TumblrSubmissionWrapper(post));
 
-            _cache = list;
-            _nextPosition = position;
-            return true;
+            return new InternalFetchResult(list, position);
         }
 
         public override async Task<string> WhoamiAsync() {

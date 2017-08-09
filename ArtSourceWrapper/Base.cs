@@ -25,13 +25,12 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public abstract class SiteWrapper<T, NextPosition> : IWrapper where T : ISubmissionWrapper where NextPosition : struct {
+    public abstract class SiteWrapper<T, Position> : IWrapper where T : ISubmissionWrapper where Position : struct {
         public abstract string SiteName { get; }
         public abstract Task<string> WhoamiAsync();
-        public abstract Task<bool> FetchAsync();
 
-        protected List<T> _cache;
-        protected NextPosition? _nextPosition;
+        private List<T> _cache;
+        private Position? _nextPosition;
 
         public IReadOnlyList<T> Cache => _cache;
 
@@ -39,12 +38,44 @@ namespace ArtSourceWrapper {
             _cache = new List<T>();
         }
 
+        protected class InternalFetchResult {
+            public readonly IEnumerable<T> AdditionalItems;
+            public readonly Position NextPosition;
+            public readonly bool IsEnded;
+
+            public InternalFetchResult(IEnumerable<T> additionalItems, Position nextPosition) {
+                this.AdditionalItems = additionalItems;
+                this.NextPosition = nextPosition;
+                this.IsEnded = false;
+            }
+
+            public InternalFetchResult(Position nextPosition, bool isEnded = false) {
+                this.AdditionalItems = Enumerable.Empty<T>();
+                this.NextPosition = nextPosition;
+                this.IsEnded = isEnded;
+            }
+        }
+
+        protected abstract Task<InternalFetchResult> InternalFetchAsync(Position? startPosition);
+
+        public async Task<int> FetchAsync() {
+            var list = _cache.ToList();
+            var result = await InternalFetchAsync(_nextPosition);
+
+            list.AddRange(result.AdditionalItems);
+            _cache = list;
+            _nextPosition = result.NextPosition;
+
+            return result.AdditionalItems.Any() ? result.AdditionalItems.Count()
+                : result.IsEnded ? -1
+                : 0;
+        }
+
         public async Task<List<T>> FetchSliceAsync(int index, int count, IProgress<double> progress = null) {
             int startCount = Cache.Count;
             while (Cache.Count < index + count) {
                 progress?.Report(1.0 * (Cache.Count - startCount + 1) / (index + count - startCount));
-                bool more = await FetchAsync();
-                if (!more) {
+                if (await FetchAsync() == -1) {
                     // reached end of list
                     break;
                 }
@@ -63,10 +94,25 @@ namespace ArtSourceWrapper {
         Task<string> IWrapper.WhoamiAsync() => WhoamiAsync();
 
         private async Task<UpdateGalleryResult> Convert() {
-            var list = await FetchSliceAsync(_currentOffset, _lastUpdateGalleryParameters.Count, _lastUpdateGalleryParameters.Progress);
+            int index = _currentOffset;
+            int count = _lastUpdateGalleryParameters.Count;
+
+            bool ended = false;
+            int startCount = Cache.Count;
+            while (Cache.Count < index + count) {
+                _lastUpdateGalleryParameters.Progress?.Report(1.0 * (Cache.Count - startCount + 1) / (index + count - startCount));
+                if (await FetchAsync() == -1) {
+                    // reached end of list
+                    ended = true;
+                    break;
+                }
+            }
+
+            var list = Cache.Skip(index).Take(count).ToList();
+
             return new UpdateGalleryResult {
                 HasLess = _currentOffset > 0,
-                HasMore = list.Any(),
+                HasMore = !ended,
                 Submissions = list.Select(w => {
                     ISubmissionWrapper w2 = w;
                     return w2;
