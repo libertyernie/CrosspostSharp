@@ -27,7 +27,7 @@ namespace ArtSourceWrapper {
 
         public override string SiteName => "Tumblr";
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int? maxCount) {
             if (_blogNames == null) {
                 var user = await _client.GetUserInfoAsync();
                 _blogNames = user.Blogs.Select(b => b.Name).ToList();
@@ -41,6 +41,7 @@ namespace ArtSourceWrapper {
             var posts = await _client.GetPostsAsync(
                 _blogName,
                 position,
+                count: Math.Min(maxCount ?? int.MaxValue, 20),
                 type: PostType.Photo,
                 includeReblogInfo: true);
 

@@ -25,18 +25,18 @@ namespace ArtSourceWrapper {
             _credentials = credentials;
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int? maxCount) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();
                     if (_user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
                 }
-
+                
                 var ps = new UserTimelineParameters {
                     ExcludeReplies = false,
                     IncludeEntities = true,
                     IncludeRTS = true,
-                    MaximumNumberOfTweetsToRetrieve = 200
+                    MaximumNumberOfTweetsToRetrieve = Math.Min(maxCount ?? int.MaxValue, 200)
                 };
                 ps.MaxId = startPosition ?? -1;
 

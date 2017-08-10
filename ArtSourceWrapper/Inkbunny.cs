@@ -18,10 +18,16 @@ namespace ArtSourceWrapper {
 
 		public override string SiteName => "Inkbunny";
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int? maxCount) {
+            if (maxCount > 100) maxCount = 100;
+
             var response = startPosition == null
-                ? await _client.SearchAsync(new InkbunnySearchParameters { UserId = _client.UserId, DaysLimit = 30 })
-                : await _client.SearchAsync(_rid, startPosition.Value + 1);
+                ? await _client.SearchAsync(
+                    new InkbunnySearchParameters { UserId = _client.UserId, DaysLimit = 30 },
+                    maxCount)
+                : await _client.SearchAsync(_rid,
+                    startPosition.Value + 1,
+                    maxCount);
             
             if (response.pages_count < (startPosition ?? 1)) {
                 return new InternalFetchResult(response.page + 1, isEnded: true);
