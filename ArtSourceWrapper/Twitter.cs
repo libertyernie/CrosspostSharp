@@ -25,6 +25,18 @@ namespace ArtSourceWrapper {
             _credentials = credentials;
         }
 
+        private static IEnumerable<TwitterSubmissionWrapper> Wrap(IEnumerable<ITweet> tweets) {
+            foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
+                if (t.IsRetweet) continue;
+
+                foreach (var m in t.Media) {
+                    if (m.MediaType == "photo") {
+                        yield return new TwitterSubmissionWrapper(t, m);
+                    }
+                }
+            }
+        }
+
         protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int? maxCount) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 if (_user == null) {
@@ -48,21 +60,7 @@ namespace ArtSourceWrapper {
                     return new InternalFetchResult(ps.MaxId, isEnded: true);
                 }
 
-                // Wrap tweets
-                // Take no more than the size of the consumer's page (_lastUpdateGalleryParameters.Count)
-                // Skip retweets and tweets with no photos
-                var list = new List<TwitterSubmissionWrapper>();
-                foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
-                    if (t.IsRetweet) continue;
-
-                    foreach (var m in t.Media) {
-                        if (m.MediaType == "photo") {
-                            list.Add(new TwitterSubmissionWrapper(t, m));
-                        }
-                    }
-                }
-
-                return new InternalFetchResult(list, tweets.Select(t => t.Id).Min() - 1);
+                return new InternalFetchResult(Wrap(tweets), tweets.Select(t => t.Id).Min() - 1);
             });
         }
 
