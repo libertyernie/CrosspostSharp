@@ -37,7 +37,7 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int? maxCount) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, ushort? maxCount) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();

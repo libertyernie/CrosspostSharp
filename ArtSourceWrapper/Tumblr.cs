@@ -27,7 +27,7 @@ namespace ArtSourceWrapper {
 
         public override string SiteName => "Tumblr";
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int? maxCount) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, ushort? maxCount) {
             if (_blogNames == null) {
                 var user = await _client.GetUserInfoAsync();
                 _blogNames = user.Blogs.Select(b => b.Name).ToList();

@@ -10,22 +10,16 @@ namespace ArtSourceWrapper {
         public DeviantArtException(string message) : base(message) { }
     }
 
-    public class DeviantArtWrapper : IWrapper {
+    public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
         private string _clientId, _clientSecret;
         private bool _initialLogin;
 
-        private IProgress<double> _lastProgressHandler;
-        private uint _offset, _count;
-
-        public string SiteName => "DeviantArt";
+        public override string SiteName => "DeviantArt";
 
         public DeviantArtWrapper(string clientId, string clientSecret) {
             _clientId = clientId;
             _clientSecret = clientSecret;
             _initialLogin = false;
-            _lastProgressHandler = null;
-            _offset = 0;
-            _count = 1;
         }
 
         /// <summary>
@@ -48,7 +42,7 @@ namespace ArtSourceWrapper {
             return result.RefreshToken;
         }
 
-        public async Task<string> WhoamiAsync() {
+        public override async Task<string> WhoamiAsync() {
             if (!_initialLogin) await UpdateTokens();
 
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
@@ -61,33 +55,22 @@ namespace ArtSourceWrapper {
             return result.Object.Username;
         }
 
-        public async Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
-            if (!_initialLogin) await UpdateTokens();
-
-            _lastProgressHandler = p.Progress;
-            _offset = 0;
-            _count = checked((uint)p.Count);
-
-            return await UpdateGalleryInternalAsync();
+        private IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<DeviationMetadata.MetadataClass> metadata) {
+            foreach (var d in deviations) {
+                var metadata_if_any = metadata.FirstOrDefault(m => m.DeviationId == d.DeviationId);
+                yield return new DeviantArtSubmissionWrapper(d, metadata_if_any);
+            }
         }
 
-        public async Task<UpdateGalleryResult> NextPageAsync() {
-            _offset += 4;
-            return await UpdateGalleryInternalAsync();
-        }
+        protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, ushort? maxCount) {
+            if (maxCount > 24) maxCount = 24;
+            uint position = startPosition ?? 0;
 
-        public async Task<UpdateGalleryResult> PreviousPageAsync() {
-            _offset -= 4;
-            if (_offset < 0) _offset = 0;
-            return await UpdateGalleryInternalAsync();
-        }
-
-        private async Task<UpdateGalleryResult> UpdateGalleryInternalAsync() {
             var galleryResponse = await new DeviantartApi.Requests.Gallery.AllRequest() {
-                Limit = _count,
-                Offset = _offset
+                Limit = maxCount,
+                Offset = startPosition
             }.GetNextPageAsync();
-            _lastProgressHandler?.Report(0.5);
+
             if (galleryResponse.IsError) {
                 throw new DeviantArtException(galleryResponse.ErrorText);
             }
@@ -95,10 +78,13 @@ namespace ArtSourceWrapper {
                 throw new DeviantArtException(galleryResponse.Object.ErrorDescription);
             }
 
+            if (!galleryResponse.Object.HasMore) {
+                return new InternalFetchResult(position, true);
+            }
+
             var metadataResponse = await new DeviantartApi.Requests.Deviation.MetadataRequest() {
                 DeviationIds = new HashSet<string>(galleryResponse.Object.Results.Select(d => d.DeviationId))
             }.ExecuteAsync();
-            _lastProgressHandler?.Report(0.5);
             if (metadataResponse.IsError) {
                 throw new DeviantArtException(metadataResponse.ErrorText);
             }
@@ -106,15 +92,9 @@ namespace ArtSourceWrapper {
                 throw new DeviantArtException(metadataResponse.Object.ErrorDescription);
             }
 
-            return new UpdateGalleryResult {
-                Submissions = galleryResponse.Object.Results.Select(d => {
-                    ISubmissionWrapper w;
-                    w = new DeviantArtSubmissionWrapper(d, metadataResponse.Object.Metadata.FirstOrDefault(m => m.DeviationId == d.DeviationId));
-                    return w;
-                }).ToList(),
-                HasLess = _offset > 0,
-                HasMore = galleryResponse.Object.HasMore
-            };
+            return new InternalFetchResult(
+                Wrap(galleryResponse.Object.Results, metadataResponse.Object.Metadata),
+                position + (uint)galleryResponse.Object.Results.Count);
         }
 
         public static async Task<bool> LogoutAsync() {

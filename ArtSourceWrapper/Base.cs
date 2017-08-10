@@ -56,9 +56,9 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected abstract Task<InternalFetchResult> InternalFetchAsync(Position? startPosition, int? maxCount);
+        protected abstract Task<InternalFetchResult> InternalFetchAsync(Position? startPosition, ushort? maxCount);
 
-        public async Task<int> FetchAsync(int? maxCount = null) {
+        public async Task<int> FetchAsync(ushort? maxCount = null) {
             var list = _cache.ToList();
             var result = await InternalFetchAsync(_nextPosition, maxCount);
 
