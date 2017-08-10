@@ -31,8 +31,10 @@ namespace ArtSourceWrapper {
 
         private List<T> _cache;
         private Position? _nextPosition;
+        private bool _isEnded;
 
         public IReadOnlyList<T> Cache => _cache;
+        public bool IsEnded => _isEnded;
 
         public SiteWrapper() {
             _cache = new List<T>();
@@ -43,10 +45,10 @@ namespace ArtSourceWrapper {
             public readonly Position NextPosition;
             public readonly bool IsEnded;
 
-            public InternalFetchResult(IEnumerable<T> additionalItems, Position nextPosition) {
+            public InternalFetchResult(IEnumerable<T> additionalItems, Position nextPosition, bool isEnded = false) {
                 this.AdditionalItems = additionalItems;
                 this.NextPosition = nextPosition;
-                this.IsEnded = false;
+                this.IsEnded = isEnded;
             }
 
             public InternalFetchResult(Position nextPosition, bool isEnded = false) {
@@ -59,12 +61,15 @@ namespace ArtSourceWrapper {
         protected abstract Task<InternalFetchResult> InternalFetchAsync(Position? startPosition, ushort? maxCount);
 
         public async Task<int> FetchAsync(ushort? maxCount = null) {
+            if (_isEnded) return -1;
+
             var list = _cache.ToList();
             var result = await InternalFetchAsync(_nextPosition, maxCount);
 
             list.AddRange(result.AdditionalItems);
             _cache = list;
             _nextPosition = result.NextPosition;
+            _isEnded = result.IsEnded;
 
             return result.AdditionalItems.Any() ? result.AdditionalItems.Count()
                 : result.IsEnded ? -1
@@ -74,6 +79,7 @@ namespace ArtSourceWrapper {
         public void Clear() {
             _cache.Clear();
             _nextPosition = null;
+            _isEnded = false;
         }
 
         private UpdateGalleryParameters _lastUpdateGalleryParameters;

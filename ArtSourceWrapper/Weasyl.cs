@@ -7,49 +7,21 @@ using System.Threading.Tasks;
 using WeasylSyncLib;
 
 namespace ArtSourceWrapper {
-    public class WeasylWrapper : IWrapper {
+    public class WeasylWrapper : SiteWrapper<WeasylSubmissionWrapper, int> {
         private WeasylAPI _client;
+        private string _username;
 
-        private UpdateGalleryParameters _lastUpdateGalleryParameters;
-        private int? _backId, _nextId;
-
-        public string SiteName => "Weasyl";
+        public override string SiteName => "Weasyl";
 
         public WeasylWrapper(string apiKey) {
             _client = new WeasylAPI { APIKey = apiKey };
         }
 
-        public async Task<string> WhoamiAsync() {
+        public override async Task<string> WhoamiAsync() {
             return (await _client.Whoami())?.login;
         }
 
-        public Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
-            _lastUpdateGalleryParameters = p;
-            return UpdateGalleryInternalAsync();
-        }
-
-        public Task<UpdateGalleryResult> NextPageAsync() {
-            if (_lastUpdateGalleryParameters == null) {
-                throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
-            }
-            return UpdateGalleryInternalAsync(nextId: _nextId);
-        }
-
-        public Task<UpdateGalleryResult> PreviousPageAsync() {
-            if (_lastUpdateGalleryParameters == null) {
-                throw new Exception("Cannot call NextPage/PreviousPage before UpdateGalleryAsync.");
-            }
-            return UpdateGalleryInternalAsync(backId: _backId);
-        }
-
-        private async Task<UpdateGalleryResult> UpdateGalleryInternalAsync(int? backId = null, int? nextId = null) {
-            var p = _lastUpdateGalleryParameters;
-
-            List<Task<SubmissionBaseDetail>> detailTasks = new List<Task<SubmissionBaseDetail>>(4);
-            string WeasylUsername = await WhoamiAsync();
-            if (WeasylUsername != null) {
-                if (p.Weasyl_LoadCharacters) {
-                    // Scrape from weasyl website
+        /*// Scrape from weasyl website
                     List<int> all_ids = await _client.GetCharacterIds(WeasylUsername);
                     p.Progress?.Report(1 / 5f);
                     IEnumerable<int> ids = all_ids;
@@ -69,38 +41,31 @@ namespace ArtSourceWrapper {
                         : (int?)null;
                     foreach (int id in ids) {
                         detailTasks.Add(_client.ViewCharacter(id));
-                    }
-                } else {
-                    var result = await _client.UserGallery(WeasylUsername, backid: backId, nextid: nextId, count: p.Count);
-                    p.Progress?.Report(1 / 5f);
-                    _backId = result.backid;
-                    _nextId = result.nextid;
-                    IEnumerable<int> ids = result.submissions.Select(s => s.submitid);
-                    foreach (int id in ids) {
-                        detailTasks.Add(_client.ViewSubmission(id));
-                    }
-                }
-                int completedCount = 1;
-                foreach (Task task in detailTasks) {
-                    var _ = task.ContinueWith(t => p.Progress?.Report(++completedCount / 5f));
-                }
-                var details = new List<SubmissionBaseDetail>(detailTasks.Count);
-                foreach (var task in detailTasks) {
-                    details.Add(await task);
-                }
-                details = details.OrderByDescending(d => d.posted_at).ToList();
-                return new UpdateGalleryResult {
-                    Submissions = details.Select(d => (ISubmissionWrapper)new WeasylSubmissionWrapper(d)).ToList(),
-                    HasLess = true,
-                    HasMore = true
-                };
-            } else {
-                return new UpdateGalleryResult {
-                    Submissions = Enumerable.Empty<ISubmissionWrapper>().ToList(),
-                    HasLess = false,
-                    HasMore = false,
-                };
+                    }*/
+
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+            if (maxCount > 100) maxCount = 100;
+
+            if (_username == null) {
+                _username = await WhoamiAsync();
             }
+
+            var result = await _client.UserGallery(_username, nextid: startPosition, count: maxCount);
+
+            var detailTasks = new List<Task<SubmissionBaseDetail>>(result.submissions.Length);
+            var details = new List<SubmissionBaseDetail>(result.submissions.Length);
+            foreach (var s in result.submissions) {
+                detailTasks.Add(_client.ViewSubmission(s.submitid));
+            }
+            foreach (var task in detailTasks) {
+                details.Add(await task);
+            }
+
+            return new InternalFetchResult(
+                details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
+                result.nextid ?? 0,
+                isEnded: result.nextid == null
+            );
         }
     }
 
