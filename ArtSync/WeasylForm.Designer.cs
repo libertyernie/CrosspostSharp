@@ -50,6 +50,7 @@
             this.lblTumblrStatus2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,15 +99,12 @@
             this.lnkInkbunnyFound = new System.Windows.Forms.LinkLabel();
             this.lblInkbunnyFound = new System.Windows.Forms.Label();
             this.tabSave = new System.Windows.Forms.TabPage();
-            this.chkSaveDirPreview = new System.Windows.Forms.CheckBox();
-            this.saveDirPreviewPanel = new System.Windows.Forms.Panel();
             this.btnSaveLocal = new System.Windows.Forms.Button();
             this.txtSaveFilename = new System.Windows.Forms.TextBox();
             this.lblSaveFilename = new System.Windows.Forms.Label();
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
-            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -420,10 +418,17 @@
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -996,8 +1001,6 @@
             // 
             // tabSave
             // 
-            this.tabSave.Controls.Add(this.chkSaveDirPreview);
-            this.tabSave.Controls.Add(this.saveDirPreviewPanel);
             this.tabSave.Controls.Add(this.btnSaveLocal);
             this.tabSave.Controls.Add(this.txtSaveFilename);
             this.tabSave.Controls.Add(this.lblSaveFilename);
@@ -1010,29 +1013,6 @@
             this.tabSave.TabIndex = 3;
             this.tabSave.Text = "Save...";
             this.tabSave.UseVisualStyleBackColor = true;
-            // 
-            // chkSaveDirPreview
-            // 
-            this.chkSaveDirPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkSaveDirPreview.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkSaveDirPreview.AutoSize = true;
-            this.chkSaveDirPreview.Location = new System.Drawing.Point(466, 6);
-            this.chkSaveDirPreview.Name = "chkSaveDirPreview";
-            this.chkSaveDirPreview.Size = new System.Drawing.Size(72, 23);
-            this.chkSaveDirPreview.TabIndex = 3;
-            this.chkSaveDirPreview.Text = "View Folder";
-            this.chkSaveDirPreview.UseVisualStyleBackColor = true;
-            this.chkSaveDirPreview.CheckedChanged += new System.EventHandler(this.chkSaveDirPreview_CheckedChanged);
-            // 
-            // saveDirPreviewPanel
-            // 
-            this.saveDirPreviewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveDirPreviewPanel.Location = new System.Drawing.Point(3, 90);
-            this.saveDirPreviewPanel.Name = "saveDirPreviewPanel";
-            this.saveDirPreviewPanel.Size = new System.Drawing.Size(540, 143);
-            this.saveDirPreviewPanel.TabIndex = 7;
             // 
             // btnSaveLocal
             // 
@@ -1067,7 +1047,7 @@
             // 
             this.btnSaveDirBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveDirBrowse.AutoSize = true;
-            this.btnSaveDirBrowse.Location = new System.Drawing.Point(385, 6);
+            this.btnSaveDirBrowse.Location = new System.Drawing.Point(463, 6);
             this.btnSaveDirBrowse.Name = "btnSaveDirBrowse";
             this.btnSaveDirBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnSaveDirBrowse.TabIndex = 2;
@@ -1081,7 +1061,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSaveDir.Location = new System.Drawing.Point(66, 6);
             this.txtSaveDir.Name = "txtSaveDir";
-            this.txtSaveDir.Size = new System.Drawing.Size(313, 20);
+            this.txtSaveDir.Size = new System.Drawing.Size(391, 20);
             this.txtSaveDir.TabIndex = 1;
             this.txtSaveDir.TextChanged += new System.EventHandler(this.txtSaveDir_TextChanged);
             // 
@@ -1093,13 +1073,6 @@
             this.lblSaveDir.Size = new System.Drawing.Size(52, 13);
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
-            // 
-            // refreshToolStripMenuItem
-            // 
-            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.refreshToolStripMenuItem.Text = "Refresh";
-            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // WeasylForm
             // 
@@ -1217,8 +1190,6 @@
         private System.Windows.Forms.TextBox txtSaveDir;
         private System.Windows.Forms.Label lblSaveDir;
         private System.Windows.Forms.Button btnSaveLocal;
-		private System.Windows.Forms.Panel saveDirPreviewPanel;
-		private System.Windows.Forms.CheckBox chkSaveDirPreview;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
     }
 }
