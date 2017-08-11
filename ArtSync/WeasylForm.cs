@@ -384,7 +384,7 @@ namespace ArtSync {
                     int outOf = totalCount - WrapperPosition;
                     if (got >= outOf) break;
 
-                    LProgressBar.Report(1.0 * got / outOf);
+                    LProgressBar.Report((double)got / outOf);
 
                     int read = await SourceWrapper.FetchAsync();
                     if (read == -1) {
@@ -396,9 +396,10 @@ namespace ArtSync {
                 var slice = SourceWrapper.Cache.Skip(WrapperPosition).Take(addedCount).ToList();
 
                 for (int i = 0; i < this.thumbnails.Length; i++) {
-					this.thumbnails[i].Submission = i < slice.Count
+                    LProgressBar.Report((double)i / this.thumbnails.Length);
+                    await this.thumbnails[i].SetSubmission(i < slice.Count
 						? slice[i]
-						: null;
+						: null);
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name);
@@ -714,8 +715,17 @@ namespace ArtSync {
 
 		private void chkTags2_CheckedChanged(object sender, EventArgs e) {
 			txtTags2.Enabled = chkTags2.Checked;
-		}
-        
+        }
+
+        private async void changeSourceToolStripMenuItem_Click(object sender, EventArgs e) {
+            try {
+                await GetNewWrapper();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.Message, ex.GetType().Name);
+            }
+            UpdateGalleryAsync();
+        }
+
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e) {
             WrapperPosition = 0;
             UpdateGalleryAsync();
@@ -852,33 +862,6 @@ namespace ArtSync {
                     txtSaveDir.Text = dialog.SelectedPath;
                 }
             }
-		}
-
-		private void UpdateSaveDirPreview() {
-			saveDirPreviewPanel.Controls.Clear();
-			string path = txtSaveDir.Text;
-			if (Directory.Exists(path)) {
-				var webBrowser = new WebBrowser();
-				webBrowser.Dock = DockStyle.Fill;
-				saveDirPreviewPanel.Controls.Add(webBrowser);
-				webBrowser.Navigate(txtSaveDir.Text);
-				webBrowser.AllowNavigation = false;
-			}
-		}
-
-		private void chkSaveDirPreview_CheckedChanged(object sender, EventArgs a) {
-			txtSaveDir.Enabled = !chkSaveDirPreview.Checked;
-			if (chkSaveDirPreview.Checked) {
-				UpdateSaveDirPreview();
-			} else {
-				saveDirPreviewPanel.Controls.Clear();
-			}
-		}
-
-		private void txtSaveDir_TextChanged(object sender, EventArgs e) {
-			if (chkSaveDirPreview.Checked) {
-				UpdateSaveDirPreview();
-			}
 		}
 
 		private void btnSaveLocal_Click(object sender, EventArgs e) {

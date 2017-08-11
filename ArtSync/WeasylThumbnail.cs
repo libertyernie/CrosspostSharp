@@ -14,16 +14,7 @@ namespace ArtSync {
 	public class WeasylThumbnail : PictureBox {
 		#region Properties and variables
 		// Sets the submission for this thumbnail to display.
-		private ISubmissionWrapper _submission;
-		public ISubmissionWrapper Submission {
-			get {
-				return _submission;
-			}
-			set {
-				_submission = value;
-				FetchSubmission();
-			}
-		}
+		public ISubmissionWrapper Submission { get; private set; }
 
 		// This variable acts as a cache; it will be null until the thumbnail is clicked on.
 		public BinaryFile RawData { get; private set; }
@@ -47,22 +38,28 @@ namespace ArtSync {
 		}
 
 		// Downloads the thumbnail pointed to by the submission info.
-		public void FetchSubmission() {
+		public async Task SetSubmission(ISubmissionWrapper w) {
+            Submission = w;
+
             string url = Submission?.ThumbnailURL ?? Submission?.ImageURL;
             if (url == null) {
 				this.Image = null;
 			} else {
 				WebRequest req = WebRequest.Create(url);
-                using (WebResponse resp = req.GetResponse()) {
-                    using (Stream stream = resp.GetResponseStream()) {
-                        this.Image = Image.FromStream(stream);
-                        if (this.Image.Width > 120 || this.Image.Height > 120) {
-                            double largerDimension = Math.Max(this.Image.Width, this.Image.Height);
-                            double scale = 120.0 / largerDimension;
-                            this.Image = new Bitmap(this.Image,
-                                (int)Math.Round(scale * this.Image.Width),
-                                (int)Math.Round(scale * this.Image.Height));
+                using (Stream memoryStream = new MemoryStream()) {
+                    using (WebResponse resp = await req.GetResponseAsync()) {
+                        using (Stream stream = resp.GetResponseStream()) {
+                            await stream.CopyToAsync(memoryStream);
+                            memoryStream.Position = 0;
                         }
+                    }
+                    this.Image = Image.FromStream(memoryStream);
+                    if (this.Image.Width > 120 || this.Image.Height > 120) {
+                        double largerDimension = Math.Max(this.Image.Width, this.Image.Height);
+                        double scale = 120.0 / largerDimension;
+                        this.Image = new Bitmap(this.Image,
+                            (int)Math.Round(scale * this.Image.Width),
+                            (int)Math.Round(scale * this.Image.Height));
                     }
                 }
 			}

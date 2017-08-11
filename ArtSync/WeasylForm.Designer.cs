@@ -105,6 +105,7 @@
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
+            this.changeSourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -412,6 +413,7 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.changeSourceToolStripMenuItem,
             this.refreshToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
@@ -421,14 +423,14 @@
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -635,7 +637,6 @@
             this.thumbnail1.Name = "thumbnail1";
             this.thumbnail1.Size = new System.Drawing.Size(124, 124);
             this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail1.Submission = null;
             this.thumbnail1.TabIndex = 0;
             this.thumbnail1.TabStop = false;
             // 
@@ -645,7 +646,6 @@
             this.thumbnail2.Name = "thumbnail2";
             this.thumbnail2.Size = new System.Drawing.Size(124, 124);
             this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail2.Submission = null;
             this.thumbnail2.TabIndex = 1;
             this.thumbnail2.TabStop = false;
             // 
@@ -655,7 +655,6 @@
             this.thumbnail3.Name = "thumbnail3";
             this.thumbnail3.Size = new System.Drawing.Size(124, 124);
             this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail3.Submission = null;
             this.thumbnail3.TabIndex = 2;
             this.thumbnail3.TabStop = false;
             // 
@@ -1063,7 +1062,6 @@
             this.txtSaveDir.Name = "txtSaveDir";
             this.txtSaveDir.Size = new System.Drawing.Size(391, 20);
             this.txtSaveDir.TabIndex = 1;
-            this.txtSaveDir.TextChanged += new System.EventHandler(this.txtSaveDir_TextChanged);
             // 
             // lblSaveDir
             // 
@@ -1073,6 +1071,13 @@
             this.lblSaveDir.Size = new System.Drawing.Size(52, 13);
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
+            // 
+            // changeSourceToolStripMenuItem
+            // 
+            this.changeSourceToolStripMenuItem.Name = "changeSourceToolStripMenuItem";
+            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.changeSourceToolStripMenuItem.Text = "Change Source";
+            this.changeSourceToolStripMenuItem.Click += new System.EventHandler(this.changeSourceToolStripMenuItem_Click);
             // 
             // WeasylForm
             // 
@@ -1191,6 +1196,7 @@
         private System.Windows.Forms.Label lblSaveDir;
         private System.Windows.Forms.Button btnSaveLocal;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeSourceToolStripMenuItem;
     }
 }
 
