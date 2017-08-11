@@ -21,7 +21,13 @@ namespace ArtSourceWrapper {
             return (await _client.Whoami())?.login;
         }
 
+        /// <summary>
+        /// Fetch submissions from Weasyl.
+        /// </summary>
+        /// <param name="startPosition">The nextid from the previous Weasyl search.</param>
+        /// <param name="maxCount">The maximum number of submissions to retrieve. If this is null, the wrapper will retrieve 6 at a time, since each submission needs a separate request to the server. The maximum is 100.</param>
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+            if (maxCount == null) maxCount = 6;
             if (maxCount > 100) maxCount = 100;
 
             if (_username == null) {
@@ -29,17 +35,8 @@ namespace ArtSourceWrapper {
             }
 
             var result = await _client.UserGallery(_username, nextid: startPosition, count: maxCount);
-
-            DateTime dt = DateTime.Now;
-            var detailTasks = new List<Task<SubmissionBaseDetail>>(result.submissions.Length);
-            var details = new List<SubmissionBaseDetail>(result.submissions.Length);
-            foreach (var s in result.submissions) {
-                detailTasks.Add(_client.ViewSubmission(s.submitid));
-            }
-            foreach (var task in detailTasks) {
-                details.Add(await task);
-            }
-            System.Diagnostics.Debug.WriteLine(DateTime.Now - dt);
+            
+            var details = await Task.WhenAll(result.submissions.Select(s => _client.ViewSubmission(s.submitid)));
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
@@ -54,23 +51,19 @@ namespace ArtSourceWrapper {
 
         public override string SiteName => "Weasyl (Characters)";
 
+        /// <summary>
+        /// Scrape the Weasyl site to load character IDs, and use the API to get information for each.
+        /// </summary>
+        /// <param name="startPosition">The ID of the lowest (oldest) character already downloaded.</param>
+        /// <param name="maxCount">The maximum number of submissions to retrieve. If this is null, the wrapper will retrieve 6 at a time, since each submission needs a separate request to the server.</param>
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
             List<int> all_ids = await _client.GetCharacterIds(_username);
 
             IEnumerable<int> ids = all_ids
                 .Where(id => id < (startPosition ?? int.MaxValue))
                 .Take(maxCount ?? int.MaxValue);
-
-            DateTime dt = DateTime.Now;
-            var detailTasks = new List<Task<SubmissionBaseDetail>>(ids.Count());
-            var details = new List<SubmissionBaseDetail>(ids.Count());
-            foreach (int id in ids) {
-                detailTasks.Add(_client.ViewCharacter(id));
-            }
-            foreach (var task in detailTasks) {
-                details.Add(await task);
-            }
-            System.Diagnostics.Debug.WriteLine(DateTime.Now - dt);
+            
+            var details = await Task.WhenAll(ids.Select(i => _client.ViewCharacter(i)));
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
