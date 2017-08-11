@@ -36,6 +36,7 @@
             this.lnkHtmlAgilityPack = new System.Windows.Forms.LinkLabel();
             this.lblHtmlAgilityPackLicense1 = new System.Windows.Forms.Label();
             this.lnkHtmlAgilityPackLicense2 = new System.Windows.Forms.LinkLabel();
+            this.lnkTweetinvi = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -53,7 +54,7 @@
             // 
             this.lnkJsonNET.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkJsonNET.AutoSize = true;
-            this.lnkJsonNET.Location = new System.Drawing.Point(9, 362);
+            this.lnkJsonNET.Location = new System.Drawing.Point(12, 331);
             this.lnkJsonNET.Margin = new System.Windows.Forms.Padding(3);
             this.lnkJsonNET.Name = "lnkJsonNET";
             this.lnkJsonNET.Size = new System.Drawing.Size(57, 13);
@@ -66,7 +67,7 @@
             // 
             this.lblTumblrSharpCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTumblrSharpCopyright.AutoSize = true;
-            this.lblTumblrSharpCopyright.Location = new System.Drawing.Point(64, 343);
+            this.lblTumblrSharpCopyright.Location = new System.Drawing.Point(67, 312);
             this.lblTumblrSharpCopyright.Margin = new System.Windows.Forms.Padding(3);
             this.lblTumblrSharpCopyright.Name = "lblTumblrSharpCopyright";
             this.lblTumblrSharpCopyright.Size = new System.Drawing.Size(223, 13);
@@ -77,7 +78,7 @@
             // 
             this.lblJsonNETCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblJsonNETCopyright.AutoSize = true;
-            this.lblJsonNETCopyright.Location = new System.Drawing.Point(72, 362);
+            this.lblJsonNETCopyright.Location = new System.Drawing.Point(75, 331);
             this.lblJsonNETCopyright.Margin = new System.Windows.Forms.Padding(3);
             this.lblJsonNETCopyright.Name = "lblJsonNETCopyright";
             this.lblJsonNETCopyright.Size = new System.Drawing.Size(217, 13);
@@ -88,7 +89,7 @@
             // 
             this.lblBoth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblBoth.AutoSize = true;
-            this.lblBoth.Location = new System.Drawing.Point(9, 381);
+            this.lblBoth.Location = new System.Drawing.Point(12, 350);
             this.lblBoth.Margin = new System.Windows.Forms.Padding(3);
             this.lblBoth.Name = "lblBoth";
             this.lblBoth.Size = new System.Drawing.Size(277, 13);
@@ -102,7 +103,7 @@
             this.btnOkay.Location = new System.Drawing.Point(347, 426);
             this.btnOkay.Name = "btnOkay";
             this.btnOkay.Size = new System.Drawing.Size(75, 23);
-            this.btnOkay.TabIndex = 11;
+            this.btnOkay.TabIndex = 12;
             this.btnOkay.Text = "OK";
             this.btnOkay.UseVisualStyleBackColor = true;
             // 
@@ -115,7 +116,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(410, 270);
+            this.textBox1.Size = new System.Drawing.Size(410, 239);
             this.textBox1.TabIndex = 2;
             this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
@@ -123,7 +124,7 @@
             // 
             this.lnkTumblrSharp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkTumblrSharp.AutoSize = true;
-            this.lnkTumblrSharp.Location = new System.Drawing.Point(9, 343);
+            this.lnkTumblrSharp.Location = new System.Drawing.Point(12, 312);
             this.lnkTumblrSharp.Margin = new System.Windows.Forms.Padding(3);
             this.lnkTumblrSharp.Name = "lnkTumblrSharp";
             this.lnkTumblrSharp.Size = new System.Drawing.Size(49, 13);
@@ -145,12 +146,13 @@
             // 
             // lnkHtmlAgilityPack
             // 
+            this.lnkHtmlAgilityPack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkHtmlAgilityPack.AutoSize = true;
-            this.lnkHtmlAgilityPack.Location = new System.Drawing.Point(9, 407);
+            this.lnkHtmlAgilityPack.Location = new System.Drawing.Point(13, 388);
             this.lnkHtmlAgilityPack.Margin = new System.Windows.Forms.Padding(3);
             this.lnkHtmlAgilityPack.Name = "lnkHtmlAgilityPack";
             this.lnkHtmlAgilityPack.Size = new System.Drawing.Size(89, 13);
-            this.lnkHtmlAgilityPack.TabIndex = 8;
+            this.lnkHtmlAgilityPack.TabIndex = 9;
             this.lnkHtmlAgilityPack.TabStop = true;
             this.lnkHtmlAgilityPack.Text = "Html Agility Pack:";
             this.lnkHtmlAgilityPack.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHtmlAgilityPack_LinkClicked);
@@ -159,30 +161,44 @@
             // 
             this.lblHtmlAgilityPackLicense1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblHtmlAgilityPackLicense1.AutoSize = true;
-            this.lblHtmlAgilityPackLicense1.Location = new System.Drawing.Point(104, 407);
+            this.lblHtmlAgilityPackLicense1.Location = new System.Drawing.Point(12, 407);
             this.lblHtmlAgilityPackLicense1.Margin = new System.Windows.Forms.Padding(3);
             this.lblHtmlAgilityPackLicense1.Name = "lblHtmlAgilityPackLicense1";
             this.lblHtmlAgilityPackLicense1.Size = new System.Drawing.Size(98, 13);
-            this.lblHtmlAgilityPackLicense1.TabIndex = 9;
+            this.lblHtmlAgilityPackLicense1.TabIndex = 10;
             this.lblHtmlAgilityPackLicense1.Text = "Available under the";
             // 
             // lnkHtmlAgilityPackLicense2
             // 
             this.lnkHtmlAgilityPackLicense2.AutoSize = true;
-            this.lnkHtmlAgilityPackLicense2.Location = new System.Drawing.Point(198, 407);
+            this.lnkHtmlAgilityPackLicense2.Location = new System.Drawing.Point(116, 407);
             this.lnkHtmlAgilityPackLicense2.Margin = new System.Windows.Forms.Padding(3);
             this.lnkHtmlAgilityPackLicense2.Name = "lnkHtmlAgilityPackLicense2";
             this.lnkHtmlAgilityPackLicense2.Size = new System.Drawing.Size(125, 13);
-            this.lnkHtmlAgilityPackLicense2.TabIndex = 10;
+            this.lnkHtmlAgilityPackLicense2.TabIndex = 11;
             this.lnkHtmlAgilityPackLicense2.TabStop = true;
             this.lnkHtmlAgilityPackLicense2.Text = "Microsoft Public License.";
             this.lnkHtmlAgilityPackLicense2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkHtmlAgilityPackLicense2_LinkClicked);
+            // 
+            // lnkTweetinvi
+            // 
+            this.lnkTweetinvi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lnkTweetinvi.AutoSize = true;
+            this.lnkTweetinvi.Location = new System.Drawing.Point(13, 369);
+            this.lnkTweetinvi.Margin = new System.Windows.Forms.Padding(3);
+            this.lnkTweetinvi.Name = "lnkTweetinvi";
+            this.lnkTweetinvi.Size = new System.Drawing.Size(56, 13);
+            this.lnkTweetinvi.TabIndex = 8;
+            this.lnkTweetinvi.TabStop = true;
+            this.lnkTweetinvi.Text = "Tweetinvi:";
+            this.lnkTweetinvi.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTweetinvi_LinkClicked);
             // 
             // AboutDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 461);
+            this.Controls.Add(this.lnkTweetinvi);
             this.Controls.Add(this.lnkHtmlAgilityPackLicense2);
             this.Controls.Add(this.lblHtmlAgilityPackLicense1);
             this.Controls.Add(this.lnkHtmlAgilityPack);
@@ -216,5 +232,6 @@
 		private System.Windows.Forms.LinkLabel lnkHtmlAgilityPack;
 		private System.Windows.Forms.Label lblHtmlAgilityPackLicense1;
 		private System.Windows.Forms.LinkLabel lnkHtmlAgilityPackLicense2;
-	}
+        private System.Windows.Forms.LinkLabel lnkTweetinvi;
+    }
 }

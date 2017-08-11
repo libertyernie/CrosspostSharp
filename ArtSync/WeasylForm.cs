@@ -239,9 +239,6 @@ namespace ArtSync {
 				// Global tags that you can include in each Tumblr submission if you want.
 				txtTags2.Text = GlobalSettings.Defaults.Tags ?? "";
 
-                chkTumblrSubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
-                chkInkbunnySubmitIdTag.Checked = GlobalSettings.Defaults.IncludeWeasylTag;
-
                 UpdateGalleryAsync();
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);

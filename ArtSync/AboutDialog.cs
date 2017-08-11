@@ -25,14 +25,18 @@ namespace ArtSync {
 
 		private void lnkJsonNET_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start("http://james.newtonking.com/json");
-		}
+        }
 
-		private void lnkHtmlAgilityPack_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			Process.Start("http://htmlagilitypack.codeplex.com/");
-		}
+        private void lnkTweetinvi_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://github.com/linvi/tweetinvi");
+        }
 
-		private void lnkHtmlAgilityPackLicense2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+        private void lnkHtmlAgilityPack_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			Process.Start("http://html-agility-pack.net/");
+        }
+
+        private void lnkHtmlAgilityPackLicense2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start("http://htmlagilitypack.codeplex.com/license");
 		}
-	}
+    }
 }

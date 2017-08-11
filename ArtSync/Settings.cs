@@ -51,8 +51,6 @@ namespace ArtSync {
 			public string HeaderHTML { get; set; }
 			public string FooterHTML { get; set; }
 			public string Tags { get; set; }
-
-			public bool IncludeWeasylTag { get; set; }
 		}
 
 		public PostSettings Defaults;
@@ -116,7 +114,6 @@ namespace ArtSync {
 					HeaderHTML = "<p><b>{TITLE}</b></p>",
 					FooterHTML = "<p><a href=\"{URL}\">View on {SITENAME}</a></p>",
 					Tags = "#art",
-					IncludeWeasylTag = true
 				};
 			return s;
 		}

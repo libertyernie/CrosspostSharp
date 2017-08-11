@@ -34,8 +34,6 @@ namespace ArtSync {
 			Settings.Defaults.FooterHTML = txtFooter.Text;
 			Settings.Defaults.Tags = txtTags.Text;
 
-			Settings.Defaults.IncludeWeasylTag = chkWeasylSubmitIdTag.Checked;
-
 			Settings.Save();
         }
 
@@ -101,11 +99,10 @@ namespace ArtSync {
 			txtFooter.Text = Settings.Defaults.FooterHTML ?? "";
 			txtTags.Text = Settings.Defaults.Tags;
 
-			chkWeasylSubmitIdTag.Checked = Settings.Defaults.IncludeWeasylTag;
-
             UpdateDeviantArtTokenLabel();
             UpdateTumblrTokenLabel();
 			UpdateTwitterTokenLabel();
+            UpdateInkbunnyTokenLabel();
         }
 
         private void UpdateDeviantArtTokenLabel() {
