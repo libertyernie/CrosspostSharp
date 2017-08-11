@@ -716,11 +716,12 @@ namespace ArtSync {
 			txtTags2.Enabled = chkTags2.Checked;
 		}
         
-		private void loadCharactersToolStripMenuItem_Click(object sender, EventArgs e) {
-			UpdateGalleryAsync();
-		}
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e) {
+            WrapperPosition = 0;
+            UpdateGalleryAsync();
+        }
 
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
 			using (SettingsDialog dialog = new SettingsDialog(GlobalSettings)) {
 				if (dialog.ShowDialog() != DialogResult.Cancel) {
 					GlobalSettings = dialog.Settings;
@@ -907,5 +908,5 @@ namespace ArtSync {
 				return new BinaryFile(stream.ToArray());
 			}
 		}
-	}
+    }
 }
