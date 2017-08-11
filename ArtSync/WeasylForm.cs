@@ -24,7 +24,8 @@ namespace ArtSync {
 	public partial class WeasylForm : Form {
 		private static Settings GlobalSettings;
 
-		public IWrapper SourceWrapper { get; private set; }
+		public ISiteWrapper SourceWrapper { get; private set; }
+        public int WrapperPosition { get; private set; }
 
 		private TumblrClient Tumblr;
 		public string TumblrUsername { get; private set; }
@@ -70,7 +71,7 @@ namespace ArtSync {
 
 		#region GUI updates
         private async Task GetNewWrapper() {
-            List<IWrapper> wrappers = new List<IWrapper>();
+            List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
 
             if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
                 try {
@@ -118,6 +119,7 @@ namespace ArtSync {
                     ? form.SelectedWrapper
                     : new EmptyWrapper();
             }
+            WrapperPosition = 0;
 
             lblWeasylStatus1.Text = SourceWrapper.SiteName + ":";
 
@@ -365,22 +367,38 @@ namespace ArtSync {
                 LProgressBar.Report(0);
                 LProgressBar.Visible = true;
 
-                var result =
-                    back ? await SourceWrapper.PreviousPageAsync()
-                    : next ? await SourceWrapper.NextPageAsync()
-                    : await SourceWrapper.UpdateGalleryAsync(new UpdateGalleryParameters {
-                        Count = 3,
-                        Weasyl_LoadCharacters = loadCharactersToolStripMenuItem.Checked,
-                        Progress = LProgressBar
-                    });
-				for (int i = 0; i < this.thumbnails.Length; i++) {
-					this.thumbnails[i].Submission = i < result.Submissions.Count
-						? result.Submissions[i]
+                int addedCount = this.thumbnails.Length;
+
+                if (back) WrapperPosition -= addedCount;
+                if (next) WrapperPosition += addedCount;
+                if (WrapperPosition < 0) WrapperPosition = 0;
+
+                int totalCount = WrapperPosition + addedCount;
+
+                btnUp.Enabled = WrapperPosition > 0;
+                btnDown.Enabled = true;
+                
+                while (true) {
+                    int got = SourceWrapper.Cache.Count() - WrapperPosition;
+                    int outOf = totalCount - WrapperPosition;
+                    if (got >= outOf) break;
+
+                    LProgressBar.Report(1.0 * got / outOf);
+
+                    int read = await SourceWrapper.FetchAsync(2);
+                    if (read == -1) {
+                        btnDown.Enabled = false;
+                        break;
+                    }
+                }
+
+                var slice = SourceWrapper.Cache.Skip(WrapperPosition).Take(addedCount).ToList();
+
+                for (int i = 0; i < this.thumbnails.Length; i++) {
+					this.thumbnails[i].Submission = i < slice.Count
+						? slice[i]
 						: null;
 				}
-                
-                btnUp.Enabled = result.HasLess;
-                btnDown.Enabled = result.HasMore;
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name);
             } finally {

@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace ArtSync {
     public partial class SourceChoiceForm : Form {
-        public IEnumerable<IWrapper> Wrappers { get; private set; }
+        public IEnumerable<ISiteWrapper> Wrappers { get; private set; }
         
-        public IWrapper SelectedWrapper { get; set; }
+        public ISiteWrapper SelectedWrapper { get; set; }
 
-        public SourceChoiceForm(IEnumerable<IWrapper> wrappers) {
+        public SourceChoiceForm(IEnumerable<ISiteWrapper> wrappers) {
             InitializeComponent();
 
             this.Wrappers = wrappers;

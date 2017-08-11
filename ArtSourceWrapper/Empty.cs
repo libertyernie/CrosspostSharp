@@ -6,25 +6,17 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
-    public class EmptyWrapper : IWrapper {
-        public string SiteName => "No site";
+    public class EmptyWrapper : SiteWrapper<ISubmissionWrapper, int> {
+        public override string SiteName => "No site";
 
         public EmptyWrapper() { }
 
-        public Task<string> WhoamiAsync() {
+        public override Task<string> WhoamiAsync() {
             return Task.FromResult<string>(null);
         }
 
-        public Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p) {
-            return Task.FromResult(new UpdateGalleryResult());
-        }
-
-        public Task<UpdateGalleryResult> NextPageAsync() {
-            return Task.FromResult(new UpdateGalleryResult());
-        }
-
-        public Task<UpdateGalleryResult> PreviousPageAsync() {
-            return Task.FromResult(new UpdateGalleryResult());
+        protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+            return Task.FromResult(new InternalFetchResult(0, true));
         }
     }
 }

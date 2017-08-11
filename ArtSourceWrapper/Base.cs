@@ -6,26 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
-    public interface IWrapper {
+    public interface ISiteWrapper {
         string SiteName { get; }
+        IEnumerable<ISubmissionWrapper> Cache { get; }
+        bool IsEnded { get; }
         Task<string> WhoamiAsync();
-        Task<UpdateGalleryResult> UpdateGalleryAsync(UpdateGalleryParameters p);
-        Task<UpdateGalleryResult> NextPageAsync();
-        Task<UpdateGalleryResult> PreviousPageAsync();
+        Task<int> FetchAsync(ushort? maxCount = null);
+        void Clear();
     }
 
-    public class UpdateGalleryParameters {
-        public int Count;
-        public bool Weasyl_LoadCharacters;
-
-        public IProgress<double> Progress;
-
-        public UpdateGalleryParameters() {
-            Count = 4;
-        }
-    }
-
-    public abstract class SiteWrapper<T, Position> : IWrapper where T : ISubmissionWrapper where Position : struct {
+    public abstract class SiteWrapper<T, Position> : ISiteWrapper where T : ISubmissionWrapper where Position : struct {
         public abstract string SiteName { get; }
         public abstract Task<string> WhoamiAsync();
 
@@ -33,7 +23,11 @@ namespace ArtSourceWrapper {
         private Position? _nextPosition;
         private bool _isEnded;
 
-        public IReadOnlyList<T> Cache => _cache;
+        public IEnumerable<ISubmissionWrapper> Cache {
+            get {
+                foreach (var w in _cache) yield return w;
+            }
+        }
         public bool IsEnded => _isEnded;
 
         public SiteWrapper() {
@@ -81,68 +75,8 @@ namespace ArtSourceWrapper {
             _nextPosition = null;
             _isEnded = false;
         }
-
-        private UpdateGalleryParameters _lastUpdateGalleryParameters;
-        private int _currentOffset;
-
-        Task<string> IWrapper.WhoamiAsync() => WhoamiAsync();
-
-        private async Task<UpdateGalleryResult> Convert() {
-            int index = _currentOffset;
-            int count = _lastUpdateGalleryParameters.Count;
-
-            bool ended = false;
-            int startCount = Cache.Count;
-            while (Cache.Count < index + count) {
-                _lastUpdateGalleryParameters.Progress?.Report(1.0 * (Cache.Count - startCount + 1) / (index + count - startCount));
-                if (await FetchAsync() == -1) {
-                    // reached end of list
-                    ended = true;
-                    break;
-                }
-            }
-
-            var list = Cache.Skip(index).Take(count).ToList();
-
-            return new UpdateGalleryResult {
-                HasLess = _currentOffset > 0,
-                HasMore = !ended,
-                Submissions = list.Select(w => {
-                    ISubmissionWrapper w2 = w;
-                    return w2;
-                }).ToList()
-            };
-        }
-
-        Task<UpdateGalleryResult> IWrapper.UpdateGalleryAsync(UpdateGalleryParameters p) {
-            _lastUpdateGalleryParameters = p;
-            _currentOffset = 0;
-            Clear();
-            return Convert();
-        }
-
-        Task<UpdateGalleryResult> IWrapper.NextPageAsync() {
-            _currentOffset += _lastUpdateGalleryParameters.Count;
-            return Convert();
-        }
-
-        Task<UpdateGalleryResult> IWrapper.PreviousPageAsync() {
-            _currentOffset -= _lastUpdateGalleryParameters.Count;
-            if (_currentOffset < 0) _currentOffset = 0;
-            return Convert();
-        }
     }
-
-    public class UpdateGalleryResult {
-        public IList<ISubmissionWrapper> Submissions;
-        public bool HasLess;
-        public bool HasMore;
-
-        internal UpdateGalleryResult() {
-            Submissions = new ISubmissionWrapper[0];
-        }
-    }
-
+    
     public interface ISubmissionWrapper {
         string Title { get; }
         string HTMLDescription { get; }
