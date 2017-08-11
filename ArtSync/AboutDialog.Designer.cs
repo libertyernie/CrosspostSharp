@@ -47,7 +47,7 @@
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(134, 25);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "ArtSync 2.0";
+            this.lblTitle.Text = "ArtSync 2.1";
             // 
             // lnkJsonNET
             // 
