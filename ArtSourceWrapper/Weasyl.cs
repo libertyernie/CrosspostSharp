@@ -8,8 +8,8 @@ using WeasylSyncLib;
 
 namespace ArtSourceWrapper {
     public class WeasylWrapper : SiteWrapper<WeasylSubmissionWrapper, int> {
-        private WeasylAPI _client;
-        private string _username;
+        protected WeasylAPI _client;
+        protected string _username;
 
         public override string SiteName => "Weasyl";
 
@@ -21,28 +21,6 @@ namespace ArtSourceWrapper {
             return (await _client.Whoami())?.login;
         }
 
-        /*// Scrape from weasyl website
-                    List<int> all_ids = await _client.GetCharacterIds(WeasylUsername);
-                    p.Progress?.Report(1 / 5f);
-                    IEnumerable<int> ids = all_ids;
-                    if (backId != null) {
-                        ids = ids.Where(id => id > backId);
-                    }
-                    if (nextId != null) {
-                        ids = ids.Where(id => id < nextId);
-                    }
-                    ids = ids.Take(p.Count);
-                    // Determine backid and nextid
-                    _backId = all_ids.Any(x => x < ids.Min())
-                        ? ids.Min()
-                        : (int?)null;
-                    _nextId = all_ids.Any(x => x > ids.Max())
-                        ? ids.Max()
-                        : (int?)null;
-                    foreach (int id in ids) {
-                        detailTasks.Add(_client.ViewCharacter(id));
-                    }*/
-
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
             if (maxCount > 100) maxCount = 100;
 
@@ -52,6 +30,7 @@ namespace ArtSourceWrapper {
 
             var result = await _client.UserGallery(_username, nextid: startPosition, count: maxCount);
 
+            DateTime dt = DateTime.Now;
             var detailTasks = new List<Task<SubmissionBaseDetail>>(result.submissions.Length);
             var details = new List<SubmissionBaseDetail>(result.submissions.Length);
             foreach (var s in result.submissions) {
@@ -60,11 +39,43 @@ namespace ArtSourceWrapper {
             foreach (var task in detailTasks) {
                 details.Add(await task);
             }
+            System.Diagnostics.Debug.WriteLine(DateTime.Now - dt);
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
                 result.nextid ?? 0,
                 isEnded: result.nextid == null
+            );
+        }
+    }
+
+    public class WeasylCharacterWrapper : WeasylWrapper {
+        public WeasylCharacterWrapper(string apiKey) : base(apiKey) { }
+
+        public override string SiteName => "Weasyl (Characters)";
+
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+            List<int> all_ids = await _client.GetCharacterIds(_username);
+
+            IEnumerable<int> ids = all_ids
+                .Where(id => id < (startPosition ?? int.MaxValue))
+                .Take(maxCount ?? int.MaxValue);
+
+            DateTime dt = DateTime.Now;
+            var detailTasks = new List<Task<SubmissionBaseDetail>>(ids.Count());
+            var details = new List<SubmissionBaseDetail>(ids.Count());
+            foreach (int id in ids) {
+                detailTasks.Add(_client.ViewCharacter(id));
+            }
+            foreach (var task in detailTasks) {
+                details.Add(await task);
+            }
+            System.Diagnostics.Debug.WriteLine(DateTime.Now - dt);
+
+            return new InternalFetchResult(
+                details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
+                ids.DefaultIfEmpty(0).Min(),
+                isEnded: !ids.Any()
             );
         }
     }

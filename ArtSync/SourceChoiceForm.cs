@@ -32,7 +32,8 @@ namespace ArtSync {
             foreach (var w in this.Wrappers) {
                 var radioButton = new RadioButton {
                     Text = w.SiteName,
-                    Checked = w.SiteName == SelectedWrapper?.SiteName
+                    Checked = w.SiteName == SelectedWrapper?.SiteName,
+                    AutoSize = true
                 };
                 radioButton.CheckedChanged += (x, y) => {
                     if (radioButton.Checked) this.SelectedWrapper = w;

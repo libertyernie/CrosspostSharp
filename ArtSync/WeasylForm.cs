@@ -90,6 +90,7 @@ namespace ArtSync {
 
             if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
                 wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
+                wrappers.Add(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey));
             }
 
             if (Inkbunny != null) {
@@ -385,7 +386,7 @@ namespace ArtSync {
 
                     LProgressBar.Report(1.0 * got / outOf);
 
-                    int read = await SourceWrapper.FetchAsync(2);
+                    int read = await SourceWrapper.FetchAsync();
                     if (read == -1) {
                         btnDown.Enabled = false;
                         break;
