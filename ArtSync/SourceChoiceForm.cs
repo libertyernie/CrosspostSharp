@@ -35,6 +35,7 @@ namespace ArtSync {
                     Checked = w.SiteName == SelectedWrapper?.SiteName,
                     AutoSize = true
                 };
+                if (radioButton.Checked) SelectedWrapper = w;
                 radioButton.CheckedChanged += (x, y) => {
                     if (radioButton.Checked) this.SelectedWrapper = w;
                 };

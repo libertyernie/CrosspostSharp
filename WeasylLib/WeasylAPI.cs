@@ -74,23 +74,15 @@ namespace WeasylLib
                 return JsonConvert.DeserializeObject<WeasylCharacterDetail>(json);
             }
         }
-
-        /// <summary>
-        /// Gets the username and ID of the currently logged in user, if any.
-        /// If there is no current user, this function will return null.
-        /// </summary>
+        
         public async Task<WeasylUser> WhoamiAsync() {
-			try {
-                HttpWebRequest req = WebRequest.CreateHttp("https://www.weasyl.com/api/whoami");
-                req.Headers["X-Weasyl-API-Key"] = APIKey;
-                using (WebResponse resp = await req.GetResponseAsync())
-                using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
-                    string json = await sr.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<WeasylUser>(json);
-                }
-			} catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
-				return null;
-			}
+            HttpWebRequest req = WebRequest.CreateHttp("https://www.weasyl.com/api/whoami");
+            req.Headers["X-Weasyl-API-Key"] = APIKey;
+            using (WebResponse resp = await req.GetResponseAsync())
+            using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
+                string json = await sr.ReadToEndAsync();
+                return JsonConvert.DeserializeObject<WeasylUser>(json);
+            }
 		}
     }
 }

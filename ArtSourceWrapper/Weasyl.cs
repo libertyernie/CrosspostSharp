@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WeasylLib;
@@ -18,11 +19,11 @@ namespace ArtSourceWrapper {
         }
 
         public override async Task<string> WhoamiAsync() {
-            string username = (await _client.WhoamiAsync())?.login;
-            if (username == null) {
+            try {
+                return (await _client.WhoamiAsync())?.login;
+            } catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
                 throw new Exception("No username returned from Weasyl. The API key might be invalid or deleted.");
             }
-            return username;
         }
 
         /// <summary>

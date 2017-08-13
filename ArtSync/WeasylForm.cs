@@ -196,9 +196,11 @@ namespace ArtSync {
 
                 if (screenName != null) {
                     Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
-                        var conf = Tweetinvi.Help.GetTwitterConfiguration();
-                        shortURLLength = conf.ShortURLLength;
-                        shortURLLengthHttps = conf.ShortURLLengthHttps;
+                        if (shortURLLength == 0 || shortURLLengthHttps == 0) {
+                            var conf = Tweetinvi.Help.GetTwitterConfiguration();
+                            shortURLLength = conf.ShortURLLength;
+                            shortURLLengthHttps = conf.ShortURLLengthHttps;
+                        }
                     });
 
                     if (!tweetCache.Any()) {
