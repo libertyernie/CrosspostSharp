@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WeasylSyncLib;
+using WeasylLib;
 
 namespace ArtSourceWrapper {
     public class WeasylWrapper : SiteWrapper<WeasylSubmissionWrapper, int> {

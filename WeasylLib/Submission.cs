@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeasylSyncLib {
+namespace WeasylLib {
 	public abstract class SubmissionBase {
 		public string link { get; set; }
 		public SubmissionMedia media { get; set; }

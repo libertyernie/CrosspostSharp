@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeasylSyncLib {
+namespace WeasylLib {
 	public class Gallery {
 		public GallerySubmission[] submissions { get; set; }
 		public int? backid { get; set; }

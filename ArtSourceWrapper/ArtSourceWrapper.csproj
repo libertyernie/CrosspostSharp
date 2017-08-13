@@ -140,7 +140,7 @@
       <Project>{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}</Project>
       <Name>InkbunnyLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WeasylSyncLib\WeasylSyncLib.csproj">
+    <ProjectReference Include="..\WeasylLib\WeasylLib.csproj">
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
       <Name>WeasylSyncLib</Name>
     </ProjectReference>

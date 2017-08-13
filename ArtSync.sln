@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylSyncLib", "WeasylSyncLib\WeasylSyncLib.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylLib", "WeasylLib\WeasylLib.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSync", "ArtSync\ArtSync.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
 EndProject
