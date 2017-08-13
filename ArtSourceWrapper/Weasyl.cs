@@ -18,7 +18,11 @@ namespace ArtSourceWrapper {
         }
 
         public override async Task<string> WhoamiAsync() {
-            return (await _client.Whoami())?.login;
+            string username = (await _client.WhoamiAsync())?.login;
+            if (username == null) {
+                throw new Exception("No username returned from Weasyl. The API key might be invalid or deleted.");
+            }
+            return username;
         }
 
         /// <summary>
@@ -34,9 +38,9 @@ namespace ArtSourceWrapper {
                 _username = await WhoamiAsync();
             }
 
-            var result = await _client.UserGallery(_username, nextid: startPosition, count: maxCount);
+            var result = await _client.GetUserGalleryAsync(_username, nextid: startPosition, count: maxCount);
             
-            var details = await Task.WhenAll(result.submissions.Select(s => _client.ViewSubmission(s.submitid)));
+            var details = await Task.WhenAll(result.submissions.Select(s => _client.GetSubmissionAsync(s.submitid)));
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
@@ -57,13 +61,16 @@ namespace ArtSourceWrapper {
         /// <param name="startPosition">The ID of the lowest (oldest) character already downloaded.</param>
         /// <param name="maxCount">The maximum number of submissions to retrieve. If this is null, the wrapper will retrieve 6 at a time, since each submission needs a separate request to the server.</param>
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
-            List<int> all_ids = await _client.GetCharacterIds(_username);
+            if (_username == null) {
+                _username = await WhoamiAsync();
+            }
+            List<int> all_ids = await _client.ScrapeCharacterIdsAsync(_username);
 
             IEnumerable<int> ids = all_ids
                 .Where(id => id < (startPosition ?? int.MaxValue))
                 .Take(maxCount ?? int.MaxValue);
             
-            var details = await Task.WhenAll(ids.Select(i => _client.ViewCharacter(i)));
+            var details = await Task.WhenAll(ids.Select(i => _client.GetCharacterAsync(i)));
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),

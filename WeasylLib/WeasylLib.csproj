@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIInterface.cs" />
+    <Compile Include="WeasylAPI.cs" />
     <Compile Include="Gallery.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
