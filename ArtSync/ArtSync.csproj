@@ -269,7 +269,7 @@
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinFormsOAuth\WinFormsOAuth.csproj">
+    <ProjectReference Include="..\WinFormsOAuth\WinFormsOAuth\WinFormsOAuth.csproj">
       <Project>{d98e0824-0a4a-4105-8f76-1cac1d91ffce}</Project>
       <Name>WinFormsOAuth</Name>
     </ProjectReference>
