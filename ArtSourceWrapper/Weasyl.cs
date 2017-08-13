@@ -85,8 +85,8 @@ namespace ArtSourceWrapper {
         public bool PotentiallySensitive => Rating != "general";
 
         public string GeneratedUniqueTag =>
-            Submission is CharacterDetail ? $"#weasylcharacter{((CharacterDetail)Submission).charid}"
-            : Submission is SubmissionDetail ? $"#weasyl{((SubmissionDetail)Submission).submitid}"
+            Submission is WeasylCharacterDetail ? $"#weasylcharacter{((WeasylCharacterDetail)Submission).charid}"
+            : Submission is WeasylSubmissionDetail ? $"#weasyl{((WeasylSubmissionDetail)Submission).submitid}"
             : null;
         public string HTMLDescription => HtmlLinkUtils.MakeLinksAbsolute(Submission.HTMLDescription, "http://www.weasyl.com");
         public IEnumerable<string> Tags => Submission.tags;
@@ -112,9 +112,9 @@ namespace ArtSourceWrapper {
 
 		public bool OwnWork => true;
 
-		public SubmissionBaseDetail Submission { get; private set; }
+		public WeasylSubmissionBaseDetail Submission { get; private set; }
 
-        public WeasylSubmissionWrapper(SubmissionBaseDetail submission) {
+        public WeasylSubmissionWrapper(WeasylSubmissionBaseDetail submission) {
             Submission = submission;
         }
     }

@@ -12,7 +12,7 @@ namespace WeasylLib
     public class WeasylAPI {
 		public string APIKey { private get; set; }
 
-		public async Task<Gallery> GetUserGalleryAsync(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null) {
+		public async Task<WeasylGallery> GetUserGalleryAsync(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null) {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             StringBuilder qs = new StringBuilder();
@@ -27,7 +27,7 @@ namespace WeasylLib
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<Gallery>(json);
+                return JsonConvert.DeserializeObject<WeasylGallery>(json);
             }
         }
 
@@ -55,23 +55,23 @@ namespace WeasylLib
             }
         }
         
-		public async Task<SubmissionBaseDetail> GetSubmissionAsync(int submitid) {
+		public async Task<WeasylSubmissionBaseDetail> GetSubmissionAsync(int submitid) {
             HttpWebRequest req = WebRequest.CreateHttp($"https://www.weasyl.com/api/submissions/{submitid}/view");
             req.Headers["X-Weasyl-API-Key"] = APIKey;
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<SubmissionDetail>(json);
+                return JsonConvert.DeserializeObject<WeasylSubmissionDetail>(json);
             }
         }
 
-        public async Task<SubmissionBaseDetail> GetCharacterAsync(int charid) {
+        public async Task<WeasylCharacterDetail> GetCharacterAsync(int charid) {
             HttpWebRequest req = WebRequest.CreateHttp($"https://www.weasyl.com/api/characters/{charid}/view");
             req.Headers["X-Weasyl-API-Key"] = APIKey;
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<CharacterDetail>(json);
+                return JsonConvert.DeserializeObject<WeasylCharacterDetail>(json);
             }
         }
 
@@ -79,14 +79,14 @@ namespace WeasylLib
         /// Gets the username and ID of the currently logged in user, if any.
         /// If there is no current user, this function will return null.
         /// </summary>
-        public async Task<User> WhoamiAsync() {
+        public async Task<WeasylUser> WhoamiAsync() {
 			try {
                 HttpWebRequest req = WebRequest.CreateHttp("https://www.weasyl.com/api/whoami");
                 req.Headers["X-Weasyl-API-Key"] = APIKey;
                 using (WebResponse resp = await req.GetResponseAsync())
                 using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                     string json = await sr.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<User>(json);
+                    return JsonConvert.DeserializeObject<WeasylUser>(json);
                 }
 			} catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
 				return null;
