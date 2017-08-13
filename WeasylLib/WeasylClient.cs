@@ -9,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace WeasylLib
 {
-    public class WeasylAPI {
-		public string APIKey { private get; set; }
+    public class WeasylClient {
+        private string _apiKey;
+
+        public WeasylClient(string apiKey) {
+            if (apiKey == null) throw new ArgumentNullException(nameof(apiKey));
+            _apiKey = apiKey;
+        }
 
 		public async Task<WeasylGallery> GetUserGalleryAsync(string user, DateTime? since = null, int? count = null, int? folderid = null, int? backid = null, int? nextid = null) {
             if (user == null) throw new ArgumentNullException(nameof(user));
@@ -23,7 +28,7 @@ namespace WeasylLib
             if (nextid != null) qs.Append($"&nextid={nextid}");
 
             HttpWebRequest req = WebRequest.CreateHttp($"https://www.weasyl.com/api/users/{user}/gallery?{qs}");
-            req.Headers["X-Weasyl-API-Key"] = APIKey;
+            req.Headers["X-Weasyl-API-Key"] = _apiKey;
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();
@@ -57,7 +62,7 @@ namespace WeasylLib
         
 		public async Task<WeasylSubmissionBaseDetail> GetSubmissionAsync(int submitid) {
             HttpWebRequest req = WebRequest.CreateHttp($"https://www.weasyl.com/api/submissions/{submitid}/view");
-            req.Headers["X-Weasyl-API-Key"] = APIKey;
+            req.Headers["X-Weasyl-API-Key"] = _apiKey;
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();
@@ -67,7 +72,7 @@ namespace WeasylLib
 
         public async Task<WeasylCharacterDetail> GetCharacterAsync(int charid) {
             HttpWebRequest req = WebRequest.CreateHttp($"https://www.weasyl.com/api/characters/{charid}/view");
-            req.Headers["X-Weasyl-API-Key"] = APIKey;
+            req.Headers["X-Weasyl-API-Key"] = _apiKey;
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();
@@ -77,7 +82,7 @@ namespace WeasylLib
         
         public async Task<WeasylUser> WhoamiAsync() {
             HttpWebRequest req = WebRequest.CreateHttp("https://www.weasyl.com/api/whoami");
-            req.Headers["X-Weasyl-API-Key"] = APIKey;
+            req.Headers["X-Weasyl-API-Key"] = _apiKey;
             using (WebResponse resp = await req.GetResponseAsync())
             using (StreamReader sr = new StreamReader(resp.GetResponseStream())) {
                 string json = await sr.ReadToEndAsync();

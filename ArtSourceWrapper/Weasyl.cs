@@ -9,18 +9,18 @@ using WeasylLib;
 
 namespace ArtSourceWrapper {
     public class WeasylWrapper : SiteWrapper<WeasylSubmissionWrapper, int> {
-        protected WeasylAPI _client;
+        protected WeasylClient _client;
         protected string _username;
 
         public override string SiteName => "Weasyl";
 
         public WeasylWrapper(string apiKey) {
-            _client = new WeasylAPI { APIKey = apiKey };
+            _client = new WeasylClient(apiKey);
         }
 
         public override async Task<string> WhoamiAsync() {
             try {
-                return (await _client.WhoamiAsync())?.login;
+                return (await _client.WhoamiAsync()).login;
             } catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
                 throw new Exception("No username returned from Weasyl. The API key might be invalid or deleted.");
             }

@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WeasylAPI.cs" />
+    <Compile Include="WeasylClient.cs" />
     <Compile Include="WeasylGallery.cs" />
     <Compile Include="WeasylMedia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
