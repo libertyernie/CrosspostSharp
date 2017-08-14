@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsOAuth", "WinFormsOAuth\WinFormsOAuth\WinFormsOAuth.csproj", "{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantArtControls", "DeviantArtControls\DeviantArtControls.csproj", "{FDC116BB-EE52-423C-85B8-469C8AC787F1}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DeviantartApi\DeviantartApi\DeviantartApi.projitems*{891fd4c3-111b-4c55-a59e-89de662a9497}*SharedItemsImports = 4
@@ -109,6 +111,18 @@ Global
 		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Release|x64.Build.0 = Release|Any CPU
 		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Release|x86.ActiveCfg = Release|Any CPU
 		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Release|x86.Build.0 = Release|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x64.Build.0 = Release|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

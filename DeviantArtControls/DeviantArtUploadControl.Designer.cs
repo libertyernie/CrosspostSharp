@@ -1,4 +1,4 @@
-﻿namespace ArtSync {
+﻿namespace DeviantArtControls {
     partial class DeviantArtUploadControl {
         /// <summary> 
         /// Required designer variable.

@@ -1,4 +1,4 @@
-﻿namespace ArtSync {
+﻿namespace DeviantArtControls {
     partial class DeviantArtCategoryBrowser {
         /// <summary>
         /// Required designer variable.

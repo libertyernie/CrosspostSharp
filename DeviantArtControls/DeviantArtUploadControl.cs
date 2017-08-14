@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 
-namespace ArtSync {
+namespace DeviantArtControls {
     public partial class DeviantArtUploadControl : UserControl {
         private DeviantArtCategoryBrowser.Category _selectedCategory;
         public DeviantArtCategoryBrowser.Category SelectedCategory {
@@ -11,7 +11,7 @@ namespace ArtSync {
             }
             set {
                 _selectedCategory = value;
-                txtCategory.Text = string.Join(" > ", value?.NamePath ?? Enumerable.Empty<string>());
+                txtCategory.Text = string.Join(" > ", value?.NamePath ?? new[] { "None" });
             }
         }
 

@@ -109,7 +109,7 @@
             this.tabDeviantArt = new System.Windows.Forms.TabPage();
             this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
             this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
-            this.deviantArtUploadControl1 = new ArtSync.DeviantArtUploadControl();
+            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1253,7 +1253,7 @@
         private System.Windows.Forms.TabPage tabDeviantArt;
         private System.Windows.Forms.Label lblDeviantArtStatus2;
         private System.Windows.Forms.Label lblDeviantArtStatus1;
-        private DeviantArtUploadControl deviantArtUploadControl1;
+        private DeviantArtControls.DeviantArtUploadControl deviantArtUploadControl1;
     }
 }
 
