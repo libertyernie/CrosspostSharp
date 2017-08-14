@@ -249,6 +249,7 @@
             this.btnCategory.TabIndex = 10;
             this.btnCategory.Text = "...";
             this.btnCategory.UseVisualStyleBackColor = true;
+            this.btnCategory.Click += new System.EventHandler(this.btnCategory_Click);
             // 
             // chkAllowComments
             // 

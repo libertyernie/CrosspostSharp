@@ -19,7 +19,15 @@ namespace ArtSync {
         }
 
         private void MatureChanged(object sender, EventArgs e) {
-            grpMatureClassification.Enabled != radNone.Checked;
+            grpMatureClassification.Enabled = radNone.Checked;
+        }
+
+        private void btnCategory_Click(object sender, EventArgs e) {
+            using (var f = new DeviantArtCategoryBrowser()) {
+                if (f.ShowDialog() == DialogResult.OK) {
+                    txtCategory.Text = f.SelectedPath;
+                }
+            }
         }
     }
 }

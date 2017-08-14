@@ -163,6 +163,12 @@
     <Compile Include="DeviantArtAuthForm.Designer.cs">
       <DependentUpon>DeviantArtAuthForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeviantArtCategoryBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviantArtCategoryBrowser.Designer.cs">
+      <DependentUpon>DeviantArtCategoryBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviantArtUploadControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -222,6 +228,9 @@
     <EmbeddedResource Include="DeviantArtAuthForm.resx">
       <DependentUpon>DeviantArtAuthForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DeviantArtCategoryBrowser.resx">
+      <DependentUpon>DeviantArtCategoryBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviantArtUploadControl.resx">
       <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -273,6 +282,10 @@
     <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
       <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
       <Name>ArtSourceWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
+      <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
+      <Name>DeviantartApi.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
