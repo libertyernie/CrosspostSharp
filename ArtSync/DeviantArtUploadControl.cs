@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ArtSync {
     public partial class DeviantArtUploadControl : UserControl {
+        private DeviantArtCategoryBrowser.Category _selectedCategory;
+        public DeviantArtCategoryBrowser.Category SelectedCategory {
+            get {
+                return _selectedCategory;
+            }
+            set {
+                _selectedCategory = value;
+                txtCategory.Text = string.Join(" > ", value?.NamePath ?? Enumerable.Empty<string>());
+            }
+        }
+
         public DeviantArtUploadControl() {
             InitializeComponent();
 
@@ -24,8 +29,9 @@ namespace ArtSync {
 
         private void btnCategory_Click(object sender, EventArgs e) {
             using (var f = new DeviantArtCategoryBrowser()) {
+                f.InitialCategory = SelectedCategory;
                 if (f.ShowDialog() == DialogResult.OK) {
-                    txtCategory.Text = f.SelectedPath;
+                    SelectedCategory = f.SelectedCategory;
                 }
             }
         }

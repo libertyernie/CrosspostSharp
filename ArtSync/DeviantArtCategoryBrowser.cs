@@ -1,22 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ArtSync {
     public partial class DeviantArtCategoryBrowser : Form {
-        public string SelectedPath => treeView1.SelectedNode.Name;
+        public class Category {
+            public string CategoryPath;
+            public IEnumerable<string> NamePath;
+        }
+
+        public Category InitialCategory { get; set; }
+
+        public Category SelectedCategory => new Category {
+            CategoryPath = treeView1.SelectedNode.Name,
+            NamePath = GetReverseNamePath(treeView1.SelectedNode).Reverse()
+        };
 
         public DeviantArtCategoryBrowser() {
             InitializeComponent();
         }
 
-        private async Task Populate(TreeNodeCollection nodes, string path = null) {
+        private async Task SetCategoryAsync(Category category) {
+            if (category == null) {
+                treeView1.SelectedNode = null;
+                return;
+            }
+            
+            string categoryPath = category.CategoryPath;
+            System.Diagnostics.Debug.WriteLine($"Looking for {categoryPath}");
+
+            TreeNode existing = treeView1.Nodes.Find(categoryPath, true).FirstOrDefault();
+            if (existing != null) {
+                System.Diagnostics.Debug.WriteLine($"Found {existing.Name}");
+                treeView1.SelectedNode = existing;
+                return;
+            }
+
+            for (int i = categoryPath.Length - 1; i > 0; i--) {
+                existing = treeView1.Nodes.Find(categoryPath.Substring(0, i), true).FirstOrDefault();
+                if (existing != null) {
+                    System.Diagnostics.Debug.WriteLine($"Populating {existing.Name}");
+                    await PopulateAsync(existing.Nodes, existing.Name);
+                    existing.Expand();
+                    await SetCategoryAsync(category);
+                    return;
+                }
+            }
+
+            throw new Exception("Category not found: " + categoryPath);
+        }
+
+        private IEnumerable<string> GetReverseNamePath(TreeNode node) {
+            while (node != null) {
+                yield return node.Text;
+                node = node.Parent;
+            }
+        }
+
+        private async Task PopulateAsync(TreeNodeCollection nodes, string path = null) {
             var result = await new DeviantartApi.Requests.Browse.CategorytreeRequest {
                 Catpath = path ?? "/"
             }.ExecuteAsync();
@@ -36,8 +79,16 @@ namespace ArtSync {
 
         private async void DeviantArtCategoryBrowser_Load(object sender, EventArgs e) {
             try {
+                this.Enabled = false;
+
                 treeView1.Nodes.Add("", "None");
-                await Populate(treeView1.Nodes);
+                await PopulateAsync(treeView1.Nodes);
+
+                if (InitialCategory != null) {
+                    await SetCategoryAsync(InitialCategory);
+                }
+
+                this.Enabled = true;
             } catch (Exception ex) {
                 MessageBox.Show(this.ParentForm, ex.Message, $"{this.GetType().Name}: {ex.GetType().Name}");
             }
@@ -46,9 +97,9 @@ namespace ArtSync {
         private async void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e) {
             try {
                 TreeNode target = e.Node;
-                if (target.Nodes.ContainsKey("loading")) {
+                if (target.Nodes?.ContainsKey("loading") == true) {
                     target.Nodes.Clear();
-                    await Populate(target.Nodes, target.Name);
+                    await PopulateAsync(target.Nodes, target.Name);
                     target.Expand();
                 }
             } catch (Exception ex) {
