@@ -64,7 +64,7 @@ namespace DeviantArtControls {
                 Catpath = path ?? "/"
             }.ExecuteAsync();
             if (result.IsError) {
-                throw new Exception(result.ErrorText);
+                throw new Exception("The list of categories could not be loaded. You probably need to log in with one of the methods in DeviantartApi.Login.");
             }
             if (!string.IsNullOrEmpty(result.Object.Error)) {
                 throw new Exception(result.Object.ErrorDescription);
@@ -91,6 +91,7 @@ namespace DeviantArtControls {
                 this.Enabled = true;
             } catch (Exception ex) {
                 MessageBox.Show(this.ParentForm, ex.Message, $"{this.GetType().Name}: {ex.GetType().Name}");
+                this.Close();
             }
         }
 
