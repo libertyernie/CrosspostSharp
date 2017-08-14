@@ -48,6 +48,12 @@
     <Compile Include="DeviantArtCategoryBrowser.Designer.cs">
       <DependentUpon>DeviantArtCategoryBrowser.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeviantArtFolderSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviantArtFolderSelectionForm.Designer.cs">
+      <DependentUpon>DeviantArtFolderSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeviantArtUploadControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -59,6 +65,9 @@
   <ItemGroup>
     <EmbeddedResource Include="DeviantArtCategoryBrowser.resx">
       <DependentUpon>DeviantArtCategoryBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviantArtFolderSelectionForm.resx">
+      <DependentUpon>DeviantArtFolderSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeviantArtUploadControl.resx">
       <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>

@@ -332,6 +332,7 @@
             this.btnGalleryFolders.TabIndex = 20;
             this.btnGalleryFolders.Text = "...";
             this.btnGalleryFolders.UseVisualStyleBackColor = true;
+            this.btnGalleryFolders.Click += new System.EventHandler(this.btnGalleryFolders_Click);
             // 
             // txtGalleryFolders
             // 
