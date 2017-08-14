@@ -106,6 +106,10 @@
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
+            this.tabDeviantArt = new System.Windows.Forms.TabPage();
+            this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
+            this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
+            this.deviantArtUploadControl1 = new ArtSync.DeviantArtUploadControl();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -118,6 +122,7 @@
             this.tabTwitter.SuspendLayout();
             this.tabInkbunny.SuspendLayout();
             this.tabSave.SuspendLayout();
+            this.tabDeviantArt.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -417,27 +422,27 @@
             this.refreshToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // changeSourceToolStripMenuItem
             // 
             this.changeSourceToolStripMenuItem.Name = "changeSourceToolStripMenuItem";
-            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.changeSourceToolStripMenuItem.Text = "Change Source";
             this.changeSourceToolStripMenuItem.Click += new System.EventHandler(this.changeSourceToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -446,13 +451,13 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -681,13 +686,14 @@
             // 
             this.tabControl1.Controls.Add(this.tabTumblr);
             this.tabControl1.Controls.Add(this.tabTwitter);
+            this.tabControl1.Controls.Add(this.tabDeviantArt);
             this.tabControl1.Controls.Add(this.tabInkbunny);
             this.tabControl1.Controls.Add(this.tabSave);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 448);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(554, 262);
+            this.tabControl1.Size = new System.Drawing.Size(554, 373);
             this.tabControl1.TabIndex = 0;
             // 
             // tabTumblr
@@ -1079,10 +1085,56 @@
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
             // 
+            // tabDeviantArt
+            // 
+            this.tabDeviantArt.Controls.Add(this.deviantArtUploadControl1);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus2);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus1);
+            this.tabDeviantArt.Location = new System.Drawing.Point(4, 22);
+            this.tabDeviantArt.Name = "tabDeviantArt";
+            this.tabDeviantArt.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDeviantArt.Size = new System.Drawing.Size(546, 347);
+            this.tabDeviantArt.TabIndex = 4;
+            this.tabDeviantArt.Text = "DeviantArt";
+            this.tabDeviantArt.UseVisualStyleBackColor = true;
+            // 
+            // lblDeviantArtStatus2
+            // 
+            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDeviantArtStatus2.AutoEllipsis = true;
+            this.lblDeviantArtStatus2.Location = new System.Drawing.Point(80, 6);
+            this.lblDeviantArtStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtStatus2.Name = "lblDeviantArtStatus2";
+            this.lblDeviantArtStatus2.Size = new System.Drawing.Size(460, 20);
+            this.lblDeviantArtStatus2.TabIndex = 3;
+            this.lblDeviantArtStatus2.Text = "not logged in";
+            this.lblDeviantArtStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblDeviantArtStatus1
+            // 
+            this.lblDeviantArtStatus1.Location = new System.Drawing.Point(6, 6);
+            this.lblDeviantArtStatus1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtStatus1.Name = "lblDeviantArtStatus1";
+            this.lblDeviantArtStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblDeviantArtStatus1.TabIndex = 2;
+            this.lblDeviantArtStatus1.Text = "DeviantArt:";
+            this.lblDeviantArtStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // deviantArtUploadControl1
+            // 
+            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
+            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
+            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 312);
+            this.deviantArtUploadControl1.TabIndex = 4;
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(554, 710);
+            this.ClientSize = new System.Drawing.Size(554, 821);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
@@ -1107,6 +1159,7 @@
             this.tabInkbunny.PerformLayout();
             this.tabSave.ResumeLayout(false);
             this.tabSave.PerformLayout();
+            this.tabDeviantArt.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1197,6 +1250,10 @@
         private System.Windows.Forms.Button btnSaveLocal;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeSourceToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabDeviantArt;
+        private System.Windows.Forms.Label lblDeviantArtStatus2;
+        private System.Windows.Forms.Label lblDeviantArtStatus1;
+        private DeviantArtUploadControl deviantArtUploadControl1;
     }
 }
 
