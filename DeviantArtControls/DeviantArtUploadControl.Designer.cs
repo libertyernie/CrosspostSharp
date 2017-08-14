@@ -47,7 +47,7 @@
             this.lblSharing = new System.Windows.Forms.Label();
             this.ddlSharing = new System.Windows.Forms.ComboBox();
             this.lblLicense = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.ddlLicense = new System.Windows.Forms.ComboBox();
             this.btnGalleryFolders = new System.Windows.Forms.Button();
             this.txtGalleryFolders = new System.Windows.Forms.TextBox();
             this.lblGalleryFolders = new System.Windows.Forms.Label();
@@ -304,13 +304,13 @@
             this.lblLicense.TabIndex = 16;
             this.lblLicense.Text = "License:";
             // 
-            // comboBox1
+            // ddlLicense
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ddlLicense.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.ddlLicense.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlLicense.FormattingEnabled = true;
+            this.ddlLicense.Items.AddRange(new object[] {
             "Default",
             "CC-BY",
             "CC-BY-SA",
@@ -318,10 +318,10 @@
             "CC-BY-NC",
             "CC-BY-NC-SA",
             "CC-BY-NC-ND"});
-            this.comboBox1.Location = new System.Drawing.Point(329, 220);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(211, 21);
-            this.comboBox1.TabIndex = 17;
+            this.ddlLicense.Location = new System.Drawing.Point(329, 220);
+            this.ddlLicense.Name = "ddlLicense";
+            this.ddlLicense.Size = new System.Drawing.Size(211, 21);
+            this.ddlLicense.TabIndex = 17;
             // 
             // btnGalleryFolders
             // 
@@ -373,6 +373,7 @@
             this.btnPublish.TabIndex = 22;
             this.btnPublish.Text = "Publish to DeviantArt";
             this.btnPublish.UseVisualStyleBackColor = true;
+            this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
             // 
             // DeviantArtUploadControl
             // 
@@ -383,7 +384,7 @@
             this.Controls.Add(this.btnGalleryFolders);
             this.Controls.Add(this.txtGalleryFolders);
             this.Controls.Add(this.lblGalleryFolders);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.ddlLicense);
             this.Controls.Add(this.lblLicense);
             this.Controls.Add(this.ddlSharing);
             this.Controls.Add(this.lblSharing);
@@ -436,7 +437,7 @@
         private System.Windows.Forms.Label lblSharing;
         private System.Windows.Forms.ComboBox ddlSharing;
         private System.Windows.Forms.Label lblLicense;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox ddlLicense;
         private System.Windows.Forms.Button btnGalleryFolders;
         private System.Windows.Forms.TextBox txtGalleryFolders;
         private System.Windows.Forms.Label lblGalleryFolders;
