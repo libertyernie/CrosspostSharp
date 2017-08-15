@@ -92,6 +92,10 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
+            this.tabDeviantArt = new System.Windows.Forms.TabPage();
+            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
+            this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
+            this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
             this.tabInkbunny = new System.Windows.Forms.TabPage();
             this.txtInkbunnyTitle = new System.Windows.Forms.TextBox();
             this.txtInkbunnyTags = new System.Windows.Forms.TextBox();
@@ -106,10 +110,6 @@
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
-            this.tabDeviantArt = new System.Windows.Forms.TabPage();
-            this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
-            this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
-            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -120,9 +120,9 @@
             this.tabControl1.SuspendLayout();
             this.tabTumblr.SuspendLayout();
             this.tabTwitter.SuspendLayout();
+            this.tabDeviantArt.SuspendLayout();
             this.tabInkbunny.SuspendLayout();
             this.tabSave.SuspendLayout();
-            this.tabDeviantArt.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -192,7 +192,7 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(508, 67);
+            this.txtDescription.Size = new System.Drawing.Size(508, 178);
             this.txtDescription.TabIndex = 11;
             // 
             // chkTags1
@@ -211,7 +211,7 @@
             this.chkFooter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkFooter.Checked = true;
             this.chkFooter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFooter.Location = new System.Drawing.Point(288, 157);
+            this.chkFooter.Location = new System.Drawing.Point(288, 268);
             this.chkFooter.Name = "chkFooter";
             this.chkFooter.Size = new System.Drawing.Size(18, 20);
             this.chkFooter.TabIndex = 13;
@@ -222,7 +222,7 @@
             // 
             this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFooter.Location = new System.Drawing.Point(312, 157);
+            this.txtFooter.Location = new System.Drawing.Point(312, 268);
             this.txtFooter.Name = "txtFooter";
             this.txtFooter.Size = new System.Drawing.Size(226, 20);
             this.txtFooter.TabIndex = 14;
@@ -308,7 +308,7 @@
             // btnPost
             // 
             this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(421, 207);
+            this.btnPost.Location = new System.Drawing.Point(421, 318);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(117, 24);
             this.btnPost.TabIndex = 17;
@@ -320,7 +320,7 @@
             // 
             this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtURL.Location = new System.Drawing.Point(335, 181);
+            this.txtURL.Location = new System.Drawing.Point(335, 292);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(203, 20);
             this.txtURL.TabIndex = 16;
@@ -333,7 +333,7 @@
             this.groupBox1.Controls.Add(this.chkTumblrSubmitIdTag);
             this.groupBox1.Controls.Add(this.txtTags2);
             this.groupBox1.Controls.Add(this.chkTags2);
-            this.groupBox1.Location = new System.Drawing.Point(6, 157);
+            this.groupBox1.Location = new System.Drawing.Point(6, 268);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(276, 68);
             this.groupBox1.TabIndex = 12;
@@ -354,7 +354,7 @@
             // 
             this.lblLinkTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLinkTo.AutoSize = true;
-            this.lblLinkTo.Location = new System.Drawing.Point(289, 184);
+            this.lblLinkTo.Location = new System.Drawing.Point(289, 295);
             this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
             this.lblLinkTo.Name = "lblLinkTo";
             this.lblLinkTo.Size = new System.Drawing.Size(40, 13);
@@ -480,7 +480,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.previewPanel.Location = new System.Drawing.Point(3, 58);
             this.previewPanel.Name = "previewPanel";
-            this.previewPanel.Size = new System.Drawing.Size(540, 175);
+            this.previewPanel.Size = new System.Drawing.Size(540, 286);
             this.previewPanel.TabIndex = 18;
             this.previewPanel.Visible = false;
             // 
@@ -517,13 +517,13 @@
             this.txtInkbunnyDescription.Multiline = true;
             this.txtInkbunnyDescription.Name = "txtInkbunnyDescription";
             this.txtInkbunnyDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInkbunnyDescription.Size = new System.Drawing.Size(306, 144);
+            this.txtInkbunnyDescription.Size = new System.Drawing.Size(306, 255);
             this.txtInkbunnyDescription.TabIndex = 5;
             // 
             // btnInkbunnyPost
             // 
             this.btnInkbunnyPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInkbunnyPost.Location = new System.Drawing.Point(423, 209);
+            this.btnInkbunnyPost.Location = new System.Drawing.Point(423, 320);
             this.btnInkbunnyPost.Name = "btnInkbunnyPost";
             this.btnInkbunnyPost.Size = new System.Drawing.Size(117, 24);
             this.btnInkbunnyPost.TabIndex = 16;
@@ -720,7 +720,7 @@
             this.tabTumblr.Location = new System.Drawing.Point(4, 22);
             this.tabTumblr.Name = "tabTumblr";
             this.tabTumblr.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTumblr.Size = new System.Drawing.Size(546, 236);
+            this.tabTumblr.Size = new System.Drawing.Size(546, 347);
             this.tabTumblr.TabIndex = 1;
             this.tabTumblr.Text = "Tumblr";
             this.tabTumblr.UseVisualStyleBackColor = true;
@@ -765,7 +765,7 @@
             this.tabTwitter.Location = new System.Drawing.Point(4, 22);
             this.tabTwitter.Name = "tabTwitter";
             this.tabTwitter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTwitter.Size = new System.Drawing.Size(546, 236);
+            this.tabTwitter.Size = new System.Drawing.Size(546, 347);
             this.tabTwitter.TabIndex = 2;
             this.tabTwitter.Text = "Twitter";
             this.tabTwitter.UseVisualStyleBackColor = true;
@@ -801,7 +801,7 @@
             this.txtTweetText.Location = new System.Drawing.Point(6, 81);
             this.txtTweetText.Multiline = true;
             this.txtTweetText.Name = "txtTweetText";
-            this.txtTweetText.Size = new System.Drawing.Size(534, 103);
+            this.txtTweetText.Size = new System.Drawing.Size(534, 214);
             this.txtTweetText.TabIndex = 5;
             this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
             // 
@@ -835,7 +835,7 @@
             this.chkTweetPotentiallySensitive.AutoSize = true;
             this.chkTweetPotentiallySensitive.Checked = true;
             this.chkTweetPotentiallySensitive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTweetPotentiallySensitive.Location = new System.Drawing.Point(6, 190);
+            this.chkTweetPotentiallySensitive.Location = new System.Drawing.Point(6, 301);
             this.chkTweetPotentiallySensitive.Name = "chkTweetPotentiallySensitive";
             this.chkTweetPotentiallySensitive.Size = new System.Drawing.Size(157, 17);
             this.chkTweetPotentiallySensitive.TabIndex = 7;
@@ -847,7 +847,7 @@
             this.lnkTwitterLinkToInclude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkTwitterLinkToInclude.AutoEllipsis = true;
-            this.lnkTwitterLinkToInclude.Location = new System.Drawing.Point(195, 214);
+            this.lnkTwitterLinkToInclude.Location = new System.Drawing.Point(195, 325);
             this.lnkTwitterLinkToInclude.Margin = new System.Windows.Forms.Padding(3);
             this.lnkTwitterLinkToInclude.Name = "lnkTwitterLinkToInclude";
             this.lnkTwitterLinkToInclude.Size = new System.Drawing.Size(208, 13);
@@ -857,7 +857,7 @@
             // lblTweetLength
             // 
             this.lblTweetLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTweetLength.Location = new System.Drawing.Point(409, 214);
+            this.lblTweetLength.Location = new System.Drawing.Point(409, 325);
             this.lblTweetLength.Name = "lblTweetLength";
             this.lblTweetLength.Size = new System.Drawing.Size(50, 13);
             this.lblTweetLength.TabIndex = 11;
@@ -865,7 +865,7 @@
             // btnTweet
             // 
             this.btnTweet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTweet.Location = new System.Drawing.Point(465, 207);
+            this.btnTweet.Location = new System.Drawing.Point(465, 318);
             this.btnTweet.Name = "btnTweet";
             this.btnTweet.Size = new System.Drawing.Size(75, 23);
             this.btnTweet.TabIndex = 12;
@@ -879,7 +879,7 @@
             this.chkIncludeLink.AutoSize = true;
             this.chkIncludeLink.Checked = true;
             this.chkIncludeLink.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeLink.Location = new System.Drawing.Point(104, 213);
+            this.chkIncludeLink.Location = new System.Drawing.Point(104, 324);
             this.chkIncludeLink.Name = "chkIncludeLink";
             this.chkIncludeLink.Size = new System.Drawing.Size(85, 17);
             this.chkIncludeLink.TabIndex = 9;
@@ -893,7 +893,7 @@
             this.chkIncludeImage.AutoSize = true;
             this.chkIncludeImage.Checked = true;
             this.chkIncludeImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeImage.Location = new System.Drawing.Point(6, 213);
+            this.chkIncludeImage.Location = new System.Drawing.Point(6, 324);
             this.chkIncludeImage.Name = "chkIncludeImage";
             this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
             this.chkIncludeImage.TabIndex = 8;
@@ -922,6 +922,55 @@
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tabDeviantArt
+            // 
+            this.tabDeviantArt.Controls.Add(this.deviantArtUploadControl1);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus2);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus1);
+            this.tabDeviantArt.Location = new System.Drawing.Point(4, 22);
+            this.tabDeviantArt.Name = "tabDeviantArt";
+            this.tabDeviantArt.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDeviantArt.Size = new System.Drawing.Size(546, 347);
+            this.tabDeviantArt.TabIndex = 4;
+            this.tabDeviantArt.Text = "DeviantArt";
+            this.tabDeviantArt.UseVisualStyleBackColor = true;
+            // 
+            // deviantArtUploadControl1
+            // 
+            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deviantArtUploadControl1.Enabled = false;
+            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
+            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
+            this.deviantArtUploadControl1.SelectedCategory = null;
+            this.deviantArtUploadControl1.SelectedFolders = null;
+            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 312);
+            this.deviantArtUploadControl1.TabIndex = 4;
+            // 
+            // lblDeviantArtStatus2
+            // 
+            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDeviantArtStatus2.AutoEllipsis = true;
+            this.lblDeviantArtStatus2.Location = new System.Drawing.Point(80, 6);
+            this.lblDeviantArtStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtStatus2.Name = "lblDeviantArtStatus2";
+            this.lblDeviantArtStatus2.Size = new System.Drawing.Size(460, 20);
+            this.lblDeviantArtStatus2.TabIndex = 3;
+            this.lblDeviantArtStatus2.Text = "not logged in";
+            this.lblDeviantArtStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblDeviantArtStatus1
+            // 
+            this.lblDeviantArtStatus1.Location = new System.Drawing.Point(6, 6);
+            this.lblDeviantArtStatus1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtStatus1.Name = "lblDeviantArtStatus1";
+            this.lblDeviantArtStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblDeviantArtStatus1.TabIndex = 2;
+            this.lblDeviantArtStatus1.Text = "DeviantArt:";
+            this.lblDeviantArtStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tabInkbunny
             // 
             this.tabInkbunny.Controls.Add(this.txtInkbunnyTitle);
@@ -944,7 +993,7 @@
             this.tabInkbunny.Location = new System.Drawing.Point(4, 22);
             this.tabInkbunny.Name = "tabInkbunny";
             this.tabInkbunny.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInkbunny.Size = new System.Drawing.Size(546, 236);
+            this.tabInkbunny.Size = new System.Drawing.Size(546, 347);
             this.tabInkbunny.TabIndex = 0;
             this.tabInkbunny.Text = "Inkbunny";
             this.tabInkbunny.UseVisualStyleBackColor = true;
@@ -961,7 +1010,7 @@
             // txtInkbunnyTags
             // 
             this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInkbunnyTags.Location = new System.Drawing.Point(340, 160);
+            this.txtInkbunnyTags.Location = new System.Drawing.Point(340, 271);
             this.txtInkbunnyTags.Name = "txtInkbunnyTags";
             this.txtInkbunnyTags.Size = new System.Drawing.Size(198, 20);
             this.txtInkbunnyTags.TabIndex = 14;
@@ -971,7 +1020,7 @@
             this.chkInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInkbunnyTags.Checked = true;
             this.chkInkbunnyTags.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnyTags.Location = new System.Drawing.Point(320, 160);
+            this.chkInkbunnyTags.Location = new System.Drawing.Point(320, 271);
             this.chkInkbunnyTags.Name = "chkInkbunnyTags";
             this.chkInkbunnyTags.Size = new System.Drawing.Size(14, 20);
             this.chkInkbunnyTags.TabIndex = 13;
@@ -982,7 +1031,7 @@
             this.chkInkbunnySubmitIdTag.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chkInkbunnySubmitIdTag.Checked = true;
             this.chkInkbunnySubmitIdTag.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnySubmitIdTag.Location = new System.Drawing.Point(320, 186);
+            this.chkInkbunnySubmitIdTag.Location = new System.Drawing.Point(320, 297);
             this.chkInkbunnySubmitIdTag.Name = "chkInkbunnySubmitIdTag";
             this.chkInkbunnySubmitIdTag.Size = new System.Drawing.Size(218, 17);
             this.chkInkbunnySubmitIdTag.TabIndex = 15;
@@ -1021,7 +1070,7 @@
             this.tabSave.Controls.Add(this.lblSaveDir);
             this.tabSave.Location = new System.Drawing.Point(4, 22);
             this.tabSave.Name = "tabSave";
-            this.tabSave.Size = new System.Drawing.Size(546, 236);
+            this.tabSave.Size = new System.Drawing.Size(546, 347);
             this.tabSave.TabIndex = 3;
             this.tabSave.Text = "Save...";
             this.tabSave.UseVisualStyleBackColor = true;
@@ -1085,52 +1134,6 @@
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
             // 
-            // tabDeviantArt
-            // 
-            this.tabDeviantArt.Controls.Add(this.deviantArtUploadControl1);
-            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus2);
-            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus1);
-            this.tabDeviantArt.Location = new System.Drawing.Point(4, 22);
-            this.tabDeviantArt.Name = "tabDeviantArt";
-            this.tabDeviantArt.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDeviantArt.Size = new System.Drawing.Size(546, 347);
-            this.tabDeviantArt.TabIndex = 4;
-            this.tabDeviantArt.Text = "DeviantArt";
-            this.tabDeviantArt.UseVisualStyleBackColor = true;
-            // 
-            // lblDeviantArtStatus2
-            // 
-            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDeviantArtStatus2.AutoEllipsis = true;
-            this.lblDeviantArtStatus2.Location = new System.Drawing.Point(80, 6);
-            this.lblDeviantArtStatus2.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDeviantArtStatus2.Name = "lblDeviantArtStatus2";
-            this.lblDeviantArtStatus2.Size = new System.Drawing.Size(460, 20);
-            this.lblDeviantArtStatus2.TabIndex = 3;
-            this.lblDeviantArtStatus2.Text = "not logged in";
-            this.lblDeviantArtStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblDeviantArtStatus1
-            // 
-            this.lblDeviantArtStatus1.Location = new System.Drawing.Point(6, 6);
-            this.lblDeviantArtStatus1.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDeviantArtStatus1.Name = "lblDeviantArtStatus1";
-            this.lblDeviantArtStatus1.Size = new System.Drawing.Size(68, 20);
-            this.lblDeviantArtStatus1.TabIndex = 2;
-            this.lblDeviantArtStatus1.Text = "DeviantArt:";
-            this.lblDeviantArtStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // deviantArtUploadControl1
-            // 
-            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
-            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
-            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 312);
-            this.deviantArtUploadControl1.TabIndex = 4;
-            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1155,11 +1158,11 @@
             this.tabTumblr.PerformLayout();
             this.tabTwitter.ResumeLayout(false);
             this.tabTwitter.PerformLayout();
+            this.tabDeviantArt.ResumeLayout(false);
             this.tabInkbunny.ResumeLayout(false);
             this.tabInkbunny.PerformLayout();
             this.tabSave.ResumeLayout(false);
             this.tabSave.PerformLayout();
-            this.tabDeviantArt.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

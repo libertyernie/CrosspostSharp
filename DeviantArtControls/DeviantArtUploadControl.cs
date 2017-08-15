@@ -13,7 +13,9 @@ namespace DeviantArtControls {
             }
             set {
                 _selectedCategory = value;
-                txtCategory.Text = string.Join(" > ", value?.NamePath ?? new[] { "None" });
+                txtCategory.Text = value == null
+                    ? ""
+                    : string.Join(" > ", value?.NamePath ?? new[] { "None" });
             }
         }
 
@@ -24,7 +26,9 @@ namespace DeviantArtControls {
             }
             set {
                 _selectedFolders = value;
-                txtGalleryFolders.Text = string.Join(", ", value.Select(f => f.Name));
+                txtGalleryFolders.Text = value == null
+                    ? ""
+                    : string.Join(", ", value.Select(f => f.Name));
             }
         }
 

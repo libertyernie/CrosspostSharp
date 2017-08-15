@@ -71,6 +71,10 @@ namespace ArtSync {
             this.Shown += (o, e) => LoadFromSettings();
 		}
 
+        private void ShowException(Exception e, string source) {
+            MessageBox.Show(this, e.Message, $"Error in {source}: {e.GetType()}");
+        }
+
 		#region GUI updates
         private async Task DeviantArtLogin() {
             if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
@@ -90,7 +94,7 @@ namespace ArtSync {
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
                 } catch (DeviantArtException e) {
-                    MessageBox.Show(this, e.Message, nameof(DeviantArtLogin));
+                    ShowException(e, nameof(DeviantArtLogin));
                 }
             }
 
@@ -107,7 +111,7 @@ namespace ArtSync {
                     await DeviantArtWrapper.WhoamiStaticAsync();
                     wrappers.Add(new DeviantArtWrapper());
                 } catch (Exception e) {
-                    MessageBox.Show(this, e.Message, $"{nameof(GetNewWrapper)}: {e.GetType()}");
+                    ShowException(e, nameof(GetNewWrapper));
                 }
             }
 
@@ -182,7 +186,7 @@ namespace ArtSync {
                         : Color.DarkGreen;
                 } catch (Exception e) {
                     TumblrUsername = null;
-                    MessageBox.Show(this, e.Message, $"{nameof(GetNewTumblrClient)}: {e.GetType()}");
+                    ShowException(e, nameof(GetNewTumblrClient));
                     lblTumblrStatus2.Text = "Error";
                     lblTumblrStatus2.ForeColor = Color.DarkRed;
                 }
@@ -270,8 +274,8 @@ namespace ArtSync {
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
-				MessageBox.Show(this, e.Message, e.GetType().ToString());
-			}
+                ShowException(e, nameof(LoadFromSettings));
+            }
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
@@ -426,7 +430,7 @@ namespace ArtSync {
 						: null);
 				}
 			} catch (Exception ex) {
-				MessageBox.Show(this, ex.Message, ex.GetType().Name);
+                ShowException(ex, nameof(UpdateGalleryAsync));
             } finally {
                 LProgressBar.Visible = false;
             }
@@ -690,8 +694,8 @@ namespace ArtSync {
             } catch (Exception ex) {
 				Console.Error.WriteLine(ex.Message);
 				Console.Error.WriteLine(ex.StackTrace);
-				MessageBox.Show(this, ex.Message, ex.GetType().ToString());
-			} finally {
+                ShowException(ex, nameof(PostToInkbunny));
+            } finally {
 				LProgressBar.Visible = false;
 			}
 		}
@@ -704,7 +708,7 @@ namespace ArtSync {
             } catch (Exception ex) {
                 Console.Error.WriteLine(ex.Message);
                 Console.Error.WriteLine(ex.StackTrace);
-                MessageBox.Show("An error occured: \"" + ex.Message);
+                ShowException(ex, nameof(btnUp_Click));
             }
 		}
 
@@ -745,7 +749,7 @@ namespace ArtSync {
             try {
                 await GetNewWrapper();
             } catch (Exception ex) {
-                MessageBox.Show(this, ex.Message, ex.GetType().Name);
+                ShowException(ex, nameof(changeSourceToolStripMenuItem_Click));
             }
             UpdateGalleryAsync();
         }
@@ -861,7 +865,7 @@ namespace ArtSync {
                         UpdateExistingTweetLink();
                     }
                 } catch (Exception ex) {
-                    MessageBox.Show(this, ex.Message, ex.GetType().Name);
+                    ShowException(ex, nameof(btnTweet_Click));
                 }
 				LProgressBar.Visible = false;
 			}));
