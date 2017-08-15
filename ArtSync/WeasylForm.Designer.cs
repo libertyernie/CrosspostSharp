@@ -940,7 +940,6 @@
             this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.deviantArtUploadControl1.Enabled = false;
             this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
             this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
             this.deviantArtUploadControl1.SelectedCategory = null;

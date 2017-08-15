@@ -82,7 +82,8 @@ namespace DeviantArtControls {
                     Data = System.IO.File.ReadAllBytes(@"C:\Windows\Web\Wallpaper\Theme2\img8.jpg"),
                     IsDirty = false,
                     OriginalUrl = "https://www.example.com/hello",
-                    Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != ""))
+                    Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
+                    Title = txtTitle.Text
                 }.ExecuteAsync();
                 if (r1.IsError) {
                     throw new Exception("Could not post to sta.sh: " + r1.ErrorText);
@@ -90,6 +91,12 @@ namespace DeviantArtControls {
                 if (!string.IsNullOrEmpty(r1.Object.Error)) {
                     throw new Exception("Could not post to sta.sh: " + r1.Object.ErrorDescription);
                 }
+
+                var sharingStr = ddlSharing.SelectedItem?.ToString();
+                var sharing = sharingStr == "Show share buttons" ? PublishRequest.SharingOption.Allow
+                        : sharingStr == "Hide share buttons" ? PublishRequest.SharingOption.HideShareButtons
+                        : sharingStr == "Hide & require login to view" ? PublishRequest.SharingOption.HideAndMembersOnly
+                        : throw new Exception("Unrecognized ddlSharing.SelectedItem");
 
                 var r2 = await new PublishRequest {
                     IsMature = !radNone.Checked,
@@ -99,27 +106,26 @@ namespace DeviantArtControls {
                     MatureClassification = classifications,
                     AgreeSubmission = chkSubmissionPolicy.Checked,
                     AgreeTos = chkTermsOfService.Checked,
-                    CatPath = SelectedCategory.CategoryPath,
+                    CatPath = SelectedCategory?.CategoryPath,
                     AllowComments = chkAllowComments.Checked,
                     RequestCritique = chkRequestCritique.Checked,
-                    Sharing = ddlSharing.SelectedText == "Show share buttons" ? PublishRequest.SharingOption.Allow
-                        : ddlSharing.SelectedText == "Hide share buttons" ? PublishRequest.SharingOption.HideShareButtons
-                        : ddlSharing.SelectedText == "Hide & require login to view" ? PublishRequest.SharingOption.HideAndMembersOnly
-                        : throw new Exception("Unrecognized ddlSharing.SelectedText"),
+                    Sharing = sharing,
                     LicenseCreativeCommons = ddlLicense.SelectedText.Contains("CC-"),
                     LicenseComercial = !ddlLicense.SelectedText.Contains("-NC"),
                     LicenseModify = ddlLicense.SelectedText.Contains("-ND") ? PublishRequest.LicenseModifyOption.No
                         : ddlLicense.SelectedText.Contains("-SA") ? PublishRequest.LicenseModifyOption.Share
                         : PublishRequest.LicenseModifyOption.Yes,
-                    GalleryIds = new HashSet<string>(SelectedFolders.Select(f => f.FolderId)),
+                    GalleryIds = new HashSet<string>(SelectedFolders == null
+                        ? Enumerable.Empty<string>()
+                        : SelectedFolders.Select(f => f.FolderId)),
                     AllowFreeDownload = chkAllowFreeDownload.Checked,
                     ItemId = r1.Object.ItemId.ToString()
                 }.ExecuteAsync();
                 if (r2.IsError) {
-                    throw new Exception("Could not post to DeviantArt: " + r2.ErrorText);
+                    throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.ErrorText + Environment.NewLine);
                 }
                 if (!string.IsNullOrEmpty(r2.Object.Error)) {
-                    throw new Exception("Could not post to DeviantArt: " + r2.Object.ErrorDescription);
+                    throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.Object.ErrorDescription);
                 }
                 MessageBox.Show(r2.Object.Url);
             } catch (Exception ex) {
