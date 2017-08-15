@@ -54,7 +54,7 @@ namespace ArtSourceWrapper {
                 "https://www.example.com",
                 refreshToken ?? "",
                 null,
-                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User });
+                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
             if (result.IsLoginError) {
                 throw new DeviantArtException(result.LoginErrorText);
             }
