@@ -262,7 +262,7 @@
             // 
             // chkAllowComments
             // 
-            this.chkAllowComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkAllowComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkAllowComments.AutoSize = true;
             this.chkAllowComments.Checked = true;
             this.chkAllowComments.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -275,7 +275,7 @@
             // 
             // chkRequestCritique
             // 
-            this.chkRequestCritique.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkRequestCritique.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkRequestCritique.AutoSize = true;
             this.chkRequestCritique.Location = new System.Drawing.Point(217, 223);
             this.chkRequestCritique.Name = "chkRequestCritique";

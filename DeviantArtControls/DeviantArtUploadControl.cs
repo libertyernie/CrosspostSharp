@@ -32,6 +32,19 @@ namespace DeviantArtControls {
             }
         }
 
+        private byte[] _data;
+        public byte[] Data {
+            get {
+                return _data;
+            }
+            set {
+                _data = value;
+                btnPublish.Enabled = _data != null && _data.Length != 0;
+            }
+        }
+
+        private string _originalUrl;
+
         public DeviantArtUploadControl() {
             InitializeComponent();
 
@@ -41,6 +54,26 @@ namespace DeviantArtControls {
 
             ddlLicense.SelectedIndex = 0;
             ddlSharing.SelectedIndex = 0;
+        }
+
+        public void SetSubmission(
+            byte[] data,
+            string title = "",
+            string htmlDescription = "",
+            IEnumerable<string> tags = null,
+            bool mature = false,
+            string originalUrl = null
+        ) {
+            Data = data;
+            txtTitle.Text = title ?? "";
+            txtArtistComments.Text = htmlDescription ?? "";
+            txtTags.Text = string.Join(" ", tags?.Select(s => $"#{s}") ?? Enumerable.Empty<string>());
+            if (mature) {
+                radStrict.Checked = true;
+            } else {
+                radNone.Checked = true;
+            }
+            _originalUrl = originalUrl;
         }
 
         private void MatureChanged(object sender, EventArgs e) {
@@ -84,9 +117,9 @@ namespace DeviantArtControls {
 
                 var r1 = await new SubmitRequest {
                     ArtistComments = txtArtistComments.Text,
-                    Data = System.IO.File.ReadAllBytes(@"C:\Windows\Web\Wallpaper\Theme2\img8.jpg"),
+                    Data = _data,
                     IsDirty = false,
-                    OriginalUrl = "https://www.example.com/hello",
+                    OriginalUrl = _originalUrl,
                     Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
                     Title = txtTitle.Text
                 }.ExecuteAsync();

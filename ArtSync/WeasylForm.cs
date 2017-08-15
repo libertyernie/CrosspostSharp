@@ -334,6 +334,13 @@ namespace ArtSync {
 				}
             }
             UpdateExistingTweetLink();
+            deviantArtUploadControl1.SetSubmission(
+                data: file?.Data,
+                title: submission?.Title,
+                htmlDescription: submission?.HTMLDescription,
+                tags: submission?.Tags,
+                mature: submission?.PotentiallySensitive == true,
+                originalUrl: submission?.ViewURL);
             try {
                 await Task.WhenAll(
                     UpdateExistingTumblrPostLink(),
