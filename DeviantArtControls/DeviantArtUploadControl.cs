@@ -71,6 +71,7 @@ namespace DeviantArtControls {
         private async void btnPublish_Click(object sender, EventArgs e) {
             if (chkSubmissionPolicy.Checked == false || chkTermsOfService.Checked == false) {
                 MessageBox.Show("Before submitting to DeviantArt, you must agree to the Submission Policy and the Terms of Service.");
+                return;
             }
 
             try {
