@@ -69,6 +69,10 @@ namespace DeviantArtControls {
         }
 
         private async void btnPublish_Click(object sender, EventArgs e) {
+            if (chkSubmissionPolicy.Checked == false || chkTermsOfService.Checked == false) {
+                MessageBox.Show("Before submitting to DeviantArt, you must agree to the Submission Policy and the Terms of Service.");
+            }
+
             try {
                 var classifications = new HashSet<PublishRequest.ClassificationOfMature>();
                 if (chkNudity.Checked) classifications.Add(PublishRequest.ClassificationOfMature.Nudity);
@@ -119,7 +123,7 @@ namespace DeviantArtControls {
                         ? Enumerable.Empty<string>()
                         : SelectedFolders.Select(f => f.FolderId)),
                     AllowFreeDownload = chkAllowFreeDownload.Checked,
-                    ItemId = r1.Object.ItemId.ToString()
+                    ItemId = r1.Object.ItemId
                 }.ExecuteAsync();
                 if (r2.IsError) {
                     throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.ErrorText + Environment.NewLine);
