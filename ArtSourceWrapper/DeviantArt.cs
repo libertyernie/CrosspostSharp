@@ -11,15 +11,34 @@ namespace ArtSourceWrapper {
     }
 
     public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
-        private string _clientId, _clientSecret;
-        private bool _initialLogin;
+        private static string _clientId, _clientSecret;
+        private static bool _initialLogin;
 
-        public override string SiteName => "DeviantArt";
+        public static string ClientId {
+            set {
+                _clientId = value;
+                _initialLogin = false;
+            }
+        }
 
-        public DeviantArtWrapper(string clientId, string clientSecret) {
-            _clientId = clientId;
-            _clientSecret = clientSecret;
-            _initialLogin = false;
+        public static string ClientSecret {
+            set {
+                _clientSecret = value;
+                _initialLogin = false;
+            }
+        }
+
+        public static async Task<string> WhoamiStaticAsync() {
+            if (!_initialLogin) await UpdateTokens();
+
+            var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
+            if (result.IsError) {
+                throw new DeviantArtException(result.ErrorText);
+            }
+            if (!string.IsNullOrEmpty(result.Object.Error)) {
+                throw new DeviantArtException(result.Object.ErrorDescription);
+            }
+            return result.Object.Username;
         }
 
         /// <summary>
@@ -27,7 +46,7 @@ namespace ArtSourceWrapper {
         /// </summary>
         /// <param name="refreshToken">An existing refresh token (if any)</param>
         /// <returns>A new refresh token</returns>
-        public async Task<string> UpdateTokens(string refreshToken = null) {
+        public static async Task<string> UpdateTokens(string refreshToken = null) {
             _initialLogin = true;
             var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(
                 _clientId,
@@ -42,17 +61,10 @@ namespace ArtSourceWrapper {
             return result.RefreshToken;
         }
 
-        public override async Task<string> WhoamiAsync() {
-            if (!_initialLogin) await UpdateTokens();
+        public override string SiteName => "DeviantArt";
 
-            var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
-            if (result.IsError) {
-                throw new DeviantArtException(result.ErrorText);
-            }
-            if (!string.IsNullOrEmpty(result.Object.Error)) {
-                throw new DeviantArtException(result.Object.ErrorDescription);
-            }
-            return result.Object.Username;
+        public override Task<string> WhoamiAsync() {
+            return WhoamiStaticAsync();
         }
 
         private IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<DeviationMetadata.MetadataClass> metadata) {

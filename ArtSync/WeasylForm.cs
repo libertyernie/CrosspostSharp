@@ -35,7 +35,9 @@ namespace ArtSync {
 		private int shortURLLengthHttps;
 		private List<ITweet> tweetCache;
 
-		public InkbunnyClient Inkbunny;
+		private InkbunnyClient Inkbunny;
+
+        private bool _deviantArtLoggedIn;
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
@@ -70,21 +72,42 @@ namespace ArtSync {
 		}
 
 		#region GUI updates
-        private async Task GetNewWrapper() {
-            List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
-
+        private async Task DeviantArtLogin() {
             if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
                 try {
-                    var w = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+                    DeviantArtWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
+                    DeviantArtWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
                     string oldToken = GlobalSettings.DeviantArt.RefreshToken;
-                    string newToken = await w.UpdateTokens(oldToken);
+                    string newToken = await DeviantArtWrapper.UpdateTokens(oldToken);
                     if (oldToken != newToken) {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    wrappers.Add(w);
+                    lblDeviantArtStatus2.Text = await DeviantArtWrapper.WhoamiStaticAsync();
+                    lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
+                    _deviantArtLoggedIn = true;
+                    return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
+                } catch (DeviantArtException e) {
+                    MessageBox.Show(this, e.Message, nameof(DeviantArtLogin));
+                }
+            }
+
+            lblDeviantArtStatus2.Text = "not logged in";
+            lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
+            _deviantArtLoggedIn = false;
+        }
+
+        private async Task GetNewWrapper() {
+            List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
+
+            if (_deviantArtLoggedIn) {
+                try {
+                    await DeviantArtWrapper.WhoamiStaticAsync();
+                    wrappers.Add(new DeviantArtWrapper());
+                } catch (Exception e) {
+                    MessageBox.Show(this, e.Message, $"{nameof(GetNewWrapper)}: {e.GetType()}");
                 }
             }
 
@@ -159,7 +182,8 @@ namespace ArtSync {
                         : Color.DarkGreen;
                 } catch (Exception e) {
                     TumblrUsername = null;
-                    lblTumblrStatus2.Text = e.Message;
+                    MessageBox.Show(this, e.Message, $"{nameof(GetNewTumblrClient)}: {e.GetType()}");
+                    lblTumblrStatus2.Text = "Error";
                     lblTumblrStatus2.ForeColor = Color.DarkRed;
                 }
             }
@@ -222,7 +246,8 @@ namespace ArtSync {
                 var tasks = new Task[] {
                     GetNewTumblrClient(),
                     GetNewInkbunnyClient(),
-                    GetNewTwitterClient()
+                    GetNewTwitterClient(),
+                    DeviantArtLogin()
                 };
 
                 int progress = 0;
@@ -737,7 +762,7 @@ namespace ArtSync {
 					GlobalSettings.Save();
 					LoadFromSettings();
 				}
-			}
+            }
 		}
 
 		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {

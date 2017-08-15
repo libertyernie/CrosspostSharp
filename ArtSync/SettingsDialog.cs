@@ -43,8 +43,9 @@ namespace ArtSync {
                     await DeviantArtWrapper.LogoutAsync();
                     Settings.DeviantArt.RefreshToken = null;
                 } else {
-                    var dA = new DeviantArtWrapper(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-                    Settings.DeviantArt.RefreshToken = await dA.UpdateTokens();
+                    DeviantArtWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
+                    DeviantArtWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
+                    Settings.DeviantArt.RefreshToken = await DeviantArtWrapper.UpdateTokens();
                 }
                 UpdateDeviantArtTokenLabel();
             } catch (Exception ex) {
