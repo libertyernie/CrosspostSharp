@@ -72,7 +72,6 @@ Tumblr tab:
 * Tags
   * Include the tags from the original site (as shown above)
   * Additional tags to include (default: #art)
-  * A unique tag to add so ArtSync can find this post later
 * Footer template (HTML)
   * URL - any appearance of {URL} will be replaced with this text
 * Post to Tumblr button
@@ -81,13 +80,13 @@ When you post to Tumblr, the header, body and footer templates will be put
 together, and occurences of {URL} will be replaced with the
 appropriate value. This will form the photo caption / text.
 
-The tags will be combined and separated by space. The unique tag can be
-added to tie your Tumblr post back to the original on DeviantArt, so ArtSync
-can find it later and offer to update an existing post instead of adding a new
-one. To update a post previously made with ArtSync, load the corresponding
+The tags will be combined and separated by space.
+
+To update a post previously made with ArtSync, just load the corresponding
 submission (the post URL will appear at the bottom of the window) and then
 click "Post to Tumblr." Updating only works with Tumblr, not Twitter or
-Inkbunny.
+Inkbunny, and it only works if the generated unique tag was included when the
+post was made.
 
 If a checkbox is not checked, the content in the adajcent box will not be used.
 
@@ -96,16 +95,18 @@ Posting to Inkbunny
 
 Inkbunny tab:
 * "Click to log in" label (click to log in with your username and password)
+* Title
 * Description (BBCode)
+* Keywords
 * Public
 * Notify watchers
 * Scraps
 * Checkboxes for all four Inkbunny rating levels
-* A unique tag to add so ArtSync can find this post later
 
-As with Tumblr, the unique tag will help ArtSync find an existing Inkbunny
-post. (Updating an existing post is not supported at this time.) ArtSync will
-also try to find an existing Inkbunny post by using the MD5 hash of the image.
+As with Tumblr, a generated unique tag will help ArtSync find an existing
+Inkbunny post. (Updating an existing post is not supported at this time.)
+ArtSync can also try to find an existing Inkbunny post by using the MD5 hash
+of the image.
 
 Posting to Twitter
 ------------------
@@ -161,6 +162,11 @@ Settings are stored in the file ArtSync.json.
   * Sid: The "sid" value used in the Inkbunny API.
   * UserId: Your Inkbunny user ID.
 
+* IncludeGeneratedUniqueTag: Whether to include a generated unique tag (such
+  as #weasyl1234567) when posting to DeviantArt, Inkbunny, or Tumblr. This
+  lets ArtSync find your post later. (Similar functionality for Twitter works
+  by looking for the optional link back to the original.)
+
 Compiling from Source
 ---------------------
 
@@ -185,7 +191,3 @@ namespace ArtSync {
 		}
 	}
 }
-
-If DeviantartApi doesn't build correctly, open DeviantartApi.sln, build all
-projects there (which will restore NuGet packages), then go back to
-ArtSync.sln and rebuild.
