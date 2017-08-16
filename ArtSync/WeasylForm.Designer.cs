@@ -93,6 +93,8 @@
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
             this.tabDeviantArt = new System.Windows.Forms.TabPage();
+            this.lnkDeviantArtFound = new System.Windows.Forms.LinkLabel();
+            this.lblDeviantArtFound = new System.Windows.Forms.Label();
             this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
             this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
             this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
@@ -110,6 +112,7 @@
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
+            this.lnkDeviantArtFindMore = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -798,10 +801,10 @@
             this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTweetText.Location = new System.Drawing.Point(6, 81);
+            this.txtTweetText.Location = new System.Drawing.Point(6, 82);
             this.txtTweetText.Multiline = true;
             this.txtTweetText.Name = "txtTweetText";
-            this.txtTweetText.Size = new System.Drawing.Size(534, 214);
+            this.txtTweetText.Size = new System.Drawing.Size(534, 213);
             this.txtTweetText.TabIndex = 5;
             this.txtTweetText.TextChanged += new System.EventHandler(this.txtTweetText_TextChanged);
             // 
@@ -810,7 +813,7 @@
             this.chkIncludeTitle.AutoSize = true;
             this.chkIncludeTitle.Checked = true;
             this.chkIncludeTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeTitle.Location = new System.Drawing.Point(6, 58);
+            this.chkIncludeTitle.Location = new System.Drawing.Point(6, 59);
             this.chkIncludeTitle.Name = "chkIncludeTitle";
             this.chkIncludeTitle.Size = new System.Drawing.Size(80, 17);
             this.chkIncludeTitle.TabIndex = 2;
@@ -821,7 +824,7 @@
             // chkIncludeDescription
             // 
             this.chkIncludeDescription.AutoSize = true;
-            this.chkIncludeDescription.Location = new System.Drawing.Point(92, 58);
+            this.chkIncludeDescription.Location = new System.Drawing.Point(92, 59);
             this.chkIncludeDescription.Name = "chkIncludeDescription";
             this.chkIncludeDescription.Size = new System.Drawing.Size(115, 17);
             this.chkIncludeDescription.TabIndex = 3;
@@ -924,6 +927,9 @@
             // 
             // tabDeviantArt
             // 
+            this.tabDeviantArt.Controls.Add(this.lnkDeviantArtFindMore);
+            this.tabDeviantArt.Controls.Add(this.lnkDeviantArtFound);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtFound);
             this.tabDeviantArt.Controls.Add(this.deviantArtUploadControl1);
             this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus2);
             this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus1);
@@ -935,17 +941,40 @@
             this.tabDeviantArt.Text = "DeviantArt";
             this.tabDeviantArt.UseVisualStyleBackColor = true;
             // 
+            // lnkDeviantArtFound
+            // 
+            this.lnkDeviantArtFound.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkDeviantArtFound.AutoEllipsis = true;
+            this.lnkDeviantArtFound.Location = new System.Drawing.Point(86, 36);
+            this.lnkDeviantArtFound.Name = "lnkDeviantArtFound";
+            this.lnkDeviantArtFound.Size = new System.Drawing.Size(370, 13);
+            this.lnkDeviantArtFound.TabIndex = 3;
+            this.lnkDeviantArtFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lnkDeviantArtFound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDeviantArtFound_LinkClicked);
+            // 
+            // lblDeviantArtFound
+            // 
+            this.lblDeviantArtFound.Location = new System.Drawing.Point(6, 32);
+            this.lblDeviantArtFound.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtFound.Name = "lblDeviantArtFound";
+            this.lblDeviantArtFound.Size = new System.Drawing.Size(74, 20);
+            this.lblDeviantArtFound.TabIndex = 2;
+            this.lblDeviantArtFound.Text = "Existing post:";
+            this.lblDeviantArtFound.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // deviantArtUploadControl1
             // 
             this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
+            this.deviantArtUploadControl1.Data = null;
+            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 58);
             this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
             this.deviantArtUploadControl1.SelectedCategory = null;
             this.deviantArtUploadControl1.SelectedFolders = null;
-            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 312);
-            this.deviantArtUploadControl1.TabIndex = 4;
+            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 286);
+            this.deviantArtUploadControl1.TabIndex = 5;
             // 
             // lblDeviantArtStatus2
             // 
@@ -956,7 +985,7 @@
             this.lblDeviantArtStatus2.Margin = new System.Windows.Forms.Padding(3);
             this.lblDeviantArtStatus2.Name = "lblDeviantArtStatus2";
             this.lblDeviantArtStatus2.Size = new System.Drawing.Size(460, 20);
-            this.lblDeviantArtStatus2.TabIndex = 3;
+            this.lblDeviantArtStatus2.TabIndex = 1;
             this.lblDeviantArtStatus2.Text = "not logged in";
             this.lblDeviantArtStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -966,7 +995,7 @@
             this.lblDeviantArtStatus1.Margin = new System.Windows.Forms.Padding(3);
             this.lblDeviantArtStatus1.Name = "lblDeviantArtStatus1";
             this.lblDeviantArtStatus1.Size = new System.Drawing.Size(68, 20);
-            this.lblDeviantArtStatus1.TabIndex = 2;
+            this.lblDeviantArtStatus1.TabIndex = 0;
             this.lblDeviantArtStatus1.Text = "DeviantArt:";
             this.lblDeviantArtStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1133,6 +1162,17 @@
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
             // 
+            // lnkDeviantArtFindMore
+            // 
+            this.lnkDeviantArtFindMore.AutoSize = true;
+            this.lnkDeviantArtFindMore.Location = new System.Drawing.Point(462, 36);
+            this.lnkDeviantArtFindMore.Name = "lnkDeviantArtFindMore";
+            this.lnkDeviantArtFindMore.Size = new System.Drawing.Size(78, 13);
+            this.lnkDeviantArtFindMore.TabIndex = 4;
+            this.lnkDeviantArtFindMore.TabStop = true;
+            this.lnkDeviantArtFindMore.Text = "Keep looking...";
+            this.lnkDeviantArtFindMore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDeviantArtFindMore_LinkClicked);
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1158,6 +1198,7 @@
             this.tabTwitter.ResumeLayout(false);
             this.tabTwitter.PerformLayout();
             this.tabDeviantArt.ResumeLayout(false);
+            this.tabDeviantArt.PerformLayout();
             this.tabInkbunny.ResumeLayout(false);
             this.tabInkbunny.PerformLayout();
             this.tabSave.ResumeLayout(false);
@@ -1256,6 +1297,9 @@
         private System.Windows.Forms.Label lblDeviantArtStatus2;
         private System.Windows.Forms.Label lblDeviantArtStatus1;
         private DeviantArtControls.DeviantArtUploadControl deviantArtUploadControl1;
+        private System.Windows.Forms.LinkLabel lnkDeviantArtFound;
+        private System.Windows.Forms.Label lblDeviantArtFound;
+        private System.Windows.Forms.LinkLabel lnkDeviantArtFindMore;
     }
 }
 

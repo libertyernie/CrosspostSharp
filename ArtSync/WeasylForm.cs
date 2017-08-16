@@ -37,7 +37,9 @@ namespace ArtSync {
 
 		private InkbunnyClient Inkbunny;
 
-        private bool _deviantArtLoggedIn;
+        // Stores a DeviantArtWrapper instance if the user is logged into dA; null if they are not.
+        // This can be used as a source SiteWrapper or to look up whether a given submission has been uploaded to dA already.
+        private DeviantArtWrapper _deviantArtWrapper;
 
 		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
 		private WeasylThumbnail[] thumbnails;
@@ -89,7 +91,7 @@ namespace ArtSync {
                     }
                     lblDeviantArtStatus2.Text = await DeviantArtWrapper.WhoamiStaticAsync();
                     lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
-                    _deviantArtLoggedIn = true;
+                    _deviantArtWrapper = new DeviantArtWrapper();
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
@@ -100,16 +102,16 @@ namespace ArtSync {
 
             lblDeviantArtStatus2.Text = "not logged in";
             lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
-            _deviantArtLoggedIn = false;
+            _deviantArtWrapper = null;
         }
 
         private async Task GetNewWrapper() {
             List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
 
-            if (_deviantArtLoggedIn) {
+            if (_deviantArtWrapper != null) {
                 try {
                     await DeviantArtWrapper.WhoamiStaticAsync();
-                    wrappers.Add(new DeviantArtWrapper());
+                    wrappers.Add(_deviantArtWrapper);
                 } catch (Exception e) {
                     ShowException(e, nameof(GetNewWrapper));
                 }
@@ -333,16 +335,22 @@ namespace ArtSync {
 					mainPictureBox.Image = null;
 				}
             }
-            UpdateExistingTweetLink();
+
+            List<string> daTags = new List<string>();
+            if (submission?.Tags != null) daTags.AddRange(submission.Tags);
+            if (submission?.GeneratedUniqueTag != null) daTags.Add(submission.GeneratedUniqueTag.Replace("#", ""));
             deviantArtUploadControl1.SetSubmission(
                 data: file?.Data,
                 title: submission?.Title,
                 htmlDescription: submission?.HTMLDescription,
-                tags: submission?.Tags,
+                tags: daTags,
                 mature: submission?.PotentiallySensitive == true,
                 originalUrl: submission?.ViewURL);
+
             try {
+                UpdateExistingTweetLink();
                 await Task.WhenAll(
+                    UpdateExistingDeviantArtLink(),
                     UpdateExistingTumblrPostLink(),
                     UpdateExistingInkbunnyPostLink()
                 );
@@ -501,6 +509,33 @@ namespace ArtSync {
             }
             this.lnkTwitterFound.Enabled = false;
             this.lnkTwitterFound.Text = $"Link to original not found in {tweetCache.Count} most recent tweets";
+        }
+
+        private async Task UpdateExistingDeviantArtLink() {
+            if (_deviantArtWrapper != null) {
+                string tag = this.currentSubmission.GeneratedUniqueTag;
+                while (tag.StartsWith("#")) tag = tag.Substring(1);
+
+                this.lnkDeviantArtFound.Text = $"checking DeviantArt for tag #{tag}...";
+                this.lnkDeviantArtFound.Enabled = false;
+                this.lnkDeviantArtFindMore.Visible = false;
+
+                if (!_deviantArtWrapper.Cache.Any()) {
+                    await _deviantArtWrapper.FetchAsync();
+                }
+
+                string url = _deviantArtWrapper.Cache
+                    .Where(d => d.Tags.Contains(tag))
+                    .Select(d => d.ViewURL)
+                    .FirstOrDefault();
+                if (url == null) {
+                    this.lnkDeviantArtFound.Text = $"tag not found in {_deviantArtWrapper.Cache.Count()} most recent submissions (#{tag})";
+                    this.lnkDeviantArtFindMore.Visible = !_deviantArtWrapper.IsEnded;
+                } else {
+                    this.lnkDeviantArtFound.Text = url;
+                    this.lnkDeviantArtFound.Enabled = true;
+                }
+            }
         }
         #endregion
 
@@ -802,6 +837,22 @@ namespace ArtSync {
         private void lnkTwitterFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             if (lnkTwitterFound.Text.StartsWith("http"))
                 Process.Start(lnkTwitterFound.Text);
+        }
+
+        private void lnkDeviantArtFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (lnkDeviantArtFound.Text.StartsWith("http"))
+                Process.Start(lnkDeviantArtFound.Text);
+        }
+
+        private async void lnkDeviantArtFindMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            try {
+                if (_deviantArtWrapper != null && !_deviantArtWrapper.IsEnded) {
+                    await _deviantArtWrapper.FetchAsync();
+                    await UpdateExistingDeviantArtLink();
+                }
+            } catch (Exception ex) {
+                ShowException(ex, nameof(lnkDeviantArtFindMore_LinkClicked));
+            }
         }
 
         private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {

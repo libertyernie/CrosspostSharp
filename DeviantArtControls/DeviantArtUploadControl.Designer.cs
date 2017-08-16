@@ -78,7 +78,7 @@
             this.txtArtistComments.Location = new System.Drawing.Point(6, 49);
             this.txtArtistComments.Multiline = true;
             this.txtArtistComments.Name = "txtArtistComments";
-            this.txtArtistComments.Size = new System.Drawing.Size(253, 63);
+            this.txtArtistComments.Size = new System.Drawing.Size(253, 78);
             this.txtArtistComments.TabIndex = 3;
             // 
             // lblTitle
@@ -103,16 +103,16 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(61, 118);
+            this.txtTags.Location = new System.Drawing.Point(43, 133);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(198, 20);
+            this.txtTags.Size = new System.Drawing.Size(216, 20);
             this.txtTags.TabIndex = 5;
             // 
             // lblTags
             // 
             this.lblTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(3, 121);
+            this.lblTags.Location = new System.Drawing.Point(3, 136);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(34, 13);
             this.lblTags.TabIndex = 4;
@@ -233,7 +233,7 @@
             // 
             this.lblCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(3, 148);
+            this.lblCategory.Location = new System.Drawing.Point(3, 163);
             this.lblCategory.Name = "lblCategory";
             this.lblCategory.Size = new System.Drawing.Size(52, 13);
             this.lblCategory.TabIndex = 8;
@@ -243,7 +243,7 @@
             // 
             this.txtCategory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCategory.Location = new System.Drawing.Point(85, 144);
+            this.txtCategory.Location = new System.Drawing.Point(85, 159);
             this.txtCategory.Name = "txtCategory";
             this.txtCategory.ReadOnly = true;
             this.txtCategory.Size = new System.Drawing.Size(420, 20);
@@ -252,7 +252,7 @@
             // btnCategory
             // 
             this.btnCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCategory.Location = new System.Drawing.Point(511, 144);
+            this.btnCategory.Location = new System.Drawing.Point(511, 159);
             this.btnCategory.Name = "btnCategory";
             this.btnCategory.Size = new System.Drawing.Size(26, 20);
             this.btnCategory.TabIndex = 10;
@@ -266,7 +266,7 @@
             this.chkAllowComments.AutoSize = true;
             this.chkAllowComments.Checked = true;
             this.chkAllowComments.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAllowComments.Location = new System.Drawing.Point(109, 223);
+            this.chkAllowComments.Location = new System.Drawing.Point(109, 238);
             this.chkAllowComments.Name = "chkAllowComments";
             this.chkAllowComments.Size = new System.Drawing.Size(102, 17);
             this.chkAllowComments.TabIndex = 19;
@@ -277,7 +277,7 @@
             // 
             this.chkRequestCritique.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkRequestCritique.AutoSize = true;
-            this.chkRequestCritique.Location = new System.Drawing.Point(217, 223);
+            this.chkRequestCritique.Location = new System.Drawing.Point(217, 238);
             this.chkRequestCritique.Name = "chkRequestCritique";
             this.chkRequestCritique.Size = new System.Drawing.Size(103, 17);
             this.chkRequestCritique.TabIndex = 20;
@@ -288,7 +288,7 @@
             // 
             this.lblSharing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblSharing.AutoSize = true;
-            this.lblSharing.Location = new System.Drawing.Point(3, 199);
+            this.lblSharing.Location = new System.Drawing.Point(3, 214);
             this.lblSharing.Name = "lblSharing";
             this.lblSharing.Size = new System.Drawing.Size(46, 13);
             this.lblSharing.TabIndex = 14;
@@ -303,7 +303,7 @@
             "Show share buttons",
             "Hide share buttons",
             "Hide & require login to view"});
-            this.ddlSharing.Location = new System.Drawing.Point(85, 196);
+            this.ddlSharing.Location = new System.Drawing.Point(85, 211);
             this.ddlSharing.Name = "ddlSharing";
             this.ddlSharing.Size = new System.Drawing.Size(174, 21);
             this.ddlSharing.TabIndex = 15;
@@ -312,7 +312,7 @@
             // 
             this.lblLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLicense.AutoSize = true;
-            this.lblLicense.Location = new System.Drawing.Point(268, 199);
+            this.lblLicense.Location = new System.Drawing.Point(268, 214);
             this.lblLicense.Name = "lblLicense";
             this.lblLicense.Size = new System.Drawing.Size(47, 13);
             this.lblLicense.TabIndex = 16;
@@ -331,7 +331,7 @@
             "CC-BY-NC",
             "CC-BY-NC-SA",
             "CC-BY-NC-ND"});
-            this.ddlLicense.Location = new System.Drawing.Point(321, 196);
+            this.ddlLicense.Location = new System.Drawing.Point(321, 211);
             this.ddlLicense.Name = "ddlLicense";
             this.ddlLicense.Size = new System.Drawing.Size(216, 21);
             this.ddlLicense.TabIndex = 17;
@@ -339,7 +339,7 @@
             // btnGalleryFolders
             // 
             this.btnGalleryFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGalleryFolders.Location = new System.Drawing.Point(511, 170);
+            this.btnGalleryFolders.Location = new System.Drawing.Point(511, 185);
             this.btnGalleryFolders.Name = "btnGalleryFolders";
             this.btnGalleryFolders.Size = new System.Drawing.Size(26, 20);
             this.btnGalleryFolders.TabIndex = 13;
@@ -351,7 +351,7 @@
             // 
             this.txtGalleryFolders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtGalleryFolders.Location = new System.Drawing.Point(85, 170);
+            this.txtGalleryFolders.Location = new System.Drawing.Point(85, 185);
             this.txtGalleryFolders.Name = "txtGalleryFolders";
             this.txtGalleryFolders.ReadOnly = true;
             this.txtGalleryFolders.Size = new System.Drawing.Size(420, 20);
@@ -361,7 +361,7 @@
             // 
             this.lblGalleryFolders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblGalleryFolders.AutoSize = true;
-            this.lblGalleryFolders.Location = new System.Drawing.Point(3, 173);
+            this.lblGalleryFolders.Location = new System.Drawing.Point(3, 188);
             this.lblGalleryFolders.Name = "lblGalleryFolders";
             this.lblGalleryFolders.Size = new System.Drawing.Size(76, 13);
             this.lblGalleryFolders.TabIndex = 11;
@@ -373,7 +373,7 @@
             this.chkAllowFreeDownload.AutoSize = true;
             this.chkAllowFreeDownload.Checked = true;
             this.chkAllowFreeDownload.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAllowFreeDownload.Location = new System.Drawing.Point(3, 223);
+            this.chkAllowFreeDownload.Location = new System.Drawing.Point(3, 238);
             this.chkAllowFreeDownload.Name = "chkAllowFreeDownload";
             this.chkAllowFreeDownload.Size = new System.Drawing.Size(100, 17);
             this.chkAllowFreeDownload.TabIndex = 18;
@@ -396,7 +396,7 @@
             // 
             this.chkSubmissionPolicy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkSubmissionPolicy.AutoSize = true;
-            this.chkSubmissionPolicy.Location = new System.Drawing.Point(3, 246);
+            this.chkSubmissionPolicy.Location = new System.Drawing.Point(3, 261);
             this.chkSubmissionPolicy.Name = "chkSubmissionPolicy";
             this.chkSubmissionPolicy.Size = new System.Drawing.Size(84, 17);
             this.chkSubmissionPolicy.TabIndex = 21;
@@ -407,7 +407,7 @@
             // 
             this.lnkSubmissionPolicy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkSubmissionPolicy.AutoSize = true;
-            this.lnkSubmissionPolicy.Location = new System.Drawing.Point(80, 247);
+            this.lnkSubmissionPolicy.Location = new System.Drawing.Point(80, 262);
             this.lnkSubmissionPolicy.Name = "lnkSubmissionPolicy";
             this.lnkSubmissionPolicy.Size = new System.Drawing.Size(144, 13);
             this.lnkSubmissionPolicy.TabIndex = 22;
@@ -419,7 +419,7 @@
             // 
             this.lnkTermsOfService.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkTermsOfService.AutoSize = true;
-            this.lnkTermsOfService.Location = new System.Drawing.Point(307, 248);
+            this.lnkTermsOfService.Location = new System.Drawing.Point(307, 263);
             this.lnkTermsOfService.Name = "lnkTermsOfService";
             this.lnkTermsOfService.Size = new System.Drawing.Size(140, 13);
             this.lnkTermsOfService.TabIndex = 24;
@@ -431,7 +431,7 @@
             // 
             this.chkTermsOfService.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkTermsOfService.AutoSize = true;
-            this.chkTermsOfService.Location = new System.Drawing.Point(230, 247);
+            this.chkTermsOfService.Location = new System.Drawing.Point(230, 262);
             this.chkTermsOfService.Name = "chkTermsOfService";
             this.chkTermsOfService.Size = new System.Drawing.Size(84, 17);
             this.chkTermsOfService.TabIndex = 23;
