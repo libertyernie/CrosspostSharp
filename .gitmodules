@@ -1,6 +1,3 @@
-[submodule "DeviantartApi"]
-	path = DeviantartApi
-	url = https://github.com/Mr1Penguin/DeviantartApi
 [submodule "WeasylLib"]
 	path = WeasylLib
 	url = https://github.com/libertyernie/WeasylLib
