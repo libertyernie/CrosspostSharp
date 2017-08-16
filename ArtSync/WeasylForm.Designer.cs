@@ -55,7 +55,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chkHTMLPreview = new System.Windows.Forms.CheckBox();
-            this.previewPanel = new System.Windows.Forms.Panel();
             this.lblInkbunnyStatus2 = new System.Windows.Forms.Label();
             this.lblInkbunnyStatus1 = new System.Windows.Forms.Label();
             this.txtInkbunnyDescription = new System.Windows.Forms.TextBox();
@@ -68,6 +67,10 @@
             this.chkInkbunnyPublic = new System.Windows.Forms.CheckBox();
             this.chkInkbunnyScraps = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lProgressBar1 = new ArtSync.LProgressBar();
+            this.thumbnail1 = new ArtSync.WeasylThumbnail();
+            this.thumbnail2 = new ArtSync.WeasylThumbnail();
+            this.thumbnail3 = new ArtSync.WeasylThumbnail();
             this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTumblr = new System.Windows.Forms.TabPage();
@@ -88,6 +91,7 @@
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
             this.tabDeviantArt = new System.Windows.Forms.TabPage();
+            this.lnkDeviantArtFindMore = new System.Windows.Forms.LinkLabel();
             this.lnkDeviantArtFound = new System.Windows.Forms.LinkLabel();
             this.lblDeviantArtFound = new System.Windows.Forms.Label();
             this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
@@ -106,24 +110,19 @@
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
-            this.lnkDeviantArtFindMore = new System.Windows.Forms.LinkLabel();
-            this.lProgressBar1 = new ArtSync.LProgressBar();
-            this.thumbnail1 = new ArtSync.WeasylThumbnail();
-            this.thumbnail2 = new ArtSync.WeasylThumbnail();
-            this.thumbnail3 = new ArtSync.WeasylThumbnail();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabTumblr.SuspendLayout();
             this.tabTwitter.SuspendLayout();
             this.tabDeviantArt.SuspendLayout();
             this.tabInkbunny.SuspendLayout();
             this.tabSave.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
             this.SuspendLayout();
             // 
             // btnUp
@@ -461,17 +460,6 @@
             this.chkHTMLPreview.UseVisualStyleBackColor = true;
             this.chkHTMLPreview.CheckedChanged += new System.EventHandler(this.chkHTMLPreview_CheckedChanged);
             // 
-            // previewPanel
-            // 
-            this.previewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.previewPanel.Location = new System.Drawing.Point(3, 58);
-            this.previewPanel.Name = "previewPanel";
-            this.previewPanel.Size = new System.Drawing.Size(540, 286);
-            this.previewPanel.TabIndex = 18;
-            this.previewPanel.Visible = false;
-            // 
             // lblInkbunnyStatus2
             // 
             this.lblInkbunnyStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -619,6 +607,45 @@
             this.panel1.Size = new System.Drawing.Size(554, 424);
             this.panel1.TabIndex = 0;
             // 
+            // lProgressBar1
+            // 
+            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lProgressBar1.Location = new System.Drawing.Point(12, 394);
+            this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.lProgressBar1.Name = "lProgressBar1";
+            this.lProgressBar1.Size = new System.Drawing.Size(348, 24);
+            this.lProgressBar1.TabIndex = 9;
+            // 
+            // thumbnail1
+            // 
+            this.thumbnail1.Location = new System.Drawing.Point(12, 3);
+            this.thumbnail1.Name = "thumbnail1";
+            this.thumbnail1.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail1.TabIndex = 0;
+            this.thumbnail1.TabStop = false;
+            // 
+            // thumbnail2
+            // 
+            this.thumbnail2.Location = new System.Drawing.Point(12, 133);
+            this.thumbnail2.Name = "thumbnail2";
+            this.thumbnail2.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail2.TabIndex = 1;
+            this.thumbnail2.TabStop = false;
+            // 
+            // thumbnail3
+            // 
+            this.thumbnail3.Location = new System.Drawing.Point(12, 263);
+            this.thumbnail3.Name = "thumbnail3";
+            this.thumbnail3.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail3.TabIndex = 2;
+            this.thumbnail3.TabStop = false;
+            // 
             // lnkOriginalUrl
             // 
             this.lnkOriginalUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -647,7 +674,6 @@
             // 
             // tabTumblr
             // 
-            this.tabTumblr.Controls.Add(this.previewPanel);
             this.tabTumblr.Controls.Add(this.lnkTumblrFound);
             this.tabTumblr.Controls.Add(this.lblTumblrFound);
             this.tabTumblr.Controls.Add(this.lblTumblrStatus1);
@@ -887,6 +913,18 @@
             this.tabDeviantArt.Text = "DeviantArt";
             this.tabDeviantArt.UseVisualStyleBackColor = true;
             // 
+            // lnkDeviantArtFindMore
+            // 
+            this.lnkDeviantArtFindMore.AutoSize = true;
+            this.lnkDeviantArtFindMore.Location = new System.Drawing.Point(462, 36);
+            this.lnkDeviantArtFindMore.Name = "lnkDeviantArtFindMore";
+            this.lnkDeviantArtFindMore.Size = new System.Drawing.Size(78, 13);
+            this.lnkDeviantArtFindMore.TabIndex = 4;
+            this.lnkDeviantArtFindMore.TabStop = true;
+            this.lnkDeviantArtFindMore.Text = "Keep looking...";
+            this.lnkDeviantArtFindMore.Visible = false;
+            this.lnkDeviantArtFindMore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDeviantArtFindMore_LinkClicked);
+            // 
             // lnkDeviantArtFound
             // 
             this.lnkDeviantArtFound.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1095,57 +1133,6 @@
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
             // 
-            // lnkDeviantArtFindMore
-            // 
-            this.lnkDeviantArtFindMore.AutoSize = true;
-            this.lnkDeviantArtFindMore.Location = new System.Drawing.Point(462, 36);
-            this.lnkDeviantArtFindMore.Name = "lnkDeviantArtFindMore";
-            this.lnkDeviantArtFindMore.Size = new System.Drawing.Size(78, 13);
-            this.lnkDeviantArtFindMore.TabIndex = 4;
-            this.lnkDeviantArtFindMore.TabStop = true;
-            this.lnkDeviantArtFindMore.Text = "Keep looking...";
-            this.lnkDeviantArtFindMore.Visible = false;
-            this.lnkDeviantArtFindMore.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDeviantArtFindMore_LinkClicked);
-            // 
-            // lProgressBar1
-            // 
-            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lProgressBar1.Location = new System.Drawing.Point(12, 394);
-            this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.lProgressBar1.Name = "lProgressBar1";
-            this.lProgressBar1.Size = new System.Drawing.Size(348, 24);
-            this.lProgressBar1.TabIndex = 9;
-            // 
-            // thumbnail1
-            // 
-            this.thumbnail1.Location = new System.Drawing.Point(12, 3);
-            this.thumbnail1.Name = "thumbnail1";
-            this.thumbnail1.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail1.TabIndex = 0;
-            this.thumbnail1.TabStop = false;
-            // 
-            // thumbnail2
-            // 
-            this.thumbnail2.Location = new System.Drawing.Point(12, 133);
-            this.thumbnail2.Name = "thumbnail2";
-            this.thumbnail2.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail2.TabIndex = 1;
-            this.thumbnail2.TabStop = false;
-            // 
-            // thumbnail3
-            // 
-            this.thumbnail3.Location = new System.Drawing.Point(12, 263);
-            this.thumbnail3.Name = "thumbnail3";
-            this.thumbnail3.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail3.TabIndex = 2;
-            this.thumbnail3.TabStop = false;
-            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1162,6 +1149,9 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabTumblr.ResumeLayout(false);
             this.tabTumblr.PerformLayout();
@@ -1173,9 +1163,6 @@
             this.tabInkbunny.PerformLayout();
             this.tabSave.ResumeLayout(false);
             this.tabSave.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1215,7 +1202,6 @@
 		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.CheckBox chkHTMLPreview;
-		private System.Windows.Forms.Panel previewPanel;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.Label lblInkbunnyStatus2;
 		private System.Windows.Forms.Label lblInkbunnyStatus1;

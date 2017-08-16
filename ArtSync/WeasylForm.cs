@@ -318,7 +318,6 @@ namespace ArtSync {
 				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", tags.Select(s => "#" + s));
 
                 pickDate.Value = pickTime.Value = submission.Timestamp;
-				UpdateHTMLPreview();
 			}
 			this.currentImage = file;
             this.lnkOriginalUrl.Text = submission?.ViewURL ?? "";
@@ -603,17 +602,6 @@ namespace ArtSync {
 </head>
 	<body>{HTML}</body>
 </html>";
-
-		private void UpdateHTMLPreview() {
-			previewPanel.Visible = chkHTMLPreview.Checked;
-			previewPanel.Controls.Clear();
-			if (chkHTMLPreview.Checked) {
-				previewPanel.Controls.Add(new WebBrowser {
-					DocumentText = HTML_PREVIEW.Replace("{HTML}", this.CompileHTML()),
-					Dock = DockStyle.Fill
-				});
-			}
-		}
 		#endregion
 
 		#region Tumblr
@@ -827,8 +815,20 @@ namespace ArtSync {
 		}
 
 		private void chkHTMLPreview_CheckedChanged(object sender, EventArgs e) {
-			UpdateHTMLPreview();
-		}
+            using (var form = new Form()) {
+                form.Width = 400;
+                form.Height = 300;
+                var browser = new WebBrowser {
+                    Dock = DockStyle.Fill
+                };
+                form.Controls.Add(browser);
+                form.Load += (x, y) => {
+                    browser.Navigate("about:blank");
+                    browser.Document.Write(HTML_PREVIEW.Replace("{HTML}", CompileHTML()));
+                };
+                form.ShowDialog(this);
+            }
+        }
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var d = new AboutDialog()) d.ShowDialog(this);
