@@ -1,4 +1,4 @@
-﻿using DeviantartApi.Objects.SubObjects;
+﻿using DeviantartApi.Objects.SubObjects.Profile;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,7 +42,7 @@ namespace DeviantArtControls {
 
                 while (true) {
                     var resp = await req.GetNextPageAsync();
-                    foreach (var f in resp.Object.Results) {
+                    foreach (var f in resp.Result.Results) {
                         var chk = new CheckBox {
                             AutoSize = true,
                             Text = f.Name,
@@ -57,7 +57,7 @@ namespace DeviantArtControls {
                         };
                         flowLayoutPanel1.Controls.Add(chk);
                     }
-                    if (!resp.Object.HasMore) break;
+                    if (!resp.Result.HasMore) break;
                 }
 
                 this.Enabled = true;

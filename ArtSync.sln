@@ -17,19 +17,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InkbunnyLib", "InkbunnyLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSourceWrapper", "ArtSourceWrapper\ArtSourceWrapper.csproj", "{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DeviantartApi", "DeviantartApi\DeviantartApi\DeviantartApi.shproj", "{9187B96C-686C-4B4C-B4F0-28ADC91D41AE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj", "{891FD4C3-111B-4C55-A59E-89DE662A9497}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsOAuth", "WinFormsOAuth\WinFormsOAuth\WinFormsOAuth.csproj", "{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantArtControls", "DeviantArtControls\DeviantArtControls.csproj", "{FDC116BB-EE52-423C-85B8-469C8AC787F1}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		DeviantartApi\DeviantartApi\DeviantartApi.projitems*{891fd4c3-111b-4c55-a59e-89de662a9497}*SharedItemsImports = 4
-		DeviantartApi\DeviantartApi\DeviantartApi.projitems*{9187b96c-686c-4b4c-b4f0-28adc91d41ae}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -87,18 +79,6 @@ Global
 		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Release|x64.Build.0 = Release|Any CPU
 		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Release|x86.ActiveCfg = Release|Any CPU
 		{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}.Release|x86.Build.0 = Release|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x64.Build.0 = Debug|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x86.Build.0 = Debug|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.Build.0 = Release|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x64.ActiveCfg = Release|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x64.Build.0 = Release|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x86.ActiveCfg = Release|Any CPU
-		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x86.Build.0 = Release|Any CPU
 		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D98E0824-0A4A-4105-8F76-1CAC1D91FFCE}.Debug|x64.ActiveCfg = Debug|Any CPU

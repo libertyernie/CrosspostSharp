@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeviantartApi.Requests.Browse;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,16 +61,16 @@ namespace DeviantArtControls {
         }
 
         private async Task PopulateAsync(TreeNodeCollection nodes, string path = null) {
-            var result = await new DeviantartApi.Requests.Browse.CategorytreeRequest {
+            var result = await new CategoryTreeRequest {
                 Catpath = path ?? "/"
             }.ExecuteAsync();
             if (result.IsError) {
                 throw new Exception("The list of categories could not be loaded. You probably need to log in with one of the methods in DeviantartApi.Login.");
             }
-            if (!string.IsNullOrEmpty(result.Object.Error)) {
-                throw new Exception(result.Object.ErrorDescription);
+            if (!string.IsNullOrEmpty(result.Result.Error)) {
+                throw new Exception(result.Result.ErrorDescription);
             }
-            foreach (var c in result.Object.Categories) {
+            foreach (var c in result.Result.Categories) {
                 TreeNode node = nodes.Add(c.Catpath, c.Title);
                 if (c.HasSubcategory) {
                     node.Nodes.Add("loading", "Loading...");

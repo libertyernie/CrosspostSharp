@@ -1,4 +1,5 @@
 ﻿using DeviantartApi.Objects;
+using DeviantartApi.Objects.SubObjects.DeviationMetadata;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,10 +36,10 @@ namespace ArtSourceWrapper {
             if (result.IsError) {
                 throw new DeviantArtException(result.ErrorText);
             }
-            if (!string.IsNullOrEmpty(result.Object.Error)) {
-                throw new DeviantArtException(result.Object.ErrorDescription);
+            if (!string.IsNullOrEmpty(result.Result.Error)) {
+                throw new DeviantArtException(result.Result.ErrorDescription);
             }
-            return result.Object.Username;
+            return result.Result.Username;
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace ArtSourceWrapper {
             var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(
                 _clientId,
                 _clientSecret,
-                "https://www.example.com",
+                new Uri("https://www.example.com"),
                 refreshToken ?? "",
                 null,
                 new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
@@ -67,7 +68,7 @@ namespace ArtSourceWrapper {
             return WhoamiStaticAsync();
         }
 
-        private IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<DeviationMetadata.MetadataClass> metadata) {
+        private IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {
             foreach (var d in deviations) {
                 var metadata_if_any = metadata.FirstOrDefault(m => m.DeviationId == d.DeviationId);
                 yield return new DeviantArtSubmissionWrapper(d, metadata_if_any);
@@ -86,27 +87,25 @@ namespace ArtSourceWrapper {
             if (galleryResponse.IsError) {
                 throw new DeviantArtException(galleryResponse.ErrorText);
             }
-            if (!string.IsNullOrEmpty(galleryResponse.Object.Error)) {
-                throw new DeviantArtException(galleryResponse.Object.ErrorDescription);
+            if (!string.IsNullOrEmpty(galleryResponse.Result.Error)) {
+                throw new DeviantArtException(galleryResponse.Result.ErrorDescription);
             }
 
-            if (!galleryResponse.Object.HasMore) {
+            if (!galleryResponse.Result.HasMore) {
                 return new InternalFetchResult(position, true);
             }
 
-            var metadataResponse = await new DeviantartApi.Requests.Deviation.MetadataRequest() {
-                DeviationIds = new HashSet<string>(galleryResponse.Object.Results.Select(d => d.DeviationId))
-            }.ExecuteAsync();
+            var metadataResponse = await new DeviantartApi.Requests.Deviation.MetadataRequest(galleryResponse.Result.Results.Select(d => d.DeviationId)).ExecuteAsync();
             if (metadataResponse.IsError) {
                 throw new DeviantArtException(metadataResponse.ErrorText);
             }
-            if (!string.IsNullOrEmpty(metadataResponse.Object.Error)) {
-                throw new DeviantArtException(metadataResponse.Object.ErrorDescription);
+            if (!string.IsNullOrEmpty(metadataResponse.Result.Error)) {
+                throw new DeviantArtException(metadataResponse.Result.ErrorDescription);
             }
 
             return new InternalFetchResult(
-                Wrap(galleryResponse.Object.Results, metadataResponse.Object.Metadata),
-                position + (uint)galleryResponse.Object.Results.Count);
+                Wrap(galleryResponse.Result.Results, metadataResponse.Result.Metadata),
+                position + (uint)galleryResponse.Result.Results.Count);
         }
 
         public static async Task<bool> LogoutAsync() {
@@ -119,7 +118,7 @@ namespace ArtSourceWrapper {
     }
 
     public class DeviantArtSubmissionWrapper : ISubmissionWrapper {
-        public bool PotentiallySensitive => Deviation.IsMature;
+        public bool PotentiallySensitive => Deviation.IsMature == true;
 
         public string GeneratedUniqueTag => $"#deviantart-{Deviation.DeviationId}";
         public string HTMLDescription {
@@ -135,23 +134,23 @@ namespace ArtSourceWrapper {
             }
         }
         public IEnumerable<string> Tags => Metadata?.Tags?.Select(t => t.TagName) ?? Enumerable.Empty<string>();
-        public DateTime Timestamp => Deviation.PublishedTime;
+        public DateTime Timestamp => Deviation.PublishedTime ?? DateTime.Now;
         public string Title => Deviation.Title;
 
-        public string ViewURL => Deviation.Url;
+        public string ViewURL => Deviation.Url.AbsoluteUri;
         public string ImageURL => Deviation.Content.Src;
         public string ThumbnailURL => Deviation.Thumbs.FirstOrDefault()?.Src;
 
-        public Color? BorderColor => Deviation.IsMature
+        public Color? BorderColor => Deviation.IsMature == true
             ? Color.FromArgb(225, 141, 67)
             : (Color?)null;
 
 		public bool OwnWork => true;
 
 		public Deviation Deviation { get; private set; }
-        public DeviationMetadata.MetadataClass Metadata { get; private set; }
+        public Metadata Metadata { get; private set; }
 
-        public DeviantArtSubmissionWrapper(Deviation deviation, DeviationMetadata.MetadataClass metadata = null) {
+        public DeviantArtSubmissionWrapper(Deviation deviation, Metadata metadata = null) {
             if (deviation.DeviationId != metadata.DeviationId) throw new ArgumentException("DeviationId must be the same in both arguments");
             Deviation = deviation;
             Metadata = metadata;

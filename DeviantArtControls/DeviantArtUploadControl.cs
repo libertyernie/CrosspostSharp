@@ -126,8 +126,8 @@ namespace DeviantArtControls {
                 if (r1.IsError) {
                     throw new Exception("Could not post to sta.sh: " + r1.ErrorText);
                 }
-                if (!string.IsNullOrEmpty(r1.Object.Error)) {
-                    throw new Exception("Could not post to sta.sh: " + r1.Object.ErrorDescription);
+                if (!string.IsNullOrEmpty(r1.Result.Error)) {
+                    throw new Exception("Could not post to sta.sh: " + r1.Result.ErrorDescription);
                 }
 
                 var sharingStr = ddlSharing.SelectedItem?.ToString();
@@ -136,14 +136,16 @@ namespace DeviantArtControls {
                         : sharingStr == "Hide & require login to view" ? PublishRequest.SharingOption.HideAndMembersOnly
                         : throw new Exception("Unrecognized ddlSharing.SelectedItem");
 
-                var r2 = await new PublishRequest {
-                    IsMature = !radNone.Checked,
+                var r2 = await new PublishRequest(
+                    !radNone.Checked,
+                    chkSubmissionPolicy.Checked,
+                    chkTermsOfService.Checked,
+                    r1.Result.ItemId
+                ) {
                     MatureLevel = radStrict.Checked
                         ? PublishRequest.LevelOFMature.Strict
                         : PublishRequest.LevelOFMature.Moderate,
                     MatureClassification = classifications,
-                    AgreeSubmission = chkSubmissionPolicy.Checked,
-                    AgreeTos = chkTermsOfService.Checked,
                     CatPath = SelectedCategory?.CategoryPath,
                     AllowComments = chkAllowComments.Checked,
                     RequestCritique = chkRequestCritique.Checked,
@@ -156,16 +158,15 @@ namespace DeviantArtControls {
                     GalleryIds = new HashSet<string>(SelectedFolders == null
                         ? Enumerable.Empty<string>()
                         : SelectedFolders.Select(f => f.FolderId)),
-                    AllowFreeDownload = chkAllowFreeDownload.Checked,
-                    ItemId = r1.Object.ItemId
+                    AllowFreeDownload = chkAllowFreeDownload.Checked
                 }.ExecuteAsync();
                 if (r2.IsError) {
                     throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.ErrorText + Environment.NewLine);
                 }
-                if (!string.IsNullOrEmpty(r2.Object.Error)) {
-                    throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.Object.ErrorDescription);
+                if (!string.IsNullOrEmpty(r2.Result.Error)) {
+                    throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.Result.ErrorDescription);
                 }
-                MessageBox.Show(r2.Object.Url);
+                MessageBox.Show(r2.Result.Url);
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
             }
@@ -186,10 +187,10 @@ namespace DeviantArtControls {
                         if (result.IsError) {
                             throw new Exception(result.ErrorText);
                         }
-                        if (!string.IsNullOrEmpty(result.Object.Error)) {
-                            throw new Exception(result.Object.ErrorDescription);
+                        if (!string.IsNullOrEmpty(result.Result.Error)) {
+                            throw new Exception(result.Result.ErrorDescription);
                         }
-                        browser.Document.Write(result.Object.Text);
+                        browser.Document.Write(result.Result.Text);
                     } catch (Exception) {
                         browser.Navigate(fallbackUrl);
                     }
