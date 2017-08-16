@@ -29,7 +29,7 @@ namespace ArtSourceWrapper {
             }
         }
 
-        public static async Task<string> WhoamiStaticAsync() {
+        public async override Task<string> WhoamiAsync() {
             if (!_initialLogin) await UpdateTokens();
 
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
@@ -63,10 +63,6 @@ namespace ArtSourceWrapper {
         }
 
         public override string SiteName => "DeviantArt";
-
-        public override Task<string> WhoamiAsync() {
-            return WhoamiStaticAsync();
-        }
 
         private IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {
             foreach (var d in deviations) {

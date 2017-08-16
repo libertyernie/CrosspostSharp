@@ -98,9 +98,9 @@ namespace ArtSync {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    lblDeviantArtStatus2.Text = await DeviantArtWrapper.WhoamiStaticAsync();
-                    lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     _deviantArtWrapper = new DeviantArtWrapper();
+                    lblDeviantArtStatus2.Text = await _deviantArtWrapper.WhoamiAsync();
+                    lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
@@ -119,7 +119,7 @@ namespace ArtSync {
 
             if (_deviantArtWrapper != null) {
                 try {
-                    await DeviantArtWrapper.WhoamiStaticAsync();
+                    await _deviantArtWrapper.WhoamiAsync();
                     wrappers.Add(_deviantArtWrapper);
                 } catch (Exception e) {
                     ShowException(e, nameof(GetNewWrapper));
