@@ -31,6 +31,13 @@
             this.btnTumblrSignIn = new System.Windows.Forms.Button();
             this.lblTokenStatus = new System.Windows.Forms.Label();
             this.lblToken = new System.Windows.Forms.Label();
+            this.groupDefaults = new System.Windows.Forms.GroupBox();
+            this.txtHeader = new System.Windows.Forms.TextBox();
+            this.txtTags = new System.Windows.Forms.TextBox();
+            this.lblTags = new System.Windows.Forms.Label();
+            this.lblFooter = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
+            this.txtFooter = new System.Windows.Forms.TextBox();
             this.lblBlogName = new System.Windows.Forms.Label();
             this.txtBlogName = new System.Windows.Forms.TextBox();
             this.lblTokenInfo = new System.Windows.Forms.Label();
@@ -48,19 +55,13 @@
             this.btnDeviantArtSignIn = new System.Windows.Forms.Button();
             this.lblDeviantArtTokenStatus = new System.Windows.Forms.Label();
             this.lblDeviantArtToken = new System.Windows.Forms.Label();
-            this.txtFooter = new System.Windows.Forms.TextBox();
-            this.lblHeader = new System.Windows.Forms.Label();
-            this.lblFooter = new System.Windows.Forms.Label();
-            this.lblTags = new System.Windows.Forms.Label();
-            this.txtTags = new System.Windows.Forms.TextBox();
-            this.txtHeader = new System.Windows.Forms.TextBox();
-            this.groupDefaults = new System.Windows.Forms.GroupBox();
+            this.chkIncludeGeneratedUniqueTag = new System.Windows.Forms.CheckBox();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
+            this.groupDefaults.SuspendLayout();
             this.groupInkbunnyDest.SuspendLayout();
             this.groupTwitter.SuspendLayout();
             this.groupDeviantArt.SuspendLayout();
-            this.groupDefaults.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupWeasyl
@@ -151,6 +152,75 @@
             this.lblToken.TabIndex = 0;
             this.lblToken.Text = "Token:";
             // 
+            // groupDefaults
+            // 
+            this.groupDefaults.Controls.Add(this.txtHeader);
+            this.groupDefaults.Controls.Add(this.txtTags);
+            this.groupDefaults.Controls.Add(this.lblTags);
+            this.groupDefaults.Controls.Add(this.lblFooter);
+            this.groupDefaults.Controls.Add(this.lblHeader);
+            this.groupDefaults.Controls.Add(this.txtFooter);
+            this.groupDefaults.Location = new System.Drawing.Point(9, 94);
+            this.groupDefaults.Name = "groupDefaults";
+            this.groupDefaults.Size = new System.Drawing.Size(392, 97);
+            this.groupDefaults.TabIndex = 0;
+            this.groupDefaults.TabStop = false;
+            this.groupDefaults.Text = "Defaults";
+            // 
+            // txtHeader
+            // 
+            this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHeader.Location = new System.Drawing.Point(83, 19);
+            this.txtHeader.Name = "txtHeader";
+            this.txtHeader.Size = new System.Drawing.Size(303, 20);
+            this.txtHeader.TabIndex = 1;
+            // 
+            // txtTags
+            // 
+            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTags.Location = new System.Drawing.Point(83, 71);
+            this.txtTags.Name = "txtTags";
+            this.txtTags.Size = new System.Drawing.Size(303, 20);
+            this.txtTags.TabIndex = 5;
+            // 
+            // lblTags
+            // 
+            this.lblTags.AutoSize = true;
+            this.lblTags.Location = new System.Drawing.Point(6, 74);
+            this.lblTags.Name = "lblTags";
+            this.lblTags.Size = new System.Drawing.Size(71, 13);
+            this.lblTags.TabIndex = 4;
+            this.lblTags.Text = "Default Tags:";
+            // 
+            // lblFooter
+            // 
+            this.lblFooter.AutoSize = true;
+            this.lblFooter.Location = new System.Drawing.Point(6, 48);
+            this.lblFooter.Name = "lblFooter";
+            this.lblFooter.Size = new System.Drawing.Size(40, 13);
+            this.lblFooter.TabIndex = 2;
+            this.lblFooter.Text = "Footer:";
+            // 
+            // lblHeader
+            // 
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Location = new System.Drawing.Point(6, 22);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(45, 13);
+            this.lblHeader.TabIndex = 0;
+            this.lblHeader.Text = "Header:";
+            // 
+            // txtFooter
+            // 
+            this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFooter.Location = new System.Drawing.Point(83, 45);
+            this.txtFooter.Name = "txtFooter";
+            this.txtFooter.Size = new System.Drawing.Size(303, 20);
+            this.txtFooter.TabIndex = 3;
+            // 
             // lblBlogName
             // 
             this.lblBlogName.AutoSize = true;
@@ -175,9 +245,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTokenInfo.Location = new System.Drawing.Point(12, 416);
+            this.lblTokenInfo.Location = new System.Drawing.Point(12, 454);
             this.lblTokenInfo.Name = "lblTokenInfo";
-            this.lblTokenInfo.Size = new System.Drawing.Size(410, 49);
+            this.lblTokenInfo.Size = new System.Drawing.Size(410, 44);
             this.lblTokenInfo.TabIndex = 6;
             this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
     "ounts. The security tokens are stored in the file ArtSync.json, so make sure you" +
@@ -187,7 +257,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(266, 476);
+            this.btnSave.Location = new System.Drawing.Point(266, 501);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 7;
@@ -199,7 +269,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(347, 476);
+            this.btnCancel.Location = new System.Drawing.Point(347, 501);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 8;
@@ -335,74 +405,15 @@
             this.lblDeviantArtToken.TabIndex = 4;
             this.lblDeviantArtToken.Text = "Token:";
             // 
-            // txtFooter
+            // chkIncludeGeneratedUniqueTag
             // 
-            this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFooter.Location = new System.Drawing.Point(83, 45);
-            this.txtFooter.Name = "txtFooter";
-            this.txtFooter.Size = new System.Drawing.Size(303, 20);
-            this.txtFooter.TabIndex = 3;
-            // 
-            // lblHeader
-            // 
-            this.lblHeader.AutoSize = true;
-            this.lblHeader.Location = new System.Drawing.Point(6, 22);
-            this.lblHeader.Name = "lblHeader";
-            this.lblHeader.Size = new System.Drawing.Size(45, 13);
-            this.lblHeader.TabIndex = 0;
-            this.lblHeader.Text = "Header:";
-            // 
-            // lblFooter
-            // 
-            this.lblFooter.AutoSize = true;
-            this.lblFooter.Location = new System.Drawing.Point(6, 48);
-            this.lblFooter.Name = "lblFooter";
-            this.lblFooter.Size = new System.Drawing.Size(40, 13);
-            this.lblFooter.TabIndex = 2;
-            this.lblFooter.Text = "Footer:";
-            // 
-            // lblTags
-            // 
-            this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(6, 74);
-            this.lblTags.Name = "lblTags";
-            this.lblTags.Size = new System.Drawing.Size(71, 13);
-            this.lblTags.TabIndex = 4;
-            this.lblTags.Text = "Default Tags:";
-            // 
-            // txtTags
-            // 
-            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(83, 71);
-            this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(303, 20);
-            this.txtTags.TabIndex = 5;
-            // 
-            // txtHeader
-            // 
-            this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHeader.Location = new System.Drawing.Point(83, 19);
-            this.txtHeader.Name = "txtHeader";
-            this.txtHeader.Size = new System.Drawing.Size(303, 20);
-            this.txtHeader.TabIndex = 1;
-            // 
-            // groupDefaults
-            // 
-            this.groupDefaults.Controls.Add(this.txtHeader);
-            this.groupDefaults.Controls.Add(this.txtTags);
-            this.groupDefaults.Controls.Add(this.lblTags);
-            this.groupDefaults.Controls.Add(this.lblFooter);
-            this.groupDefaults.Controls.Add(this.lblHeader);
-            this.groupDefaults.Controls.Add(this.txtFooter);
-            this.groupDefaults.Location = new System.Drawing.Point(9, 94);
-            this.groupDefaults.Name = "groupDefaults";
-            this.groupDefaults.Size = new System.Drawing.Size(392, 97);
-            this.groupDefaults.TabIndex = 0;
-            this.groupDefaults.TabStop = false;
-            this.groupDefaults.Text = "Defaults";
+            this.chkIncludeGeneratedUniqueTag.Location = new System.Drawing.Point(12, 419);
+            this.chkIncludeGeneratedUniqueTag.Name = "chkIncludeGeneratedUniqueTag";
+            this.chkIncludeGeneratedUniqueTag.Size = new System.Drawing.Size(410, 32);
+            this.chkIncludeGeneratedUniqueTag.TabIndex = 9;
+            this.chkIncludeGeneratedUniqueTag.Text = "Include generated unique tag (e.g. #weasyl1234567) in Tumblr, DeviantArt, and Ink" +
+    "bunny posts so ArtSync can find them later";
+            this.chkIncludeGeneratedUniqueTag.UseVisualStyleBackColor = true;
             // 
             // SettingsDialog
             // 
@@ -410,7 +421,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(434, 511);
+            this.ClientSize = new System.Drawing.Size(434, 536);
+            this.Controls.Add(this.chkIncludeGeneratedUniqueTag);
             this.Controls.Add(this.groupDeviantArt);
             this.Controls.Add(this.groupTwitter);
             this.Controls.Add(this.lblTokenInfo);
@@ -425,14 +437,14 @@
             this.groupWeasyl.PerformLayout();
             this.groupTumblr.ResumeLayout(false);
             this.groupTumblr.PerformLayout();
+            this.groupDefaults.ResumeLayout(false);
+            this.groupDefaults.PerformLayout();
             this.groupInkbunnyDest.ResumeLayout(false);
             this.groupInkbunnyDest.PerformLayout();
             this.groupTwitter.ResumeLayout(false);
             this.groupTwitter.PerformLayout();
             this.groupDeviantArt.ResumeLayout(false);
             this.groupDeviantArt.PerformLayout();
-            this.groupDefaults.ResumeLayout(false);
-            this.groupDefaults.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -471,5 +483,6 @@
         private System.Windows.Forms.Label lblFooter;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.TextBox txtFooter;
+        private System.Windows.Forms.CheckBox chkIncludeGeneratedUniqueTag;
     }
 }

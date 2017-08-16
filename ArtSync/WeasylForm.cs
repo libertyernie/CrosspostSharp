@@ -294,6 +294,8 @@ namespace ArtSync {
 			this.currentSubmission = submission;
 			tabControl1.Enabled = submission?.OwnWork == true;
 
+            var tags = new List<string>();
+
 			if (submission != null) {
                 txtHeader.Text = string.IsNullOrEmpty(submission.Title)
                     ? ""
@@ -309,8 +311,11 @@ namespace ArtSync {
 				lnkTwitterLinkToInclude.Text = submission.ViewURL;
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
-                var tags = submission.Tags.Select(s => "#" + s).Concat(new[] { submission.GeneratedUniqueTag });
-				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", tags);
+                tags.AddRange(submission.Tags);
+                if (GlobalSettings.IncludeGeneratedUniqueTag) {
+                    tags.Add(submission.GeneratedUniqueTag.Replace("#", ""));
+                }
+				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", tags.Select(s => "#" + s));
 
                 pickDate.Value = pickTime.Value = submission.Timestamp;
 				UpdateHTMLPreview();
@@ -343,15 +348,12 @@ namespace ArtSync {
 					mainPictureBox.Image = null;
 				}
             }
-
-            List<string> daTags = new List<string>();
-            if (submission?.Tags != null) daTags.AddRange(submission.Tags);
-            if (submission?.GeneratedUniqueTag != null) daTags.Add(submission.GeneratedUniqueTag.Replace("#", ""));
+            
             deviantArtUploadControl1.SetSubmission(
                 data: file?.Data,
                 title: submission?.Title,
                 htmlDescription: submission?.HTMLDescription,
-                tags: daTags,
+                tags: tags,
                 mature: submission?.PotentiallySensitive == true,
                 originalUrl: submission?.ViewURL);
 

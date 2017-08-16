@@ -55,6 +55,8 @@ namespace ArtSync {
 
 		public PostSettings Defaults;
 
+        public bool IncludeGeneratedUniqueTag { get; set; } = true;
+
 		[JsonIgnore]
 		public Token TumblrToken {
 			get {

@@ -34,6 +34,8 @@ namespace ArtSync {
 			Settings.Defaults.FooterHTML = txtFooter.Text;
 			Settings.Defaults.Tags = txtTags.Text;
 
+            Settings.IncludeGeneratedUniqueTag = chkIncludeGeneratedUniqueTag.Checked;
+
 			Settings.Save();
         }
 
@@ -99,6 +101,8 @@ namespace ArtSync {
 			txtHeader.Text = Settings.Defaults.HeaderHTML ?? "";
 			txtFooter.Text = Settings.Defaults.FooterHTML ?? "";
 			txtTags.Text = Settings.Defaults.Tags;
+
+            chkIncludeGeneratedUniqueTag.Checked = Settings.IncludeGeneratedUniqueTag;
 
             UpdateDeviantArtTokenLabel();
             UpdateTumblrTokenLabel();
