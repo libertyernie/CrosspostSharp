@@ -4,3 +4,9 @@
 [submodule "InkbunnyLib"]
 	path = InkbunnyLib
 	url = https://github.com/libertyernie/InkbunnyLib
+[submodule "FAExportLib"]
+	path = FAExportLib
+	url = https://github.com/libertyernie/FAExportLib
+[submodule "FAWinFormsLogin"]
+	path = FAWinFormsLogin
+	url = https://github.com/libertyernie/FAWinFormsLogin
