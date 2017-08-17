@@ -1,7 +1,10 @@
-﻿using DeviantartApi.Requests.Stash;
+﻿using DeviantartApi.Objects;
+using DeviantartApi.Requests.Stash;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -102,6 +105,43 @@ namespace DeviantArtControls {
             }
         }
 
+        private async Task<SubmitResult> UploadToStash() {
+            var r1 = await new SubmitRequest {
+                ArtistComments = txtArtistComments.Text,
+                Data = _data,
+                IsDirty = false,
+                OriginalUrl = _originalUrl,
+                Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
+                Title = txtTitle.Text
+            }.ExecuteAsync();
+            if (r1.IsError) {
+                throw new Exception("Could not post to sta.sh: " + r1.ErrorText);
+            }
+            if (!string.IsNullOrEmpty(r1.Result.Error)) {
+                throw new Exception("Could not post to sta.sh: " + r1.Result.ErrorDescription);
+            }
+            return r1.Result;
+        }
+
+        private async void btnUpload_Click(object sender, EventArgs e) {
+            try {
+                var item = await UploadToStash();
+
+                StringBuilder url = new StringBuilder();
+                long itemId = item.ItemId;
+                while (itemId > 0) {
+                    url.Insert(0, "0123456789abcdefghijklmnopqrstuvwxyz"[(int)(itemId % 36)]);
+                    itemId /= 36;
+                }
+                url.Insert(0, "https://sta.sh/0");
+                if (MessageBox.Show(this, $"This file has been uploaded to: {url}\nOpen in browser now?", "Success", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes) {
+                    Process.Start(url.ToString());
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
+            }
+        }
+
         private async void btnPublish_Click(object sender, EventArgs e) {
             if (chkSubmissionPolicy.Checked == false || chkTermsOfService.Checked == false) {
                 MessageBox.Show("Before submitting to DeviantArt, you must agree to the Submission Policy and the Terms of Service.");
@@ -116,20 +156,7 @@ namespace DeviantArtControls {
                 if (chkLanguage.Checked) classifications.Add(PublishRequest.ClassificationOfMature.Language);
                 if (chkIdeology.Checked) classifications.Add(PublishRequest.ClassificationOfMature.Ideology);
 
-                var r1 = await new SubmitRequest {
-                    ArtistComments = txtArtistComments.Text,
-                    Data = _data,
-                    IsDirty = false,
-                    OriginalUrl = _originalUrl,
-                    Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
-                    Title = txtTitle.Text
-                }.ExecuteAsync();
-                if (r1.IsError) {
-                    throw new Exception("Could not post to sta.sh: " + r1.ErrorText);
-                }
-                if (!string.IsNullOrEmpty(r1.Result.Error)) {
-                    throw new Exception("Could not post to sta.sh: " + r1.Result.ErrorDescription);
-                }
+                var item = await UploadToStash();
 
                 var sharingStr = ddlSharing.SelectedItem?.ToString();
                 var sharing = sharingStr == "Show share buttons" ? PublishRequest.SharingOption.Allow
@@ -141,7 +168,7 @@ namespace DeviantArtControls {
                     !radNone.Checked,
                     chkSubmissionPolicy.Checked,
                     chkTermsOfService.Checked,
-                    r1.Result.ItemId
+                    item.ItemId
                 ) {
                     MatureLevel = radStrict.Checked
                         ? PublishRequest.LevelOFMature.Strict

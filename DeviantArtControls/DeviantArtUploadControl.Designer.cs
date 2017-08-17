@@ -57,6 +57,7 @@
             this.lnkSubmissionPolicy = new System.Windows.Forms.LinkLabel();
             this.lnkTermsOfService = new System.Windows.Forms.LinkLabel();
             this.chkTermsOfService = new System.Windows.Forms.CheckBox();
+            this.btnUpload = new System.Windows.Forms.Button();
             this.grpMatureContent.SuspendLayout();
             this.grpMatureClassification.SuspendLayout();
             this.SuspendLayout();
@@ -387,7 +388,7 @@
             this.btnPublish.Location = new System.Drawing.Point(421, 284);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(116, 23);
-            this.btnPublish.TabIndex = 25;
+            this.btnPublish.TabIndex = 26;
             this.btnPublish.Text = "Publish to DeviantArt";
             this.btnPublish.UseVisualStyleBackColor = true;
             this.btnPublish.Click += new System.EventHandler(this.btnPublish_Click);
@@ -438,10 +439,23 @@
             this.chkTermsOfService.Text = "Agree to the";
             this.chkTermsOfService.UseVisualStyleBackColor = true;
             // 
+            // btnUpload
+            // 
+            this.btnUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnUpload.AutoSize = true;
+            this.btnUpload.Location = new System.Drawing.Point(3, 284);
+            this.btnUpload.Name = "btnUpload";
+            this.btnUpload.Size = new System.Drawing.Size(181, 23);
+            this.btnUpload.TabIndex = 25;
+            this.btnUpload.Text = "Upload to sta.sh without publishing";
+            this.btnUpload.UseVisualStyleBackColor = true;
+            this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
+            // 
             // DeviantArtUploadControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.lnkTermsOfService);
             this.Controls.Add(this.chkTermsOfService);
             this.Controls.Add(this.lnkSubmissionPolicy);
@@ -514,5 +528,6 @@
         private System.Windows.Forms.LinkLabel lnkSubmissionPolicy;
         private System.Windows.Forms.LinkLabel lnkTermsOfService;
         private System.Windows.Forms.CheckBox chkTermsOfService;
+        private System.Windows.Forms.Button btnUpload;
     }
 }
