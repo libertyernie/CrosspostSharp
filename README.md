@@ -27,7 +27,7 @@ When you're logged into a source site, your three most recent
 submissions will appear along the left side of the window. Click the thumbnail
 to load the full image and fill in the information boxes.
 
-### Weasyl
+#### Weasyl
 
 You can obtain a Weasyl API key at https://www.weasyl.com/control/apikeys.
 Copy the API key from the page and paste it into the Options dialog in
@@ -35,7 +35,7 @@ ArtSync (Tools -> Options).
 
 You can revoke an API key at any time by going to the same page.
 
-### DeviantArt / Tumblr / Twitter
+#### DeviantArt
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
@@ -43,33 +43,46 @@ will be stored in ArtSync.json.
 
 #### Tumblr
 
+Use the "Sign In" button in Tools -> Options to launch a browser window, which
+will let you sign in using OAuth. Once signed in, the OAuth token
+will be stored in ArtSync.json.
+
 Only photo posts will be shown. Reblogs will be included, but ArtSync won't
 allow you to post them to other sites.
 
 #### Twitter
+
+Use the "Sign In" button in Tools -> Options to launch a browser window, which
+will let you sign in using OAuth. Once signed in, the OAuth token
+will be stored in ArtSync.json.
 
 Retweets, and tweets without photos, will be omitted.
 
 The browser window uses Internet Explorer internally, so you may see a notice
 from Twitter that you have logged in with Internet Explorer from a new device.
 
-### Inkbunny
+#### Inkbunny
 
 Use the "Sign In" button in Tools -> Options to launch a dialog window that
 asks for your username and password. This will obtain a user ID and SID that
 will be stored in ArtSync.json.
 
-Posting to Tumblr
------------------
+#### FurAffinity
 
-Tumblr tab:
+Not yet implemented; will be read-only like Weasyl (won't be able to post).
+
+Posting
+-------
+
+#### Tumblr
+
 * Preview button (click this button to preview the Tumblr post description as
   it will appear on the site)
 * Now button (disable this if you want to specify a time/date in the past for
   the Tumblr post to be listed under)
 * Header template (HTML) - default is the title, in bold text
 * Body template (HTML) - default is the description
-* Tags
+* Tags (separated by spaces, # is optional)
   * Include the tags from the original site (as shown above)
   * Additional tags to include (default: #art)
 * Footer template (HTML)
@@ -80,38 +93,21 @@ When you post to Tumblr, the header, body and footer templates will be put
 together, and occurences of {URL} will be replaced with the
 appropriate value. This will form the photo caption / text.
 
-The tags will be combined and separated by space.
-
-To update a post previously made with ArtSync, just load the corresponding
-submission (the post URL will appear at the bottom of the window) and then
-click "Post to Tumblr." Updating only works with Tumblr, not Twitter or
-Inkbunny, and it only works if the generated unique tag was included when the
-post was made.
-
 If a checkbox is not checked, the content in the adajcent box will not be used.
 
-Posting to Inkbunny
--------------------
+#### Inkbunny
 
-Inkbunny tab:
 * "Click to log in" label (click to log in with your username and password)
 * Title
 * Description (BBCode)
-* Keywords
+* Keywords (separated by spaces, # is optional)
 * Public
 * Notify watchers
 * Scraps
 * Checkboxes for all four Inkbunny rating levels
 
-As with Tumblr, a generated unique tag will help ArtSync find an existing
-Inkbunny post. (Updating an existing post is not supported at this time.)
-ArtSync can also try to find an existing Inkbunny post by using the MD5 hash
-of the image.
+#### Twitter
 
-Posting to Twitter
-------------------
-
-Twitter tab:
 * Include title (repopulates tweet area)
 * Include description (repopulates tweet area)
 * Tweet area - the text that will be included in the tweet
@@ -122,6 +118,61 @@ Twitter tab:
 
 Updating/deleting tweets is not supported; go to Twitter if you want to delete
 a tweet.
+
+#### DeviantArt / sta.sh
+
+* Title
+* Artist comments (description) - if this is too small, you can make the window bigger
+* Tags (separated by spaces, # is optional)
+* Mature content (none, moderate, strict)
+* Mature content classification (if applicable)
+* Category
+  * e.g. Cartoons & Comics > Digital Media > Cartoons > Vector
+  * default is Scraps
+* Gallery folders
+  * Select one or more
+  * default is Featured
+* Sharing options
+* License options
+* Allow download
+* Allow comments
+* Request critique
+
+You must agree to the submisison policy and terms of service before posting.
+
+After you post to either DeviantArt or sta.sh, the URL of your post will
+appear after "existing post" right above the title entry field. However,
+ArtSync may not be able to find this URL again later (see "Finding Existing
+Posts" below.)
+
+Finding Existing Posts
+----------------------
+
+When you select a picture from the left-hand column, ArtSync will try to find
+a matching post on each destination site that you're logged into. In most
+cases, this is done by using a unique generated tag (such as #weasyl1234567 or
+#tweet897861353917906944) that gets included in the tags/keywords when you
+create a post with ArtSync.
+
+The process for each site is as follows:
+
+* DeviantArt
+  * Searches your 10 most recent submissions for the unique generated tag; you
+    can expand the search to 20, 30, 40... submissions
+  * Scraps and sta.sh items are not included
+* Inkbunny
+  * Searches Inkbunny for the unique generated tag or for the MD5 hash of the
+    original image data
+* Tumblr
+  * Searches your Tumblr blog for the unique generated tag
+* Twitter
+  * Searches your 200 most recent tweets for a link back to the original post
+
+For Tumblr, you are able to edit an existing post. ArtSync doesn't support
+editing posts on other sites.
+
+If you don't want to include the unique generated tag, you can turn it off in
+ArtSync's settings.
 
 Settings
 --------
@@ -175,19 +226,19 @@ This project can be built with Visual Studio 2015 or 2017.
 The file OAuthConsumer.cs is missing from the ArtSync project. Get your own
 OAuth keys, then put the following into OAuthConsumer.cs:
 
-namespace ArtSync {
-	public static class OAuthConsumer {
-		public static class Tumblr {
-			public static string CONSUMER_KEY = "consumer key goes here";
-			public static string CONSUMER_SECRET = "secret key goes here";
-		}
-		public static class Twitter {
-			public static string CONSUMER_KEY = "consumer key goes here";
-			public static string CONSUMER_SECRET = "secret key goes here";
-		}
-		public static class DeviantArt {
-			public static string CLIENT_ID = "client_id goes here";
-			public static string CLIENT_SECRET = "client_secret goes here";
-		}
-	}
-}
+    namespace ArtSync {
+        public static class OAuthConsumer {
+            public static class Tumblr {
+                public static string CONSUMER_KEY = "consumer key goes here";
+                public static string CONSUMER_SECRET = "secret key goes here";
+            }
+            public static class Twitter {
+                public static string CONSUMER_KEY = "consumer key goes here";
+                public static string CONSUMER_SECRET = "secret key goes here";
+            }
+            public static class DeviantArt {
+                public static string CLIENT_ID = "client_id goes here";
+                public static string CLIENT_SECRET = "client_secret goes here";
+            }
+        }
+    }
