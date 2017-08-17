@@ -1,6 +1,6 @@
-﻿using Tweetinvi;
+﻿using ISchemm.WinFormsOAuth;
+using Tweetinvi;
 using Tweetinvi.Models;
-using WinFormsOAuth;
 
 namespace ArtSync {
 	public static class TwitterKey {

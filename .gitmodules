@@ -4,6 +4,3 @@
 [submodule "InkbunnyLib"]
 	path = InkbunnyLib
 	url = https://github.com/libertyernie/InkbunnyLib
-[submodule "WinFormsOAuth"]
-	path = WinFormsOAuth
-	url = https://github.com/IsaacSchemm/WinFormsOAuth

@@ -1,4 +1,5 @@
 ﻿using DontPanic.TumblrSharp.OAuth;
+using ISchemm.WinFormsOAuth;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WinFormsOAuth;
 
 namespace ArtSync {
 	public static class TumblrKey {

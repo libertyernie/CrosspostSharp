@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WinFormsOAuth;
 
 namespace ArtSync {
 	static class Program {

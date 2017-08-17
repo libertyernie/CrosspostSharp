@@ -54,6 +54,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.5.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="ISchemm.WinFormsOAuth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ISchemm.WinFormsOAuth.1.0.0\lib\net30\ISchemm.WinFormsOAuth.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -272,10 +275,6 @@
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WinFormsOAuth\WinFormsOAuth\WinFormsOAuth.csproj">
-      <Project>{d98e0824-0a4a-4105-8f76-1cac1d91ffce}</Project>
-      <Name>WinFormsOAuth</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
