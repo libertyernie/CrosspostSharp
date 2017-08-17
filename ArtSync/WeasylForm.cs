@@ -974,6 +974,23 @@ namespace ArtSync {
 
             File.WriteAllBytes(path, this.currentImage.Data);
         }
+
+        private void deviantArtUploadControl1_UploadProgressChanged(double percentage) {
+            LProgressBar.Visible = true;
+            LProgressBar.Report(percentage);
+        }
+
+        private void deviantArtUploadControl1_Uploaded(string url) {
+            lnkDeviantArtFound.Text = url;
+            lnkDeviantArtFound.Enabled = true;
+            lnkDeviantArtFindMore.Visible = false;
+            _deviantArtWrapper.Clear();
+            LProgressBar.Visible = false;
+        }
+
+        private void deviantArtUploadControl1_UploadError(Exception ex) {
+            LProgressBar.Visible = false;
+        }
         #endregion
 
         private static BinaryFile MakeSquare(Bitmap oldBitmap) {

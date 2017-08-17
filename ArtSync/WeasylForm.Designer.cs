@@ -409,27 +409,27 @@
             this.refreshToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // changeSourceToolStripMenuItem
             // 
             this.changeSourceToolStripMenuItem.Name = "changeSourceToolStripMenuItem";
-            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.changeSourceToolStripMenuItem.Text = "Change Source";
             this.changeSourceToolStripMenuItem.Click += new System.EventHandler(this.changeSourceToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -438,13 +438,13 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -959,6 +959,9 @@
             this.deviantArtUploadControl1.SelectedFolders = null;
             this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 286);
             this.deviantArtUploadControl1.TabIndex = 5;
+            this.deviantArtUploadControl1.UploadProgressChanged += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadProgressHandler(this.deviantArtUploadControl1_UploadProgressChanged);
+            this.deviantArtUploadControl1.Uploaded += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadedHandler(this.deviantArtUploadControl1_Uploaded);
+            this.deviantArtUploadControl1.UploadError += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadErrorHandler(this.deviantArtUploadControl1_UploadError);
             // 
             // lblDeviantArtStatus2
             // 
