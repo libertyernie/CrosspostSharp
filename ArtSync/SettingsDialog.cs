@@ -2,6 +2,7 @@
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
+using FAWinFormsLogin.loginPages;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,7 +94,19 @@ namespace ArtSync {
         }
 
         private void btnFurAffinitySignIn_Click(object sender, EventArgs e) {
-            throw new NotImplementedException();
+            if (string.Equals("Sign out", btnFurAffinitySignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+                Settings.FurAffinity = new Settings.FurAffinitySettings();
+            } else {
+                using (var f = new LoginFormFA()) {
+                    if (f.ShowDialog() == DialogResult.OK) {
+                        Settings.FurAffinity = new Settings.FurAffinitySettings {
+                            b = f.BCookie,
+                            a = f.ACookie
+                        };
+                    }
+                }
+            }
+            UpdateFurAffinityTokenLabel();
         }
 
         private void FillForm() {
@@ -185,7 +198,15 @@ namespace ArtSync {
 		}
 
         private void UpdateFurAffinityTokenLabel() {
-            return;
+            List<string> cookies = new List<string>(2);
+            if (Settings.FurAffinity?.b != null) {
+                cookies.Add("b=" + Settings.FurAffinity?.b);
+            }
+            if (Settings.FurAffinity?.a != null) {
+                cookies.Add("a=" + Settings.FurAffinity?.a);
+            }
+            lblFurAffinityCookies2.Text = string.Join(Environment.NewLine, cookies);
+            btnFurAffinitySignIn.Text = cookies.Any() ? "Sign out" : "Sign in";
         }
     }
 }
