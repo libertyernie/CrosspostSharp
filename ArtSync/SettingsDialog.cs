@@ -90,9 +90,13 @@ namespace ArtSync {
 				Settings.TwitterCredentials = TwitterKey.Obtain(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET);
 			}
 			UpdateTwitterTokenLabel();
-		}
+        }
 
-		private void FillForm() {
+        private void btnFurAffinitySignIn_Click(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        private void FillForm() {
 			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
 
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
@@ -108,6 +112,7 @@ namespace ArtSync {
             UpdateTumblrTokenLabel();
 			UpdateTwitterTokenLabel();
             UpdateInkbunnyTokenLabel();
+            UpdateFurAffinityTokenLabel();
         }
 
         private void UpdateDeviantArtTokenLabel() {
@@ -178,5 +183,9 @@ namespace ArtSync {
 				lblTokenStatus.Text = string.Format("{0} ({1}...)", e.Message, twitterCredentials.AccessToken.Substring(0, 8));
 			}
 		}
+
+        private void UpdateFurAffinityTokenLabel() {
+            return;
+        }
     }
 }

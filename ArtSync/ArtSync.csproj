@@ -272,6 +272,10 @@
       <Project>{fdc116bb-ee52-423c-85b8-469c8ac787f1}</Project>
       <Name>DeviantArtControls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FAWinFormsLogin\FAWinFormsLogin.csproj">
+      <Project>{5939939e-b9b0-4766-afb9-4fff83c16fb8}</Project>
+      <Name>FAWinFormsLogin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>

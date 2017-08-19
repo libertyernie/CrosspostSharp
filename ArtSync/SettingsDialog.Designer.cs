@@ -56,12 +56,17 @@
             this.lblDeviantArtTokenStatus = new System.Windows.Forms.Label();
             this.lblDeviantArtToken = new System.Windows.Forms.Label();
             this.chkIncludeGeneratedUniqueTag = new System.Windows.Forms.CheckBox();
+            this.groupFurAffinity = new System.Windows.Forms.GroupBox();
+            this.btnFurAffinitySignIn = new System.Windows.Forms.Button();
+            this.lblFurAffinityCookies2 = new System.Windows.Forms.Label();
+            this.lblFurAffinityCookies1 = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
             this.groupInkbunnyDest.SuspendLayout();
             this.groupTwitter.SuspendLayout();
             this.groupDeviantArt.SuspendLayout();
+            this.groupFurAffinity.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupWeasyl
@@ -70,10 +75,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupWeasyl.Controls.Add(this.label1);
             this.groupWeasyl.Controls.Add(this.txtWeasylAPIKey);
-            this.groupWeasyl.Location = new System.Drawing.Point(12, 12);
+            this.groupWeasyl.Location = new System.Drawing.Point(12, 426);
             this.groupWeasyl.Name = "groupWeasyl";
             this.groupWeasyl.Size = new System.Drawing.Size(410, 45);
-            this.groupWeasyl.TabIndex = 1;
+            this.groupWeasyl.TabIndex = 5;
             this.groupWeasyl.TabStop = false;
             this.groupWeasyl.Text = "Weasyl";
             // 
@@ -106,7 +111,7 @@
             this.groupTumblr.Controls.Add(this.groupDefaults);
             this.groupTumblr.Controls.Add(this.lblBlogName);
             this.groupTumblr.Controls.Add(this.txtBlogName);
-            this.groupTumblr.Location = new System.Drawing.Point(12, 114);
+            this.groupTumblr.Location = new System.Drawing.Point(12, 172);
             this.groupTumblr.Name = "groupTumblr";
             this.groupTumblr.Size = new System.Drawing.Size(410, 197);
             this.groupTumblr.TabIndex = 3;
@@ -154,6 +159,8 @@
             // 
             // groupDefaults
             // 
+            this.groupDefaults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupDefaults.Controls.Add(this.txtHeader);
             this.groupDefaults.Controls.Add(this.txtTags);
             this.groupDefaults.Controls.Add(this.lblTags);
@@ -245,10 +252,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTokenInfo.Location = new System.Drawing.Point(12, 454);
+            this.lblTokenInfo.Location = new System.Drawing.Point(12, 512);
             this.lblTokenInfo.Name = "lblTokenInfo";
-            this.lblTokenInfo.Size = new System.Drawing.Size(410, 44);
-            this.lblTokenInfo.TabIndex = 6;
+            this.lblTokenInfo.Size = new System.Drawing.Size(410, 61);
+            this.lblTokenInfo.TabIndex = 7;
             this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
     "ounts. The security tokens are stored in the file ArtSync.json, so make sure you" +
     " keep that file secure.";
@@ -257,10 +264,10 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(266, 501);
+            this.btnSave.Location = new System.Drawing.Point(266, 576);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 7;
+            this.btnSave.TabIndex = 8;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -269,10 +276,10 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(347, 501);
+            this.btnCancel.Location = new System.Drawing.Point(347, 576);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 8;
+            this.btnCancel.TabIndex = 9;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -283,10 +290,10 @@
             this.groupInkbunnyDest.Controls.Add(this.btnInkbunnySignIn);
             this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyToken);
             this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyTokenStatus);
-            this.groupInkbunnyDest.Location = new System.Drawing.Point(12, 317);
+            this.groupInkbunnyDest.Location = new System.Drawing.Point(12, 121);
             this.groupInkbunnyDest.Name = "groupInkbunnyDest";
             this.groupInkbunnyDest.Size = new System.Drawing.Size(410, 45);
-            this.groupInkbunnyDest.TabIndex = 4;
+            this.groupInkbunnyDest.TabIndex = 2;
             this.groupInkbunnyDest.TabStop = false;
             this.groupInkbunnyDest.Text = "Inkbunny";
             // 
@@ -326,10 +333,10 @@
             this.groupTwitter.Controls.Add(this.btnTwitterSignIn);
             this.groupTwitter.Controls.Add(this.lblTwitterTokenStatus);
             this.groupTwitter.Controls.Add(this.lblTwitterToken);
-            this.groupTwitter.Location = new System.Drawing.Point(12, 368);
+            this.groupTwitter.Location = new System.Drawing.Point(12, 375);
             this.groupTwitter.Name = "groupTwitter";
             this.groupTwitter.Size = new System.Drawing.Size(410, 45);
-            this.groupTwitter.TabIndex = 5;
+            this.groupTwitter.TabIndex = 4;
             this.groupTwitter.TabStop = false;
             this.groupTwitter.Text = "Twitter";
             // 
@@ -369,10 +376,10 @@
             this.groupDeviantArt.Controls.Add(this.btnDeviantArtSignIn);
             this.groupDeviantArt.Controls.Add(this.lblDeviantArtTokenStatus);
             this.groupDeviantArt.Controls.Add(this.lblDeviantArtToken);
-            this.groupDeviantArt.Location = new System.Drawing.Point(12, 63);
+            this.groupDeviantArt.Location = new System.Drawing.Point(12, 12);
             this.groupDeviantArt.Name = "groupDeviantArt";
             this.groupDeviantArt.Size = new System.Drawing.Size(410, 45);
-            this.groupDeviantArt.TabIndex = 2;
+            this.groupDeviantArt.TabIndex = 0;
             this.groupDeviantArt.TabStop = false;
             this.groupDeviantArt.Text = "DeviantArt";
             // 
@@ -407,13 +414,55 @@
             // 
             // chkIncludeGeneratedUniqueTag
             // 
-            this.chkIncludeGeneratedUniqueTag.Location = new System.Drawing.Point(12, 419);
+            this.chkIncludeGeneratedUniqueTag.Location = new System.Drawing.Point(12, 477);
             this.chkIncludeGeneratedUniqueTag.Name = "chkIncludeGeneratedUniqueTag";
             this.chkIncludeGeneratedUniqueTag.Size = new System.Drawing.Size(410, 32);
-            this.chkIncludeGeneratedUniqueTag.TabIndex = 9;
-            this.chkIncludeGeneratedUniqueTag.Text = "Include generated unique tag (e.g. #weasyl1234567) in Tumblr, DeviantArt, and Ink" +
-    "bunny posts so ArtSync can find them later";
+            this.chkIncludeGeneratedUniqueTag.TabIndex = 6;
+            this.chkIncludeGeneratedUniqueTag.Text = "Include generated unique tag (e.g. #weasyl1234567 or #twitter1234567) in Tumblr, " +
+    "DeviantArt, and Inkbunny posts so ArtSync can find them later";
             this.chkIncludeGeneratedUniqueTag.UseVisualStyleBackColor = true;
+            // 
+            // groupFurAffinity
+            // 
+            this.groupFurAffinity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupFurAffinity.Controls.Add(this.btnFurAffinitySignIn);
+            this.groupFurAffinity.Controls.Add(this.lblFurAffinityCookies2);
+            this.groupFurAffinity.Controls.Add(this.lblFurAffinityCookies1);
+            this.groupFurAffinity.Location = new System.Drawing.Point(12, 63);
+            this.groupFurAffinity.Name = "groupFurAffinity";
+            this.groupFurAffinity.Size = new System.Drawing.Size(410, 52);
+            this.groupFurAffinity.TabIndex = 1;
+            this.groupFurAffinity.TabStop = false;
+            this.groupFurAffinity.Text = "FurAffinity";
+            // 
+            // btnFurAffinitySignIn
+            // 
+            this.btnFurAffinitySignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFurAffinitySignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnFurAffinitySignIn.Name = "btnFurAffinitySignIn";
+            this.btnFurAffinitySignIn.Size = new System.Drawing.Size(75, 20);
+            this.btnFurAffinitySignIn.TabIndex = 6;
+            this.btnFurAffinitySignIn.Text = "Sign in";
+            this.btnFurAffinitySignIn.UseVisualStyleBackColor = true;
+            this.btnFurAffinitySignIn.Click += new System.EventHandler(this.btnFurAffinitySignIn_Click);
+            // 
+            // lblFurAffinityCookies2
+            // 
+            this.lblFurAffinityCookies2.AutoSize = true;
+            this.lblFurAffinityCookies2.Location = new System.Drawing.Point(80, 23);
+            this.lblFurAffinityCookies2.Name = "lblFurAffinityCookies2";
+            this.lblFurAffinityCookies2.Size = new System.Drawing.Size(0, 13);
+            this.lblFurAffinityCookies2.TabIndex = 5;
+            // 
+            // lblFurAffinityCookies1
+            // 
+            this.lblFurAffinityCookies1.AutoSize = true;
+            this.lblFurAffinityCookies1.Location = new System.Drawing.Point(6, 23);
+            this.lblFurAffinityCookies1.Name = "lblFurAffinityCookies1";
+            this.lblFurAffinityCookies1.Size = new System.Drawing.Size(48, 13);
+            this.lblFurAffinityCookies1.TabIndex = 4;
+            this.lblFurAffinityCookies1.Text = "Cookies:";
             // 
             // SettingsDialog
             // 
@@ -421,7 +470,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(434, 536);
+            this.ClientSize = new System.Drawing.Size(434, 611);
+            this.Controls.Add(this.groupFurAffinity);
             this.Controls.Add(this.chkIncludeGeneratedUniqueTag);
             this.Controls.Add(this.groupDeviantArt);
             this.Controls.Add(this.groupTwitter);
@@ -445,6 +495,8 @@
             this.groupTwitter.PerformLayout();
             this.groupDeviantArt.ResumeLayout(false);
             this.groupDeviantArt.PerformLayout();
+            this.groupFurAffinity.ResumeLayout(false);
+            this.groupFurAffinity.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -484,5 +536,9 @@
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.TextBox txtFooter;
         private System.Windows.Forms.CheckBox chkIncludeGeneratedUniqueTag;
+        private System.Windows.Forms.GroupBox groupFurAffinity;
+        private System.Windows.Forms.Button btnFurAffinitySignIn;
+        private System.Windows.Forms.Label lblFurAffinityCookies2;
+        private System.Windows.Forms.Label lblFurAffinityCookies1;
     }
 }

@@ -16,13 +16,13 @@ namespace ArtSync {
 
 		public WeasylSettings Weasyl { get; set; }
 
-        public class DeviantArtSettings {
-            public string RefreshToken { get; set; }
-        }
+		public class DeviantArtSettings {
+			public string RefreshToken { get; set; }
+		}
 
-        public DeviantArtSettings DeviantArt { get; set; }
+		public DeviantArtSettings DeviantArt { get; set; }
 
-        public class TumblrSettings {
+		public class TumblrSettings {
 			public string BlogName { get; set; }
 
 			public string TokenKey { get; set; }
@@ -42,10 +42,17 @@ namespace ArtSync {
 
 		public class InkbunnySettings {
 			public string Sid { get; set; }
-            public int? UserId { get; set; }
+			public int? UserId { get; set; }
 		}
 
 		public InkbunnySettings Inkbunny { get; set; }
+
+		public class FurAffinitySettings {
+			public string b { get; set; }
+			public string a { get; set; }
+		}
+
+		public FurAffinitySettings FurAffinity { get; set; }
 
 		public class PostSettings {
 			public string HeaderHTML { get; set; }
@@ -55,7 +62,7 @@ namespace ArtSync {
 
 		public PostSettings Defaults;
 
-        public bool IncludeGeneratedUniqueTag { get; set; } = true;
+		public bool IncludeGeneratedUniqueTag { get; set; } = true;
 
 		[JsonIgnore]
 		public Token TumblrToken {
@@ -90,11 +97,11 @@ namespace ArtSync {
 				s.Weasyl = new WeasylSettings {
 					APIKey = null
 				};
-            if (s.DeviantArt == null)
-                s.DeviantArt = new DeviantArtSettings {
-                    RefreshToken = null
-                };
-            if (s.Tumblr == null)
+			if (s.DeviantArt == null)
+				s.DeviantArt = new DeviantArtSettings {
+					RefreshToken = null
+				};
+			if (s.Tumblr == null)
 				s.Tumblr = new TumblrSettings {
 					BlogName = "",
 					TokenKey = null,
@@ -108,7 +115,13 @@ namespace ArtSync {
 				};
 			if (s.Inkbunny == null) {
 				s.Inkbunny = new InkbunnySettings {
-                    Sid = null
+					Sid = null
+				};
+			}
+			if (s.FurAffinity == null) {
+				s.FurAffinity = new FurAffinitySettings {
+					b = null,
+					a = null
 				};
 			}
 			if (s.Defaults == null)

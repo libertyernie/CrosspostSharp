@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylLib", "WeasylLib\WeasylLib.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSourceWrapper", "ArtSourceWrapper\ArtSourceWrapper.csproj", "{7A2C180C-8396-4A4A-A2B7-AAB7F243173B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantArtControls", "DeviantArtControls\DeviantArtControls.csproj", "{FDC116BB-EE52-423C-85B8-469C8AC787F1}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FAExportLib", "FAExportLib\FAExportLib.vbproj", "{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAWinFormsLogin", "FAWinFormsLogin\FAWinFormsLogin.csproj", "{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,8 +93,35 @@ Global
 		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x64.Build.0 = Release|Any CPU
 		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x86.ActiveCfg = Release|Any CPU
 		{FDC116BB-EE52-423C-85B8-469C8AC787F1}.Release|x86.Build.0 = Release|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Debug|x64.Build.0 = Debug|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Release|x64.ActiveCfg = Release|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Release|x64.Build.0 = Release|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}.Release|x86.Build.0 = Release|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Debug|x64.Build.0 = Debug|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Debug|x86.Build.0 = Debug|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x64.ActiveCfg = Release|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x64.Build.0 = Release|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C58A469-1B2F-4B03-927E-098B137CAB15}
 	EndGlobalSection
 EndGlobal
