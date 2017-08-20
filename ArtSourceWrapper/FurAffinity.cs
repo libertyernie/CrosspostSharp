@@ -11,6 +11,9 @@ namespace ArtSourceWrapper {
         private readonly FAUserClient _client;
         private readonly FAFolder _folder;
 
+        public override int BatchSize { get; set; } = 0;
+        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+
         public FurAffinityGalleryIdWrapper(string a, string b, bool scraps = false) {
             _client = new FAUserClient(a, b);
             _folder = scraps ? FAFolder.scraps : FAFolder.gallery;
@@ -20,7 +23,7 @@ namespace ArtSourceWrapper {
             return _client.WhoamiAsync();
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
             string username = await WhoamiAsync();
 
             int pos = startPosition ?? 1;
@@ -37,6 +40,9 @@ namespace ArtSourceWrapper {
         private readonly FurAffinityGalleryIdWrapper _idWrapper;
         private bool _scraps;
 
+        public override int BatchSize { get; set; } = 0;
+        public override int IndividualRequestsPerInvocation { get; set; } = 5;
+
         public FurAffinityGalleryWrapper(string a, string b, bool scraps = false) {
             _idWrapper = new FurAffinityGalleryIdWrapper(a, b, scraps);
             _scraps = scraps;
@@ -48,9 +54,9 @@ namespace ArtSourceWrapper {
             return _idWrapper.WhoamiAsync();
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
             int skip = startPosition ?? 0;
-            int take = maxCount ?? 3;
+            int take = IndividualRequestsPerInvocation;
             
             while (_idWrapper.Cache.Count() < skip + take && !_idWrapper.IsEnded) {
                 await _idWrapper.FetchAsync();

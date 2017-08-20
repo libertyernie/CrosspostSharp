@@ -21,6 +21,9 @@ namespace ArtSourceWrapper {
 
         public override string SiteName => "Twitter";
 
+        public override int BatchSize { get; set; } = 200;
+        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+
         public TwitterWrapper(ITwitterCredentials credentials) {
             _credentials = credentials;
         }
@@ -37,7 +40,9 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, ushort? maxCount) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
+            int maxCount = Math.Max(0, Math.Min(BatchSize, 20));
+
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();
@@ -48,7 +53,7 @@ namespace ArtSourceWrapper {
                     ExcludeReplies = false,
                     IncludeEntities = true,
                     IncludeRTS = true,
-                    MaximumNumberOfTweetsToRetrieve = Math.Min(maxCount ?? int.MaxValue, 200)
+                    MaximumNumberOfTweetsToRetrieve = maxCount
                 };
                 ps.MaxId = startPosition ?? -1;
 

@@ -18,8 +18,11 @@ namespace ArtSourceWrapper {
 
 		public override string SiteName => "Inkbunny";
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
-            if (maxCount > 100) maxCount = 100;
+        public override int BatchSize { get; set; } = 30;
+        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+            int maxCount = Math.Max(0, Math.Min(BatchSize, 100));
 
             var response = startPosition == null
                 ? await _client.SearchAsync(

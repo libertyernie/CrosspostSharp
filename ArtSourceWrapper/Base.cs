@@ -12,6 +12,16 @@ namespace ArtSourceWrapper {
     /// </summary>
     public interface ISiteWrapper {
         /// <summary>
+        /// The batch size will this amount if possible, or the greatest possible amount.
+        /// </summary>
+        int BatchSize { get; set; }
+
+        /// <summary>
+        /// If this wrapper needs to make an individual details request for each submission, only this many requests will be made for each FetchAsync call.
+        /// </summary>
+        int IndividualRequestsPerInvocation { get; set; }
+
+        /// <summary>
         /// The name of the site this wrapper is for (to be shown to the user.)
         /// </summary>
         string SiteName { get; }
@@ -35,9 +45,8 @@ namespace ArtSourceWrapper {
         /// <summary>
         /// Get another batch of submissions and add them to the cache.
         /// </summary>
-        /// <param name="maxCount">If specified, the batch size will this amount if possible, or the greatest possible amount. If null, the batch size depends on the wrapper and the source site.</param>
         /// <returns>The number of entries added to the cache, or -1 if no items were added because all of the submissions are already downloaded.</returns>
-        Task<int> FetchAsync(ushort? maxCount = null);
+        Task<int> FetchAsync();
 
         /// <summary>
         /// Clears the cache and resets the internal position.
@@ -78,6 +87,9 @@ namespace ArtSourceWrapper {
             }
         }
         public bool IsEnded => _isEnded;
+
+        public abstract int BatchSize { get; set; }
+        public abstract int IndividualRequestsPerInvocation { get; set; }
 
         public BaseWrapper() {
             _cache = new List<TWrapper>();
@@ -128,15 +140,14 @@ namespace ArtSourceWrapper {
         /// This method must be implemented by subclasses to populate the cache.
         /// </summary>
         /// <param name="startPosition">An object denoting the position at which to start (or null if this is the first fetch)</param>
-        /// <param name="maxCount">The maxmimum batch size (if null, the subclass should choose a default)</param>
         /// <returns>An object containing zero or more wrappers to be added, the new position, and whether the end has been reached</returns>
-        protected abstract Task<InternalFetchResult> InternalFetchAsync(TPosition? startPosition, ushort? maxCount);
+        protected abstract Task<InternalFetchResult> InternalFetchAsync(TPosition? startPosition);
 
-        public async Task<int> FetchAsync(ushort? maxCount = null) {
+        public async Task<int> FetchAsync() {
             if (_isEnded) return -1;
 
             var list = _cache.ToList();
-            var result = await InternalFetchAsync(_nextPosition, maxCount);
+            var result = await InternalFetchAsync(_nextPosition);
 
             list.AddRange(result.AdditionalItems);
             _cache = list;

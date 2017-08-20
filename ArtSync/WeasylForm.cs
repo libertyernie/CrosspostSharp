@@ -152,6 +152,10 @@ namespace ArtSync {
                 wrappers.Add(new EmptyWrapper());
             }
 
+            foreach (var wrapper in wrappers) {
+                wrapper.IndividualRequestsPerInvocation = thumbnails.Length;
+            }
+
             if (wrappers.Count == 1) {
                 SourceWrapper = wrappers.Single();
             } else {

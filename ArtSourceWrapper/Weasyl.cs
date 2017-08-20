@@ -14,6 +14,9 @@ namespace ArtSourceWrapper {
 
         public override string SiteName => "Weasyl";
 
+        public override int BatchSize { get; set; } = 100;
+        public override int IndividualRequestsPerInvocation { get; set; } = 5;
+
         public WeasylWrapper(string apiKey) {
             _client = new WeasylClient(apiKey);
         }
@@ -30,10 +33,8 @@ namespace ArtSourceWrapper {
         /// Fetch submissions from Weasyl.
         /// </summary>
         /// <param name="startPosition">The nextid from the previous Weasyl search.</param>
-        /// <param name="maxCount">The maximum number of submissions to retrieve. If this is null, the wrapper will retrieve 6 at a time, since each submission needs a separate request to the server. The maximum is 100.</param>
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
-            if (maxCount == null) maxCount = 6;
-            if (maxCount > 100) maxCount = 100;
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+            int maxCount = Math.Max(0, Math.Min(BatchSize, 100));
 
             if (_username == null) {
                 _username = await WhoamiAsync();
@@ -41,7 +42,7 @@ namespace ArtSourceWrapper {
 
             var result = await _client.GetUserGalleryAsync(_username, nextid: startPosition, count: maxCount);
             
-            var details = await Task.WhenAll(result.submissions.Select(s => _client.GetSubmissionAsync(s.submitid)));
+            var details = await Task.WhenAll(result.submissions.Take(IndividualRequestsPerInvocation).Select(s => _client.GetSubmissionAsync(s.submitid)));
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
@@ -60,8 +61,9 @@ namespace ArtSourceWrapper {
         /// Scrape the Weasyl site to load character IDs, and use the API to get information for each.
         /// </summary>
         /// <param name="startPosition">The ID of the lowest (oldest) character already downloaded.</param>
-        /// <param name="maxCount">The maximum number of submissions to retrieve. If this is null, the wrapper will retrieve 6 at a time, since each submission needs a separate request to the server.</param>
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, ushort? maxCount) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+            int maxCount = Math.Max(0, BatchSize);
+
             if (_username == null) {
                 _username = await WhoamiAsync();
             }
@@ -69,9 +71,9 @@ namespace ArtSourceWrapper {
 
             IEnumerable<int> ids = all_ids
                 .Where(id => id < (startPosition ?? int.MaxValue))
-                .Take(maxCount ?? int.MaxValue);
+                .Take(maxCount);
             
-            var details = await Task.WhenAll(ids.Select(i => _client.GetCharacterAsync(i)));
+            var details = await Task.WhenAll(ids.Take(IndividualRequestsPerInvocation).Select(i => _client.GetCharacterAsync(i)));
 
             return new InternalFetchResult(
                 details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
