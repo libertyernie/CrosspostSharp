@@ -95,14 +95,13 @@ namespace ArtSync {
 
         private void btnFurAffinitySignIn_Click(object sender, EventArgs e) {
             if (string.Equals("Sign out", btnFurAffinitySignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
-                Settings.FurAffinity = new Settings.FurAffinitySettings();
+                Settings.FurAffinity.b = null;
+                Settings.FurAffinity.a = null;
             } else {
                 using (var f = new LoginFormFA()) {
                     if (f.ShowDialog() == DialogResult.OK) {
-                        Settings.FurAffinity = new Settings.FurAffinitySettings {
-                            b = f.BCookie,
-                            a = f.ACookie
-                        };
+                        Settings.FurAffinity.b = f.BCookie;
+                        Settings.FurAffinity.a = f.ACookie;
                     }
                 }
             }

@@ -51,22 +51,35 @@ namespace ArtSourceWrapper {
     /// </summary>
     /// <typeparam name="TWrapper">The type of object to wrap submissions in; must derive from TWrapper</typeparam>
     /// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
-    public abstract class SiteWrapper<TWrapper, TPosition> : ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
+    public abstract class SiteWrapper<TWrapper, TPosition> : BaseWrapper<TWrapper, TPosition>, ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
         public abstract string SiteName { get; }
+        public new IEnumerable<ISubmissionWrapper> Cache {
+            get {
+                foreach (var w in base.Cache) yield return w;
+            }
+        }
+    }
+
+    /// <summary>
+    /// An interface representing a wrapper for a site that might return art submissions, IDs, etc.
+    /// </summary>
+    /// <typeparam name="TWrapper">The type of object to wrap submissions in</typeparam>
+    /// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
+    public abstract class BaseWrapper<TWrapper, TPosition> where TPosition : struct {
         public abstract Task<string> WhoamiAsync();
 
         private List<TWrapper> _cache;
         private TPosition? _nextPosition;
         private bool _isEnded;
 
-        public IEnumerable<ISubmissionWrapper> Cache {
+        public IEnumerable<TWrapper> Cache {
             get {
                 foreach (var w in _cache) yield return w;
             }
         }
         public bool IsEnded => _isEnded;
 
-        public SiteWrapper() {
+        public BaseWrapper() {
             _cache = new List<TWrapper>();
         }
 

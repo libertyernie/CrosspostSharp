@@ -126,6 +126,11 @@ namespace ArtSync {
                 }
             }
 
+            if (!string.IsNullOrEmpty(GlobalSettings.FurAffinity.a) && !string.IsNullOrEmpty(GlobalSettings.FurAffinity.b)) {
+                wrappers.Add(new FurAffinityGalleryWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false));
+                wrappers.Add(new FurAffinityGalleryWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true));
+            }
+
             if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
                 wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
                 wrappers.Add(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey));

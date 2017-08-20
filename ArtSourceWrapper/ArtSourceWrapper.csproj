@@ -166,6 +166,7 @@
     <Compile Include="Base.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="DeviantArt.cs" />
+    <Compile Include="FurAffinity.cs" />
     <Compile Include="HtmlLinkUtils.cs" />
     <Compile Include="Inkbunny.cs" />
     <Compile Include="Tumblr.cs" />
@@ -174,6 +175,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FAExportLib\FAExportLib.vbproj">
+      <Project>{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}</Project>
+      <Name>FAExportLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}</Project>
       <Name>InkbunnyLib</Name>
