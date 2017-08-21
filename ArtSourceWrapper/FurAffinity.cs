@@ -7,23 +7,26 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 namespace ArtSourceWrapper {
-    public class FurAffinityGalleryIdWrapper : BaseWrapper<int, int> {
+    public class FurAffinityIdWrapper : AsynchronousCachedEnumerable<int, int> {
         private readonly FAUserClient _client;
         private readonly FAFolder _folder;
 
-        public override int BatchSize { get; set; } = 0;
-        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+        public override int BatchSize { get; set; } = 60;
+        public override int MinBatchSize => 60;
+        public override int MaxBatchSize => 60;
 
-        public FurAffinityGalleryIdWrapper(string a, string b, bool scraps = false) {
+        public FAFolder Folder => _folder;
+
+        public FurAffinityIdWrapper(string a, string b, bool scraps = false) {
             _client = new FAUserClient(a, b);
             _folder = scraps ? FAFolder.scraps : FAFolder.gallery;
         }
 
-        public override Task<string> WhoamiAsync() {
+        public Task<string> WhoamiAsync() {
             return _client.WhoamiAsync();
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             string username = await WhoamiAsync();
 
             int pos = startPosition ?? 1;
@@ -36,27 +39,28 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class FurAffinityGalleryWrapper : SiteWrapper<FurAffinitySubmissionWrapper, int> {
-        private readonly FurAffinityGalleryIdWrapper _idWrapper;
-        private bool _scraps;
+    public class FurAffinityWrapper : SiteWrapper<FurAffinitySubmissionWrapper, int> {
+        private readonly FurAffinityIdWrapper _idWrapper;
 
-        public override int BatchSize { get; set; } = 0;
-        public override int IndividualRequestsPerInvocation { get; set; } = 5;
+        public override int BatchSize { get; set; } = 1;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 1;
 
-        public FurAffinityGalleryWrapper(string a, string b, bool scraps = false) {
-            _idWrapper = new FurAffinityGalleryIdWrapper(a, b, scraps);
-            _scraps = scraps;
+        public FurAffinityWrapper(FurAffinityIdWrapper idWrapper) {
+            _idWrapper = idWrapper;
         }
 
-        public override string SiteName => _scraps ? "FurAffinity (Scraps)" : "FurAffinity";
+        public override string SiteName => _idWrapper.Folder == FAFolder.scraps
+            ? "FurAffinity (Scraps)"
+            : "FurAffinity";
 
         public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             int skip = startPosition ?? 0;
-            int take = IndividualRequestsPerInvocation;
+            int take = 1;
             
             while (_idWrapper.Cache.Count() < skip + take && !_idWrapper.IsEnded) {
                 await _idWrapper.FetchAsync();
@@ -91,7 +95,7 @@ namespace ArtSourceWrapper {
         public string ViewURL => _submission.link;
         public string ImageURL => _submission.download;
         public string ThumbnailURL => _submission.thumbnail;
-        public Color? BorderColor => null; // TODO
+        public Color? BorderColor => Color.Orange; // TODO
         public bool OwnWork => true;
     }
 }

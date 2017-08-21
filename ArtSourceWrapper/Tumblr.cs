@@ -28,11 +28,10 @@ namespace ArtSourceWrapper {
         public override string SiteName => "Tumblr";
 
         public override int BatchSize { get; set; } = 20;
-        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 20;
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
-            int maxCount = Math.Max(0, Math.Min(BatchSize, 20));
-
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int maxCount) {
             if (_blogNames == null) {
                 var user = await _client.GetUserInfoAsync();
                 _blogNames = user.Blogs.Select(b => b.Name).ToList();

@@ -127,8 +127,8 @@ namespace ArtSync {
             }
 
             if (!string.IsNullOrEmpty(GlobalSettings.FurAffinity.a) && !string.IsNullOrEmpty(GlobalSettings.FurAffinity.b)) {
-                wrappers.Add(new FurAffinityGalleryWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false));
-                wrappers.Add(new FurAffinityGalleryWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true));
+                wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
+                wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
             }
 
             if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
@@ -150,10 +150,6 @@ namespace ArtSync {
 
             if (wrappers.Count == 0) {
                 wrappers.Add(new EmptyWrapper());
-            }
-
-            foreach (var wrapper in wrappers) {
-                wrapper.IndividualRequestsPerInvocation = thumbnails.Length;
             }
 
             if (wrappers.Count == 1) {

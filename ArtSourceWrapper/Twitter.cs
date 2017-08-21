@@ -22,7 +22,8 @@ namespace ArtSourceWrapper {
         public override string SiteName => "Twitter";
 
         public override int BatchSize { get; set; } = 200;
-        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 200;
 
         public TwitterWrapper(ITwitterCredentials credentials) {
             _credentials = credentials;
@@ -40,9 +41,7 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition) {
-            int maxCount = Math.Max(0, Math.Min(BatchSize, 20));
-
+        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int maxCount) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 if (_user == null) {
                     _user = await UserAsync.GetAuthenticatedUser();

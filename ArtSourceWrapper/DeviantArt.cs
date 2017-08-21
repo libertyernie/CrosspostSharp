@@ -29,8 +29,9 @@ namespace ArtSourceWrapper {
             }
         }
 
-        public override int BatchSize { get; set; } = 24;
-        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+        public override int BatchSize { get; set; } = 10;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 24;
 
         public async override Task<string> WhoamiAsync() {
             if (!_initialLogin) await UpdateTokens();
@@ -74,8 +75,8 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition) {
-            uint maxCount = Math.Min((uint)BatchSize, 24);
+        protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+            uint maxCount = (uint)count;
             uint position = startPosition ?? 0;
 
             var galleryResponse = await new DeviantartApi.Requests.Gallery.AllRequest() {

@@ -10,7 +10,8 @@ namespace ArtSourceWrapper {
         public override string SiteName => "No site";
 
         public override int BatchSize { get; set; } = 0;
-        public override int IndividualRequestsPerInvocation { get; set; } = 0;
+        public override int MinBatchSize => 0;
+        public override int MaxBatchSize => 0;
 
         public EmptyWrapper() { }
 
@@ -18,7 +19,7 @@ namespace ArtSourceWrapper {
             return Task.FromResult<string>(null);
         }
 
-        protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition) {
+        protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             return Task.FromResult(new InternalFetchResult(0, true));
         }
     }
