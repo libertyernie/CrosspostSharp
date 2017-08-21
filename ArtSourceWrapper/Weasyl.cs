@@ -8,75 +8,130 @@ using System.Threading.Tasks;
 using WeasylLib;
 
 namespace ArtSourceWrapper {
-    public class WeasylWrapper : SiteWrapper<WeasylSubmissionWrapper, int> {
-        protected WeasylClient _client;
-        protected string _username;
+    public abstract class WeasylIdWrapper : AsynchronousCachedEnumerable<int, int> {
+        private WeasylClient _client;
+        protected WeasylClient Client => _client;
 
-        public override string SiteName => "Weasyl";
+        public abstract string SiteName { get; }
+
+        public WeasylIdWrapper(string apiKey) {
+            _client = new WeasylClient(apiKey);
+        }
+
+        public async Task<string> WhoamiAsync() {
+            try {
+                return (await Client.WhoamiAsync()).login;
+            } catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
+                throw new Exception("No username returned from Weasyl. The API key might be invalid or deleted.");
+            }
+        }
+
+        public abstract Task<WeasylSubmissionBaseDetail> GetSubmissionDetails(int id);
+    }
+
+    public class WeasylGalleryIdWrapper : WeasylIdWrapper {
+        private string _username;
 
         public override int BatchSize { get; set; } = 100;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 100;
 
-        public WeasylWrapper(string apiKey) {
-            _client = new WeasylClient(apiKey);
-        }
+        public override string SiteName => "Weasyl (gallery)";
 
-        public override async Task<string> WhoamiAsync() {
-            try {
-                return (await _client.WhoamiAsync()).login;
-            } catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
-                throw new Exception("No username returned from Weasyl. The API key might be invalid or deleted.");
-            }
+        public WeasylGalleryIdWrapper(string apiKey) : base(apiKey) { }
+
+        public override async Task<WeasylSubmissionBaseDetail> GetSubmissionDetails(int submitid) {
+            return await Client.GetSubmissionAsync(submitid);
         }
 
         /// <summary>
         /// Fetch submissions from Weasyl.
         /// </summary>
         /// <param name="startPosition">The nextid from the previous Weasyl search.</param>
+        /// <param name="maxCount">The number of results to return.</param>
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int maxCount) {
             if (_username == null) {
                 _username = await WhoamiAsync();
             }
 
-            var result = await _client.GetUserGalleryAsync(_username, nextid: startPosition, count: maxCount);
-            throw new NotImplementedException();
-            var details = await Task.WhenAll(result.submissions.Take(5).Select(s => _client.GetSubmissionAsync(s.submitid)));
+            var result = await Client.GetUserGalleryAsync(_username, nextid: startPosition, count: maxCount);
 
             return new InternalFetchResult(
-                details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
+                result.submissions.Select(s => s.submitid),
                 result.nextid ?? 0,
                 isEnded: result.nextid == null
             );
         }
     }
 
-    public class WeasylCharacterWrapper : WeasylWrapper {
+    public class WeasylCharacterWrapper : WeasylIdWrapper {
+        private string _username;
+
+        public override int BatchSize { get; set; } = 0;
+        public override int MinBatchSize => 0;
+        public override int MaxBatchSize => 0;
+
+        public override string SiteName => "Weasyl (characters)";
+
         public WeasylCharacterWrapper(string apiKey) : base(apiKey) { }
 
-        public override string SiteName => "Weasyl (Characters)";
+        public override async Task<WeasylSubmissionBaseDetail> GetSubmissionDetails(int charid) {
+            return await Client.GetCharacterAsync(charid);
+        }
 
         /// <summary>
         /// Scrape the Weasyl site to load character IDs, and use the API to get information for each.
         /// </summary>
         /// <param name="startPosition">The ID of the lowest (oldest) character already downloaded.</param>
+        /// <param name="maxCount">Ignored.</param>
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int maxCount) {
             if (_username == null) {
                 _username = await WhoamiAsync();
             }
-            List<int> all_ids = await _client.ScrapeCharacterIdsAsync(_username);
-
-            IEnumerable<int> ids = all_ids
-                .Where(id => id < (startPosition ?? int.MaxValue))
-                .Take(maxCount);
-            throw new NotImplementedException();
-            var details = await Task.WhenAll(ids.Take(5).Select(i => _client.GetCharacterAsync(i)));
-
+            List<int> all_ids = await Client.ScrapeCharacterIdsAsync(_username);
+            
             return new InternalFetchResult(
-                details.OrderByDescending(d => d.posted_at).Select(d => new WeasylSubmissionWrapper(d)),
-                ids.DefaultIfEmpty(0).Min(),
-                isEnded: !ids.Any()
+                all_ids,
+                all_ids.DefaultIfEmpty(0).Min(),
+                isEnded: true
             );
+        }
+    }
+
+    public class WeasylWrapper : SiteWrapper<WeasylSubmissionWrapper, int> {
+        private WeasylIdWrapper _idWrapper;
+
+        public override int BatchSize { get; set; } = 1;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 1;
+
+        public override string SiteName => _idWrapper.SiteName;
+
+        public WeasylWrapper(WeasylIdWrapper idWrapper) {
+            _idWrapper = idWrapper;
+        }
+
+        public override Task<string> WhoamiAsync() {
+            return _idWrapper.WhoamiAsync();
+        }
+
+        protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+            int skip = startPosition ?? 0;
+
+            while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
+                await _idWrapper.FetchAsync();
+            }
+
+            var task = _idWrapper.Cache
+                .Skip(skip)
+                .Select(id => _idWrapper.GetSubmissionDetails(id))
+                .FirstOrDefault();
+
+            var wrappers = task == null
+                ? Enumerable.Empty<WeasylSubmissionWrapper>()
+                : new[] { new WeasylSubmissionWrapper(await task) };
+
+            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.Cache.Count() <= skip + 1);
         }
     }
 

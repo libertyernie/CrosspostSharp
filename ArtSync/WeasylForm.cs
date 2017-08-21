@@ -132,8 +132,8 @@ namespace ArtSync {
             }
 
             if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                wrappers.Add(new WeasylWrapper(GlobalSettings.Weasyl.APIKey));
-                wrappers.Add(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey));
+                wrappers.Add(new WeasylWrapper(new WeasylGalleryIdWrapper(GlobalSettings.Weasyl.APIKey)));
+                wrappers.Add(new WeasylWrapper(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey)));
             }
 
             if (Inkbunny != null) {

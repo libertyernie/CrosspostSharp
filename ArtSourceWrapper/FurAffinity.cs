@@ -60,20 +60,21 @@ namespace ArtSourceWrapper {
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             int skip = startPosition ?? 0;
-            int take = 1;
             
-            while (_idWrapper.Cache.Count() < skip + take && !_idWrapper.IsEnded) {
+            while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
                 await _idWrapper.FetchAsync();
             }
 
-            var tasks = _idWrapper.Cache
+            var task = _idWrapper.Cache
                 .Skip(skip)
-                .Take(take)
                 .Select(id => _idWrapper.GetSubmissionDetails(id))
-                .ToArray();
-            var wrappers = await Task.WhenAll(tasks);
+                .FirstOrDefault();
 
-            return new InternalFetchResult(wrappers, skip + take, _idWrapper.Cache.Count() <= skip + take);
+            var wrappers = task == null
+                ? Enumerable.Empty<FurAffinitySubmissionWrapper>()
+                : new[] { await task };
+
+            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.Cache.Count() <= skip + 1);
         }
     }
 
