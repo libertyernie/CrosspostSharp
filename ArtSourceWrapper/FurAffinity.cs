@@ -97,7 +97,9 @@ namespace ArtSourceWrapper {
         public string ViewURL => _submission.link;
         public string ImageURL => _submission.download;
         public string ThumbnailURL => _submission.thumbnail;
-        public Color? BorderColor => Color.Orange; // TODO
+        public Color? BorderColor => string.Equals(_submission.rating, "adult", StringComparison.CurrentCultureIgnoreCase) ? Color.FromArgb(0x97, 0x1c, 0x1c)
+            : string.Equals(_submission.rating, "mature", StringComparison.CurrentCultureIgnoreCase) ? Color.FromArgb(0x69, 0x7c, 0xc1)
+            : (Color?)null;
         public bool OwnWork => true;
     }
 }
