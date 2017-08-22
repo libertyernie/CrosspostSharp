@@ -118,8 +118,8 @@ namespace ArtSourceWrapper {
             var request = WebRequest.CreateHttp($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}");
             request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
             var t1 = request.GetResponseAsync();
-            await Task.WhenAny(Task.Delay(3000));
-            if (t1.Status == TaskStatus.WaitingForActivation) throw new NotImplementedException();
+            await Task.WhenAny(t1, Task.Delay(5000));
+            if (t1.Status == TaskStatus.WaitingForActivation) throw new DeviantArtException($"Data is taking too long to load rom {request.RequestUri} possibly due to an ArtSync bug. Try restarting your PC.");
             using (var response = await t1) {
                 using (var sr = new StreamReader(response.GetResponseStream())) {
                     string html = await sr.ReadToEndAsync();
@@ -159,8 +159,8 @@ namespace ArtSourceWrapper {
             var request = WebRequest.CreateHttp(url);
             request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
             var t1 = request.GetResponseAsync();
-            await Task.WhenAny(Task.Delay(3000));
-            if (t1.Status == TaskStatus.WaitingForActivation) throw new NotImplementedException();
+            await Task.WhenAny(t1, Task.Delay(5000));
+            if (t1.Status == TaskStatus.WaitingForActivation) throw new DeviantArtException($"Data is taking too long to load rom {request.RequestUri}, possibly due to an ArtSync bug. Try restarting your PC.");
             using (var response = await t1) {
                 using (var sr = new StreamReader(response.GetResponseStream())) {
                     string line;
@@ -220,7 +220,7 @@ namespace ArtSourceWrapper {
 
         public override int BatchSize { get; set; }
         public override int MinBatchSize => 1;
-        public override int MaxBatchSize => _idWrapper.MaxBatchSize;
+        public override int MaxBatchSize => Math.Min(50, _idWrapper.MaxBatchSize);
 
         public DeviantArtWrapper(DeviantArtDeviationWrapper idWrapper) {
             _idWrapper = idWrapper;
