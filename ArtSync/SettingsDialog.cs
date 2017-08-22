@@ -43,12 +43,12 @@ namespace ArtSync {
         private async void btnDeviantArtSignIn_Click(object sender, EventArgs e) {
             try {
                 if (string.Equals("Sign out", btnDeviantArtSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
-                    await DeviantArtIdWrapper.LogoutAsync();
+                    await DeviantArtDeviationWrapper.LogoutAsync();
                     Settings.DeviantArt.RefreshToken = null;
                 } else {
-                    DeviantArtIdWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
-                    DeviantArtIdWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
-                    Settings.DeviantArt.RefreshToken = await DeviantArtIdWrapper.UpdateTokens();
+                    DeviantArtDeviationWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
+                    DeviantArtDeviationWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
+                    Settings.DeviantArt.RefreshToken = await DeviantArtDeviationWrapper.UpdateTokens();
                 }
                 UpdateDeviantArtTokenLabel();
             } catch (Exception ex) {

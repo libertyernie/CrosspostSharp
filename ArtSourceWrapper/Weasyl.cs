@@ -132,7 +132,7 @@ namespace ArtSourceWrapper {
                 ? Enumerable.Empty<WeasylSubmissionWrapper>()
                 : new[] { new WeasylSubmissionWrapper(await task) };
 
-            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.Cache.Count() <= skip + 1);
+            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.IsEnded);
         }
     }
 

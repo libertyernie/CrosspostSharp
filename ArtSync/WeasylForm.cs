@@ -90,15 +90,15 @@ namespace ArtSync {
         private async Task DeviantArtLogin() {
             if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
                 try {
-                    DeviantArtIdWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
-                    DeviantArtIdWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
+                    DeviantArtDeviationWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
+                    DeviantArtDeviationWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
                     string oldToken = GlobalSettings.DeviantArt.RefreshToken;
-                    string newToken = await DeviantArtIdWrapper.UpdateTokens(oldToken);
+                    string newToken = await DeviantArtDeviationWrapper.UpdateTokens(oldToken);
                     if (oldToken != newToken) {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    _deviantArtWrapper = new DeviantArtWrapper(new DeviantArtGalleryIdWrapper());
+                    _deviantArtWrapper = new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper());
                     lblDeviantArtStatus2.Text = await _deviantArtWrapper.WhoamiAsync();
                     lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     return;

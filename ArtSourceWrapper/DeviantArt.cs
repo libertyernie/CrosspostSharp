@@ -11,7 +11,7 @@ namespace ArtSourceWrapper {
         public DeviantArtException(string message) : base(message) { }
     }
 
-    public abstract class DeviantArtIdWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
+    public abstract class DeviantArtDeviationWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
         private static string _clientId, _clientSecret;
         private static bool _initialLogin;
 
@@ -74,7 +74,7 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class DeviantArtGalleryIdWrapper : DeviantArtIdWrapper {
+    public class DeviantArtGalleryDeviationWrapper : DeviantArtDeviationWrapper {
         public override string WrapperName => "DeviantArt (Gallery)";
         public override int BatchSize { get; set; } = 24;
         public override int MinBatchSize => 1;
@@ -103,19 +103,104 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
-        private DeviantArtIdWrapper _idWrapper;
+    /*public class DeviantArtScrapsIdWrapper : AsynchronousCachedEnumerable<string, int> {
+        public override int BatchSize { get; set; } = 24;
+        public override int MinBatchSize => 24;
+        public override int MaxBatchSize => 24;
 
-        public DeviantArtWrapper(DeviantArtIdWrapper idWrapper) {
-            _idWrapper = idWrapper;
+        private readonly string _username;
+
+        public DeviantArtScrapsIdWrapper(string username) {
+            _username = username;
         }
+
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+            int pos = startPosition ?? 0;
+            
+            var request = WebRequest.CreateHttp($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}");
+            request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
+            using (var response = await request.GetResponseAsync()) {
+                using (var sr = new StreamReader(response.GetResponseStream())) {
+                    string html = await sr.ReadToEndAsync();
+
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc.LoadHtml(html);
+
+                    List<string> ids = new List<string>();
+
+                    foreach (var link in doc.DocumentNode.Descendants("span")) {
+                        var attribute = link.Attributes["data-deviationid"];
+                        if (attribute?.Value != null) {
+                            ids.Add(attribute?.Value);
+                        }
+                    }
+
+                    return new InternalFetchResult(
+                        ids,
+                        pos + 24,
+                        !doc.DocumentNode.Descendants("link").Any(n => n.Attributes["rel"].Value == "next"));
+                }
+            }
+        }
+    }
+
+    public class DeviantArtScrapsDeviationWrapper : DeviantArtDeviationWrapper {
+        private DeviantArtScrapsIdWrapper _idWrapper;
+
+        public override string WrapperName => "DeviantArt (Public Scraps)";
+
+        public override int BatchSize { get; set; } = 1;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 1;
+
+        protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+            if (_idWrapper == null) {
+                _idWrapper = new DeviantArtScrapsIdWrapper(await WhoamiAsync());
+            }
+
+            uint skip = startPosition ?? 0;
+
+            while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
+                await _idWrapper.FetchAsync();
+            }
+
+            string id = _idWrapper.Cache
+                .Skip((int)skip)
+                .FirstOrDefault();
+
+            List<Deviation> dev = new List<Deviation>(1);
+
+            if (id != null) {
+                var response = await new DeviantartApi.Requests.Deviation.DeviationRequest(id).ExecuteAsync();
+
+                if (response.IsError) {
+                    throw new DeviantArtException(response.ErrorText);
+                }
+                if (!string.IsNullOrEmpty(response.Result.Error)) {
+                    throw new DeviantArtException(response.Result.ErrorDescription);
+                }
+
+                dev.Add(response.Result);
+            }
+
+            return new InternalFetchResult(dev, skip + 1, _idWrapper.IsEnded);
+        }
+    }*/
+
+    public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
+        private DeviantArtDeviationWrapper _idWrapper;
 
         public override string SiteName => _idWrapper.SiteName;
         public override string WrapperName => _idWrapper.WrapperName;
 
-        public override int BatchSize { get; set; } = 100;
+        public override int BatchSize { get; set; }
         public override int MinBatchSize => 1;
-        public override int MaxBatchSize => 100;
+        public override int MaxBatchSize => _idWrapper.MaxBatchSize;
+
+        public DeviantArtWrapper(DeviantArtDeviationWrapper idWrapper) {
+            _idWrapper = idWrapper;
+            BatchSize = MaxBatchSize;
+        }
 
         public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();
@@ -132,7 +217,7 @@ namespace ArtSourceWrapper {
             uint skip = startPosition ?? 0;
             int take = Math.Max(MinBatchSize, Math.Min(MaxBatchSize, BatchSize));
 
-            while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
+            while (_idWrapper.Cache.Count() < skip + take + 1 && !_idWrapper.IsEnded) {
                 await _idWrapper.FetchAsync();
             }
 
@@ -150,7 +235,7 @@ namespace ArtSourceWrapper {
 
             var wrappers = Wrap(deviations, metadataResponse.Result.Metadata);
 
-            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.Cache.Count() <= skip + 1);
+            return new InternalFetchResult(wrappers, skip + (uint)take, _idWrapper.IsEnded);
         }
     }
 
