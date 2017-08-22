@@ -75,7 +75,7 @@ namespace ArtSourceWrapper {
                 ? Enumerable.Empty<FurAffinitySubmissionWrapper>()
                 : new[] { await task };
 
-            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.IsEnded);
+            return new InternalFetchResult(wrappers, skip + 1, !_idWrapper.Cache.Skip(skip + 1).Any() && _idWrapper.IsEnded);
         }
     }
 

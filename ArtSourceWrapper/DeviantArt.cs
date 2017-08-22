@@ -117,7 +117,10 @@ namespace ArtSourceWrapper {
             
             var request = WebRequest.CreateHttp($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}");
             request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
-            using (var response = await request.GetResponseAsync()) {
+            var t1 = request.GetResponseAsync();
+            await Task.WhenAny(Task.Delay(3000));
+            if (t1.Status == TaskStatus.WaitingForActivation) throw new NotImplementedException();
+            using (var response = await t1) {
                 using (var sr = new StreamReader(response.GetResponseStream())) {
                     string html = await sr.ReadToEndAsync();
 
@@ -155,7 +158,10 @@ namespace ArtSourceWrapper {
         private static async Task<string> GetDeviationIdAsync(string url) {
             var request = WebRequest.CreateHttp(url);
             request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
-            using (var response = await request.GetResponseAsync()) {
+            var t1 = request.GetResponseAsync();
+            await Task.WhenAny(Task.Delay(3000));
+            if (t1.Status == TaskStatus.WaitingForActivation) throw new NotImplementedException();
+            using (var response = await t1) {
                 using (var sr = new StreamReader(response.GetResponseStream())) {
                     string line;
                     while ((line = await sr.ReadLineAsync()) != null) {
@@ -202,7 +208,7 @@ namespace ArtSourceWrapper {
                 dev.Add(response.Result);
             }
 
-            return new InternalFetchResult(dev, skip + 1, _urlWrapper.IsEnded);
+            return new InternalFetchResult(dev, skip + 1, !_urlWrapper.Cache.Skip((int)skip + 1).Any() && _urlWrapper.IsEnded);
         }
     }
 
@@ -236,7 +242,7 @@ namespace ArtSourceWrapper {
             uint skip = startPosition ?? 0;
             int take = Math.Max(MinBatchSize, Math.Min(MaxBatchSize, BatchSize));
 
-            while (_idWrapper.Cache.Count() < skip + take + 1 && !_idWrapper.IsEnded) {
+            while (_idWrapper.Cache.Count() < skip + take && !_idWrapper.IsEnded) {
                 await _idWrapper.FetchAsync();
             }
 
@@ -254,7 +260,7 @@ namespace ArtSourceWrapper {
 
             var wrappers = Wrap(deviations, metadataResponse.Result.Metadata);
 
-            return new InternalFetchResult(wrappers, skip + (uint)take, _idWrapper.IsEnded);
+            return new InternalFetchResult(wrappers, skip + (uint)take, !_idWrapper.Cache.Skip((int)skip + take).Any() && _idWrapper.IsEnded);
         }
     }
 

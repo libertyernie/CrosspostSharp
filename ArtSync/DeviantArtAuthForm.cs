@@ -47,7 +47,7 @@ namespace ArtSync {
                         var req = WebRequest.CreateHttp("https://www.deviantart.com/oauth2/token?" + sb);
                         req.Method = "GET";
                         req.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
-                        var resp = req.GetResponse();
+                        using (var resp = req.GetResponse())
                         using (var sr = new StreamReader(resp.GetResponseStream())) {
                             Dictionary<string, string> result = JsonConvert.DeserializeObject<Dictionary<string, string>>(sr.ReadToEnd());
                             AccessToken = result["access_token"];
