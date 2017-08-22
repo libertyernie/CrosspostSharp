@@ -11,7 +11,7 @@ namespace ArtSourceWrapper {
         public DeviantArtException(string message) : base(message) { }
     }
 
-    public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
+    public abstract class DeviantArtIdWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
         private static string _clientId, _clientSecret;
         private static bool _initialLogin;
 
@@ -29,11 +29,9 @@ namespace ArtSourceWrapper {
             }
         }
 
-        public override int BatchSize { get; set; } = 10;
-        public override int MinBatchSize => 1;
-        public override int MaxBatchSize => 24;
+        public abstract string SiteName { get; }
 
-        public async override Task<string> WhoamiAsync() {
+        public async Task<string> WhoamiAsync() {
             if (!_initialLogin) await UpdateTokens();
 
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
@@ -66,15 +64,6 @@ namespace ArtSourceWrapper {
             return result.RefreshToken;
         }
 
-        public override string SiteName => "DeviantArt";
-
-        private IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {
-            foreach (var d in deviations) {
-                var metadata_if_any = metadata.FirstOrDefault(m => m.DeviationId == d.DeviationId);
-                yield return new DeviantArtSubmissionWrapper(d, metadata_if_any);
-            }
-        }
-
         protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
             uint maxCount = (uint)count;
             uint position = startPosition ?? 0;
@@ -91,21 +80,10 @@ namespace ArtSourceWrapper {
                 throw new DeviantArtException(galleryResponse.Result.ErrorDescription);
             }
 
-            if (!galleryResponse.Result.HasMore) {
-                return new InternalFetchResult(position, true);
-            }
-
-            var metadataResponse = await new DeviantartApi.Requests.Deviation.MetadataRequest(galleryResponse.Result.Results.Select(d => d.DeviationId)).ExecuteAsync();
-            if (metadataResponse.IsError) {
-                throw new DeviantArtException(metadataResponse.ErrorText);
-            }
-            if (!string.IsNullOrEmpty(metadataResponse.Result.Error)) {
-                throw new DeviantArtException(metadataResponse.Result.ErrorDescription);
-            }
-
             return new InternalFetchResult(
-                Wrap(galleryResponse.Result.Results, metadataResponse.Result.Metadata),
-                position + (uint)galleryResponse.Result.Results.Count);
+                galleryResponse.Result.Results,
+                position + (uint)galleryResponse.Result.Results.Count,
+                !galleryResponse.Result.HasMore);
         }
 
         public static async Task<bool> LogoutAsync() {
@@ -114,6 +92,56 @@ namespace ArtSourceWrapper {
                 success = success && await DeviantartApi.Login.LogoutAsync(token);
             }
             return success;
+        }
+    }
+
+    public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
+        private DeviantArtIdWrapper _idWrapper;
+
+        public DeviantArtWrapper(DeviantArtIdWrapper idWrapper) {
+            _idWrapper = idWrapper;
+        }
+
+        public override string SiteName => _idWrapper.SiteName;
+
+        public override int BatchSize { get; set; } = 100;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 100;
+
+        public override Task<string> WhoamiAsync() {
+            return _idWrapper.WhoamiAsync();
+        }
+
+        private static IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {
+            foreach (var d in deviations) {
+                var metadata_if_any = metadata.FirstOrDefault(m => m.DeviationId == d.DeviationId);
+                yield return new DeviantArtSubmissionWrapper(d, metadata_if_any);
+            }
+        }
+
+        protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+            uint skip = startPosition ?? 0;
+            int take = Math.Max(MinBatchSize, Math.Min(MaxBatchSize, BatchSize));
+
+            while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
+                await _idWrapper.FetchAsync();
+            }
+
+            var deviations = _idWrapper.Cache
+                .Skip(checked((int)skip))
+                .Take(take);
+
+            var metadataResponse = await new DeviantartApi.Requests.Deviation.MetadataRequest(deviations.Select(d => d.DeviationId)).ExecuteAsync();
+            if (metadataResponse.IsError) {
+                throw new DeviantArtException(metadataResponse.ErrorText);
+            }
+            if (!string.IsNullOrEmpty(metadataResponse.Result.Error)) {
+                throw new DeviantArtException(metadataResponse.Result.ErrorDescription);
+            }
+
+            var wrappers = Wrap(deviations, metadataResponse.Result.Metadata);
+
+            return new InternalFetchResult(wrappers, skip + 1, _idWrapper.Cache.Count() <= skip + 1);
         }
     }
 
