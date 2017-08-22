@@ -3,7 +3,10 @@ using DeviantartApi.Objects.SubObjects.DeviationMetadata;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
@@ -13,19 +16,16 @@ namespace ArtSourceWrapper {
 
     public abstract class DeviantArtDeviationWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
         private static string _clientId, _clientSecret;
-        private static bool _initialLogin;
 
         public static string ClientId {
             set {
                 _clientId = value;
-                _initialLogin = false;
             }
         }
 
         public static string ClientSecret {
             set {
                 _clientSecret = value;
-                _initialLogin = false;
             }
         }
 
@@ -33,8 +33,6 @@ namespace ArtSourceWrapper {
         public abstract string WrapperName { get; }
 
         public async Task<string> WhoamiAsync() {
-            if (!_initialLogin) await UpdateTokens();
-
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
                 throw new DeviantArtException(result.ErrorText);
@@ -46,12 +44,11 @@ namespace ArtSourceWrapper {
         }
 
         /// <summary>
-        /// Uses the refresh token to "log in" and get a new set of tokens. If the refresh token is null, invalid, or not provided, a login window will be shown.
+        /// Uses the refresh token to "log in" and get a new set of tokens.
         /// </summary>
         /// <param name="refreshToken">An existing refresh token (if any)</param>
         /// <returns>A new refresh token</returns>
         public static async Task<string> UpdateTokens(string refreshToken = null) {
-            _initialLogin = true;
             var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(
                 _clientId,
                 _clientSecret,
@@ -59,6 +56,7 @@ namespace ArtSourceWrapper {
                 refreshToken ?? "",
                 null,
                 new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
+
             if (result.IsLoginError) {
                 throw new DeviantArtException(result.LoginErrorText);
             }

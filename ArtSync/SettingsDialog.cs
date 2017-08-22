@@ -48,7 +48,18 @@ namespace ArtSync {
                 } else {
                     DeviantArtDeviationWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
                     DeviantArtDeviationWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
-                    Settings.DeviantArt.RefreshToken = await DeviantArtDeviationWrapper.UpdateTokens();
+
+                    var result = await DeviantartApiLogin.WinForms.Login.SignInAsync(
+                        OAuthConsumer.DeviantArt.CLIENT_ID,
+                        OAuthConsumer.DeviantArt.CLIENT_SECRET,
+                        new Uri("https://www.example.com"),
+                        s => { },
+                        new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
+                    if (result.IsLoginError) {
+                        throw new Exception(result.LoginErrorText);
+                    }
+
+                    Settings.DeviantArt.RefreshToken = result.RefreshToken;
                 }
                 UpdateDeviantArtTokenLabel();
             } catch (Exception ex) {
