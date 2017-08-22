@@ -121,6 +121,7 @@ namespace ArtSync {
                 try {
                     await _deviantArtWrapper.WhoamiAsync();
                     wrappers.Add(_deviantArtWrapper);
+                    wrappers.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
                 } catch (Exception e) {
                     ShowException(e, nameof(GetNewWrapper));
                 }
