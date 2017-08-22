@@ -16,7 +16,7 @@ namespace ArtSourceWrapper {
         private bool _isEnded;
 
         /// <summary>
-        /// Contains the elements currently in the cache.
+        /// Contains the elements currently in the cache. Call FetchAsync to get more.
         /// </summary>
         public IEnumerable<TElement> Cache => _cache;
         /// <summary>
@@ -92,6 +92,10 @@ namespace ArtSourceWrapper {
         /// <returns>An object containing zero or more wrappers to be added, the new position, and whether the end has been reached</returns>
         protected abstract Task<InternalFetchResult> InternalFetchAsync(TPosition? startPosition, int count);
 
+        /// <summary>
+        /// Fetch more elements and add them to the cache.
+        /// </summary>
+        /// <returns>The number of elements added to the cache, or -1 if no new elements were added because they were all already in the cache.</returns>
         public async Task<int> FetchAsync() {
             if (_isEnded) return -1;
 
@@ -108,6 +112,9 @@ namespace ArtSourceWrapper {
                 : 0;
         }
 
+        /// <summary>
+        /// Clears the cache and resets the internal position and end markers.
+        /// </summary>
         public void Clear() {
             _cache.Clear();
             _nextPosition = null;

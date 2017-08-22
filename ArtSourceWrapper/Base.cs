@@ -66,9 +66,20 @@ namespace ArtSourceWrapper {
     /// <typeparam name="TWrapper">The type of object to wrap submissions in; must derive from TWrapper</typeparam>
     /// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
     public abstract class SiteWrapper<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
+        /// <summary>
+        /// The name of this site, to display to the user.
+        /// </summary>
         public abstract string SiteName { get; }
+
+        /// <summary>
+        /// Looks up the username of the currently logged in user.
+        /// </summary>
+        /// <returns></returns>
         public abstract Task<string> WhoamiAsync();
 
+        /// <summary>
+        /// A list of the currently cached submissions. Call FetchAsync to get more.
+        /// </summary>
         public new IEnumerable<ISubmissionWrapper> Cache {
             get {
                 foreach (var w in base.Cache) yield return w;
