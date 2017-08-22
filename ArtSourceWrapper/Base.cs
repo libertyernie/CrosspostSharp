@@ -27,9 +27,14 @@ namespace ArtSourceWrapper {
         int MaxBatchSize { get; }
 
         /// <summary>
-        /// The name of the site this wrapper is for (to be shown to the user.)
+        /// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
         /// </summary>
         string SiteName { get; }
+
+        /// <summary>
+        /// A display name for this wrapper, e.g. "DeviantArt (Scraps)".
+        /// </summary>
+        string WrapperName { get; }
 
         /// <summary>
         /// A list of the currently cached submissions. Call FetchAsync to get more.
@@ -67,9 +72,14 @@ namespace ArtSourceWrapper {
     /// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
     public abstract class SiteWrapper<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
         /// <summary>
-        /// The name of this site, to display to the user.
+        /// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
         /// </summary>
         public abstract string SiteName { get; }
+
+        /// <summary>
+        /// A display name for this wrapper, e.g. "DeviantArt (Scraps)".
+        /// </summary>
+        public abstract string WrapperName { get; }
 
         /// <summary>
         /// Looks up the username of the currently logged in user.

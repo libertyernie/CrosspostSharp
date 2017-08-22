@@ -20,6 +20,7 @@ namespace ArtSourceWrapper {
         private IUser _user;
 
         public override string SiteName => "Twitter";
+        public override string WrapperName => "Twitter";
 
         public override int BatchSize { get; set; } = 200;
         public override int MinBatchSize => 1;

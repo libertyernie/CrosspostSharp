@@ -15,7 +15,9 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 60;
         public override int MaxBatchSize => 60;
 
-        public FAFolder Folder => _folder;
+        public string WrapperName => _folder == FAFolder.scraps
+            ? "FurAffinity (Scraps)"
+            : "FurAffinity (Gallery)";
 
         public FurAffinityIdWrapper(string a, string b, bool scraps = false) {
             _client = new FAUserClient(a, b);
@@ -50,9 +52,8 @@ namespace ArtSourceWrapper {
             _idWrapper = idWrapper;
         }
 
-        public override string SiteName => _idWrapper.Folder == FAFolder.scraps
-            ? "FurAffinity (Scraps)"
-            : "FurAffinity";
+        public override string SiteName => "FurAffinity";
+        public override string WrapperName => _idWrapper.WrapperName;
 
         public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();

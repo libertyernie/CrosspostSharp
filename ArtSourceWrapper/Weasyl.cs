@@ -12,7 +12,7 @@ namespace ArtSourceWrapper {
         private WeasylClient _client;
         protected WeasylClient Client => _client;
 
-        public abstract string SiteName { get; }
+        public abstract string WrapperName { get; }
 
         public WeasylIdWrapper(string apiKey) {
             _client = new WeasylClient(apiKey);
@@ -36,7 +36,7 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 100;
 
-        public override string SiteName => "Weasyl (gallery)";
+        public override string WrapperName => "Weasyl (gallery)";
 
         public WeasylGalleryIdWrapper(string apiKey) : base(apiKey) { }
 
@@ -71,7 +71,7 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 0;
         public override int MaxBatchSize => 0;
 
-        public override string SiteName => "Weasyl (characters)";
+        public override string WrapperName => "Weasyl (characters)";
 
         public WeasylCharacterWrapper(string apiKey) : base(apiKey) { }
 
@@ -105,7 +105,8 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 1;
 
-        public override string SiteName => _idWrapper.SiteName;
+        public override string SiteName => "Weasyl";
+        public override string WrapperName => _idWrapper.WrapperName;
 
         public WeasylWrapper(WeasylIdWrapper idWrapper) {
             _idWrapper = idWrapper;

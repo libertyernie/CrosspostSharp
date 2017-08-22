@@ -29,7 +29,8 @@ namespace ArtSourceWrapper {
             }
         }
 
-        public abstract string SiteName { get; }
+        public string SiteName => "DeviantArt";
+        public abstract string WrapperName { get; }
 
         public async Task<string> WhoamiAsync() {
             if (!_initialLogin) await UpdateTokens();
@@ -64,8 +65,23 @@ namespace ArtSourceWrapper {
             return result.RefreshToken;
         }
 
+        public static async Task<bool> LogoutAsync() {
+            bool success = true;
+            foreach (string token in new[] { DeviantartApi.Requester.AccessToken, DeviantartApi.Requester.RefreshToken }) {
+                success = success && await DeviantartApi.Login.LogoutAsync(token);
+            }
+            return success;
+        }
+    }
+
+    public class DeviantArtGalleryIdWrapper : DeviantArtIdWrapper {
+        public override string WrapperName => "DeviantArt (Gallery)";
+        public override int BatchSize { get; set; } = 24;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 24;
+
         protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
-            uint maxCount = (uint)count;
+            uint maxCount = (uint)Math.Max(MinBatchSize, Math.Min(MaxBatchSize, count));
             uint position = startPosition ?? 0;
 
             var galleryResponse = await new DeviantartApi.Requests.Gallery.AllRequest() {
@@ -85,14 +101,6 @@ namespace ArtSourceWrapper {
                 position + (uint)galleryResponse.Result.Results.Count,
                 !galleryResponse.Result.HasMore);
         }
-
-        public static async Task<bool> LogoutAsync() {
-            bool success = true;
-            foreach (string token in new[] { DeviantartApi.Requester.AccessToken, DeviantartApi.Requester.RefreshToken }) {
-                success = success && await DeviantartApi.Login.LogoutAsync(token);
-            }
-            return success;
-        }
     }
 
     public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
@@ -103,6 +111,7 @@ namespace ArtSourceWrapper {
         }
 
         public override string SiteName => _idWrapper.SiteName;
+        public override string WrapperName => _idWrapper.WrapperName;
 
         public override int BatchSize { get; set; } = 100;
         public override int MinBatchSize => 1;

@@ -16,7 +16,8 @@ namespace ArtSourceWrapper {
 			_client = client;
 		}
 
-		public override string SiteName => "Inkbunny";
+        public override string SiteName => "Inkbunny";
+        public override string WrapperName => "Inkbunny";
 
         public override int BatchSize { get; set; } = 30;
         public override int MinBatchSize => 1;

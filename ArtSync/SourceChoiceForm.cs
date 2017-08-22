@@ -31,8 +31,8 @@ namespace ArtSync {
         private void SourceChoiceForm_Load(object sender, EventArgs e) {
             foreach (var w in this.Wrappers) {
                 var radioButton = new RadioButton {
-                    Text = w.SiteName,
-                    Checked = w.SiteName == SelectedWrapper?.SiteName,
+                    Text = w.WrapperName,
+                    Checked = w.WrapperName == SelectedWrapper?.WrapperName,
                     AutoSize = true
                 };
                 if (radioButton.Checked) SelectedWrapper = w;
