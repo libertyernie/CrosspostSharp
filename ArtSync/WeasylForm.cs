@@ -328,8 +328,8 @@ namespace ArtSync {
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
                 tags.AddRange(submission.Tags);
-                if (GlobalSettings.IncludeGeneratedUniqueTag) {
-                    tags.Add(submission.GeneratedUniqueTag.Replace("#", ""));
+                if (GlobalSettings.IncludeGeneratedUniqueTag && GeneratedUniqueTag != null) {
+                    tags.Add(GeneratedUniqueTag.Replace("#", ""));
                 }
 				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", tags.Select(s => "#" + s));
 
@@ -344,7 +344,7 @@ namespace ArtSync {
                 char[] invalid = Path.GetInvalidFileNameChars();
                 string basename = submission?.Title;
                 if (string.IsNullOrEmpty(basename)) {
-                    basename = submission?.GeneratedUniqueTag?.Replace("#", "");
+                    basename = GeneratedUniqueTag?.Replace("#", "");
                 }
                 if (string.IsNullOrEmpty(basename)) {
                     basename = "image";

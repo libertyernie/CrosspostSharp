@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,25 @@ namespace ArtSourceWrapper {
             throw new NotImplementedException();
         }
 
+        private static ImageFormat DetectFormat(string path) {
+            var map = new Dictionary<byte[], ImageFormat> {
+                [new byte[] { 0xFF, 0xD8 }] = ImageFormat.Jpeg,
+                [new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }] = ImageFormat.Png,
+                [new byte[] { 0x47, 0x49, 0x46 }] = ImageFormat.Gif,
+            };
+
+            byte[] header = new byte[8];
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read)) {
+                fs.Read(header, 0, 8);
+            }
+            foreach (var pair in map) {
+                if (header.Take(pair.Key.Length).SequenceEqual(pair.Key)) {
+                    return pair.Value;
+                }
+            }
+            return null;
+        }
+
         private IEnumerable<LocalFileSubmissionWrapper> Wrap() {
             if (_fileStack == null) {
                 if (_directory == null) {
@@ -49,13 +69,8 @@ namespace ArtSourceWrapper {
             while (_fileStack.Any()) {
                 string path = _fileStack.Pop();
                 System.Diagnostics.Debug.WriteLine(path);
-                bool ok = true;
-                try {
-                    using (Image i = Image.FromFile(path)) { }
-                } catch (ArgumentException) {
-                    ok = false;
-                }
-                if (ok) yield return new LocalFileSubmissionWrapper(path);
+                ImageFormat format = DetectFormat(path);
+                if (format != null) yield return new LocalFileSubmissionWrapper(path);
             }
         }
 
@@ -76,7 +91,7 @@ namespace ArtSourceWrapper {
         public string HTMLDescription => "";
         public bool PotentiallySensitive => false;
         public IEnumerable<string> Tags => Enumerable.Empty<string>();
-        public string GeneratedUniqueTag => $"#testtest";
+        public string GeneratedUniqueTag => null;
         public DateTime Timestamp => File.GetCreationTime(_path);
         public string ViewURL => null;
         public string ImageURL => "file:///" + _path.Replace('\\', '/');
