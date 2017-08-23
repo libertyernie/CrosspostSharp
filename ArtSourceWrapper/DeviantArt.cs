@@ -11,21 +11,29 @@ namespace ArtSourceWrapper {
         public DeviantArtException(string message) : base(message) { }
     }
 
+    public static class DeviantArtLoginStatic {
+        /// <summary>
+        /// Uses the refresh token to "log in" and get a new set of tokens.
+        /// </summary>
+        /// <param name="refreshToken">An existing refresh token (if any)</param>
+        /// <returns>A new refresh token</returns>
+        public static async Task<string> UpdateTokens(string clientId, string clientSecret, string refreshToken = null) {
+            var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(
+                clientId,
+                clientSecret,
+                new Uri("https://www.example.com"),
+                refreshToken ?? "",
+                null,
+                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
+
+            if (result.IsLoginError) {
+                throw new DeviantArtException(result.LoginErrorText);
+            }
+            return result.RefreshToken;
+        }
+    }
+
     public abstract class DeviantArtDeviationWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
-        private static string _clientId, _clientSecret;
-
-        public static string ClientId {
-            set {
-                _clientId = value;
-            }
-        }
-
-        public static string ClientSecret {
-            set {
-                _clientSecret = value;
-            }
-        }
-
         public string SiteName => "DeviantArt";
         public abstract string WrapperName { get; }
 
@@ -38,26 +46,6 @@ namespace ArtSourceWrapper {
                 throw new DeviantArtException(result.Result.ErrorDescription);
             }
             return result.Result.Username;
-        }
-
-        /// <summary>
-        /// Uses the refresh token to "log in" and get a new set of tokens.
-        /// </summary>
-        /// <param name="refreshToken">An existing refresh token (if any)</param>
-        /// <returns>A new refresh token</returns>
-        public static async Task<string> UpdateTokens(string refreshToken = null) {
-            var result = await DeviantartApi.Login.SetAccessTokenByRefreshAsync(
-                _clientId,
-                _clientSecret,
-                new Uri("https://www.example.com"),
-                refreshToken ?? "",
-                null,
-                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
-
-            if (result.IsLoginError) {
-                throw new DeviantArtException(result.LoginErrorText);
-            }
-            return result.RefreshToken;
         }
 
         public static async Task<bool> LogoutAsync() {

@@ -46,9 +46,6 @@ namespace ArtSync {
                     await DeviantArtDeviationWrapper.LogoutAsync();
                     Settings.DeviantArt.RefreshToken = null;
                 } else {
-                    DeviantArtDeviationWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
-                    DeviantArtDeviationWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
-
                     var result = await DeviantartApiLogin.WinForms.Login.SignInAsync(
                         OAuthConsumer.DeviantArt.CLIENT_ID,
                         OAuthConsumer.DeviantArt.CLIENT_SECRET,

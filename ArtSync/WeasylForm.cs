@@ -40,9 +40,10 @@ namespace ArtSync {
         // Stores a DeviantArtWrapper instance if the user is logged into dA; null if they are not.
         // This can be used as a source SiteWrapper or to look up whether a given submission has been uploaded to dA already.
         private DeviantArtWrapper _deviantArtWrapper;
+        private StashWrapper _stashWrapper;
 
-		// Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
-		private WeasylThumbnail[] thumbnails;
+        // Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
+        private WeasylThumbnail[] thumbnails;
 
 		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
 		private ISubmissionWrapper currentSubmission;
@@ -90,15 +91,17 @@ namespace ArtSync {
         private async Task DeviantArtLogin() {
             if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
                 try {
-                    DeviantArtDeviationWrapper.ClientId = OAuthConsumer.DeviantArt.CLIENT_ID;
-                    DeviantArtDeviationWrapper.ClientSecret = OAuthConsumer.DeviantArt.CLIENT_SECRET;
                     string oldToken = GlobalSettings.DeviantArt.RefreshToken;
-                    string newToken = await DeviantArtDeviationWrapper.UpdateTokens(oldToken);
+                    string newToken = await DeviantArtLoginStatic.UpdateTokens(
+                        OAuthConsumer.DeviantArt.CLIENT_ID,
+                        OAuthConsumer.DeviantArt.CLIENT_SECRET,
+                        oldToken);
                     if (oldToken != newToken) {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
                     _deviantArtWrapper = new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper());
+                    _stashWrapper = new StashWrapper();
                     lblDeviantArtStatus2.Text = await _deviantArtWrapper.WhoamiAsync();
                     lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     return;
@@ -112,6 +115,7 @@ namespace ArtSync {
             lblDeviantArtStatus2.Text = "not logged in";
             lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
             _deviantArtWrapper = null;
+            _stashWrapper = null;
         }
 
         private async Task GetNewWrapper() {
@@ -121,7 +125,9 @@ namespace ArtSync {
                 try {
                     await _deviantArtWrapper.WhoamiAsync();
                     wrappers.Add(_deviantArtWrapper);
-                    wrappers.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
+                    if (_stashWrapper != null) {
+                        wrappers.Add(_stashWrapper);
+                    }
                 } catch (Exception e) {
                     ShowException(e, nameof(GetNewWrapper));
                 }
@@ -993,6 +999,7 @@ namespace ArtSync {
             lnkDeviantArtFound.Enabled = true;
             lnkDeviantArtFindMore.Visible = false;
             _deviantArtWrapper.Clear();
+            _stashWrapper.Clear();
             LProgressBar.Visible = false;
         }
 
