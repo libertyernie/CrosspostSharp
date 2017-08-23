@@ -9,18 +9,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
-    internal static class DeviantArtWebRequestHelper {
-        public static async Task<WebResponse> GetResponseAsync(this WebRequest request, int delayMs) {
-            var t1 = request.GetResponseAsync();
-            await Task.WhenAny(t1, Task.Delay(delayMs));
-            if (t1.Status == TaskStatus.WaitingForActivation) {
-                throw new DeviantArtException($"Data is taking too long to load from {request.RequestUri}, possibly due to an ArtSync bug. Try restarting your PC.");
-            } else {
-                return await t1;
-            }
-        }
-    }
-
     internal class DeviantArtScrapsUrlWrapper : AsynchronousCachedEnumerable<string, int> {
         public override int BatchSize { get; set; } = 24;
         public override int MinBatchSize => 24;
@@ -35,30 +23,25 @@ namespace ArtSourceWrapper {
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             int pos = startPosition ?? 0;
 
-            var request = WebRequest.CreateHttp($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}");
-            request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
-            using (var response = await request.GetResponseAsync(5000)) {
-                using (var sr = new StreamReader(response.GetResponseStream())) {
-                    string html = await sr.ReadToEndAsync();
+            throw new NotImplementedException();
+            /*string html = await DeviantartApi.Requester.MakeRequestRawAsync(new Uri($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}"));
+            
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
 
-                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                    doc.LoadHtml(html);
+            List<string> urls = new List<string>();
 
-                    List<string> urls = new List<string>();
-
-                    foreach (var link in doc.DocumentNode.Descendants("span")) {
-                        var attribute = link.Attributes["data-deviationid"];
-                        if (new[] { "data-deviationid", "href" }.All(s => link.Attributes.Select(a => a.Name).Contains(s))) {
-                            urls.Add(link.Attributes["href"].Value);
-                        }
-                    }
-
-                    return new InternalFetchResult(
-                        urls,
-                        pos + 24,
-                        !doc.DocumentNode.Descendants("link").Any(n => n.Attributes["rel"].Value == "next"));
+            foreach (var link in doc.DocumentNode.Descendants("span")) {
+                var attribute = link.Attributes["data-deviationid"];
+                if (new[] { "data-deviationid", "href" }.All(s => link.Attributes.Select(a => a.Name).Contains(s))) {
+                    urls.Add(link.Attributes["href"].Value);
                 }
             }
+
+            return new InternalFetchResult(
+                urls,
+                pos + 24,
+                !doc.DocumentNode.Descendants("link").Any(n => n.Attributes["rel"].Value == "next"));*/
         }
     }
 
@@ -73,21 +56,14 @@ namespace ArtSourceWrapper {
 
         private static Regex APP_LINK = new Regex("DeviantArt://deviation/(........-....-....-....-............)");
         private static async Task<string> GetDeviationIdAsync(string url) {
-            var request = WebRequest.CreateHttp(url);
-            request.UserAgent = "ArtSync/3.0 (https://github.com/libertyernie/ArtSync)";
-            using (var response = await request.GetResponseAsync(5000)) {
-                using (var sr = new StreamReader(response.GetResponseStream())) {
-                    string line;
-                    while ((line = await sr.ReadLineAsync()) != null) {
-                        var match = APP_LINK.Match(line);
-                        if (match.Success) {
-                            return match.Groups[1].Value;
-                        }
-                    }
-                }
+            throw new NotImplementedException();
+            /*string html = await DeviantartApi.Requester.MakeRequestRawAsync(new Uri(url));
+            var match = APP_LINK.Match(html);
+            if (match.Success) {
+                return match.Groups[1].Value;
             }
 
-            throw new DeviantArtException("Could not scrape GUID from DeviantArt page: " + url);
+            throw new DeviantArtException("Could not scrape GUID from DeviantArt page: " + url);*/
         }
 
         protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
