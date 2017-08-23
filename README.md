@@ -69,7 +69,9 @@ will be stored in ArtSync.json.
 
 #### FurAffinity
 
-Not yet implemented; will be read-only like Weasyl (won't be able to post).
+Use the "Sign In" button in Tools -> Options to launch a dialog window that
+asks for your username and password. This will obtain cookies that will be
+stored in ArtSync.json.
 
 Posting
 -------
@@ -116,9 +118,6 @@ If a checkbox is not checked, the content in the adajcent box will not be used.
 * Append link (link will be appended to the tweet; this also lets ArtSync find
   the tweet later and show you a link)
 
-Updating/deleting tweets is not supported; go to Twitter if you want to delete
-a tweet.
-
 #### DeviantArt / sta.sh
 
 * Title
@@ -139,40 +138,6 @@ a tweet.
 * Request critique
 
 You must agree to the submisison policy and terms of service before posting.
-
-After you post to either DeviantArt or sta.sh, the URL of your post will
-appear after "existing post" right above the title entry field. However,
-ArtSync may not be able to find this URL again later (see "Finding Existing
-Posts" below.)
-
-Finding Existing Posts
-----------------------
-
-When you select a picture from the left-hand column, ArtSync will try to find
-a matching post on each destination site that you're logged into. In most
-cases, this is done by using a unique generated tag (such as #weasyl1234567 or
-#tweet897861353917906944) that gets included in the tags/keywords when you
-create a post with ArtSync.
-
-The process for each site is as follows:
-
-* DeviantArt
-  * Searches your 10 most recent submissions for the unique generated tag; you
-    can expand the search to 20, 30, 40... submissions
-  * Scraps and sta.sh items are not included
-* Inkbunny
-  * Searches Inkbunny for the unique generated tag or for the MD5 hash of the
-    original image data
-* Tumblr
-  * Searches your Tumblr blog for the unique generated tag
-* Twitter
-  * Searches your 200 most recent tweets for a link back to the original post
-
-For Tumblr, you are able to edit an existing post. ArtSync doesn't support
-editing posts on other sites.
-
-If you don't want to include the unique generated tag, you can turn it off in
-ArtSync's settings.
 
 Settings
 --------
@@ -212,11 +177,6 @@ Settings are stored in the file ArtSync.json.
 * Inkbunny
   * Sid: The "sid" value used in the Inkbunny API.
   * UserId: Your Inkbunny user ID.
-
-* IncludeGeneratedUniqueTag: Whether to include a generated unique tag (such
-  as #weasyl1234567) when posting to DeviantArt, Inkbunny, or Tumblr. This
-  lets ArtSync find your post later. (Similar functionality for Twitter works
-  by looking for the optional link back to the original.)
 
 Compiling from Source
 ---------------------

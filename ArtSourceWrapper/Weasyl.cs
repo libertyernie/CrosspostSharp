@@ -139,11 +139,7 @@ namespace ArtSourceWrapper {
     public class WeasylSubmissionWrapper : ISubmissionWrapper {
         public string Rating => Submission.rating;
         public bool PotentiallySensitive => Rating != "general";
-
-        public string GeneratedUniqueTag =>
-            Submission is WeasylCharacterDetail ? $"#weasylcharacter{((WeasylCharacterDetail)Submission).charid}"
-            : Submission is WeasylSubmissionDetail ? $"#weasyl{((WeasylSubmissionDetail)Submission).submitid}"
-            : null;
+        
         public string HTMLDescription => HtmlLinkUtils.MakeLinksAbsolute(Submission.HTMLDescription, "http://www.weasyl.com");
         public IEnumerable<string> Tags => Submission.tags;
         public DateTime Timestamp => Submission.posted_at;

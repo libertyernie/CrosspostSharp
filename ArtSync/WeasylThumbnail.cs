@@ -105,7 +105,7 @@ namespace ArtSync {
 
 				mainForm.LProgressBar.Visible = false;
                 
-				await mainForm.SetCurrentImage(Submission, RawData);
+				mainForm.SetCurrentImage(Submission, RawData);
 			} catch (Exception ex) {
 				mainForm.LProgressBar.Visible = false;
 				MessageBox.Show(mainForm, ex.Message, ex.GetType().Name);

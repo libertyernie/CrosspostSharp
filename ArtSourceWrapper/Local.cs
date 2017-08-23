@@ -76,7 +76,7 @@ namespace ArtSourceWrapper {
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             var wrappers = Wrap().Take(count).ToList();
-            var isEnded = !_fileStack.Any();
+            var isEnded = _fileStack?.Any() != true;
             return new InternalFetchResult(wrappers, 0, isEnded);
         }
     }
@@ -91,7 +91,6 @@ namespace ArtSourceWrapper {
         public string HTMLDescription => "";
         public bool PotentiallySensitive => false;
         public IEnumerable<string> Tags => Enumerable.Empty<string>();
-        public string GeneratedUniqueTag => null;
         public DateTime Timestamp => File.GetCreationTime(_path);
         public string ViewURL => null;
         public string ImageURL => "file:///" + _path.Replace('\\', '/');

@@ -37,11 +37,6 @@ namespace ArtSync {
 
 		private InkbunnyClient Inkbunny;
 
-        // Stores a DeviantArtWrapper instance if the user is logged into dA; null if they are not.
-        // This can be used as a source SiteWrapper or to look up whether a given submission has been uploaded to dA already.
-        private DeviantArtWrapper _deviantArtWrapper;
-        private StashWrapper _stashWrapper;
-
         // Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
         private WeasylThumbnail[] thumbnails;
 
@@ -49,20 +44,8 @@ namespace ArtSync {
 		private ISubmissionWrapper currentSubmission;
 		private BinaryFile currentImage;
 
-        private string GeneratedUniqueTag {
-            get {
-                string tag = this.currentSubmission?.GeneratedUniqueTag;
-                if (string.IsNullOrEmpty(tag)) return null;
-                while (tag.StartsWith("#")) tag = tag.Substring(1);
-                return tag;
-            }
-        }
-
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
 		private Bitmap currentImageBitmap;
-
-		// The existing Tumblr post for the selected Weasyl submission, if any - looked up by using the #weasylXXXXXX tag.
-		private BasePost ExistingTumblrPost;
 
 		// Allows WeasylThumbnail access to the progress bar.
 		public LProgressBar LProgressBar {
@@ -100,9 +83,7 @@ namespace ArtSync {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    _deviantArtWrapper = new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper());
-                    _stashWrapper = new StashWrapper();
-                    lblDeviantArtStatus2.Text = await _deviantArtWrapper.WhoamiAsync();
+                    lblDeviantArtStatus2.Text = await new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()).WhoamiAsync();
                     lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
@@ -114,20 +95,15 @@ namespace ArtSync {
 
             lblDeviantArtStatus2.Text = "not logged in";
             lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
-            _deviantArtWrapper = null;
-            _stashWrapper = null;
         }
 
         private async Task GetNewWrapper() {
             List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
 
-            if (_deviantArtWrapper != null) {
+            if (GlobalSettings.DeviantArt.RefreshToken != null) {
                 try {
-                    await _deviantArtWrapper.WhoamiAsync();
-                    wrappers.Add(_deviantArtWrapper);
-                    if (_stashWrapper != null) {
-                        wrappers.Add(_stashWrapper);
-                    }
+                    wrappers.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
+                    wrappers.Add(new StashWrapper());
                 } catch (Exception e) {
                     ShowException(e, nameof(GetNewWrapper));
                 }
@@ -306,7 +282,7 @@ namespace ArtSync {
 		}
 
 		// This function is called after clicking on a WeasylThumbnail.
-		public async Task SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
+		public void SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
 			tabControl1.Enabled = submission?.OwnWork == true;
 
@@ -328,9 +304,6 @@ namespace ArtSync {
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
                 tags.AddRange(submission.Tags);
-                if (GlobalSettings.IncludeGeneratedUniqueTag && GeneratedUniqueTag != null) {
-                    tags.Add(GeneratedUniqueTag.Replace("#", ""));
-                }
 				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", tags.Select(s => "#" + s));
 
                 pickDate.Value = pickTime.Value = submission.Timestamp;
@@ -343,9 +316,6 @@ namespace ArtSync {
             } else {
                 char[] invalid = Path.GetInvalidFileNameChars();
                 string basename = submission?.Title;
-                if (string.IsNullOrEmpty(basename)) {
-                    basename = GeneratedUniqueTag?.Replace("#", "");
-                }
                 if (string.IsNullOrEmpty(basename)) {
                     basename = "image";
                 }
@@ -371,17 +341,6 @@ namespace ArtSync {
                 tags: tags,
                 mature: submission?.PotentiallySensitive == true,
                 originalUrl: submission?.ViewURL);
-
-            try {
-                UpdateExistingTweetLink();
-                await Task.WhenAll(
-                    UpdateExistingDeviantArtLink(),
-                    UpdateExistingTumblrPostLink(),
-                    UpdateExistingInkbunnyPostLink()
-                );
-            } catch (Exception ex) {
-                MessageBox.Show(this, "Could not check for existing post on one or more sites.", ex.GetType().Name);
-            }
         }
 
 		private void ResetTweetText() {
@@ -477,101 +436,6 @@ namespace ArtSync {
         }
 		#endregion
 
-		#region Lookup
-		private async Task UpdateExistingTumblrPostLink() {
-            string tag = GeneratedUniqueTag;
-            if (tag == null) return;
-
-            if (Tumblr != null) {
-                this.lnkTumblrFound.Enabled = false;
-                this.lnkTumblrFound.Text = $"checking your Tumblr for tag {tag}...";
-                this.ExistingTumblrPost = await this.GetTaggedPostForSubmissionAsync();
-				if (this.ExistingTumblrPost == null) {
-					this.lnkTumblrFound.Text = $"tag not found ({tag})";
-				} else {
-					this.lnkTumblrFound.Text = this.ExistingTumblrPost.Url;
-                    this.lnkTumblrFound.Enabled = true;
-                }
-			}
-        }
-
-        private async Task UpdateExistingInkbunnyPostLink() {
-            string tag = GeneratedUniqueTag;
-            if (tag == null) return;
-
-            if (Inkbunny != null) {
-                this.lnkInkbunnyFound.Text = $"checking Inkbunny for keyword {tag}...";
-                var existing = await Inkbunny.SearchFirstOrDefaultAsync(new InkbunnySearchParameters {
-					UserId = Inkbunny.UserId,
-					Text = tag
-				});
-                if (existing == null && this.currentImage != null) {
-                    using (var m = MD5.Create()) {
-                        byte[] hash = m.ComputeHash(this.currentImage.Data);
-                        string hashStr = string.Join("", hash.Select(b => ((int)b).ToString("X2")));
-                        this.lnkInkbunnyFound.Enabled = false;
-                        this.lnkInkbunnyFound.Text = $"checking Inkbunny for MD5 hash {hashStr}...";
-						existing = await Inkbunny.SearchFirstOrDefaultAsync(new InkbunnySearchParameters {
-							Text = hashStr,
-							Keywords = false,
-							MD5 = true
-						});
-                    }
-                }
-                if (existing == null) {
-                    this.lnkInkbunnyFound.Text = $"keyword not found ({tag})";
-                } else {
-                    this.lnkInkbunnyFound.Text = $"https://inkbunny.net/submissionview.php?id={existing.submission_id}";
-                    this.lnkInkbunnyFound.Enabled = true;
-                }
-            }
-        }
-
-        private void UpdateExistingTweetLink() {
-            string url = this.currentSubmission.ViewURL;
-            if (url == null) return;
-
-            foreach (var tweet in tweetCache) {
-                if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
-                    this.lnkTwitterFound.Enabled = true;
-                    this.lnkTwitterFound.Text = "https://mobile.twitter.com/twitter/status/" + tweet.IdStr;
-                    return;
-                }
-            }
-            this.lnkTwitterFound.Enabled = false;
-            this.lnkTwitterFound.Text = $"Link to original not found in {tweetCache.Count} most recent tweets";
-        }
-
-        private async Task UpdateExistingDeviantArtLink() {
-            this.lnkDeviantArtFound.Text = "";
-            this.lnkDeviantArtFound.Enabled = false;
-            this.lnkDeviantArtFindMore.Visible = false;
-
-            string tag = GeneratedUniqueTag;
-            if (tag == null) return;
-
-            if (_deviantArtWrapper != null) {
-                this.lnkDeviantArtFound.Text = $"checking DeviantArt for tag #{tag}...";
-
-                if (!_deviantArtWrapper.Cache.Any()) {
-                    await _deviantArtWrapper.FetchAsync();
-                }
-
-                string url = _deviantArtWrapper.Cache
-                    .Where(d => d.Tags.Contains(tag))
-                    .Select(d => d.ViewURL)
-                    .FirstOrDefault();
-                if (url == null) {
-                    this.lnkDeviantArtFound.Text = $"tag not found in {_deviantArtWrapper.Cache.Count()} most recent submissions (#{tag})";
-                    this.lnkDeviantArtFindMore.Visible = !_deviantArtWrapper.IsEnded;
-                } else {
-                    this.lnkDeviantArtFound.Text = url;
-                    this.lnkDeviantArtFound.Enabled = true;
-                }
-            }
-        }
-        #endregion
-
         #region HTML compilation
         public string CompileHTML() {
 			StringBuilder html = new StringBuilder();
@@ -637,14 +501,6 @@ namespace ArtSync {
 			}
 		}
 
-		private async Task<BasePost> GetTaggedPostForSubmissionAsync() {
-            string tag = GeneratedUniqueTag;
-            if (tag == null) return null;
-
-            var r = await Tumblr.GetPostsAsync(GlobalSettings.Tumblr.BlogName, 0, 1, PostType.All, false, false, PostFilter.Html, tag);
-            return r.Result.FirstOrDefault();
-		}
-
 		private async void PostToTumblr() {
 			try {
 				if (this.currentImage == null) {
@@ -661,19 +517,6 @@ namespace ArtSync {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
 
-				long? updateid = null;
-				if (this.ExistingTumblrPost != null) {
-					DialogResult result = new PostAlreadyExistsDialog(GeneratedUniqueTag, this.ExistingTumblrPost.Url).ShowDialog();
-					if (result == DialogResult.Cancel) {
-						LProgressBar.Visible = false;
-						return;
-					} else if (result == PostAlreadyExistsDialog.Result.Replace) {
-						updateid = this.ExistingTumblrPost.Id;
-					}
-				}
-
-                LProgressBar.Report(0.5);
-
 				var tags = new List<string>();
 				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
 				if (chkTags2.Checked) tags.AddRange(txtTags2.Text.Replace("#", "").Split(' ').Where(s => s != ""));
@@ -686,12 +529,8 @@ namespace ArtSync {
 				post.Date = chkNow.Checked
 					? (DateTimeOffset?)null
 					: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
-
-				Task<PostCreationInfo> task = updateid == null
-					? Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post)
-					: Tumblr.EditPostAsync(GlobalSettings.Tumblr.BlogName, updateid.Value, post);
-				PostCreationInfo info = await task;
-				await UpdateExistingTumblrPostLink();
+                
+				PostCreationInfo info = await Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post);
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
@@ -752,7 +591,6 @@ namespace ArtSync {
                         keywords: keywords,
                         tag: rating
                     );
-                    await UpdateExistingInkbunnyPostLink();
                 }
             } catch (Exception ex) {
 				Console.Error.WriteLine(ex.Message);
@@ -857,37 +695,6 @@ namespace ArtSync {
                 Process.Start(lnkOriginalUrl.Text);
         }
 
-        private void lnkTumblrFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (lnkTumblrFound.Text.StartsWith("http"))
-                Process.Start(lnkTumblrFound.Text);
-        }
-
-        private void lnkInkbunnyFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (lnkInkbunnyFound.Text.StartsWith("http"))
-                Process.Start(lnkInkbunnyFound.Text);
-        }
-
-        private void lnkTwitterFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (lnkTwitterFound.Text.StartsWith("http"))
-                Process.Start(lnkTwitterFound.Text);
-        }
-
-        private void lnkDeviantArtFound_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (lnkDeviantArtFound.Text.StartsWith("http"))
-                Process.Start(lnkDeviantArtFound.Text);
-        }
-
-        private async void lnkDeviantArtFindMore_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            try {
-                if (_deviantArtWrapper != null && !_deviantArtWrapper.IsEnded) {
-                    await _deviantArtWrapper.FetchAsync();
-                    await UpdateExistingDeviantArtLink();
-                }
-            } catch (Exception ex) {
-                ShowException(ex, nameof(lnkDeviantArtFindMore_LinkClicked));
-            }
-        }
-
         private void lnkTwitterLinkToInclude_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start(lnkTwitterLinkToInclude.Text);
 		}
@@ -953,7 +760,6 @@ namespace ArtSync {
                         MessageBox.Show(this, desc, "Could not send tweet");
                     } else {
                         this.tweetCache.Add(tweet);
-                        UpdateExistingTweetLink();
                     }
                 } catch (Exception ex) {
                     ShowException(ex, nameof(btnTweet_Click));
@@ -999,11 +805,6 @@ namespace ArtSync {
         }
 
         private void deviantArtUploadControl1_Uploaded(string url) {
-            lnkDeviantArtFound.Text = url;
-            lnkDeviantArtFound.Enabled = true;
-            lnkDeviantArtFindMore.Visible = false;
-            _deviantArtWrapper.Clear();
-            _stashWrapper.Clear();
             LProgressBar.Visible = false;
         }
 

@@ -89,10 +89,21 @@ namespace ArtSourceWrapper {
         }
 
         public string Title => _submission.title;
-        public string HTMLDescription => _submission.description;
+        public string HTMLDescription {
+            get {
+                var h = new HtmlAgilityPack.HtmlDocument();
+                h.LoadHtml(_submission.description);
+                foreach (var n in h.DocumentNode.Descendants("img")) {
+                    if (n.Attributes["class"]?.Value == "avatar") {
+                        n.ParentNode.RemoveChild(n);
+                        break;
+                    }
+                }
+                return h.DocumentNode.InnerHtml;
+            }
+        }
         public bool PotentiallySensitive => !string.Equals(_submission.rating, "general", StringComparison.CurrentCultureIgnoreCase);
         public IEnumerable<string> Tags => _submission.keywords;
-        public string GeneratedUniqueTag => $"#furaffinity{_id}";
         public DateTime Timestamp => _submission.posted_at.LocalDateTime;
         public string ViewURL => _submission.link;
         public string ImageURL => _submission.download;

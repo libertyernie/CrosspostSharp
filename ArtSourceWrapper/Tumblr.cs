@@ -84,7 +84,6 @@ namespace ArtSourceWrapper {
         public string HTMLDescription => Post.Caption;
         public bool PotentiallySensitive => false;
         public IEnumerable<string> Tags => Post.Tags;
-        public string GeneratedUniqueTag => "#tumblr" + Post.Id;
         public DateTime Timestamp => Post.Timestamp;
         public string ViewURL => Post.Url;
         public string ImageURL => Post.Photo.OriginalSize.ImageUrl;

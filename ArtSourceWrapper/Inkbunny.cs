@@ -65,8 +65,7 @@ namespace ArtSourceWrapper {
 				}
 			}
 		}
-
-		public string GeneratedUniqueTag => "#inkbunny" + Submission.submission_id;
+        
 		public string HTMLDescription => Submission.description_bbcode_parsed;
         public string ImageURL => Submission.file_url_full;
 		public bool PotentiallySensitive => Submission.rating_id != InkbunnyRating.General;

@@ -55,7 +55,6 @@ namespace ArtSourceWrapper {
         public string HTMLDescription => _entry.Metadata.Description;
         public bool PotentiallySensitive => false;
         public IEnumerable<string> Tags => _entry.Metadata.Tags;
-        public string GeneratedUniqueTag => $"#stash{_entry.ItemId}";
         public DateTime Timestamp => _entry.Metadata.CreationTime;
         public string ViewURL {
             get {

@@ -102,7 +102,6 @@ namespace ArtSourceWrapper {
         string HTMLDescription { get; }
         bool PotentiallySensitive { get; }
         IEnumerable<string> Tags { get; }
-        string GeneratedUniqueTag { get; }
         DateTime Timestamp { get; }
 
         string ViewURL { get; }

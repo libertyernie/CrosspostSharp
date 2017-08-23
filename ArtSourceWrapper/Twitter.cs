@@ -95,7 +95,6 @@ namespace ArtSourceWrapper {
         }
         public bool PotentiallySensitive => Tweet.PossiblySensitive;
         public IEnumerable<string> Tags => Tweet.Hashtags.Select(h => h.Text);
-        public string GeneratedUniqueTag => "#tweet" + Tweet.IdStr;
         public DateTime Timestamp => Tweet.CreatedAt;
         public string ViewURL => Tweet.Url;
         public string ImageURL => Media != null ? $"{Media.MediaURLHttps}:large" : Tweet.CreatedBy.ProfileImageUrl;

@@ -142,8 +142,7 @@ namespace ArtSourceWrapper {
 
     public class DeviantArtSubmissionWrapper : ISubmissionWrapper {
         public bool PotentiallySensitive => Deviation.IsMature == true;
-
-        public string GeneratedUniqueTag => $"#deviantart-{Deviation.DeviationId}";
+        
         public string HTMLDescription {
             get {
                 string html = Metadata?.Description;
