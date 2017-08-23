@@ -91,15 +91,12 @@ namespace ArtSourceWrapper {
         public string Title => _submission.title;
         public string HTMLDescription {
             get {
-                var h = new HtmlAgilityPack.HtmlDocument();
-                h.LoadHtml(_submission.description);
-                foreach (var n in h.DocumentNode.Descendants("img")) {
-                    if (n.Attributes["class"]?.Value == "avatar") {
-                        n.ParentNode.RemoveChild(n);
-                        break;
-                    }
+                string html = _submission.description;
+                int index = html.IndexOf("<br><br>");
+                if (index > -1) {
+                    html = html.Substring(index + 8).TrimStart();
                 }
-                return h.DocumentNode.InnerHtml;
+                return html;
             }
         }
         public bool PotentiallySensitive => !string.Equals(_submission.rating, "general", StringComparison.CurrentCultureIgnoreCase);
