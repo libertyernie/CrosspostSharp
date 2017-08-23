@@ -37,8 +37,12 @@ namespace ArtSourceWrapper {
             if (!string.IsNullOrEmpty(result.Result.Error)) {
                 throw new DeviantArtException(result.Result.ErrorDescription);
             }
+            var q = result.Result.Entries
+                    .Where(e => e.ItemId != 0)
+                    .Where(e => e.Metadata.Files != null)
+                    .Select(e => new StashSubmissionWrapper(e));
             return new InternalFetchResult(
-                result.Result.Entries.Select(e => new StashSubmissionWrapper(e)),
+                q,
                 (uint)(result.Result.NextOffset ?? 0),
                 !result.Result.HasMore);
         }
@@ -52,7 +56,7 @@ namespace ArtSourceWrapper {
         }
 
         public string Title => _entry.Metadata.Title;
-        public string HTMLDescription => _entry.Metadata.Description;
+        public string HTMLDescription => _entry.Metadata.ArtistComment;
         public bool PotentiallySensitive => false;
         public IEnumerable<string> Tags => _entry.Metadata.Tags;
         public DateTime Timestamp => _entry.Metadata.CreationTime;
@@ -68,8 +72,8 @@ namespace ArtSourceWrapper {
                 return url.ToString();
             }
         }
-        public string ImageURL => _entry.Metadata.Files.Select(f => f.Src).FirstOrDefault();
-        public string ThumbnailURL => _entry.Metadata.Thumb.Src;
+        public string ImageURL => _entry.Metadata.Files.OrderByDescending(f => f.Width).Select(f => f.Src).FirstOrDefault();
+        public string ThumbnailURL => _entry.Metadata.Thumb?.Src ?? ImageURL;
         public Color? BorderColor => null;
         public bool OwnWork => true;
     }

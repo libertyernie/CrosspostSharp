@@ -414,7 +414,7 @@ namespace ArtSync {
                     LProgressBar.Report((double)got / outOf);
 
                     int read = await SourceWrapper.FetchAsync();
-                    if (SourceWrapper.IsEnded) {
+                    if (read == -1) {
                         btnDown.Enabled = false;
                         break;
                     }
