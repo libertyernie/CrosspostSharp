@@ -155,8 +155,7 @@ namespace ArtSync {
                 wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
             }
 
-            wrappers.Add(new LocalDirectoryWrapper(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)));
-            wrappers.Add(new LocalDirectoryWrapper(@"C:\Users\ischemm\Pictures\charas"));
+            wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
 
             if (wrappers.Count == 0) {
                 wrappers.Add(new EmptyWrapper());

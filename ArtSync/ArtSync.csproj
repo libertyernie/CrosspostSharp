@@ -180,6 +180,7 @@
     </Compile>
     <Compile Include="TwitterKey.cs" />
     <Compile Include="TumblrKey.cs" />
+    <Compile Include="UserChosenLocalFolderWrapper.cs" />
     <Compile Include="WeasylForm.cs">
       <SubType>Form</SubType>
     </Compile>

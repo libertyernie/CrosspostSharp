@@ -12,27 +12,40 @@ namespace ArtSourceWrapper {
         private Stack<string> _fileStack;
 
         public override string SiteName => "Local";
-        public override string WrapperName => _directory;
+        public override string WrapperName => _directory ?? "Local folder";
 
-        public override int BatchSize { get; set; } = 2;
+        public override int BatchSize { get; set; } = 1;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => int.MaxValue;
 
-        public LocalDirectoryWrapper(string directory) {
+        public LocalDirectoryWrapper(string directory = null) {
             _directory = directory;
-
-            var files = new DirectoryInfo(directory)
-                .EnumerateFiles()
-                .OrderBy(f => f.CreationTime)
-                .Select(f => f.FullName);
-            _fileStack = new Stack<string>(files);
         }
 
         public override async Task<string> WhoamiAsync() {
             return Environment.UserName;
         }
 
+        public virtual string SelectDirectory() {
+            throw new NotImplementedException();
+        }
+
         private IEnumerable<LocalFileSubmissionWrapper> Wrap() {
+            if (_fileStack == null) {
+                if (_directory == null) {
+                    _directory = SelectDirectory();
+                    if (_directory == null) {
+                        yield break;
+                    }
+                }
+
+                var files = new DirectoryInfo(_directory)
+                    .EnumerateFiles()
+                    .OrderBy(f => f.CreationTime)
+                    .Select(f => f.FullName);
+                _fileStack = new Stack<string>(files);
+            }
+
             while (_fileStack.Any()) {
                 string path = _fileStack.Pop();
                 System.Diagnostics.Debug.WriteLine(path);
