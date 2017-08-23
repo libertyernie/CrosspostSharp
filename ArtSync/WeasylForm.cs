@@ -531,6 +531,11 @@ namespace ArtSync {
 					: (pickDate.Value.Date + pickTime.Value.TimeOfDay);
                 
 				PostCreationInfo info = await Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post);
+
+                var newPost = await Tumblr.GetPostAsync(info.PostId);
+                lblPosted1.Visible = true;
+                lblPosted2.Visible = true;
+                lblPosted2.Text = newPost.Url;
 			} catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
@@ -591,6 +596,10 @@ namespace ArtSync {
                         keywords: keywords,
                         tag: rating
                     );
+                    
+                    lblPosted1.Visible = true;
+                    lblPosted2.Visible = true;
+                    lblPosted2.Text = $"https://inkbunny.net/submissionview.php?id={o.submission_id}";
                 }
             } catch (Exception ex) {
 				Console.Error.WriteLine(ex.Message);
@@ -760,6 +769,10 @@ namespace ArtSync {
                         MessageBox.Show(this, desc, "Could not send tweet");
                     } else {
                         this.tweetCache.Add(tweet);
+
+                        lblPosted1.Visible = true;
+                        lblPosted2.Visible = true;
+                        lblPosted2.Text = tweet.Url;
                     }
                 } catch (Exception ex) {
                     ShowException(ex, nameof(btnTweet_Click));
@@ -806,10 +819,18 @@ namespace ArtSync {
 
         private void deviantArtUploadControl1_Uploaded(string url) {
             LProgressBar.Visible = false;
+
+            lblPosted1.Visible = true;
+            lblPosted2.Visible = true;
+            lblPosted2.Text = url;
         }
 
         private void deviantArtUploadControl1_UploadError(Exception ex) {
             LProgressBar.Visible = false;
+        }
+
+        private void lblPosted2_Click(object sender, EventArgs e) {
+            if (lblPosted2.Text.StartsWith("http")) Process.Start(lblPosted2.Text);
         }
         #endregion
 

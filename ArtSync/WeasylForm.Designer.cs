@@ -101,6 +101,9 @@
             this.btnSaveDirBrowse = new System.Windows.Forms.Button();
             this.txtSaveDir = new System.Windows.Forms.TextBox();
             this.lblSaveDir = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -114,6 +117,7 @@
             this.tabDeviantArt.SuspendLayout();
             this.tabInkbunny.SuspendLayout();
             this.tabSave.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -183,7 +187,7 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(508, 204);
+            this.txtDescription.Size = new System.Drawing.Size(508, 182);
             this.txtDescription.TabIndex = 11;
             // 
             // chkTags1
@@ -202,7 +206,7 @@
             this.chkFooter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkFooter.Checked = true;
             this.chkFooter.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFooter.Location = new System.Drawing.Point(288, 268);
+            this.chkFooter.Location = new System.Drawing.Point(288, 246);
             this.chkFooter.Name = "chkFooter";
             this.chkFooter.Size = new System.Drawing.Size(18, 20);
             this.chkFooter.TabIndex = 13;
@@ -213,7 +217,7 @@
             // 
             this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFooter.Location = new System.Drawing.Point(312, 268);
+            this.txtFooter.Location = new System.Drawing.Point(312, 246);
             this.txtFooter.Name = "txtFooter";
             this.txtFooter.Size = new System.Drawing.Size(226, 20);
             this.txtFooter.TabIndex = 14;
@@ -287,7 +291,7 @@
             // btnPost
             // 
             this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(421, 318);
+            this.btnPost.Location = new System.Drawing.Point(421, 296);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(117, 24);
             this.btnPost.TabIndex = 17;
@@ -299,7 +303,7 @@
             // 
             this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtURL.Location = new System.Drawing.Point(335, 292);
+            this.txtURL.Location = new System.Drawing.Point(335, 270);
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(203, 20);
             this.txtURL.TabIndex = 16;
@@ -311,7 +315,7 @@
             this.groupBox1.Controls.Add(this.chkTags1);
             this.groupBox1.Controls.Add(this.txtTags2);
             this.groupBox1.Controls.Add(this.chkTags2);
-            this.groupBox1.Location = new System.Drawing.Point(6, 268);
+            this.groupBox1.Location = new System.Drawing.Point(6, 246);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(276, 68);
             this.groupBox1.TabIndex = 12;
@@ -332,7 +336,7 @@
             // 
             this.lblLinkTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLinkTo.AutoSize = true;
-            this.lblLinkTo.Location = new System.Drawing.Point(289, 295);
+            this.lblLinkTo.Location = new System.Drawing.Point(289, 273);
             this.lblLinkTo.Margin = new System.Windows.Forms.Padding(3);
             this.lblLinkTo.Name = "lblLinkTo";
             this.lblLinkTo.Size = new System.Drawing.Size(40, 13);
@@ -660,7 +664,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 448);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(554, 373);
+            this.tabControl1.Size = new System.Drawing.Size(554, 351);
             this.tabControl1.TabIndex = 0;
             // 
             // tabTumblr
@@ -684,7 +688,7 @@
             this.tabTumblr.Location = new System.Drawing.Point(4, 22);
             this.tabTumblr.Name = "tabTumblr";
             this.tabTumblr.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTumblr.Size = new System.Drawing.Size(546, 347);
+            this.tabTumblr.Size = new System.Drawing.Size(546, 325);
             this.tabTumblr.TabIndex = 1;
             this.tabTumblr.Text = "Tumblr";
             this.tabTumblr.UseVisualStyleBackColor = true;
@@ -1018,6 +1022,33 @@
             this.lblSaveDir.TabIndex = 0;
             this.lblSaveDir.Text = "Directory:";
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblPosted1,
+            this.lblPosted2});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 799);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(554, 22);
+            this.statusStrip1.TabIndex = 10;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblPosted2
+            // 
+            this.lblPosted2.IsLink = true;
+            this.lblPosted2.Name = "lblPosted2";
+            this.lblPosted2.Size = new System.Drawing.Size(148, 17);
+            this.lblPosted2.Text = "https://www.example.com";
+            this.lblPosted2.Visible = false;
+            this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
+            // 
+            // lblPosted1
+            // 
+            this.lblPosted1.Name = "lblPosted1";
+            this.lblPosted1.Size = new System.Drawing.Size(60, 17);
+            this.lblPosted1.Text = "Posted to:";
+            this.lblPosted1.Visible = false;
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1025,6 +1056,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.statusStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "WeasylForm";
             this.Text = "ArtSync";
@@ -1047,6 +1079,8 @@
             this.tabInkbunny.PerformLayout();
             this.tabSave.ResumeLayout(false);
             this.tabSave.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1132,6 +1166,9 @@
         private System.Windows.Forms.Label lblDeviantArtStatus2;
         private System.Windows.Forms.Label lblDeviantArtStatus1;
         private DeviantArtControls.DeviantArtUploadControl deviantArtUploadControl1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblPosted1;
+        private System.Windows.Forms.ToolStripStatusLabel lblPosted2;
     }
 }
 
