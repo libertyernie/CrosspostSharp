@@ -155,6 +155,9 @@ namespace ArtSync {
                 wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
             }
 
+            wrappers.Add(new LocalDirectoryWrapper(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)));
+            wrappers.Add(new LocalDirectoryWrapper(@"C:\Users\ischemm\Pictures\charas"));
+
             if (wrappers.Count == 0) {
                 wrappers.Add(new EmptyWrapper());
             }
@@ -174,7 +177,7 @@ namespace ArtSync {
 
             lblWeasylStatus1.Text = SourceWrapper.SiteName == null
                 ? ""
-                : $"{SourceWrapper.SiteName}:";
+                : $"{ SourceWrapper.SiteName}:";
 
             string user = null;
             try {
@@ -318,11 +321,11 @@ namespace ArtSync {
 				txtDescription.Text = submission.HTMLDescription;
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtInkbunnyDescription.Text = bbCode;
-				txtURL.Text = submission.ViewURL;
+				txtURL.Text = submission.ViewURL ?? "";
 
 				ResetTweetText();
 
-				lnkTwitterLinkToInclude.Text = submission.ViewURL;
+				lnkTwitterLinkToInclude.Text = submission.ViewURL ?? "";
                 chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
 
                 tags.AddRange(submission.Tags);
@@ -453,7 +456,7 @@ namespace ArtSync {
                     LProgressBar.Report((double)got / outOf);
 
                     int read = await SourceWrapper.FetchAsync();
-                    if (read == -1) {
+                    if (SourceWrapper.IsEnded) {
                         btnDown.Enabled = false;
                         break;
                     }
@@ -527,6 +530,8 @@ namespace ArtSync {
 
         private void UpdateExistingTweetLink() {
             string url = this.currentSubmission.ViewURL;
+            if (url == null) return;
+
             foreach (var tweet in tweetCache) {
                 if (tweet.Entities.Urls.Any(u => u.ExpandedURL == url)) {
                     this.lnkTwitterFound.Enabled = true;

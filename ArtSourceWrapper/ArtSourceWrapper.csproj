@@ -140,6 +140,7 @@
     <Compile Include="FurAffinity.cs" />
     <Compile Include="HtmlLinkUtils.cs" />
     <Compile Include="Inkbunny.cs" />
+    <Compile Include="Local.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Tumblr.cs" />
     <Compile Include="Twitter.cs" />
