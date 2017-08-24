@@ -103,7 +103,7 @@ namespace ArtSync {
             if (GlobalSettings.DeviantArt.RefreshToken != null) {
                 try {
                     wrappers.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
-                    wrappers.Add(new StashWrapper());
+                    wrappers.Add(new StashOrderedWrapper());
                 } catch (Exception e) {
                     ShowException(e, nameof(GetNewWrapper));
                 }

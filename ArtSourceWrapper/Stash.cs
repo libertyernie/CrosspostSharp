@@ -15,6 +15,8 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 120;
 
+        public int TotalItemsIncludingStacks { get; private set; } = 0;
+
         public override async Task<string> WhoamiAsync() {
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
@@ -37,6 +39,7 @@ namespace ArtSourceWrapper {
             if (!string.IsNullOrEmpty(result.Result.Error)) {
                 throw new DeviantArtException(result.Result.ErrorDescription);
             }
+            TotalItemsIncludingStacks += result.Result.Entries.Count;
             var q = result.Result.Entries
                     .Where(e => e.ItemId != 0)
                     .Where(e => e.Metadata.Files != null)
@@ -45,6 +48,38 @@ namespace ArtSourceWrapper {
                 q,
                 (uint)(result.Result.NextOffset ?? 0),
                 !result.Result.HasMore);
+        }
+    }
+
+    public class StashOrderedWrapper : SiteWrapper<StashSubmissionWrapper, int> {
+        private StashWrapper _wrapper;
+
+        public override string SiteName => _wrapper.SiteName;
+        public override string WrapperName => "sta.sh (newest first)";
+
+        public override int BatchSize { get; set; } = 0;
+        public override int MinBatchSize => 0;
+        public override int MaxBatchSize => 0;
+
+        public StashOrderedWrapper() {
+            _wrapper = new StashWrapper();
+        }
+
+        public override Task<string> WhoamiAsync() {
+            return _wrapper.WhoamiAsync();
+        }
+
+        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+            for (int i=0; i<10; i++) {
+                int read = await _wrapper.FetchAsync();
+                if (read == -1) break;
+            }
+            if (!_wrapper.IsEnded) {
+                throw new Exception($"You have {_wrapper.TotalItemsIncludingStacks} items in sta.sh (submissions + stacks), which is too many to show here.");
+            }
+
+            AsynchronousCachedEnumerable<StashSubmissionWrapper, uint> w = _wrapper;
+            return new InternalFetchResult(w.Cache.OrderByDescending(c => c.Timestamp), 0, true);
         }
     }
 
