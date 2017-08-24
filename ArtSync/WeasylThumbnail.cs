@@ -53,13 +53,21 @@ namespace ArtSync {
                             memoryStream.Position = 0;
                         }
                     }
-                    this.Image = Image.FromStream(memoryStream);
-                    if (this.Image.Width > 120 || this.Image.Height > 120) {
-                        double largerDimension = Math.Max(this.Image.Width, this.Image.Height);
-                        double scale = 120.0 / largerDimension;
-                        this.Image = new Bitmap(this.Image,
-                            (int)Math.Round(scale * this.Image.Width),
-                            (int)Math.Round(scale * this.Image.Height));
+                    try {
+                        this.Image = Image.FromStream(memoryStream);
+                        if (this.Image.Width > 120 || this.Image.Height > 120) {
+                            double largerDimension = Math.Max(this.Image.Width, this.Image.Height);
+                            double scale = 120.0 / largerDimension;
+                            this.Image = new Bitmap(this.Image,
+                                (int)Math.Round(scale * this.Image.Width),
+                                (int)Math.Round(scale * this.Image.Height));
+                        }
+                    } catch (ArgumentException) {
+                        this.Image = new Bitmap(120, 120);
+                        using (var graphics = Graphics.FromImage(this.Image)) {
+                            string last = url.Substring(url.LastIndexOf('/') + 1);
+                            graphics.DrawString(last, SystemFonts.DefaultFont, SystemBrushes.WindowText, 8, 8);
+                        }
                     }
                 }
 			}
