@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeasylLib", "WeasylLib\WeasylLib.csproj", "{F0D78011-193F-44EB-9189-7462877C13A9}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FAExportLib", "FAExportLib\FAExportLib.vbproj", "{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAWinFormsLogin", "FAWinFormsLogin\FAWinFormsLogin.csproj", "{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviantartApi", "DeviantartApi\DeviantartApi\DeviantartApi.csproj", "{5889FE9A-31A0-4DE2-879D-D8D529C244E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj", "{891FD4C3-111B-4C55-A59E-89DE662A9497}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +121,30 @@ Global
 		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x64.Build.0 = Release|Any CPU
 		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x86.ActiveCfg = Release|Any CPU
 		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x86.Build.0 = Release|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Debug|x86.Build.0 = Debug|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Release|x64.Build.0 = Release|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5889FE9A-31A0-4DE2-879D-D8D529C244E8}.Release|x86.Build.0 = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x64.Build.0 = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Debug|x86.Build.0 = Debug|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x64.ActiveCfg = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x64.Build.0 = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x86.ActiveCfg = Release|Any CPU
+		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

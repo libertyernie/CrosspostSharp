@@ -1,10 +1,7 @@
 ﻿using DeviantartApi.Objects;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -23,8 +20,7 @@ namespace ArtSourceWrapper {
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             int pos = startPosition ?? 0;
 
-            throw new NotImplementedException();
-            /*string html = await DeviantartApi.Requester.MakeRequestRawAsync(new Uri($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}"));
+            string html = await DeviantartApi.Requester.MakeRequestRawAsync(new Uri($"https://{_username}.deviantart.com/gallery/?catpath=scraps&offset={startPosition}"));
             
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(html);
@@ -41,7 +37,7 @@ namespace ArtSourceWrapper {
             return new InternalFetchResult(
                 urls,
                 pos + 24,
-                !doc.DocumentNode.Descendants("link").Any(n => n.Attributes["rel"].Value == "next"));*/
+                !doc.DocumentNode.Descendants("link").Any(n => n.Attributes["rel"].Value == "next"));
         }
     }
 
@@ -56,14 +52,13 @@ namespace ArtSourceWrapper {
 
         private static Regex APP_LINK = new Regex("DeviantArt://deviation/(........-....-....-....-............)");
         private static async Task<string> GetDeviationIdAsync(string url) {
-            throw new NotImplementedException();
-            /*string html = await DeviantartApi.Requester.MakeRequestRawAsync(new Uri(url));
+            string html = await DeviantartApi.Requester.MakeRequestRawAsync(new Uri(url));
             var match = APP_LINK.Match(html);
             if (match.Success) {
                 return match.Groups[1].Value;
             }
 
-            throw new DeviantArtException("Could not scrape GUID from DeviantArt page: " + url);*/
+            throw new DeviantArtException("Could not scrape GUID from DeviantArt page: " + url);
         }
 
         protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {

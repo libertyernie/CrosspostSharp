@@ -36,9 +36,6 @@
     <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="DeviantartApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DeviantartApi.2.0.2\lib\netstandard1.1\DeviantartApi.dll</HintPath>
-    </Reference>
     <Reference Include="DontPanic.TumblrSharp, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TumblrSharp.1.0.0.6\lib\net45\DontPanic.TumblrSharp.dll</HintPath>
     </Reference>
@@ -152,6 +149,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj">
+      <Project>{5889fe9a-31a0-4de2-879d-d8d529c244e8}</Project>
+      <Name>DeviantartApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FAExportLib\FAExportLib.vbproj">
       <Project>{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}</Project>
       <Name>FAExportLib</Name>
