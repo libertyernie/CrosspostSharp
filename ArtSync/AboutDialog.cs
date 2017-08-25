@@ -38,5 +38,13 @@ namespace ArtSync {
         private void lnkHtmlAgilityPackLicense2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			Process.Start("http://htmlagilitypack.codeplex.com/license");
 		}
+
+        private void lnkFlickrNet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("https://github.com/samjudson/flickr-net");
+        }
+
+        private void lnkApacheLicense_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start("http://www.apache.org/licenses/LICENSE-2.0");
+        }
     }
 }
