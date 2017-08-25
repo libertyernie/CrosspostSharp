@@ -17,47 +17,44 @@ namespace ArtSourceWrapper {
             };
         }
 
+        public FlickrWrapper(Flickr client) {
+            _flickr = client;
+        }
+
         public override string SiteName => "Flickr";
         public override string WrapperName => "Flickr";
 
         public override int BatchSize { get; set; } = 100;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 500;
-
-        private Task<Auth> AuthOAuthCheckTokenAsync() {
+        
+        public async override Task<string> WhoamiAsync() {
             var t = new TaskCompletionSource<Auth>();
-            _flickr.AuthOAuthCheckTokenAsync(a => {
-                if (a.HasError) {
-                    t.SetException(a.Error);
+            _flickr.AuthOAuthCheckTokenAsync(result => {
+                if (result.HasError) {
+                    t.SetException(result.Error);
                 } else {
-                    t.SetResult(a.Result);
+                    t.SetResult(result.Result);
                 }
             });
-            return t.Task;
-        }
-
-        public async override Task<string> WhoamiAsync() {
-            var oauth = await AuthOAuthCheckTokenAsync();
+            var oauth = await t.Task;
             return oauth.User.UserName;
         }
 
-        private Task<PhotoCollection> PeopleGetPhotosAsync(string userId, PhotoSearchExtras extras, int page, int perPage) {
-            var t = new TaskCompletionSource<PhotoCollection>();
-            _flickr.PeopleGetPhotosAsync(userId, extras, page, perPage, a => {
-                if (a.HasError) {
-                    t.SetException(a.Error);
-                } else {
-                    t.SetResult(a.Result);
-                }
-            });
-            return t.Task;
-        }
-
         protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
-            var r = await PeopleGetPhotosAsync("me",
+            var t = new TaskCompletionSource<PhotoCollection>();
+            _flickr.PeopleGetPhotosAsync("me",
                 PhotoSearchExtras.Description | PhotoSearchExtras.Tags | PhotoSearchExtras.DateUploaded | PhotoSearchExtras.OriginalFormat,
                 startPosition ?? 1,
-                count);
+                count,
+                result => {
+                    if (result.HasError) {
+                        t.SetException(result.Error);
+                    } else {
+                        t.SetResult(result.Result);
+                    }
+                });
+            var r = await t.Task;
 
             return new InternalFetchResult(r.Select(p => new FlickrSubmissionWrapper(p)), r.Page + 1, r.Page == r.Pages);
         }

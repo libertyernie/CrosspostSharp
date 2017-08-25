@@ -36,7 +36,10 @@ namespace ArtSync {
 		private int shortURLLengthHttps;
 		private List<ITweet> tweetCache;
 
-		private InkbunnyClient Inkbunny;
+        private Flickr Flickr;
+        private FlickrNet.Auth FlickrAuth;
+
+        private InkbunnyClient Inkbunny;
 
         // Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
         private WeasylThumbnail[] thumbnails;
@@ -132,8 +135,8 @@ namespace ArtSync {
                 wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
             }
 
-            if (!string.IsNullOrEmpty(GlobalSettings.Flickr.TokenKey) && !string.IsNullOrEmpty(GlobalSettings.Flickr.TokenSecret)) {
-                wrappers.Add(new FlickrWrapper(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET, GlobalSettings.Flickr.TokenKey, GlobalSettings.Flickr.TokenSecret));
+            if (Flickr != null) {
+                wrappers.Add(new FlickrWrapper(Flickr));
             }
 
             wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
@@ -250,7 +253,43 @@ namespace ArtSync {
             }
         }
 
-		private async void LoadFromSettings() {
+        private async Task GetNewFlickrClient() {
+            Flickr = null;
+            FlickrAuth = null;
+
+            if (GlobalSettings.Flickr?.TokenKey != null && GlobalSettings.Flickr?.TokenSecret != null) {
+                Flickr = new Flickr(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET) {
+                    OAuthAccessToken = GlobalSettings.Flickr.TokenKey,
+                    OAuthAccessTokenSecret = GlobalSettings.Flickr.TokenSecret
+                };
+            }
+
+            if (Flickr == null) {
+                lblFlickrStatus2.Text = "not logged in";
+                lblFlickrStatus2.ForeColor = SystemColors.WindowText;
+            } else {
+                try {
+                    var t2 = new TaskCompletionSource<FlickrNet.Auth>();
+                    Flickr.AuthOAuthCheckTokenAsync(a => {
+                        if (a.HasError) {
+                            t2.SetException(a.Error);
+                        } else {
+                            t2.SetResult(a.Result);
+                        }
+                    });
+                    FlickrAuth = await t2.Task;
+                    lblFlickrStatus2.Text = FlickrAuth.User.UserName;
+                    lblFlickrStatus2.ForeColor = Color.DarkGreen;
+                } catch (Exception e) {
+                    Flickr = null;
+                    FlickrAuth = null;
+                    lblFlickrStatus2.Text = e.Message;
+                    lblFlickrStatus2.ForeColor = Color.DarkRed;
+                }
+            }
+        }
+
+        private async void LoadFromSettings() {
 			try {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
@@ -259,6 +298,7 @@ namespace ArtSync {
                     GetNewTumblrClient(),
                     GetNewInkbunnyClient(),
                     GetNewTwitterClient(),
+                    GetNewFlickrClient(),
                     DeviantArtLogin()
                 };
 
@@ -297,8 +337,8 @@ namespace ArtSync {
                 txtHeader.Text = string.IsNullOrEmpty(submission.Title)
                     ? ""
                     : GlobalSettings.Defaults.HeaderHTML?.Replace("{TITLE}", submission.Title) ?? "";
-                txtInkbunnyTitle.Text = submission.Title;
-				txtDescription.Text = submission.HTMLDescription;
+                txtInkbunnyTitle.Text = txtFlickrTitle.Text = submission.Title;
+				txtDescription.Text = txtFlickrDesc.Text = submission.HTMLDescription;
 				string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
 				txtInkbunnyDescription.Text = bbCode;
 				txtURL.Text = submission.ViewURL ?? "";
@@ -306,10 +346,16 @@ namespace ArtSync {
 				ResetTweetText();
 
 				lnkTwitterLinkToInclude.Text = submission.ViewURL ?? "";
-                chkTweetPotentiallySensitive.Checked = submission.PotentiallySensitive;
+                if (submission.PotentiallySensitive) {
+                    chkTweetPotentiallySensitive.Checked = true;
+                    radFlickrRestricted.Checked = true;
+                } else {
+                    chkTweetPotentiallySensitive.Checked = false;
+                    radFlickrSafe.Checked = true;
+                }
 
                 tags.AddRange(submission.Tags);
-				txtTags1.Text = txtInkbunnyTags.Text = string.Join(" ", tags.Select(s => "#" + s));
+				txtTags1.Text = txtInkbunnyTags.Text = txtFlickrTags.Text = string.Join(" ", tags.Select(s => "#" + s));
 
                 pickDate.Value = pickTime.Value = submission.Timestamp;
 			}
@@ -619,10 +665,6 @@ namespace ArtSync {
         #region Flickr
         public async void PostToFlickr() {
             try {
-                var f = new Flickr(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET) {
-                    OAuthAccessToken = GlobalSettings.Flickr.TokenKey,
-                    OAuthAccessTokenSecret = GlobalSettings.Flickr.TokenSecret
-                };
                 var contentType = radFlickrPhoto.Checked ? ContentType.Photo
                         : radFlickrScreenshot.Checked ? ContentType.Screenshot
                         : radFlickrOther.Checked ? ContentType.Other
@@ -634,7 +676,10 @@ namespace ArtSync {
                 using (var ms = new MemoryStream(currentImage.Data, false)) {
                     var t1 = new TaskCompletionSource<string>();
 
-                    f.UploadPictureAsync(
+                    LProgressBar.Report(0);
+                    LProgressBar.Visible = true;
+
+                    Flickr.UploadPictureAsync(
                         ms,
                         currentImage.FileName,
                         txtFlickrTitle.Text,
@@ -656,19 +701,9 @@ namespace ArtSync {
 
                     string photoId = await t1.Task;
 
-                    var t2 = new TaskCompletionSource<FlickrNet.Auth>();
-                    f.AuthOAuthCheckTokenAsync(a => {
-                        if (a.HasError) {
-                            t2.SetException(a.Error);
-                        } else {
-                            t2.SetResult(a.Result);
-                        }
-                    });
-                    var auth = await t2.Task;
-
                     lblPosted1.Visible = true;
                     lblPosted2.Visible = true;
-                    lblPosted2.Text = $"https://www.flickr.com/photos/{auth.User.UserId}/{photoId}";
+                    lblPosted2.Text = $"https://www.flickr.com/photos/{FlickrAuth.User.UserId}/{photoId}";
                 }
             } catch (Exception ex) {
                 ShowException(ex, nameof(PostToFlickr));
