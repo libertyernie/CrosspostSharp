@@ -3,6 +3,7 @@ using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
 using FAWinFormsLogin.loginPages;
+using FlickrNet;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -114,6 +115,15 @@ namespace ArtSync {
             UpdateFurAffinityTokenLabel();
         }
 
+        private void btnFlickrSignIn_Click(object sender, EventArgs e) {
+            if (string.Equals("Sign out", btnFlickrSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+                Settings.Flickr = null;
+            } else {
+                Settings.Flickr = FlickrKey.Obtain(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET);
+            }
+            UpdateFlickrTokenLabel();
+        }
+
         private void FillForm() {
 			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
 
@@ -129,6 +139,7 @@ namespace ArtSync {
 			UpdateTwitterTokenLabel();
             UpdateInkbunnyTokenLabel();
             UpdateFurAffinityTokenLabel();
+            UpdateFlickrTokenLabel();
         }
 
         private async void UpdateDeviantArtTokenLabelAsync() {
@@ -221,6 +232,25 @@ namespace ArtSync {
                 btnFurAffinitySignIn.Text = "Sign in";
                 lblfurAffinityUsername2.ForeColor = SystemColors.WindowText;
                 lblfurAffinityUsername2.Text = "Not signed in";
+            }
+        }
+
+        private async void UpdateFlickrTokenLabel() {
+            if (Settings.Flickr?.TokenKey != null && Settings.Flickr?.TokenSecret != null) {
+                btnFlickrSignIn.Text = "Sign out";
+                try {
+                    var flickr = new FlickrWrapper(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET, Settings.Flickr.TokenKey, Settings.Flickr.TokenSecret);
+                    string username = await flickr.WhoamiAsync();
+                    lblFlickrTokenStatus.ForeColor = Color.Green;
+                    lblFlickrTokenStatus.Text = $"{username} ({Settings.Flickr.TokenKey}...)";
+                } catch (Exception e) {
+                    lblFlickrTokenStatus.ForeColor = Color.Red;
+                    lblFlickrTokenStatus.Text = $"{e.Message} ({Settings.Flickr.TokenKey}...)";
+                }
+            } else {
+                btnFlickrSignIn.Text = "Sign in";
+                lblFlickrTokenStatus.ForeColor = SystemColors.WindowText;
+                lblFlickrTokenStatus.Text = "Not signed in";
             }
         }
     }

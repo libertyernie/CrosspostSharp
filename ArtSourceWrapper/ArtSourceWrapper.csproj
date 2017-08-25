@@ -48,6 +48,9 @@
     <Reference Include="DontPanic.TumblrSharp.Net45, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TumblrSharp.1.0.0.6\lib\net45\DontPanic.TumblrSharp.Net45.dll</HintPath>
     </Reference>
+    <Reference Include="FlickrNet, Version=3.24.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL">
+      <HintPath>..\packages\FlickrNet.3.24.0\lib\net20\FlickrNet.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.5.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -137,6 +140,7 @@
     <Compile Include="DeviantArt.Scraps.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="DeviantArt.cs" />
+    <Compile Include="Flickr.cs" />
     <Compile Include="FurAffinity.cs" />
     <Compile Include="HtmlLinkUtils.cs" />
     <Compile Include="Inkbunny.cs" />

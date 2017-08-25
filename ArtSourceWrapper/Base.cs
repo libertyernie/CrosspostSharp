@@ -13,6 +13,7 @@ namespace ArtSourceWrapper {
     public interface ISiteWrapper {
         /// <summary>
         /// The batch size will be this amount if possible, or the greatest possible amount.
+        /// Changing the batch size after some elements have been fetched may have unexpected effects in some cases.
         /// </summary>
         int BatchSize { get; set; }
 

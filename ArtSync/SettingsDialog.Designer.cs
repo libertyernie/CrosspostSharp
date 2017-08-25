@@ -59,6 +59,10 @@
             this.lblfurAffinityUsername2 = new System.Windows.Forms.Label();
             this.lblfurAffinityUsername1 = new System.Windows.Forms.Label();
             this.btnFurAffinitySignIn = new System.Windows.Forms.Button();
+            this.groupFlickr = new System.Windows.Forms.GroupBox();
+            this.lblFlickrTokenStatus = new System.Windows.Forms.Label();
+            this.btnFlickrSignIn = new System.Windows.Forms.Button();
+            this.lblFlickrToken = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
@@ -66,6 +70,7 @@
             this.groupTwitter.SuspendLayout();
             this.groupDeviantArt.SuspendLayout();
             this.groupFurAffinity.SuspendLayout();
+            this.groupFlickr.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupWeasyl
@@ -77,7 +82,7 @@
             this.groupWeasyl.Location = new System.Drawing.Point(12, 215);
             this.groupWeasyl.Name = "groupWeasyl";
             this.groupWeasyl.Size = new System.Drawing.Size(300, 45);
-            this.groupWeasyl.TabIndex = 5;
+            this.groupWeasyl.TabIndex = 1;
             this.groupWeasyl.TabStop = false;
             this.groupWeasyl.Text = "Weasyl";
             // 
@@ -113,7 +118,7 @@
             this.groupTumblr.Location = new System.Drawing.Point(12, 12);
             this.groupTumblr.Name = "groupTumblr";
             this.groupTumblr.Size = new System.Drawing.Size(300, 197);
-            this.groupTumblr.TabIndex = 3;
+            this.groupTumblr.TabIndex = 0;
             this.groupTumblr.TabStop = false;
             this.groupTumblr.Text = "Tumblr";
             // 
@@ -291,10 +296,10 @@
             this.groupInkbunnyDest.Controls.Add(this.btnInkbunnySignIn);
             this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyToken);
             this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyTokenStatus);
-            this.groupInkbunnyDest.Location = new System.Drawing.Point(318, 114);
+            this.groupInkbunnyDest.Location = new System.Drawing.Point(318, 165);
             this.groupInkbunnyDest.Name = "groupInkbunnyDest";
             this.groupInkbunnyDest.Size = new System.Drawing.Size(300, 45);
-            this.groupInkbunnyDest.TabIndex = 2;
+            this.groupInkbunnyDest.TabIndex = 5;
             this.groupInkbunnyDest.TabStop = false;
             this.groupInkbunnyDest.Text = "Inkbunny";
             // 
@@ -333,10 +338,10 @@
             this.groupTwitter.Controls.Add(this.btnTwitterSignIn);
             this.groupTwitter.Controls.Add(this.lblTwitterTokenStatus);
             this.groupTwitter.Controls.Add(this.lblTwitterToken);
-            this.groupTwitter.Location = new System.Drawing.Point(318, 165);
+            this.groupTwitter.Location = new System.Drawing.Point(318, 216);
             this.groupTwitter.Name = "groupTwitter";
             this.groupTwitter.Size = new System.Drawing.Size(300, 45);
-            this.groupTwitter.TabIndex = 4;
+            this.groupTwitter.TabIndex = 6;
             this.groupTwitter.TabStop = false;
             this.groupTwitter.Text = "Twitter";
             // 
@@ -378,7 +383,7 @@
             this.groupDeviantArt.Location = new System.Drawing.Point(318, 12);
             this.groupDeviantArt.Name = "groupDeviantArt";
             this.groupDeviantArt.Size = new System.Drawing.Size(300, 45);
-            this.groupDeviantArt.TabIndex = 0;
+            this.groupDeviantArt.TabIndex = 2;
             this.groupDeviantArt.TabStop = false;
             this.groupDeviantArt.Text = "DeviantArt";
             // 
@@ -417,10 +422,10 @@
             this.groupFurAffinity.Controls.Add(this.lblfurAffinityUsername2);
             this.groupFurAffinity.Controls.Add(this.lblfurAffinityUsername1);
             this.groupFurAffinity.Controls.Add(this.btnFurAffinitySignIn);
-            this.groupFurAffinity.Location = new System.Drawing.Point(318, 63);
+            this.groupFurAffinity.Location = new System.Drawing.Point(318, 114);
             this.groupFurAffinity.Name = "groupFurAffinity";
             this.groupFurAffinity.Size = new System.Drawing.Size(300, 45);
-            this.groupFurAffinity.TabIndex = 1;
+            this.groupFurAffinity.TabIndex = 4;
             this.groupFurAffinity.TabStop = false;
             this.groupFurAffinity.Text = "FurAffinity";
             // 
@@ -452,6 +457,47 @@
             this.btnFurAffinitySignIn.UseVisualStyleBackColor = true;
             this.btnFurAffinitySignIn.Click += new System.EventHandler(this.btnFurAffinitySignIn_Click);
             // 
+            // groupFlickr
+            // 
+            this.groupFlickr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupFlickr.Controls.Add(this.lblFlickrTokenStatus);
+            this.groupFlickr.Controls.Add(this.lblFlickrToken);
+            this.groupFlickr.Controls.Add(this.btnFlickrSignIn);
+            this.groupFlickr.Location = new System.Drawing.Point(318, 63);
+            this.groupFlickr.Name = "groupFlickr";
+            this.groupFlickr.Size = new System.Drawing.Size(300, 45);
+            this.groupFlickr.TabIndex = 3;
+            this.groupFlickr.TabStop = false;
+            this.groupFlickr.Text = "Flickr";
+            // 
+            // lblFlickrTokenStatus
+            // 
+            this.lblFlickrTokenStatus.AutoEllipsis = true;
+            this.lblFlickrTokenStatus.Location = new System.Drawing.Point(80, 23);
+            this.lblFlickrTokenStatus.Name = "lblFlickrTokenStatus";
+            this.lblFlickrTokenStatus.Size = new System.Drawing.Size(133, 13);
+            this.lblFlickrTokenStatus.TabIndex = 8;
+            // 
+            // btnFlickrSignIn
+            // 
+            this.btnFlickrSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFlickrSignIn.Location = new System.Drawing.Point(219, 19);
+            this.btnFlickrSignIn.Name = "btnFlickrSignIn";
+            this.btnFlickrSignIn.Size = new System.Drawing.Size(75, 20);
+            this.btnFlickrSignIn.TabIndex = 6;
+            this.btnFlickrSignIn.Text = "Sign in";
+            this.btnFlickrSignIn.UseVisualStyleBackColor = true;
+            this.btnFlickrSignIn.Click += new System.EventHandler(this.btnFlickrSignIn_Click);
+            // 
+            // lblFlickrToken
+            // 
+            this.lblFlickrToken.AutoSize = true;
+            this.lblFlickrToken.Location = new System.Drawing.Point(6, 23);
+            this.lblFlickrToken.Name = "lblFlickrToken";
+            this.lblFlickrToken.Size = new System.Drawing.Size(41, 13);
+            this.lblFlickrToken.TabIndex = 7;
+            this.lblFlickrToken.Text = "Token:";
+            // 
             // SettingsDialog
             // 
             this.AcceptButton = this.btnSave;
@@ -459,6 +505,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(630, 361);
+            this.Controls.Add(this.groupFlickr);
             this.Controls.Add(this.groupFurAffinity);
             this.Controls.Add(this.groupDeviantArt);
             this.Controls.Add(this.groupTwitter);
@@ -484,6 +531,8 @@
             this.groupDeviantArt.PerformLayout();
             this.groupFurAffinity.ResumeLayout(false);
             this.groupFurAffinity.PerformLayout();
+            this.groupFlickr.ResumeLayout(false);
+            this.groupFlickr.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -526,5 +575,9 @@
         private System.Windows.Forms.Button btnFurAffinitySignIn;
         private System.Windows.Forms.Label lblfurAffinityUsername2;
         private System.Windows.Forms.Label lblfurAffinityUsername1;
+        private System.Windows.Forms.GroupBox groupFlickr;
+        private System.Windows.Forms.Label lblFlickrTokenStatus;
+        private System.Windows.Forms.Label lblFlickrToken;
+        private System.Windows.Forms.Button btnFlickrSignIn;
     }
 }
