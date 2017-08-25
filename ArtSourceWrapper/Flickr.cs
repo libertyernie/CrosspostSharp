@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
-    public class FlickrWrapper : SiteWrapper<FlickrSubmissionWrapper, uint> {
+    public class FlickrWrapper : SiteWrapper<FlickrSubmissionWrapper, int> {
         private Flickr _flickr;
 
         public FlickrWrapper(string apiKey, string sharedSecret, string oAuthAccessToken, string oAuthAccessTokenSecret) {
@@ -20,11 +20,9 @@ namespace ArtSourceWrapper {
         public override string SiteName => "Flickr";
         public override string WrapperName => "Flickr";
 
-        public override int BatchSize { get; set; } = 0;
-
-        public override int MinBatchSize => 0;
-
-        public override int MaxBatchSize => 0;
+        public override int BatchSize { get; set; } = 100;
+        public override int MinBatchSize => 1;
+        public override int MaxBatchSize => 500;
 
         private Task<Auth> AuthOAuthCheckTokenAsync() {
             var t = new TaskCompletionSource<Auth>();
@@ -43,30 +41,31 @@ namespace ArtSourceWrapper {
             return oauth.User.UserName;
         }
 
-        protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
-            return new InternalFetchResult(0, true);
+        protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+            var r = _flickr.PeopleGetPhotos("me",
+                PhotoSearchExtras.Description | PhotoSearchExtras.Tags | PhotoSearchExtras.DateUploaded | PhotoSearchExtras.OriginalFormat,
+                startPosition ?? 1,
+                count);
+
+            return new InternalFetchResult(r.Select(p => new FlickrSubmissionWrapper(p)), r.Page + 1, r.Page == r.Pages);
         }
     }
 
     public class FlickrSubmissionWrapper : ISubmissionWrapper {
-        public string Title => throw new NotImplementedException();
+        private Photo _photo;
+        public FlickrSubmissionWrapper(Photo photo) {
+            _photo = photo;
+        }
 
-        public string HTMLDescription => throw new NotImplementedException();
-
-        public bool PotentiallySensitive => throw new NotImplementedException();
-
-        public IEnumerable<string> Tags => throw new NotImplementedException();
-
-        public DateTime Timestamp => throw new NotImplementedException();
-
-        public string ViewURL => throw new NotImplementedException();
-
-        public string ImageURL => throw new NotImplementedException();
-
-        public string ThumbnailURL => throw new NotImplementedException();
-
-        public Color? BorderColor => throw new NotImplementedException();
-
-        public bool OwnWork => throw new NotImplementedException();
+        public string Title => _photo.Title;
+        public string HTMLDescription => _photo.Description;
+        public bool PotentiallySensitive => false;
+        public IEnumerable<string> Tags => _photo.Tags;
+        public DateTime Timestamp => _photo.DateUploaded;
+        public string ViewURL => ThumbnailURL;
+        public string ImageURL => ThumbnailURL;
+        public string ThumbnailURL => $"https://farm{_photo.Farm}.staticflickr.com/{_photo.Server}/{_photo.PhotoId}_{_photo.Secret}_q.jpg";
+        public Color? BorderColor => null;
+        public bool OwnWork => true;
     }
 }

@@ -131,6 +131,10 @@ namespace ArtSync {
                 wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
             }
 
+            if (!string.IsNullOrEmpty(GlobalSettings.Flickr.TokenKey) && !string.IsNullOrEmpty(GlobalSettings.Flickr.TokenSecret)) {
+                wrappers.Add(new FlickrWrapper(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET, GlobalSettings.Flickr.TokenKey, GlobalSettings.Flickr.TokenSecret));
+            }
+
             wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
 
             if (wrappers.Count == 0) {
