@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
 using ArtSourceWrapper;
 using System.Security.Cryptography;
+using FlickrNet;
 
 namespace ArtSync {
 	public partial class WeasylForm : Form {
@@ -230,7 +231,7 @@ namespace ArtSync {
                     : Color.DarkGreen;
 
                 if (screenName != null) {
-                    Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+                    Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
                         if (shortURLLength == 0 || shortURLLengthHttps == 0) {
                             var conf = Tweetinvi.Help.GetTwitterConfiguration();
                             shortURLLength = conf.ShortURLLength;
@@ -373,7 +374,7 @@ namespace ArtSync {
 				return Task.FromResult(Enumerable.Empty<ITweet>());
 
 			long sinceId = tweetCache.Select(t => t.Id).DefaultIfEmpty(20).Max();
-			return Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+			return Task.Run(() => Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
 				var user = User.GetAuthenticatedUser();
 				var parameters = new UserTimelineParameters {
 					MaximumNumberOfTweetsToRetrieve = 200,
@@ -384,7 +385,7 @@ namespace ArtSync {
 				TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
 				var tweets = Timeline.GetUserTimeline(user, parameters);
 				if (tweets == null) {
-					var x = ExceptionHandler.GetLastException();
+					var x = Tweetinvi.ExceptionHandler.GetLastException();
 					throw new Exception(x.TwitterDescription, x.WebException);
 				}
 				return tweets
@@ -613,10 +614,72 @@ namespace ArtSync {
 				LProgressBar.Visible = false;
 			}
 		}
-		#endregion
+        #endregion
 
-		#region Event handlers
-		private void btnUp_Click(object sender, EventArgs e) {
+        #region Flickr
+        public async void PostToFlickr() {
+            try {
+                var f = new Flickr(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET) {
+                    OAuthAccessToken = GlobalSettings.Flickr.TokenKey,
+                    OAuthAccessTokenSecret = GlobalSettings.Flickr.TokenSecret
+                };
+                var contentType = radFlickrPhoto.Checked ? ContentType.Photo
+                        : radFlickrScreenshot.Checked ? ContentType.Screenshot
+                        : radFlickrOther.Checked ? ContentType.Other
+                        : ContentType.None;
+                var safetyLevel = radFlickrSafe.Checked ? SafetyLevel.Safe
+                    : radFlickrModerate.Checked ? SafetyLevel.Moderate
+                    : radFlickrRestricted.Checked ? SafetyLevel.Restricted
+                    : SafetyLevel.None;
+                using (var ms = new MemoryStream(currentImage.Data, false)) {
+                    var t1 = new TaskCompletionSource<string>();
+
+                    f.UploadPictureAsync(
+                        ms,
+                        currentImage.FileName,
+                        txtFlickrTitle.Text,
+                        txtFlickrDesc.Text,
+                        txtFlickrTags.Text.Replace("#", ""),
+                        chkFlickrPublic.Checked,
+                        chkFlickrFamily.Checked,
+                        chkFlickrFriend.Checked,
+                        contentType,
+                        safetyLevel,
+                        chkFlickrHidden.Checked ? HiddenFromSearch.Hidden : HiddenFromSearch.Visible,
+                        result => {
+                            if (result.HasError) {
+                                t1.SetException(result.Error);
+                            } else {
+                                t1.SetResult(result.Result);
+                            }
+                        });
+
+                    string photoId = await t1.Task;
+
+                    var t2 = new TaskCompletionSource<FlickrNet.Auth>();
+                    f.AuthOAuthCheckTokenAsync(a => {
+                        if (a.HasError) {
+                            t2.SetException(a.Error);
+                        } else {
+                            t2.SetResult(a.Result);
+                        }
+                    });
+                    var auth = await t2.Task;
+
+                    lblPosted1.Visible = true;
+                    lblPosted2.Visible = true;
+                    lblPosted2.Text = $"https://www.flickr.com/photos/{auth.User.UserId}/{photoId}";
+                }
+            } catch (Exception ex) {
+                ShowException(ex, nameof(PostToFlickr));
+            } finally {
+                LProgressBar.Visible = false;
+            }
+        }
+        #endregion
+
+        #region Event handlers
+        private void btnUp_Click(object sender, EventArgs e) {
             try {
                 UpdateGalleryAsync(back: true);
             } catch (Exception ex) {
@@ -752,7 +815,7 @@ namespace ArtSync {
 
             LProgressBar.Report(0);
             LProgressBar.Visible = true;
-			Task.Run(() => Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+			Task.Run(() => Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
                 try {
                     var options = new PublishTweetOptionalParameters();
 
@@ -769,7 +832,7 @@ namespace ArtSync {
                     ITweet tweet = Tweet.PublishTweet(text, options);
 
                     if (tweet == null) {
-                        string desc = ExceptionHandler.GetLastException().TwitterDescription;
+                        string desc = Tweetinvi.ExceptionHandler.GetLastException().TwitterDescription;
                         MessageBox.Show(this, desc, "Could not send tweet");
                     } else {
                         this.tweetCache.Add(tweet);
@@ -783,9 +846,13 @@ namespace ArtSync {
                 }
 				LProgressBar.Visible = false;
 			}));
-		}
+        }
 
-		private void chkIncludeTitle_CheckedChanged(object sender, EventArgs e) {
+        private void btnPostToFlickr_Click(object sender, EventArgs e) {
+            PostToFlickr();
+        }
+
+        private void chkIncludeTitle_CheckedChanged(object sender, EventArgs e) {
 			ResetTweetText();
 		}
 
