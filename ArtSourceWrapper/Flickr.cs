@@ -26,8 +26,20 @@ namespace ArtSourceWrapper {
 
         public override int MaxBatchSize => 0;
 
+        private Task<Auth> AuthOAuthCheckTokenAsync() {
+            var t = new TaskCompletionSource<Auth>();
+            _flickr.AuthOAuthCheckTokenAsync(a => {
+                if (a.HasError) {
+                    t.SetException(a.Error);
+                } else {
+                    t.SetResult(a.Result);
+                }
+            });
+            return t.Task;
+        }
+
         public async override Task<string> WhoamiAsync() {
-            var oauth = _flickr.AuthOAuthCheckToken();
+            var oauth = await AuthOAuthCheckTokenAsync();
             return oauth.User.UserName;
         }
 
