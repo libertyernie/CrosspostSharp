@@ -41,8 +41,20 @@ namespace ArtSourceWrapper {
             return oauth.User.UserName;
         }
 
+        private Task<PhotoCollection> PeopleGetPhotosAsync(string userId, PhotoSearchExtras extras, int page, int perPage) {
+            var t = new TaskCompletionSource<PhotoCollection>();
+            _flickr.PeopleGetPhotosAsync(userId, extras, page, perPage, a => {
+                if (a.HasError) {
+                    t.SetException(a.Error);
+                } else {
+                    t.SetResult(a.Result);
+                }
+            });
+            return t.Task;
+        }
+
         protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
-            var r = _flickr.PeopleGetPhotos("me",
+            var r = await PeopleGetPhotosAsync("me",
                 PhotoSearchExtras.Description | PhotoSearchExtras.Tags | PhotoSearchExtras.DateUploaded | PhotoSearchExtras.OriginalFormat,
                 startPosition ?? 1,
                 count);
@@ -62,8 +74,8 @@ namespace ArtSourceWrapper {
         public bool PotentiallySensitive => false;
         public IEnumerable<string> Tags => _photo.Tags;
         public DateTime Timestamp => _photo.DateUploaded;
-        public string ViewURL => ThumbnailURL;
-        public string ImageURL => ThumbnailURL;
+        public string ViewURL => $"https://www.flickr.com/photos/{_photo.UserId}/{_photo.PhotoId}";
+        public string ImageURL => $"https://farm{_photo.Farm}.staticflickr.com/{_photo.Server}/{_photo.PhotoId}_{_photo.OriginalSecret}_o.{_photo.OriginalFormat}";
         public string ThumbnailURL => $"https://farm{_photo.Farm}.staticflickr.com/{_photo.Server}/{_photo.PhotoId}_{_photo.Secret}_q.jpg";
         public Color? BorderColor => null;
         public bool OwnWork => true;
