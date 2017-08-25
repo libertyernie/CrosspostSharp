@@ -56,7 +56,7 @@ namespace ArtSync {
 
                     Settings.DeviantArt.RefreshToken = result.RefreshToken;
                 }
-                UpdateDeviantArtTokenLabel();
+                UpdateDeviantArtTokenLabelAsync();
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.Message);
             }
@@ -124,27 +124,33 @@ namespace ArtSync {
 			txtFooter.Text = Settings.Defaults.FooterHTML ?? "";
 			txtTags.Text = Settings.Defaults.Tags;
 
-            UpdateDeviantArtTokenLabel();
+            UpdateDeviantArtTokenLabelAsync();
             UpdateTumblrTokenLabel();
 			UpdateTwitterTokenLabel();
             UpdateInkbunnyTokenLabel();
             UpdateFurAffinityTokenLabel();
         }
 
-        private void UpdateDeviantArtTokenLabel() {
+        private async void UpdateDeviantArtTokenLabelAsync() {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
-                lblDeviantArtTokenStatus.Text = Settings.DeviantArt.RefreshToken;
+                try {
+                    string username = await DeviantArtDeviationWrapper.WhoamiStaticAsync();
+                    lblDeviantArtTokenStatus.ForeColor = Color.Green;
+                    lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken.Substring(0, 8)}...)";
+                } catch (Exception e) {
+                    lblDeviantArtTokenStatus.ForeColor = Color.Red;
+                    lblDeviantArtTokenStatus.Text = $"{e.Message} ({Settings.DeviantArt.RefreshToken.Substring(0, 8)}...)";
+                }
             } else {
 				btnDeviantArtSignIn.Text = "Sign in";
                 lblDeviantArtTokenStatus.Text = "Not signed in";
 			}
         }
 
-        private void UpdateTumblrTokenLabel() {
+        private async void UpdateTumblrTokenLabel() {
 			Token token = Settings.TumblrToken;
 			if (token.IsValid) {
-				btnTumblrSignIn.ContextMenuStrip = null;
 				btnTumblrSignIn.Text = "Sign out";
 				using (TumblrClient client = new TumblrClientFactory().Create<TumblrClient>(
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
@@ -152,13 +158,12 @@ namespace ArtSync {
 					token
 				)) {
 					try {
-						Task<UserInfo> t = client.GetUserInfoAsync();
-						t.Wait();
+						UserInfo u = await client.GetUserInfoAsync();
 						lblTokenStatus.ForeColor = Color.Green;
-						lblTokenStatus.Text = string.Format("{0} ({1}...)", t.Result.Name, token.Key.Substring(0, 8));
-					} catch (AggregateException e) {
+                        lblTokenStatus.Text = $"{u.Name} ({token.Key.Substring(0, 8)}...)";
+					} catch (Exception e) {
 						lblTokenStatus.ForeColor = Color.Red;
-						lblTokenStatus.Text = string.Format("{0} ({1}...)", string.Join(", ", e.InnerExceptions.Select(x => x.Message)), token.Key.Substring(0, 8));
+						lblTokenStatus.Text = $"{e.Message} ({token.Key.Substring(0, 8)}...)";
 					}
 				}
 			} else {
@@ -176,7 +181,7 @@ namespace ArtSync {
             } else {
                 btnInkbunnySignIn.Text = "Sign out";
                 lblInkbunnyTokenStatus.ForeColor = SystemColors.WindowText;
-                lblInkbunnyTokenStatus.Text = Settings.Inkbunny.Sid;
+                lblInkbunnyTokenStatus.Text = Settings.Inkbunny.Sid?.Substring(0, 8) + "...";
             }
         }
 
@@ -192,21 +197,21 @@ namespace ArtSync {
 					btnTwitterSignIn.ContextMenuStrip = null;
 					btnTwitterSignIn.Text = "Sign out";
 					lblTwitterTokenStatus.ForeColor = Color.Green;
-					lblTwitterTokenStatus.Text = string.Format("{0} ({1}...)", screenName, twitterCredentials.AccessToken.Substring(0, 8));
+                    lblTwitterTokenStatus.Text = $"{screenName} ({twitterCredentials.AccessToken.Substring(0, 8)}...)";
 				}
 			} catch (Exception e) {
 				lblTokenStatus.ForeColor = Color.Red;
-				lblTokenStatus.Text = string.Format("{0} ({1}...)", e.Message, twitterCredentials.AccessToken.Substring(0, 8));
+                lblTokenStatus.Text = $"{e.Message} ({twitterCredentials.AccessToken.Substring(0, 8)}...)";
 			}
 		}
 
         private void UpdateFurAffinityTokenLabel() {
             List<string> cookies = new List<string>(2);
             if (Settings.FurAffinity?.b != null) {
-                cookies.Add("b=" + Settings.FurAffinity?.b);
+                cookies.Add("b=" + Settings.FurAffinity.b.Substring(0, 8) + "...");
             }
             if (Settings.FurAffinity?.a != null) {
-                cookies.Add("a=" + Settings.FurAffinity?.a);
+                cookies.Add("a=" + Settings.FurAffinity.a.Substring(0, 8) + "...");
             }
             lblFurAffinityCookies2.Text = string.Join(Environment.NewLine, cookies);
             btnFurAffinitySignIn.Text = cookies.Any() ? "Sign out" : "Sign in";

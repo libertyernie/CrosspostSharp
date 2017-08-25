@@ -37,7 +37,7 @@ namespace ArtSourceWrapper {
         public string SiteName => "DeviantArt";
         public abstract string WrapperName { get; }
 
-        public async Task<string> WhoamiAsync() {
+        public static async Task<string> WhoamiStaticAsync() {
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
                 throw new DeviantArtException(result.ErrorText);
@@ -46,6 +46,10 @@ namespace ArtSourceWrapper {
                 throw new DeviantArtException(result.Result.ErrorDescription);
             }
             return result.Result.Username;
+        }
+
+        public Task<string> WhoamiAsync() {
+            return WhoamiStaticAsync();
         }
 
         public static async Task<bool> LogoutAsync() {

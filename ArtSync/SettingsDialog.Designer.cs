@@ -55,7 +55,6 @@
             this.btnDeviantArtSignIn = new System.Windows.Forms.Button();
             this.lblDeviantArtTokenStatus = new System.Windows.Forms.Label();
             this.lblDeviantArtToken = new System.Windows.Forms.Label();
-            this.chkIncludeGeneratedUniqueTag = new System.Windows.Forms.CheckBox();
             this.groupFurAffinity = new System.Windows.Forms.GroupBox();
             this.btnFurAffinitySignIn = new System.Windows.Forms.Button();
             this.lblFurAffinityCookies2 = new System.Windows.Forms.Label();
@@ -252,9 +251,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTokenInfo.Location = new System.Drawing.Point(12, 512);
+            this.lblTokenInfo.Location = new System.Drawing.Point(12, 474);
             this.lblTokenInfo.Name = "lblTokenInfo";
-            this.lblTokenInfo.Size = new System.Drawing.Size(410, 61);
+            this.lblTokenInfo.Size = new System.Drawing.Size(410, 99);
             this.lblTokenInfo.TabIndex = 7;
             this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
     "ounts. The security tokens are stored in the file ArtSync.json, so make sure you" +
@@ -412,16 +411,6 @@
             this.lblDeviantArtToken.TabIndex = 4;
             this.lblDeviantArtToken.Text = "Token:";
             // 
-            // chkIncludeGeneratedUniqueTag
-            // 
-            this.chkIncludeGeneratedUniqueTag.Location = new System.Drawing.Point(12, 477);
-            this.chkIncludeGeneratedUniqueTag.Name = "chkIncludeGeneratedUniqueTag";
-            this.chkIncludeGeneratedUniqueTag.Size = new System.Drawing.Size(410, 32);
-            this.chkIncludeGeneratedUniqueTag.TabIndex = 6;
-            this.chkIncludeGeneratedUniqueTag.Text = "Include generated unique tag (e.g. #weasyl1234567 or #twitter1234567) in Tumblr, " +
-    "DeviantArt, and Inkbunny posts so ArtSync can find them later";
-            this.chkIncludeGeneratedUniqueTag.UseVisualStyleBackColor = true;
-            // 
             // groupFurAffinity
             // 
             this.groupFurAffinity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -472,7 +461,6 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(434, 611);
             this.Controls.Add(this.groupFurAffinity);
-            this.Controls.Add(this.chkIncludeGeneratedUniqueTag);
             this.Controls.Add(this.groupDeviantArt);
             this.Controls.Add(this.groupTwitter);
             this.Controls.Add(this.lblTokenInfo);
@@ -535,7 +523,6 @@
         private System.Windows.Forms.Label lblFooter;
         private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.TextBox txtFooter;
-        private System.Windows.Forms.CheckBox chkIncludeGeneratedUniqueTag;
         private System.Windows.Forms.GroupBox groupFurAffinity;
         private System.Windows.Forms.Button btnFurAffinitySignIn;
         private System.Windows.Forms.Label lblFurAffinityCookies2;
