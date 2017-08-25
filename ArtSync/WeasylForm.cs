@@ -140,6 +140,8 @@ namespace ArtSync {
                 wrappers.Add(new FlickrWrapper(Flickr));
             }
 
+            wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
+
             wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
 
             if (wrappers.Count == 0) {
