@@ -137,10 +137,10 @@ namespace ArtSync {
                 try {
                     string username = await DeviantArtDeviationWrapper.WhoamiStaticAsync();
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
-                    lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken.Substring(0, 8)}...)";
+                    lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {
                     lblDeviantArtTokenStatus.ForeColor = Color.Red;
-                    lblDeviantArtTokenStatus.Text = $"{e.Message} ({Settings.DeviantArt.RefreshToken.Substring(0, 8)}...)";
+                    lblDeviantArtTokenStatus.Text = $"{e.Message} ({Settings.DeviantArt.RefreshToken}...)";
                 }
             } else {
 				btnDeviantArtSignIn.Text = "Sign in";
@@ -160,10 +160,10 @@ namespace ArtSync {
 					try {
 						UserInfo u = await client.GetUserInfoAsync();
 						lblTokenStatus.ForeColor = Color.Green;
-                        lblTokenStatus.Text = $"{u.Name} ({token.Key.Substring(0, 8)}...)";
+                        lblTokenStatus.Text = $"{u.Name} ({token.Key}...)";
 					} catch (Exception e) {
 						lblTokenStatus.ForeColor = Color.Red;
-						lblTokenStatus.Text = $"{e.Message} ({token.Key.Substring(0, 8)}...)";
+						lblTokenStatus.Text = $"{e.Message} ({token.Key}...)";
 					}
 				}
 			} else {
@@ -176,12 +176,12 @@ namespace ArtSync {
         private void UpdateInkbunnyTokenLabel() {
             if (Settings.Inkbunny.Sid == null) {
                 btnInkbunnySignIn.Text = "Sign in";
-                lblInkbunnyTokenStatus.ForeColor = Color.Green;
+                lblInkbunnyTokenStatus.ForeColor = SystemColors.WindowText;
                 lblInkbunnyTokenStatus.Text = "";
             } else {
                 btnInkbunnySignIn.Text = "Sign out";
-                lblInkbunnyTokenStatus.ForeColor = SystemColors.WindowText;
-                lblInkbunnyTokenStatus.Text = Settings.Inkbunny.Sid?.Substring(0, 8) + "...";
+                lblInkbunnyTokenStatus.ForeColor = Color.Green;
+                lblInkbunnyTokenStatus.Text = Settings.Inkbunny.Sid + "...";
             }
         }
 
@@ -197,24 +197,31 @@ namespace ArtSync {
 					btnTwitterSignIn.ContextMenuStrip = null;
 					btnTwitterSignIn.Text = "Sign out";
 					lblTwitterTokenStatus.ForeColor = Color.Green;
-                    lblTwitterTokenStatus.Text = $"{screenName} ({twitterCredentials.AccessToken.Substring(0, 8)}...)";
+                    lblTwitterTokenStatus.Text = $"{screenName} ({twitterCredentials.AccessToken}...)";
 				}
 			} catch (Exception e) {
 				lblTokenStatus.ForeColor = Color.Red;
-                lblTokenStatus.Text = $"{e.Message} ({twitterCredentials.AccessToken.Substring(0, 8)}...)";
+                lblTokenStatus.Text = $"{e.Message} ({twitterCredentials.AccessToken}...)";
 			}
 		}
 
-        private void UpdateFurAffinityTokenLabel() {
-            List<string> cookies = new List<string>(2);
-            if (Settings.FurAffinity?.b != null) {
-                cookies.Add("b=" + Settings.FurAffinity.b.Substring(0, 8) + "...");
+        private async void UpdateFurAffinityTokenLabel() {
+            if (Settings.FurAffinity?.a != null && Settings.FurAffinity?.b != null) {
+                btnFurAffinitySignIn.Text = "Sign out";
+                var fa = new FurAffinityIdWrapper(Settings.FurAffinity.a, Settings.FurAffinity.b);
+                try {
+                    string username = await fa.WhoamiAsync();
+                    lblfurAffinityUsername2.ForeColor = Color.Green;
+                    lblfurAffinityUsername2.Text = $"{username} ({Settings.FurAffinity.a}..., {Settings.FurAffinity.b}...)";
+                } catch (Exception e) {
+                    lblfurAffinityUsername2.ForeColor = Color.Red;
+                    lblfurAffinityUsername2.Text = $"{e.Message} ({Settings.FurAffinity.a}..., {Settings.FurAffinity.b}...)";
+                }
+            } else {
+                btnFurAffinitySignIn.Text = "Sign in";
+                lblfurAffinityUsername2.ForeColor = SystemColors.WindowText;
+                lblfurAffinityUsername2.Text = "Not signed in";
             }
-            if (Settings.FurAffinity?.a != null) {
-                cookies.Add("a=" + Settings.FurAffinity.a.Substring(0, 8) + "...");
-            }
-            lblFurAffinityCookies2.Text = string.Join(Environment.NewLine, cookies);
-            btnFurAffinitySignIn.Text = cookies.Any() ? "Sign out" : "Sign in";
         }
     }
 }

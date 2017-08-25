@@ -56,9 +56,9 @@
             this.lblDeviantArtTokenStatus = new System.Windows.Forms.Label();
             this.lblDeviantArtToken = new System.Windows.Forms.Label();
             this.groupFurAffinity = new System.Windows.Forms.GroupBox();
+            this.lblfurAffinityUsername2 = new System.Windows.Forms.Label();
+            this.lblfurAffinityUsername1 = new System.Windows.Forms.Label();
             this.btnFurAffinitySignIn = new System.Windows.Forms.Button();
-            this.lblFurAffinityCookies2 = new System.Windows.Forms.Label();
-            this.lblFurAffinityCookies1 = new System.Windows.Forms.Label();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
@@ -74,9 +74,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupWeasyl.Controls.Add(this.label1);
             this.groupWeasyl.Controls.Add(this.txtWeasylAPIKey);
-            this.groupWeasyl.Location = new System.Drawing.Point(12, 426);
+            this.groupWeasyl.Location = new System.Drawing.Point(12, 215);
             this.groupWeasyl.Name = "groupWeasyl";
-            this.groupWeasyl.Size = new System.Drawing.Size(410, 45);
+            this.groupWeasyl.Size = new System.Drawing.Size(300, 45);
             this.groupWeasyl.TabIndex = 5;
             this.groupWeasyl.TabStop = false;
             this.groupWeasyl.Text = "Weasyl";
@@ -96,7 +96,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWeasylAPIKey.Location = new System.Drawing.Point(83, 19);
             this.txtWeasylAPIKey.Name = "txtWeasylAPIKey";
-            this.txtWeasylAPIKey.Size = new System.Drawing.Size(321, 20);
+            this.txtWeasylAPIKey.Size = new System.Drawing.Size(211, 20);
             this.txtWeasylAPIKey.TabIndex = 2;
             // 
             // groupTumblr
@@ -110,27 +110,29 @@
             this.groupTumblr.Controls.Add(this.groupDefaults);
             this.groupTumblr.Controls.Add(this.lblBlogName);
             this.groupTumblr.Controls.Add(this.txtBlogName);
-            this.groupTumblr.Location = new System.Drawing.Point(12, 172);
+            this.groupTumblr.Location = new System.Drawing.Point(12, 12);
             this.groupTumblr.Name = "groupTumblr";
-            this.groupTumblr.Size = new System.Drawing.Size(410, 197);
+            this.groupTumblr.Size = new System.Drawing.Size(300, 197);
             this.groupTumblr.TabIndex = 3;
             this.groupTumblr.TabStop = false;
             this.groupTumblr.Text = "Tumblr";
             // 
             // chkSidePadding
             // 
-            this.chkSidePadding.AutoSize = true;
+            this.chkSidePadding.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkSidePadding.AutoEllipsis = true;
             this.chkSidePadding.Location = new System.Drawing.Point(9, 71);
             this.chkSidePadding.Name = "chkSidePadding";
-            this.chkSidePadding.Size = new System.Drawing.Size(322, 17);
+            this.chkSidePadding.Size = new System.Drawing.Size(285, 17);
             this.chkSidePadding.TabIndex = 5;
-            this.chkSidePadding.Text = "Add transparent padding to sides if image is taller than it is wide";
+            this.chkSidePadding.Text = "Add padding to make tall images square";
             this.chkSidePadding.UseVisualStyleBackColor = true;
             // 
             // btnTumblrSignIn
             // 
             this.btnTumblrSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTumblrSignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnTumblrSignIn.Location = new System.Drawing.Point(219, 19);
             this.btnTumblrSignIn.Name = "btnTumblrSignIn";
             this.btnTumblrSignIn.Size = new System.Drawing.Size(75, 20);
             this.btnTumblrSignIn.TabIndex = 2;
@@ -140,10 +142,10 @@
             // 
             // lblTokenStatus
             // 
-            this.lblTokenStatus.AutoSize = true;
+            this.lblTokenStatus.AutoEllipsis = true;
             this.lblTokenStatus.Location = new System.Drawing.Point(80, 23);
             this.lblTokenStatus.Name = "lblTokenStatus";
-            this.lblTokenStatus.Size = new System.Drawing.Size(69, 13);
+            this.lblTokenStatus.Size = new System.Drawing.Size(133, 13);
             this.lblTokenStatus.TabIndex = 1;
             this.lblTokenStatus.Text = "Not signed in";
             // 
@@ -166,9 +168,9 @@
             this.groupDefaults.Controls.Add(this.lblFooter);
             this.groupDefaults.Controls.Add(this.lblHeader);
             this.groupDefaults.Controls.Add(this.txtFooter);
-            this.groupDefaults.Location = new System.Drawing.Point(9, 94);
+            this.groupDefaults.Location = new System.Drawing.Point(6, 94);
             this.groupDefaults.Name = "groupDefaults";
-            this.groupDefaults.Size = new System.Drawing.Size(392, 97);
+            this.groupDefaults.Size = new System.Drawing.Size(288, 97);
             this.groupDefaults.TabIndex = 0;
             this.groupDefaults.TabStop = false;
             this.groupDefaults.Text = "Defaults";
@@ -179,7 +181,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHeader.Location = new System.Drawing.Point(83, 19);
             this.txtHeader.Name = "txtHeader";
-            this.txtHeader.Size = new System.Drawing.Size(303, 20);
+            this.txtHeader.Size = new System.Drawing.Size(199, 20);
             this.txtHeader.TabIndex = 1;
             // 
             // txtTags
@@ -188,7 +190,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(83, 71);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(303, 20);
+            this.txtTags.Size = new System.Drawing.Size(199, 20);
             this.txtTags.TabIndex = 5;
             // 
             // lblTags
@@ -224,7 +226,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFooter.Location = new System.Drawing.Point(83, 45);
             this.txtFooter.Name = "txtFooter";
-            this.txtFooter.Size = new System.Drawing.Size(303, 20);
+            this.txtFooter.Size = new System.Drawing.Size(199, 20);
             this.txtFooter.TabIndex = 3;
             // 
             // lblBlogName
@@ -242,7 +244,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBlogName.Location = new System.Drawing.Point(83, 45);
             this.txtBlogName.Name = "txtBlogName";
-            this.txtBlogName.Size = new System.Drawing.Size(318, 20);
+            this.txtBlogName.Size = new System.Drawing.Size(208, 20);
             this.txtBlogName.TabIndex = 4;
             // 
             // lblTokenInfo
@@ -251,19 +253,20 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTokenInfo.Location = new System.Drawing.Point(12, 474);
+            this.lblTokenInfo.Location = new System.Drawing.Point(12, 278);
             this.lblTokenInfo.Name = "lblTokenInfo";
-            this.lblTokenInfo.Size = new System.Drawing.Size(410, 99);
+            this.lblTokenInfo.Size = new System.Drawing.Size(606, 45);
             this.lblTokenInfo.TabIndex = 7;
             this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
     "ounts. The security tokens are stored in the file ArtSync.json, so make sure you" +
     " keep that file secure.";
+            this.lblTokenInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(266, 576);
+            this.btnSave.Location = new System.Drawing.Point(462, 326);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 8;
@@ -275,7 +278,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(347, 576);
+            this.btnCancel.Location = new System.Drawing.Point(543, 326);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -284,14 +287,13 @@
             // 
             // groupInkbunnyDest
             // 
-            this.groupInkbunnyDest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupInkbunnyDest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupInkbunnyDest.Controls.Add(this.btnInkbunnySignIn);
             this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyToken);
             this.groupInkbunnyDest.Controls.Add(this.lblInkbunnyTokenStatus);
-            this.groupInkbunnyDest.Location = new System.Drawing.Point(12, 121);
+            this.groupInkbunnyDest.Location = new System.Drawing.Point(318, 114);
             this.groupInkbunnyDest.Name = "groupInkbunnyDest";
-            this.groupInkbunnyDest.Size = new System.Drawing.Size(410, 45);
+            this.groupInkbunnyDest.Size = new System.Drawing.Size(300, 45);
             this.groupInkbunnyDest.TabIndex = 2;
             this.groupInkbunnyDest.TabStop = false;
             this.groupInkbunnyDest.Text = "Inkbunny";
@@ -299,7 +301,7 @@
             // btnInkbunnySignIn
             // 
             this.btnInkbunnySignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnInkbunnySignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnInkbunnySignIn.Location = new System.Drawing.Point(219, 19);
             this.btnInkbunnySignIn.Name = "btnInkbunnySignIn";
             this.btnInkbunnySignIn.Size = new System.Drawing.Size(75, 20);
             this.btnInkbunnySignIn.TabIndex = 8;
@@ -321,20 +323,19 @@
             this.lblInkbunnyTokenStatus.AutoEllipsis = true;
             this.lblInkbunnyTokenStatus.Location = new System.Drawing.Point(80, 23);
             this.lblInkbunnyTokenStatus.Name = "lblInkbunnyTokenStatus";
-            this.lblInkbunnyTokenStatus.Size = new System.Drawing.Size(243, 13);
+            this.lblInkbunnyTokenStatus.Size = new System.Drawing.Size(133, 13);
             this.lblInkbunnyTokenStatus.TabIndex = 7;
             this.lblInkbunnyTokenStatus.Text = "Not signed in";
             // 
             // groupTwitter
             // 
-            this.groupTwitter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupTwitter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupTwitter.Controls.Add(this.btnTwitterSignIn);
             this.groupTwitter.Controls.Add(this.lblTwitterTokenStatus);
             this.groupTwitter.Controls.Add(this.lblTwitterToken);
-            this.groupTwitter.Location = new System.Drawing.Point(12, 375);
+            this.groupTwitter.Location = new System.Drawing.Point(318, 165);
             this.groupTwitter.Name = "groupTwitter";
-            this.groupTwitter.Size = new System.Drawing.Size(410, 45);
+            this.groupTwitter.Size = new System.Drawing.Size(300, 45);
             this.groupTwitter.TabIndex = 4;
             this.groupTwitter.TabStop = false;
             this.groupTwitter.Text = "Twitter";
@@ -342,7 +343,7 @@
             // btnTwitterSignIn
             // 
             this.btnTwitterSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTwitterSignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnTwitterSignIn.Location = new System.Drawing.Point(219, 19);
             this.btnTwitterSignIn.Name = "btnTwitterSignIn";
             this.btnTwitterSignIn.Size = new System.Drawing.Size(75, 20);
             this.btnTwitterSignIn.TabIndex = 2;
@@ -352,10 +353,10 @@
             // 
             // lblTwitterTokenStatus
             // 
-            this.lblTwitterTokenStatus.AutoSize = true;
+            this.lblTwitterTokenStatus.AutoEllipsis = true;
             this.lblTwitterTokenStatus.Location = new System.Drawing.Point(80, 23);
             this.lblTwitterTokenStatus.Name = "lblTwitterTokenStatus";
-            this.lblTwitterTokenStatus.Size = new System.Drawing.Size(69, 13);
+            this.lblTwitterTokenStatus.Size = new System.Drawing.Size(133, 13);
             this.lblTwitterTokenStatus.TabIndex = 1;
             this.lblTwitterTokenStatus.Text = "Not signed in";
             // 
@@ -370,14 +371,13 @@
             // 
             // groupDeviantArt
             // 
-            this.groupDeviantArt.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupDeviantArt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupDeviantArt.Controls.Add(this.btnDeviantArtSignIn);
             this.groupDeviantArt.Controls.Add(this.lblDeviantArtTokenStatus);
             this.groupDeviantArt.Controls.Add(this.lblDeviantArtToken);
-            this.groupDeviantArt.Location = new System.Drawing.Point(12, 12);
+            this.groupDeviantArt.Location = new System.Drawing.Point(318, 12);
             this.groupDeviantArt.Name = "groupDeviantArt";
-            this.groupDeviantArt.Size = new System.Drawing.Size(410, 45);
+            this.groupDeviantArt.Size = new System.Drawing.Size(300, 45);
             this.groupDeviantArt.TabIndex = 0;
             this.groupDeviantArt.TabStop = false;
             this.groupDeviantArt.Text = "DeviantArt";
@@ -385,7 +385,7 @@
             // btnDeviantArtSignIn
             // 
             this.btnDeviantArtSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeviantArtSignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnDeviantArtSignIn.Location = new System.Drawing.Point(219, 19);
             this.btnDeviantArtSignIn.Name = "btnDeviantArtSignIn";
             this.btnDeviantArtSignIn.Size = new System.Drawing.Size(75, 20);
             this.btnDeviantArtSignIn.TabIndex = 6;
@@ -395,10 +395,10 @@
             // 
             // lblDeviantArtTokenStatus
             // 
-            this.lblDeviantArtTokenStatus.AutoSize = true;
+            this.lblDeviantArtTokenStatus.AutoEllipsis = true;
             this.lblDeviantArtTokenStatus.Location = new System.Drawing.Point(80, 23);
             this.lblDeviantArtTokenStatus.Name = "lblDeviantArtTokenStatus";
-            this.lblDeviantArtTokenStatus.Size = new System.Drawing.Size(69, 13);
+            this.lblDeviantArtTokenStatus.Size = new System.Drawing.Size(133, 13);
             this.lblDeviantArtTokenStatus.TabIndex = 5;
             this.lblDeviantArtTokenStatus.Text = "Not signed in";
             // 
@@ -413,22 +413,38 @@
             // 
             // groupFurAffinity
             // 
-            this.groupFurAffinity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupFurAffinity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupFurAffinity.Controls.Add(this.lblfurAffinityUsername2);
+            this.groupFurAffinity.Controls.Add(this.lblfurAffinityUsername1);
             this.groupFurAffinity.Controls.Add(this.btnFurAffinitySignIn);
-            this.groupFurAffinity.Controls.Add(this.lblFurAffinityCookies2);
-            this.groupFurAffinity.Controls.Add(this.lblFurAffinityCookies1);
-            this.groupFurAffinity.Location = new System.Drawing.Point(12, 63);
+            this.groupFurAffinity.Location = new System.Drawing.Point(318, 63);
             this.groupFurAffinity.Name = "groupFurAffinity";
-            this.groupFurAffinity.Size = new System.Drawing.Size(410, 52);
+            this.groupFurAffinity.Size = new System.Drawing.Size(300, 45);
             this.groupFurAffinity.TabIndex = 1;
             this.groupFurAffinity.TabStop = false;
             this.groupFurAffinity.Text = "FurAffinity";
             // 
+            // lblfurAffinityUsername2
+            // 
+            this.lblfurAffinityUsername2.AutoEllipsis = true;
+            this.lblfurAffinityUsername2.Location = new System.Drawing.Point(80, 23);
+            this.lblfurAffinityUsername2.Name = "lblfurAffinityUsername2";
+            this.lblfurAffinityUsername2.Size = new System.Drawing.Size(133, 13);
+            this.lblfurAffinityUsername2.TabIndex = 8;
+            // 
+            // lblfurAffinityUsername1
+            // 
+            this.lblfurAffinityUsername1.AutoSize = true;
+            this.lblfurAffinityUsername1.Location = new System.Drawing.Point(6, 23);
+            this.lblfurAffinityUsername1.Name = "lblfurAffinityUsername1";
+            this.lblfurAffinityUsername1.Size = new System.Drawing.Size(58, 13);
+            this.lblfurAffinityUsername1.TabIndex = 7;
+            this.lblfurAffinityUsername1.Text = "Username:";
+            // 
             // btnFurAffinitySignIn
             // 
             this.btnFurAffinitySignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFurAffinitySignIn.Location = new System.Drawing.Point(329, 19);
+            this.btnFurAffinitySignIn.Location = new System.Drawing.Point(219, 19);
             this.btnFurAffinitySignIn.Name = "btnFurAffinitySignIn";
             this.btnFurAffinitySignIn.Size = new System.Drawing.Size(75, 20);
             this.btnFurAffinitySignIn.TabIndex = 6;
@@ -436,30 +452,13 @@
             this.btnFurAffinitySignIn.UseVisualStyleBackColor = true;
             this.btnFurAffinitySignIn.Click += new System.EventHandler(this.btnFurAffinitySignIn_Click);
             // 
-            // lblFurAffinityCookies2
-            // 
-            this.lblFurAffinityCookies2.AutoSize = true;
-            this.lblFurAffinityCookies2.Location = new System.Drawing.Point(80, 23);
-            this.lblFurAffinityCookies2.Name = "lblFurAffinityCookies2";
-            this.lblFurAffinityCookies2.Size = new System.Drawing.Size(0, 13);
-            this.lblFurAffinityCookies2.TabIndex = 5;
-            // 
-            // lblFurAffinityCookies1
-            // 
-            this.lblFurAffinityCookies1.AutoSize = true;
-            this.lblFurAffinityCookies1.Location = new System.Drawing.Point(6, 23);
-            this.lblFurAffinityCookies1.Name = "lblFurAffinityCookies1";
-            this.lblFurAffinityCookies1.Size = new System.Drawing.Size(48, 13);
-            this.lblFurAffinityCookies1.TabIndex = 4;
-            this.lblFurAffinityCookies1.Text = "Cookies:";
-            // 
             // SettingsDialog
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(434, 611);
+            this.ClientSize = new System.Drawing.Size(630, 361);
             this.Controls.Add(this.groupFurAffinity);
             this.Controls.Add(this.groupDeviantArt);
             this.Controls.Add(this.groupTwitter);
@@ -525,7 +524,7 @@
         private System.Windows.Forms.TextBox txtFooter;
         private System.Windows.Forms.GroupBox groupFurAffinity;
         private System.Windows.Forms.Button btnFurAffinitySignIn;
-        private System.Windows.Forms.Label lblFurAffinityCookies2;
-        private System.Windows.Forms.Label lblFurAffinityCookies1;
+        private System.Windows.Forms.Label lblfurAffinityUsername2;
+        private System.Windows.Forms.Label lblfurAffinityUsername1;
     }
 }
