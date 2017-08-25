@@ -59,11 +59,14 @@
       <HintPath>..\packages\TumblrSharp.1.0.0.6\lib\net45\DontPanic.TumblrSharp.Net45.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FlickrNet, Version=3.24.0.0, Culture=neutral, PublicKeyToken=2491df59efa5d132, processorArchitecture=MSIL">
+      <HintPath>..\packages\FlickrNet.3.24.0\lib\net20\FlickrNet.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.5.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="ISchemm.WinFormsOAuth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ISchemm.WinFormsOAuth.1.0.0\lib\net30\ISchemm.WinFormsOAuth.dll</HintPath>
+    <Reference Include="ISchemm.WinFormsOAuth, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ISchemm.WinFormsOAuth.1.1.0\lib\net30\ISchemm.WinFormsOAuth.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -178,6 +181,7 @@
     <Compile Include="SourceChoiceForm.Designer.cs">
       <DependentUpon>SourceChoiceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FlickrKey.cs" />
     <Compile Include="TwitterKey.cs" />
     <Compile Include="TumblrKey.cs" />
     <Compile Include="UserChosenLocalFolderWrapper.cs" />

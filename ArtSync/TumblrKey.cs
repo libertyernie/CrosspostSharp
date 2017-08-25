@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 namespace ArtSync {
 	public static class TumblrKey {
 		public static Token Obtain(string consumerKey, string consumerSecret) {
+            IECompatibility.SetForCurrentProcess();
+
 			var oauth = new OAuthTumblr(consumerKey, consumerSecret);
 			oauth.getRequestToken();
 			string verifier = oauth.authorizeToken(); // display WebBrowser

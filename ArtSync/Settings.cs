@@ -40,7 +40,14 @@ namespace ArtSync {
 
 		public TwitterSettings Twitter { get; set; }
 
-		public class InkbunnySettings {
+        public class FlickrSettings {
+            public string TokenKey { get; set; }
+            public string TokenSecret { get; set; }
+        }
+
+        public FlickrSettings Flickr { get; set; }
+
+        public class InkbunnySettings {
 			public string Sid { get; set; }
 			public int? UserId { get; set; }
 		}
