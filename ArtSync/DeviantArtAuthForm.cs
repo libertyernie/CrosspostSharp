@@ -44,9 +44,7 @@ namespace ArtSync {
                         sb.Append($"code={Code}");
                         sb.Append('&');
                         sb.Append($"redirect_uri={WebUtility.UrlEncode(RedirectUri)}");
-                        var req = WebRequest.CreateHttp("https://www.deviantart.com/oauth2/token?" + sb);
-                        req.Method = "GET";
-                        req.UserAgent = "ArtSync/2.2 (https://github.com/libertyernie/ArtSync)";
+                        var req = WeasylForm.CreateWebRequest("https://www.deviantart.com/oauth2/token?" + sb);
                         using (var resp = req.GetResponse())
                         using (var sr = new StreamReader(resp.GetResponseStream())) {
                             Dictionary<string, string> result = JsonConvert.DeserializeObject<Dictionary<string, string>>(sr.ReadToEnd());

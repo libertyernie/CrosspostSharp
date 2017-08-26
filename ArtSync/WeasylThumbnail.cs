@@ -45,7 +45,7 @@ namespace ArtSync {
             if (url == null) {
 				this.Image = null;
 			} else {
-				WebRequest req = WebRequest.Create(url);
+				WebRequest req = WeasylForm.CreateWebRequest(url);
                 using (Stream memoryStream = new MemoryStream()) {
                     using (WebResponse resp = await req.GetResponseAsync()) {
                         using (Stream stream = resp.GetResponseStream()) {
@@ -86,7 +86,7 @@ namespace ArtSync {
                     if (url != null) {
                         string filename = url.Substring(url.LastIndexOf('/') + 1);
 
-                        WebRequest req = WebRequest.Create(url);
+                        WebRequest req = WeasylForm.CreateWebRequest(url);
                         using (WebResponse resp = await req.GetResponseAsync())
                         using (var stream = resp.GetResponseStream()) {
                             byte[] data;

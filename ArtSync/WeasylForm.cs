@@ -175,10 +175,7 @@ namespace ArtSync {
             try {
                 string picUrl = await SourceWrapper.GetUserIconAsync(picUserIcon.Height);
                 if (picUrl != null) {
-                    var req = WebRequest.Create(picUrl);
-                    if (req is HttpWebRequest) {
-                        ((HttpWebRequest)req).UserAgent = "ArtSync/2.2 (https://github.com/libertyernie/ArtSync)";
-                    }
+                    var req = CreateWebRequest(picUrl);
                     using (WebResponse resp = await req.GetResponseAsync())
                     using (var stream1 = resp.GetResponseStream())
                     using (var stream2 = new MemoryStream()) {
@@ -1005,5 +1002,13 @@ namespace ArtSync {
 				return new BinaryFile(stream.ToArray());
 			}
 		}
+
+        public static WebRequest CreateWebRequest(string url) {
+            var req = WebRequest.Create(url);
+            if (req is HttpWebRequest) {
+                ((HttpWebRequest)req).UserAgent = "ArtSync/2.2 (https://github.com/libertyernie/ArtSync)";
+            }
+            return req;
+        }
     }
 }
