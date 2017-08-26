@@ -16,8 +16,8 @@ Requirements:
 * Windows Vista or higher
 * .NET Framework 4.6.1 or higher
 
-Authentication
---------------
+Supported Sources
+-----------------
 
 To use this application, you must connect it to one of your accounts.
 Information for all accounts will be stored in the file ArtSync.json,
@@ -27,18 +27,31 @@ When you're logged into a source site, your three most recent
 submissions will appear along the left side of the window. Click the thumbnail
 to load the full image and fill in the information boxes.
 
-#### Weasyl
-
-You can obtain a Weasyl API key at https://www.weasyl.com/control/apikeys.
-Copy the API key from the page and paste it into the Options dialog in
-ArtSync (Tools -> Options).
-
-You can revoke an API key at any time by going to the same page.
-
 #### DeviantArt
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
+will be stored in ArtSync.json.
+
+You can upload images to DeviantArt or just to Sta.sh, and you can also use
+either one as a source site.
+
+#### Flickr
+
+Use the "Sign In" button in Tools -> Options to launch a browser window, which
+will let you sign in using OAuth. Once signed in, the OAuth token
+will be stored in ArtSync.json.
+
+#### FurAffinity
+
+Use the "Sign In" button in Tools -> Options to launch a dialog window that
+asks for your username and password. This will obtain cookies that will be
+stored in ArtSync.json.
+
+#### Inkbunny
+
+Use the "Sign In" button in Tools -> Options to launch a dialog window that
+asks for your username and password. This will obtain a user ID and SID that
 will be stored in ArtSync.json.
 
 #### Tumblr
@@ -61,20 +74,58 @@ Retweets, and tweets without photos, will be omitted.
 The browser window uses Internet Explorer internally, so you may see a notice
 from Twitter that you have logged in with Internet Explorer from a new device.
 
+#### Weasyl
+
+You can obtain a Weasyl API key at https://www.weasyl.com/control/apikeys.
+Copy the API key from the page and paste it into the Options dialog in
+ArtSync (Tools -> Options).
+
+You can revoke an API key at any time by going to the same page.
+
+Supported Destinations
+----------------------
+
+#### DeviantArt / sta.sh
+
+* Title
+* Artist comments (description) - if this is too small, you can make the window bigger
+* Tags (separated by spaces, # is optional)
+* Mature content (none, moderate, strict)
+* Mature content classification (if applicable)
+* Category
+  * e.g. Cartoons & Comics > Digital Media > Cartoons > Vector
+  * default is Scraps
+* Gallery folders
+  * Select one or more
+  * default is Featured
+* Sharing options
+* License options
+* Allow download
+* Allow comments
+* Request critique
+
+You must agree to the submisison policy and terms of service before posting.
+
+#### Flickr
+
+* Title
+* Description (limited HTML)
+* Tags
+* Permissions (public, friends, family)
+* Safety level (safe / moderate / restricted)
+* Content type (photo / screenshot / other)
+* License (optional)
+* Public/private
+
 #### Inkbunny
 
-Use the "Sign In" button in Tools -> Options to launch a dialog window that
-asks for your username and password. This will obtain a user ID and SID that
-will be stored in ArtSync.json.
-
-#### FurAffinity
-
-Use the "Sign In" button in Tools -> Options to launch a dialog window that
-asks for your username and password. This will obtain cookies that will be
-stored in ArtSync.json.
-
-Posting
--------
+* Title
+* Description (BBCode)
+* Keywords (separated by spaces, # is optional)
+* Public
+* Notify watchers
+* Scraps
+* Checkboxes for all four Inkbunny rating levels
 
 #### Tumblr
 
@@ -97,17 +148,6 @@ appropriate value. This will form the photo caption / text.
 
 If a checkbox is not checked, the content in the adajcent box will not be used.
 
-#### Inkbunny
-
-* "Click to log in" label (click to log in with your username and password)
-* Title
-* Description (BBCode)
-* Keywords (separated by spaces, # is optional)
-* Public
-* Notify watchers
-* Scraps
-* Checkboxes for all four Inkbunny rating levels
-
 #### Twitter
 
 * Include title (repopulates tweet area)
@@ -117,27 +157,6 @@ If a checkbox is not checked, the content in the adajcent box will not be used.
 * Include image (image will be included as media in the tweet)
 * Append link (link will be appended to the tweet; this also lets ArtSync find
   the tweet later and show you a link)
-
-#### DeviantArt / sta.sh
-
-* Title
-* Artist comments (description) - if this is too small, you can make the window bigger
-* Tags (separated by spaces, # is optional)
-* Mature content (none, moderate, strict)
-* Mature content classification (if applicable)
-* Category
-  * e.g. Cartoons & Comics > Digital Media > Cartoons > Vector
-  * default is Scraps
-* Gallery folders
-  * Select one or more
-  * default is Featured
-* Sharing options
-* License options
-* Allow download
-* Allow comments
-* Request critique
-
-You must agree to the submisison policy and terms of service before posting.
 
 Settings
 --------
@@ -174,6 +193,10 @@ Settings are stored in the file ArtSync.json.
   * TokenKey: Gives ArtSync access to your Twitter account (with TokenSecret).
   * TokenSecret: Gives ArtSync access to your Twitter account (with TokenKey).
 
+* Flickr
+  * TokenKey: Gives ArtSync access to your Flickr account (with TokenSecret).
+  * TokenSecret: Gives ArtSync access to your Flickr account (with TokenKey).
+
 * Inkbunny
   * Sid: The "sid" value used in the Inkbunny API.
   * UserId: Your Inkbunny user ID.
@@ -199,6 +222,10 @@ OAuth keys, then put the following into OAuthConsumer.cs:
             public static class DeviantArt {
                 public static string CLIENT_ID = "client_id goes here";
                 public static string CLIENT_SECRET = "client_secret goes here";
+            }
+            public static class Flickr {
+                public static string KEY = "consumer key goes here";
+                public static string SECRET = "secret key goes here";
             }
         }
     }

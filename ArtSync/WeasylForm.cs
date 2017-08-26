@@ -181,7 +181,13 @@ namespace ArtSync {
                     using (var stream2 = new MemoryStream()) {
                         await stream1.CopyToAsync(stream2);
                         stream2.Position = 0;
-                        picUserIcon.Image = Image.FromStream(stream2);
+                        Image image = Image.FromStream(stream2);
+                        picUserIcon.Image = image;
+                        if (image.Height > picUserIcon.Height && image.Height <= picUserIcon.Height + 4) {
+                            picUserIcon.SizeMode = PictureBoxSizeMode.CenterImage;
+                        } else {
+                            picUserIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+                        }
                     }
                 }
             } catch (Exception) { }

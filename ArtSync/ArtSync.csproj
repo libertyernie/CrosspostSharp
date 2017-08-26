@@ -154,12 +154,6 @@
     <Compile Include="LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="PostAlreadyExistsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PostAlreadyExistsDialog.Designer.cs">
-      <DependentUpon>PostAlreadyExistsDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="SettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,9 +194,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PostAlreadyExistsDialog.resx">
-      <DependentUpon>PostAlreadyExistsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
