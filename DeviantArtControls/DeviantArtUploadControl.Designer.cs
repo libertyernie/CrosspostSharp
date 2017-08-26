@@ -77,10 +77,10 @@
             this.txtArtistComments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtArtistComments.Location = new System.Drawing.Point(6, 49);
+            this.txtArtistComments.Location = new System.Drawing.Point(3, 49);
             this.txtArtistComments.Multiline = true;
             this.txtArtistComments.Name = "txtArtistComments";
-            this.txtArtistComments.Size = new System.Drawing.Size(253, 78);
+            this.txtArtistComments.Size = new System.Drawing.Size(256, 78);
             this.txtArtistComments.TabIndex = 3;
             // 
             // lblTitle

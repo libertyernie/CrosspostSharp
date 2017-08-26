@@ -37,7 +37,7 @@ namespace ArtSourceWrapper {
         public string SiteName => "DeviantArt";
         public abstract string WrapperName { get; }
 
-        public static async Task<string> WhoamiStaticAsync() {
+        public static async Task<User> GetUserAsync() {
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
                 throw new DeviantArtException(result.ErrorText);
@@ -45,11 +45,19 @@ namespace ArtSourceWrapper {
             if (!string.IsNullOrEmpty(result.Result.Error)) {
                 throw new DeviantArtException(result.Result.ErrorDescription);
             }
-            return result.Result.Username;
+            return result.Result;
         }
 
-        public Task<string> WhoamiAsync() {
-            return WhoamiStaticAsync();
+        private User _user;
+
+        public async Task<string> WhoamiAsync() {
+            if (_user == null) _user = await GetUserAsync();
+            return _user.Username;
+        }
+
+        public async Task<string> GetUserIconAsync() {
+            if (_user == null) _user = await GetUserAsync();
+            return _user.UserIconUrl.AbsoluteUri;
         }
 
         public static async Task<bool> LogoutAsync() {
@@ -89,9 +97,7 @@ namespace ArtSourceWrapper {
                 !galleryResponse.Result.HasMore);
         }
     }
-
     
-
     public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
         private DeviantArtDeviationWrapper _idWrapper;
 
@@ -109,6 +115,10 @@ namespace ArtSourceWrapper {
 
         public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();
+        }
+
+        public override Task<string> GetUserIconAsync() {
+            return _idWrapper.GetUserIconAsync();
         }
 
         private static IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {

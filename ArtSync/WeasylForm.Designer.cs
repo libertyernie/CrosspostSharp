@@ -70,9 +70,12 @@
             this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDeviantArt = new System.Windows.Forms.TabPage();
+            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
             this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
             this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
             this.tabFlickr = new System.Windows.Forms.TabPage();
+            this.lblFlickrLicense = new System.Windows.Forms.Label();
+            this.ddlFlickrLicense = new System.Windows.Forms.ComboBox();
             this.btnPostToFlickr = new System.Windows.Forms.Button();
             this.chkFlickrHidden = new System.Windows.Forms.CheckBox();
             this.groupFlickrContentType = new System.Windows.Forms.GroupBox();
@@ -124,9 +127,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ddlFlickrLicense = new System.Windows.Forms.ComboBox();
-            this.lblFlickrLicense = new System.Windows.Forms.Label();
-            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
+            this.picUserIcon = new System.Windows.Forms.PictureBox();
             this.lProgressBar1 = new ArtSync.LProgressBar();
             this.thumbnail1 = new ArtSync.WeasylThumbnail();
             this.thumbnail2 = new ArtSync.WeasylThumbnail();
@@ -146,6 +147,7 @@
             this.tabTwitter.SuspendLayout();
             this.tabSave.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
@@ -180,9 +182,9 @@
             this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mainPictureBox.Location = new System.Drawing.Point(142, 3);
+            this.mainPictureBox.Location = new System.Drawing.Point(142, 59);
             this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(400, 384);
+            this.mainPictureBox.Size = new System.Drawing.Size(400, 328);
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.mainPictureBox.TabIndex = 6;
             this.mainPictureBox.TabStop = false;
@@ -379,11 +381,10 @@
             // 
             this.lblWeasylStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWeasylStatus1.AutoEllipsis = true;
-            this.lblWeasylStatus1.Location = new System.Drawing.Point(363, 400);
-            this.lblWeasylStatus1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblWeasylStatus1.Location = new System.Drawing.Point(198, 20);
             this.lblWeasylStatus1.Name = "lblWeasylStatus1";
             this.lblWeasylStatus1.Size = new System.Drawing.Size(63, 13);
-            this.lblWeasylStatus1.TabIndex = 8;
+            this.lblWeasylStatus1.TabIndex = 3;
             this.lblWeasylStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTumblrStatus1
@@ -399,12 +400,11 @@
             // lblWeasylStatus2
             // 
             this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblWeasylStatus2.Location = new System.Drawing.Point(432, 394);
-            this.lblWeasylStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblWeasylStatus2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWeasylStatus2.Location = new System.Drawing.Point(198, 3);
             this.lblWeasylStatus2.Name = "lblWeasylStatus2";
-            this.lblWeasylStatus2.Size = new System.Drawing.Size(110, 24);
-            this.lblWeasylStatus2.TabIndex = 9;
-            this.lblWeasylStatus2.Text = "not logged in";
+            this.lblWeasylStatus2.Size = new System.Drawing.Size(344, 17);
+            this.lblWeasylStatus2.TabIndex = 2;
             this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblTumblrStatus2
@@ -617,6 +617,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.picUserIcon);
             this.panel1.Controls.Add(this.lProgressBar1);
             this.panel1.Controls.Add(this.btnUp);
             this.panel1.Controls.Add(this.btnDown);
@@ -630,18 +631,18 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 424);
-            this.panel1.TabIndex = 0;
+            this.panel1.Size = new System.Drawing.Size(554, 393);
+            this.panel1.TabIndex = 1;
             // 
             // lnkOriginalUrl
             // 
             this.lnkOriginalUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkOriginalUrl.AutoEllipsis = true;
-            this.lnkOriginalUrl.Location = new System.Drawing.Point(12, 400);
+            this.lnkOriginalUrl.Location = new System.Drawing.Point(198, 40);
             this.lnkOriginalUrl.Name = "lnkOriginalUrl";
-            this.lnkOriginalUrl.Size = new System.Drawing.Size(348, 13);
-            this.lnkOriginalUrl.TabIndex = 7;
+            this.lnkOriginalUrl.Size = new System.Drawing.Size(344, 13);
+            this.lnkOriginalUrl.TabIndex = 4;
             this.lnkOriginalUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lnkOriginalUrl.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOriginalUrl_LinkClicked);
             // 
@@ -654,11 +655,11 @@
             this.tabControl1.Controls.Add(this.tabTwitter);
             this.tabControl1.Controls.Add(this.tabSave);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 448);
+            this.tabControl1.Location = new System.Drawing.Point(0, 417);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(554, 351);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(554, 382);
+            this.tabControl1.TabIndex = 2;
             // 
             // tabDeviantArt
             // 
@@ -668,10 +669,26 @@
             this.tabDeviantArt.Location = new System.Drawing.Point(4, 22);
             this.tabDeviantArt.Name = "tabDeviantArt";
             this.tabDeviantArt.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDeviantArt.Size = new System.Drawing.Size(546, 325);
+            this.tabDeviantArt.Size = new System.Drawing.Size(546, 356);
             this.tabDeviantArt.TabIndex = 4;
             this.tabDeviantArt.Text = "DeviantArt";
             this.tabDeviantArt.UseVisualStyleBackColor = true;
+            // 
+            // deviantArtUploadControl1
+            // 
+            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deviantArtUploadControl1.Data = null;
+            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 29);
+            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
+            this.deviantArtUploadControl1.SelectedCategory = null;
+            this.deviantArtUploadControl1.SelectedFolders = null;
+            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 324);
+            this.deviantArtUploadControl1.TabIndex = 5;
+            this.deviantArtUploadControl1.UploadProgressChanged += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadProgressHandler(this.deviantArtUploadControl1_UploadProgressChanged);
+            this.deviantArtUploadControl1.Uploaded += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadedHandler(this.deviantArtUploadControl1_Uploaded);
+            this.deviantArtUploadControl1.UploadError += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadErrorHandler(this.deviantArtUploadControl1_UploadError);
             // 
             // lblDeviantArtStatus2
             // 
@@ -720,6 +737,26 @@
             this.tabFlickr.TabIndex = 5;
             this.tabFlickr.Text = "Flickr";
             this.tabFlickr.UseVisualStyleBackColor = true;
+            // 
+            // lblFlickrLicense
+            // 
+            this.lblFlickrLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFlickrLicense.AutoSize = true;
+            this.lblFlickrLicense.Location = new System.Drawing.Point(271, 234);
+            this.lblFlickrLicense.Name = "lblFlickrLicense";
+            this.lblFlickrLicense.Size = new System.Drawing.Size(47, 13);
+            this.lblFlickrLicense.TabIndex = 11;
+            this.lblFlickrLicense.Text = "License:";
+            // 
+            // ddlFlickrLicense
+            // 
+            this.ddlFlickrLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddlFlickrLicense.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlFlickrLicense.FormattingEnabled = true;
+            this.ddlFlickrLicense.Location = new System.Drawing.Point(324, 231);
+            this.ddlFlickrLicense.Name = "ddlFlickrLicense";
+            this.ddlFlickrLicense.Size = new System.Drawing.Size(214, 21);
+            this.ddlFlickrLicense.TabIndex = 12;
             // 
             // btnPostToFlickr
             // 
@@ -1294,7 +1331,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 799);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(554, 22);
-            this.statusStrip1.TabIndex = 10;
+            this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // lblPosted1
@@ -1313,41 +1350,14 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
-            // ddlFlickrLicense
+            // picUserIcon
             // 
-            this.ddlFlickrLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ddlFlickrLicense.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlFlickrLicense.FormattingEnabled = true;
-            this.ddlFlickrLicense.Location = new System.Drawing.Point(324, 231);
-            this.ddlFlickrLicense.Name = "ddlFlickrLicense";
-            this.ddlFlickrLicense.Size = new System.Drawing.Size(214, 21);
-            this.ddlFlickrLicense.TabIndex = 12;
-            // 
-            // lblFlickrLicense
-            // 
-            this.lblFlickrLicense.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblFlickrLicense.AutoSize = true;
-            this.lblFlickrLicense.Location = new System.Drawing.Point(271, 234);
-            this.lblFlickrLicense.Name = "lblFlickrLicense";
-            this.lblFlickrLicense.Size = new System.Drawing.Size(47, 13);
-            this.lblFlickrLicense.TabIndex = 11;
-            this.lblFlickrLicense.Text = "License:";
-            // 
-            // deviantArtUploadControl1
-            // 
-            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.deviantArtUploadControl1.Data = null;
-            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
-            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
-            this.deviantArtUploadControl1.SelectedCategory = null;
-            this.deviantArtUploadControl1.SelectedFolders = null;
-            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 290);
-            this.deviantArtUploadControl1.TabIndex = 5;
-            this.deviantArtUploadControl1.UploadProgressChanged += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadProgressHandler(this.deviantArtUploadControl1_UploadProgressChanged);
-            this.deviantArtUploadControl1.Uploaded += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadedHandler(this.deviantArtUploadControl1_Uploaded);
-            this.deviantArtUploadControl1.UploadError += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadErrorHandler(this.deviantArtUploadControl1_UploadError);
+            this.picUserIcon.Location = new System.Drawing.Point(142, 3);
+            this.picUserIcon.Name = "picUserIcon";
+            this.picUserIcon.Size = new System.Drawing.Size(50, 50);
+            this.picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picUserIcon.TabIndex = 10;
+            this.picUserIcon.TabStop = false;
             // 
             // lProgressBar1
             // 
@@ -1355,11 +1365,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lProgressBar1.Location = new System.Drawing.Point(12, 394);
+            this.lProgressBar1.Location = new System.Drawing.Point(142, 363);
             this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.lProgressBar1.Name = "lProgressBar1";
-            this.lProgressBar1.Size = new System.Drawing.Size(348, 24);
-            this.lProgressBar1.TabIndex = 9;
+            this.lProgressBar1.Size = new System.Drawing.Size(400, 24);
+            this.lProgressBar1.TabIndex = 5;
             // 
             // thumbnail1
             // 
@@ -1425,6 +1435,7 @@
             this.tabSave.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
@@ -1543,6 +1554,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblFlickrLicense;
         private System.Windows.Forms.ComboBox ddlFlickrLicense;
+        private System.Windows.Forms.PictureBox picUserIcon;
     }
 }
 

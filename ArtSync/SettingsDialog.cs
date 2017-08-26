@@ -146,7 +146,7 @@ namespace ArtSync {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
                 try {
-                    string username = await DeviantArtDeviationWrapper.WhoamiStaticAsync();
+                    string username = (await DeviantArtDeviationWrapper.GetUserAsync()).Username;
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
                     lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {

@@ -52,13 +52,9 @@ namespace ArtSync {
 		private Bitmap currentImageBitmap;
 
 		// Allows WeasylThumbnail access to the progress bar.
-		public LProgressBar LProgressBar {
-			get {
-				return lProgressBar1;
-			}
-		}
+        public LProgressBar LProgressBar => lProgressBar1;
 
-		public WeasylForm() {
+        public WeasylForm() {
 			InitializeComponent();
 			tweetCache = new List<ITweet>();
 
@@ -87,7 +83,7 @@ namespace ArtSync {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    lblDeviantArtStatus2.Text = await new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()).WhoamiAsync();
+                    lblDeviantArtStatus2.Text = (await DeviantArtDeviationWrapper.GetUserAsync()).Username;
                     lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
@@ -97,7 +93,7 @@ namespace ArtSync {
                 }
             }
 
-            lblDeviantArtStatus2.Text = "not logged in";
+            lblDeviantArtStatus2.Text = "";
             lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
         }
 
@@ -161,14 +157,13 @@ namespace ArtSync {
             }
             WrapperPosition = 0;
 
-            lblWeasylStatus1.Text = SourceWrapper.SiteName == null
-                ? ""
-                : $"{ SourceWrapper.SiteName}:";
+            picUserIcon.Image = null;
+            lblWeasylStatus1.Text = SourceWrapper.SiteName ?? "";
 
             string user = null;
             try {
                 user = await SourceWrapper.WhoamiAsync();
-                lblWeasylStatus2.Text = user ?? "not logged in";
+                lblWeasylStatus2.Text = user ?? "";
                 lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
                     ? SystemColors.WindowText
                     : Color.DarkGreen;
@@ -176,6 +171,23 @@ namespace ArtSync {
                 lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
                 lblWeasylStatus2.ForeColor = Color.DarkRed;
             }
+
+            try {
+                string picUrl = await SourceWrapper.GetUserIconAsync();
+                if (picUrl != null) {
+                    var req = WebRequest.Create(picUrl);
+                    if (req is HttpWebRequest) {
+                        ((HttpWebRequest)req).UserAgent = "ArtSync/2.2 (https://github.com/libertyernie/ArtSync)";
+                    }
+                    using (WebResponse resp = await req.GetResponseAsync())
+                    using (var stream1 = resp.GetResponseStream())
+                    using (var stream2 = new MemoryStream()) {
+                        await stream1.CopyToAsync(stream2);
+                        stream2.Position = 0;
+                        picUserIcon.Image = Image.FromStream(stream2);
+                    }
+                }
+            } catch (Exception) { }
         }
 
         private async Task GetNewTumblrClient() {
@@ -189,12 +201,12 @@ namespace ArtSync {
             }
 
             if (Tumblr == null) {
-                lblTumblrStatus2.Text = "not logged in";
+                lblTumblrStatus2.Text = "";
                 lblTumblrStatus2.ForeColor = SystemColors.WindowText;
             } else {
                 try {
                     TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
-                    lblTumblrStatus2.Text = TumblrUsername ?? "not logged in";
+                    lblTumblrStatus2.Text = TumblrUsername ?? "";
                     lblTumblrStatus2.ForeColor = TumblrUsername == null
                         ? SystemColors.WindowText
                         : Color.DarkGreen;
@@ -213,7 +225,7 @@ namespace ArtSync {
             }
 
             if (Inkbunny == null) {
-                lblInkbunnyStatus2.Text = "not logged in";
+                lblInkbunnyStatus2.Text = "";
                 lblInkbunnyStatus2.ForeColor = SystemColors.WindowText;
             } else {
                 try {
@@ -231,7 +243,7 @@ namespace ArtSync {
             TwitterCredentials = GlobalSettings.TwitterCredentials;
             try {
                 string screenName = TwitterCredentials?.GetScreenName();
-                lblTwitterStatus2.Text = screenName ?? "not logged in";
+                lblTwitterStatus2.Text = screenName ?? "";
                 lblTwitterStatus2.ForeColor = screenName == null
                     ? SystemColors.WindowText
                     : Color.DarkGreen;
@@ -268,7 +280,7 @@ namespace ArtSync {
             }
 
             if (Flickr == null) {
-                lblFlickrStatus2.Text = "not logged in";
+                lblFlickrStatus2.Text = "";
                 lblFlickrStatus2.ForeColor = SystemColors.WindowText;
             } else {
                 try {

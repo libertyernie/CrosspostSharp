@@ -20,6 +20,10 @@ namespace ArtSourceWrapper {
             return Task.FromResult<string>(null);
         }
 
+        public override Task<string> GetUserIconAsync() {
+            return Task.FromResult<string>(null);
+        }
+
         protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             return Task.FromResult(new InternalFetchResult(0, true));
         }
