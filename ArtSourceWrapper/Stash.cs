@@ -8,8 +8,8 @@ using System.Drawing;
 
 namespace ArtSourceWrapper {
     public class StashWrapper : SiteWrapper<StashSubmissionWrapper, uint> {
-        public override string SiteName => "sta.sh";
-        public override string WrapperName => "sta.sh";
+        public override string SiteName => "Sta.sh";
+        public override string WrapperName => "DeviantArt Sta.sh";
 
         public override int BatchSize { get; set; } = 120;
         public override int MinBatchSize => 1;
@@ -55,7 +55,7 @@ namespace ArtSourceWrapper {
         private StashWrapper _wrapper;
 
         public override string SiteName => _wrapper.SiteName;
-        public override string WrapperName => "sta.sh (newest first)";
+        public override string WrapperName => _wrapper.WrapperName + " (newest first)";
 
         public override int BatchSize { get; set; } = 0;
         public override int MinBatchSize => 0;
