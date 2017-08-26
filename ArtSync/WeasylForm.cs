@@ -283,6 +283,8 @@ namespace ArtSync {
                     FlickrAuth = await t2.Task;
                     lblFlickrStatus2.Text = FlickrAuth.User.UserName;
                     lblFlickrStatus2.ForeColor = Color.DarkGreen;
+
+                    await PopulateFlickrLicenses();
                 } catch (Exception e) {
                     Flickr = null;
                     FlickrAuth = null;
@@ -290,6 +292,22 @@ namespace ArtSync {
                     lblFlickrStatus2.ForeColor = Color.DarkRed;
                 }
             }
+        }
+
+        private async Task PopulateFlickrLicenses() {
+            var t = new TaskCompletionSource<LicenseCollection>();
+            Flickr.PhotosLicensesGetInfoAsync(result => {
+                if (result.HasError) {
+                    t.SetException(result.Error);
+                } else {
+                    t.SetResult(result.Result);
+                }
+            });
+            var licenses = await t.Task;
+
+            ddlFlickrLicense.Items.Clear();
+            ddlFlickrLicense.DisplayMember = nameof(License.LicenseName);
+            ddlFlickrLicense.Items.AddRange(licenses.Where(l => (int)l.LicenseId != 7).ToArray());
         }
 
         private async void LoadFromSettings() {
@@ -707,6 +725,21 @@ namespace ArtSync {
                     lblPosted1.Visible = true;
                     lblPosted2.Visible = true;
                     lblPosted2.Text = $"https://www.flickr.com/photos/{FlickrAuth.User.UserId}/{photoId}";
+
+                    var license = ddlFlickrLicense.SelectedItem as License;
+                    if (license != null) {
+                        LProgressBar.Report(0.5);
+
+                        var t2 = new TaskCompletionSource<NoResponse>();
+                        Flickr.PhotosLicensesSetLicenseAsync(photoId, license.LicenseId, result => {
+                            if (result.HasError) {
+                                t2.SetException(result.Error);
+                            } else {
+                                t2.SetResult(result.Result);
+                            }
+                        });
+                        await t2.Task;
+                    }
                 }
             } catch (Exception ex) {
                 ShowException(ex, nameof(PostToFlickr));
