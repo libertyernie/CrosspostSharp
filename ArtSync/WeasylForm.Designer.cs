@@ -73,6 +73,39 @@
             this.thumbnail3 = new ArtSync.WeasylThumbnail();
             this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabDeviantArt = new System.Windows.Forms.TabPage();
+            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
+            this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
+            this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
+            this.tabFlickr = new System.Windows.Forms.TabPage();
+            this.btnPostToFlickr = new System.Windows.Forms.Button();
+            this.chkFlickrHidden = new System.Windows.Forms.CheckBox();
+            this.groupFlickrContentType = new System.Windows.Forms.GroupBox();
+            this.radFlickrOther = new System.Windows.Forms.RadioButton();
+            this.radFlickrScreenshot = new System.Windows.Forms.RadioButton();
+            this.radFlickrPhoto = new System.Windows.Forms.RadioButton();
+            this.groupFlickrSafetyLevel = new System.Windows.Forms.GroupBox();
+            this.radFlickrRestricted = new System.Windows.Forms.RadioButton();
+            this.radFlickrModerate = new System.Windows.Forms.RadioButton();
+            this.radFlickrSafe = new System.Windows.Forms.RadioButton();
+            this.groupFlickrPermissions = new System.Windows.Forms.GroupBox();
+            this.chkFlickrFamily = new System.Windows.Forms.CheckBox();
+            this.chkFlickrFriend = new System.Windows.Forms.CheckBox();
+            this.chkFlickrPublic = new System.Windows.Forms.CheckBox();
+            this.txtFlickrTags = new System.Windows.Forms.TextBox();
+            this.lblFlickrTags = new System.Windows.Forms.Label();
+            this.txtFlickrDesc = new System.Windows.Forms.TextBox();
+            this.lblFlickrDesc = new System.Windows.Forms.Label();
+            this.txtFlickrTitle = new System.Windows.Forms.TextBox();
+            this.lblFlickrTitle = new System.Windows.Forms.Label();
+            this.lblFlickrStatus2 = new System.Windows.Forms.Label();
+            this.lblFlickrStatus1 = new System.Windows.Forms.Label();
+            this.tabInkbunny = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtInkbunnyTitle = new System.Windows.Forms.TextBox();
+            this.txtInkbunnyTags = new System.Windows.Forms.TextBox();
+            this.chkInkbunnyTags = new System.Windows.Forms.CheckBox();
             this.tabTumblr = new System.Windows.Forms.TabPage();
             this.tabTwitter = new System.Windows.Forms.TabPage();
             this.txtTweetText = new System.Windows.Forms.TextBox();
@@ -86,14 +119,6 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
-            this.tabDeviantArt = new System.Windows.Forms.TabPage();
-            this.deviantArtUploadControl1 = new DeviantArtControls.DeviantArtUploadControl();
-            this.lblDeviantArtStatus2 = new System.Windows.Forms.Label();
-            this.lblDeviantArtStatus1 = new System.Windows.Forms.Label();
-            this.tabInkbunny = new System.Windows.Forms.TabPage();
-            this.txtInkbunnyTitle = new System.Windows.Forms.TextBox();
-            this.txtInkbunnyTags = new System.Windows.Forms.TextBox();
-            this.chkInkbunnyTags = new System.Windows.Forms.CheckBox();
             this.tabSave = new System.Windows.Forms.TabPage();
             this.btnSaveLocal = new System.Windows.Forms.Button();
             this.txtSaveFilename = new System.Windows.Forms.TextBox();
@@ -104,31 +129,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabFlickr = new System.Windows.Forms.TabPage();
-            this.lblFlickrStatus2 = new System.Windows.Forms.Label();
-            this.lblFlickrStatus1 = new System.Windows.Forms.Label();
-            this.txtFlickrTags = new System.Windows.Forms.TextBox();
-            this.lblFlickrTags = new System.Windows.Forms.Label();
-            this.txtFlickrDesc = new System.Windows.Forms.TextBox();
-            this.lblFlickrDesc = new System.Windows.Forms.Label();
-            this.txtFlickrTitle = new System.Windows.Forms.TextBox();
-            this.lblFlickrTitle = new System.Windows.Forms.Label();
-            this.groupFlickrPermissions = new System.Windows.Forms.GroupBox();
-            this.chkFlickrPublic = new System.Windows.Forms.CheckBox();
-            this.chkFlickrFriend = new System.Windows.Forms.CheckBox();
-            this.chkFlickrFamily = new System.Windows.Forms.CheckBox();
-            this.groupFlickrSafetyLevel = new System.Windows.Forms.GroupBox();
-            this.radFlickrSafe = new System.Windows.Forms.RadioButton();
-            this.radFlickrModerate = new System.Windows.Forms.RadioButton();
-            this.radFlickrRestricted = new System.Windows.Forms.RadioButton();
-            this.groupFlickrContentType = new System.Windows.Forms.GroupBox();
-            this.radFlickrOther = new System.Windows.Forms.RadioButton();
-            this.radFlickrScreenshot = new System.Windows.Forms.RadioButton();
-            this.radFlickrPhoto = new System.Windows.Forms.RadioButton();
-            this.chkFlickrHidden = new System.Windows.Forms.CheckBox();
-            this.btnPostToFlickr = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -137,16 +137,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
             this.tabControl1.SuspendLayout();
+            this.tabDeviantArt.SuspendLayout();
+            this.tabFlickr.SuspendLayout();
+            this.groupFlickrContentType.SuspendLayout();
+            this.groupFlickrSafetyLevel.SuspendLayout();
+            this.groupFlickrPermissions.SuspendLayout();
+            this.tabInkbunny.SuspendLayout();
             this.tabTumblr.SuspendLayout();
             this.tabTwitter.SuspendLayout();
-            this.tabDeviantArt.SuspendLayout();
-            this.tabInkbunny.SuspendLayout();
             this.tabSave.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.tabFlickr.SuspendLayout();
-            this.groupFlickrPermissions.SuspendLayout();
-            this.groupFlickrSafetyLevel.SuspendLayout();
-            this.groupFlickrContentType.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -697,6 +697,392 @@
             this.tabControl1.Size = new System.Drawing.Size(554, 351);
             this.tabControl1.TabIndex = 0;
             // 
+            // tabDeviantArt
+            // 
+            this.tabDeviantArt.Controls.Add(this.deviantArtUploadControl1);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus2);
+            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus1);
+            this.tabDeviantArt.Location = new System.Drawing.Point(4, 22);
+            this.tabDeviantArt.Name = "tabDeviantArt";
+            this.tabDeviantArt.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDeviantArt.Size = new System.Drawing.Size(546, 325);
+            this.tabDeviantArt.TabIndex = 4;
+            this.tabDeviantArt.Text = "DeviantArt";
+            this.tabDeviantArt.UseVisualStyleBackColor = true;
+            // 
+            // deviantArtUploadControl1
+            // 
+            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deviantArtUploadControl1.Data = null;
+            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
+            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
+            this.deviantArtUploadControl1.SelectedCategory = null;
+            this.deviantArtUploadControl1.SelectedFolders = null;
+            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 290);
+            this.deviantArtUploadControl1.TabIndex = 5;
+            this.deviantArtUploadControl1.UploadProgressChanged += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadProgressHandler(this.deviantArtUploadControl1_UploadProgressChanged);
+            this.deviantArtUploadControl1.Uploaded += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadedHandler(this.deviantArtUploadControl1_Uploaded);
+            this.deviantArtUploadControl1.UploadError += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadErrorHandler(this.deviantArtUploadControl1_UploadError);
+            // 
+            // lblDeviantArtStatus2
+            // 
+            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDeviantArtStatus2.AutoEllipsis = true;
+            this.lblDeviantArtStatus2.Location = new System.Drawing.Point(80, 6);
+            this.lblDeviantArtStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtStatus2.Name = "lblDeviantArtStatus2";
+            this.lblDeviantArtStatus2.Size = new System.Drawing.Size(460, 20);
+            this.lblDeviantArtStatus2.TabIndex = 1;
+            this.lblDeviantArtStatus2.Text = "not logged in";
+            this.lblDeviantArtStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblDeviantArtStatus1
+            // 
+            this.lblDeviantArtStatus1.Location = new System.Drawing.Point(6, 6);
+            this.lblDeviantArtStatus1.Margin = new System.Windows.Forms.Padding(3);
+            this.lblDeviantArtStatus1.Name = "lblDeviantArtStatus1";
+            this.lblDeviantArtStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblDeviantArtStatus1.TabIndex = 0;
+            this.lblDeviantArtStatus1.Text = "DeviantArt:";
+            this.lblDeviantArtStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabFlickr
+            // 
+            this.tabFlickr.Controls.Add(this.btnPostToFlickr);
+            this.tabFlickr.Controls.Add(this.chkFlickrHidden);
+            this.tabFlickr.Controls.Add(this.groupFlickrContentType);
+            this.tabFlickr.Controls.Add(this.groupFlickrSafetyLevel);
+            this.tabFlickr.Controls.Add(this.groupFlickrPermissions);
+            this.tabFlickr.Controls.Add(this.txtFlickrTags);
+            this.tabFlickr.Controls.Add(this.lblFlickrTags);
+            this.tabFlickr.Controls.Add(this.txtFlickrDesc);
+            this.tabFlickr.Controls.Add(this.lblFlickrDesc);
+            this.tabFlickr.Controls.Add(this.txtFlickrTitle);
+            this.tabFlickr.Controls.Add(this.lblFlickrTitle);
+            this.tabFlickr.Controls.Add(this.lblFlickrStatus2);
+            this.tabFlickr.Controls.Add(this.lblFlickrStatus1);
+            this.tabFlickr.Location = new System.Drawing.Point(4, 22);
+            this.tabFlickr.Name = "tabFlickr";
+            this.tabFlickr.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFlickr.Size = new System.Drawing.Size(546, 325);
+            this.tabFlickr.TabIndex = 5;
+            this.tabFlickr.Text = "Flickr";
+            this.tabFlickr.UseVisualStyleBackColor = true;
+            // 
+            // btnPostToFlickr
+            // 
+            this.btnPostToFlickr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPostToFlickr.Location = new System.Drawing.Point(443, 296);
+            this.btnPostToFlickr.Name = "btnPostToFlickr";
+            this.btnPostToFlickr.Size = new System.Drawing.Size(95, 23);
+            this.btnPostToFlickr.TabIndex = 16;
+            this.btnPostToFlickr.Text = "Post to Flickr";
+            this.btnPostToFlickr.UseVisualStyleBackColor = true;
+            this.btnPostToFlickr.Click += new System.EventHandler(this.btnPostToFlickr_Click);
+            // 
+            // chkFlickrHidden
+            // 
+            this.chkFlickrHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkFlickrHidden.AutoSize = true;
+            this.chkFlickrHidden.Location = new System.Drawing.Point(390, 231);
+            this.chkFlickrHidden.Name = "chkFlickrHidden";
+            this.chkFlickrHidden.Size = new System.Drawing.Size(148, 17);
+            this.chkFlickrHidden.TabIndex = 15;
+            this.chkFlickrHidden.Text = "Hide from public searches";
+            this.chkFlickrHidden.UseVisualStyleBackColor = true;
+            // 
+            // groupFlickrContentType
+            // 
+            this.groupFlickrContentType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupFlickrContentType.Controls.Add(this.radFlickrOther);
+            this.groupFlickrContentType.Controls.Add(this.radFlickrScreenshot);
+            this.groupFlickrContentType.Controls.Add(this.radFlickrPhoto);
+            this.groupFlickrContentType.Location = new System.Drawing.Point(180, 231);
+            this.groupFlickrContentType.Name = "groupFlickrContentType";
+            this.groupFlickrContentType.Size = new System.Drawing.Size(85, 88);
+            this.groupFlickrContentType.TabIndex = 14;
+            this.groupFlickrContentType.TabStop = false;
+            this.groupFlickrContentType.Text = "Content type";
+            // 
+            // radFlickrOther
+            // 
+            this.radFlickrOther.AutoSize = true;
+            this.radFlickrOther.Checked = true;
+            this.radFlickrOther.Location = new System.Drawing.Point(6, 65);
+            this.radFlickrOther.Name = "radFlickrOther";
+            this.radFlickrOther.Size = new System.Drawing.Size(51, 17);
+            this.radFlickrOther.TabIndex = 2;
+            this.radFlickrOther.TabStop = true;
+            this.radFlickrOther.Text = "Other";
+            this.radFlickrOther.UseVisualStyleBackColor = true;
+            // 
+            // radFlickrScreenshot
+            // 
+            this.radFlickrScreenshot.AutoSize = true;
+            this.radFlickrScreenshot.Location = new System.Drawing.Point(6, 42);
+            this.radFlickrScreenshot.Name = "radFlickrScreenshot";
+            this.radFlickrScreenshot.Size = new System.Drawing.Size(79, 17);
+            this.radFlickrScreenshot.TabIndex = 1;
+            this.radFlickrScreenshot.Text = "Screenshot";
+            this.radFlickrScreenshot.UseVisualStyleBackColor = true;
+            // 
+            // radFlickrPhoto
+            // 
+            this.radFlickrPhoto.AutoSize = true;
+            this.radFlickrPhoto.Location = new System.Drawing.Point(6, 19);
+            this.radFlickrPhoto.Name = "radFlickrPhoto";
+            this.radFlickrPhoto.Size = new System.Drawing.Size(53, 17);
+            this.radFlickrPhoto.TabIndex = 0;
+            this.radFlickrPhoto.Text = "Photo";
+            this.radFlickrPhoto.UseVisualStyleBackColor = true;
+            // 
+            // groupFlickrSafetyLevel
+            // 
+            this.groupFlickrSafetyLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupFlickrSafetyLevel.Controls.Add(this.radFlickrRestricted);
+            this.groupFlickrSafetyLevel.Controls.Add(this.radFlickrModerate);
+            this.groupFlickrSafetyLevel.Controls.Add(this.radFlickrSafe);
+            this.groupFlickrSafetyLevel.Location = new System.Drawing.Point(89, 231);
+            this.groupFlickrSafetyLevel.Name = "groupFlickrSafetyLevel";
+            this.groupFlickrSafetyLevel.Size = new System.Drawing.Size(85, 88);
+            this.groupFlickrSafetyLevel.TabIndex = 13;
+            this.groupFlickrSafetyLevel.TabStop = false;
+            this.groupFlickrSafetyLevel.Text = "Safety level";
+            // 
+            // radFlickrRestricted
+            // 
+            this.radFlickrRestricted.AutoSize = true;
+            this.radFlickrRestricted.Location = new System.Drawing.Point(6, 65);
+            this.radFlickrRestricted.Name = "radFlickrRestricted";
+            this.radFlickrRestricted.Size = new System.Drawing.Size(73, 17);
+            this.radFlickrRestricted.TabIndex = 2;
+            this.radFlickrRestricted.TabStop = true;
+            this.radFlickrRestricted.Text = "Restricted";
+            this.radFlickrRestricted.UseVisualStyleBackColor = true;
+            // 
+            // radFlickrModerate
+            // 
+            this.radFlickrModerate.AutoSize = true;
+            this.radFlickrModerate.Location = new System.Drawing.Point(6, 42);
+            this.radFlickrModerate.Name = "radFlickrModerate";
+            this.radFlickrModerate.Size = new System.Drawing.Size(70, 17);
+            this.radFlickrModerate.TabIndex = 1;
+            this.radFlickrModerate.TabStop = true;
+            this.radFlickrModerate.Text = "Moderate";
+            this.radFlickrModerate.UseVisualStyleBackColor = true;
+            // 
+            // radFlickrSafe
+            // 
+            this.radFlickrSafe.AutoSize = true;
+            this.radFlickrSafe.Location = new System.Drawing.Point(6, 19);
+            this.radFlickrSafe.Name = "radFlickrSafe";
+            this.radFlickrSafe.Size = new System.Drawing.Size(47, 17);
+            this.radFlickrSafe.TabIndex = 0;
+            this.radFlickrSafe.TabStop = true;
+            this.radFlickrSafe.Text = "Safe";
+            this.radFlickrSafe.UseVisualStyleBackColor = true;
+            // 
+            // groupFlickrPermissions
+            // 
+            this.groupFlickrPermissions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupFlickrPermissions.Controls.Add(this.chkFlickrFamily);
+            this.groupFlickrPermissions.Controls.Add(this.chkFlickrFriend);
+            this.groupFlickrPermissions.Controls.Add(this.chkFlickrPublic);
+            this.groupFlickrPermissions.Location = new System.Drawing.Point(3, 231);
+            this.groupFlickrPermissions.Name = "groupFlickrPermissions";
+            this.groupFlickrPermissions.Size = new System.Drawing.Size(80, 88);
+            this.groupFlickrPermissions.TabIndex = 12;
+            this.groupFlickrPermissions.TabStop = false;
+            this.groupFlickrPermissions.Text = "Permissions";
+            // 
+            // chkFlickrFamily
+            // 
+            this.chkFlickrFamily.AutoSize = true;
+            this.chkFlickrFamily.Location = new System.Drawing.Point(6, 65);
+            this.chkFlickrFamily.Name = "chkFlickrFamily";
+            this.chkFlickrFamily.Size = new System.Drawing.Size(55, 17);
+            this.chkFlickrFamily.TabIndex = 2;
+            this.chkFlickrFamily.Text = "Family";
+            this.chkFlickrFamily.UseVisualStyleBackColor = true;
+            // 
+            // chkFlickrFriend
+            // 
+            this.chkFlickrFriend.AutoSize = true;
+            this.chkFlickrFriend.Location = new System.Drawing.Point(6, 42);
+            this.chkFlickrFriend.Name = "chkFlickrFriend";
+            this.chkFlickrFriend.Size = new System.Drawing.Size(60, 17);
+            this.chkFlickrFriend.TabIndex = 1;
+            this.chkFlickrFriend.Text = "Friends";
+            this.chkFlickrFriend.UseVisualStyleBackColor = true;
+            // 
+            // chkFlickrPublic
+            // 
+            this.chkFlickrPublic.AutoSize = true;
+            this.chkFlickrPublic.Checked = true;
+            this.chkFlickrPublic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFlickrPublic.Location = new System.Drawing.Point(6, 19);
+            this.chkFlickrPublic.Name = "chkFlickrPublic";
+            this.chkFlickrPublic.Size = new System.Drawing.Size(55, 17);
+            this.chkFlickrPublic.TabIndex = 0;
+            this.chkFlickrPublic.Text = "Public";
+            this.chkFlickrPublic.UseVisualStyleBackColor = true;
+            // 
+            // txtFlickrTags
+            // 
+            this.txtFlickrTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFlickrTags.Location = new System.Drawing.Point(46, 205);
+            this.txtFlickrTags.Name = "txtFlickrTags";
+            this.txtFlickrTags.Size = new System.Drawing.Size(492, 20);
+            this.txtFlickrTags.TabIndex = 11;
+            // 
+            // lblFlickrTags
+            // 
+            this.lblFlickrTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblFlickrTags.AutoSize = true;
+            this.lblFlickrTags.Location = new System.Drawing.Point(6, 208);
+            this.lblFlickrTags.Name = "lblFlickrTags";
+            this.lblFlickrTags.Size = new System.Drawing.Size(34, 13);
+            this.lblFlickrTags.TabIndex = 10;
+            this.lblFlickrTags.Text = "Tags:";
+            // 
+            // txtFlickrDesc
+            // 
+            this.txtFlickrDesc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFlickrDesc.Location = new System.Drawing.Point(6, 78);
+            this.txtFlickrDesc.Multiline = true;
+            this.txtFlickrDesc.Name = "txtFlickrDesc";
+            this.txtFlickrDesc.Size = new System.Drawing.Size(532, 121);
+            this.txtFlickrDesc.TabIndex = 9;
+            // 
+            // lblFlickrDesc
+            // 
+            this.lblFlickrDesc.Location = new System.Drawing.Point(6, 55);
+            this.lblFlickrDesc.Name = "lblFlickrDesc";
+            this.lblFlickrDesc.Size = new System.Drawing.Size(84, 20);
+            this.lblFlickrDesc.TabIndex = 8;
+            this.lblFlickrDesc.Text = "Description:";
+            this.lblFlickrDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtFlickrTitle
+            // 
+            this.txtFlickrTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFlickrTitle.Location = new System.Drawing.Point(42, 32);
+            this.txtFlickrTitle.Name = "txtFlickrTitle";
+            this.txtFlickrTitle.Size = new System.Drawing.Size(498, 20);
+            this.txtFlickrTitle.TabIndex = 7;
+            // 
+            // lblFlickrTitle
+            // 
+            this.lblFlickrTitle.AutoSize = true;
+            this.lblFlickrTitle.Location = new System.Drawing.Point(6, 35);
+            this.lblFlickrTitle.Name = "lblFlickrTitle";
+            this.lblFlickrTitle.Size = new System.Drawing.Size(30, 13);
+            this.lblFlickrTitle.TabIndex = 6;
+            this.lblFlickrTitle.Text = "Title:";
+            // 
+            // lblFlickrStatus2
+            // 
+            this.lblFlickrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFlickrStatus2.AutoEllipsis = true;
+            this.lblFlickrStatus2.Location = new System.Drawing.Point(80, 6);
+            this.lblFlickrStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblFlickrStatus2.Name = "lblFlickrStatus2";
+            this.lblFlickrStatus2.Size = new System.Drawing.Size(458, 20);
+            this.lblFlickrStatus2.TabIndex = 3;
+            this.lblFlickrStatus2.Text = "not logged in";
+            this.lblFlickrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblFlickrStatus1
+            // 
+            this.lblFlickrStatus1.Location = new System.Drawing.Point(6, 6);
+            this.lblFlickrStatus1.Name = "lblFlickrStatus1";
+            this.lblFlickrStatus1.Size = new System.Drawing.Size(68, 20);
+            this.lblFlickrStatus1.TabIndex = 2;
+            this.lblFlickrStatus1.Text = "Flickr:";
+            this.lblFlickrStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabInkbunny
+            // 
+            this.tabInkbunny.Controls.Add(this.label2);
+            this.tabInkbunny.Controls.Add(this.label1);
+            this.tabInkbunny.Controls.Add(this.txtInkbunnyTitle);
+            this.tabInkbunny.Controls.Add(this.txtInkbunnyTags);
+            this.tabInkbunny.Controls.Add(this.chkInkbunnyTags);
+            this.tabInkbunny.Controls.Add(this.lblInkbunnyStatus2);
+            this.tabInkbunny.Controls.Add(this.chkInbunnyTag5);
+            this.tabInkbunny.Controls.Add(this.txtInkbunnyDescription);
+            this.tabInkbunny.Controls.Add(this.lblInkbunnyStatus1);
+            this.tabInkbunny.Controls.Add(this.chkInbunnyTag4);
+            this.tabInkbunny.Controls.Add(this.btnInkbunnyPost);
+            this.tabInkbunny.Controls.Add(this.chkInbunnyTag3);
+            this.tabInkbunny.Controls.Add(this.chkInkbunnyScraps);
+            this.tabInkbunny.Controls.Add(this.chkInbunnyTag2);
+            this.tabInkbunny.Controls.Add(this.chkInkbunnyPublic);
+            this.tabInkbunny.Controls.Add(this.chkInkbunnyNotifyWatchers);
+            this.tabInkbunny.Location = new System.Drawing.Point(4, 22);
+            this.tabInkbunny.Name = "tabInkbunny";
+            this.tabInkbunny.Padding = new System.Windows.Forms.Padding(3);
+            this.tabInkbunny.Size = new System.Drawing.Size(546, 325);
+            this.tabInkbunny.TabIndex = 0;
+            this.tabInkbunny.Text = "Inkbunny";
+            this.tabInkbunny.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(6, 55);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 20);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Description:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Title:";
+            // 
+            // txtInkbunnyTitle
+            // 
+            this.txtInkbunnyTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInkbunnyTitle.Location = new System.Drawing.Point(42, 32);
+            this.txtInkbunnyTitle.Name = "txtInkbunnyTitle";
+            this.txtInkbunnyTitle.Size = new System.Drawing.Size(496, 20);
+            this.txtInkbunnyTitle.TabIndex = 3;
+            // 
+            // txtInkbunnyTags
+            // 
+            this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInkbunnyTags.Location = new System.Drawing.Point(65, 226);
+            this.txtInkbunnyTags.Name = "txtInkbunnyTags";
+            this.txtInkbunnyTags.Size = new System.Drawing.Size(473, 20);
+            this.txtInkbunnyTags.TabIndex = 7;
+            // 
+            // chkInkbunnyTags
+            // 
+            this.chkInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInkbunnyTags.AutoSize = true;
+            this.chkInkbunnyTags.Checked = true;
+            this.chkInkbunnyTags.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkInkbunnyTags.Location = new System.Drawing.Point(6, 228);
+            this.chkInkbunnyTags.Name = "chkInkbunnyTags";
+            this.chkInkbunnyTags.Size = new System.Drawing.Size(53, 17);
+            this.chkInkbunnyTags.TabIndex = 6;
+            this.chkInkbunnyTags.Text = "Tags:";
+            this.chkInkbunnyTags.UseVisualStyleBackColor = false;
+            // 
             // tabTumblr
             // 
             this.tabTumblr.Controls.Add(this.lblTumblrStatus1);
@@ -875,114 +1261,6 @@
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tabDeviantArt
-            // 
-            this.tabDeviantArt.Controls.Add(this.deviantArtUploadControl1);
-            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus2);
-            this.tabDeviantArt.Controls.Add(this.lblDeviantArtStatus1);
-            this.tabDeviantArt.Location = new System.Drawing.Point(4, 22);
-            this.tabDeviantArt.Name = "tabDeviantArt";
-            this.tabDeviantArt.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDeviantArt.Size = new System.Drawing.Size(546, 325);
-            this.tabDeviantArt.TabIndex = 4;
-            this.tabDeviantArt.Text = "DeviantArt";
-            this.tabDeviantArt.UseVisualStyleBackColor = true;
-            // 
-            // deviantArtUploadControl1
-            // 
-            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.deviantArtUploadControl1.Data = null;
-            this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 32);
-            this.deviantArtUploadControl1.Name = "deviantArtUploadControl1";
-            this.deviantArtUploadControl1.SelectedCategory = null;
-            this.deviantArtUploadControl1.SelectedFolders = null;
-            this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 290);
-            this.deviantArtUploadControl1.TabIndex = 5;
-            this.deviantArtUploadControl1.UploadProgressChanged += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadProgressHandler(this.deviantArtUploadControl1_UploadProgressChanged);
-            this.deviantArtUploadControl1.Uploaded += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadedHandler(this.deviantArtUploadControl1_Uploaded);
-            this.deviantArtUploadControl1.UploadError += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadErrorHandler(this.deviantArtUploadControl1_UploadError);
-            // 
-            // lblDeviantArtStatus2
-            // 
-            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDeviantArtStatus2.AutoEllipsis = true;
-            this.lblDeviantArtStatus2.Location = new System.Drawing.Point(80, 6);
-            this.lblDeviantArtStatus2.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDeviantArtStatus2.Name = "lblDeviantArtStatus2";
-            this.lblDeviantArtStatus2.Size = new System.Drawing.Size(460, 20);
-            this.lblDeviantArtStatus2.TabIndex = 1;
-            this.lblDeviantArtStatus2.Text = "not logged in";
-            this.lblDeviantArtStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblDeviantArtStatus1
-            // 
-            this.lblDeviantArtStatus1.Location = new System.Drawing.Point(6, 6);
-            this.lblDeviantArtStatus1.Margin = new System.Windows.Forms.Padding(3);
-            this.lblDeviantArtStatus1.Name = "lblDeviantArtStatus1";
-            this.lblDeviantArtStatus1.Size = new System.Drawing.Size(68, 20);
-            this.lblDeviantArtStatus1.TabIndex = 0;
-            this.lblDeviantArtStatus1.Text = "DeviantArt:";
-            this.lblDeviantArtStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tabInkbunny
-            // 
-            this.tabInkbunny.Controls.Add(this.label2);
-            this.tabInkbunny.Controls.Add(this.label1);
-            this.tabInkbunny.Controls.Add(this.txtInkbunnyTitle);
-            this.tabInkbunny.Controls.Add(this.txtInkbunnyTags);
-            this.tabInkbunny.Controls.Add(this.chkInkbunnyTags);
-            this.tabInkbunny.Controls.Add(this.lblInkbunnyStatus2);
-            this.tabInkbunny.Controls.Add(this.chkInbunnyTag5);
-            this.tabInkbunny.Controls.Add(this.txtInkbunnyDescription);
-            this.tabInkbunny.Controls.Add(this.lblInkbunnyStatus1);
-            this.tabInkbunny.Controls.Add(this.chkInbunnyTag4);
-            this.tabInkbunny.Controls.Add(this.btnInkbunnyPost);
-            this.tabInkbunny.Controls.Add(this.chkInbunnyTag3);
-            this.tabInkbunny.Controls.Add(this.chkInkbunnyScraps);
-            this.tabInkbunny.Controls.Add(this.chkInbunnyTag2);
-            this.tabInkbunny.Controls.Add(this.chkInkbunnyPublic);
-            this.tabInkbunny.Controls.Add(this.chkInkbunnyNotifyWatchers);
-            this.tabInkbunny.Location = new System.Drawing.Point(4, 22);
-            this.tabInkbunny.Name = "tabInkbunny";
-            this.tabInkbunny.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInkbunny.Size = new System.Drawing.Size(546, 325);
-            this.tabInkbunny.TabIndex = 0;
-            this.tabInkbunny.Text = "Inkbunny";
-            this.tabInkbunny.UseVisualStyleBackColor = true;
-            // 
-            // txtInkbunnyTitle
-            // 
-            this.txtInkbunnyTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInkbunnyTitle.Location = new System.Drawing.Point(42, 32);
-            this.txtInkbunnyTitle.Name = "txtInkbunnyTitle";
-            this.txtInkbunnyTitle.Size = new System.Drawing.Size(496, 20);
-            this.txtInkbunnyTitle.TabIndex = 3;
-            // 
-            // txtInkbunnyTags
-            // 
-            this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInkbunnyTags.Location = new System.Drawing.Point(65, 226);
-            this.txtInkbunnyTags.Name = "txtInkbunnyTags";
-            this.txtInkbunnyTags.Size = new System.Drawing.Size(473, 20);
-            this.txtInkbunnyTags.TabIndex = 7;
-            // 
-            // chkInkbunnyTags
-            // 
-            this.chkInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkInkbunnyTags.AutoSize = true;
-            this.chkInkbunnyTags.Checked = true;
-            this.chkInkbunnyTags.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnyTags.Location = new System.Drawing.Point(6, 228);
-            this.chkInkbunnyTags.Name = "chkInkbunnyTags";
-            this.chkInkbunnyTags.Size = new System.Drawing.Size(53, 17);
-            this.chkInkbunnyTags.TabIndex = 6;
-            this.chkInkbunnyTags.Text = "Tags:";
-            this.chkInkbunnyTags.UseVisualStyleBackColor = false;
-            // 
             // tabSave
             // 
             this.tabSave.Controls.Add(this.btnSaveLocal);
@@ -1021,7 +1299,7 @@
             // lblSaveFilename
             // 
             this.lblSaveFilename.AutoSize = true;
-            this.lblSaveFilename.Location = new System.Drawing.Point(8, 38);
+            this.lblSaveFilename.Location = new System.Drawing.Point(6, 38);
             this.lblSaveFilename.Name = "lblSaveFilename";
             this.lblSaveFilename.Size = new System.Drawing.Size(52, 13);
             this.lblSaveFilename.TabIndex = 4;
@@ -1043,7 +1321,7 @@
             // 
             this.txtSaveDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSaveDir.Location = new System.Drawing.Point(66, 6);
+            this.txtSaveDir.Location = new System.Drawing.Point(66, 7);
             this.txtSaveDir.Name = "txtSaveDir";
             this.txtSaveDir.Size = new System.Drawing.Size(391, 20);
             this.txtSaveDir.TabIndex = 1;
@@ -1051,7 +1329,8 @@
             // lblSaveDir
             // 
             this.lblSaveDir.AutoSize = true;
-            this.lblSaveDir.Location = new System.Drawing.Point(8, 10);
+            this.lblSaveDir.Location = new System.Drawing.Point(6, 10);
+            this.lblSaveDir.Margin = new System.Windows.Forms.Padding(3);
             this.lblSaveDir.Name = "lblSaveDir";
             this.lblSaveDir.Size = new System.Drawing.Size(52, 13);
             this.lblSaveDir.TabIndex = 0;
@@ -1084,284 +1363,6 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
-            // tabFlickr
-            // 
-            this.tabFlickr.Controls.Add(this.btnPostToFlickr);
-            this.tabFlickr.Controls.Add(this.chkFlickrHidden);
-            this.tabFlickr.Controls.Add(this.groupFlickrContentType);
-            this.tabFlickr.Controls.Add(this.groupFlickrSafetyLevel);
-            this.tabFlickr.Controls.Add(this.groupFlickrPermissions);
-            this.tabFlickr.Controls.Add(this.txtFlickrTags);
-            this.tabFlickr.Controls.Add(this.lblFlickrTags);
-            this.tabFlickr.Controls.Add(this.txtFlickrDesc);
-            this.tabFlickr.Controls.Add(this.lblFlickrDesc);
-            this.tabFlickr.Controls.Add(this.txtFlickrTitle);
-            this.tabFlickr.Controls.Add(this.lblFlickrTitle);
-            this.tabFlickr.Controls.Add(this.lblFlickrStatus2);
-            this.tabFlickr.Controls.Add(this.lblFlickrStatus1);
-            this.tabFlickr.Location = new System.Drawing.Point(4, 22);
-            this.tabFlickr.Name = "tabFlickr";
-            this.tabFlickr.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFlickr.Size = new System.Drawing.Size(546, 325);
-            this.tabFlickr.TabIndex = 5;
-            this.tabFlickr.Text = "Flickr";
-            this.tabFlickr.UseVisualStyleBackColor = true;
-            // 
-            // lblFlickrStatus2
-            // 
-            this.lblFlickrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblFlickrStatus2.AutoEllipsis = true;
-            this.lblFlickrStatus2.Location = new System.Drawing.Point(80, 6);
-            this.lblFlickrStatus2.Margin = new System.Windows.Forms.Padding(3);
-            this.lblFlickrStatus2.Name = "lblFlickrStatus2";
-            this.lblFlickrStatus2.Size = new System.Drawing.Size(458, 20);
-            this.lblFlickrStatus2.TabIndex = 3;
-            this.lblFlickrStatus2.Text = "not logged in";
-            this.lblFlickrStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblFlickrStatus1
-            // 
-            this.lblFlickrStatus1.Location = new System.Drawing.Point(6, 6);
-            this.lblFlickrStatus1.Name = "lblFlickrStatus1";
-            this.lblFlickrStatus1.Size = new System.Drawing.Size(68, 20);
-            this.lblFlickrStatus1.TabIndex = 2;
-            this.lblFlickrStatus1.Text = "Flickr:";
-            this.lblFlickrStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtFlickrTags
-            // 
-            this.txtFlickrTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFlickrTags.Location = new System.Drawing.Point(46, 205);
-            this.txtFlickrTags.Name = "txtFlickrTags";
-            this.txtFlickrTags.Size = new System.Drawing.Size(492, 20);
-            this.txtFlickrTags.TabIndex = 11;
-            // 
-            // lblFlickrTags
-            // 
-            this.lblFlickrTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFlickrTags.AutoSize = true;
-            this.lblFlickrTags.Location = new System.Drawing.Point(6, 208);
-            this.lblFlickrTags.Name = "lblFlickrTags";
-            this.lblFlickrTags.Size = new System.Drawing.Size(34, 13);
-            this.lblFlickrTags.TabIndex = 10;
-            this.lblFlickrTags.Text = "Tags:";
-            // 
-            // txtFlickrDesc
-            // 
-            this.txtFlickrDesc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFlickrDesc.Location = new System.Drawing.Point(6, 78);
-            this.txtFlickrDesc.Multiline = true;
-            this.txtFlickrDesc.Name = "txtFlickrDesc";
-            this.txtFlickrDesc.Size = new System.Drawing.Size(532, 121);
-            this.txtFlickrDesc.TabIndex = 9;
-            // 
-            // lblFlickrDesc
-            // 
-            this.lblFlickrDesc.Location = new System.Drawing.Point(6, 55);
-            this.lblFlickrDesc.Name = "lblFlickrDesc";
-            this.lblFlickrDesc.Size = new System.Drawing.Size(84, 20);
-            this.lblFlickrDesc.TabIndex = 8;
-            this.lblFlickrDesc.Text = "Description:";
-            this.lblFlickrDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // txtFlickrTitle
-            // 
-            this.txtFlickrTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFlickrTitle.Location = new System.Drawing.Point(42, 32);
-            this.txtFlickrTitle.Name = "txtFlickrTitle";
-            this.txtFlickrTitle.Size = new System.Drawing.Size(498, 20);
-            this.txtFlickrTitle.TabIndex = 7;
-            // 
-            // lblFlickrTitle
-            // 
-            this.lblFlickrTitle.AutoSize = true;
-            this.lblFlickrTitle.Location = new System.Drawing.Point(6, 35);
-            this.lblFlickrTitle.Name = "lblFlickrTitle";
-            this.lblFlickrTitle.Size = new System.Drawing.Size(30, 13);
-            this.lblFlickrTitle.TabIndex = 6;
-            this.lblFlickrTitle.Text = "Title:";
-            // 
-            // groupFlickrPermissions
-            // 
-            this.groupFlickrPermissions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupFlickrPermissions.Controls.Add(this.chkFlickrFamily);
-            this.groupFlickrPermissions.Controls.Add(this.chkFlickrFriend);
-            this.groupFlickrPermissions.Controls.Add(this.chkFlickrPublic);
-            this.groupFlickrPermissions.Location = new System.Drawing.Point(3, 231);
-            this.groupFlickrPermissions.Name = "groupFlickrPermissions";
-            this.groupFlickrPermissions.Size = new System.Drawing.Size(80, 88);
-            this.groupFlickrPermissions.TabIndex = 12;
-            this.groupFlickrPermissions.TabStop = false;
-            this.groupFlickrPermissions.Text = "Permissions";
-            // 
-            // chkFlickrPublic
-            // 
-            this.chkFlickrPublic.AutoSize = true;
-            this.chkFlickrPublic.Checked = true;
-            this.chkFlickrPublic.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFlickrPublic.Location = new System.Drawing.Point(6, 19);
-            this.chkFlickrPublic.Name = "chkFlickrPublic";
-            this.chkFlickrPublic.Size = new System.Drawing.Size(55, 17);
-            this.chkFlickrPublic.TabIndex = 0;
-            this.chkFlickrPublic.Text = "Public";
-            this.chkFlickrPublic.UseVisualStyleBackColor = true;
-            // 
-            // chkFlickrFriend
-            // 
-            this.chkFlickrFriend.AutoSize = true;
-            this.chkFlickrFriend.Location = new System.Drawing.Point(6, 42);
-            this.chkFlickrFriend.Name = "chkFlickrFriend";
-            this.chkFlickrFriend.Size = new System.Drawing.Size(60, 17);
-            this.chkFlickrFriend.TabIndex = 1;
-            this.chkFlickrFriend.Text = "Friends";
-            this.chkFlickrFriend.UseVisualStyleBackColor = true;
-            // 
-            // chkFlickrFamily
-            // 
-            this.chkFlickrFamily.AutoSize = true;
-            this.chkFlickrFamily.Location = new System.Drawing.Point(6, 65);
-            this.chkFlickrFamily.Name = "chkFlickrFamily";
-            this.chkFlickrFamily.Size = new System.Drawing.Size(55, 17);
-            this.chkFlickrFamily.TabIndex = 2;
-            this.chkFlickrFamily.Text = "Family";
-            this.chkFlickrFamily.UseVisualStyleBackColor = true;
-            // 
-            // groupFlickrSafetyLevel
-            // 
-            this.groupFlickrSafetyLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupFlickrSafetyLevel.Controls.Add(this.radFlickrRestricted);
-            this.groupFlickrSafetyLevel.Controls.Add(this.radFlickrModerate);
-            this.groupFlickrSafetyLevel.Controls.Add(this.radFlickrSafe);
-            this.groupFlickrSafetyLevel.Location = new System.Drawing.Point(89, 231);
-            this.groupFlickrSafetyLevel.Name = "groupFlickrSafetyLevel";
-            this.groupFlickrSafetyLevel.Size = new System.Drawing.Size(85, 88);
-            this.groupFlickrSafetyLevel.TabIndex = 13;
-            this.groupFlickrSafetyLevel.TabStop = false;
-            this.groupFlickrSafetyLevel.Text = "Safety level";
-            // 
-            // radFlickrSafe
-            // 
-            this.radFlickrSafe.AutoSize = true;
-            this.radFlickrSafe.Location = new System.Drawing.Point(6, 19);
-            this.radFlickrSafe.Name = "radFlickrSafe";
-            this.radFlickrSafe.Size = new System.Drawing.Size(47, 17);
-            this.radFlickrSafe.TabIndex = 0;
-            this.radFlickrSafe.TabStop = true;
-            this.radFlickrSafe.Text = "Safe";
-            this.radFlickrSafe.UseVisualStyleBackColor = true;
-            // 
-            // radFlickrModerate
-            // 
-            this.radFlickrModerate.AutoSize = true;
-            this.radFlickrModerate.Location = new System.Drawing.Point(6, 42);
-            this.radFlickrModerate.Name = "radFlickrModerate";
-            this.radFlickrModerate.Size = new System.Drawing.Size(70, 17);
-            this.radFlickrModerate.TabIndex = 1;
-            this.radFlickrModerate.TabStop = true;
-            this.radFlickrModerate.Text = "Moderate";
-            this.radFlickrModerate.UseVisualStyleBackColor = true;
-            // 
-            // radFlickrRestricted
-            // 
-            this.radFlickrRestricted.AutoSize = true;
-            this.radFlickrRestricted.Location = new System.Drawing.Point(6, 65);
-            this.radFlickrRestricted.Name = "radFlickrRestricted";
-            this.radFlickrRestricted.Size = new System.Drawing.Size(73, 17);
-            this.radFlickrRestricted.TabIndex = 2;
-            this.radFlickrRestricted.TabStop = true;
-            this.radFlickrRestricted.Text = "Restricted";
-            this.radFlickrRestricted.UseVisualStyleBackColor = true;
-            // 
-            // groupFlickrContentType
-            // 
-            this.groupFlickrContentType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupFlickrContentType.Controls.Add(this.radFlickrOther);
-            this.groupFlickrContentType.Controls.Add(this.radFlickrScreenshot);
-            this.groupFlickrContentType.Controls.Add(this.radFlickrPhoto);
-            this.groupFlickrContentType.Location = new System.Drawing.Point(180, 231);
-            this.groupFlickrContentType.Name = "groupFlickrContentType";
-            this.groupFlickrContentType.Size = new System.Drawing.Size(85, 88);
-            this.groupFlickrContentType.TabIndex = 14;
-            this.groupFlickrContentType.TabStop = false;
-            this.groupFlickrContentType.Text = "Content type";
-            // 
-            // radFlickrOther
-            // 
-            this.radFlickrOther.AutoSize = true;
-            this.radFlickrOther.Checked = true;
-            this.radFlickrOther.Location = new System.Drawing.Point(6, 65);
-            this.radFlickrOther.Name = "radFlickrOther";
-            this.radFlickrOther.Size = new System.Drawing.Size(51, 17);
-            this.radFlickrOther.TabIndex = 2;
-            this.radFlickrOther.TabStop = true;
-            this.radFlickrOther.Text = "Other";
-            this.radFlickrOther.UseVisualStyleBackColor = true;
-            // 
-            // radFlickrScreenshot
-            // 
-            this.radFlickrScreenshot.AutoSize = true;
-            this.radFlickrScreenshot.Location = new System.Drawing.Point(6, 42);
-            this.radFlickrScreenshot.Name = "radFlickrScreenshot";
-            this.radFlickrScreenshot.Size = new System.Drawing.Size(79, 17);
-            this.radFlickrScreenshot.TabIndex = 1;
-            this.radFlickrScreenshot.Text = "Screenshot";
-            this.radFlickrScreenshot.UseVisualStyleBackColor = true;
-            // 
-            // radFlickrPhoto
-            // 
-            this.radFlickrPhoto.AutoSize = true;
-            this.radFlickrPhoto.Location = new System.Drawing.Point(6, 19);
-            this.radFlickrPhoto.Name = "radFlickrPhoto";
-            this.radFlickrPhoto.Size = new System.Drawing.Size(53, 17);
-            this.radFlickrPhoto.TabIndex = 0;
-            this.radFlickrPhoto.Text = "Photo";
-            this.radFlickrPhoto.UseVisualStyleBackColor = true;
-            // 
-            // chkFlickrHidden
-            // 
-            this.chkFlickrHidden.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkFlickrHidden.AutoSize = true;
-            this.chkFlickrHidden.Location = new System.Drawing.Point(390, 231);
-            this.chkFlickrHidden.Name = "chkFlickrHidden";
-            this.chkFlickrHidden.Size = new System.Drawing.Size(148, 17);
-            this.chkFlickrHidden.TabIndex = 15;
-            this.chkFlickrHidden.Text = "Hide from public searches";
-            this.chkFlickrHidden.UseVisualStyleBackColor = true;
-            // 
-            // btnPostToFlickr
-            // 
-            this.btnPostToFlickr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPostToFlickr.Location = new System.Drawing.Point(443, 296);
-            this.btnPostToFlickr.Name = "btnPostToFlickr";
-            this.btnPostToFlickr.Size = new System.Drawing.Size(95, 23);
-            this.btnPostToFlickr.TabIndex = 16;
-            this.btnPostToFlickr.Text = "Post to Flickr";
-            this.btnPostToFlickr.UseVisualStyleBackColor = true;
-            this.btnPostToFlickr.Click += new System.EventHandler(this.btnPostToFlickr_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Title:";
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(6, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 20);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Description:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1383,25 +1384,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.tabDeviantArt.ResumeLayout(false);
+            this.tabFlickr.ResumeLayout(false);
+            this.tabFlickr.PerformLayout();
+            this.groupFlickrContentType.ResumeLayout(false);
+            this.groupFlickrContentType.PerformLayout();
+            this.groupFlickrSafetyLevel.ResumeLayout(false);
+            this.groupFlickrSafetyLevel.PerformLayout();
+            this.groupFlickrPermissions.ResumeLayout(false);
+            this.groupFlickrPermissions.PerformLayout();
+            this.tabInkbunny.ResumeLayout(false);
+            this.tabInkbunny.PerformLayout();
             this.tabTumblr.ResumeLayout(false);
             this.tabTumblr.PerformLayout();
             this.tabTwitter.ResumeLayout(false);
             this.tabTwitter.PerformLayout();
-            this.tabDeviantArt.ResumeLayout(false);
-            this.tabInkbunny.ResumeLayout(false);
-            this.tabInkbunny.PerformLayout();
             this.tabSave.ResumeLayout(false);
             this.tabSave.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tabFlickr.ResumeLayout(false);
-            this.tabFlickr.PerformLayout();
-            this.groupFlickrPermissions.ResumeLayout(false);
-            this.groupFlickrPermissions.PerformLayout();
-            this.groupFlickrSafetyLevel.ResumeLayout(false);
-            this.groupFlickrSafetyLevel.PerformLayout();
-            this.groupFlickrContentType.ResumeLayout(false);
-            this.groupFlickrContentType.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

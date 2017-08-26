@@ -20,6 +20,8 @@ namespace ArtSync {
 
             this.Wrappers = wrappers;
             this.SelectedWrapper = null;
+
+            this.Height = 91 + 23 * this.Wrappers.Count();
         }
 
         private void btnOkay_Click(object sender, EventArgs e) {
