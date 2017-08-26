@@ -379,11 +379,10 @@
             // 
             // lblWeasylStatus1
             // 
-            this.lblWeasylStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWeasylStatus1.AutoEllipsis = true;
-            this.lblWeasylStatus1.Location = new System.Drawing.Point(198, 20);
+            this.lblWeasylStatus1.Location = new System.Drawing.Point(196, 20);
             this.lblWeasylStatus1.Name = "lblWeasylStatus1";
-            this.lblWeasylStatus1.Size = new System.Drawing.Size(63, 13);
+            this.lblWeasylStatus1.Size = new System.Drawing.Size(65, 13);
             this.lblWeasylStatus1.TabIndex = 3;
             this.lblWeasylStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -399,11 +398,12 @@
             // 
             // lblWeasylStatus2
             // 
-            this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWeasylStatus2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWeasylStatus2.Location = new System.Drawing.Point(198, 3);
+            this.lblWeasylStatus2.Location = new System.Drawing.Point(196, 3);
             this.lblWeasylStatus2.Name = "lblWeasylStatus2";
-            this.lblWeasylStatus2.Size = new System.Drawing.Size(344, 17);
+            this.lblWeasylStatus2.Size = new System.Drawing.Size(346, 17);
             this.lblWeasylStatus2.TabIndex = 2;
             this.lblWeasylStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -535,9 +535,9 @@
             // 
             // chkInbunnyTag5
             // 
-            this.chkInbunnyTag5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInbunnyTag5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInbunnyTag5.AutoSize = true;
-            this.chkInbunnyTag5.Location = new System.Drawing.Point(246, 297);
+            this.chkInbunnyTag5.Location = new System.Drawing.Point(246, 305);
             this.chkInbunnyTag5.Name = "chkInbunnyTag5";
             this.chkInbunnyTag5.Size = new System.Drawing.Size(101, 17);
             this.chkInbunnyTag5.TabIndex = 14;
@@ -546,9 +546,9 @@
             // 
             // chkInbunnyTag4
             // 
-            this.chkInbunnyTag4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInbunnyTag4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInbunnyTag4.AutoSize = true;
-            this.chkInbunnyTag4.Location = new System.Drawing.Point(141, 297);
+            this.chkInbunnyTag4.Location = new System.Drawing.Point(141, 305);
             this.chkInbunnyTag4.Name = "chkInbunnyTag4";
             this.chkInbunnyTag4.Size = new System.Drawing.Size(99, 17);
             this.chkInbunnyTag4.TabIndex = 13;
@@ -557,9 +557,9 @@
             // 
             // chkInbunnyTag3
             // 
-            this.chkInbunnyTag3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInbunnyTag3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInbunnyTag3.AutoSize = true;
-            this.chkInbunnyTag3.Location = new System.Drawing.Point(68, 297);
+            this.chkInbunnyTag3.Location = new System.Drawing.Point(68, 305);
             this.chkInbunnyTag3.Name = "chkInbunnyTag3";
             this.chkInbunnyTag3.Size = new System.Drawing.Size(67, 17);
             this.chkInbunnyTag3.TabIndex = 12;
@@ -568,9 +568,9 @@
             // 
             // chkInbunnyTag2
             // 
-            this.chkInbunnyTag2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInbunnyTag2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInbunnyTag2.AutoSize = true;
-            this.chkInbunnyTag2.Location = new System.Drawing.Point(6, 297);
+            this.chkInbunnyTag2.Location = new System.Drawing.Point(6, 305);
             this.chkInbunnyTag2.Name = "chkInbunnyTag2";
             this.chkInbunnyTag2.Size = new System.Drawing.Size(56, 17);
             this.chkInbunnyTag2.TabIndex = 11;
@@ -579,11 +579,11 @@
             // 
             // chkInkbunnyNotifyWatchers
             // 
-            this.chkInkbunnyNotifyWatchers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInkbunnyNotifyWatchers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInkbunnyNotifyWatchers.AutoSize = true;
             this.chkInkbunnyNotifyWatchers.Checked = true;
             this.chkInkbunnyNotifyWatchers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnyNotifyWatchers.Location = new System.Drawing.Point(67, 274);
+            this.chkInkbunnyNotifyWatchers.Location = new System.Drawing.Point(67, 282);
             this.chkInkbunnyNotifyWatchers.Name = "chkInkbunnyNotifyWatchers";
             this.chkInkbunnyNotifyWatchers.Size = new System.Drawing.Size(99, 17);
             this.chkInkbunnyNotifyWatchers.TabIndex = 9;
@@ -592,11 +592,11 @@
             // 
             // chkInkbunnyPublic
             // 
-            this.chkInkbunnyPublic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInkbunnyPublic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInkbunnyPublic.AutoSize = true;
             this.chkInkbunnyPublic.Checked = true;
             this.chkInkbunnyPublic.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkInkbunnyPublic.Location = new System.Drawing.Point(6, 274);
+            this.chkInkbunnyPublic.Location = new System.Drawing.Point(6, 282);
             this.chkInkbunnyPublic.Name = "chkInkbunnyPublic";
             this.chkInkbunnyPublic.Size = new System.Drawing.Size(55, 17);
             this.chkInkbunnyPublic.TabIndex = 8;
@@ -606,9 +606,9 @@
             // 
             // chkInkbunnyScraps
             // 
-            this.chkInkbunnyScraps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInkbunnyScraps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInkbunnyScraps.AutoSize = true;
-            this.chkInkbunnyScraps.Location = new System.Drawing.Point(172, 274);
+            this.chkInkbunnyScraps.Location = new System.Drawing.Point(172, 282);
             this.chkInkbunnyScraps.Name = "chkInkbunnyScraps";
             this.chkInkbunnyScraps.Size = new System.Drawing.Size(59, 17);
             this.chkInkbunnyScraps.TabIndex = 10;
@@ -1099,7 +1099,8 @@
             // 
             // txtInkbunnyTags
             // 
-            this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInkbunnyTags.Location = new System.Drawing.Point(65, 257);
             this.txtInkbunnyTags.Name = "txtInkbunnyTags";
             this.txtInkbunnyTags.Size = new System.Drawing.Size(473, 20);
@@ -1107,7 +1108,7 @@
             // 
             // chkInkbunnyTags
             // 
-            this.chkInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkInkbunnyTags.AutoSize = true;
             this.chkInkbunnyTags.Checked = true;
             this.chkInkbunnyTags.CheckState = System.Windows.Forms.CheckState.Checked;

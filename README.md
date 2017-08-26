@@ -1,4 +1,4 @@
-ArtSync 2.1
+ArtSync 2.2
 ===========
 
 Source: https://github.com/libertyernie/ArtSync
