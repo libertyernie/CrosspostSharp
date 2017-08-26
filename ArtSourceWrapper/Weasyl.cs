@@ -18,12 +18,26 @@ namespace ArtSourceWrapper {
             _client = new WeasylClient(apiKey);
         }
 
-        public async Task<string> WhoamiAsync() {
-            try {
-                return (await Client.WhoamiAsync()).login;
-            } catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
-                throw new Exception("No username returned from Weasyl. The API key might be invalid or deleted.");
+        private WeasylUser _user;
+
+        public async Task<WeasylUser> GetUserAsync() {
+            if (_user == null) {
+                try {
+                    _user = await Client.WhoamiAsync();
+                } catch (WebException e) when ((e.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.Unauthorized) {
+                    throw new Exception("No user info returned from Weasyl. The API key might be invalid or deleted.");
+                }
             }
+            return _user;
+        }
+
+        public async Task<string> WhoamiAsync() {
+            return (await GetUserAsync()).login;
+        }
+
+        public async Task<string> GetUserIconAsync() {
+            string username = (await GetUserAsync()).login;
+            return await Client.GetAvatarUrlAsync(username);
         }
 
         public abstract Task<WeasylSubmissionBaseDetail> GetSubmissionDetails(int id);
@@ -114,6 +128,10 @@ namespace ArtSourceWrapper {
 
         public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();
+        }
+
+        public override Task<string> GetUserIconAsync(int size) {
+            return _idWrapper.GetUserIconAsync();
         }
 
         protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {

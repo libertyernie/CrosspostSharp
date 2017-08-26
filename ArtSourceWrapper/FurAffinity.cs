@@ -24,8 +24,18 @@ namespace ArtSourceWrapper {
             _folder = scraps ? FAFolder.scraps : FAFolder.gallery;
         }
 
-        public Task<string> WhoamiAsync() {
-            return _client.WhoamiAsync();
+        private string _cachedUserName;
+
+        public async Task<string> WhoamiAsync() {
+            if (_cachedUserName == null) {
+                _cachedUserName = await _client.WhoamiAsync();
+            }
+            return _cachedUserName;
+        }
+
+        public async Task<string> GetUserIconAync() {
+            var user = await _client.GetUserAsync(await WhoamiAsync());
+            return user.avatar;
         }
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
@@ -57,6 +67,10 @@ namespace ArtSourceWrapper {
 
         public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();
+        }
+
+        public override Task<string> GetUserIconAsync(int size) {
+            return _idWrapper.GetUserIconAync();
         }
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {

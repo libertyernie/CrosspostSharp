@@ -27,18 +27,45 @@ namespace ArtSourceWrapper {
         public override int BatchSize { get; set; } = 100;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 500;
+
+        private FoundUser _cachedUser;
+
+        public async Task<FoundUser> GetUserAsync() {
+            if (_cachedUser == null) {
+                var t = new TaskCompletionSource<Auth>();
+                _flickr.AuthOAuthCheckTokenAsync(result => {
+                    if (result.HasError) {
+                        t.SetException(result.Error);
+                    } else {
+                        t.SetResult(result.Result);
+                    }
+                });
+                var oauth = await t.Task;
+                _cachedUser = oauth.User;
+            }
+            return _cachedUser;
+        }
         
         public async override Task<string> WhoamiAsync() {
-            var t = new TaskCompletionSource<Auth>();
-            _flickr.AuthOAuthCheckTokenAsync(result => {
+            return (await GetUserAsync()).UserName;
+        }
+
+        public async override Task<string> GetUserIconAsync(int size) {
+            string id = (await GetUserAsync()).UserId;
+
+            var t = new TaskCompletionSource<Person>();
+            _flickr.PeopleGetInfoAsync(id, result => {
                 if (result.HasError) {
                     t.SetException(result.Error);
                 } else {
                     t.SetResult(result.Result);
                 }
             });
-            var oauth = await t.Task;
-            return oauth.User.UserName;
+            var person = await t.Task;
+
+            return person.IconServer != "0"
+                ? $"http://farm{person.IconFarm}.staticflickr.com/{person.IconServer}/buddyicons/{person.UserId}.jpg"
+                : $"https://www.flickr.com/images/buddyicon.gif";
         }
 
         protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {

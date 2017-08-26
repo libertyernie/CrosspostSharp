@@ -17,7 +17,6 @@ namespace ArtSourceWrapper {
 
     public class TwitterWrapper : SiteWrapper<TwitterSubmissionWrapper, long> {
         private readonly ITwitterCredentials _credentials;
-        private IUser _user;
 
         public override string SiteName => "Twitter";
         public override string WrapperName => "Twitter";
@@ -42,13 +41,18 @@ namespace ArtSourceWrapper {
             }
         }
 
+        private IUser _user;
+
+        public async Task<IUser> GetUserAsync() {
+            if (_user == null) {
+                _user = await Auth.ExecuteOperationWithCredentials(_credentials, () => UserAsync.GetAuthenticatedUser());
+                if (_user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
+            }
+            return _user;
+        }
+
         protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int maxCount) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
-                if (_user == null) {
-                    _user = await UserAsync.GetAuthenticatedUser();
-                    if (_user == null) throw new TwitterWrapperException("No user information returned from Twitter (rate limit reached or credentials no longer valid?)");
-                }
-                
                 var ps = new UserTimelineParameters {
                     ExcludeReplies = false,
                     IncludeEntities = true,
@@ -58,7 +62,7 @@ namespace ArtSourceWrapper {
                 ps.MaxId = startPosition ?? -1;
 
                 // Get the tweets
-                var tweets = await TimelineAsync.GetUserTimeline(_user, ps);
+                var tweets = await TimelineAsync.GetUserTimeline(await GetUserAsync(), ps);
 
                 // If no tweets were returned, then there are no more tweets
                 if (!tweets.Any()) {
@@ -69,11 +73,12 @@ namespace ArtSourceWrapper {
             });
         }
 
-        public override Task<string> WhoamiAsync() {
-            return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
-                var user = await UserAsync.GetAuthenticatedUser();
-                return user?.ScreenName;
-            });
+        public override async Task<string> WhoamiAsync() {
+            return (await GetUserAsync()).ScreenName;
+        }
+
+        public override async Task<string> GetUserIconAsync(int size) {
+            return (await GetUserAsync()).ProfileImageUrl;
         }
     }
 

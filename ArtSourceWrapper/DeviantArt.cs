@@ -117,7 +117,7 @@ namespace ArtSourceWrapper {
             return _idWrapper.WhoamiAsync();
         }
 
-        public override Task<string> GetUserIconAsync() {
+        public override Task<string> GetUserIconAsync(int size) {
             return _idWrapper.GetUserIconAsync();
         }
 

@@ -173,7 +173,7 @@ namespace ArtSync {
             }
 
             try {
-                string picUrl = await SourceWrapper.GetUserIconAsync();
+                string picUrl = await SourceWrapper.GetUserIconAsync(picUserIcon.Height);
                 if (picUrl != null) {
                     var req = WebRequest.Create(picUrl);
                     if (req is HttpWebRequest) {

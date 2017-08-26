@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using DeviantartApi.Objects;
 
 namespace ArtSourceWrapper {
     public class StashWrapper : SiteWrapper<StashSubmissionWrapper, uint> {
@@ -17,7 +18,7 @@ namespace ArtSourceWrapper {
 
         public int TotalItemsIncludingStacks { get; private set; } = 0;
 
-        public override async Task<string> WhoamiAsync() {
+        public static async Task<User> GetUserAsync() {
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
                 throw new DeviantArtException(result.ErrorText);
@@ -25,7 +26,19 @@ namespace ArtSourceWrapper {
             if (!string.IsNullOrEmpty(result.Result.Error)) {
                 throw new DeviantArtException(result.Result.ErrorDescription);
             }
-            return result.Result.Username;
+            return result.Result;
+        }
+
+        private User _user;
+
+        public override async Task<string> WhoamiAsync() {
+            if (_user == null) _user = await GetUserAsync();
+            return _user.Username;
+        }
+
+        public override async Task<string> GetUserIconAsync(int size) {
+            if (_user == null) _user = await GetUserAsync();
+            return _user.UserIconUrl.AbsoluteUri;
         }
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
@@ -67,6 +80,10 @@ namespace ArtSourceWrapper {
 
         public override Task<string> WhoamiAsync() {
             return _wrapper.WhoamiAsync();
+        }
+
+        public override Task<string> GetUserIconAsync(int size) {
+            return _wrapper.GetUserIconAsync(size);
         }
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {

@@ -27,6 +27,10 @@ namespace ArtSourceWrapper {
             return Environment.UserName;
         }
 
+        public override Task<string> GetUserIconAsync(int size) {
+            return null;
+        }
+
         public virtual string SelectDirectory() {
             throw new NotImplementedException();
         }

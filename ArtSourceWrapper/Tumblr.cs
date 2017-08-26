@@ -69,6 +69,10 @@ namespace ArtSourceWrapper {
             var user = await _client.GetUserInfoAsync();
             return user.Name;
         }
+
+        public override async Task<string> GetUserIconAsync(int size) {
+            return $"https://api.tumblr.com/v2/blog/{_blogName}.tumblr.com/avatar/{size}";
+        }
     }
 
     public class TumblrSubmissionWrapper : ISubmissionWrapper {

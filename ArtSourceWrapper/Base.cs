@@ -56,8 +56,9 @@ namespace ArtSourceWrapper {
         /// <summary>
         /// Get the URL to the user icon or avatar of the currently logged in user.
         /// </summary>
-        /// <returns>A URL</returns>
-        Task<string> GetUserIconAsync();
+        /// <param name="size">The preferred width/height, in pixels</param>
+        /// <returns>A URL, or null if no image is available</returns>
+        Task<string> GetUserIconAsync(int size);
 
         /// <summary>
         /// Get another batch of submissions and add them to the cache.
@@ -97,10 +98,9 @@ namespace ArtSourceWrapper {
         /// <summary>
         /// Get the URL to the user icon or avatar of the currently logged in user.
         /// </summary>
-        /// <returns>A URL</returns>
-        public virtual Task<string> GetUserIconAsync() {
-            return Task.FromResult<string>(null);
-        }
+        /// <param name="size">The preferred width/height, in pixels</param>
+        /// <returns>A URL, or null if no image is available</returns>
+        public abstract Task<string> GetUserIconAsync(int size);
 
         /// <summary>
         /// A list of the currently cached submissions. Call FetchAsync to get more.

@@ -20,7 +20,7 @@ namespace ArtSourceWrapper {
             return Task.FromResult<string>(null);
         }
 
-        public override Task<string> GetUserIconAsync() {
+        public override Task<string> GetUserIconAsync(int size) {
             return Task.FromResult<string>(null);
         }
 

@@ -45,9 +45,27 @@ namespace ArtSourceWrapper {
             return new InternalFetchResult(wrappers, response.page + 1);
         }
 
-        public override Task<string> WhoamiAsync() {
-			return _client.GetUsernameAsync();
-		}
+        public override async Task<string> WhoamiAsync() {
+            AsynchronousCachedEnumerable<InkbunnySubmissionWrapper, int> wrapper = this;
+			if (!wrapper.Cache.Any()) {
+                await wrapper.FetchAsync();
+            }
+            if (!wrapper.Cache.Any()) {
+                throw new Exception("No Inkbunny submissions - cannot determine username");
+            }
+            return wrapper.Cache.First().Username;
+        }
+
+        public override async Task<string> GetUserIconAsync(int size) {
+            AsynchronousCachedEnumerable<InkbunnySubmissionWrapper, int> wrapper = this;
+            if (!wrapper.Cache.Any()) {
+                await wrapper.FetchAsync();
+            }
+            if (!wrapper.Cache.Any()) {
+                throw new Exception("No Inkbunny submissions - cannot determine username");
+            }
+            return wrapper.Cache.First().UserIcon;
+        }
     }
 
 	public class InkbunnySubmissionWrapper : ISubmissionWrapper {
@@ -76,6 +94,10 @@ namespace ArtSourceWrapper {
 		public string ViewURL => "https://inkbunny.net/submissionview.php?id=" + Submission.submission_id;
 
 		public bool OwnWork => true;
+
+        // For user info
+        public string Username => Submission.username;
+        public string UserIcon => Submission.user_icon_url_small;
 
         public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission) {
 			Submission = submission;
