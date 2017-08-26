@@ -620,11 +620,19 @@ namespace ArtSync {
                 
 				PostCreationInfo info = await Tumblr.CreatePostAsync(GlobalSettings.Tumblr.BlogName, post);
 
-                var newPost = await Tumblr.GetPostAsync(info.PostId);
-                lblPosted1.Visible = true;
-                lblPosted2.Visible = true;
-                lblPosted2.Text = newPost.Url;
-			} catch (Exception e) {
+                LProgressBar.Report(0.5);
+                try {
+                    var newPost = await Tumblr.GetPostAsync(info.PostId);
+                    lblPosted1.Visible = true;
+                    lblPosted2.Visible = true;
+                    lblPosted2.Text = newPost.Url;
+                } catch (Exception e) when (e.Message == "Not Found") {
+                    // Fine, let's just guess the url.
+                    lblPosted1.Visible = true;
+                    lblPosted2.Visible = true;
+                    lblPosted2.Text = $"https://{GlobalSettings.Tumblr.BlogName}.tumblr.com/post/{info.PostId}";
+                }
+            } catch (Exception e) {
 				Console.Error.WriteLine(e.Message);
 				Console.Error.WriteLine(e.StackTrace);
 				var messages = (e as AggregateException)?.InnerExceptions?.Select(x => x.Message) ?? new string[] { e.Message };
@@ -882,7 +890,7 @@ namespace ArtSync {
 			ResetTweetText();
 		}
 
-		private void btnTweet_Click(object sender, EventArgs e) {
+		private async void btnTweet_Click(object sender, EventArgs e) {
 			if (TwitterCredentials == null) {
 				MessageBox.Show("You must log into Twitter from the Options screen to send a tweet.");
 				return;
@@ -902,8 +910,8 @@ namespace ArtSync {
 
             LProgressBar.Report(0);
             LProgressBar.Visible = true;
-			Task.Run(() => Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
-                try {
+            try {
+                ITweet tweet = await Task.Run(() => Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
                     var options = new PublishTweetOptionalParameters();
 
                     if (chkIncludeImage.Checked) {
@@ -916,23 +924,24 @@ namespace ArtSync {
                         options.PossiblySensitive = true;
                     }
 
-                    ITweet tweet = Tweet.PublishTweet(text, options);
+                    return Tweet.PublishTweet(text, options);
+			    }));
 
-                    if (tweet == null) {
-                        string desc = Tweetinvi.ExceptionHandler.GetLastException().TwitterDescription;
-                        MessageBox.Show(this, desc, "Could not send tweet");
-                    } else {
-                        this.tweetCache.Add(tweet);
+                if (tweet == null) {
+                    string desc = Tweetinvi.ExceptionHandler.GetLastException().TwitterDescription;
+                    MessageBox.Show(this, desc, "Could not send tweet");
+                } else {
+                    this.tweetCache.Add(tweet);
 
-                        lblPosted1.Visible = true;
-                        lblPosted2.Visible = true;
-                        lblPosted2.Text = tweet.Url;
-                    }
-                } catch (Exception ex) {
-                    ShowException(ex, nameof(btnTweet_Click));
+                    lblPosted1.Visible = true;
+                    lblPosted2.Visible = true;
+                    lblPosted2.Text = tweet.Url;
                 }
-				LProgressBar.Visible = false;
-			}));
+            } catch (Exception ex) {
+                ShowException(ex, nameof(btnTweet_Click));
+            }
+
+            LProgressBar.Visible = false;
         }
 
         private void btnPostToFlickr_Click(object sender, EventArgs e) {
