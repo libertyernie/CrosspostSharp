@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ArtSync {
-    public class UserChosenLocalFolderWrapper : LocalDirectoryWrapper {
+    public class UserChosenLocalFolderWrapper : LocalPathWrapper {
         public Form Parent { get; set; }
 
         private static FolderBrowserDialog DIALOG = new FolderBrowserDialog {

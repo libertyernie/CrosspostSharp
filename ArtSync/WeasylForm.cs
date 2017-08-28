@@ -54,7 +54,7 @@ namespace ArtSync {
 		// Allows WeasylThumbnail access to the progress bar.
         public LProgressBar LProgressBar => lProgressBar1;
 
-        public WeasylForm() {
+        public WeasylForm(ISiteWrapper initialWrapper = null) {
 			InitializeComponent();
 			tweetCache = new List<ITweet>();
 
@@ -63,7 +63,7 @@ namespace ArtSync {
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3 };
 
             txtSaveDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            this.Shown += (o, e) => LoadFromSettings();
+            this.Shown += (o, e) => LoadFromSettings(initialWrapper);
 		}
 
         private void ShowException(Exception e, string source) {
@@ -97,51 +97,51 @@ namespace ArtSync {
             lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
         }
 
-        private async Task GetNewWrapper() {
+        private async Task GetNewWrapper(ISiteWrapper initialWrapper = null) {
             List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
 
-            if (GlobalSettings.DeviantArt.RefreshToken != null) {
-                try {
-                    wrappers.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
-                    wrappers.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
-                    wrappers.Add(new StashOrderedWrapper());
-                } catch (Exception e) {
-                    ShowException(e, nameof(GetNewWrapper));
+            if (initialWrapper != null) {
+                wrappers.Add(initialWrapper);
+            } else {
+                if (GlobalSettings.DeviantArt.RefreshToken != null) {
+                    try {
+                        wrappers.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
+                        wrappers.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
+                        wrappers.Add(new StashOrderedWrapper());
+                    } catch (Exception e) {
+                        ShowException(e, nameof(GetNewWrapper));
+                    }
                 }
-            }
 
-            if (!string.IsNullOrEmpty(GlobalSettings.FurAffinity.a) && !string.IsNullOrEmpty(GlobalSettings.FurAffinity.b)) {
-                wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
-                wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
-            }
+                if (!string.IsNullOrEmpty(GlobalSettings.FurAffinity.a) && !string.IsNullOrEmpty(GlobalSettings.FurAffinity.b)) {
+                    wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
+                    wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
+                }
 
-            if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                wrappers.Add(new WeasylWrapper(new WeasylGalleryIdWrapper(GlobalSettings.Weasyl.APIKey)));
-                wrappers.Add(new WeasylWrapper(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey)));
-            }
+                if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
+                    wrappers.Add(new WeasylWrapper(new WeasylGalleryIdWrapper(GlobalSettings.Weasyl.APIKey)));
+                    wrappers.Add(new WeasylWrapper(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey)));
+                }
 
-            if (Inkbunny != null) {
-                wrappers.Add(new InkbunnyWrapper(Inkbunny));
-            }
+                if (Inkbunny != null) {
+                    wrappers.Add(new InkbunnyWrapper(Inkbunny));
+                }
 
-            if (TwitterCredentials != null) {
-                wrappers.Add(new TwitterWrapper(TwitterCredentials));
-            }
+                if (TwitterCredentials != null) {
+                    wrappers.Add(new TwitterWrapper(TwitterCredentials));
+                }
 
-            if (Tumblr != null) {
-                wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
-            }
+                if (Tumblr != null) {
+                    wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
+                }
 
-            if (Flickr != null) {
-                wrappers.Add(new FlickrWrapper(Flickr));
-            }
+                if (Flickr != null) {
+                    wrappers.Add(new FlickrWrapper(Flickr));
+                }
 
-            wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
+                wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
 
-            wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
-
-            if (wrappers.Count == 0) {
-                wrappers.Add(new EmptyWrapper());
+                wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
             }
 
             if (wrappers.Count == 1) {
@@ -325,7 +325,7 @@ namespace ArtSync {
             ddlFlickrLicense.Items.AddRange(licenses.Where(l => (int)l.LicenseId != 7).ToArray());
         }
 
-        private async void LoadFromSettings() {
+        private async void LoadFromSettings(ISiteWrapper initialWrapper = null) {
 			try {
                 LProgressBar.Report(0);
 				LProgressBar.Visible = true;
@@ -345,7 +345,7 @@ namespace ArtSync {
 
                 await Task.WhenAll(tasks);
 
-                await GetNewWrapper();
+                await GetNewWrapper(initialWrapper);
 
 				LProgressBar.Visible = false;
                 

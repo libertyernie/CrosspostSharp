@@ -8,23 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
-    public class LocalDirectoryWrapper : SiteWrapper<LocalFileSubmissionWrapper, int> {
-        private string _directory;
+    public class LocalPathWrapper : SiteWrapper<LocalFileSubmissionWrapper, int> {
+        private string _path;
         private Stack<string> _fileStack;
 
         public override string SiteName => "Local";
-        public override string WrapperName => _directory ?? "Local folder";
+        public override string WrapperName => _path ?? "Local folder";
 
         public override int BatchSize { get; set; } = 1;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => int.MaxValue;
 
-        public LocalDirectoryWrapper(string directory = null) {
-            _directory = directory;
+        public LocalPathWrapper(string path = null) {
+            _path = path;
         }
 
-        public override async Task<string> WhoamiAsync() {
-            return Environment.UserName;
+        public override Task<string> WhoamiAsync() {
+            return Task.FromResult(Environment.UserName);
         }
 
         public override Task<string> GetUserIconAsync(int size) {
@@ -56,18 +56,23 @@ namespace ArtSourceWrapper {
 
         private IEnumerable<LocalFileSubmissionWrapper> Wrap() {
             if (_fileStack == null) {
-                if (_directory == null) {
-                    _directory = SelectDirectory();
-                    if (_directory == null) {
+                if (_path == null) {
+                    _path = SelectDirectory();
+                    if (_path == null) {
                         yield break;
                     }
                 }
 
-                var files = new DirectoryInfo(_directory)
-                    .EnumerateFiles()
-                    .OrderBy(f => f.CreationTime)
-                    .Select(f => f.FullName);
-                _fileStack = new Stack<string>(files);
+                if (Directory.Exists(_path)) {
+                    var files = new DirectoryInfo(_path)
+                        .EnumerateFiles()
+                        .OrderBy(f => f.CreationTime)
+                        .Select(f => f.FullName);
+                    _fileStack = new Stack<string>(files);
+                } else if (File.Exists(_path)) {
+                    _fileStack = new Stack<string>();
+                    _fileStack.Push(_path);
+                }
             }
 
             while (_fileStack.Any()) {
@@ -78,10 +83,10 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
             var wrappers = Wrap().Take(count).ToList();
             var isEnded = _fileStack?.Any() != true;
-            return new InternalFetchResult(wrappers, 0, isEnded);
+            return Task.FromResult(new InternalFetchResult(wrappers, 0, isEnded));
         }
     }
 
