@@ -85,5 +85,13 @@ namespace ArtSync {
             await _wrapper.FetchAsync();
             RepopulateList();
         }
+
+        private void btnPostToTwitter_Click(object sender, EventArgs e) {
+
+        }
+
+        private void btnPostToTumblr_Click(object sender, EventArgs e) {
+
+        }
     }
 }

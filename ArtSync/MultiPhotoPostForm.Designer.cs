@@ -29,12 +29,14 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnLoadMore = new System.Windows.Forms.Button();
             this.lblText = new System.Windows.Forms.Label();
             this.txtBody = new System.Windows.Forms.TextBox();
-            this.btnPostToTwitter = new System.Windows.Forms.Button();
-            this.btnPostToTumblr = new System.Windows.Forms.Button();
             this.lblTweetLength = new System.Windows.Forms.Label();
-            this.btnLoadMore = new System.Windows.Forms.Button();
+            this.btnPostToTumblr = new System.Windows.Forms.Button();
+            this.btnPostToTwitter = new System.Windows.Forms.Button();
+            this.txtTags = new System.Windows.Forms.TextBox();
+            this.lblTags = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -106,6 +108,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lblTags);
+            this.splitContainer1.Panel2.Controls.Add(this.txtTags);
             this.splitContainer1.Panel2.Controls.Add(this.lblText);
             this.splitContainer1.Panel2.Controls.Add(this.txtBody);
             this.splitContainer1.Panel2.Controls.Add(this.lblTweetLength);
@@ -118,6 +122,17 @@
             this.splitContainer1.Size = new System.Drawing.Size(434, 261);
             this.splitContainer1.SplitterDistance = 133;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnLoadMore
+            // 
+            this.btnLoadMore.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnLoadMore.Location = new System.Drawing.Point(0, 238);
+            this.btnLoadMore.Name = "btnLoadMore";
+            this.btnLoadMore.Size = new System.Drawing.Size(133, 23);
+            this.btnLoadMore.TabIndex = 1;
+            this.btnLoadMore.Text = "Load More";
+            this.btnLoadMore.UseVisualStyleBackColor = true;
+            this.btnLoadMore.Click += new System.EventHandler(this.btnLoadMore_Click);
             // 
             // lblText
             // 
@@ -136,31 +151,9 @@
             this.txtBody.Location = new System.Drawing.Point(2, 90);
             this.txtBody.Multiline = true;
             this.txtBody.Name = "txtBody";
-            this.txtBody.Size = new System.Drawing.Size(291, 126);
+            this.txtBody.Size = new System.Drawing.Size(291, 100);
             this.txtBody.TabIndex = 1;
             this.txtBody.TextChanged += new System.EventHandler(this.txtBody_TextChanged);
-            // 
-            // btnPostToTwitter
-            // 
-            this.btnPostToTwitter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPostToTwitter.Enabled = false;
-            this.btnPostToTwitter.Location = new System.Drawing.Point(88, 235);
-            this.btnPostToTwitter.Name = "btnPostToTwitter";
-            this.btnPostToTwitter.Size = new System.Drawing.Size(100, 23);
-            this.btnPostToTwitter.TabIndex = 3;
-            this.btnPostToTwitter.Text = "Post to Twitter";
-            this.btnPostToTwitter.UseVisualStyleBackColor = true;
-            // 
-            // btnPostToTumblr
-            // 
-            this.btnPostToTumblr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPostToTumblr.Enabled = false;
-            this.btnPostToTumblr.Location = new System.Drawing.Point(194, 235);
-            this.btnPostToTumblr.Name = "btnPostToTumblr";
-            this.btnPostToTumblr.Size = new System.Drawing.Size(100, 23);
-            this.btnPostToTumblr.TabIndex = 4;
-            this.btnPostToTumblr.Text = "Post to Tumblr";
-            this.btnPostToTumblr.UseVisualStyleBackColor = true;
             // 
             // lblTweetLength
             // 
@@ -169,18 +162,47 @@
             this.lblTweetLength.Location = new System.Drawing.Point(3, 219);
             this.lblTweetLength.Name = "lblTweetLength";
             this.lblTweetLength.Size = new System.Drawing.Size(0, 13);
-            this.lblTweetLength.TabIndex = 2;
+            this.lblTweetLength.TabIndex = 4;
             // 
-            // btnLoadMore
+            // btnPostToTumblr
             // 
-            this.btnLoadMore.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnLoadMore.Location = new System.Drawing.Point(0, 238);
-            this.btnLoadMore.Name = "btnLoadMore";
-            this.btnLoadMore.Size = new System.Drawing.Size(133, 23);
-            this.btnLoadMore.TabIndex = 1;
-            this.btnLoadMore.Text = "Load More";
-            this.btnLoadMore.UseVisualStyleBackColor = true;
-            this.btnLoadMore.Click += new System.EventHandler(this.btnLoadMore_Click);
+            this.btnPostToTumblr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPostToTumblr.Enabled = false;
+            this.btnPostToTumblr.Location = new System.Drawing.Point(194, 235);
+            this.btnPostToTumblr.Name = "btnPostToTumblr";
+            this.btnPostToTumblr.Size = new System.Drawing.Size(100, 23);
+            this.btnPostToTumblr.TabIndex = 6;
+            this.btnPostToTumblr.Text = "Post to Tumblr";
+            this.btnPostToTumblr.UseVisualStyleBackColor = true;
+            this.btnPostToTumblr.Click += new System.EventHandler(this.btnPostToTumblr_Click);
+            // 
+            // btnPostToTwitter
+            // 
+            this.btnPostToTwitter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPostToTwitter.Enabled = false;
+            this.btnPostToTwitter.Location = new System.Drawing.Point(88, 235);
+            this.btnPostToTwitter.Name = "btnPostToTwitter";
+            this.btnPostToTwitter.Size = new System.Drawing.Size(100, 23);
+            this.btnPostToTwitter.TabIndex = 5;
+            this.btnPostToTwitter.Text = "Post to Twitter";
+            this.btnPostToTwitter.UseVisualStyleBackColor = true;
+            this.btnPostToTwitter.Click += new System.EventHandler(this.btnPostToTwitter_Click);
+            // 
+            // txtTags
+            // 
+            this.txtTags.Location = new System.Drawing.Point(43, 196);
+            this.txtTags.Name = "txtTags";
+            this.txtTags.Size = new System.Drawing.Size(250, 20);
+            this.txtTags.TabIndex = 3;
+            // 
+            // lblTags
+            // 
+            this.lblTags.AutoSize = true;
+            this.lblTags.Location = new System.Drawing.Point(3, 199);
+            this.lblTags.Name = "lblTags";
+            this.lblTags.Size = new System.Drawing.Size(34, 13);
+            this.lblTags.TabIndex = 2;
+            this.lblTags.Text = "Tags:";
             // 
             // MultiPhotoPostForm
             // 
@@ -217,5 +239,7 @@
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.Label lblTweetLength;
         private System.Windows.Forms.Button btnLoadMore;
+        private System.Windows.Forms.TextBox txtTags;
+        private System.Windows.Forms.Label lblTags;
     }
 }
