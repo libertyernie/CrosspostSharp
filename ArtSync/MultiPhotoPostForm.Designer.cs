@@ -139,9 +139,9 @@
             this.lblText.AutoSize = true;
             this.lblText.Location = new System.Drawing.Point(3, 74);
             this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(31, 13);
+            this.lblText.Size = new System.Drawing.Size(218, 13);
             this.lblText.TabIndex = 0;
-            this.lblText.Text = "Text:";
+            this.lblText.Text = "Text (plain for Twitter, Markdown for Tumblr):";
             // 
             // txtBody
             // 
@@ -167,7 +167,6 @@
             // btnPostToTumblr
             // 
             this.btnPostToTumblr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPostToTumblr.Enabled = false;
             this.btnPostToTumblr.Location = new System.Drawing.Point(194, 235);
             this.btnPostToTumblr.Name = "btnPostToTumblr";
             this.btnPostToTumblr.Size = new System.Drawing.Size(100, 23);

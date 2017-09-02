@@ -832,7 +832,8 @@ namespace ArtSync {
 
         private void multiPhotoPostToolStripMenuItem_Click(object sender, EventArgs e) {
             if (SourceWrapper == null) return;
-            using (var f = new MultiPhotoPostForm(SourceWrapper)) {
+            using (var f = new MultiPhotoPostForm(GlobalSettings, SourceWrapper)) {
+                f.TumblrClient = Tumblr;
                 f.ShowDialog(this);
             }
         }
@@ -1007,7 +1008,7 @@ namespace ArtSync {
         }
         #endregion
 
-        private static BinaryFile MakeSquare(Bitmap oldBitmap) {
+        public static BinaryFile MakeSquare(Image oldBitmap) {
 			int newSize = Math.Max(oldBitmap.Width, oldBitmap.Height);
 			Bitmap newBitmap = new Bitmap(newSize, newSize);
 

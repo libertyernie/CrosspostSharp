@@ -1,4 +1,6 @@
 ﻿using ArtSourceWrapper;
+using DontPanic.TumblrSharp;
+using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,10 +17,11 @@ using System.Windows.Forms;
 namespace ArtSync {
     public partial class MultiPhotoPostForm : Form {
         private ISiteWrapper _wrapper;
-
+        private Settings _settings;
         private List<int> _selectedIds;
-        
         private PictureBox[] _picBoxes;
+
+        public TumblrClient TumblrClient;
 
         private IEnumerable<ISubmissionWrapper> GetSelectedSubmissions() {
             foreach (int index in _selectedIds) {
@@ -28,10 +31,11 @@ namespace ArtSync {
             }
         }
 
-        public MultiPhotoPostForm(ISiteWrapper wrapper) {
+        public MultiPhotoPostForm(Settings settings, ISiteWrapper wrapper) {
             InitializeComponent();
 
-            _wrapper = wrapper;
+            _wrapper = wrapper ?? throw new ArgumentNullException(nameof(wrapper));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             RepopulateList();
 
             _selectedIds = new List<int>();
@@ -87,11 +91,57 @@ namespace ArtSync {
         }
 
         private void btnPostToTwitter_Click(object sender, EventArgs e) {
-
+            throw new NotImplementedException();
         }
 
-        private void btnPostToTumblr_Click(object sender, EventArgs e) {
+        private async void btnPostToTumblr_Click(object sender, EventArgs e) {
+            if (TumblrClient == null) {
+                MessageBox.Show(this, "You are not currently logged into Tumblr.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            var selected = GetSelectedSubmissions().ToList();
+            if (selected.Count > 4) {
+                MessageBox.Show(this, "ArtSync only supports posting 4 photos at a time.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            btnPostToTumblr.Enabled = false;
+            try {
+                var tags = txtTags.Text.Replace("#", "").Split(' ').Where(s => s != "");
+                var imagesToPost = await Task.WhenAll(selected.Select(async w => {
+                    var request = WeasylForm.CreateWebRequest(w.ImageURL);
+                    using (var response = await request.GetResponseAsync())
+                    using (var stream = response.GetResponseStream())
+                    using (var ms = new MemoryStream()) {
+                        await stream.CopyToAsync(ms);
+
+                        ms.Position = 0;
+                        Image image = Image.FromStream(ms);
+                        if (_settings.Tumblr.AutoSidePadding && image.Height > image.Width) {
+                            return WeasylForm.MakeSquare(image);
+                        } else {
+                            ms.Position = 0;
+                            return new BinaryFile(ms, mimeType: response.ContentType);
+                        }
+                    }
+                }));
+
+                PostData post = PostData.CreatePhoto(
+                    imagesToPost.ToArray(),
+                    txtBody.Text,
+                    null,
+                    tags);
+                post.Format = PostFormat.Markdown;
+
+                PostCreationInfo info = await TumblrClient.CreatePostAsync(_settings.Tumblr.BlogName, post);
+
+                MessageBox.Show(this, "Post ID: " + info.PostId, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.Message, $"{Text}: {ex.GetType().Name}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally {
+                btnPostToTumblr.Enabled = true;
+            }
         }
     }
 }
