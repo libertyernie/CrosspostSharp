@@ -833,6 +833,7 @@ namespace ArtSync {
         private void multiPhotoPostToolStripMenuItem_Click(object sender, EventArgs e) {
             if (SourceWrapper == null) return;
             using (var f = new MultiPhotoPostForm(GlobalSettings, SourceWrapper)) {
+                f.TwitterCredentials = TwitterCredentials;
                 f.TumblrClient = Tumblr;
                 f.ShowDialog(this);
             }

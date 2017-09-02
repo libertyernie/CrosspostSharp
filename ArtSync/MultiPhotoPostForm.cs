@@ -13,6 +13,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tweetinvi;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace ArtSync {
     public partial class MultiPhotoPostForm : Form {
@@ -21,7 +24,8 @@ namespace ArtSync {
         private List<int> _selectedIds;
         private PictureBox[] _picBoxes;
 
-        public TumblrClient TumblrClient;
+        public TumblrClient TumblrClient { get; set; }
+        public ITwitterCredentials TwitterCredentials { get; set; }
 
         private IEnumerable<ISubmissionWrapper> GetSelectedSubmissions() {
             foreach (int index in _selectedIds) {
@@ -90,8 +94,63 @@ namespace ArtSync {
             RepopulateList();
         }
 
-        private void btnPostToTwitter_Click(object sender, EventArgs e) {
-            throw new NotImplementedException();
+        private async void btnPostToTwitter_Click(object sender, EventArgs e) {
+            if (TwitterCredentials == null) {
+                MessageBox.Show(this, "You are not currently logged into Twitter.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var selected = GetSelectedSubmissions().ToList();
+            if (selected.Count > 4) {
+                MessageBox.Show(this, "ArtSync only supports posting 4 photos at a time.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string text = txtBody.Text;
+            var tags = txtTags.Text.Replace("#", "").Split(' ').Where(s => s != "");
+            foreach (string tag in tags) {
+                text += " #" + tag;
+            }
+            
+            if (text.Where(c => !char.IsLowSurrogate(c)).Count() > 140) {
+                MessageBox.Show("This tweet is over 140 characters. Please shorten it or remove the Weasyl link (if present.)");
+                return;
+            }
+
+
+            btnPostToTwitter.Enabled = false;
+            try {
+                IEnumerable<byte[]> datas = await Task.WhenAll(selected.Select(async w => {
+                    var request = WeasylForm.CreateWebRequest(w.ImageURL);
+                    using (var response = await request.GetResponseAsync())
+                    using (var stream = response.GetResponseStream())
+                    using (var ms = new MemoryStream()) {
+                        await stream.CopyToAsync(ms);
+                        return ms.ToArray();
+                    }
+                }));
+
+                ITweet tweet = await Task.Run(() => {
+                    return Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
+                        var options = new PublishTweetOptionalParameters {
+                            Medias = datas.Select(data => Upload.UploadImage(data)).ToList()
+                        };
+
+                        return Tweet.PublishTweet(text, options);
+                    });
+                });
+
+                if (tweet == null) {
+                    string desc = ExceptionHandler.GetLastException().TwitterDescription;
+                    MessageBox.Show(this, "Could not send tweet: " + desc, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else {
+                    MessageBox.Show(this, "Tweet ID: " + tweet.IdStr, Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.Message, $"{Text}: {ex.GetType().Name}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally {
+                btnPostToTwitter.Enabled = true;
+            }
         }
 
         private async void btnPostToTumblr_Click(object sender, EventArgs e) {
