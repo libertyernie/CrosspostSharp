@@ -28,9 +28,7 @@ namespace ArtSync {
             InitializeComponent();
 
             _wrapper = wrapper;
-            foreach (var w in wrapper.Cache) {
-                listBox1.Items.Add(w);
-            }
+            RepopulateList();
 
             _picBoxes = new[] { pictureBox1, pictureBox2, pictureBox3, pictureBox4 };
             _submissions = new ISubmissionWrapper[_picBoxes.Length];
@@ -42,6 +40,14 @@ namespace ArtSync {
                     if (url != null) Process.Start(url);
                 };
             }
+        }
+
+        private void RepopulateList() {
+            listBox1.Items.Clear();
+            foreach (var w in _wrapper.Cache) {
+                listBox1.Items.Add(w);
+            }
+            btnLoadMore.Enabled = !_wrapper.IsEnded;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
@@ -61,6 +67,12 @@ namespace ArtSync {
 
         private void txtBody_TextChanged(object sender, EventArgs e) {
             lblTweetLength.Text = $"{txtBody.Text.Where(c => !char.IsLowSurrogate(c)).Count()}/140";
+        }
+
+        private async void btnLoadMore_Click(object sender, EventArgs e) {
+            btnLoadMore.Enabled = false;
+            await _wrapper.FetchAsync();
+            RepopulateList();
         }
     }
 }

@@ -34,6 +34,7 @@
             this.btnPostToTwitter = new System.Windows.Forms.Button();
             this.btnPostToTumblr = new System.Windows.Forms.Button();
             this.lblTweetLength = new System.Windows.Forms.Label();
+            this.btnLoadMore = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -52,7 +53,7 @@
             this.listBox1.Location = new System.Drawing.Point(0, 0);
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBox1.Size = new System.Drawing.Size(133, 261);
+            this.listBox1.Size = new System.Drawing.Size(133, 238);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -101,6 +102,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.listBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.btnLoadMore);
             // 
             // splitContainer1.Panel2
             // 
@@ -169,6 +171,17 @@
             this.lblTweetLength.Size = new System.Drawing.Size(0, 13);
             this.lblTweetLength.TabIndex = 2;
             // 
+            // btnLoadMore
+            // 
+            this.btnLoadMore.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnLoadMore.Location = new System.Drawing.Point(0, 238);
+            this.btnLoadMore.Name = "btnLoadMore";
+            this.btnLoadMore.Size = new System.Drawing.Size(133, 23);
+            this.btnLoadMore.TabIndex = 1;
+            this.btnLoadMore.Text = "Load More";
+            this.btnLoadMore.UseVisualStyleBackColor = true;
+            this.btnLoadMore.Click += new System.EventHandler(this.btnLoadMore_Click);
+            // 
             // MultiPhotoPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -203,5 +216,6 @@
         private System.Windows.Forms.TextBox txtBody;
         private System.Windows.Forms.Label lblText;
         private System.Windows.Forms.Label lblTweetLength;
+        private System.Windows.Forms.Button btnLoadMore;
     }
 }
