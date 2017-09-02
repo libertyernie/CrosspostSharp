@@ -132,6 +132,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.multiPhotoPostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -433,6 +434,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeSourceToolStripMenuItem,
             this.refreshToolStripMenuItem,
+            this.multiPhotoPostToolStripMenuItem,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
@@ -441,21 +443,21 @@
             // changeSourceToolStripMenuItem
             // 
             this.changeSourceToolStripMenuItem.Name = "changeSourceToolStripMenuItem";
-            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.changeSourceToolStripMenuItem.Text = "Change Source";
             this.changeSourceToolStripMenuItem.Click += new System.EventHandler(this.changeSourceToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -1399,6 +1401,13 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
+            // multiPhotoPostToolStripMenuItem
+            // 
+            this.multiPhotoPostToolStripMenuItem.Name = "multiPhotoPostToolStripMenuItem";
+            this.multiPhotoPostToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.multiPhotoPostToolStripMenuItem.Text = "Multi-Photo Post";
+            this.multiPhotoPostToolStripMenuItem.Click += new System.EventHandler(this.multiPhotoPostToolStripMenuItem_Click);
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1556,6 +1565,7 @@
         private System.Windows.Forms.Label lblFlickrLicense;
         private System.Windows.Forms.ComboBox ddlFlickrLicense;
         private System.Windows.Forms.PictureBox picUserIcon;
+        private System.Windows.Forms.ToolStripMenuItem multiPhotoPostToolStripMenuItem;
     }
 }
 

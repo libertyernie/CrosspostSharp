@@ -160,6 +160,12 @@
     <Compile Include="LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="MultiPhotoPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultiPhotoPostForm.Designer.cs">
+      <DependentUpon>MultiPhotoPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginDialog.resx">
       <DependentUpon>LoginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MultiPhotoPostForm.resx">
+      <DependentUpon>MultiPhotoPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>

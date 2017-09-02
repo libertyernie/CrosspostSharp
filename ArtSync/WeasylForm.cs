@@ -830,6 +830,13 @@ namespace ArtSync {
             UpdateGalleryAsync();
         }
 
+        private void multiPhotoPostToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (SourceWrapper == null) return;
+            using (var f = new MultiPhotoPostForm(SourceWrapper)) {
+                f.ShowDialog(this);
+            }
+        }
+
         private void optionsToolStripMenuItem_Click(object sender, EventArgs args) {
 			using (SettingsDialog dialog = new SettingsDialog(GlobalSettings)) {
 				if (dialog.ShowDialog() != DialogResult.Cancel) {
