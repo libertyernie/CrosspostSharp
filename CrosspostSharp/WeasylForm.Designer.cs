@@ -1,4 +1,4 @@
-﻿namespace ArtSync {
+﻿namespace CrosspostSharp {
 	partial class WeasylForm {
 		/// <summary>
 		/// Required designer variable.
@@ -68,10 +68,10 @@
             this.chkInkbunnyScraps = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.picUserIcon = new System.Windows.Forms.PictureBox();
-            this.lProgressBar1 = new ArtSync.LProgressBar();
-            this.thumbnail1 = new ArtSync.WeasylThumbnail();
-            this.thumbnail2 = new ArtSync.WeasylThumbnail();
-            this.thumbnail3 = new ArtSync.WeasylThumbnail();
+            this.lProgressBar1 = new CrosspostSharp.LProgressBar();
+            this.thumbnail1 = new CrosspostSharp.WeasylThumbnail();
+            this.thumbnail2 = new CrosspostSharp.WeasylThumbnail();
+            this.thumbnail3 = new CrosspostSharp.WeasylThumbnail();
             this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDeviantArt = new System.Windows.Forms.TabPage();
@@ -1418,7 +1418,7 @@
             this.Controls.Add(this.statusStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "WeasylForm";
-            this.Text = "ArtSync";
+            this.Text = "CrosspostSharp";
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1472,7 +1472,7 @@
 		private System.Windows.Forms.DateTimePicker pickDate;
 		private System.Windows.Forms.DateTimePicker pickTime;
 		private System.Windows.Forms.CheckBox chkNow;
-		private ArtSync.LProgressBar lProgressBar1;
+		private CrosspostSharp.LProgressBar lProgressBar1;
 		private System.Windows.Forms.TextBox txtTags2;
 		private System.Windows.Forms.CheckBox chkTags2;
 		private System.Windows.Forms.Button btnPost;

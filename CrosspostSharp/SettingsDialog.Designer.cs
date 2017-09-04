@@ -1,4 +1,4 @@
-﻿namespace ArtSync {
+﻿namespace CrosspostSharp {
 	partial class SettingsDialog {
 		/// <summary>
 		/// Required designer variable.
@@ -263,7 +263,7 @@
             this.lblTokenInfo.Size = new System.Drawing.Size(606, 45);
             this.lblTokenInfo.TabIndex = 7;
             this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
-    "ounts. The security tokens are stored in the file ArtSync.json, so make sure you" +
+    "ounts. The security tokens are stored in the file CrosspostSharp.json, so make sure you" +
     " keep that file secure.";
             this.lblTokenInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 

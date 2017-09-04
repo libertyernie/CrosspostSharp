@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	static class Program {
 		
 		/// <summary>
@@ -16,7 +16,7 @@ namespace ArtSync {
 
 			IECookiePersist.Suppress(true);
 
-            // Force current directory (if a file or folder was dragged onto ArtSync.exe)
+            // Force current directory (if a file or folder was dragged onto CrosspostSharp.exe)
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
             var w = args.Length > 0 && (File.Exists(args[0]) || Directory.Exists(args[0]))

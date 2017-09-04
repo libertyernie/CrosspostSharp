@@ -1,7 +1,7 @@
 ﻿using ISchemm.WinFormsOAuth;
-using static ArtSync.Settings;
+using static CrosspostSharp.Settings;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public static class FlickrKey {
         public static FlickrSettings Obtain(string consumerKey, string consumerSecret) {
             IECompatibility.SetForCurrentProcess();

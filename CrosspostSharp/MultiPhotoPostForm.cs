@@ -17,7 +17,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
-namespace ArtSync {
+namespace CrosspostSharp {
     public partial class MultiPhotoPostForm : Form {
         private ISiteWrapper _wrapper;
         private Settings _settings;
@@ -102,7 +102,7 @@ namespace ArtSync {
 
             var selected = GetSelectedSubmissions().ToList();
             if (selected.Count > 4) {
-                MessageBox.Show(this, "ArtSync only supports posting 4 photos at a time.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "CrosspostSharp only supports posting 4 photos at a time.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -161,7 +161,7 @@ namespace ArtSync {
 
             var selected = GetSelectedSubmissions().ToList();
             if (selected.Count > 4) {
-                MessageBox.Show(this, "ArtSync only supports posting 4 photos at a time.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, "CrosspostSharp only supports posting 4 photos at a time.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

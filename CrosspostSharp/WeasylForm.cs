@@ -21,7 +21,7 @@ using ArtSourceWrapper;
 using System.Security.Cryptography;
 using FlickrNet;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
 		private static Settings GlobalSettings;
 
@@ -1029,7 +1029,7 @@ namespace ArtSync {
         public static WebRequest CreateWebRequest(string url) {
             var req = WebRequest.Create(url);
             if (req is HttpWebRequest) {
-                ((HttpWebRequest)req).UserAgent = "ArtSync/2.2 (https://github.com/libertyernie/ArtSync)";
+                ((HttpWebRequest)req).UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
             }
             return req;
         }

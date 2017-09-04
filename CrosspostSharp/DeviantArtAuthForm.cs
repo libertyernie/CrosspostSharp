@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ArtSync {
+namespace CrosspostSharp {
     public partial class DeviantArtAuthForm : Form {
         public string RedirectUri { get; set; }
         public string Code { get; private set; }

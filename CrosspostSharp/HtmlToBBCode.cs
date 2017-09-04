@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArtSync {
+namespace CrosspostSharp {
     /// <summary>
     /// A modification of HtmlToText in the HTML Agility Pack's examples folder that tries to convert Weasyl's HTML output to Inkbunny's BBCode system.
     /// </summary>

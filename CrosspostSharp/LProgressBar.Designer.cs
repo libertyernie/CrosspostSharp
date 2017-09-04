@@ -1,4 +1,4 @@
-﻿namespace ArtSync
+﻿namespace CrosspostSharp
 {
 	partial class LProgressBar
 	{

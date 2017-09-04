@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ArtSync {
+namespace CrosspostSharp {
     public partial class SourceChoiceForm : Form {
         public IEnumerable<ISiteWrapper> Wrappers { get; private set; }
         

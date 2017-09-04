@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public class Settings {
 		public class WeasylSettings {
 			public string APIKey { get; set; }
@@ -93,7 +93,7 @@ namespace ArtSync {
 			}
 		}
 
-		public static Settings Load(string filename = "ArtSync.json") {
+		public static Settings Load(string filename = "CrosspostSharp.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
@@ -138,7 +138,7 @@ namespace ArtSync {
 			return s;
 		}
 
-		public void Save(string filename = "ArtSync.json") {
+		public void Save(string filename = "CrosspostSharp.json") {
 			File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
 		}
 

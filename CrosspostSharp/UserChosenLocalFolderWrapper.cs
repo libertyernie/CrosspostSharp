@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ArtSync {
+namespace CrosspostSharp {
     public class UserChosenLocalFolderWrapper : LocalPathWrapper {
         public Form Parent { get; set; }
 

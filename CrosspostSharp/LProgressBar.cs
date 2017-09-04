@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ArtSync
+namespace CrosspostSharp
 {
 	public partial class LProgressBar : UserControl, IProgress<double>
 	{

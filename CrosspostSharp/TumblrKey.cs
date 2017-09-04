@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public static class TumblrKey {
 		public static Token Obtain(string consumerKey, string consumerSecret) {
             IECompatibility.SetForCurrentProcess();

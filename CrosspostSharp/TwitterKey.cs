@@ -2,7 +2,7 @@
 using Tweetinvi;
 using Tweetinvi.Models;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public static class TwitterKey {
 		public static TwitterCredentials Obtain(string consumerKey, string consumerSecret) {
             IECompatibility.SetForCurrentProcess();

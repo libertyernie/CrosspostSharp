@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tweetinvi;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public partial class SettingsDialog : Form {
 		public Settings Settings { get; private set; }
 

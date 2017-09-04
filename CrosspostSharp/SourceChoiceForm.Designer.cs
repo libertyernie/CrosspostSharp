@@ -1,4 +1,4 @@
-﻿namespace ArtSync {
+﻿namespace CrosspostSharp {
     partial class SourceChoiceForm {
         /// <summary>
         /// Required designer variable.

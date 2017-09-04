@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace ArtSync {
+namespace CrosspostSharp {
 	public class AboutDialog : Form {
 		public AboutDialog() {
             Width = 500;
@@ -19,8 +19,8 @@ namespace ArtSync {
 <title>About</title>
 </head>
 <body>
-<h1>ArtSync 2.2</h1>
-<p><a href=""""https://github.com/libertyernie/artsync"""">https://github.com/libertyernie/artsync</a><br>
+<h1>CrosspostSharp 2.2</h1>
+<p><a href=""""https://github.com/libertyernie/CrosspostSharp"""">https://github.com/libertyernie/CrosspostSharp</a><br>
 </p>
 <p>This product uses the Flickr API but is not endorsed or certified
 by Flickr.<br>

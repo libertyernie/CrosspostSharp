@@ -1,7 +1,7 @@
-ArtSync 2.2
+CrosspostSharp 2.2
 ===========
 
-Source: https://github.com/libertyernie/ArtSync
+Source: https://github.com/libertyernie/CrosspostSharp
 
 --------------------
 
@@ -20,7 +20,7 @@ Supported Sources
 -----------------
 
 To use this application, you must connect it to one of your accounts.
-Information for all accounts will be stored in the file ArtSync.json,
+Information for all accounts will be stored in the file CrosspostSharp.json,
 so keep that file secure!
 
 When you're logged into a source site, your three most recent
@@ -31,7 +31,7 @@ to load the full image and fill in the information boxes.
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json.
+will be stored in CrosspostSharp.json.
 
 You can upload images to DeviantArt or just to Sta.sh, and you can also use
 either one as a source site.
@@ -40,34 +40,34 @@ either one as a source site.
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json.
+will be stored in CrosspostSharp.json.
 
 #### FurAffinity
 
 Use the "Sign In" button in Tools -> Options to launch a dialog window that
 asks for your username and password. This will obtain cookies that will be
-stored in ArtSync.json.
+stored in CrosspostSharp.json.
 
 #### Inkbunny
 
 Use the "Sign In" button in Tools -> Options to launch a dialog window that
 asks for your username and password. This will obtain a user ID and SID that
-will be stored in ArtSync.json.
+will be stored in CrosspostSharp.json.
 
 #### Tumblr
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json.
+will be stored in CrosspostSharp.json.
 
-Only photo posts will be shown. Reblogs will be included, but ArtSync won't
+Only photo posts will be shown. Reblogs will be included, but CrosspostSharp won't
 allow you to post them to other sites.
 
 #### Twitter
 
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in ArtSync.json.
+will be stored in CrosspostSharp.json.
 
 Retweets, and tweets without photos, will be omitted.
 
@@ -78,7 +78,7 @@ from Twitter that you have logged in with Internet Explorer from a new device.
 
 You can obtain a Weasyl API key at https://www.weasyl.com/control/apikeys.
 Copy the API key from the page and paste it into the Options dialog in
-ArtSync (Tools -> Options).
+CrosspostSharp (Tools -> Options).
 
 You can revoke an API key at any time by going to the same page.
 
@@ -155,13 +155,13 @@ If a checkbox is not checked, the content in the adajcent box will not be used.
 * Tweet area - the text that will be included in the tweet
 * Potentially sensitive material
 * Include image (image will be included as media in the tweet)
-* Append link (link will be appended to the tweet; this also lets ArtSync find
+* Append link (link will be appended to the tweet; this also lets CrosspostSharp find
   the tweet later and show you a link)
 
 Settings
 --------
 
-Settings are stored in the file ArtSync.json.
+Settings are stored in the file CrosspostSharp.json.
 
 * Defaults
   * HeaderHTML: default header template.
@@ -176,26 +176,26 @@ Settings are stored in the file ArtSync.json.
     automatically.
 
 * DeviantArt
-  * RefreshToken: Gives ArtSync access to your DeviantArt account. ArtSync
-  will acquire a new token and update ArtSync.json every time it is launched.
+  * RefreshToken: Gives CrosspostSharp access to your DeviantArt account. CrosspostSharp
+  will acquire a new token and update CrosspostSharp.json every time it is launched.
 
 * Tumblr
   * Blog: name of the blog to post to.
   * TokenKey: The key of your OAuth token for Tumblr authentication.
   * TokenSecret: The secret part of the Tumblr OAuth token. The key and secret
-    together are how ArtSync accesses your Tumblr account.
+    together are how CrosspostSharp accesses your Tumblr account.
   * AutoSidePadding: If this is enabled and you post an image to Tumblr that
-    is taller than it is wide, ArtSync will add transparent padding to the
+    is taller than it is wide, CrosspostSharp will add transparent padding to the
     left and right sides of the image so it doesn't appear too large on the
     Tumblr dashboard.
 
 * Twitter
-  * TokenKey: Gives ArtSync access to your Twitter account (with TokenSecret).
-  * TokenSecret: Gives ArtSync access to your Twitter account (with TokenKey).
+  * TokenKey: Gives CrosspostSharp access to your Twitter account (with TokenSecret).
+  * TokenSecret: Gives CrosspostSharp access to your Twitter account (with TokenKey).
 
 * Flickr
-  * TokenKey: Gives ArtSync access to your Flickr account (with TokenSecret).
-  * TokenSecret: Gives ArtSync access to your Flickr account (with TokenKey).
+  * TokenKey: Gives CrosspostSharp access to your Flickr account (with TokenSecret).
+  * TokenSecret: Gives CrosspostSharp access to your Flickr account (with TokenKey).
 
 * Inkbunny
   * Sid: The "sid" value used in the Inkbunny API.
@@ -206,10 +206,10 @@ Compiling from Source
 
 This project can be built with Visual Studio 2015 or 2017.
 
-The file OAuthConsumer.cs is missing from the ArtSync project. Get your own
+The file OAuthConsumer.cs is missing from the CrosspostSharp project. Get your own
 OAuth keys, then put the following into OAuthConsumer.cs:
 
-    namespace ArtSync {
+    namespace CrosspostSharp {
         public static class OAuthConsumer {
             public static class Tumblr {
                 public static string CONSUMER_KEY = "consumer key goes here";
