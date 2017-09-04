@@ -1007,6 +1007,17 @@ namespace CrosspostSharp {
         private void lblPosted2_Click(object sender, EventArgs e) {
             if (lblPosted2.Text.StartsWith("http")) Process.Start(lblPosted2.Text);
         }
+
+        private void reduceHeightToolStripMenuItem_Click(object sender, EventArgs e) {
+            var last = thumbnails.Last();
+            thumbnails = thumbnails.Take(thumbnails.Length - 1).ToArray();
+            int h = last.Top - thumbnails.Last().Top;
+            last.Parent.Controls.Remove(last);
+            panel1.Height -= h;
+            Height -= h;
+
+            reduceHeightToolStripMenuItem.Enabled = thumbnails.Length > 1;
+        }
         #endregion
 
         public static BinaryFile MakeSquare(Image oldBitmap) {

@@ -51,6 +51,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeSourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.multiPhotoPostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -132,7 +133,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.multiPhotoPostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reduceHeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -168,6 +170,7 @@
             // 
             // btnDown
             // 
+            this.btnDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDown.Location = new System.Drawing.Point(104, 355);
             this.btnDown.Margin = new System.Windows.Forms.Padding(0);
@@ -180,7 +183,8 @@
             // 
             // mainPictureBox
             // 
-            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainPictureBox.Location = new System.Drawing.Point(142, 56);
@@ -422,6 +426,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolsToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -453,6 +458,13 @@
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // multiPhotoPostToolStripMenuItem
+            // 
+            this.multiPhotoPostToolStripMenuItem.Name = "multiPhotoPostToolStripMenuItem";
+            this.multiPhotoPostToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.multiPhotoPostToolStripMenuItem.Text = "Multi-Photo Post";
+            this.multiPhotoPostToolStripMenuItem.Click += new System.EventHandler(this.multiPhotoPostToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -647,7 +659,7 @@
             // 
             // lProgressBar1
             // 
-            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
@@ -1401,12 +1413,20 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
-            // multiPhotoPostToolStripMenuItem
+            // viewToolStripMenuItem
             // 
-            this.multiPhotoPostToolStripMenuItem.Name = "multiPhotoPostToolStripMenuItem";
-            this.multiPhotoPostToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.multiPhotoPostToolStripMenuItem.Text = "Multi-Photo Post";
-            this.multiPhotoPostToolStripMenuItem.Click += new System.EventHandler(this.multiPhotoPostToolStripMenuItem_Click);
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reduceHeightToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // reduceHeightToolStripMenuItem
+            // 
+            this.reduceHeightToolStripMenuItem.Name = "reduceHeightToolStripMenuItem";
+            this.reduceHeightToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.reduceHeightToolStripMenuItem.Text = "Reduce Window Height";
+            this.reduceHeightToolStripMenuItem.Click += new System.EventHandler(this.reduceHeightToolStripMenuItem_Click);
             // 
             // WeasylForm
             // 
@@ -1566,6 +1586,8 @@
         private System.Windows.Forms.ComboBox ddlFlickrLicense;
         private System.Windows.Forms.PictureBox picUserIcon;
         private System.Windows.Forms.ToolStripMenuItem multiPhotoPostToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reduceHeightToolStripMenuItem;
     }
 }
 
