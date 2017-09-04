@@ -4,4 +4,4 @@ obj
 *.user
 *.suo
 packages
-ArtSync/OAuthConsumer.cs
+CrosspostSharp/OAuthConsumer.cs

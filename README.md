@@ -5,8 +5,8 @@ Source: https://github.com/libertyernie/CrosspostSharp
 
 --------------------
 
-WeasylSync is a Windows desktop application that loads individual submissions
-from DeviantArt and lets you post them to your Tumblr and Inkbunny
+CrosspostSharp is a Windows desktop application that loads individual
+submissions from art sites and lets you post them to your other
 accounts, maintaining the title, description, and tags.
 
 Only visual submissions (artwork) are supported at this time.
