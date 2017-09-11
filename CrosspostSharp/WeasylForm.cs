@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
 using ArtSourceWrapper;
 using FlickrNet;
+using System.Drawing.Imaging;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -399,7 +400,11 @@ namespace CrosspostSharp {
 
                 try {
 					this.currentImageBitmap = (Bitmap)Image.FromStream(new MemoryStream(file.Data));
-					mainPictureBox.Image = this.currentImageBitmap;
+                    if (file.MimeType == "image/png" && this.currentImageBitmap.RawFormat.Guid == ImageFormat.Jpeg.Guid) {
+                        MessageBox.Show(this, "This image has a .png extension, but it's in JPEG format. If you have a PNG version, you might want to post that instead.", submission?.Title, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+
+                    mainPictureBox.Image = this.currentImageBitmap;
                 } catch (ArgumentException) {
 					MessageBox.Show("This submission is not an image file.");
 					mainPictureBox.Image = null;

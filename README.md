@@ -13,7 +13,7 @@ Only visual submissions (artwork) are supported at this time.
 
 Requirements:
 
-* Windows Vista or higher
+* Internet Explorer 11
 * .NET Framework 4.6.1 or higher
 
 Supported Sources
@@ -41,6 +41,9 @@ either one as a source site.
 Use the "Sign In" button in Tools -> Options to launch a browser window, which
 will let you sign in using OAuth. Once signed in, the OAuth token
 will be stored in CrosspostSharp.json.
+
+If you have script errors on the page while trying to sign in, close and then
+restart CrossposterSharp.
 
 #### FurAffinity
 
