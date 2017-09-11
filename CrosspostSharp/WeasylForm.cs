@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,7 +17,6 @@ using Tweetinvi;
 using System.Text.RegularExpressions;
 using Tweetinvi.Parameters;
 using ArtSourceWrapper;
-using System.Security.Cryptography;
 using FlickrNet;
 
 namespace CrosspostSharp {
@@ -44,8 +42,10 @@ namespace CrosspostSharp {
         // Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
         private WeasylThumbnail[] thumbnails;
 
-		// The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
-		private ISubmissionWrapper currentSubmission;
+        private TabControlHelper _helper;
+
+        // The current submission's details and image, which are fetched by the WeasylThumbnail and passed to SetCurrentImage.
+        private ISubmissionWrapper currentSubmission;
 		private BinaryFile currentImage;
 
 		// The image displayed in the main panel. This is used again if WeasylSync needs to add padding to the image to force a square aspect ratio.
@@ -61,6 +61,7 @@ namespace CrosspostSharp {
 			GlobalSettings = Settings.Load();
 
 			thumbnails = new WeasylThumbnail[] { thumbnail1, thumbnail2, thumbnail3 };
+            _helper = new TabControlHelper(tabControl1);
 
             txtSaveDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             this.Shown += (o, e) => LoadFromSettings(initialWrapper);
@@ -72,6 +73,8 @@ namespace CrosspostSharp {
 
 		#region GUI updates
         private async Task DeviantArtLogin() {
+            lblDeviantArtStatus2.Text = "";
+
             if (!string.IsNullOrEmpty(GlobalSettings.DeviantArt.RefreshToken)) {
                 try {
                     string oldToken = GlobalSettings.DeviantArt.RefreshToken;
@@ -84,7 +87,6 @@ namespace CrosspostSharp {
                         GlobalSettings.Save();
                     }
                     lblDeviantArtStatus2.Text = (await DeviantArtDeviationWrapper.GetUserAsync()).Username;
-                    lblDeviantArtStatus2.ForeColor = Color.DarkGreen;
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
@@ -92,9 +94,6 @@ namespace CrosspostSharp {
                     ShowException(e, nameof(DeviantArtLogin));
                 }
             }
-
-            lblDeviantArtStatus2.Text = "";
-            lblDeviantArtStatus2.ForeColor = SystemColors.WindowText;
         }
 
         private async Task GetNewWrapper(ISiteWrapper initialWrapper = null) {
@@ -162,14 +161,10 @@ namespace CrosspostSharp {
             string user = null;
             try {
                 user = await SourceWrapper.WhoamiAsync();
-                lblWeasylStatus2.Text = user ?? "";
-                lblWeasylStatus2.ForeColor = string.IsNullOrEmpty(lblWeasylStatus2.Text)
-                    ? SystemColors.WindowText
-                    : Color.DarkGreen;
             } catch (Exception e) {
-                lblWeasylStatus2.Text = ((e as WebException)?.Response as HttpWebResponse)?.StatusDescription ?? e.Message;
-                lblWeasylStatus2.ForeColor = Color.DarkRed;
+                ShowException(e, nameof(GetNewWrapper));
             }
+            lblWeasylStatus2.Text = user ?? "";
 
             try {
                 string picUrl = await SourceWrapper.GetUserIconAsync(picUserIcon.Height);
@@ -202,21 +197,14 @@ namespace CrosspostSharp {
                     token);
             }
 
-            if (Tumblr == null) {
-                lblTumblrStatus2.Text = "";
-                lblTumblrStatus2.ForeColor = SystemColors.WindowText;
-            } else {
+            lblTumblrStatus2.Text = "";
+            if (Tumblr != null) {
                 try {
                     TumblrUsername = (await Tumblr.GetUserInfoAsync()).Name;
                     lblTumblrStatus2.Text = TumblrUsername ?? "";
-                    lblTumblrStatus2.ForeColor = TumblrUsername == null
-                        ? SystemColors.WindowText
-                        : Color.DarkGreen;
                 } catch (Exception e) {
                     TumblrUsername = null;
                     ShowException(e, nameof(GetNewTumblrClient));
-                    lblTumblrStatus2.Text = "Error";
-                    lblTumblrStatus2.ForeColor = Color.DarkRed;
                 }
             }
         }
@@ -226,17 +214,13 @@ namespace CrosspostSharp {
                 Inkbunny = new InkbunnyClient(GlobalSettings.Inkbunny.Sid, GlobalSettings.Inkbunny.UserId.Value);
             }
 
-            if (Inkbunny == null) {
-                lblInkbunnyStatus2.Text = "";
-                lblInkbunnyStatus2.ForeColor = SystemColors.WindowText;
-            } else {
+            lblInkbunnyStatus2.Text = "";
+            if (Inkbunny != null) {
                 try {
                     lblInkbunnyStatus2.Text = await Inkbunny.GetUsernameAsync();
-                    lblInkbunnyStatus2.ForeColor = Color.DarkGreen;
                 } catch (Exception e) {
                     Inkbunny = null;
-                    lblInkbunnyStatus2.Text = e.Message;
-                    lblInkbunnyStatus2.ForeColor = Color.DarkRed;
+                    ShowException(e, nameof(GetNewInkbunnyClient));
                 }
             }
         }
@@ -246,9 +230,9 @@ namespace CrosspostSharp {
             try {
                 string screenName = TwitterCredentials?.GetScreenName();
                 lblTwitterStatus2.Text = screenName ?? "";
-                lblTwitterStatus2.ForeColor = screenName == null
-                    ? SystemColors.WindowText
-                    : Color.DarkGreen;
+                if (TwitterCredentials != null && screenName == null) {
+                    MessageBox.Show(this, "Twitter credentials are no longer valid - please log in again.");
+                }
 
                 if (screenName != null) {
                     Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
@@ -265,8 +249,7 @@ namespace CrosspostSharp {
                 }
             } catch (Exception e) {
                 TwitterCredentials = null;
-                lblTwitterStatus2.Text = e.Message;
-                lblTwitterStatus2.ForeColor = Color.DarkRed;
+                statusStrip1.Text = e.Message;
             }
         }
 
@@ -281,10 +264,8 @@ namespace CrosspostSharp {
                 };
             }
 
-            if (Flickr == null) {
-                lblFlickrStatus2.Text = "";
-                lblFlickrStatus2.ForeColor = SystemColors.WindowText;
-            } else {
+            lblFlickrStatus2.Text = "";
+            if (Flickr != null) {
                 try {
                     var t2 = new TaskCompletionSource<FlickrNet.Auth>();
                     Flickr.AuthOAuthCheckTokenAsync(a => {
@@ -296,14 +277,12 @@ namespace CrosspostSharp {
                     });
                     FlickrAuth = await t2.Task;
                     lblFlickrStatus2.Text = FlickrAuth.User.UserName;
-                    lblFlickrStatus2.ForeColor = Color.DarkGreen;
 
                     await PopulateFlickrLicenses();
                 } catch (Exception e) {
                     Flickr = null;
                     FlickrAuth = null;
-                    lblFlickrStatus2.Text = e.Message;
-                    lblFlickrStatus2.ForeColor = Color.DarkRed;
+                    ShowException(e, nameof(GetNewFlickrClient));
                 }
             }
         }
@@ -336,6 +315,12 @@ namespace CrosspostSharp {
                     GetNewFlickrClient(),
                     DeviantArtLogin()
                 };
+
+                _helper.SetPageVisible(tabTumblr, Tumblr != null);
+                _helper.SetPageVisible(tabInkbunny, Inkbunny != null);
+                _helper.SetPageVisible(tabTwitter, TwitterCredentials != null);
+                _helper.SetPageVisible(tabFlickr, Flickr != null);
+                _helper.SetPageVisible(tabDeviantArt, GlobalSettings.DeviantArt.RefreshToken != null);
 
                 int progress = 0;
                 foreach (var t in tasks) {

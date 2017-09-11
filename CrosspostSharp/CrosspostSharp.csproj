@@ -179,6 +179,7 @@
       <DependentUpon>SourceChoiceForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FlickrKey.cs" />
+    <Compile Include="TabControlHelper.cs" />
     <Compile Include="TwitterKey.cs" />
     <Compile Include="TumblrKey.cs" />
     <Compile Include="UserChosenLocalFolderWrapper.cs" />
