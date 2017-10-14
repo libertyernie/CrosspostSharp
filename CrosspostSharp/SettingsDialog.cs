@@ -211,8 +211,8 @@ namespace CrosspostSharp {
                     lblTwitterTokenStatus.Text = $"{screenName} ({twitterCredentials.AccessToken}...)";
 				}
 			} catch (Exception e) {
-				lblTokenStatus.ForeColor = Color.Red;
-                lblTokenStatus.Text = $"{e.Message} ({twitterCredentials.AccessToken}...)";
+                lblTwitterTokenStatus.ForeColor = Color.Red;
+                lblTwitterTokenStatus.Text = $"{e.Message} ({twitterCredentials.AccessToken}...)";
 			}
 		}
 
