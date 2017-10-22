@@ -52,7 +52,10 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeSourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.setTitleCommentsallTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.multiPhotoPostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reduceHeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,6 +125,8 @@
             this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             this.lblTwitterStatus1 = new System.Windows.Forms.Label();
             this.lblTwitterStatus2 = new System.Windows.Forms.Label();
+            this.tabFurryCrossposter = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabSave = new System.Windows.Forms.TabPage();
             this.btnSaveLocal = new System.Windows.Forms.Button();
             this.txtSaveFilename = new System.Windows.Forms.TextBox();
@@ -132,13 +137,13 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lnkFAC = new System.Windows.Forms.LinkLabel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnLaunchEFC = new System.Windows.Forms.Button();
             this.lProgressBar1 = new CrosspostSharp.LProgressBar();
             this.thumbnail1 = new CrosspostSharp.WeasylThumbnail();
             this.thumbnail2 = new CrosspostSharp.WeasylThumbnail();
             this.thumbnail3 = new CrosspostSharp.WeasylThumbnail();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.setTitleCommentsallTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -153,6 +158,7 @@
             this.tabInkbunny.SuspendLayout();
             this.tabTumblr.SuspendLayout();
             this.tabTwitter.SuspendLayout();
+            this.tabFurryCrossposter.SuspendLayout();
             this.tabSave.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
@@ -466,12 +472,29 @@
             this.refreshToolStripMenuItem.Text = "Refresh";
             this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
+            // 
+            // setTitleCommentsallTabsToolStripMenuItem
+            // 
+            this.setTitleCommentsallTabsToolStripMenuItem.Name = "setTitleCommentsallTabsToolStripMenuItem";
+            this.setTitleCommentsallTabsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.setTitleCommentsallTabsToolStripMenuItem.Text = "Set info (all tabs)";
+            this.setTitleCommentsallTabsToolStripMenuItem.Click += new System.EventHandler(this.setTitleCommentsallTabsToolStripMenuItem_Click);
+            // 
             // multiPhotoPostToolStripMenuItem
             // 
             this.multiPhotoPostToolStripMenuItem.Name = "multiPhotoPostToolStripMenuItem";
             this.multiPhotoPostToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.multiPhotoPostToolStripMenuItem.Text = "Multi-photo post";
             this.multiPhotoPostToolStripMenuItem.Click += new System.EventHandler(this.multiPhotoPostToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(162, 6);
             // 
             // optionsToolStripMenuItem
             // 
@@ -698,6 +721,7 @@
             this.tabControl1.Controls.Add(this.tabInkbunny);
             this.tabControl1.Controls.Add(this.tabTumblr);
             this.tabControl1.Controls.Add(this.tabTwitter);
+            this.tabControl1.Controls.Add(this.tabFurryCrossposter);
             this.tabControl1.Controls.Add(this.tabSave);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 417);
@@ -1294,6 +1318,31 @@
             this.lblTwitterStatus2.Text = "not logged in";
             this.lblTwitterStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tabFurryCrossposter
+            // 
+            this.tabFurryCrossposter.Controls.Add(this.btnLaunchEFC);
+            this.tabFurryCrossposter.Controls.Add(this.label4);
+            this.tabFurryCrossposter.Controls.Add(this.lnkFAC);
+            this.tabFurryCrossposter.Controls.Add(this.label3);
+            this.tabFurryCrossposter.Location = new System.Drawing.Point(4, 22);
+            this.tabFurryCrossposter.Name = "tabFurryCrossposter";
+            this.tabFurryCrossposter.Size = new System.Drawing.Size(546, 356);
+            this.tabFurryCrossposter.TabIndex = 6;
+            this.tabFurryCrossposter.Text = "Other (EFC)";
+            this.tabFurryCrossposter.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 6);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(408, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "You can use the External Furry Crossposter (EFC) to post to various furry art web" +
+    "sites.";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // tabSave
             // 
             this.tabSave.Controls.Add(this.btnSaveLocal);
@@ -1396,6 +1445,41 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
+            // lnkFAC
+            // 
+            this.lnkFAC.AutoSize = true;
+            this.lnkFAC.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lnkFAC.Location = new System.Drawing.Point(8, 25);
+            this.lnkFAC.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.lnkFAC.Name = "lnkFAC";
+            this.lnkFAC.Size = new System.Drawing.Size(236, 13);
+            this.lnkFAC.TabIndex = 1;
+            this.lnkFAC.TabStop = true;
+            this.lnkFAC.Text = "https://github.com/libertyernie/Furry-Crossposter";
+            this.lnkFAC.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFAC_LinkClicked);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 44);
+            this.label4.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(473, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Place the file efc.jar in the same directory as CrosspostSharp.exe and make sure " +
+    "Java 8 is installed.";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnLaunchEFC
+            // 
+            this.btnLaunchEFC.Location = new System.Drawing.Point(463, 60);
+            this.btnLaunchEFC.Name = "btnLaunchEFC";
+            this.btnLaunchEFC.Size = new System.Drawing.Size(75, 23);
+            this.btnLaunchEFC.TabIndex = 3;
+            this.btnLaunchEFC.Text = "Launch";
+            this.btnLaunchEFC.UseVisualStyleBackColor = true;
+            this.btnLaunchEFC.Click += new System.EventHandler(this.btnLaunchEFC_Click);
+            // 
             // lProgressBar1
             // 
             this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -1435,23 +1519,6 @@
             this.thumbnail3.TabIndex = 2;
             this.thumbnail3.TabStop = false;
             // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(162, 6);
-            // 
-            // setTitleCommentsallTabsToolStripMenuItem
-            // 
-            this.setTitleCommentsallTabsToolStripMenuItem.Name = "setTitleCommentsallTabsToolStripMenuItem";
-            this.setTitleCommentsallTabsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.setTitleCommentsallTabsToolStripMenuItem.Text = "Set info (all tabs)";
-            this.setTitleCommentsallTabsToolStripMenuItem.Click += new System.EventHandler(this.setTitleCommentsallTabsToolStripMenuItem_Click);
-            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1487,6 +1554,8 @@
             this.tabTumblr.PerformLayout();
             this.tabTwitter.ResumeLayout(false);
             this.tabTwitter.PerformLayout();
+            this.tabFurryCrossposter.ResumeLayout(false);
+            this.tabFurryCrossposter.PerformLayout();
             this.tabSave.ResumeLayout(false);
             this.tabSave.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -1616,6 +1685,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem setTitleCommentsallTabsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.TabPage tabFurryCrossposter;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel lnkFAC;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnLaunchEFC;
     }
 }
 

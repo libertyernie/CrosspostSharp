@@ -1040,6 +1040,64 @@ namespace CrosspostSharp {
         private void setTitleCommentsallTabsToolStripMenuItem_Click(object sender, EventArgs e) {
             ShowSetDescForm();
         }
+
+        private void lnkFAC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start(lnkFAC.Text);
+        }
+
+        private async void btnLaunchEFC_Click(object sender, EventArgs e) {
+            char[] invalid = Path.GetInvalidFileNameChars();
+            string basename = this.currentSubmission?.Title;
+            if (string.IsNullOrEmpty(basename)) {
+                basename = "image";
+            }
+            basename = new string(basename.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+            string ext = this.currentImage.MimeType.StartsWith("image/")
+                ? $".{this.currentImage.MimeType.Replace("image/", "")}"
+                : "";
+            string imageFilename = basename + ext;
+
+            string imageFile = Path.Combine(Path.GetTempPath(), imageFilename);
+            File.WriteAllBytes(imageFile, this.currentImage.Data);
+
+            string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
+            string plainText = Regex.Replace(bbCode, @"\[\/?(b|i|u|q|url=?[^\]]*)\]", "");
+
+            string jsonFile = Path.GetTempFileName();
+            File.WriteAllText(jsonFile, JsonSerializer.ToJson(new {
+                imagePath = imageFile,
+                title = this.currentSubmission.Title,
+                description = plainText,
+                tags = this.currentSubmission.Tags,
+                nudity = new {
+                    @explicit = this.currentSubmission.PotentiallySensitive
+                }
+            }));
+
+            ShowProgressBar();
+
+            if (!File.Exists("efc.jar")) {
+                MessageBox.Show(this, $"efc.jar not found in {Environment.CurrentDirectory}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            Process p = Process.Start(new ProcessStartInfo("java", $"-jar efc.jar {jsonFile}") {
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                WorkingDirectory = Environment.CurrentDirectory
+            });
+
+            await Task.Run(() => p.WaitForExit());
+
+            if (p.ExitCode != 0) {
+                string stderr = await p.StandardError.ReadToEndAsync();
+                MessageBox.Show(this, stderr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            HideProgressBar();
+
+            File.Delete(jsonFile);
+            File.Delete(imageFile);
+        }
         #endregion
 
         public static BinaryFile MakeSquare(Image oldBitmap) {
