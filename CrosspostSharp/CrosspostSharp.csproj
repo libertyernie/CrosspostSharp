@@ -129,6 +129,12 @@
     <Compile Include="MultiPhotoPostForm.Designer.cs">
       <DependentUpon>MultiPhotoPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetDescForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetDescForm.Designer.cs">
+      <DependentUpon>SetDescForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MultiPhotoPostForm.resx">
       <DependentUpon>MultiPhotoPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetDescForm.resx">
+      <DependentUpon>SetDescForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
