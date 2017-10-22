@@ -72,7 +72,17 @@ namespace CrosspostSharp {
             MessageBox.Show(this, e.Message, $"Error in {source}: {e.GetType()}");
         }
 
-		#region GUI updates
+        private void ShowProgressBar() {
+            LProgressBar.Visible = true;
+            tabControl1.Enabled = false;
+        }
+
+        private void HideProgressBar() {
+            LProgressBar.Visible = false;
+            tabControl1.Enabled = true;
+        }
+
+        #region GUI updates
         private async Task DeviantArtLogin() {
             lblDeviantArtStatus2.Text = "";
 
@@ -97,7 +107,7 @@ namespace CrosspostSharp {
             }
         }
 
-        private async Task GetNewWrapper(ISiteWrapper initialWrapper = null) {
+        private async Task GetNewWrapper(ISiteWrapper initialWrapper = null, Type preferredWrapperType = null) {
             List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
 
             if (initialWrapper != null) {
@@ -141,6 +151,11 @@ namespace CrosspostSharp {
                 wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
 
                 wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
+            }
+
+            if (preferredWrapperType != null) {
+                wrappers = wrappers.Where(w => w.GetType().Equals(preferredWrapperType)).ToList();
+                if (!wrappers.Any()) return;
             }
 
             if (wrappers.Count == 1) {
@@ -307,7 +322,7 @@ namespace CrosspostSharp {
         private async void LoadFromSettings(ISiteWrapper initialWrapper = null) {
 			try {
                 LProgressBar.Report(0);
-				LProgressBar.Visible = true;
+				ShowProgressBar();
 
                 var tasks = new Task[] {
                     GetNewTumblrClient(),
@@ -332,7 +347,7 @@ namespace CrosspostSharp {
 
                 await GetNewWrapper(initialWrapper);
 
-				LProgressBar.Visible = false;
+				HideProgressBar();
                 
 				txtFooter.Text = GlobalSettings.Defaults.FooterHTML ?? "";
 
@@ -470,7 +485,7 @@ namespace CrosspostSharp {
                 if (SourceWrapper == null) return;
 
                 LProgressBar.Report(0);
-                LProgressBar.Visible = true;
+                ShowProgressBar();
 
                 int addedCount = this.thumbnails.Length;
 
@@ -508,7 +523,7 @@ namespace CrosspostSharp {
 			} catch (Exception ex) {
                 ShowException(ex, nameof(UpdateGalleryAsync));
             } finally {
-                LProgressBar.Visible = false;
+                HideProgressBar();
             }
         }
 		#endregion
@@ -592,7 +607,7 @@ namespace CrosspostSharp {
 				}
 
                 LProgressBar.Report(0);
-				LProgressBar.Visible = true;
+				ShowProgressBar();
 
 				var tags = new List<string>();
 				if (chkTags1.Checked) tags.AddRange(txtTags1.Text.Replace("#", "").Split(' ').Where(s => s != ""));
@@ -627,7 +642,7 @@ namespace CrosspostSharp {
 				var messages = (e as AggregateException)?.InnerExceptions?.Select(x => x.Message) ?? new string[] { e.Message };
 				MessageBox.Show("An error occured: \"" + string.Join(", ", messages) + "\"\r\nCheck to see if the blog name is correct.");
 			} finally {
-				LProgressBar.Visible = false;
+				HideProgressBar();
 			}
 		}
 		#endregion
@@ -656,7 +671,7 @@ namespace CrosspostSharp {
 				}
 
                 LProgressBar.Report(0);
-                LProgressBar.Visible = true;
+                ShowProgressBar();
 
 				long submission_id = await Inkbunny.UploadAsync(files: new byte[][] {
 					currentImage.Data
@@ -691,7 +706,7 @@ namespace CrosspostSharp {
 				Console.Error.WriteLine(ex.StackTrace);
                 ShowException(ex, nameof(PostToInkbunny));
             } finally {
-				LProgressBar.Visible = false;
+				HideProgressBar();
 			}
 		}
         #endregion
@@ -711,7 +726,7 @@ namespace CrosspostSharp {
                     var t1 = new TaskCompletionSource<string>();
 
                     LProgressBar.Report(0);
-                    LProgressBar.Visible = true;
+                    ShowProgressBar();
 
                     Flickr.UploadPictureAsync(
                         ms,
@@ -757,7 +772,7 @@ namespace CrosspostSharp {
             } catch (Exception ex) {
                 ShowException(ex, nameof(PostToFlickr));
             } finally {
-                LProgressBar.Visible = false;
+                HideProgressBar();
             }
         }
         #endregion
@@ -907,7 +922,7 @@ namespace CrosspostSharp {
 			}
 
             LProgressBar.Report(0);
-            LProgressBar.Visible = true;
+            ShowProgressBar();
             try {
                 ITweet tweet = await Task.Run(() => Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
                     var options = new PublishTweetOptionalParameters();
@@ -939,7 +954,7 @@ namespace CrosspostSharp {
                 ShowException(ex, nameof(btnTweet_Click));
             }
 
-            LProgressBar.Visible = false;
+            HideProgressBar();
         }
 
         private void btnPostToFlickr_Click(object sender, EventArgs e) {
@@ -978,12 +993,12 @@ namespace CrosspostSharp {
         }
 
         private void deviantArtUploadControl1_UploadProgressChanged(double percentage) {
-            LProgressBar.Visible = true;
+            ShowProgressBar();
             LProgressBar.Report(percentage);
         }
 
         private void deviantArtUploadControl1_Uploaded(string url) {
-            LProgressBar.Visible = false;
+            HideProgressBar();
 
             lblPosted1.Visible = true;
             lblPosted2.Visible = true;
@@ -991,7 +1006,7 @@ namespace CrosspostSharp {
         }
 
         private void deviantArtUploadControl1_UploadError(Exception ex) {
-            LProgressBar.Visible = false;
+            HideProgressBar();
         }
 
         private void lblPosted2_Click(object sender, EventArgs e) {
