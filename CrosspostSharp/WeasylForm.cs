@@ -82,6 +82,15 @@ namespace CrosspostSharp {
             tabControl1.Enabled = true;
         }
 
+        public void ShowSetDescForm() {
+            using (var f = new SetDescForm()) {
+                f.SubmissionWrapper = this.currentSubmission;
+                if (f.ShowDialog(this) == DialogResult.OK) {
+                    SetCurrentImage(f.SubmissionWrapper, currentImage);
+                }
+            }
+        }
+
         #region GUI updates
         private async Task DeviantArtLogin() {
             lblDeviantArtStatus2.Text = "";
@@ -433,6 +442,10 @@ namespace CrosspostSharp {
                 tags: tags,
                 mature: submission?.PotentiallySensitive == true,
                 originalUrl: submission?.ViewURL);
+
+            if (submission is LocalFileSubmissionWrapper) {
+                ShowSetDescForm();
+            }
         }
 
 		private void ResetTweetText() {
@@ -1022,6 +1035,10 @@ namespace CrosspostSharp {
             Height -= h;
 
             reduceHeightToolStripMenuItem.Enabled = thumbnails.Length > 1;
+        }
+        
+        private void setTitleCommentsallTabsToolStripMenuItem_Click(object sender, EventArgs e) {
+            ShowSetDescForm();
         }
         #endregion
 

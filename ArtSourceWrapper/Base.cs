@@ -126,4 +126,35 @@ namespace ArtSourceWrapper {
 
 		bool OwnWork { get; }
     }
+
+    public class MetadataModificationSubmissionWrapper : ISubmissionWrapper {
+        private ISubmissionWrapper _base;
+
+        public MetadataModificationSubmissionWrapper(
+            ISubmissionWrapper from,
+            string title = null,
+            string htmlDescription = null,
+            bool? potentiallySensitive = null,
+            IEnumerable<string> tags = null
+        ) {
+            _base = from;
+            this.Title = title ?? from.Title;
+            this.HTMLDescription = htmlDescription ?? from.HTMLDescription;
+            this.PotentiallySensitive = potentiallySensitive ?? from.PotentiallySensitive;
+            this.Tags = tags?.ToList() ?? from.Tags;
+        }
+
+        public string Title { get; set; }
+        public string HTMLDescription { get; set; }
+        public bool PotentiallySensitive { get; set; }
+        public IEnumerable<string> Tags { get; set; }
+        public DateTime Timestamp => _base.Timestamp;
+
+        public string ViewURL => _base.ViewURL;
+        public string ImageURL => _base.ImageURL;
+        public string ThumbnailURL => _base.ThumbnailURL;
+        public Color? BorderColor => _base.BorderColor;
+
+        public bool OwnWork => _base.OwnWork;
+    }
 }

@@ -54,6 +54,8 @@
             this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.multiPhotoPostToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reduceHeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chkHTMLPreview = new System.Windows.Forms.CheckBox();
@@ -70,10 +72,6 @@
             this.chkInkbunnyScraps = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.picUserIcon = new System.Windows.Forms.PictureBox();
-            this.lProgressBar1 = new CrosspostSharp.LProgressBar();
-            this.thumbnail1 = new CrosspostSharp.WeasylThumbnail();
-            this.thumbnail2 = new CrosspostSharp.WeasylThumbnail();
-            this.thumbnail3 = new CrosspostSharp.WeasylThumbnail();
             this.lnkOriginalUrl = new System.Windows.Forms.LinkLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabDeviantArt = new System.Windows.Forms.TabPage();
@@ -134,16 +132,18 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reduceHeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lProgressBar1 = new CrosspostSharp.LProgressBar();
+            this.thumbnail1 = new CrosspostSharp.WeasylThumbnail();
+            this.thumbnail2 = new CrosspostSharp.WeasylThumbnail();
+            this.thumbnail3 = new CrosspostSharp.WeasylThumbnail();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.setTitleCommentsallTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabDeviantArt.SuspendLayout();
             this.tabFlickr.SuspendLayout();
@@ -155,6 +155,9 @@
             this.tabTwitter.SuspendLayout();
             this.tabSave.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).BeginInit();
             this.SuspendLayout();
             // 
             // btnUp
@@ -440,7 +443,10 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.changeSourceToolStripMenuItem,
             this.refreshToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.setTitleCommentsallTabsToolStripMenuItem,
             this.multiPhotoPostToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.optionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
@@ -450,7 +456,7 @@
             // 
             this.changeSourceToolStripMenuItem.Name = "changeSourceToolStripMenuItem";
             this.changeSourceToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.changeSourceToolStripMenuItem.Text = "Change Source";
+            this.changeSourceToolStripMenuItem.Text = "Change source";
             this.changeSourceToolStripMenuItem.Click += new System.EventHandler(this.changeSourceToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
@@ -464,7 +470,7 @@
             // 
             this.multiPhotoPostToolStripMenuItem.Name = "multiPhotoPostToolStripMenuItem";
             this.multiPhotoPostToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.multiPhotoPostToolStripMenuItem.Text = "Multi-Photo Post";
+            this.multiPhotoPostToolStripMenuItem.Text = "Multi-photo post";
             this.multiPhotoPostToolStripMenuItem.Click += new System.EventHandler(this.multiPhotoPostToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
@@ -473,6 +479,21 @@
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.optionsToolStripMenuItem.Text = "Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reduceHeightToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // reduceHeightToolStripMenuItem
+            // 
+            this.reduceHeightToolStripMenuItem.Name = "reduceHeightToolStripMenuItem";
+            this.reduceHeightToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.reduceHeightToolStripMenuItem.Text = "Reduce Window Height";
+            this.reduceHeightToolStripMenuItem.Click += new System.EventHandler(this.reduceHeightToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -657,45 +678,6 @@
             this.picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picUserIcon.TabIndex = 10;
             this.picUserIcon.TabStop = false;
-            // 
-            // lProgressBar1
-            // 
-            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lProgressBar1.Location = new System.Drawing.Point(142, 363);
-            this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.lProgressBar1.Name = "lProgressBar1";
-            this.lProgressBar1.Size = new System.Drawing.Size(400, 24);
-            this.lProgressBar1.TabIndex = 5;
-            // 
-            // thumbnail1
-            // 
-            this.thumbnail1.Location = new System.Drawing.Point(12, 3);
-            this.thumbnail1.Name = "thumbnail1";
-            this.thumbnail1.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail1.TabIndex = 0;
-            this.thumbnail1.TabStop = false;
-            // 
-            // thumbnail2
-            // 
-            this.thumbnail2.Location = new System.Drawing.Point(12, 133);
-            this.thumbnail2.Name = "thumbnail2";
-            this.thumbnail2.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail2.TabIndex = 1;
-            this.thumbnail2.TabStop = false;
-            // 
-            // thumbnail3
-            // 
-            this.thumbnail3.Location = new System.Drawing.Point(12, 263);
-            this.thumbnail3.Name = "thumbnail3";
-            this.thumbnail3.Size = new System.Drawing.Size(124, 124);
-            this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.thumbnail3.TabIndex = 2;
-            this.thumbnail3.TabStop = false;
             // 
             // lnkOriginalUrl
             // 
@@ -1414,20 +1396,61 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
-            // viewToolStripMenuItem
+            // lProgressBar1
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reduceHeightToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lProgressBar1.Location = new System.Drawing.Point(142, 363);
+            this.lProgressBar1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.lProgressBar1.Name = "lProgressBar1";
+            this.lProgressBar1.Size = new System.Drawing.Size(400, 24);
+            this.lProgressBar1.TabIndex = 5;
             // 
-            // reduceHeightToolStripMenuItem
+            // thumbnail1
             // 
-            this.reduceHeightToolStripMenuItem.Name = "reduceHeightToolStripMenuItem";
-            this.reduceHeightToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
-            this.reduceHeightToolStripMenuItem.Text = "Reduce Window Height";
-            this.reduceHeightToolStripMenuItem.Click += new System.EventHandler(this.reduceHeightToolStripMenuItem_Click);
+            this.thumbnail1.Location = new System.Drawing.Point(12, 3);
+            this.thumbnail1.Name = "thumbnail1";
+            this.thumbnail1.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail1.TabIndex = 0;
+            this.thumbnail1.TabStop = false;
+            // 
+            // thumbnail2
+            // 
+            this.thumbnail2.Location = new System.Drawing.Point(12, 133);
+            this.thumbnail2.Name = "thumbnail2";
+            this.thumbnail2.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail2.TabIndex = 1;
+            this.thumbnail2.TabStop = false;
+            // 
+            // thumbnail3
+            // 
+            this.thumbnail3.Location = new System.Drawing.Point(12, 263);
+            this.thumbnail3.Name = "thumbnail3";
+            this.thumbnail3.Size = new System.Drawing.Size(124, 124);
+            this.thumbnail3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.thumbnail3.TabIndex = 2;
+            this.thumbnail3.TabStop = false;
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(162, 6);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(162, 6);
+            // 
+            // setTitleCommentsallTabsToolStripMenuItem
+            // 
+            this.setTitleCommentsallTabsToolStripMenuItem.Name = "setTitleCommentsallTabsToolStripMenuItem";
+            this.setTitleCommentsallTabsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.setTitleCommentsallTabsToolStripMenuItem.Text = "Set info (all tabs)";
+            this.setTitleCommentsallTabsToolStripMenuItem.Click += new System.EventHandler(this.setTitleCommentsallTabsToolStripMenuItem_Click);
             // 
             // WeasylForm
             // 
@@ -1448,9 +1471,6 @@
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabDeviantArt.ResumeLayout(false);
             this.tabFlickr.ResumeLayout(false);
@@ -1471,6 +1491,9 @@
             this.tabSave.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.thumbnail3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1590,6 +1613,9 @@
         private System.Windows.Forms.ToolStripMenuItem multiPhotoPostToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reduceHeightToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem setTitleCommentsallTabsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
     }
 }
 
