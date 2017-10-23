@@ -557,6 +557,13 @@ namespace CrosspostSharp {
 				html.Append(txtFooter.Text);
 			}
 
+            if (this.SourceWrapper is LocalPathWrapper) {
+                string s = html.ToString();
+                if (s.Contains("{URL}") || s.Contains("{{SITENAME}}")) {
+                    throw new Exception("Cannot include {URL} or {SITENAME} when posting from local file.");
+                }
+            }
+
 			html.Replace("{URL}", txtURL.Text)
                 .Replace("{SITENAME}", SourceWrapper.SiteName);
 
@@ -926,7 +933,11 @@ namespace CrosspostSharp {
 
 			int length = text.Where(c => !char.IsLowSurrogate(c)).Count();
 			if (chkIncludeLink.Checked) {
-				text += $" {lnkTwitterLinkToInclude.Text}";
+                if (this.SourceWrapper is LocalPathWrapper) {
+                    MessageBox.Show(this, "Cannot include link when posting from local file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                text += $" {lnkTwitterLinkToInclude.Text}";
 				length += (shortURLLengthHttps + 1);
 			}
 			if (length > 140) {
