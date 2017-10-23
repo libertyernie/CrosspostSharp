@@ -16,12 +16,36 @@ Requirements:
 * Internet Explorer 11
 * .NET Framework 4.6.1 or higher
 
-Supported Sources
------------------
+Supported Sites
+---------------
 
-To use this application, you must connect it to one of your accounts.
+* DeviantArt / sta.sh
+* Flickr
+* FurAffinity (read-only)
+* Inkbunny
+* Tumblr
+* Twitter
+* Weasyl (read-only)
+
+You can also read from a local folder and save images to local files.
+
+Additionally, you can grab [efc.jar]
+(https://github.com/libertyernie/Furry-Crossposter/releases),
+which will add support for posting to Weasyl and FurAffinity, among others.
+This app is a fork of another crossposting app, with the ability to talk to
+CrosspostSharp added and certain other things removed. See its page for more
+information.
+
+Logging In
+----------
+
+To use this application, you must connect it to one or more of your accounts.
 Information for all accounts will be stored in the file CrosspostSharp.json,
 so keep that file secure!
+
+In most cases, you'll use the "Sign In" button in Tools -> Options to launch a
+browser window, which will let you sign in using OAuth. Once signed in, the
+OAuth token will be stored in CrosspostSharp.json.
 
 When you're logged into a source site, your three most recent
 submissions will appear along the left side of the window. Click the thumbnail
@@ -29,48 +53,20 @@ to load the full image and fill in the information boxes.
 
 #### DeviantArt
 
-Use the "Sign In" button in Tools -> Options to launch a browser window, which
-will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in CrosspostSharp.json.
-
 You can upload images to DeviantArt or just to Sta.sh, and you can also use
 either one as a source site.
 
 #### Flickr
 
-Use the "Sign In" button in Tools -> Options to launch a browser window, which
-will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in CrosspostSharp.json.
-
 If you have script errors on the page while trying to sign in, close and then
 restart CrossposterSharp.
 
-#### FurAffinity
-
-Use the "Sign In" button in Tools -> Options to launch a dialog window that
-asks for your username and password. This will obtain cookies that will be
-stored in CrosspostSharp.json.
-
-#### Inkbunny
-
-Use the "Sign In" button in Tools -> Options to launch a dialog window that
-asks for your username and password. This will obtain a user ID and SID that
-will be stored in CrosspostSharp.json.
-
 #### Tumblr
-
-Use the "Sign In" button in Tools -> Options to launch a browser window, which
-will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in CrosspostSharp.json.
 
 Only photo posts will be shown. Reblogs will be included, but CrosspostSharp won't
 allow you to post them to other sites.
 
 #### Twitter
-
-Use the "Sign In" button in Tools -> Options to launch a browser window, which
-will let you sign in using OAuth. Once signed in, the OAuth token
-will be stored in CrosspostSharp.json.
 
 Retweets, and tweets without photos, will be omitted.
 
