@@ -1,28 +1,33 @@
-﻿namespace CrosspostSharp {
-	partial class WeasylForm {
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+﻿namespace CrosspostSharp
+{
+    partial class WeasylForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing) {
-			if (disposing && (components != null)) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent() {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WeasylForm));
             this.btnUp = new System.Windows.Forms.Button();
             this.btnDown = new System.Windows.Forms.Button();
@@ -193,8 +198,8 @@
             // 
             // mainPictureBox
             // 
-            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainPictureBox.Location = new System.Drawing.Point(142, 56);
@@ -228,8 +233,8 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.Location = new System.Drawing.Point(30, 58);
             this.txtDescription.Multiline = true;
@@ -263,7 +268,7 @@
             // 
             // txtFooter
             // 
-            this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFooter.Location = new System.Drawing.Point(312, 277);
             this.txtFooter.Name = "txtFooter";
@@ -272,7 +277,7 @@
             // 
             // txtHeader
             // 
-            this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtHeader.Location = new System.Drawing.Point(30, 32);
             this.txtHeader.Name = "txtHeader";
@@ -349,7 +354,7 @@
             // 
             // txtURL
             // 
-            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtURL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtURL.Location = new System.Drawing.Point(335, 301);
             this.txtURL.Name = "txtURL";
@@ -372,7 +377,7 @@
             // 
             // txtTags1
             // 
-            this.txtTags1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTags1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags1.Location = new System.Drawing.Point(33, 19);
             this.txtTags1.Name = "txtTags1";
@@ -413,7 +418,7 @@
             // 
             // lblWeasylStatus2
             // 
-            this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblWeasylStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWeasylStatus2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblWeasylStatus2.Location = new System.Drawing.Point(196, 3);
@@ -547,7 +552,7 @@
             // 
             // lblInkbunnyStatus2
             // 
-            this.lblInkbunnyStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblInkbunnyStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblInkbunnyStatus2.AutoEllipsis = true;
             this.lblInkbunnyStatus2.Location = new System.Drawing.Point(80, 6);
@@ -570,8 +575,8 @@
             // 
             // txtInkbunnyDescription
             // 
-            this.txtInkbunnyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtInkbunnyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInkbunnyDescription.ForeColor = System.Drawing.Color.Black;
             this.txtInkbunnyDescription.Location = new System.Drawing.Point(6, 78);
@@ -704,7 +709,7 @@
             // 
             // lnkOriginalUrl
             // 
-            this.lnkOriginalUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lnkOriginalUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkOriginalUrl.AutoEllipsis = true;
             this.lnkOriginalUrl.Location = new System.Drawing.Point(196, 38);
@@ -721,8 +726,8 @@
             this.tabControl1.Controls.Add(this.tabInkbunny);
             this.tabControl1.Controls.Add(this.tabTumblr);
             this.tabControl1.Controls.Add(this.tabTwitter);
-            this.tabControl1.Controls.Add(this.tabFurryCrossposter);
             this.tabControl1.Controls.Add(this.tabSave);
+            this.tabControl1.Controls.Add(this.tabFurryCrossposter);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 417);
             this.tabControl1.Name = "tabControl1";
@@ -745,8 +750,8 @@
             // 
             // deviantArtUploadControl1
             // 
-            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.deviantArtUploadControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.deviantArtUploadControl1.Data = null;
             this.deviantArtUploadControl1.Location = new System.Drawing.Point(3, 29);
@@ -761,7 +766,7 @@
             // 
             // lblDeviantArtStatus2
             // 
-            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblDeviantArtStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblDeviantArtStatus2.AutoEllipsis = true;
             this.lblDeviantArtStatus2.Location = new System.Drawing.Point(80, 6);
@@ -987,7 +992,7 @@
             // 
             // txtFlickrTags
             // 
-            this.txtFlickrTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtFlickrTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFlickrTags.Location = new System.Drawing.Point(46, 236);
             this.txtFlickrTags.Name = "txtFlickrTags";
@@ -1006,8 +1011,8 @@
             // 
             // txtFlickrDesc
             // 
-            this.txtFlickrDesc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtFlickrDesc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFlickrDesc.Location = new System.Drawing.Point(6, 78);
             this.txtFlickrDesc.Multiline = true;
@@ -1027,7 +1032,7 @@
             // 
             // txtFlickrTitle
             // 
-            this.txtFlickrTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtFlickrTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFlickrTitle.Location = new System.Drawing.Point(42, 32);
             this.txtFlickrTitle.Name = "txtFlickrTitle";
@@ -1045,7 +1050,7 @@
             // 
             // lblFlickrStatus2
             // 
-            this.lblFlickrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblFlickrStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFlickrStatus2.AutoEllipsis = true;
             this.lblFlickrStatus2.Location = new System.Drawing.Point(80, 6);
@@ -1111,7 +1116,7 @@
             // 
             // txtInkbunnyTitle
             // 
-            this.txtInkbunnyTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtInkbunnyTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInkbunnyTitle.Location = new System.Drawing.Point(42, 32);
             this.txtInkbunnyTitle.Name = "txtInkbunnyTitle";
@@ -1120,7 +1125,7 @@
             // 
             // txtInkbunnyTags
             // 
-            this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtInkbunnyTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInkbunnyTags.Location = new System.Drawing.Point(65, 257);
             this.txtInkbunnyTags.Name = "txtInkbunnyTags";
@@ -1190,8 +1195,8 @@
             // txtTweetText
             // 
             this.txtTweetText.AcceptsReturn = true;
-            this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTweetText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTweetText.Location = new System.Drawing.Point(6, 55);
             this.txtTweetText.Multiline = true;
@@ -1239,7 +1244,7 @@
             // 
             // lnkTwitterLinkToInclude
             // 
-            this.lnkTwitterLinkToInclude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.lnkTwitterLinkToInclude.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkTwitterLinkToInclude.AutoEllipsis = true;
             this.lnkTwitterLinkToInclude.Location = new System.Drawing.Point(195, 334);
@@ -1308,7 +1313,7 @@
             // 
             // lblTwitterStatus2
             // 
-            this.lblTwitterStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.lblTwitterStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTwitterStatus2.Location = new System.Drawing.Point(80, 6);
             this.lblTwitterStatus2.Margin = new System.Windows.Forms.Padding(3);
@@ -1371,7 +1376,7 @@
             // 
             // txtSaveFilename
             // 
-            this.txtSaveFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtSaveFilename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSaveFilename.Location = new System.Drawing.Point(66, 35);
             this.txtSaveFilename.Name = "txtSaveFilename";
@@ -1401,7 +1406,7 @@
             // 
             // txtSaveDir
             // 
-            this.txtSaveDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtSaveDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSaveDir.Location = new System.Drawing.Point(66, 7);
             this.txtSaveDir.Name = "txtSaveDir";
@@ -1482,7 +1487,7 @@
             // 
             // lProgressBar1
             // 
-            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.lProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lProgressBar1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lProgressBar1.ForeColor = System.Drawing.SystemColors.Highlight;
@@ -1566,69 +1571,69 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private WeasylThumbnail thumbnail1;
-		private WeasylThumbnail thumbnail2;
-		private WeasylThumbnail thumbnail3;
-		private System.Windows.Forms.Button btnUp;
-		private System.Windows.Forms.Button btnDown;
-		private System.Windows.Forms.PictureBox mainPictureBox;
-		private System.Windows.Forms.CheckBox chkHeader;
-		private System.Windows.Forms.CheckBox chkDescription;
-		private System.Windows.Forms.TextBox txtDescription;
-		private System.Windows.Forms.CheckBox chkTags1;
-		private System.Windows.Forms.CheckBox chkFooter;
-		private System.Windows.Forms.TextBox txtFooter;
-		private System.Windows.Forms.TextBox txtHeader;
-		private System.Windows.Forms.DateTimePicker pickDate;
-		private System.Windows.Forms.DateTimePicker pickTime;
-		private System.Windows.Forms.CheckBox chkNow;
-		private CrosspostSharp.LProgressBar lProgressBar1;
-		private System.Windows.Forms.TextBox txtTags2;
-		private System.Windows.Forms.CheckBox chkTags2;
-		private System.Windows.Forms.Button btnPost;
-		private System.Windows.Forms.TextBox txtURL;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Label lblLinkTo;
-		private System.Windows.Forms.Label lblWeasylStatus1;
-		private System.Windows.Forms.Label lblTumblrStatus1;
-		private System.Windows.Forms.Label lblWeasylStatus2;
-		private System.Windows.Forms.Label lblTumblrStatus2;
-		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-		private System.Windows.Forms.CheckBox chkHTMLPreview;
-		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.Label lblInkbunnyStatus2;
-		private System.Windows.Forms.Label lblInkbunnyStatus1;
-		private System.Windows.Forms.TextBox txtInkbunnyDescription;
-		private System.Windows.Forms.Button btnInkbunnyPost;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.CheckBox chkInkbunnyNotifyWatchers;
-		private System.Windows.Forms.CheckBox chkInkbunnyPublic;
-		private System.Windows.Forms.CheckBox chkInkbunnyScraps;
-		private System.Windows.Forms.CheckBox chkInbunnyTag5;
-		private System.Windows.Forms.CheckBox chkInbunnyTag4;
-		private System.Windows.Forms.CheckBox chkInbunnyTag3;
-		private System.Windows.Forms.CheckBox chkInbunnyTag2;
-		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.TabPage tabInkbunny;
-		private System.Windows.Forms.TabPage tabTumblr;
-		private System.Windows.Forms.TabPage tabTwitter;
-		private System.Windows.Forms.Label lblTwitterStatus1;
-		private System.Windows.Forms.Label lblTwitterStatus2;
-		private System.Windows.Forms.Button btnTweet;
-		private System.Windows.Forms.CheckBox chkIncludeLink;
-		private System.Windows.Forms.CheckBox chkIncludeImage;
-		private System.Windows.Forms.Label lblTweetLength;
-		private System.Windows.Forms.CheckBox chkTweetPotentiallySensitive;
-		private System.Windows.Forms.LinkLabel lnkTwitterLinkToInclude;
-		private System.Windows.Forms.CheckBox chkIncludeDescription;
-		private System.Windows.Forms.CheckBox chkIncludeTitle;
+        private WeasylThumbnail thumbnail1;
+        private WeasylThumbnail thumbnail2;
+        private WeasylThumbnail thumbnail3;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.PictureBox mainPictureBox;
+        private System.Windows.Forms.CheckBox chkHeader;
+        private System.Windows.Forms.CheckBox chkDescription;
+        private System.Windows.Forms.TextBox txtDescription;
+        private System.Windows.Forms.CheckBox chkTags1;
+        private System.Windows.Forms.CheckBox chkFooter;
+        private System.Windows.Forms.TextBox txtFooter;
+        private System.Windows.Forms.TextBox txtHeader;
+        private System.Windows.Forms.DateTimePicker pickDate;
+        private System.Windows.Forms.DateTimePicker pickTime;
+        private System.Windows.Forms.CheckBox chkNow;
+        private CrosspostSharp.LProgressBar lProgressBar1;
+        private System.Windows.Forms.TextBox txtTags2;
+        private System.Windows.Forms.CheckBox chkTags2;
+        private System.Windows.Forms.Button btnPost;
+        private System.Windows.Forms.TextBox txtURL;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label lblLinkTo;
+        private System.Windows.Forms.Label lblWeasylStatus1;
+        private System.Windows.Forms.Label lblTumblrStatus1;
+        private System.Windows.Forms.Label lblWeasylStatus2;
+        private System.Windows.Forms.Label lblTumblrStatus2;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkHTMLPreview;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Label lblInkbunnyStatus2;
+        private System.Windows.Forms.Label lblInkbunnyStatus1;
+        private System.Windows.Forms.TextBox txtInkbunnyDescription;
+        private System.Windows.Forms.Button btnInkbunnyPost;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox chkInkbunnyNotifyWatchers;
+        private System.Windows.Forms.CheckBox chkInkbunnyPublic;
+        private System.Windows.Forms.CheckBox chkInkbunnyScraps;
+        private System.Windows.Forms.CheckBox chkInbunnyTag5;
+        private System.Windows.Forms.CheckBox chkInbunnyTag4;
+        private System.Windows.Forms.CheckBox chkInbunnyTag3;
+        private System.Windows.Forms.CheckBox chkInbunnyTag2;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabInkbunny;
+        private System.Windows.Forms.TabPage tabTumblr;
+        private System.Windows.Forms.TabPage tabTwitter;
+        private System.Windows.Forms.Label lblTwitterStatus1;
+        private System.Windows.Forms.Label lblTwitterStatus2;
+        private System.Windows.Forms.Button btnTweet;
+        private System.Windows.Forms.CheckBox chkIncludeLink;
+        private System.Windows.Forms.CheckBox chkIncludeImage;
+        private System.Windows.Forms.Label lblTweetLength;
+        private System.Windows.Forms.CheckBox chkTweetPotentiallySensitive;
+        private System.Windows.Forms.LinkLabel lnkTwitterLinkToInclude;
+        private System.Windows.Forms.CheckBox chkIncludeDescription;
+        private System.Windows.Forms.CheckBox chkIncludeTitle;
         private System.Windows.Forms.TextBox txtTweetText;
         private System.Windows.Forms.LinkLabel lnkOriginalUrl;
         private System.Windows.Forms.TextBox txtTags1;
