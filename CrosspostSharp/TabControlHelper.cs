@@ -51,7 +51,8 @@ namespace CrosspostSharp {
 
         private void InsertTabPage(TabPage tabpage, int index) {
             if (index < 0 || index > _tabControl.TabCount)
-                throw new ArgumentException("Index out of Range.");
+                //throw new ArgumentException("Index out of Range.");
+                index = 0;
             _tabControl.TabPages.Add(tabpage);
             if (index < _tabControl.TabCount - 1)
                 do {
