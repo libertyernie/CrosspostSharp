@@ -19,7 +19,7 @@ namespace CrosspostSharp {
 <title>About</title>
 </head>
 <body>
-<h1>CrosspostSharp 2.2</h1>
+<h1>CrosspostSharp 2.2.1</h1>
 <p><a href=""""https://github.com/libertyernie/CrosspostSharp"""">https://github.com/libertyernie/CrosspostSharp</a><br>
 </p>
 <p>This product uses the Flickr API but is not endorsed or certified

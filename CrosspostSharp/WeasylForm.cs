@@ -1065,7 +1065,7 @@ namespace CrosspostSharp {
             basename = new string(basename.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
             string ext = this.currentImage.MimeType.StartsWith("image/")
                 ? $".{this.currentImage.MimeType.Replace("image/", "")}"
-                : "";
+                : $".{Path.GetExtension(this.currentImage.FileName)}";
             string imageFilename = basename + ext;
 
             string imageFile = Path.Combine(Path.GetTempPath(), imageFilename);
