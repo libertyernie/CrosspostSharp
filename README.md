@@ -1,4 +1,4 @@
-CrosspostSharp 2.2.1
+CrosspostSharp 2.2.2
 ====================
 
 Source: https://github.com/libertyernie/CrosspostSharp

@@ -459,7 +459,7 @@ namespace CrosspostSharp {
 			}
 			string plainText = string.Join("﹘", plainTextList.Where(s => s != ""));
 
-			int maxLength = 140;
+			int maxLength = 280;
 			if (chkIncludeLink.Checked) {
 				maxLength -= (shortURLLengthHttps + 1);
 			}
@@ -916,7 +916,7 @@ namespace CrosspostSharp {
 			if (chkIncludeLink.Checked) {
 				length += (shortURLLengthHttps + 1);
 			}
-			lblTweetLength.Text = $"{length}/140";
+			lblTweetLength.Text = $"{length}/280";
 		}
 
 		private void chkIncludeLink_CheckedChanged(object sender, EventArgs e) {
@@ -940,8 +940,8 @@ namespace CrosspostSharp {
                 text += $" {lnkTwitterLinkToInclude.Text}";
 				length += (shortURLLengthHttps + 1);
 			}
-			if (length > 140) {
-				MessageBox.Show("This tweet is over 140 characters. Please shorten it or remove the Weasyl link (if present.)");
+			if (length > 280) {
+				MessageBox.Show("This tweet is over 280 characters. Please shorten it or remove the link (if present.)");
 				return;
 			}
 
