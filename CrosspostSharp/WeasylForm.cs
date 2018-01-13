@@ -1056,7 +1056,7 @@ namespace CrosspostSharp {
             Process.Start(lnkFAC.Text);
         }
 
-        private async void btnLaunchEFC_Click(object sender, EventArgs e) {
+        private void btnLaunchEFC_Click(object sender, EventArgs e) {
             char[] invalid = Path.GetInvalidFileNameChars();
             string basename = this.currentSubmission?.Title;
             if (string.IsNullOrEmpty(basename)) {
@@ -1084,9 +1084,7 @@ namespace CrosspostSharp {
                     @explicit = this.currentSubmission.PotentiallySensitive
                 }
             }));
-
-            ShowProgressBar();
-
+            
             if (!File.Exists("efc.jar")) {
                 MessageBox.Show(this, $"efc.jar not found in {Environment.CurrentDirectory}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1097,17 +1095,16 @@ namespace CrosspostSharp {
                 WorkingDirectory = Environment.CurrentDirectory
             });
 
-            await Task.Run(() => p.WaitForExit());
+            Task.Run(() => p.WaitForExit())
+                .ContinueWith(t => {
+                    if (p.ExitCode != 0) {
+                        string stderr = p.StandardError.ReadToEnd();
+                        MessageBox.Show(this, stderr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
-            if (p.ExitCode != 0) {
-                string stderr = await p.StandardError.ReadToEndAsync();
-                MessageBox.Show(this, stderr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            HideProgressBar();
-
-            File.Delete(jsonFile);
-            File.Delete(imageFile);
+                    File.Delete(jsonFile);
+                    File.Delete(imageFile);
+                });
         }
         #endregion
 
