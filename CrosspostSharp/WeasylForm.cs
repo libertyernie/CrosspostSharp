@@ -384,8 +384,8 @@ namespace CrosspostSharp {
                     : GlobalSettings.Defaults.HeaderHTML?.Replace("{TITLE}", submission.Title) ?? "";
                 txtInkbunnyTitle.Text = txtFlickrTitle.Text = submission.Title;
 				txtDescription.Text = submission.HTMLDescription;
-                txtFlickrDesc.Text = Regex.Replace(submission.HTMLDescription ?? "", @"<br ?\/?>", Environment.NewLine);
-                string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
+                txtFlickrDesc.Text = Regex.Replace(submission.HTMLDescription ?? "", @"<br ?\/?>\r?\n?", Environment.NewLine);
+                string bbCode = HtmlToBBCode.ConvertHtml(txtFlickrDesc.Text);
 				txtInkbunnyDescription.Text = bbCode;
 				txtURL.Text = submission.ViewURL ?? "";
 
