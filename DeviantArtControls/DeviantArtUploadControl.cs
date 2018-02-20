@@ -154,7 +154,7 @@ namespace DeviantArtControls {
         }
 
         private async void btnPublish_Click(object sender, EventArgs e) {
-            if (chkSubmissionPolicy.Checked == false || chkTermsOfService.Checked == false) {
+            if (chkAgree.Checked == false) {
                 MessageBox.Show("Before submitting to DeviantArt, you must agree to the Submission Policy and the Terms of Service.");
                 return;
             }
@@ -180,8 +180,8 @@ namespace DeviantArtControls {
 
                 var r2 = await new PublishRequest(
                     !radNone.Checked,
-                    chkSubmissionPolicy.Checked,
-                    chkTermsOfService.Checked,
+                    chkAgree.Checked,
+                    chkAgree.Checked,
                     item.ItemId
                 ) {
                     MatureLevel = radStrict.Checked
