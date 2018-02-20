@@ -131,7 +131,7 @@ namespace CrosspostSharp {
 				using (var f = new UsernamePasswordDialog()) {
 					if (f.ShowDialog() == DialogResult.OK) {
 						try {
-							var authResult = await Pixeez.Auth.AuthorizeAsync(f.Username, f.Password, null, null);
+							var authResult = await Pixeez.Auth.AuthorizeAsync(f.Username, f.Password, null, "cpsharp");
 							Settings.Pixiv.RefreshToken = authResult.Tokens.RefreshToken;
 						} catch (Exception ex) {
 							MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
