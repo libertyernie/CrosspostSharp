@@ -11,6 +11,9 @@ accounts, maintaining the title, description, and tags.
 
 Only visual submissions (artwork) are supported at this time.
 
+Before trying this application, you should try PostyBirb
+(http://postybirb.weebly.com/); it has more features and supports more sites.
+
 Requirements:
 
 * Internet Explorer 11
@@ -27,12 +30,15 @@ Supported Sites
 * Twitter
 * Weasyl (read-only)
 
+Coming soon:
+* Pixiv (read-only)
+
 You can also read from a local folder and save images to local files.
 
 Additionally, you can grab [efc.jar]
 (https://github.com/libertyernie/Furry-Crossposter/releases),
-which will add support for posting to Weasyl and FurAffinity, among others.
-This app is a fork of another crossposting app, with the ability to talk to
+which will add support for posting to Weasyl, FurAffinity, and other furry sites.
+efc.jar is a fork of another crossposting app, with the ability to import from
 CrosspostSharp added and certain other things removed. See its page for more
 information.
 
