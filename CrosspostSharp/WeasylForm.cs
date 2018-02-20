@@ -1138,9 +1138,13 @@ namespace CrosspostSharp {
 
         public static WebRequest CreateWebRequest(string url) {
             var req = WebRequest.Create(url);
-            if (req is HttpWebRequest) {
-                ((HttpWebRequest)req).UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
-            }
+			if (req is HttpWebRequest httpreq) {
+				if (req.RequestUri.Host.EndsWith(".pximg.net")) {
+					httpreq.Referer = "https://app-api.pixiv.net/";
+				} else {
+					httpreq.UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
+				}
+			}
             return req;
         }
     }

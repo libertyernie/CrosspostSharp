@@ -52,13 +52,13 @@ namespace ArtSourceWrapper {
 		}
 
 		public string Title => _work.Title;
-		public string HTMLDescription => WebUtility.HtmlEncode(_work.Caption);
+		public string HTMLDescription => _work.Caption;
 		public bool PotentiallySensitive => true;
 		public IEnumerable<string> Tags => _work.Tags;
 		public DateTime Timestamp => _work.CreatedTime;
-		public string ViewURL => "https://www.example.com";
-		public string ImageURL => _work.ImageUrls?.Original
-			?? _work.meta_single_page?.OriginalImageUrl
+		public string ViewURL => $"https://www.pixiv.net/member_illust.php?mode=medium&illust_id={_work.Id}";
+		public string ImageURL => _work.meta_single_page?.OriginalImageUrl
+			?? _work.ImageUrls?.Original
 			?? _work.ImageUrls?.Large;
 		public string ThumbnailURL => _work.ImageUrls.Px128x128;
 		public Color? BorderColor => null;
