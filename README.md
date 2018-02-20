@@ -26,16 +26,14 @@ Supported Sites
 * Flickr
 * FurAffinity (read-only)
 * Inkbunny
+* Pixiv (read-only)
 * Tumblr
 * Twitter
 * Weasyl (read-only)
 
-Coming soon:
-* Pixiv (read-only)
-
 You can also read from a local folder and save images to local files.
 
-Additionally, you can grab [efc.jar]
+Additionally, you can install Java and grab [efc.jar]
 (https://github.com/libertyernie/Furry-Crossposter/releases),
 which will add support for posting to Weasyl, FurAffinity, and other furry sites.
 efc.jar is a fork of another crossposting app, with the ability to import from
@@ -66,6 +64,10 @@ either one as a source site.
 
 If you have script errors on the page while trying to sign in, close and then
 restart CrossposterSharp.
+
+#### Pixiv
+
+Your Pixiv username and password will be stored in plaintext in CrosspostSharp.json.
 
 #### Tumblr
 
@@ -183,6 +185,10 @@ Settings are stored in the file CrosspostSharp.json.
 * DeviantArt
   * RefreshToken: Gives CrosspostSharp access to your DeviantArt account. CrosspostSharp
   will acquire a new token and update CrosspostSharp.json every time it is launched.
+
+* Pixiv
+  * Username
+  * Password
 
 * Tumblr
   * Blog: name of the blog to post to.
