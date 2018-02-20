@@ -37,7 +37,7 @@ namespace ArtSourceWrapper {
             }
 
             _rid = response.rid;
-            var details = await _client.GetSubmissionsAsync(response.submissions.Select(s => s.submission_id));
+            var details = await _client.GetSubmissionsAsync(response.submissions.Select(s => s.submission_id), show_description_bbcode_parsed: true);
             var wrappers = details.submissions
                 .Where(s => s.@public)
                 .OrderByDescending(s => s.create_datetime)
