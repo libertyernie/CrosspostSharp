@@ -10,12 +10,21 @@ using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
 	public class PixivWrapper : SiteWrapper<PixivSubmissionWrapper, int> {
+		private string _username;
+		private string _password;
+
 		private Tokens _tokens;
 		private User _user;
 
 		public PixivWrapper(AuthResult authResult) {
 			_tokens = authResult.Tokens;
 			_user = authResult.Authorize.User;
+			_username = _user.Name;
+		}
+
+		public PixivWrapper(string username, string password) {
+			_username = username;
+			_password = password;
 		}
 
 		public override string SiteName => "Pixiv";
@@ -28,15 +37,27 @@ namespace ArtSourceWrapper {
 
 		public override int MaxBatchSize => 1;
 
+		private async Task Login() {
+			if (_user != null && _tokens != null) return;
+
+			// Get new tokens from Pixiv
+			var authResult = await Auth.AuthorizeAsync(_username, _password, null, null);
+			_tokens = authResult.Tokens;
+			_user = authResult.Authorize.User;
+		}
+
 		public override async Task<string> GetUserIconAsync(int size) {
+			await Login();
 			return _user.GetAvatarUrl();
 		}
 
 		public override async Task<string> WhoamiAsync() {
+			await Login();
 			return _user.Name;
 		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+			await Login();
 			var result = await _tokens.GetUserWorksAsync(_user.Id.Value, offset: startPosition ?? 0);
 			return new InternalFetchResult(result.illusts.Select(i => new PixivSubmissionWrapper(i)),
 				result.illusts.Length + (startPosition ?? 0),
@@ -53,7 +74,7 @@ namespace ArtSourceWrapper {
 
 		public string Title => _work.Title;
 		public string HTMLDescription => _work.Caption;
-		public bool PotentiallySensitive => true;
+		public bool PotentiallySensitive => _work.AgeLimit != null;
 		public IEnumerable<string> Tags => _work.Tags;
 		public DateTime Timestamp => _work.CreatedTime;
 		public string ViewURL => $"https://www.pixiv.net/member_illust.php?mode=medium&illust_id={_work.Id}";

@@ -160,13 +160,7 @@ namespace CrosspostSharp {
 				}
 
 				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.Username) && !string.IsNullOrEmpty(GlobalSettings.Pixiv.Password)) {
-					// Get new tokens from Pixiv
-					try {
-						var authResult = await Pixeez.Auth.AuthorizeAsync(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password, null, null);
-						wrappers.Add(new PixivWrapper(authResult));
-					} catch (Exception ex) {
-						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					}
+					wrappers.Add(new PixivWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password));
 				}
 
 				wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
