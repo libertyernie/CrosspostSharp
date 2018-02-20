@@ -157,9 +157,13 @@ namespace CrosspostSharp {
 
                 if (Flickr != null) {
                     wrappers.Add(new FlickrWrapper(Flickr));
-                }
+				}
 
-                wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
+				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.Username) && !string.IsNullOrEmpty(GlobalSettings.Pixiv.Password)) {
+					wrappers.Add(new PixivWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password));
+				}
+
+				wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
 
                 wrappers.Add(new UserChosenLocalFolderWrapper { Parent = this });
             }
@@ -1128,9 +1132,13 @@ namespace CrosspostSharp {
 
         public static WebRequest CreateWebRequest(string url) {
             var req = WebRequest.Create(url);
-            if (req is HttpWebRequest) {
-                ((HttpWebRequest)req).UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
-            }
+			if (req is HttpWebRequest httpreq) {
+				if (req.RequestUri.Host.EndsWith(".pximg.net")) {
+					httpreq.Referer = "https://app-api.pixiv.net/";
+				} else {
+					httpreq.UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
+				}
+			}
             return req;
         }
     }

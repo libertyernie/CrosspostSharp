@@ -122,9 +122,29 @@ namespace CrosspostSharp {
                 Settings.Flickr = FlickrKey.Obtain(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET);
             }
             UpdateFlickrTokenLabel();
-        }
+		}
 
-        private void FillForm() {
+		private async void btnPixivSignIn_Click(object sender, EventArgs e) {
+			if (string.Equals("Sign out", btnPixivSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+				Settings.Pixiv.Username = null;
+				Settings.Pixiv.Password = null;
+			} else {
+				using (var f = new UsernamePasswordDialog()) {
+					if (f.ShowDialog() == DialogResult.OK) {
+						try {
+							var authResult = await Pixeez.Auth.AuthorizeAsync(f.Username, f.Password, null, "cpsharp");
+							Settings.Pixiv.Username = authResult.Key.Username;
+							Settings.Pixiv.Password = authResult.Key.Password;
+						} catch (Exception ex) {
+							MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+			UpdatePixivTokenLabel();
+		}
+
+		private void FillForm() {
 			txtWeasylAPIKey.Text = Settings.Weasyl.APIKey ?? "";
 
 			txtBlogName.Text = Settings.Tumblr.BlogName ?? "";
@@ -140,7 +160,8 @@ namespace CrosspostSharp {
             UpdateInkbunnyTokenLabel();
             UpdateFurAffinityTokenLabel();
             UpdateFlickrTokenLabel();
-        }
+			UpdatePixivTokenLabel();
+		}
 
         private async void UpdateDeviantArtTokenLabelAsync() {
             if (Settings.DeviantArt.RefreshToken != null) {
@@ -252,6 +273,22 @@ namespace CrosspostSharp {
                 lblFlickrTokenStatus.ForeColor = SystemColors.WindowText;
                 lblFlickrTokenStatus.Text = "Not signed in";
             }
-        }
-    }
+		}
+
+		private void UpdatePixivTokenLabel() {
+			if (Settings.Pixiv.Username != null) {
+				btnPixivSignIn.Text = "Sign out";
+				try {
+					lblPixivUsername2.ForeColor = Color.Green;
+					lblPixivUsername2.Text = Settings.Pixiv.Username;
+				} catch (Exception e) {
+					lblPixivUsername2.ForeColor = Color.Red;
+					lblPixivUsername2.Text = e.Message;
+				}
+			} else {
+				btnPixivSignIn.Text = "Sign in";
+				lblPixivUsername2.Text = "Not signed in";
+			}
+		}
+	}
 }

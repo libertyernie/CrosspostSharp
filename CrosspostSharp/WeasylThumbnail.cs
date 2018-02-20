@@ -46,7 +46,7 @@ namespace CrosspostSharp {
 				this.Image = null;
 			} else {
 				WebRequest req = WeasylForm.CreateWebRequest(url);
-                using (Stream memoryStream = new MemoryStream()) {
+				using (Stream memoryStream = new MemoryStream()) {
                     using (WebResponse resp = await req.GetResponseAsync()) {
                         using (Stream stream = resp.GetResponseStream()) {
                             await stream.CopyToAsync(memoryStream);

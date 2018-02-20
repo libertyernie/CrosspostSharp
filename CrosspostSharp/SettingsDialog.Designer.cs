@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.groupWeasyl = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtWeasylAPIKey = new System.Windows.Forms.TextBox();
@@ -61,8 +62,12 @@
             this.btnFurAffinitySignIn = new System.Windows.Forms.Button();
             this.groupFlickr = new System.Windows.Forms.GroupBox();
             this.lblFlickrTokenStatus = new System.Windows.Forms.Label();
-            this.btnFlickrSignIn = new System.Windows.Forms.Button();
             this.lblFlickrToken = new System.Windows.Forms.Label();
+            this.btnFlickrSignIn = new System.Windows.Forms.Button();
+            this.groupPixiv = new System.Windows.Forms.GroupBox();
+            this.lblPixivUsername2 = new System.Windows.Forms.Label();
+            this.lvlPixivUsername1 = new System.Windows.Forms.Label();
+            this.btnPixivSignIn = new System.Windows.Forms.Button();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
@@ -71,6 +76,7 @@
             this.groupDeviantArt.SuspendLayout();
             this.groupFurAffinity.SuspendLayout();
             this.groupFlickr.SuspendLayout();
+            this.groupPixiv.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupWeasyl
@@ -79,12 +85,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupWeasyl.Controls.Add(this.label1);
             this.groupWeasyl.Controls.Add(this.txtWeasylAPIKey);
-            this.groupWeasyl.Location = new System.Drawing.Point(12, 215);
+            this.groupWeasyl.Location = new System.Drawing.Point(318, 267);
             this.groupWeasyl.Name = "groupWeasyl";
             this.groupWeasyl.Size = new System.Drawing.Size(300, 45);
             this.groupWeasyl.TabIndex = 1;
             this.groupWeasyl.TabStop = false;
-            this.groupWeasyl.Text = "Weasyl";
+            this.groupWeasyl.Text = "Weasyl (read-only)";
             // 
             // label1
             // 
@@ -258,20 +264,18 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTokenInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTokenInfo.Location = new System.Drawing.Point(12, 278);
+            this.lblTokenInfo.Location = new System.Drawing.Point(12, 315);
             this.lblTokenInfo.Name = "lblTokenInfo";
-            this.lblTokenInfo.Size = new System.Drawing.Size(606, 45);
+            this.lblTokenInfo.Size = new System.Drawing.Size(606, 58);
             this.lblTokenInfo.TabIndex = 7;
-            this.lblTokenInfo.Text = "This application will not see your passwords, but it will have access to your acc" +
-    "ounts. The security tokens are stored in the file CrosspostSharp.json, so make sure you" +
-    " keep that file secure.";
+            this.lblTokenInfo.Text = resources.GetString("lblTokenInfo.Text");
             this.lblTokenInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSave.Location = new System.Drawing.Point(462, 326);
+            this.btnSave.Location = new System.Drawing.Point(462, 376);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 8;
@@ -283,7 +287,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(543, 326);
+            this.btnCancel.Location = new System.Drawing.Point(543, 376);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -338,7 +342,7 @@
             this.groupTwitter.Controls.Add(this.btnTwitterSignIn);
             this.groupTwitter.Controls.Add(this.lblTwitterTokenStatus);
             this.groupTwitter.Controls.Add(this.lblTwitterToken);
-            this.groupTwitter.Location = new System.Drawing.Point(318, 216);
+            this.groupTwitter.Location = new System.Drawing.Point(12, 215);
             this.groupTwitter.Name = "groupTwitter";
             this.groupTwitter.Size = new System.Drawing.Size(300, 45);
             this.groupTwitter.TabIndex = 6;
@@ -427,7 +431,7 @@
             this.groupFurAffinity.Size = new System.Drawing.Size(300, 45);
             this.groupFurAffinity.TabIndex = 4;
             this.groupFurAffinity.TabStop = false;
-            this.groupFurAffinity.Text = "FurAffinity";
+            this.groupFurAffinity.Text = "FurAffinity (read-only)";
             // 
             // lblfurAffinityUsername2
             // 
@@ -478,6 +482,15 @@
             this.lblFlickrTokenStatus.Size = new System.Drawing.Size(133, 13);
             this.lblFlickrTokenStatus.TabIndex = 8;
             // 
+            // lblFlickrToken
+            // 
+            this.lblFlickrToken.AutoSize = true;
+            this.lblFlickrToken.Location = new System.Drawing.Point(6, 23);
+            this.lblFlickrToken.Name = "lblFlickrToken";
+            this.lblFlickrToken.Size = new System.Drawing.Size(41, 13);
+            this.lblFlickrToken.TabIndex = 7;
+            this.lblFlickrToken.Text = "Token:";
+            // 
             // btnFlickrSignIn
             // 
             this.btnFlickrSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -489,14 +502,46 @@
             this.btnFlickrSignIn.UseVisualStyleBackColor = true;
             this.btnFlickrSignIn.Click += new System.EventHandler(this.btnFlickrSignIn_Click);
             // 
-            // lblFlickrToken
+            // groupPixiv
             // 
-            this.lblFlickrToken.AutoSize = true;
-            this.lblFlickrToken.Location = new System.Drawing.Point(6, 23);
-            this.lblFlickrToken.Name = "lblFlickrToken";
-            this.lblFlickrToken.Size = new System.Drawing.Size(41, 13);
-            this.lblFlickrToken.TabIndex = 7;
-            this.lblFlickrToken.Text = "Token:";
+            this.groupPixiv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupPixiv.Controls.Add(this.lblPixivUsername2);
+            this.groupPixiv.Controls.Add(this.lvlPixivUsername1);
+            this.groupPixiv.Controls.Add(this.btnPixivSignIn);
+            this.groupPixiv.Location = new System.Drawing.Point(318, 216);
+            this.groupPixiv.Name = "groupPixiv";
+            this.groupPixiv.Size = new System.Drawing.Size(300, 45);
+            this.groupPixiv.TabIndex = 9;
+            this.groupPixiv.TabStop = false;
+            this.groupPixiv.Text = "Pixiv (read-only)";
+            // 
+            // lblPixivUsername2
+            // 
+            this.lblPixivUsername2.AutoEllipsis = true;
+            this.lblPixivUsername2.Location = new System.Drawing.Point(80, 23);
+            this.lblPixivUsername2.Name = "lblPixivUsername2";
+            this.lblPixivUsername2.Size = new System.Drawing.Size(133, 13);
+            this.lblPixivUsername2.TabIndex = 8;
+            // 
+            // lvlPixivUsername1
+            // 
+            this.lvlPixivUsername1.AutoSize = true;
+            this.lvlPixivUsername1.Location = new System.Drawing.Point(6, 23);
+            this.lvlPixivUsername1.Name = "lvlPixivUsername1";
+            this.lvlPixivUsername1.Size = new System.Drawing.Size(58, 13);
+            this.lvlPixivUsername1.TabIndex = 7;
+            this.lvlPixivUsername1.Text = "Username:";
+            // 
+            // btnPixivSignIn
+            // 
+            this.btnPixivSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPixivSignIn.Location = new System.Drawing.Point(219, 19);
+            this.btnPixivSignIn.Name = "btnPixivSignIn";
+            this.btnPixivSignIn.Size = new System.Drawing.Size(75, 20);
+            this.btnPixivSignIn.TabIndex = 6;
+            this.btnPixivSignIn.Text = "Sign in";
+            this.btnPixivSignIn.UseVisualStyleBackColor = true;
+            this.btnPixivSignIn.Click += new System.EventHandler(this.btnPixivSignIn_Click);
             // 
             // SettingsDialog
             // 
@@ -504,7 +549,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(630, 361);
+            this.ClientSize = new System.Drawing.Size(630, 411);
+            this.Controls.Add(this.groupPixiv);
             this.Controls.Add(this.groupFlickr);
             this.Controls.Add(this.groupFurAffinity);
             this.Controls.Add(this.groupDeviantArt);
@@ -533,6 +579,8 @@
             this.groupFurAffinity.PerformLayout();
             this.groupFlickr.ResumeLayout(false);
             this.groupFlickr.PerformLayout();
+            this.groupPixiv.ResumeLayout(false);
+            this.groupPixiv.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -579,5 +627,9 @@
         private System.Windows.Forms.Label lblFlickrTokenStatus;
         private System.Windows.Forms.Label lblFlickrToken;
         private System.Windows.Forms.Button btnFlickrSignIn;
-    }
+		private System.Windows.Forms.GroupBox groupPixiv;
+		private System.Windows.Forms.Label lblPixivUsername2;
+		private System.Windows.Forms.Label lvlPixivUsername1;
+		private System.Windows.Forms.Button btnPixivSignIn;
+	}
 }

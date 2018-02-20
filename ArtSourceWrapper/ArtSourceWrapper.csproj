@@ -108,6 +108,7 @@
     <Compile Include="HtmlLinkUtils.cs" />
     <Compile Include="Inkbunny.cs" />
     <Compile Include="Local.cs" />
+    <Compile Include="Pixiv.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Tumblr.cs" />
     <Compile Include="Twitter.cs" />
@@ -122,6 +123,10 @@
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}</Project>
       <Name>InkbunnyLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj">
+      <Project>{337daf53-dcc0-477d-a7b9-5c4c37547292}</Project>
+      <Name>PixivAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\WeasylLib\WeasylLib.csproj">
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
