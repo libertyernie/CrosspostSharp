@@ -110,6 +110,8 @@ namespace CrosspostSharp {
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
+                } catch (DeviantArtException e) when (e.Message == "The refresh_token is invalid.") {
+                    GlobalSettings.DeviantArt.RefreshToken = null;
                 } catch (DeviantArtException e) {
                     ShowException(e, nameof(DeviantArtLogin));
                 }
