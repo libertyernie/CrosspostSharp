@@ -126,13 +126,15 @@ namespace CrosspostSharp {
 
 		private async void btnPixivSignIn_Click(object sender, EventArgs e) {
 			if (string.Equals("Sign out", btnPixivSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
-				Settings.Pixiv.RefreshToken = null;
+				Settings.Pixiv.Username = null;
+				Settings.Pixiv.Password = null;
 			} else {
 				using (var f = new UsernamePasswordDialog()) {
 					if (f.ShowDialog() == DialogResult.OK) {
 						try {
 							var authResult = await Pixeez.Auth.AuthorizeAsync(f.Username, f.Password, null, "cpsharp");
-							Settings.Pixiv.RefreshToken = authResult.Tokens.RefreshToken;
+							Settings.Pixiv.Username = authResult.Key.Username;
+							Settings.Pixiv.Password = authResult.Key.Password;
 						} catch (Exception ex) {
 							MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
@@ -274,14 +276,14 @@ namespace CrosspostSharp {
 		}
 
 		private void UpdatePixivTokenLabel() {
-			if (Settings.Pixiv.RefreshToken != null) {
+			if (Settings.Pixiv.Username != null) {
 				btnPixivSignIn.Text = "Sign out";
 				try {
 					lblPixivUsername2.ForeColor = Color.Green;
-					lblPixivUsername2.Text = $"Logged in ({Settings.Pixiv.RefreshToken})";
+					lblPixivUsername2.Text = Settings.Pixiv.Username;
 				} catch (Exception e) {
 					lblPixivUsername2.ForeColor = Color.Red;
-					lblPixivUsername2.Text = $"{e.Message} ({Settings.Pixiv.RefreshToken})";
+					lblPixivUsername2.Text = e.Message;
 				}
 			} else {
 				btnPixivSignIn.Text = "Sign in";

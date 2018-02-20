@@ -57,7 +57,9 @@ namespace ArtSourceWrapper {
 		public IEnumerable<string> Tags => _work.Tags;
 		public DateTime Timestamp => _work.CreatedTime;
 		public string ViewURL => "https://www.example.com";
-		public string ImageURL => _work.ImageUrls.Original;
+		public string ImageURL => _work.ImageUrls?.Original
+			?? _work.meta_single_page?.OriginalImageUrl
+			?? _work.ImageUrls?.Large;
 		public string ThumbnailURL => _work.ImageUrls.Px128x128;
 		public Color? BorderColor => null;
 		public bool OwnWork => true;

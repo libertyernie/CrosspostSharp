@@ -159,18 +159,13 @@ namespace CrosspostSharp {
                     wrappers.Add(new FlickrWrapper(Flickr));
 				}
 
-				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.RefreshToken)) {
+				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.Username) && !string.IsNullOrEmpty(GlobalSettings.Pixiv.Password)) {
 					// Get new tokens from Pixiv
 					try {
-						var authResult = await Pixeez.Auth.AuthorizeAsync("lizard-socks", null, GlobalSettings.Pixiv.RefreshToken, "cpsharp");
-						if (GlobalSettings.Pixiv.RefreshToken != authResult.Tokens.RefreshToken) {
-							GlobalSettings.Pixiv.RefreshToken = authResult.Tokens.RefreshToken;
-							GlobalSettings.Save();
-						}
+						var authResult = await Pixeez.Auth.AuthorizeAsync(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password, null, null);
 						wrappers.Add(new PixivWrapper(authResult));
 					} catch (Exception ex) {
 						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-						GlobalSettings.Pixiv.RefreshToken = null;
 					}
 				}
 

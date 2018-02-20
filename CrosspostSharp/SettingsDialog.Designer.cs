@@ -23,6 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.groupWeasyl = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtWeasylAPIKey = new System.Windows.Forms.TextBox();
@@ -267,9 +268,7 @@
             this.lblTokenInfo.Name = "lblTokenInfo";
             this.lblTokenInfo.Size = new System.Drawing.Size(606, 58);
             this.lblTokenInfo.TabIndex = 7;
-            this.lblTokenInfo.Text = "This application will not store your passwords, but it will have access to your a" +
-    "ccounts. The security tokens are stored in the file CrosspostSharp.json, so make" +
-    " sure you keep that file secure.";
+            this.lblTokenInfo.Text = resources.GetString("lblTokenInfo.Text");
             this.lblTokenInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnSave
@@ -529,9 +528,9 @@
             this.lvlPixivUsername1.AutoSize = true;
             this.lvlPixivUsername1.Location = new System.Drawing.Point(6, 23);
             this.lvlPixivUsername1.Name = "lvlPixivUsername1";
-            this.lvlPixivUsername1.Size = new System.Drawing.Size(40, 13);
+            this.lvlPixivUsername1.Size = new System.Drawing.Size(58, 13);
             this.lvlPixivUsername1.TabIndex = 7;
-            this.lvlPixivUsername1.Text = "Status:";
+            this.lvlPixivUsername1.Text = "Username:";
             // 
             // btnPixivSignIn
             // 

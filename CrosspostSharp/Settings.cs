@@ -62,7 +62,8 @@ namespace CrosspostSharp {
 		public FurAffinitySettings FurAffinity { get; set; }
 
 		public class PixivSettings {
-			public string RefreshToken { get; set; }
+			public string Username { get; set; }
+			public string Password { get; set; }
 		}
 
 		public PixivSettings Pixiv { get; set; }
@@ -137,7 +138,8 @@ namespace CrosspostSharp {
 			}
 			if (s.Pixiv == null) {
 				s.Pixiv = new PixivSettings {
-					RefreshToken = null
+					Username = null,
+					Password = null
 				};
 			}
 			if (s.Defaults == null)
