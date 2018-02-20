@@ -61,6 +61,12 @@ namespace CrosspostSharp {
 
 		public FurAffinitySettings FurAffinity { get; set; }
 
+		public class PixivSettings {
+			public string RefreshToken { get; set; }
+		}
+
+		public PixivSettings Pixiv { get; set; }
+
 		public class PostSettings {
 			public string HeaderHTML { get; set; }
 			public string FooterHTML { get; set; }
@@ -127,6 +133,11 @@ namespace CrosspostSharp {
 				s.FurAffinity = new FurAffinitySettings {
 					b = null,
 					a = null
+				};
+			}
+			if (s.Pixiv == null) {
+				s.Pixiv = new PixivSettings {
+					RefreshToken = null
 				};
 			}
 			if (s.Defaults == null)
