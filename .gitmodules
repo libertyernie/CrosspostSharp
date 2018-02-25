@@ -13,3 +13,6 @@
 [submodule "PixivUniversal"]
 	path = PixivUniversal
 	url = https://github.com/libertyernie/PixivUniversal
+[submodule "FurryNetworkLib"]
+	path = FurryNetworkLib
+	url = https://github.com/libertyernie/FurryNetworkLib

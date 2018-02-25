@@ -31,6 +31,9 @@ Supported Sites
 * Twitter
 * Weasyl (read-only)
 
+Coming soon:
+* FurryNetwork
+
 You can also read from a local folder and save images to local files.
 
 Additionally, you can install Java and grab [efc.jar]
