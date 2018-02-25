@@ -4,6 +4,7 @@ using Pixeez.Objects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -51,11 +52,11 @@ namespace ArtSourceWrapper {
 			var searchResults = await _client.SearchByCharacterAsync(character.Name, new[] { "artwork" }, from: startPosition ?? 0);
 			int nextPosition = (startPosition ?? 0) + searchResults.Hits.Count();
 			return new InternalFetchResult(
-				searchResults.Hits
+				await Task.WhenAll(searchResults.Hits
 					.Select(h => h.Submission)
 					.Where(h => h is Artwork || h is Photo)
-					.Select(h => new FurryNetworkSubmissionWrapper((FileSubmission)h))
-					.ToList(),
+					.Select(h => FurryNetworkSubmissionWrapper.CreateAsync((FileSubmission)h))
+					.ToArray()),
 				nextPosition,
 				nextPosition >= searchResults.Total);
 		}
@@ -63,13 +64,35 @@ namespace ArtSourceWrapper {
 
 	public class FurryNetworkSubmissionWrapper : ISubmissionWrapper {
 		private FileSubmission _artwork;
+		private string _html;
 
-		public FurryNetworkSubmissionWrapper(FileSubmission artwork) {
-			_artwork = artwork;
+		private FurryNetworkSubmissionWrapper() { }
+
+		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork) {
+			string html = null;
+
+			try {
+				var req = WebRequest.CreateHttp("https://api.github.com/markdown/raw");
+				req.Method = "POST";
+				req.UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
+				req.ContentType = "text/x-markdown";
+				using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
+					await sw.WriteAsync(artwork.Description);
+				}
+				using (var resp = await req.GetResponseAsync())
+				using (var sr = new StreamReader(resp.GetResponseStream())) {
+					html = await sr.ReadToEndAsync();
+				}
+			} catch (Exception) {}
+
+			return new FurryNetworkSubmissionWrapper {
+				_artwork = artwork,
+				_html = html
+			};
 		}
 
 		public string Title => _artwork.Title;
-		public string HTMLDescription => _artwork.Description; // TODO: parse Markdown
+		public string HTMLDescription => _html ?? _artwork.Description;
 		public bool PotentiallySensitive => _artwork.Rating != 0;
 		public IEnumerable<string> Tags => _artwork.Tags;
 		public DateTime Timestamp => _artwork.Created;
