@@ -149,6 +149,7 @@ namespace CrosspostSharp {
 				Settings.FurryNetwork.RefreshToken = null;
 			} else {
 				using (var f = new UsernamePasswordDialog()) {
+					f.UsernameLabel = "Email";
 					if (f.ShowDialog() == DialogResult.OK) {
 						try {
 							var client = await FurryNetworkClient.LoginAsync(f.Username, f.Password);

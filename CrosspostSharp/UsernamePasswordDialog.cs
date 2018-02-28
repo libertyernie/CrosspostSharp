@@ -13,6 +13,15 @@ namespace CrosspostSharp {
 		public string Username => txtUsername.Text;
 		public string Password => txtPassword.Text;
 
+		public string UsernameLabel {
+			get {
+				return txtUsername.Text;
+			}
+			set {
+				txtUsername.Text = value;
+			}
+		}
+
 		public UsernamePasswordDialog() {
 			InitializeComponent();
 		}
