@@ -68,6 +68,12 @@ namespace CrosspostSharp {
 
 		public PixivSettings Pixiv { get; set; }
 
+		public class FurryNetworkSettings {
+			public string RefreshToken { get; set; }
+		}
+
+		public FurryNetworkSettings FurryNetwork { get; set; }
+
 		public class PostSettings {
 			public string HeaderHTML { get; set; }
 			public string FooterHTML { get; set; }
@@ -140,6 +146,11 @@ namespace CrosspostSharp {
 				s.Pixiv = new PixivSettings {
 					Username = null,
 					Password = null
+				};
+			}
+			if (s.FurryNetwork == null) {
+				s.FurryNetwork = new FurryNetworkSettings {
+					RefreshToken = null
 				};
 			}
 			if (s.Defaults == null)

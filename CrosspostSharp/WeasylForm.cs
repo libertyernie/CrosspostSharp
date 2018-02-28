@@ -163,7 +163,9 @@ namespace CrosspostSharp {
 					wrappers.Add(new PixivWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password));
 				}
 
-				wrappers.Add(new FurryNetworkWrapper(new FurryNetworkLib.FurryNetworkClient("da4ebd8f6bbe53df1ff855cfbada4ab19332e73f")));
+				if (GlobalSettings.FurryNetwork.RefreshToken != null) {
+					wrappers.Add(new FurryNetworkWrapper(new FurryNetworkLib.FurryNetworkClient(GlobalSettings.FurryNetwork.RefreshToken)));
+				}
 
 				wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
 

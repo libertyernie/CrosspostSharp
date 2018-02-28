@@ -3,7 +3,7 @@ using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
 using FAWinFormsLogin.loginPages;
-using FlickrNet;
+using FurryNetworkLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -142,6 +142,24 @@ namespace CrosspostSharp {
 				}
 			}
 			UpdatePixivTokenLabel();
+		}
+
+		private async void btnFurryNetworkSignIn_Click(object sender, EventArgs e) {
+			if (string.Equals("Sign out", btnFurryNetworkSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
+				Settings.FurryNetwork.RefreshToken = null;
+			} else {
+				using (var f = new UsernamePasswordDialog()) {
+					if (f.ShowDialog() == DialogResult.OK) {
+						try {
+							var client = await FurryNetworkClient.LoginAsync(f.Username, f.Password);
+							Settings.FurryNetwork.RefreshToken = client.RefreshToken;
+						} catch (Exception ex) {
+							MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+			UpdateFurryNetworkTokenLabel();
 		}
 
 		private void FillForm() {
@@ -288,6 +306,24 @@ namespace CrosspostSharp {
 			} else {
 				btnPixivSignIn.Text = "Sign in";
 				lblPixivUsername2.Text = "Not signed in";
+			}
+		}
+
+		private async void UpdateFurryNetworkTokenLabel() {
+			if (Settings.FurryNetwork.RefreshToken != null) {
+				btnFurryNetworkSignIn.Text = "Sign out";
+				try {
+					var client = new FurryNetworkClient(Settings.FurryNetwork.RefreshToken);
+					var user = await client.GetUserAsync();
+					lblFurryNetworkTokenStatus.ForeColor = Color.Green;
+					lblFurryNetworkTokenStatus.Text = user.DefaultCharacter.Name;
+				} catch (Exception e) {
+					lblFurryNetworkTokenStatus.ForeColor = Color.Red;
+					lblFurryNetworkTokenStatus.Text = e.Message;
+				}
+			} else {
+				btnFurryNetworkSignIn.Text = "Sign in";
+				lblFurryNetworkTokenStatus.Text = "Not signed in";
 			}
 		}
 	}

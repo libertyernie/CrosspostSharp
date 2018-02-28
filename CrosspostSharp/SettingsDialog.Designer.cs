@@ -68,6 +68,10 @@
             this.lblPixivUsername2 = new System.Windows.Forms.Label();
             this.lvlPixivUsername1 = new System.Windows.Forms.Label();
             this.btnPixivSignIn = new System.Windows.Forms.Button();
+            this.groupFurryNetwork = new System.Windows.Forms.GroupBox();
+            this.lblFurryNetworkTokenStatus = new System.Windows.Forms.Label();
+            this.lblFurryNetworkToken = new System.Windows.Forms.Label();
+            this.btnFurryNetworkSignIn = new System.Windows.Forms.Button();
             this.groupWeasyl.SuspendLayout();
             this.groupTumblr.SuspendLayout();
             this.groupDefaults.SuspendLayout();
@@ -77,6 +81,7 @@
             this.groupFurAffinity.SuspendLayout();
             this.groupFlickr.SuspendLayout();
             this.groupPixiv.SuspendLayout();
+            this.groupFurryNetwork.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupWeasyl
@@ -88,7 +93,7 @@
             this.groupWeasyl.Location = new System.Drawing.Point(318, 267);
             this.groupWeasyl.Name = "groupWeasyl";
             this.groupWeasyl.Size = new System.Drawing.Size(300, 45);
-            this.groupWeasyl.TabIndex = 1;
+            this.groupWeasyl.TabIndex = 8;
             this.groupWeasyl.TabStop = false;
             this.groupWeasyl.Text = "Weasyl (read-only)";
             // 
@@ -267,7 +272,7 @@
             this.lblTokenInfo.Location = new System.Drawing.Point(12, 315);
             this.lblTokenInfo.Name = "lblTokenInfo";
             this.lblTokenInfo.Size = new System.Drawing.Size(606, 58);
-            this.lblTokenInfo.TabIndex = 7;
+            this.lblTokenInfo.TabIndex = 9;
             this.lblTokenInfo.Text = resources.GetString("lblTokenInfo.Text");
             this.lblTokenInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -278,7 +283,7 @@
             this.btnSave.Location = new System.Drawing.Point(462, 376);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 8;
+            this.btnSave.TabIndex = 10;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -290,7 +295,7 @@
             this.btnCancel.Location = new System.Drawing.Point(543, 376);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 9;
+            this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -303,7 +308,7 @@
             this.groupInkbunnyDest.Location = new System.Drawing.Point(318, 165);
             this.groupInkbunnyDest.Name = "groupInkbunnyDest";
             this.groupInkbunnyDest.Size = new System.Drawing.Size(300, 45);
-            this.groupInkbunnyDest.TabIndex = 5;
+            this.groupInkbunnyDest.TabIndex = 6;
             this.groupInkbunnyDest.TabStop = false;
             this.groupInkbunnyDest.Text = "Inkbunny";
             // 
@@ -345,7 +350,7 @@
             this.groupTwitter.Location = new System.Drawing.Point(12, 215);
             this.groupTwitter.Name = "groupTwitter";
             this.groupTwitter.Size = new System.Drawing.Size(300, 45);
-            this.groupTwitter.TabIndex = 6;
+            this.groupTwitter.TabIndex = 1;
             this.groupTwitter.TabStop = false;
             this.groupTwitter.Text = "Twitter";
             // 
@@ -387,7 +392,7 @@
             this.groupDeviantArt.Location = new System.Drawing.Point(318, 12);
             this.groupDeviantArt.Name = "groupDeviantArt";
             this.groupDeviantArt.Size = new System.Drawing.Size(300, 45);
-            this.groupDeviantArt.TabIndex = 2;
+            this.groupDeviantArt.TabIndex = 3;
             this.groupDeviantArt.TabStop = false;
             this.groupDeviantArt.Text = "DeviantArt";
             // 
@@ -426,7 +431,7 @@
             this.groupFurAffinity.Controls.Add(this.lblfurAffinityUsername2);
             this.groupFurAffinity.Controls.Add(this.lblfurAffinityUsername1);
             this.groupFurAffinity.Controls.Add(this.btnFurAffinitySignIn);
-            this.groupFurAffinity.Location = new System.Drawing.Point(318, 114);
+            this.groupFurAffinity.Location = new System.Drawing.Point(318, 63);
             this.groupFurAffinity.Name = "groupFurAffinity";
             this.groupFurAffinity.Size = new System.Drawing.Size(300, 45);
             this.groupFurAffinity.TabIndex = 4;
@@ -467,10 +472,10 @@
             this.groupFlickr.Controls.Add(this.lblFlickrTokenStatus);
             this.groupFlickr.Controls.Add(this.lblFlickrToken);
             this.groupFlickr.Controls.Add(this.btnFlickrSignIn);
-            this.groupFlickr.Location = new System.Drawing.Point(318, 63);
+            this.groupFlickr.Location = new System.Drawing.Point(12, 266);
             this.groupFlickr.Name = "groupFlickr";
             this.groupFlickr.Size = new System.Drawing.Size(300, 45);
-            this.groupFlickr.TabIndex = 3;
+            this.groupFlickr.TabIndex = 2;
             this.groupFlickr.TabStop = false;
             this.groupFlickr.Text = "Flickr";
             // 
@@ -511,7 +516,7 @@
             this.groupPixiv.Location = new System.Drawing.Point(318, 216);
             this.groupPixiv.Name = "groupPixiv";
             this.groupPixiv.Size = new System.Drawing.Size(300, 45);
-            this.groupPixiv.TabIndex = 9;
+            this.groupPixiv.TabIndex = 7;
             this.groupPixiv.TabStop = false;
             this.groupPixiv.Text = "Pixiv (read-only)";
             // 
@@ -543,6 +548,47 @@
             this.btnPixivSignIn.UseVisualStyleBackColor = true;
             this.btnPixivSignIn.Click += new System.EventHandler(this.btnPixivSignIn_Click);
             // 
+            // groupFurryNetwork
+            // 
+            this.groupFurryNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupFurryNetwork.Controls.Add(this.lblFurryNetworkTokenStatus);
+            this.groupFurryNetwork.Controls.Add(this.lblFurryNetworkToken);
+            this.groupFurryNetwork.Controls.Add(this.btnFurryNetworkSignIn);
+            this.groupFurryNetwork.Location = new System.Drawing.Point(318, 114);
+            this.groupFurryNetwork.Name = "groupFurryNetwork";
+            this.groupFurryNetwork.Size = new System.Drawing.Size(300, 45);
+            this.groupFurryNetwork.TabIndex = 5;
+            this.groupFurryNetwork.TabStop = false;
+            this.groupFurryNetwork.Text = "Furry Network";
+            // 
+            // lblFurryNetworkTokenStatus
+            // 
+            this.lblFurryNetworkTokenStatus.AutoEllipsis = true;
+            this.lblFurryNetworkTokenStatus.Location = new System.Drawing.Point(80, 23);
+            this.lblFurryNetworkTokenStatus.Name = "lblFurryNetworkTokenStatus";
+            this.lblFurryNetworkTokenStatus.Size = new System.Drawing.Size(133, 13);
+            this.lblFurryNetworkTokenStatus.TabIndex = 8;
+            // 
+            // lblFurryNetworkToken
+            // 
+            this.lblFurryNetworkToken.AutoSize = true;
+            this.lblFurryNetworkToken.Location = new System.Drawing.Point(6, 23);
+            this.lblFurryNetworkToken.Name = "lblFurryNetworkToken";
+            this.lblFurryNetworkToken.Size = new System.Drawing.Size(41, 13);
+            this.lblFurryNetworkToken.TabIndex = 7;
+            this.lblFurryNetworkToken.Text = "Token:";
+            // 
+            // btnFurryNetworkSignIn
+            // 
+            this.btnFurryNetworkSignIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFurryNetworkSignIn.Location = new System.Drawing.Point(219, 19);
+            this.btnFurryNetworkSignIn.Name = "btnFurryNetworkSignIn";
+            this.btnFurryNetworkSignIn.Size = new System.Drawing.Size(75, 20);
+            this.btnFurryNetworkSignIn.TabIndex = 6;
+            this.btnFurryNetworkSignIn.Text = "Sign in";
+            this.btnFurryNetworkSignIn.UseVisualStyleBackColor = true;
+            this.btnFurryNetworkSignIn.Click += new System.EventHandler(this.btnFurryNetworkSignIn_Click);
+            // 
             // SettingsDialog
             // 
             this.AcceptButton = this.btnSave;
@@ -550,6 +596,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(630, 411);
+            this.Controls.Add(this.groupFurryNetwork);
             this.Controls.Add(this.groupPixiv);
             this.Controls.Add(this.groupFlickr);
             this.Controls.Add(this.groupFurAffinity);
@@ -581,6 +628,8 @@
             this.groupFlickr.PerformLayout();
             this.groupPixiv.ResumeLayout(false);
             this.groupPixiv.PerformLayout();
+            this.groupFurryNetwork.ResumeLayout(false);
+            this.groupFurryNetwork.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -631,5 +680,9 @@
 		private System.Windows.Forms.Label lblPixivUsername2;
 		private System.Windows.Forms.Label lvlPixivUsername1;
 		private System.Windows.Forms.Button btnPixivSignIn;
+		private System.Windows.Forms.GroupBox groupFurryNetwork;
+		private System.Windows.Forms.Label lblFurryNetworkTokenStatus;
+		private System.Windows.Forms.Label lblFurryNetworkToken;
+		private System.Windows.Forms.Button btnFurryNetworkSignIn;
 	}
 }
