@@ -13,6 +13,57 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class Form1 : Form {
+		private ISiteWrapper _currentWrapper;
+		private int _currentPosition = 0;
+
+		private async Task Populate() {
+			if (_currentWrapper == null) return;
+
+			tableLayoutPanel1.Controls.Clear();
+
+			int i = _currentPosition;
+			int stop = _currentPosition + 4;
+
+			btnLoad.Enabled = false;
+			btnPrevious.Enabled = false;
+			btnNext.Enabled = false;
+
+			try {
+				while (true) {
+					for (; i < stop && i < _currentWrapper.Cache.Count(); i++) {
+						var item = _currentWrapper.Cache.Skip(i).First();
+
+						Image image;
+						var req = WebRequest.Create(item.ThumbnailURL);
+						using (var resp = await req.GetResponseAsync())
+						using (var stream = resp.GetResponseStream())
+						using (var ms = new MemoryStream()) {
+							await stream.CopyToAsync(ms);
+							ms.Position = 0;
+							image = Image.FromStream(ms);
+						}
+
+						tableLayoutPanel1.Controls.Add(new Panel {
+							BackgroundImage = image,
+							BackgroundImageLayout = ImageLayout.Zoom,
+							Dock = DockStyle.Fill
+						});
+					}
+
+					if (i == stop) break;
+
+					await _currentWrapper.FetchAsync();
+					if (_currentWrapper.IsEnded) break;
+				}
+			} catch (Exception ex) {
+				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+			btnLoad.Enabled = true;
+			btnPrevious.Enabled = _currentPosition > 0;
+			btnNext.Enabled = _currentWrapper.Cache.Count() > stop || !_currentWrapper.IsEnded;
+		}
+
 		public Form1() {
 			InitializeComponent();
 
@@ -22,38 +73,19 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnLoad_Click(object sender, EventArgs e) {
-			var wrapper = ddlSource.SelectedItem as ISiteWrapper;
-			if (wrapper == null) return;
+			_currentWrapper = ddlSource.SelectedItem as ISiteWrapper;
+			_currentPosition = 0;
+			await Populate();
+		}
 
-			while (!wrapper.IsEnded && wrapper.Cache.Count() < 4) {
-				await wrapper.FetchAsync();
-			}
+		private async void btnPrevious_Click(object sender, EventArgs e) {
+			_currentPosition = Math.Max(0, _currentPosition - 4);
+			await Populate();
+		}
 
-			for (int i = 0; i < 4 && i < wrapper.Cache.Count(); i++) {
-				var item = wrapper.Cache.Skip(i).First();
-
-				Image image;
-				var req = WebRequest.Create(item.ThumbnailURL);
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					ms.Position = 0;
-					image = Image.FromStream(ms);
-				}
-
-				//int size = Math.Max(image.Width, image.Height);
-				//Image image2 = new Bitmap(size, size);
-				//using (var g = Graphics.FromImage(image2)) {
-				//	g.DrawImage(image, (size - image.Width) / 2, (size - image.Height) / 2, image.Width, image.Height);
-				//}
-
-				tableLayoutPanel1.Controls.Add(new Panel {
-					BackgroundImage = image,
-					BackgroundImageLayout = ImageLayout.Zoom,
-					Dock = DockStyle.Fill
-				});
-			}
+		private async void btnNext_Click(object sender, EventArgs e) {
+			_currentPosition += 4;
+			await Populate();
 		}
 	}
 }
