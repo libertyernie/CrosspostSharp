@@ -19,6 +19,7 @@ using Tweetinvi.Parameters;
 using ArtSourceWrapper;
 using FlickrNet;
 using System.Drawing.Imaging;
+using FurryNetworkLib;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -39,6 +40,7 @@ namespace CrosspostSharp {
         private FlickrNet.Auth FlickrAuth;
 
         private InkbunnyClient Inkbunny;
+		private FurryNetworkClient FurryNetwork;
 
         // Stores references to the four WeasylThumbnail controls along the side. Each of them is responsible for fetching the submission information and image.
         private WeasylThumbnail[] thumbnails;
@@ -163,8 +165,8 @@ namespace CrosspostSharp {
 					wrappers.Add(new PixivWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password));
 				}
 
-				if (GlobalSettings.FurryNetwork.RefreshToken != null) {
-					wrappers.Add(new FurryNetworkWrapper(new FurryNetworkLib.FurryNetworkClient(GlobalSettings.FurryNetwork.RefreshToken)));
+				if (FurryNetwork != null) {
+					wrappers.Add(new FurryNetworkWrapper(FurryNetwork));
 				}
 
 				wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();
@@ -258,9 +260,25 @@ namespace CrosspostSharp {
                     ShowException(e, nameof(GetNewInkbunnyClient));
                 }
             }
-        }
+		}
 
-        private async Task GetNewTwitterClient() {
+		private async Task GetNewFurryNetworkClient() {
+			if (GlobalSettings.FurryNetwork.RefreshToken != null) {
+				FurryNetwork = new FurryNetworkClient(GlobalSettings.FurryNetwork.RefreshToken);
+			}
+
+			//lblInkbunnyStatus2.Text = "";
+			//if (Inkbunny != null) {
+			//	try {
+			//		lblInkbunnyStatus2.Text = await Inkbunny.GetUsernameAsync();
+			//	} catch (Exception e) {
+			//		Inkbunny = null;
+			//		ShowException(e, nameof(GetNewInkbunnyClient));
+			//	}
+			//}
+		}
+
+		private async Task GetNewTwitterClient() {
             TwitterCredentials = GlobalSettings.TwitterCredentials;
             try {
                 string screenName = TwitterCredentials?.GetScreenName();
@@ -346,7 +364,8 @@ namespace CrosspostSharp {
                 var tasks = new Task[] {
                     GetNewTumblrClient(),
                     GetNewInkbunnyClient(),
-                    GetNewTwitterClient(),
+					GetNewFurryNetworkClient(),
+					GetNewTwitterClient(),
                     GetNewFlickrClient(),
                     DeviantArtLogin()
                 };
@@ -392,11 +411,12 @@ namespace CrosspostSharp {
                 txtHeader.Text = string.IsNullOrEmpty(submission.Title)
                     ? ""
                     : GlobalSettings.Defaults.HeaderHTML?.Replace("{TITLE}", submission.Title) ?? "";
-                txtInkbunnyTitle.Text = txtFlickrTitle.Text = submission.Title;
+                txtFurryNetworkTitle.Text = txtInkbunnyTitle.Text = txtFlickrTitle.Text = submission.Title;
 				txtDescription.Text = submission.HTMLDescription;
                 txtFlickrDesc.Text = Regex.Replace(submission.HTMLDescription ?? "", @"<br ?\/?>\r?\n?", Environment.NewLine);
                 string bbCode = HtmlToBBCode.ConvertHtml(txtFlickrDesc.Text);
 				txtInkbunnyDescription.Text = bbCode;
+				txtFurryNetworkDesc.Text = submission.HTMLDescription;//todo convert to markdown
 				txtURL.Text = submission.ViewURL ?? "";
 
 				ResetTweetText();
@@ -405,13 +425,15 @@ namespace CrosspostSharp {
                 if (submission.PotentiallySensitive) {
                     chkTweetPotentiallySensitive.Checked = true;
                     radFlickrRestricted.Checked = true;
+					radFurryNetworkRating2.Checked = true;
                 } else {
                     chkTweetPotentiallySensitive.Checked = false;
                     radFlickrSafe.Checked = true;
-                }
+					radFurryNetworkRating0.Checked = true;
+				}
 
                 tags.AddRange(submission.Tags);
-				txtTags1.Text = txtInkbunnyTags.Text = txtFlickrTags.Text = string.Join(" ", tags.Select(s => "#" + s));
+				txtFurryNetworkTags.Text = txtTags1.Text = txtInkbunnyTags.Text = txtFlickrTags.Text = string.Join(" ", tags.Select(s => "#" + s));
 
                 pickDate.Value = pickTime.Value = submission.Timestamp;
 			}
@@ -485,7 +507,7 @@ namespace CrosspostSharp {
 
 			long sinceId = tweetCache.Select(t => t.Id).DefaultIfEmpty(20).Max();
 			return Task.Run(() => Tweetinvi.Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
-				var user = User.GetAuthenticatedUser();
+				var user = Tweetinvi.User.GetAuthenticatedUser();
 				var parameters = new UserTimelineParameters {
 					MaximumNumberOfTweetsToRetrieve = 200,
 					TrimUser = true,
@@ -805,10 +827,46 @@ namespace CrosspostSharp {
                 HideProgressBar();
             }
         }
-        #endregion
+		#endregion
 
-        #region Event handlers
-        private void btnUp_Click(object sender, EventArgs e) {
+		#region Furry Network
+		private async void PostToFurryNetwork() {
+			if (FurryNetwork == null || currentImage == null) return;
+
+			try {
+				var user = await FurryNetwork.GetUserAsync();
+				var artwork = await FurryNetwork.UploadArtwork(
+					user.DefaultCharacter.Name,
+					currentImage.Data,
+					currentImage.MimeType,
+					currentImage.FileName);
+				await FurryNetwork.UpdateArtwork(artwork.Id, new FurryNetworkClient.UpdateArtworkParameters {
+					Community_tags_allowed = chkFurryNetworkAllowCommunityTags.Checked,
+					Description = txtFurryNetworkDesc.Text,
+					Publish = true,
+					Rating = radFurryNetworkRating0.Checked ? 0
+						: radFurryNetworkRating1.Checked ? 1
+						: 2,
+					Status = radFurryNetworkPublic.Checked ? "public"
+						: radFurryNetworkUnlisted.Checked ? "unlisted"
+						: "draft",
+					Tags = txtFurryNetworkTags.Text.Replace("#", " ").Split(' ').Where(s => s != ""),
+					Title = txtFurryNetworkTitle.Text
+				});
+
+				lblPosted1.Visible = true;
+				lblPosted2.Visible = true;
+				lblPosted2.Text = $"https://beta.furrynetwork.com/artwork/{artwork.Id}";
+			} catch (Exception ex) {
+				ShowException(ex, nameof(PostToFurryNetwork));
+			} finally {
+				HideProgressBar();
+			}
+		}
+		#endregion
+
+		#region Event handlers
+		private void btnUp_Click(object sender, EventArgs e) {
             try {
                 UpdateGalleryAsync(back: true);
             } catch (Exception ex) {
@@ -993,9 +1051,13 @@ namespace CrosspostSharp {
 
         private void btnPostToFlickr_Click(object sender, EventArgs e) {
             PostToFlickr();
-        }
+		}
 
-        private void chkIncludeTitle_CheckedChanged(object sender, EventArgs e) {
+		private void btnFurryNetworkPost_Click(object sender, EventArgs e) {
+			PostToFurryNetwork();
+		}
+
+		private void chkIncludeTitle_CheckedChanged(object sender, EventArgs e) {
 			ResetTweetText();
 		}
 
@@ -1145,5 +1207,5 @@ namespace CrosspostSharp {
 			}
             return req;
         }
-    }
+	}
 }

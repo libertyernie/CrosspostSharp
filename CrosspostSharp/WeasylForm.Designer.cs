@@ -115,6 +115,7 @@
             this.lblFlickrTitle = new System.Windows.Forms.Label();
             this.lblFlickrStatus2 = new System.Windows.Forms.Label();
             this.lblFlickrStatus1 = new System.Windows.Forms.Label();
+            this.tabFurryNetwork = new System.Windows.Forms.TabPage();
             this.tabInkbunny = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -149,6 +150,27 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblPosted1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPosted2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radFurryNetworkPHoto = new System.Windows.Forms.RadioButton();
+            this.radFurAffinityArtwork = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radFurryNetworkRating2 = new System.Windows.Forms.RadioButton();
+            this.radFurryNetworkRating1 = new System.Windows.Forms.RadioButton();
+            this.radFurryNetworkRating0 = new System.Windows.Forms.RadioButton();
+            this.txtFurryNetworkTags = new System.Windows.Forms.TextBox();
+            this.lblFurryNetworkTags = new System.Windows.Forms.Label();
+            this.txtFurryNetworkDesc = new System.Windows.Forms.TextBox();
+            this.lblFurryNetworkDesc = new System.Windows.Forms.Label();
+            this.txtFurryNetworkTitle = new System.Windows.Forms.TextBox();
+            this.lblFurryNetworkTitle = new System.Windows.Forms.Label();
+            this.lblFurryNetworkStatus2 = new System.Windows.Forms.Label();
+            this.lblFurryNetworkStatus1 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.radFurryNetworkUnlisted = new System.Windows.Forms.RadioButton();
+            this.radFurryNetworkPublic = new System.Windows.Forms.RadioButton();
+            this.radFurryNetworkDraft = new System.Windows.Forms.RadioButton();
+            this.chkFurryNetworkAllowCommunityTags = new System.Windows.Forms.CheckBox();
+            this.btnFurryNetworkPost = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -163,12 +185,16 @@
             this.groupFlickrContentType.SuspendLayout();
             this.groupFlickrSafetyLevel.SuspendLayout();
             this.groupFlickrPermissions.SuspendLayout();
+            this.tabFurryNetwork.SuspendLayout();
             this.tabInkbunny.SuspendLayout();
             this.tabTumblr.SuspendLayout();
             this.tabTwitter.SuspendLayout();
             this.tabSave.SuspendLayout();
             this.tabFurryCrossposter.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnUp
@@ -764,6 +790,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabDeviantArt);
             this.tabControl1.Controls.Add(this.tabFlickr);
+            this.tabControl1.Controls.Add(this.tabFurryNetwork);
             this.tabControl1.Controls.Add(this.tabInkbunny);
             this.tabControl1.Controls.Add(this.tabTumblr);
             this.tabControl1.Controls.Add(this.tabTwitter);
@@ -851,7 +878,6 @@
             this.tabFlickr.Size = new System.Drawing.Size(546, 276);
             this.tabFlickr.TabIndex = 5;
             this.tabFlickr.Text = "Flickr";
-            this.tabFlickr.UseVisualStyleBackColor = true;
             // 
             // lblFlickrLicense
             // 
@@ -1110,6 +1136,27 @@
             this.lblFlickrStatus1.TabIndex = 0;
             this.lblFlickrStatus1.Text = "Flickr:";
             this.lblFlickrStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabFurryNetwork
+            // 
+            this.tabFurryNetwork.Controls.Add(this.btnFurryNetworkPost);
+            this.tabFurryNetwork.Controls.Add(this.chkFurryNetworkAllowCommunityTags);
+            this.tabFurryNetwork.Controls.Add(this.groupBox4);
+            this.tabFurryNetwork.Controls.Add(this.groupBox2);
+            this.tabFurryNetwork.Controls.Add(this.groupBox3);
+            this.tabFurryNetwork.Controls.Add(this.txtFurryNetworkTags);
+            this.tabFurryNetwork.Controls.Add(this.lblFurryNetworkTags);
+            this.tabFurryNetwork.Controls.Add(this.txtFurryNetworkDesc);
+            this.tabFurryNetwork.Controls.Add(this.lblFurryNetworkDesc);
+            this.tabFurryNetwork.Controls.Add(this.txtFurryNetworkTitle);
+            this.tabFurryNetwork.Controls.Add(this.lblFurryNetworkTitle);
+            this.tabFurryNetwork.Controls.Add(this.lblFurryNetworkStatus2);
+            this.tabFurryNetwork.Controls.Add(this.lblFurryNetworkStatus1);
+            this.tabFurryNetwork.Location = new System.Drawing.Point(4, 22);
+            this.tabFurryNetwork.Name = "tabFurryNetwork";
+            this.tabFurryNetwork.Size = new System.Drawing.Size(546, 276);
+            this.tabFurryNetwork.TabIndex = 7;
+            this.tabFurryNetwork.Text = "Furry Network";
             // 
             // tabInkbunny
             // 
@@ -1526,6 +1573,233 @@
             this.lblPosted2.Visible = false;
             this.lblPosted2.Click += new System.EventHandler(this.lblPosted2_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Controls.Add(this.radFurryNetworkPHoto);
+            this.groupBox2.Controls.Add(this.radFurAffinityArtwork);
+            this.groupBox2.Location = new System.Drawing.Point(99, 182);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(85, 88);
+            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Media type";
+            // 
+            // radFurryNetworkPHoto
+            // 
+            this.radFurryNetworkPHoto.AutoSize = true;
+            this.radFurryNetworkPHoto.Location = new System.Drawing.Point(6, 42);
+            this.radFurryNetworkPHoto.Name = "radFurryNetworkPHoto";
+            this.radFurryNetworkPHoto.Size = new System.Drawing.Size(53, 17);
+            this.radFurryNetworkPHoto.TabIndex = 1;
+            this.radFurryNetworkPHoto.Text = "Photo";
+            this.radFurryNetworkPHoto.UseVisualStyleBackColor = true;
+            // 
+            // radFurAffinityArtwork
+            // 
+            this.radFurAffinityArtwork.AutoSize = true;
+            this.radFurAffinityArtwork.Checked = true;
+            this.radFurAffinityArtwork.Location = new System.Drawing.Point(6, 19);
+            this.radFurAffinityArtwork.Name = "radFurAffinityArtwork";
+            this.radFurAffinityArtwork.Size = new System.Drawing.Size(61, 17);
+            this.radFurAffinityArtwork.TabIndex = 0;
+            this.radFurAffinityArtwork.TabStop = true;
+            this.radFurAffinityArtwork.Text = "Artwork";
+            this.radFurAffinityArtwork.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox3.Controls.Add(this.radFurryNetworkRating2);
+            this.groupBox3.Controls.Add(this.radFurryNetworkRating1);
+            this.groupBox3.Controls.Add(this.radFurryNetworkRating0);
+            this.groupBox3.Location = new System.Drawing.Point(8, 182);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(85, 88);
+            this.groupBox3.TabIndex = 19;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Rating";
+            // 
+            // radFurryNetworkRating2
+            // 
+            this.radFurryNetworkRating2.AutoSize = true;
+            this.radFurryNetworkRating2.Location = new System.Drawing.Point(6, 65);
+            this.radFurryNetworkRating2.Name = "radFurryNetworkRating2";
+            this.radFurryNetworkRating2.Size = new System.Drawing.Size(58, 17);
+            this.radFurryNetworkRating2.TabIndex = 2;
+            this.radFurryNetworkRating2.TabStop = true;
+            this.radFurryNetworkRating2.Text = "Explicit";
+            this.radFurryNetworkRating2.UseVisualStyleBackColor = true;
+            // 
+            // radFurryNetworkRating1
+            // 
+            this.radFurryNetworkRating1.AutoSize = true;
+            this.radFurryNetworkRating1.Location = new System.Drawing.Point(6, 42);
+            this.radFurryNetworkRating1.Name = "radFurryNetworkRating1";
+            this.radFurryNetworkRating1.Size = new System.Drawing.Size(58, 17);
+            this.radFurryNetworkRating1.TabIndex = 1;
+            this.radFurryNetworkRating1.TabStop = true;
+            this.radFurryNetworkRating1.Text = "Mature";
+            this.radFurryNetworkRating1.UseVisualStyleBackColor = true;
+            // 
+            // radFurryNetworkRating0
+            // 
+            this.radFurryNetworkRating0.AutoSize = true;
+            this.radFurryNetworkRating0.Location = new System.Drawing.Point(6, 19);
+            this.radFurryNetworkRating0.Name = "radFurryNetworkRating0";
+            this.radFurryNetworkRating0.Size = new System.Drawing.Size(62, 17);
+            this.radFurryNetworkRating0.TabIndex = 0;
+            this.radFurryNetworkRating0.TabStop = true;
+            this.radFurryNetworkRating0.Text = "General";
+            this.radFurryNetworkRating0.UseVisualStyleBackColor = true;
+            // 
+            // txtFurryNetworkTags
+            // 
+            this.txtFurryNetworkTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFurryNetworkTags.Location = new System.Drawing.Point(75, 156);
+            this.txtFurryNetworkTags.Name = "txtFurryNetworkTags";
+            this.txtFurryNetworkTags.Size = new System.Drawing.Size(463, 20);
+            this.txtFurryNetworkTags.TabIndex = 18;
+            // 
+            // lblFurryNetworkTags
+            // 
+            this.lblFurryNetworkTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblFurryNetworkTags.AutoSize = true;
+            this.lblFurryNetworkTags.Location = new System.Drawing.Point(6, 159);
+            this.lblFurryNetworkTags.Name = "lblFurryNetworkTags";
+            this.lblFurryNetworkTags.Size = new System.Drawing.Size(34, 13);
+            this.lblFurryNetworkTags.TabIndex = 17;
+            this.lblFurryNetworkTags.Text = "Tags:";
+            // 
+            // txtFurryNetworkDesc
+            // 
+            this.txtFurryNetworkDesc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFurryNetworkDesc.Location = new System.Drawing.Point(75, 58);
+            this.txtFurryNetworkDesc.Multiline = true;
+            this.txtFurryNetworkDesc.Name = "txtFurryNetworkDesc";
+            this.txtFurryNetworkDesc.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtFurryNetworkDesc.Size = new System.Drawing.Size(463, 92);
+            this.txtFurryNetworkDesc.TabIndex = 16;
+            // 
+            // lblFurryNetworkDesc
+            // 
+            this.lblFurryNetworkDesc.Location = new System.Drawing.Point(6, 55);
+            this.lblFurryNetworkDesc.Name = "lblFurryNetworkDesc";
+            this.lblFurryNetworkDesc.Size = new System.Drawing.Size(63, 34);
+            this.lblFurryNetworkDesc.TabIndex = 15;
+            this.lblFurryNetworkDesc.Text = "Description:\r\n(Markdown)";
+            this.lblFurryNetworkDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtFurryNetworkTitle
+            // 
+            this.txtFurryNetworkTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFurryNetworkTitle.Location = new System.Drawing.Point(75, 32);
+            this.txtFurryNetworkTitle.Name = "txtFurryNetworkTitle";
+            this.txtFurryNetworkTitle.Size = new System.Drawing.Size(465, 20);
+            this.txtFurryNetworkTitle.TabIndex = 14;
+            // 
+            // lblFurryNetworkTitle
+            // 
+            this.lblFurryNetworkTitle.AutoSize = true;
+            this.lblFurryNetworkTitle.Location = new System.Drawing.Point(6, 35);
+            this.lblFurryNetworkTitle.Name = "lblFurryNetworkTitle";
+            this.lblFurryNetworkTitle.Size = new System.Drawing.Size(30, 13);
+            this.lblFurryNetworkTitle.TabIndex = 13;
+            this.lblFurryNetworkTitle.Text = "Title:";
+            // 
+            // lblFurryNetworkStatus2
+            // 
+            this.lblFurryNetworkStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblFurryNetworkStatus2.AutoEllipsis = true;
+            this.lblFurryNetworkStatus2.Location = new System.Drawing.Point(80, 6);
+            this.lblFurryNetworkStatus2.Margin = new System.Windows.Forms.Padding(3);
+            this.lblFurryNetworkStatus2.Name = "lblFurryNetworkStatus2";
+            this.lblFurryNetworkStatus2.Size = new System.Drawing.Size(458, 20);
+            this.lblFurryNetworkStatus2.TabIndex = 12;
+            this.lblFurryNetworkStatus2.Text = "not logged in";
+            this.lblFurryNetworkStatus2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblFurryNetworkStatus1
+            // 
+            this.lblFurryNetworkStatus1.Location = new System.Drawing.Point(6, 6);
+            this.lblFurryNetworkStatus1.Name = "lblFurryNetworkStatus1";
+            this.lblFurryNetworkStatus1.Size = new System.Drawing.Size(84, 20);
+            this.lblFurryNetworkStatus1.TabIndex = 11;
+            this.lblFurryNetworkStatus1.Text = "Furry Network";
+            this.lblFurryNetworkStatus1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox4.Controls.Add(this.radFurryNetworkDraft);
+            this.groupBox4.Controls.Add(this.radFurryNetworkUnlisted);
+            this.groupBox4.Controls.Add(this.radFurryNetworkPublic);
+            this.groupBox4.Location = new System.Drawing.Point(190, 182);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(85, 88);
+            this.groupBox4.TabIndex = 21;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Status";
+            // 
+            // radFurryNetworkUnlisted
+            // 
+            this.radFurryNetworkUnlisted.AutoSize = true;
+            this.radFurryNetworkUnlisted.Location = new System.Drawing.Point(6, 42);
+            this.radFurryNetworkUnlisted.Name = "radFurryNetworkUnlisted";
+            this.radFurryNetworkUnlisted.Size = new System.Drawing.Size(63, 17);
+            this.radFurryNetworkUnlisted.TabIndex = 1;
+            this.radFurryNetworkUnlisted.Text = "Unlisted";
+            this.radFurryNetworkUnlisted.UseVisualStyleBackColor = true;
+            // 
+            // radFurryNetworkPublic
+            // 
+            this.radFurryNetworkPublic.AutoSize = true;
+            this.radFurryNetworkPublic.Checked = true;
+            this.radFurryNetworkPublic.Location = new System.Drawing.Point(6, 19);
+            this.radFurryNetworkPublic.Name = "radFurryNetworkPublic";
+            this.radFurryNetworkPublic.Size = new System.Drawing.Size(54, 17);
+            this.radFurryNetworkPublic.TabIndex = 0;
+            this.radFurryNetworkPublic.TabStop = true;
+            this.radFurryNetworkPublic.Text = "Public";
+            this.radFurryNetworkPublic.UseVisualStyleBackColor = true;
+            // 
+            // radFurryNetworkDraft
+            // 
+            this.radFurryNetworkDraft.AutoSize = true;
+            this.radFurryNetworkDraft.Location = new System.Drawing.Point(6, 65);
+            this.radFurryNetworkDraft.Name = "radFurryNetworkDraft";
+            this.radFurryNetworkDraft.Size = new System.Drawing.Size(48, 17);
+            this.radFurryNetworkDraft.TabIndex = 2;
+            this.radFurryNetworkDraft.Text = "Draft";
+            this.radFurryNetworkDraft.UseVisualStyleBackColor = true;
+            // 
+            // chkFurryNetworkAllowCommunityTags
+            // 
+            this.chkFurryNetworkAllowCommunityTags.AutoSize = true;
+            this.chkFurryNetworkAllowCommunityTags.Checked = true;
+            this.chkFurryNetworkAllowCommunityTags.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFurryNetworkAllowCommunityTags.Location = new System.Drawing.Point(281, 182);
+            this.chkFurryNetworkAllowCommunityTags.Name = "chkFurryNetworkAllowCommunityTags";
+            this.chkFurryNetworkAllowCommunityTags.Size = new System.Drawing.Size(127, 17);
+            this.chkFurryNetworkAllowCommunityTags.TabIndex = 22;
+            this.chkFurryNetworkAllowCommunityTags.Text = "Allow community tags";
+            this.chkFurryNetworkAllowCommunityTags.UseVisualStyleBackColor = true;
+            // 
+            // btnFurryNetworkPost
+            // 
+            this.btnFurryNetworkPost.Location = new System.Drawing.Point(410, 247);
+            this.btnFurryNetworkPost.Name = "btnFurryNetworkPost";
+            this.btnFurryNetworkPost.Size = new System.Drawing.Size(128, 23);
+            this.btnFurryNetworkPost.TabIndex = 23;
+            this.btnFurryNetworkPost.Text = "Post to Furry Network";
+            this.btnFurryNetworkPost.UseVisualStyleBackColor = true;
+            this.btnFurryNetworkPost.Click += new System.EventHandler(this.btnFurryNetworkPost_Click);
+            // 
             // WeasylForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1558,6 +1832,8 @@
             this.groupFlickrSafetyLevel.PerformLayout();
             this.groupFlickrPermissions.ResumeLayout(false);
             this.groupFlickrPermissions.PerformLayout();
+            this.tabFurryNetwork.ResumeLayout(false);
+            this.tabFurryNetwork.PerformLayout();
             this.tabInkbunny.ResumeLayout(false);
             this.tabInkbunny.PerformLayout();
             this.tabTumblr.ResumeLayout(false);
@@ -1570,6 +1846,12 @@
             this.tabFurryCrossposter.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1697,6 +1979,28 @@
         private System.Windows.Forms.LinkLabel lnkFAC;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnLaunchEFC;
-    }
+		private System.Windows.Forms.TabPage tabFurryNetwork;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.RadioButton radFurryNetworkPHoto;
+		private System.Windows.Forms.RadioButton radFurAffinityArtwork;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.RadioButton radFurryNetworkRating2;
+		private System.Windows.Forms.RadioButton radFurryNetworkRating1;
+		private System.Windows.Forms.RadioButton radFurryNetworkRating0;
+		private System.Windows.Forms.TextBox txtFurryNetworkTags;
+		private System.Windows.Forms.Label lblFurryNetworkTags;
+		private System.Windows.Forms.TextBox txtFurryNetworkDesc;
+		private System.Windows.Forms.Label lblFurryNetworkDesc;
+		private System.Windows.Forms.TextBox txtFurryNetworkTitle;
+		private System.Windows.Forms.Label lblFurryNetworkTitle;
+		private System.Windows.Forms.Label lblFurryNetworkStatus2;
+		private System.Windows.Forms.Label lblFurryNetworkStatus1;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.RadioButton radFurryNetworkDraft;
+		private System.Windows.Forms.RadioButton radFurryNetworkUnlisted;
+		private System.Windows.Forms.RadioButton radFurryNetworkPublic;
+		private System.Windows.Forms.CheckBox chkFurryNetworkAllowCommunityTags;
+		private System.Windows.Forms.Button btnFurryNetworkPost;
+	}
 }
 
