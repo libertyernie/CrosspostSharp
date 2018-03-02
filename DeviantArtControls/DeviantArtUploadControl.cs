@@ -10,15 +10,6 @@ using System.Windows.Forms;
 
 namespace DeviantArtControls {
     public partial class DeviantArtUploadControl : UserControl {
-        public delegate void DeviantArtUploadProgressHandler(double percentage);
-        public event DeviantArtUploadProgressHandler UploadProgressChanged;
-
-        public delegate void DeviantArtUploadedHandler(string url);
-        public event DeviantArtUploadedHandler Uploaded;
-
-        public delegate void DeviantArtUploadErrorHandler(Exception ex);
-        public event DeviantArtUploadErrorHandler UploadError;
-
         private DeviantArtCategoryBrowser.Category _selectedCategory;
         public DeviantArtCategoryBrowser.Category SelectedCategory {
             get {
@@ -134,10 +125,9 @@ namespace DeviantArtControls {
 
         private async void btnUpload_Click(object sender, EventArgs e) {
             try {
-                UploadProgressChanged?.Invoke(0);
+				this.Enabled = false;
 
                 var item = await UploadToStash();
-                UploadProgressChanged?.Invoke(1);
 
                 StringBuilder url = new StringBuilder();
                 long itemId = item.ItemId;
@@ -146,11 +136,12 @@ namespace DeviantArtControls {
                     itemId /= 36;
                 }
                 url.Insert(0, "https://sta.sh/0");
-                Uploaded?.Invoke(url.ToString());
+				MessageBox.Show(this, "Uploaded to: " + url);
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
-                UploadError?.Invoke(ex);
             }
+
+			this.Enabled = true;
         }
 
         private async void btnPublish_Click(object sender, EventArgs e) {
@@ -160,7 +151,7 @@ namespace DeviantArtControls {
             }
 
             try {
-                UploadProgressChanged?.Invoke(0);
+				this.Enabled = false;
 
                 var classifications = new HashSet<PublishRequest.ClassificationOfMature>();
                 if (chkNudity.Checked) classifications.Add(PublishRequest.ClassificationOfMature.Nudity);
@@ -170,7 +161,6 @@ namespace DeviantArtControls {
                 if (chkIdeology.Checked) classifications.Add(PublishRequest.ClassificationOfMature.Ideology);
 
                 var item = await UploadToStash();
-                UploadProgressChanged?.Invoke(0.5);
 
                 var sharingStr = ddlSharing.SelectedItem?.ToString();
                 var sharing = sharingStr == "Show share buttons" ? PublishRequest.SharingOption.Allow
@@ -208,13 +198,13 @@ namespace DeviantArtControls {
                 if (!string.IsNullOrEmpty(r2.Result.Error)) {
                     throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.Result.ErrorDescription);
                 }
-                UploadProgressChanged?.Invoke(1);
 
-                Uploaded?.Invoke(r2.Result.Url);
-            } catch (Exception ex) {
+				MessageBox.Show(this, "Uploaded to: " + r2.Result.Url);
+			} catch (Exception ex) {
                 MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
-                UploadError?.Invoke(ex);
             }
+
+			this.Enabled = true;
         }
 
         private void ShowHTMLDialog(DeviantartApi.Requests.Request<DeviantartApi.Objects.Information> request, string fallbackUrl) {

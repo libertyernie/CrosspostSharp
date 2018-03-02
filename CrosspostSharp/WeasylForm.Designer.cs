@@ -828,9 +828,6 @@
             this.deviantArtUploadControl1.SelectedFolders = null;
             this.deviantArtUploadControl1.Size = new System.Drawing.Size(540, 244);
             this.deviantArtUploadControl1.TabIndex = 5;
-            this.deviantArtUploadControl1.UploadProgressChanged += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadProgressHandler(this.deviantArtUploadControl1_UploadProgressChanged);
-            this.deviantArtUploadControl1.Uploaded += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadedHandler(this.deviantArtUploadControl1_Uploaded);
-            this.deviantArtUploadControl1.UploadError += new DeviantArtControls.DeviantArtUploadControl.DeviantArtUploadErrorHandler(this.deviantArtUploadControl1_UploadError);
             // 
             // lblDeviantArtStatus2
             // 

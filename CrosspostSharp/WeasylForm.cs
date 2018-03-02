@@ -1107,24 +1107,7 @@ namespace CrosspostSharp {
 
             File.WriteAllBytes(path, this.currentImage.Data);
         }
-
-        private void deviantArtUploadControl1_UploadProgressChanged(double percentage) {
-            ShowProgressBar();
-            LProgressBar.Report(percentage);
-        }
-
-        private void deviantArtUploadControl1_Uploaded(string url) {
-            HideProgressBar();
-
-            lblPosted1.Visible = true;
-            lblPosted2.Visible = true;
-            lblPosted2.Text = url;
-        }
-
-        private void deviantArtUploadControl1_UploadError(Exception ex) {
-            HideProgressBar();
-        }
-
+		
         private void lblPosted2_Click(object sender, EventArgs e) {
             if (lblPosted2.Text.StartsWith("http")) Process.Start(lblPosted2.Text);
         }
