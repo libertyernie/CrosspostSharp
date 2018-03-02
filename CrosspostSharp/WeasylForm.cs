@@ -263,19 +263,16 @@ namespace CrosspostSharp {
 		}
 
 		private async Task GetNewFurryNetworkClient() {
-			if (GlobalSettings.FurryNetwork.RefreshToken != null) {
-				FurryNetwork = new FurryNetworkClient(GlobalSettings.FurryNetwork.RefreshToken);
+			try {
+				lblFurryNetworkStatus2.Text = "";
+				if (GlobalSettings.FurryNetwork.RefreshToken != null) {
+					FurryNetwork = new FurryNetworkClient(GlobalSettings.FurryNetwork.RefreshToken);
+					lblFurryNetworkStatus2.Text = (await FurryNetwork.GetUserAsync()).DefaultCharacter.Name;
+				}
+			} catch (Exception e) {
+				FurryNetwork = null;
+				ShowException(e, nameof(GetNewFurryNetworkClient));
 			}
-
-			//lblInkbunnyStatus2.Text = "";
-			//if (Inkbunny != null) {
-			//	try {
-			//		lblInkbunnyStatus2.Text = await Inkbunny.GetUsernameAsync();
-			//	} catch (Exception e) {
-			//		Inkbunny = null;
-			//		ShowException(e, nameof(GetNewInkbunnyClient));
-			//	}
-			//}
 		}
 
 		private async Task GetNewTwitterClient() {
