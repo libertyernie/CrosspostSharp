@@ -416,8 +416,28 @@ namespace CrosspostSharp {
                 txtFlickrDesc.Text = Regex.Replace(submission.HTMLDescription ?? "", @"<br ?\/?>\r?\n?", Environment.NewLine);
                 string bbCode = HtmlToBBCode.ConvertHtml(txtFlickrDesc.Text);
 				txtInkbunnyDescription.Text = bbCode;
-				txtFurryNetworkDesc.Text = submission.HTMLDescription;//todo convert to markdown
 				txtURL.Text = submission.ViewURL ?? "";
+
+				txtFurryNetworkDesc.Text = submission.HTMLDescription;
+				async void convertFurryNetworkDesc() {
+					try {
+						var req = CreateWebRequest("http://heckyesmarkdown.com/go?html=" + WebUtility.UrlEncode(submission.HTMLDescription));
+						req.Method = "GET";
+						if (req is HttpWebRequest hr) hr.ServerCertificateValidationCallback += (a, b, c, d) => true;
+						req.ContentType = "application/x-www-form-urlencoded";
+						//using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
+						//	await sw.WriteAsync("html=" + WebUtility.UrlEncode(submission.HTMLDescription));
+						//}
+						using (var resp = await req.GetResponseAsync())
+						using (var sr = new StreamReader(resp.GetResponseStream())) {
+							txtFurryNetworkDesc.Text = (await sr.ReadToEndAsync()).Replace("\n", "\r\n");
+						}
+					} catch (Exception e) {
+						Console.Error.WriteLine(e.Message);
+						Console.Error.WriteLine(e.StackTrace);
+					}
+				}
+				convertFurryNetworkDesc();
 
 				ResetTweetText();
 
@@ -834,6 +854,9 @@ namespace CrosspostSharp {
 			if (FurryNetwork == null || currentImage == null) return;
 
 			try {
+				LProgressBar.Report(0);
+				ShowProgressBar();
+
 				var user = await FurryNetwork.GetUserAsync();
 				var artwork = await FurryNetwork.UploadArtwork(
 					user.DefaultCharacter.Name,
