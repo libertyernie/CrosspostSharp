@@ -64,14 +64,26 @@ namespace CrosspostSharp3 {
 			btnNext.Enabled = _currentWrapper.Cache.Count() > stop || !_currentWrapper.IsEnded;
 		}
 
-		public Form1() {
-			InitializeComponent();
+		private async Task ReloadWrapperList() {
+			ddlSource.Items.Clear();
 
 			var s = Settings.Load();
 			if (s.FurAffinity.a != null && s.FurAffinity.b != null) {
 				ddlSource.Items.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: s.FurAffinity.a,
 					b: s.FurAffinity.b)));
+			}
+		}
+
+		public Form1() {
+			InitializeComponent();
+		}
+
+		private async void Form1_Shown(object sender, EventArgs e) {
+			try {
+				await ReloadWrapperList();
+			} catch (Exception) {
+				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -105,7 +117,7 @@ namespace CrosspostSharp3 {
 							s.FurAffinity.b = null;
 							s.Save();
 							MessageBox.Show(this, "You have been logged out.", Text);
-							//await ReloadWrapperList();
+							await ReloadWrapperList();
 						} else {
 							return;
 						}
@@ -117,7 +129,7 @@ namespace CrosspostSharp3 {
 						s.FurAffinity.a = f.ACookie;
 						s.FurAffinity.b = f.BCookie;
 						s.Save();
-						//await ReloadWrapperList();
+						await ReloadWrapperList();
 					}
 				}
 			} catch (Exception ex) {
