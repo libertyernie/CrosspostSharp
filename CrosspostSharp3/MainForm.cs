@@ -68,6 +68,10 @@ namespace CrosspostSharp3 {
 			ddlSource.Items.Clear();
 
 			var s = Settings.Load();
+			if (s.DeviantArt.RefreshToken != null) {
+				ddlSource.Items.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
+				ddlSource.Items.Add(new StashWrapper());
+			}
 			if (s.FurAffinity.a != null && s.FurAffinity.b != null) {
 				ddlSource.Items.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: s.FurAffinity.a,
@@ -99,7 +103,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnNext_Click(object sender, EventArgs e) {
-			_currentPosition += 4;
+			_currentPosition += tableLayoutPanel1.RowCount + tableLayoutPanel1.ColumnCount;
 			await Populate();
 		}
 

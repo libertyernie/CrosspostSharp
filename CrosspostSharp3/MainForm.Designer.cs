@@ -37,6 +37,7 @@
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
+            this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,6 +140,7 @@
             // accountSetupToolStripMenuItem
             // 
             this.accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deviantArtToolStripMenuItem,
             this.furAffinityToolStripMenuItem});
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
             this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
@@ -147,7 +149,7 @@
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.furAffinityToolStripMenuItem.Text = "Fur&Affinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
             // 
@@ -173,7 +175,14 @@
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
-            // ThumbnailsForm
+            // deviantArtToolStripMenuItem
+            // 
+            this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
+            this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -186,7 +195,7 @@
             this.Controls.Add(this.lblSource);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "ThumbnailsForm";
+            this.Name = "MainForm";
             this.Text = "CrosspostSharp 3";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.menuStrip1.ResumeLayout(false);
@@ -212,6 +221,7 @@
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem accountSetupToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem furAffinityToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deviantArtToolStripMenuItem;
 	}
 }
 

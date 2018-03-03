@@ -5,3 +5,4 @@ obj
 *.suo
 packages
 CrosspostSharp/OAuthConsumer.cs
+CrosspostSharp3/OAuthConsumer.cs

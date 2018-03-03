@@ -5,6 +5,12 @@ using System.IO;
 
 namespace CrosspostSharp3 {
 	public struct Settings {
+		public struct DeviantArtSettings {
+			public string RefreshToken { get; set; }
+		}
+
+		public DeviantArtSettings DeviantArt { get; set; }
+
 		public struct FurAffinitySettings {
 			public string b { get; set; }
 			public string a { get; set; }
