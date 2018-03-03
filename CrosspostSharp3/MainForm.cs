@@ -109,10 +109,12 @@ namespace CrosspostSharp3 {
 					list.Add(new StashWrapper());
 				}
 			}
-			if (s.FurAffinity.a != null && s.FurAffinity.b != null) {
-				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
-					a: s.FurAffinity.a,
-					b: s.FurAffinity.b)));
+			foreach (var fa in s.FurAffinity) {
+				if (fa.a != null && fa.b != null) {
+					list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
+						a: fa.a,
+						b: fa.b)));
+				}
 			}
 
 			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();

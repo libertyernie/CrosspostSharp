@@ -4,19 +4,24 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace CrosspostSharp3 {
-	public struct Settings {
-		public struct DeviantArtSettings {
+	public class Settings {
+		public class DeviantArtSettings {
 			public string RefreshToken { get; set; }
 		}
 
 		public DeviantArtSettings DeviantArt { get; set; }
 
-		public struct FurAffinitySettings {
-			public string b { get; set; }
-			public string a { get; set; }
+		public class FurAffinitySettings {
+			public string username;
+			public string b;
+			public string a;
+
+			public override string ToString() {
+				return username;
+			}
 		}
 
-		public FurAffinitySettings FurAffinity;
+		public List<FurAffinitySettings> FurAffinity = new List<FurAffinitySettings>();
 
 		public static Settings Load(string filename = "CrosspostSharp.json") {
 			Settings s = new Settings();
