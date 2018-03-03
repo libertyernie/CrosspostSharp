@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,42 +18,60 @@ namespace CrosspostSharp3 {
 		private byte[] _data;
 		private string _originalUrl;
 
-		public ArtworkForm(ISubmissionWrapper wrapper) {
+		public ArtworkForm() {
 			InitializeComponent();
-			Text = wrapper.ImageURL.Split('/').Last();
-			txtTitle.Text = wrapper.Title;
-			txtDescription.Text = wrapper.HTMLDescription;
-			txtTags.Text = string.Join(" ", wrapper.Tags);
-			Shown += async (o, e) => {
-				try {
-					var req = WebRequest.Create(wrapper.ImageURL);
-					req.Method = "GET";
-					if (req is HttpWebRequest httpreq) {
-						if (req.RequestUri.Host.EndsWith(".pximg.net")) {
-							httpreq.Referer = "https://app-api.pixiv.net/";
-						} else {
-							httpreq.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
-						}
+		}
+
+		public ArtworkForm(byte[] data) : this() {
+			this.Shown += (o, e) => LoadImage(data);
+		}
+
+		public ArtworkForm(ISubmissionWrapper wrapper) : this() {
+			this.Shown += (o, e) => LoadImage(wrapper);
+		}
+
+		public void LoadImage(byte[] data) {
+			_data = data.ToArray();
+			using (var ms = new MemoryStream(_data, false)) {
+				var image = Image.FromStream(ms);
+				splitContainer1.Panel1.BackgroundImage = image;
+				splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
+			}
+			txtTitle.Text = "";
+			txtDescription.Text = "";
+			txtTags.Text = "";
+			_originalUrl = null;
+		}
+
+		public async void LoadImage(ISubmissionWrapper wrapper) {
+			try {
+				var req = WebRequest.Create(wrapper.ImageURL);
+				req.Method = "GET";
+				if (req is HttpWebRequest httpreq) {
+					if (req.RequestUri.Host.EndsWith(".pximg.net")) {
+						httpreq.Referer = "https://app-api.pixiv.net/";
+					} else {
+						httpreq.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
 					}
-					using (var resp = await req.GetResponseAsync())
-					using (var stream = resp.GetResponseStream())
-					using (var ms = new MemoryStream()) {
-						await stream.CopyToAsync(ms);
-						ms.Position = 0;
-						splitContainer1.Panel1.BackgroundImage = Image.FromStream(ms);
-						splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
-						_data = ms.ToArray();
-						_originalUrl = wrapper.ViewURL;
-					}
-				} catch (Exception ex) {
-					splitContainer1.Panel1.Controls.Add(new TextBox {
-						Text = ex.Message + Environment.NewLine + ex.StackTrace,
-						Multiline = true,
-						Dock = DockStyle.Fill,
-						ReadOnly = true
-					});
 				}
-			};
+				using (var resp = await req.GetResponseAsync())
+				using (var stream = resp.GetResponseStream())
+				using (var ms = new MemoryStream()) {
+					await stream.CopyToAsync(ms);
+					LoadImage(ms.ToArray());
+				}
+				txtTitle.Text = wrapper.Title;
+				txtDescription.Text = wrapper.HTMLDescription;
+				txtTags.Text = string.Join(" ", wrapper.Tags);
+				_originalUrl = wrapper.ViewURL;
+			} catch (Exception ex) {
+				splitContainer1.Panel1.Controls.Add(new TextBox {
+					Text = ex.Message + Environment.NewLine + ex.StackTrace,
+					Multiline = true,
+					Dock = DockStyle.Fill,
+					ReadOnly = true
+				});
+			}
 		}
 
 		private void btnPost_Click(object sender, EventArgs e) {
@@ -67,6 +86,53 @@ namespace CrosspostSharp3 {
 				d.SetSubmission(_data, txtTitle.Text, txtDescription.Text, txtTags.Text.Split(' '), chkPotentiallySensitiveMaterial.Checked, _originalUrl);
 				f.ShowDialog(this);
 			}
+		}
+
+		private void lnkPreview_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			using (var f = new Form()) {
+				f.Width = 600;
+				f.Height = 350;
+				var w = new WebBrowser {
+					Dock = DockStyle.Fill
+				};
+				f.Controls.Add(w);
+				w.Navigate("about:blank");
+				w.Document.Write(txtDescription.Text);
+				f.ShowDialog(this);
+			}
+		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var openFileDialog = new OpenFileDialog()) {
+				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif";
+				openFileDialog.Multiselect = false;
+				if (openFileDialog.ShowDialog() == DialogResult.OK) {
+					LoadImage(File.ReadAllBytes(openFileDialog.FileName));
+				}
+			}
+		}
+
+		private void exportAsToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var saveFileDialog = new SaveFileDialog()) {
+				using (var ms = new MemoryStream(_data, false))
+				using (var image = Image.FromStream(ms)) {
+					saveFileDialog.Filter = image.RawFormat.Equals(ImageFormat.Png) ? "PNG images|*.png"
+						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "JPEG images|*.jpg;*.jpeg"
+						: image.RawFormat.Equals(ImageFormat.Gif) ? "GIF images|*.gif"
+						: "All files|*.*";
+				}
+				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+					File.WriteAllBytes(saveFileDialog.FileName, _data);
+				}
+			}
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e) {
+			Close();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+			Application.Exit();
 		}
 	}
 }
