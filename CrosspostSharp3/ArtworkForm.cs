@@ -1,4 +1,5 @@
 ﻿using ArtSourceWrapper;
+using DeviantArtControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,9 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
+		private byte[] _data;
+		private string _originalUrl;
+
 		public ArtworkForm(ISubmissionWrapper wrapper) {
 			InitializeComponent();
 			Text = wrapper.ImageURL.Split('/').Last();
@@ -37,6 +41,8 @@ namespace CrosspostSharp3 {
 						ms.Position = 0;
 						splitContainer1.Panel1.BackgroundImage = Image.FromStream(ms);
 						splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
+						_data = ms.ToArray();
+						_originalUrl = wrapper.ViewURL;
 					}
 				} catch (Exception ex) {
 					splitContainer1.Panel1.Controls.Add(new TextBox {
@@ -47,6 +53,20 @@ namespace CrosspostSharp3 {
 					});
 				}
 			};
+		}
+
+		private void btnPost_Click(object sender, EventArgs e) {
+			using (var f = new Form()) {
+				f.Width = 600;
+				f.Height = 350;
+				var d = new DeviantArtUploadControl {
+					Dock = DockStyle.Fill
+				};
+				f.Controls.Add(d);
+				d.Uploaded += url => f.Close();
+				d.SetSubmission(_data, txtTitle.Text, txtDescription.Text, txtTags.Text.Split(' '), chkPotentiallySensitiveMaterial.Checked, _originalUrl);
+				f.ShowDialog(this);
+			}
 		}
 	}
 }

@@ -138,6 +138,7 @@
             this.btnPost.TabIndex = 8;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
+            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
             // btnSaveImage
             // 
