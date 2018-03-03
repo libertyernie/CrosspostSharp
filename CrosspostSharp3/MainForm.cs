@@ -59,8 +59,8 @@ namespace CrosspostSharp3 {
 
 					if (i == stop) break;
 
-					await _currentWrapper.FetchAsync();
 					if (_currentWrapper.IsEnded) break;
+					await _currentWrapper.FetchAsync();
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
