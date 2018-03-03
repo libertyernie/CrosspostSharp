@@ -5,20 +5,19 @@ using System.IO;
 
 namespace CrosspostSharp3 {
 	public class Settings {
+		public abstract class AccountCredentials {
+			public string Username { get; set; }
+		}
+
 		public class DeviantArtSettings {
 			public string RefreshToken { get; set; }
 		}
 
 		public DeviantArtSettings DeviantArt { get; set; }
 
-		public class FurAffinitySettings {
-			public string username;
+		public class FurAffinitySettings : AccountCredentials {
 			public string b;
 			public string a;
-
-			public override string ToString() {
-				return username;
-			}
 		}
 
 		public List<FurAffinitySettings> FurAffinity = new List<FurAffinitySettings>();

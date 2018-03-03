@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
-	public partial class AccountSelectionForm<T> : Form {
+	public partial class AccountSelectionForm<T> : Form where T : Settings.AccountCredentials {
 		private Func<Task<T>> OnAdd;
 		private Func<T, Task> OnRemove;
 
@@ -39,11 +39,13 @@ namespace CrosspostSharp3 {
 		private async void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = false;
 			try {
-				var obj = listBox1.SelectedItem;
-				if (obj is T o && OnRemove != null) {
-					await OnRemove(o);
+				var obj = listBox1.SelectedItem as T;
+				if (obj != null) {
+					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} form your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
+						if (OnRemove != null) await OnRemove(obj);
+						listBox1.Items.Remove(obj);
+					}
 				}
-				listBox1.Items.Remove(obj);
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
@@ -53,7 +55,8 @@ namespace CrosspostSharp3 {
 		private async void btnAdd_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = false;
 			try {
-				listBox1.Items.Add(await OnAdd());
+				var o = await OnAdd();
+				if (o != null) listBox1.Items.Add(o);
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}

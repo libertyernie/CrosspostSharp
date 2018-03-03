@@ -19,7 +19,7 @@ namespace CrosspostSharp3 {
 						f.Text = "Log In - FurAffinity";
 						if (f.ShowDialog() == DialogResult.OK) {
 							return new Settings.FurAffinitySettings {
-								username = await new FurAffinityIdWrapper(f.ACookie, f.BCookie).WhoamiAsync(),
+								Username = await new FurAffinityIdWrapper(f.ACookie, f.BCookie).WhoamiAsync(),
 								a = f.ACookie,
 								b = f.BCookie
 							};
