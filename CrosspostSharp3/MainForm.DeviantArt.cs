@@ -9,6 +9,27 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
+		private async Task<bool> UpdateDeviantArtTokens() {
+			Settings s = Settings.Load();
+			try {
+				string currentToken = s.DeviantArt.RefreshToken;
+				if (currentToken != null) {
+					string newToken = await DeviantArtLoginStatic.UpdateTokens(
+						OAuthConsumer.DeviantArt.CLIENT_ID,
+						OAuthConsumer.DeviantArt.CLIENT_SECRET,
+						currentToken);
+					if (currentToken != newToken) {
+						s.DeviantArt = new Settings.DeviantArtSettings {
+							RefreshToken = newToken
+						};
+						s.Save();
+					}
+				}
+				return true;
+			} catch (Exception) { }
+			return false;
+		}
+
 		private async void deviantArtToolStripMenuItem_Click(object sender, EventArgs e) {
 			Settings s = Settings.Load();
 			try {

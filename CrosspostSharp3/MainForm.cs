@@ -69,8 +69,10 @@ namespace CrosspostSharp3 {
 
 			var s = Settings.Load();
 			if (s.DeviantArt.RefreshToken != null) {
-				ddlSource.Items.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
-				ddlSource.Items.Add(new StashWrapper());
+				if (await UpdateDeviantArtTokens()) {
+					ddlSource.Items.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
+					ddlSource.Items.Add(new StashWrapper());
+				}
 			}
 			if (s.FurAffinity.a != null && s.FurAffinity.b != null) {
 				ddlSource.Items.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
