@@ -45,15 +45,7 @@ namespace CrosspostSharp3 {
 
 		public async void LoadImage(ISubmissionWrapper wrapper) {
 			try {
-				var req = WebRequest.Create(wrapper.ImageURL);
-				req.Method = "GET";
-				if (req is HttpWebRequest httpreq) {
-					if (req.RequestUri.Host.EndsWith(".pximg.net")) {
-						httpreq.Referer = "https://app-api.pixiv.net/";
-					} else {
-						httpreq.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
-					}
-				}
+				var req = WebRequestFactory.Create(wrapper.ImageURL);
 				using (var resp = await req.GetResponseAsync())
 				using (var stream = resp.GetResponseStream())
 				using (var ms = new MemoryStream()) {

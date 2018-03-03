@@ -29,12 +29,18 @@ namespace CrosspostSharp3 {
 			btnNext.Enabled = false;
 
 			try {
+				await UpdateAvatar();
+			} catch (Exception ex) {
+				Console.Error.WriteLine($"Could not load avatar: {ex.Message}");
+			}
+
+			try {
 				while (true) {
 					for (; i < stop && i < _currentWrapper.Cache.Count(); i++) {
 						var item = _currentWrapper.Cache.Skip(i).First();
 
 						Image image;
-						var req = WebRequest.Create(item.ThumbnailURL);
+						var req = WebRequestFactory.Create(item.ThumbnailURL);
 						using (var resp = await req.GetResponseAsync())
 						using (var stream = resp.GetResponseStream())
 						using (var ms = new MemoryStream()) {
@@ -71,6 +77,26 @@ namespace CrosspostSharp3 {
 			btnNext.Enabled = _currentWrapper.Cache.Count() > stop || !_currentWrapper.IsEnded;
 		}
 
+		private async Task UpdateAvatar() {
+			picUserIcon.Image = null;
+			lblUsername.Text = "";
+			lblSiteName.Text = "";
+			string avatarUrl = await _currentWrapper.GetUserIconAsync(picUserIcon.Width);
+			if (avatarUrl == null) return;
+
+			var req = WebRequestFactory.Create(avatarUrl);
+			using (var resp = await req.GetResponseAsync())
+			using (var stream = resp.GetResponseStream())
+			using (var ms = new MemoryStream()) {
+				await stream.CopyToAsync(ms);
+				ms.Position = 0;
+				picUserIcon.Image = Image.FromStream(ms);
+			}
+
+			lblUsername.Text = await _currentWrapper.WhoamiAsync();
+			lblSiteName.Text = _currentWrapper.SiteName;
+		}
+
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
@@ -86,6 +112,12 @@ namespace CrosspostSharp3 {
 					a: s.FurAffinity.a,
 					b: s.FurAffinity.b)));
 			}
+
+			if (ddlSource.SelectedIndex < 0) {
+				ddlSource.SelectedIndex = 0;
+			}
+
+			btnLoad.Enabled = ddlSource.Items.Count > 0;
 		}
 
 		public MainForm() {
