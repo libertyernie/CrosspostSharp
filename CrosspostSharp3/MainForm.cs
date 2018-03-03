@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
-	public partial class Form1 : Form {
+	public partial class MainForm : Form {
 		private ISiteWrapper _currentWrapper;
 		private int _currentPosition = 0;
 
@@ -22,7 +22,7 @@ namespace CrosspostSharp3 {
 			tableLayoutPanel1.Controls.Clear();
 
 			int i = _currentPosition;
-			int stop = _currentPosition + 4;
+			int stop = _currentPosition + (tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount);
 
 			btnLoad.Enabled = false;
 			btnPrevious.Enabled = false;
@@ -75,7 +75,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public Form1() {
+		public MainForm() {
 			InitializeComponent();
 		}
 
