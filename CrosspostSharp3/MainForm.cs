@@ -115,5 +115,25 @@ namespace CrosspostSharp3 {
 			_currentPosition += tableLayoutPanel1.RowCount + tableLayoutPanel1.ColumnCount;
 			await Populate();
 		}
+
+		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var openFileDialog = new OpenFileDialog()) {
+				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif";
+				openFileDialog.Multiselect = false;
+				if (openFileDialog.ShowDialog() == DialogResult.OK) {
+					using (var f = new ArtworkForm(File.ReadAllBytes(openFileDialog.FileName))) {
+						f.ShowDialog(this);
+					}
+				}
+			}
+		}
+
+		private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
+			throw new NotImplementedException();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+			Application.Exit();
+		}
 	}
 }
