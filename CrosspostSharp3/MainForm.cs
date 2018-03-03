@@ -50,7 +50,9 @@ namespace CrosspostSharp3 {
 							Dock = DockStyle.Fill
 						};
 						p.Click += (o, e) => {
-							System.Diagnostics.Process.Start(item.ViewURL);
+							using (var f = new ArtworkForm(item)) {
+								f.ShowDialog(this);
+							}
 						};
 						tableLayoutPanel1.Controls.Add(p);
 					}
