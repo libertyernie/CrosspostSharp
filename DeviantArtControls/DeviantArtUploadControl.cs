@@ -10,7 +10,10 @@ using System.Windows.Forms;
 
 namespace DeviantArtControls {
     public partial class DeviantArtUploadControl : UserControl {
-        private DeviantArtCategoryBrowser.Category _selectedCategory;
+		public delegate void DeviantArtUploadedHandler(string url);
+		public event DeviantArtUploadedHandler Uploaded;
+
+		private DeviantArtCategoryBrowser.Category _selectedCategory;
         public DeviantArtCategoryBrowser.Category SelectedCategory {
             get {
                 return _selectedCategory;
@@ -48,6 +51,8 @@ namespace DeviantArtControls {
         }
 
         private string _originalUrl;
+
+		public string UploadedUrl { get; private set; }
 
         public DeviantArtUploadControl() {
             InitializeComponent();
@@ -136,7 +141,7 @@ namespace DeviantArtControls {
                     itemId /= 36;
                 }
                 url.Insert(0, "https://sta.sh/0");
-				MessageBox.Show(this, "Uploaded to: " + url);
+				this.Uploaded?.Invoke(url.ToString());
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
             }
@@ -199,7 +204,7 @@ namespace DeviantArtControls {
                     throw new Exception("Posted to sta.sh but could not post to DeviantArt: " + r2.Result.ErrorDescription);
                 }
 
-				MessageBox.Show(this, "Uploaded to: " + r2.Result.Url);
+				this.Uploaded?.Invoke(r2.Result.Url);
 			} catch (Exception ex) {
                 MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
             }

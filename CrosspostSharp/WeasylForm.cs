@@ -68,6 +68,14 @@ namespace CrosspostSharp {
 
             txtSaveDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             this.Shown += (o, e) => LoadFromSettings(initialWrapper);
+
+			this.deviantArtUploadControl1.Uploaded += url => {
+				HideProgressBar();
+
+				lblPosted1.Visible = true;
+				lblPosted2.Visible = true;
+				lblPosted2.Text = url;
+			};
 		}
 
         private void ShowException(Exception e, string source) {

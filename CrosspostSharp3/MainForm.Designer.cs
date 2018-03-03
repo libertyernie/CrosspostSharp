@@ -34,10 +34,10 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
-            this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,6 +146,13 @@
             this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.accountSetupToolStripMenuItem.Text = "&Account Setup";
             // 
+            // deviantArtToolStripMenuItem
+            // 
+            this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
+            this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
+            // 
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
@@ -174,13 +181,6 @@
             this.btnNext.Text = "Next →";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-            // 
-            // deviantArtToolStripMenuItem
-            // 
-            this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
-            this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
             // 
             // MainForm
             // 

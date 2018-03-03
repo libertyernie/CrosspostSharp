@@ -43,11 +43,16 @@ namespace CrosspostSharp3 {
 							image = Image.FromStream(ms);
 						}
 
-						tableLayoutPanel1.Controls.Add(new Panel {
+						var p = new Panel {
 							BackgroundImage = image,
 							BackgroundImageLayout = ImageLayout.Zoom,
+							Cursor = Cursors.Hand,
 							Dock = DockStyle.Fill
-						});
+						};
+						p.Click += (o, e) => {
+							System.Diagnostics.Process.Start(item.ViewURL);
+						};
+						tableLayoutPanel1.Controls.Add(p);
 					}
 
 					if (i == stop) break;
