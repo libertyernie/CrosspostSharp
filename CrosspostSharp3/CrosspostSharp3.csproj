@@ -118,6 +118,7 @@
     <Compile Include="ArtworkForm.Designer.cs">
       <DependentUpon>ArtworkForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WrapperMenuItem.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

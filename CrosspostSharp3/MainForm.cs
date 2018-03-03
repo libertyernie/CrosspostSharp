@@ -100,18 +100,25 @@ namespace CrosspostSharp3 {
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
+			var list = new List<ISiteWrapper>();
+
 			var s = Settings.Load();
 			if (s.DeviantArt.RefreshToken != null) {
 				if (await UpdateDeviantArtTokens()) {
-					ddlSource.Items.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
-					ddlSource.Items.Add(new StashWrapper());
+					list.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
+					list.Add(new StashWrapper());
 				}
 			}
 			if (s.FurAffinity.a != null && s.FurAffinity.b != null) {
-				ddlSource.Items.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
+				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: s.FurAffinity.a,
 					b: s.FurAffinity.b)));
 			}
+
+			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();
+			var wrappers = await Task.WhenAll(tasks);
+			wrappers = wrappers.OrderBy(w => w.DisplayName).ToArray();
+			ddlSource.Items.AddRange(wrappers);
 
 			if (ddlSource.SelectedIndex < 0) {
 				ddlSource.SelectedIndex = 0;
@@ -133,7 +140,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnLoad_Click(object sender, EventArgs e) {
-			_currentWrapper = ddlSource.SelectedItem as ISiteWrapper;
+			_currentWrapper = (ddlSource.SelectedItem as WrapperMenuItem)?.BaseWrapper;
 			_currentPosition = 0;
 			await Populate();
 		}

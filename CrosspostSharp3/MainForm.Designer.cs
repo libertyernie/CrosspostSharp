@@ -65,7 +65,6 @@
             this.ddlSource.Name = "ddlSource";
             this.ddlSource.Size = new System.Drawing.Size(182, 21);
             this.ddlSource.TabIndex = 2;
-            this.ddlSource.ValueMember = "WrapperName";
             // 
             // btnLoad
             // 
