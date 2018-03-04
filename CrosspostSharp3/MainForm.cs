@@ -110,11 +110,12 @@ namespace CrosspostSharp3 {
 				}
 			}
 			foreach (var fa in s.FurAffinity) {
-				if (fa.a != null && fa.b != null) {
-					list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
-						a: fa.a,
-						b: fa.b)));
-				}
+				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
+					a: fa.a,
+					b: fa.b)));
+			}
+			foreach (var t in s.Twitter) {
+				list.Add(new TwitterWrapper(t.Clone()));
 			}
 
 			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();
