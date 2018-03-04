@@ -118,5 +118,9 @@ namespace CrosspostSharp3 {
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e) {
+			lblCounter.Text = $"{textBox1.Text.Where(c => !char.IsLowSurrogate(c)).Count()}/280";
+		}
 	}
 }
