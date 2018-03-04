@@ -18,8 +18,48 @@ namespace CrosspostSharp3 {
 		private byte[] _data;
 		private string _originalUrl;
 
+		private class DestinationOption {
+			public readonly string Name;
+			public readonly Action Click;
+
+			public DestinationOption(string name, Action click) {
+				Name = name;
+				Click = click;
+			}
+
+			public override string ToString() {
+				return Name;
+			}
+		}
+
 		public ArtworkForm() {
 			InitializeComponent();
+
+			Settings settings = Settings.Load();
+			if (settings.DeviantArt?.RefreshToken != null) {
+				listBox1.Items.Add(new DestinationOption("DeviantArt / Sta.sh", () => {
+					using (var f = new Form()) {
+						f.Width = 600;
+						f.Height = 350;
+						var d = new DeviantArtUploadControl {
+							Dock = DockStyle.Fill
+						};
+						f.Controls.Add(d);
+						d.Uploaded += url => f.Close();
+						d.SetSubmission(
+							_data,
+							txtTitle.Text,
+							txtDescription.Text,
+							txtTags.Text.Split(' ').Where(s => s != ""),
+							chkPotentiallySensitiveMaterial.Checked,
+							_originalUrl);
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Twitter) {
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.Username})", () => { }));
+			}
 		}
 
 		public ArtworkForm(byte[] data) : this() {
@@ -67,20 +107,13 @@ namespace CrosspostSharp3 {
 		}
 
 		private void btnPost_Click(object sender, EventArgs ea) {
-			using (var f = new DestinationSelectionForm(new DestinationSelectionForm.ArtworkParameters {
-				data = _data,
-				title = txtTitle.Text,
-				htmlDescription = txtDescription.Text,
-				tags = txtTags.Text.Split(' '),
-				mature = chkPotentiallySensitiveMaterial.Checked,
-				originalUrl = _originalUrl
-			})) {
-				f.ShowDialog(this);
-			}
+			var o = listBox1.SelectedItem as DestinationOption;
+			o?.Click?.Invoke();
 		}
 
 		private void lnkPreview_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
 			using (var f = new Form()) {
+				f.Text = "Post to DeviantArt";
 				f.Width = 600;
 				f.Height = 350;
 				var w = new WebBrowser {
@@ -124,6 +157,10 @@ namespace CrosspostSharp3 {
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
 			Application.Exit();
+		}
+
+		private void listBox1_DoubleClick(object sender, EventArgs e) {
+			btnPost.PerformClick();
 		}
 	}
 }

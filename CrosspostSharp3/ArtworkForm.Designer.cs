@@ -24,7 +24,7 @@
 		/// </summary>
 		private void InitializeComponent() {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btnPost = new System.Windows.Forms.Button();
+            this.lnkPreview = new System.Windows.Forms.LinkLabel();
             this.chkPotentiallySensitiveMaterial = new System.Windows.Forms.CheckBox();
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblTags = new System.Windows.Forms.Label();
@@ -32,17 +32,20 @@
             this.lblDescription = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.lnkPreview = new System.Windows.Forms.LinkLabel();
+            this.btnPost = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -55,7 +58,6 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.lnkPreview);
-            this.splitContainer1.Panel2.Controls.Add(this.btnPost);
             this.splitContainer1.Panel2.Controls.Add(this.chkPotentiallySensitiveMaterial);
             this.splitContainer1.Panel2.Controls.Add(this.txtTags);
             this.splitContainer1.Panel2.Controls.Add(this.lblTags);
@@ -63,26 +65,26 @@
             this.splitContainer1.Panel2.Controls.Add(this.lblDescription);
             this.splitContainer1.Panel2.Controls.Add(this.txtTitle);
             this.splitContainer1.Panel2.Controls.Add(this.lblTitle);
-            this.splitContainer1.Size = new System.Drawing.Size(484, 437);
-            this.splitContainer1.SplitterDistance = 200;
+            this.splitContainer1.Size = new System.Drawing.Size(444, 387);
+            this.splitContainer1.SplitterDistance = 177;
             this.splitContainer1.TabIndex = 0;
             // 
-            // btnPost
+            // lnkPreview
             // 
-            this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(397, 198);
-            this.btnPost.Name = "btnPost";
-            this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 9;
-            this.btnPost.Text = "Post";
-            this.btnPost.UseVisualStyleBackColor = true;
-            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
+            this.lnkPreview.AutoSize = true;
+            this.lnkPreview.Location = new System.Drawing.Point(66, 51);
+            this.lnkPreview.Name = "lnkPreview";
+            this.lnkPreview.Size = new System.Drawing.Size(45, 13);
+            this.lnkPreview.TabIndex = 3;
+            this.lnkPreview.TabStop = true;
+            this.lnkPreview.Text = "Preview";
+            this.lnkPreview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPreview_LinkClicked);
             // 
             // chkPotentiallySensitiveMaterial
             // 
             this.chkPotentiallySensitiveMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkPotentiallySensitiveMaterial.AutoSize = true;
-            this.chkPotentiallySensitiveMaterial.Location = new System.Drawing.Point(117, 175);
+            this.chkPotentiallySensitiveMaterial.Location = new System.Drawing.Point(117, 177);
             this.chkPotentiallySensitiveMaterial.Name = "chkPotentiallySensitiveMaterial";
             this.chkPotentiallySensitiveMaterial.Size = new System.Drawing.Size(200, 17);
             this.chkPotentiallySensitiveMaterial.TabIndex = 7;
@@ -93,16 +95,16 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(117, 149);
+            this.txtTags.Location = new System.Drawing.Point(117, 151);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(355, 20);
+            this.txtTags.Size = new System.Drawing.Size(315, 20);
             this.txtTags.TabIndex = 6;
             // 
             // lblTags
             // 
             this.lblTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(80, 152);
+            this.lblTags.Location = new System.Drawing.Point(80, 154);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(31, 13);
             this.lblTags.TabIndex = 5;
@@ -117,7 +119,7 @@
             this.txtDescription.Location = new System.Drawing.Point(117, 29);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(355, 114);
+            this.txtDescription.Size = new System.Drawing.Size(315, 116);
             this.txtDescription.TabIndex = 4;
             // 
             // lblDescription
@@ -135,7 +137,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTitle.Location = new System.Drawing.Point(117, 3);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(355, 20);
+            this.txtTitle.Size = new System.Drawing.Size(315, 20);
             this.txtTitle.TabIndex = 1;
             // 
             // lblTitle
@@ -147,16 +149,16 @@
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Title";
             // 
-            // lnkPreview
+            // btnPost
             // 
-            this.lnkPreview.AutoSize = true;
-            this.lnkPreview.Location = new System.Drawing.Point(66, 51);
-            this.lnkPreview.Name = "lnkPreview";
-            this.lnkPreview.Size = new System.Drawing.Size(45, 13);
-            this.lnkPreview.TabIndex = 3;
-            this.lnkPreview.TabStop = true;
-            this.lnkPreview.Text = "Preview";
-            this.lnkPreview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPreview_LinkClicked);
+            this.btnPost.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnPost.Location = new System.Drawing.Point(35, 358);
+            this.btnPost.Name = "btnPost";
+            this.btnPost.Size = new System.Drawing.Size(70, 23);
+            this.btnPost.TabIndex = 9;
+            this.btnPost.Text = "Post";
+            this.btnPost.UseVisualStyleBackColor = true;
+            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
             // menuStrip1
             // 
@@ -164,7 +166,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(484, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(584, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -182,37 +184,58 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exportAsToolStripMenuItem
             // 
             this.exportAsToolStripMenuItem.Name = "exportAsToolStripMenuItem";
-            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exportAsToolStripMenuItem.Text = "Export As...";
             this.exportAsToolStripMenuItem.Click += new System.EventHandler(this.exportAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnPost);
+            this.panel1.Controls.Add(this.listBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel1.Location = new System.Drawing.Point(444, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(140, 387);
+            this.panel1.TabIndex = 10;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.IntegralHeight = false;
+            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(140, 352);
+            this.listBox1.TabIndex = 1;
+            this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
             // ArtworkForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 461);
+            this.ClientSize = new System.Drawing.Size(584, 411);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ArtworkForm";
@@ -223,6 +246,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,5 +270,7 @@
 		private System.Windows.Forms.ToolStripMenuItem exportAsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.ListBox listBox1;
 	}
 }

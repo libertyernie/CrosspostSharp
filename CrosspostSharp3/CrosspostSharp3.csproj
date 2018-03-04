@@ -173,12 +173,6 @@
     <Compile Include="ArtworkForm.Designer.cs">
       <DependentUpon>ArtworkForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DestinationSelectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DestinationSelectionForm.Designer.cs">
-      <DependentUpon>DestinationSelectionForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.Twitter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,9 +199,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ArtworkForm.resx">
       <DependentUpon>ArtworkForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DestinationSelectionForm.resx">
-      <DependentUpon>DestinationSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
