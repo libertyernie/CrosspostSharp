@@ -16,6 +16,7 @@ namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
 		private readonly ArtworkForm.ArtworkData _artworkData;
+		private static int? _tcoUrlLength;
 
 		public TwitterPostForm(Settings.TwitterSettings s, ArtworkForm.ArtworkData d) {
 			InitializeComponent();
@@ -42,6 +43,13 @@ namespace CrosspostSharp3 {
 			chkIncludeTitle.CheckedChanged += (o, e) => UpdateText();
 			chkIncludeDescription.CheckedChanged += (o, e) => UpdateText();
 			chkIncludeLink.CheckedChanged += (o, e) => UpdateText();
+
+			if (_tcoUrlLength == null) {
+				Auth.ExecuteOperationWithCredentials(_credentials, () => {
+					var conf = Tweetinvi.Help.GetTwitterConfiguration();
+					_tcoUrlLength = conf.ShortURLLengthHttps;
+				});
+			}
 		}
 
 		private async void TwitterPostForm_Shown(object sender, EventArgs e) {
@@ -74,6 +82,16 @@ namespace CrosspostSharp3 {
 			if (chkIncludeDescription.Checked) {
 				sb.Append(_artworkData.description); // todo convert to plaintext
 			}
+
+			int available = 280;
+			if (chkIncludeLink.Checked) {
+				available -= (_tcoUrlLength ?? _artworkData.url.Length) + 1;
+			}
+			if (sb.Length > available) {
+				sb.Remove(available - 1, sb.Length - available + 1);
+				sb.Append('…');
+			}
+
 			if (chkIncludeLink.Checked) {
 				sb.Append(' ');
 				sb.Append(_artworkData.url);
@@ -87,10 +105,13 @@ namespace CrosspostSharp3 {
 					_credentials,
 					async () => {
 						IMedia media = Upload.UploadImage(_artworkData.data);
-						await TweetAsync.PublishTweet(textBox1.Text, new Tweetinvi.Parameters.PublishTweetOptionalParameters {
+						var tweet = await TweetAsync.PublishTweet(textBox1.Text, new Tweetinvi.Parameters.PublishTweetOptionalParameters {
 							PossiblySensitive = chkPotentiallySensitive.Checked,
 							Medias = new List<IMedia> { media }
 						});
+						if (tweet == null) {
+							MessageBox.Show(this, "Could not post tweet");
+						}
 					});
 				Close();
 			} catch (Exception ex) {
