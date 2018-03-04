@@ -16,3 +16,6 @@
 [submodule "FurryNetworkLib"]
 	path = FurryNetworkLib
 	url = https://github.com/libertyernie/FurryNetworkLib
+[submodule "DeviantartApi"]
+	path = DeviantartApi
+	url = https://github.com/libertyernie/DeviantartApi
