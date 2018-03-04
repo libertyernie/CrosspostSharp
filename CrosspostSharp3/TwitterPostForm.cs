@@ -1,5 +1,4 @@
-﻿using ArtSourceWrapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +15,8 @@ namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
 		private readonly ArtworkForm.ArtworkData _artworkData;
+		private string _plainTextDescription;
+
 		private static int? _tcoUrlLength;
 
 		public TwitterPostForm(Settings.TwitterSettings s, ArtworkForm.ArtworkData d) {
@@ -23,8 +24,6 @@ namespace CrosspostSharp3 {
 			_credentials = s.GetCredentials();
 			_artworkData = d;
 			lblUsername2.Text = "@" + s.Username;
-
-			UpdateText();
 
 			if (string.IsNullOrEmpty(_artworkData.title)) {
 				chkIncludeTitle.Enabled = false;
@@ -45,11 +44,13 @@ namespace CrosspostSharp3 {
 			chkIncludeLink.CheckedChanged += (o, e) => UpdateText();
 
 			if (_tcoUrlLength == null) {
-				Auth.ExecuteOperationWithCredentials(_credentials, () => {
+				_tcoUrlLength = Auth.ExecuteOperationWithCredentials(_credentials, () => {
 					var conf = Tweetinvi.Help.GetTwitterConfiguration();
-					_tcoUrlLength = conf.ShortURLLengthHttps;
+					return conf.ShortURLLengthHttps;
 				});
 			}
+
+			UpdateText();
 		}
 
 		private async void TwitterPostForm_Shown(object sender, EventArgs e) {
@@ -80,12 +81,20 @@ namespace CrosspostSharp3 {
 				sb.Append("﹘");
 			}
 			if (chkIncludeDescription.Checked) {
-				sb.Append(_artworkData.description); // todo convert to plaintext
+				if (_plainTextDescription == null) {
+					try {
+						_plainTextDescription = HtmlConversion.ConvertHtmlToText(_artworkData.description);
+						_plainTextDescription = _plainTextDescription.Trim();
+					} catch (Exception) {
+						_plainTextDescription = _artworkData.description;
+					}
+				}
+				sb.Append(_plainTextDescription); // todo convert to plaintext
 			}
 
 			int available = 280;
 			if (chkIncludeLink.Checked) {
-				available -= (_tcoUrlLength ?? _artworkData.url.Length) + 1;
+				available -= _tcoUrlLength.Value + 1;
 			}
 			if (sb.Length > available) {
 				sb.Remove(available - 1, sb.Length - available + 1);
@@ -120,7 +129,12 @@ namespace CrosspostSharp3 {
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e) {
-			lblCounter.Text = $"{textBox1.Text.Where(c => !char.IsLowSurrogate(c)).Count()}/280";
+			int count = textBox1.Text.Where(c => !char.IsLowSurrogate(c)).Count();
+			if (textBox1.Text.Contains(_artworkData.url)) {
+				count -= _artworkData.url.Length;
+				count += _tcoUrlLength.Value;
+			}
+			lblCounter.Text = $"{count}/280";
 		}
 	}
 }
