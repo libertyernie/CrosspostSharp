@@ -103,10 +103,14 @@ namespace CrosspostSharp3 {
 			var list = new List<ISiteWrapper>();
 
 			var s = Settings.Load();
-			if (s.DeviantArt.RefreshToken != null) {
+			if (s.DeviantArt?.RefreshToken != null) {
 				if (await UpdateDeviantArtTokens()) {
 					list.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
 					list.Add(new StashWrapper());
+				} else {
+					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					s.DeviantArt.RefreshToken = null;
+					s.Save();
 				}
 			}
 			foreach (var fa in s.FurAffinity) {

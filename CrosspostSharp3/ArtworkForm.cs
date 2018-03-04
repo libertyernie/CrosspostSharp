@@ -66,16 +66,15 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private void btnPost_Click(object sender, EventArgs e) {
-			using (var f = new Form()) {
-				f.Width = 600;
-				f.Height = 350;
-				var d = new DeviantArtUploadControl {
-					Dock = DockStyle.Fill
-				};
-				f.Controls.Add(d);
-				d.Uploaded += url => f.Close();
-				d.SetSubmission(_data, txtTitle.Text, txtDescription.Text, txtTags.Text.Split(' '), chkPotentiallySensitiveMaterial.Checked, _originalUrl);
+		private void btnPost_Click(object sender, EventArgs ea) {
+			using (var f = new DestinationSelectionForm(new DestinationSelectionForm.ArtworkParameters {
+				data = _data,
+				title = txtTitle.Text,
+				htmlDescription = txtDescription.Text,
+				tags = txtTags.Text.Split(' '),
+				mature = chkPotentiallySensitiveMaterial.Checked,
+				originalUrl = _originalUrl
+			})) {
 				f.ShowDialog(this);
 			}
 		}
