@@ -182,5 +182,14 @@ namespace CrosspostSharp3 {
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
 			Application.Exit();
 		}
+
+		private void refreshAllToolStripMenuItem_Click(object sender, EventArgs e) {
+			foreach (var o in ddlSource.Items) {
+				if (o is WrapperMenuItem w) {
+					w.BaseWrapper.Clear();
+				}
+			}
+			Populate();
+		}
 	}
 }
