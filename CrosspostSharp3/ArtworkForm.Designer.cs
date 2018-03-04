@@ -75,6 +75,7 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDelete.Enabled = false;
             this.btnDelete.Location = new System.Drawing.Point(15, 171);
             this.btnDelete.Name = "btnDelete";
@@ -86,6 +87,7 @@
             // 
             // btnView
             // 
+            this.btnView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnView.Enabled = false;
             this.btnView.Location = new System.Drawing.Point(357, 171);
             this.btnView.Name = "btnView";
@@ -177,7 +179,7 @@
             // 
             // btnPost
             // 
-            this.btnPost.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnPost.Location = new System.Drawing.Point(35, 352);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(70, 23);
@@ -247,6 +249,9 @@
             // 
             // listBox1
             // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.IntegralHeight = false;
             this.listBox1.Location = new System.Drawing.Point(0, 0);

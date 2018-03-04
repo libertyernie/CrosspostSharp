@@ -167,11 +167,10 @@ namespace CrosspostSharp3 {
 
 		private async void btnDelete_Click(object sender, EventArgs e) {
 			if (_originalWrapper is IDeletable d) {
-				if (MessageBox.Show(this, $"Are you sure you want to delete this submission from {d.SiteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+				if (MessageBox.Show(this, $"Are you sure you want to permanently delete this submission from {d.SiteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
 					try {
 						await d.DeleteAsync();
-						MessageBox.Show(this, "Submission deleted.");
-						btnDelete.Enabled = false;
+						Close();
 					} catch (Exception ex) {
 						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}

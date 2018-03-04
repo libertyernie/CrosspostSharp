@@ -10,7 +10,7 @@ using DeviantartApi.Objects;
 namespace ArtSourceWrapper {
     public class StashWrapper : SiteWrapper<StashSubmissionWrapper, uint> {
         public override string SiteName => "Sta.sh";
-        public override string WrapperName => "DeviantArt Sta.sh";
+        public override string WrapperName => "Sta.sh";
 
         public override int BatchSize { get; set; } = 120;
         public override int MinBatchSize => 1;
@@ -56,7 +56,6 @@ namespace ArtSourceWrapper {
             var q = result.Result.Entries
                     .Where(e => e.ItemId != 0)
                     .Where(e => e.Metadata.Files != null)
-					.OrderByDescending(e => e.Metadata.CreationTime)
                     .Select(e => new StashSubmissionWrapper(e));
             return new InternalFetchResult(
                 q,
@@ -101,7 +100,7 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class StashSubmissionWrapper : ISubmissionWrapper {
+    public class StashSubmissionWrapper : ISubmissionWrapper, IDeletable {
         private readonly Entry _entry;
 
         public StashSubmissionWrapper(Entry entry) {
@@ -130,8 +129,10 @@ namespace ArtSourceWrapper {
         public Color? BorderColor => null;
         public bool OwnWork => true;
 
-		//public Task DeleteAsync() {
-		//	return new DeviantartApi.Requests.Stash.DeleteRequest(checked((int)_entry.ItemId)).ExecuteAsync();
-		//}
+		public string SiteName => "Sta.sh";
+
+		public Task DeleteAsync() {
+			return new DeviantartApi.Requests.Stash.DeleteRequest(_entry.ItemId).ExecuteAsync();
+		}
 	}
 }

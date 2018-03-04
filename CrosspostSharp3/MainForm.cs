@@ -16,7 +16,7 @@ namespace CrosspostSharp3 {
 		private ISiteWrapper _currentWrapper;
 		private int _currentPosition = 0;
 
-		private async Task Populate() {
+		private async void Populate() {
 			if (_currentWrapper == null) return;
 
 			tableLayoutPanel1.Controls.Clear();
@@ -107,7 +107,7 @@ namespace CrosspostSharp3 {
 				if (await UpdateDeviantArtTokens()) {
 					list.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
 					list.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
-					list.Add(new StashWrapper());
+					list.Add(new StashOrderedWrapper());
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					s.DeviantArt.RefreshToken = null;
@@ -147,20 +147,20 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private async void btnLoad_Click(object sender, EventArgs e) {
+		private void btnLoad_Click(object sender, EventArgs e) {
 			_currentWrapper = (ddlSource.SelectedItem as WrapperMenuItem)?.BaseWrapper;
 			_currentPosition = 0;
-			await Populate();
+			Populate();
 		}
 
-		private async void btnPrevious_Click(object sender, EventArgs e) {
+		private void btnPrevious_Click(object sender, EventArgs e) {
 			_currentPosition = Math.Max(0, _currentPosition - 4);
-			await Populate();
+			Populate();
 		}
 
-		private async void btnNext_Click(object sender, EventArgs e) {
+		private void btnNext_Click(object sender, EventArgs e) {
 			_currentPosition += tableLayoutPanel1.RowCount + tableLayoutPanel1.ColumnCount;
-			await Populate();
+			Populate();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
