@@ -32,6 +32,22 @@ namespace CrosspostSharp3 {
 			}
 		}
 
+		public struct ArtworkData {
+			public byte[] data;
+			public string title, description, url;
+			public IEnumerable<string> tags;
+			public bool mature;
+
+			public ArtworkData(ArtworkForm f) {
+				data = f._data;
+				title = f.txtTitle.Text;
+				description = f.txtDescription.Text;
+				url = f._originalWrapper?.ViewURL;
+				tags = f.txtTags.Text.Split(' ').Where(s => s != "");
+				mature = f.chkPotentiallySensitiveMaterial.Checked;
+			}
+		}
+
 		public ArtworkForm() {
 			InitializeComponent();
 
@@ -58,7 +74,11 @@ namespace CrosspostSharp3 {
 				}));
 			}
 			foreach (var t in settings.Twitter) {
-				listBox1.Items.Add(new DestinationOption($"Twitter ({t.Username})", () => { }));
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.Username})", () => {
+					using (var f = new TwitterPostForm(t, new ArtworkData(this))) {
+						f.ShowDialog(this);
+					}
+				}));
 			}
 		}
 

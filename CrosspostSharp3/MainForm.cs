@@ -120,7 +120,7 @@ namespace CrosspostSharp3 {
 					b: fa.b)));
 			}
 			foreach (var t in s.Twitter) {
-				list.Add(new TwitterWrapper(t.Clone()));
+				list.Add(new TwitterWrapper(t.GetCredentials()));
 			}
 
 			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();

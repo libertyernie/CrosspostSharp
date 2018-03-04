@@ -29,7 +29,7 @@ namespace CrosspostSharp3 {
 
 					try {
 						var user = await Tweetinvi.Auth.ExecuteOperationWithCredentials(
-							settings.Clone(),
+							settings.GetCredentials(),
 							() => Tweetinvi.UserAsync.GetAuthenticatedUser());
 						settings.Username = user.ScreenName;
 					} catch (Exception) { }
