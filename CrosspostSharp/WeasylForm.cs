@@ -137,7 +137,8 @@ namespace CrosspostSharp {
                 if (GlobalSettings.DeviantArt.RefreshToken != null) {
                     try {
                         wrappers.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
-                        wrappers.Add(new StashOrderedWrapper());
+						wrappers.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
+						wrappers.Add(new StashOrderedWrapper());
                     } catch (Exception e) {
                         ShowException(e, nameof(GetNewWrapper));
                     }

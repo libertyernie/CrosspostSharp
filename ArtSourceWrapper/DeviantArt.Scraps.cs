@@ -44,7 +44,7 @@ namespace ArtSourceWrapper {
     public class DeviantArtScrapsDeviationWrapper : DeviantArtDeviationWrapper {
         private DeviantArtScrapsUrlWrapper _urlWrapper;
 
-        public override string WrapperName => "DeviantArt (Public Scraps)";
+        public override string WrapperName => "DeviantArt (Scraps)";
 
         public override int BatchSize { get; set; } = 1;
         public override int MinBatchSize => 1;
