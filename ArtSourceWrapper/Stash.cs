@@ -56,6 +56,7 @@ namespace ArtSourceWrapper {
             var q = result.Result.Entries
                     .Where(e => e.ItemId != 0)
                     .Where(e => e.Metadata.Files != null)
+					.OrderByDescending(e => e.Metadata.CreationTime)
                     .Select(e => new StashSubmissionWrapper(e));
             return new InternalFetchResult(
                 q,
