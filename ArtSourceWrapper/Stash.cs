@@ -129,5 +129,9 @@ namespace ArtSourceWrapper {
         public string ThumbnailURL => _entry.Metadata.Thumb?.Src ?? ImageURL;
         public Color? BorderColor => null;
         public bool OwnWork => true;
-    }
+
+		//public Task DeleteAsync() {
+		//	return new DeviantartApi.Requests.Stash.DeleteRequest(checked((int)_entry.ItemId)).ExecuteAsync();
+		//}
+	}
 }

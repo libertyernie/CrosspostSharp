@@ -24,6 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnView = new System.Windows.Forms.Button();
             this.lnkPreview = new System.Windows.Forms.LinkLabel();
             this.chkPotentiallySensitiveMaterial = new System.Windows.Forms.CheckBox();
             this.txtTags = new System.Windows.Forms.TextBox();
@@ -57,6 +59,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
+            this.splitContainer1.Panel2.Controls.Add(this.btnView);
             this.splitContainer1.Panel2.Controls.Add(this.lnkPreview);
             this.splitContainer1.Panel2.Controls.Add(this.chkPotentiallySensitiveMaterial);
             this.splitContainer1.Panel2.Controls.Add(this.txtTags);
@@ -68,6 +72,28 @@
             this.splitContainer1.Size = new System.Drawing.Size(444, 387);
             this.splitContainer1.SplitterDistance = 177;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Location = new System.Drawing.Point(15, 171);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 8;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnView
+            // 
+            this.btnView.Enabled = false;
+            this.btnView.Location = new System.Drawing.Point(357, 171);
+            this.btnView.Name = "btnView";
+            this.btnView.Size = new System.Drawing.Size(75, 23);
+            this.btnView.TabIndex = 9;
+            this.btnView.Text = "View";
+            this.btnView.UseVisualStyleBackColor = true;
+            this.btnView.Click += new System.EventHandler(this.btnView_Click);
             // 
             // lnkPreview
             // 
@@ -84,7 +110,7 @@
             // 
             this.chkPotentiallySensitiveMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkPotentiallySensitiveMaterial.AutoSize = true;
-            this.chkPotentiallySensitiveMaterial.Location = new System.Drawing.Point(117, 177);
+            this.chkPotentiallySensitiveMaterial.Location = new System.Drawing.Point(117, 143);
             this.chkPotentiallySensitiveMaterial.Name = "chkPotentiallySensitiveMaterial";
             this.chkPotentiallySensitiveMaterial.Size = new System.Drawing.Size(200, 17);
             this.chkPotentiallySensitiveMaterial.TabIndex = 7;
@@ -95,7 +121,7 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(117, 151);
+            this.txtTags.Location = new System.Drawing.Point(117, 117);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(315, 20);
             this.txtTags.TabIndex = 6;
@@ -104,7 +130,7 @@
             // 
             this.lblTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(80, 154);
+            this.lblTags.Location = new System.Drawing.Point(80, 120);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(31, 13);
             this.lblTags.TabIndex = 5;
@@ -119,7 +145,7 @@
             this.txtDescription.Location = new System.Drawing.Point(117, 29);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(315, 116);
+            this.txtDescription.Size = new System.Drawing.Size(315, 82);
             this.txtDescription.TabIndex = 4;
             // 
             // lblDescription
@@ -152,7 +178,7 @@
             // btnPost
             // 
             this.btnPost.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnPost.Location = new System.Drawing.Point(35, 358);
+            this.btnPost.Location = new System.Drawing.Point(35, 352);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(70, 23);
             this.btnPost.TabIndex = 9;
@@ -225,7 +251,7 @@
             this.listBox1.IntegralHeight = false;
             this.listBox1.Location = new System.Drawing.Point(0, 0);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(140, 352);
+            this.listBox1.Size = new System.Drawing.Size(140, 340);
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
@@ -272,5 +298,7 @@
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.ListBox listBox1;
+		private System.Windows.Forms.Button btnDelete;
+		private System.Windows.Forms.Button btnView;
 	}
 }

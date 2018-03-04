@@ -16,7 +16,7 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private byte[] _data;
-		private string _originalUrl;
+		private ISubmissionWrapper _originalWrapper;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -52,7 +52,7 @@ namespace CrosspostSharp3 {
 							txtDescription.Text,
 							txtTags.Text.Split(' ').Where(s => s != ""),
 							chkPotentiallySensitiveMaterial.Checked,
-							_originalUrl);
+							_originalWrapper?.ViewURL);
 						f.ShowDialog(this);
 					}
 				}));
@@ -80,7 +80,7 @@ namespace CrosspostSharp3 {
 			txtTitle.Text = "";
 			txtDescription.Text = "";
 			txtTags.Text = "";
-			_originalUrl = null;
+			_originalWrapper = null;
 		}
 
 		public async void LoadImage(ISubmissionWrapper wrapper) {
@@ -95,7 +95,9 @@ namespace CrosspostSharp3 {
 				txtTitle.Text = wrapper.Title;
 				txtDescription.Text = wrapper.HTMLDescription;
 				txtTags.Text = string.Join(" ", wrapper.Tags);
-				_originalUrl = wrapper.ViewURL;
+				_originalWrapper = wrapper;
+				btnDelete.Enabled = _originalWrapper is IDeletable;
+				btnView.Enabled = true;
 			} catch (Exception ex) {
 				splitContainer1.Panel1.Controls.Add(new TextBox {
 					Text = ex.Message + Environment.NewLine + ex.StackTrace,
@@ -161,6 +163,26 @@ namespace CrosspostSharp3 {
 
 		private void listBox1_DoubleClick(object sender, EventArgs e) {
 			btnPost.PerformClick();
+		}
+
+		private async void btnDelete_Click(object sender, EventArgs e) {
+			if (_originalWrapper is IDeletable d) {
+				if (MessageBox.Show(this, $"Are you sure you want to delete this submission from {d.SiteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+					try {
+						await d.DeleteAsync();
+						MessageBox.Show(this, "Submission deleted.");
+						btnDelete.Enabled = false;
+					} catch (Exception ex) {
+						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
+				}
+			}
+		}
+
+		private void btnView_Click(object sender, EventArgs e) {
+			if (_originalWrapper?.ViewURL != null) {
+				System.Diagnostics.Process.Start(_originalWrapper.ViewURL);
+			}
 		}
 	}
 }

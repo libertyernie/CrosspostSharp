@@ -127,6 +127,11 @@ namespace ArtSourceWrapper {
 		bool OwnWork { get; }
     }
 
+	public interface IDeletable {
+		Task DeleteAsync();
+		string SiteName { get; }
+	}
+
     public class MetadataModificationSubmissionWrapper : ISubmissionWrapper {
         private ISubmissionWrapper _base;
 

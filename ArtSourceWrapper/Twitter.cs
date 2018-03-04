@@ -29,13 +29,13 @@ namespace ArtSourceWrapper {
             _credentials = credentials;
         }
 
-        private static IEnumerable<TwitterSubmissionWrapper> Wrap(IEnumerable<ITweet> tweets) {
+        private IEnumerable<TwitterSubmissionWrapper> Wrap(IEnumerable<ITweet> tweets) {
             foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
                 if (t.IsRetweet) continue;
 
                 foreach (var m in t.Media) {
                     if (m.MediaType == "photo") {
-                        yield return new TwitterSubmissionWrapper(t, m);
+                        yield return new TwitterSubmissionWrapper(t, m, _credentials);
                     }
                 }
             }
@@ -82,14 +82,17 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class TwitterSubmissionWrapper : ISubmissionWrapper {
+    public class TwitterSubmissionWrapper : ISubmissionWrapper, IDeletable {
         public readonly ITweet Tweet;
         public readonly IMediaEntity Media;
 
-        public TwitterSubmissionWrapper(ITweet tweet, IMediaEntity media) {
+		private ITwitterCredentials _credentials;
+
+        public TwitterSubmissionWrapper(ITweet tweet, IMediaEntity media, ITwitterCredentials credentials) {
             Tweet = tweet;
             Media = media;
-        }
+			_credentials = credentials;
+		}
 
         public string Title => "";
         public string HTMLDescription {
@@ -109,5 +112,13 @@ namespace ArtSourceWrapper {
             : (Color?)null;
 
 		public bool OwnWork => !Tweet.IsRetweet;
+
+		public string SiteName => "Twitter";
+
+		public Task DeleteAsync() {
+			return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
+				await TweetAsync.DestroyTweet(Tweet);
+			});
+		}
 	}
 }
