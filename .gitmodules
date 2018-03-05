@@ -19,3 +19,6 @@
 [submodule "DeviantartApi"]
 	path = DeviantartApi
 	url = https://github.com/libertyernie/DeviantartApi
+[submodule "MediaRssSharp"]
+	path = MediaRssSharp
+	url = https://github.com/amirhalatzi/MediaRssSharp

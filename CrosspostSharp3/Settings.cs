@@ -34,6 +34,12 @@ namespace CrosspostSharp3 {
 
 		public List<TwitterSettings> Twitter = new List<TwitterSettings>();
 
+		public class MediaRSSSettings : AccountCredentials {
+			public string url;
+		}
+
+		public List<MediaRSSSettings> MediaRSS = new List<MediaRSSSettings>();
+
 		public static Settings Load(string filename = "CrosspostSharp.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {

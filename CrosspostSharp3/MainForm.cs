@@ -82,15 +82,16 @@ namespace CrosspostSharp3 {
 			lblUsername.Text = "";
 			lblSiteName.Text = "";
 			string avatarUrl = await _currentWrapper.GetUserIconAsync(picUserIcon.Width);
-			if (avatarUrl == null) return;
 
-			var req = WebRequestFactory.Create(avatarUrl);
-			using (var resp = await req.GetResponseAsync())
-			using (var stream = resp.GetResponseStream())
-			using (var ms = new MemoryStream()) {
-				await stream.CopyToAsync(ms);
-				ms.Position = 0;
-				picUserIcon.Image = Image.FromStream(ms);
+			if (avatarUrl != null) {
+				var req = WebRequestFactory.Create(avatarUrl);
+				using (var resp = await req.GetResponseAsync())
+				using (var stream = resp.GetResponseStream())
+				using (var ms = new MemoryStream()) {
+					await stream.CopyToAsync(ms);
+					ms.Position = 0;
+					picUserIcon.Image = Image.FromStream(ms);
+				}
 			}
 
 			lblUsername.Text = await _currentWrapper.WhoamiAsync();
@@ -122,13 +123,16 @@ namespace CrosspostSharp3 {
 			foreach (var t in s.Twitter) {
 				list.Add(new TwitterWrapper(t.GetCredentials()));
 			}
+			foreach (var m in s.MediaRSS) {
+				list.Add(new MediaRSSWrapper(new Uri(m.url), m.Username));
+			}
 
 			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
 			wrappers = wrappers.OrderBy(w => w.DisplayName).ToArray();
 			ddlSource.Items.AddRange(wrappers);
 
-			if (ddlSource.SelectedIndex < 0) {
+			if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
 				ddlSource.SelectedIndex = 0;
 			}
 

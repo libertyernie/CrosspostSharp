@@ -102,6 +102,7 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -147,6 +148,7 @@
     <Compile Include="Inkbunny.cs" />
     <Compile Include="Local.cs" />
     <Compile Include="FurryNetwork.cs" />
+    <Compile Include="MediaRSS.cs" />
     <Compile Include="Pixiv.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Tumblr.cs" />
@@ -170,6 +172,10 @@
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}</Project>
       <Name>InkbunnyLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MediaRssSharp\MediaRssSharp\MediaRssSharp.csproj">
+      <Project>{5DD5B31F-DB30-4711-B3B6-46D263C11280}</Project>
+      <Name>MediaRssSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj">
       <Project>{337daf53-dcc0-477d-a7b9-5c4c37547292}</Project>

@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviantartApi", "Deviantart
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj", "{891FD4C3-111B-4C55-A59E-89DE662A9497}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaRssSharp", "MediaRssSharp\MediaRssSharp\MediaRssSharp.csproj", "{5DD5B31F-DB30-4711-B3B6-46D263C11280}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -187,6 +189,18 @@ Global
 		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x64.Build.0 = Release|Any CPU
 		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x86.ActiveCfg = Release|Any CPU
 		{891FD4C3-111B-4C55-A59E-89DE662A9497}.Release|x86.Build.0 = Release|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Debug|x64.Build.0 = Debug|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Debug|x86.Build.0 = Debug|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Release|x64.ActiveCfg = Release|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Release|x64.Build.0 = Release|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Release|x86.ActiveCfg = Release|Any CPU
+		{5DD5B31F-DB30-4711-B3B6-46D263C11280}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

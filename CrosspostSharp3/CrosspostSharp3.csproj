@@ -171,6 +171,9 @@
       <DependentUpon>ArtworkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlConversion.cs" />
+    <Compile Include="MainForm.MediaRSS.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Twitter.cs">
       <SubType>Form</SubType>
     </Compile>
