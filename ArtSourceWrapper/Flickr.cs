@@ -102,6 +102,5 @@ namespace ArtSourceWrapper {
         public string ImageURL => $"https://farm{_photo.Farm}.staticflickr.com/{_photo.Server}/{_photo.PhotoId}_{_photo.OriginalSecret}_o.{_photo.OriginalFormat}";
         public string ThumbnailURL => $"https://farm{_photo.Farm}.staticflickr.com/{_photo.Server}/{_photo.PhotoId}_{_photo.Secret}_q.jpg";
         public Color? BorderColor => null;
-        public bool OwnWork => true;
     }
 }

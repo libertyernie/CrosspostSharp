@@ -127,7 +127,6 @@ namespace ArtSourceWrapper {
         public string ImageURL => _entry.Metadata.Files.OrderByDescending(f => f.Width).Select(f => f.Src).FirstOrDefault();
         public string ThumbnailURL => _entry.Metadata.Thumb?.Src ?? ImageURL;
         public Color? BorderColor => null;
-        public bool OwnWork => true;
 
 		public string SiteName => "Sta.sh";
 

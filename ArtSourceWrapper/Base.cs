@@ -123,8 +123,6 @@ namespace ArtSourceWrapper {
         string ImageURL { get; }
         string ThumbnailURL { get; }
         Color? BorderColor { get; }
-
-		bool OwnWork { get; }
     }
 
 	public interface IDeletable {
@@ -159,7 +157,5 @@ namespace ArtSourceWrapper {
         public string ImageURL => _base.ImageURL;
         public string ThumbnailURL => _base.ThumbnailURL;
         public Color? BorderColor => _base.BorderColor;
-
-        public bool OwnWork => _base.OwnWork;
     }
 }

@@ -78,8 +78,6 @@ namespace ArtSourceWrapper {
     public class TumblrSubmissionWrapper : ISubmissionWrapper {
 		public readonly PhotoPost Post;
         
-		public bool OwnWork => true;
-
 		public TumblrSubmissionWrapper(PhotoPost post) {
             Post = post;
         }

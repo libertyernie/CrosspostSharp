@@ -409,7 +409,7 @@ namespace CrosspostSharp {
 		// This function is called after clicking on a WeasylThumbnail.
 		public void SetCurrentImage(ISubmissionWrapper submission, BinaryFile file) {
 			this.currentSubmission = submission;
-			tabControl1.Enabled = submission?.OwnWork == true;
+			tabControl1.Enabled = submission != null;
 
             var tags = new List<string>();
 

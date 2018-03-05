@@ -83,6 +83,5 @@ namespace ArtSourceWrapper {
 			?? _work.ImageUrls?.Large;
 		public string ThumbnailURL => _work.ImageUrls.Px128x128;
 		public Color? BorderColor => null;
-		public bool OwnWork => true;
 	}
 }

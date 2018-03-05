@@ -180,9 +180,7 @@ namespace ArtSourceWrapper {
         public Color? BorderColor => Deviation.IsMature == true
             ? Color.FromArgb(225, 141, 67)
             : (Color?)null;
-
-		public bool OwnWork => true;
-
+		
 		public Deviation Deviation { get; private set; }
         public Metadata Metadata { get; private set; }
 

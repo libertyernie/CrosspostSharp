@@ -97,7 +97,5 @@ namespace ArtSourceWrapper {
 		public string ThumbnailURL => _item.OptionalElements.ThumbnailNode.Url.AbsoluteUri;
 
 		public Color? BorderColor => null;
-
-		public bool OwnWork => true;
 	}
 }

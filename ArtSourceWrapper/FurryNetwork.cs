@@ -104,6 +104,5 @@ namespace ArtSourceWrapper {
 			_artwork.Rating == 0 ? (Color?)null
 			: _artwork.Rating == 1 ? Color.FromArgb(0xFF, 0xFD, 0xD8, 0x35)
 			: Color.FromArgb(0xFF, 0xDD, 0x2c, 0x00);
-		public bool OwnWork => true;
 	}
 }

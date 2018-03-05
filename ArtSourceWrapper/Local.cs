@@ -105,6 +105,5 @@ namespace ArtSourceWrapper {
         public string ImageURL => "file:///" + _path.Replace('\\', '/');
         public string ThumbnailURL => "file:///" + _path.Replace('\\', '/');
         public Color? BorderColor => null;
-        public bool OwnWork => true;
     }
 }

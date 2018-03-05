@@ -179,9 +179,7 @@ namespace ArtSourceWrapper {
                 }
             }
 		}
-
-		public bool OwnWork => true;
-
+		
 		public WeasylSubmissionBaseDetail Submission { get; private set; }
 
         public WeasylSubmissionWrapper(WeasylSubmissionBaseDetail submission) {
