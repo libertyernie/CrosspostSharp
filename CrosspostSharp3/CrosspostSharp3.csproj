@@ -164,6 +164,12 @@
     <Compile Include="AccountSelectionForm.Designer.cs">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddRSSForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddRSSForm.Designer.cs">
+      <DependentUpon>AddRSSForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ArtworkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,6 +209,9 @@
     <Compile Include="WebRequestFactory.cs" />
     <EmbeddedResource Include="AccountSelectionForm.resx">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddRSSForm.resx">
+      <DependentUpon>AddRSSForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ArtworkForm.resx">
       <DependentUpon>ArtworkForm.cs</DependentUpon>
