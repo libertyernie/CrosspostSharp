@@ -37,7 +37,7 @@ namespace CrosspostSharp3 {
 			StringWriter sw = new StringWriter();
 			ConvertTo(doc.DocumentNode, sw);
 			sw.Flush();
-			return sw.ToString();
+			return sw.ToString().Trim();
 		}
 
 		private static void ConvertTo(HtmlNode node, TextWriter outText) {

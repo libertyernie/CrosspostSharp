@@ -84,7 +84,6 @@ namespace CrosspostSharp3 {
 				if (_plainTextDescription == null) {
 					try {
 						_plainTextDescription = HtmlConversion.ConvertHtmlToText(_artworkData.description);
-						_plainTextDescription = _plainTextDescription.Trim();
 					} catch (Exception) {
 						_plainTextDescription = _artworkData.description;
 					}

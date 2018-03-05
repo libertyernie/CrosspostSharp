@@ -1,9 +1,11 @@
 ﻿using ArtSourceWrapper;
 using DeviantArtControls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -80,6 +82,11 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
+			if (File.Exists("efc.jar")) {
+				listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
+					LaunchEFC(new ArtworkData(this));
+				}));
+			}
 		}
 
 		public ArtworkForm(byte[] data) : this() {
@@ -126,6 +133,61 @@ namespace CrosspostSharp3 {
 					ReadOnly = true
 				});
 			}
+		}
+
+		private static void LaunchEFC(ArtworkData artwork) {
+			string jsonFile = null, imageFile = null;
+			char[] invalid = Path.GetInvalidFileNameChars();
+			string basename = artwork.title;
+			if (string.IsNullOrEmpty(basename)) {
+				basename = "image";
+			}
+			basename = new string(basename.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+			string ext = "";
+			try {
+				using (var ms = new MemoryStream(artwork.data, false)) {
+					var image = Image.FromStream(ms);
+					if (image.RawFormat.Guid == ImageFormat.Png.Guid) {
+						ext = ".png";
+					} else if (image.RawFormat.Guid == ImageFormat.Jpeg.Guid) {
+						ext = ".jpg";
+					} else if (image.RawFormat.Guid == ImageFormat.Gif.Guid) {
+						ext = ".gif";
+					}
+				}
+			} catch (Exception) { }
+			string imageFilename = basename + ext;
+
+			imageFile = Path.Combine(Path.GetTempPath(), imageFilename);
+			File.WriteAllBytes(imageFile, artwork.data);
+			
+			jsonFile = Path.GetTempFileName();
+			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(new {
+				imagePath = imageFile,
+				title = artwork.title,
+				description = HtmlConversion.ConvertHtmlToText(artwork.description),
+				tags = artwork.tags,
+				nudity = new {
+					@explicit = artwork.mature
+				}
+			}));
+
+			Process process = Process.Start(new ProcessStartInfo("java", $"-jar efc.jar {jsonFile}") {
+				RedirectStandardError = true,
+				UseShellExecute = false,
+				WorkingDirectory = Environment.CurrentDirectory,
+				CreateNoWindow = true
+			});
+			process.EnableRaisingEvents = true;
+			process.Exited += (o, a) => {
+				if (process.ExitCode != 0) {
+					string stderr = process.StandardError.ReadToEnd();
+					MessageBox.Show(null, stderr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+
+				if (jsonFile != null) File.Delete(jsonFile);
+				if (imageFile != null) File.Delete(imageFile);
+			};
 		}
 
 		private void btnPost_Click(object sender, EventArgs ea) {
