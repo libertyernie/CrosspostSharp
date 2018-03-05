@@ -10,25 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharp3 {
-	public struct ArtworkMetadata {
-		public string imagePath;
-		public string title, description, url;
-		public IEnumerable<string> tags;
-		public bool mature;
-		//public ArtworkMetadataMaturityLevel nudity, violence;
-
-		public ArtworkData Read(string relativeDirectory) {
-			return new ArtworkData {
-				data = File.ReadAllBytes(Path.Combine(relativeDirectory, imagePath)),
-				title = title,
-				description = description,
-				tags = tags,
-				mature = mature,
-				url = url
-			};
-		}
-	}
-
 	//public struct ArtworkMetadataMaturityLevel {
 	//	public bool moderate, explicit;
 	//}
@@ -58,35 +39,23 @@ namespace CrosspostSharp3 {
 		}
 
 		public static ArtworkData FromFile(string filename) {
+			var data = File.ReadAllBytes(filename);
+			if (data[0] == '{') {
+				try {
+					return JsonConvert.DeserializeObject<ArtworkData>(Encoding.UTF8.GetString(data));
+				} catch (Exception ex) {
+					Console.Error.WriteLine($"Cannot read {filename} as JSON: {ex.Message}");
+					Console.Error.WriteLine(ex.StackTrace);
+				}
+			}
 			return new ArtworkData {
-				data = File.ReadAllBytes(filename),
+				data = data,
 				title = Path.GetFileName(filename),
 				description = "",
 				tags = Enumerable.Empty<string>(),
 				mature = false,
 				url = null
 			};
-		}
-
-		public void Write(string jsonFile) {
-			string ext;
-			using (var ms = new MemoryStream(data, false))
-			using (var image = Image.FromStream(ms)) {
-				ext = image.RawFormat.Equals(ImageFormat.Png) ? ".png"
-					: image.RawFormat.Equals(ImageFormat.Jpeg) ? ".jpeg"
-					: image.RawFormat.Equals(ImageFormat.Gif) ? ".gif"
-					: ".dat";
-			}
-			string imageFile = jsonFile + ext;
-			File.WriteAllBytes(imageFile, data);
-			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(new ArtworkMetadata {
-				description = description,
-				imagePath = imageFile,
-				mature = mature,
-				tags = tags,
-				title = title,
-				url = url
-			}));
 		}
 	}
 }

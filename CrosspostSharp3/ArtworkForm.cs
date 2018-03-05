@@ -97,12 +97,7 @@ namespace CrosspostSharp3 {
 		}
 
 		public void LoadImage(string filename) {
-			if (filename.EndsWith(".json")) {
-				var metadata = JsonConvert.DeserializeObject<ArtworkMetadata>(File.ReadAllText(filename));
-				LoadImage(metadata.Read(Path.GetDirectoryName(filename)));
-			} else {
-				LoadImage(ArtworkData.FromFile(filename));
-			}
+			LoadImage(ArtworkData.FromFile(filename));
 		}
 
 		public void LoadImage(ArtworkData artwork) {
@@ -210,9 +205,11 @@ namespace CrosspostSharp3 {
 			}
 		}
 
+		public const string OpenFilter = "All supported formats|*.png;*.jpg;*.jpeg;*.gif;*.json|Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
+
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var openFileDialog = new OpenFileDialog()) {
-				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
+				openFileDialog.Filter = OpenFilter;
 				openFileDialog.Multiselect = false;
 				if (openFileDialog.ShowDialog() == DialogResult.OK) {
 					LoadImage(openFileDialog.FileName);
@@ -227,7 +224,7 @@ namespace CrosspostSharp3 {
 					saveFileDialog.Filter = "CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					Export().Write(saveFileDialog.FileName);
+					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(Export()));
 				}
 			}
 		}
