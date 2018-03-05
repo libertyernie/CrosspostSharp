@@ -169,10 +169,10 @@ namespace CrosspostSharp3 {
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var openFileDialog = new OpenFileDialog()) {
-				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif";
+				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
 				openFileDialog.Multiselect = false;
 				if (openFileDialog.ShowDialog() == DialogResult.OK) {
-					using (var f = new ArtworkForm(File.ReadAllBytes(openFileDialog.FileName))) {
+					using (var f = new ArtworkForm(openFileDialog.FileName)) {
 						f.ShowDialog(this);
 					}
 				}

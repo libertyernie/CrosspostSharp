@@ -170,6 +170,7 @@
     <Compile Include="AddRSSForm.Designer.cs">
       <DependentUpon>AddRSSForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ArtworkData.cs" />
     <Compile Include="ArtworkForm.cs">
       <SubType>Form</SubType>
     </Compile>

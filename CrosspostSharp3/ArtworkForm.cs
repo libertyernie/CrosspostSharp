@@ -34,20 +34,15 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public struct ArtworkData {
-			public byte[] data;
-			public string title, description, url;
-			public IEnumerable<string> tags;
-			public bool mature;
-
-			public ArtworkData(ArtworkForm f) {
-				data = f._data;
-				title = f.txtTitle.Text;
-				description = f.txtDescription.Text;
-				url = f._originalWrapper?.ViewURL;
-				tags = f.txtTags.Text.Split(' ').Where(s => s != "");
-				mature = f.chkPotentiallySensitiveMaterial.Checked;
-			}
+		public ArtworkData Export() {
+			return new ArtworkData {
+				data = _data,
+				title = txtTitle.Text,
+				description = txtDescription.Text,
+				url = _originalWrapper?.ViewURL,
+				tags = txtTags.Text.Split(' ').Where(s => s != ""),
+				mature = chkPotentiallySensitiveMaterial.Checked,
+			};
 		}
 
 		public ArtworkForm() {
@@ -77,51 +72,56 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.Username})", () => {
-					using (var f = new TwitterPostForm(t, new ArtworkData(this))) {
+					using (var f = new TwitterPostForm(t, Export())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			if (File.Exists("efc.jar")) {
 				listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
-					LaunchEFC(new ArtworkData(this));
+					LaunchEFC(Export());
 				}));
 			}
 		}
 
-		public ArtworkForm(byte[] data) : this() {
-			this.Shown += (o, e) => LoadImage(data);
+		public ArtworkForm(string filename) : this() {
+			this.Shown += (o, e) => LoadImage(filename);
+		}
+
+		public ArtworkForm(ArtworkData artworkData) : this() {
+			this.Shown += (o, e) => LoadImage(artworkData);
 		}
 
 		public ArtworkForm(ISubmissionWrapper wrapper) : this() {
 			this.Shown += (o, e) => LoadImage(wrapper);
 		}
 
-		public void LoadImage(byte[] data) {
-			_data = data.ToArray();
-			using (var ms = new MemoryStream(_data, false)) {
+		public void LoadImage(string filename) {
+			if (filename.EndsWith(".json")) {
+				var metadata = JsonConvert.DeserializeObject<ArtworkMetadata>(File.ReadAllText(filename));
+				LoadImage(metadata.Read(Path.GetDirectoryName(filename)));
+			} else {
+				LoadImage(ArtworkData.FromFile(filename));
+			}
+		}
+
+		public void LoadImage(ArtworkData artwork) {
+			using (var ms = new MemoryStream(artwork.data, false)) {
 				var image = Image.FromStream(ms);
 				splitContainer1.Panel1.BackgroundImage = image;
 				splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
+				_data = ms.ToArray();
 			}
-			txtTitle.Text = "";
-			txtDescription.Text = "";
-			txtTags.Text = "";
+			txtTitle.Text = artwork.title;
+			txtDescription.Text = artwork.description;
+			txtTags.Text = string.Join(" ", artwork.tags);
+			chkPotentiallySensitiveMaterial.Checked = artwork.mature;
 			_originalWrapper = null;
 		}
 
 		public async void LoadImage(ISubmissionWrapper wrapper) {
 			try {
-				var req = WebRequestFactory.Create(wrapper.ImageURL);
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					LoadImage(ms.ToArray());
-				}
-				txtTitle.Text = wrapper.Title;
-				txtDescription.Text = wrapper.HTMLDescription;
-				txtTags.Text = string.Join(" ", wrapper.Tags);
+				LoadImage(await ArtworkData.DownloadAsync(wrapper));
 				_originalWrapper = wrapper;
 				btnDelete.Enabled = _originalWrapper is IDeletable;
 				btnView.Enabled = true;
@@ -212,10 +212,22 @@ namespace CrosspostSharp3 {
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var openFileDialog = new OpenFileDialog()) {
-				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif";
+				openFileDialog.Filter = "Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
 				openFileDialog.Multiselect = false;
 				if (openFileDialog.ShowDialog() == DialogResult.OK) {
-					LoadImage(File.ReadAllBytes(openFileDialog.FileName));
+					LoadImage(openFileDialog.FileName);
+				}
+			}
+		}
+
+		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var saveFileDialog = new SaveFileDialog()) {
+				using (var ms = new MemoryStream(_data, false))
+				using (var image = Image.FromStream(ms)) {
+					saveFileDialog.Filter = "CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
+				}
+				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+					Export().Write(saveFileDialog.FileName);
 				}
 			}
 		}
