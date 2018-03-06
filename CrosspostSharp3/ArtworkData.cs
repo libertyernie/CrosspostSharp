@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,6 +54,22 @@ namespace CrosspostSharp3 {
 				mature = false,
 				url = null
 			};
+		}
+
+		public string GetContentType() {
+			try {
+				using (var ms = new MemoryStream(data, false)) {
+					var image = Image.FromStream(ms);
+					if (image.RawFormat.Guid == ImageFormat.Png.Guid) return "image/png";
+					if (image.RawFormat.Guid == ImageFormat.Jpeg.Guid) return "image/jpeg";
+					if (image.RawFormat.Guid == ImageFormat.Gif.Guid) return "image/gif";
+				}
+			} catch (Exception) { }
+			return "application/octet-stream";
+		}
+
+		public string GetFileName() {
+			return string.Join("", MD5.Create().ComputeHash(data).Select(b => ((int)b).ToString("X2"))) + "." + GetContentType().Split('/').Last();
 		}
 	}
 }

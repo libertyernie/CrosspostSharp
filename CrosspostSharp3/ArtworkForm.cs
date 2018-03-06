@@ -78,6 +78,13 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
+			foreach (var t in settings.Tumblr) {
+				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
+					using (var f = new TumblrPostForm(t, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
 			if (File.Exists("efc.jar")) {
 				listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
 					LaunchEFC(Export());

@@ -86,6 +86,12 @@
     <Compile Include="MainForm.Twitter.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="TumblrPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TumblrPostForm.Designer.cs">
+      <DependentUpon>TumblrPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TwitterPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TumblrPostForm.resx">
+      <DependentUpon>TumblrPostForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TwitterPostForm.resx">
       <DependentUpon>TwitterPostForm.cs</DependentUpon>
     </EmbeddedResource>
