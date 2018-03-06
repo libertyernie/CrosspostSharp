@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
-	public partial class AccountSelectionForm<T> : Form where T : Settings.AccountCredentials {
+	public partial class AccountSelectionForm<T> : Form where T : Settings.IAccountCredentials {
 		private Func<Task<IEnumerable<T>>> OnAdd;
 		private Action<T> OnRemove;
 
@@ -45,7 +45,7 @@ namespace CrosspostSharp3 {
 		private void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
-				var obj = listBox1.SelectedItem as T;
+				var obj = (T)listBox1.SelectedItem;
 				if (obj != null) {
 					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} form your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
 						OnRemove?.Invoke(obj);

@@ -50,7 +50,7 @@ namespace CrosspostSharp3 {
 			InitializeComponent();
 
 			Settings settings = Settings.Load();
-			if (settings.DeviantArt?.RefreshToken != null) {
+			if (settings.DeviantArt.RefreshToken != null) {
 				listBox1.Items.Add(new DestinationOption("DeviantArt / Sta.sh", () => {
 					using (var f = new Form()) {
 						f.Width = 600;
@@ -72,7 +72,7 @@ namespace CrosspostSharp3 {
 				}));
 			}
 			foreach (var t in settings.Twitter) {
-				listBox1.Items.Add(new DestinationOption($"Twitter ({t.Username})", () => {
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 					using (var f = new TwitterPostForm(t, Export())) {
 						f.ShowDialog(this);
 					}

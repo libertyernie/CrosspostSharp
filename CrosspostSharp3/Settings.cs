@@ -6,26 +6,32 @@ using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public class Settings {
-		public abstract class AccountCredentials {
-			public string Username { get; set; }
+		public interface IAccountCredentials {
+			string Username { get; }
 		}
 
-		public class DeviantArtSettings {
+		public struct DeviantArtSettings {
 			public string RefreshToken { get; set; }
 		}
 
 		public DeviantArtSettings DeviantArt { get; set; }
 
-		public class FurAffinitySettings : AccountCredentials {
+		public struct FurAffinitySettings : IAccountCredentials {
 			public string b;
 			public string a;
+			public string username;
+
+			string IAccountCredentials.Username => username;
 		}
 
 		public List<FurAffinitySettings> FurAffinity = new List<FurAffinitySettings>();
 
-		public class TwitterSettings : AccountCredentials {
+		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;
+			public string screenName;
+
+			string IAccountCredentials.Username => screenName;
 
 			public ITwitterCredentials GetCredentials() {
 				return new TwitterCredentials(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, tokenKey, tokenSecret);
@@ -34,16 +40,21 @@ namespace CrosspostSharp3 {
 
 		public List<TwitterSettings> Twitter = new List<TwitterSettings>();
 
-		public class MediaRSSSettings : AccountCredentials {
+		public struct MediaRSSSettings : IAccountCredentials {
 			public string url;
+			public string name;
+
+			string IAccountCredentials.Username => name;
 		}
 
 		public List<MediaRSSSettings> MediaRSS = new List<MediaRSSSettings>();
 
-		public class TumblrSettings : AccountCredentials {
+		public struct TumblrSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;
 			public string blogName;
+
+			string IAccountCredentials.Username => blogName;
 		}
 
 		public List<TumblrSettings> Tumblr = new List<TumblrSettings>();

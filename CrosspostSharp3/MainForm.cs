@@ -109,35 +109,37 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Loading settings...";
 
 			var s = Settings.Load();
-			if (s.DeviantArt?.RefreshToken != null) {
+			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
 					list.Add(new DeviantArtWrapper());
 					list.Add(new StashOrderedWrapper());
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					s.DeviantArt.RefreshToken = null;
+					s.DeviantArt = new Settings.DeviantArtSettings {
+						RefreshToken = null
+					};
 					s.Save();
 				}
 			}
 			foreach (var fa in s.FurAffinity) {
-				lblLoadStatus.Text = $"Adding FurAffinity {fa.Username}...";
+				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
 				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: fa.a,
 					b: fa.b)));
 			}
 			foreach (var t in s.Twitter) {
-				lblLoadStatus.Text = $"Adding Twitter ({t.Username})...";
+				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
 				list.Add(new TwitterWrapper(t.GetCredentials()));
 			}
 			foreach (var m in s.MediaRSS) {
-				lblLoadStatus.Text = $"Adding Media RSS feed ({m.Username})...";
-				list.Add(new MediaRSSWrapper(new Uri(m.url), m.Username));
+				lblLoadStatus.Text = $"Adding Media RSS feed ({m.name})...";
+				list.Add(new MediaRSSWrapper(new Uri(m.url), m.name));
 			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {
 				if (tcf == null) tcf = new TumblrClientFactory();
-				lblLoadStatus.Text = $"Adding Tumblr ({t.Username})...";
+				lblLoadStatus.Text = $"Adding Tumblr ({t.blogName})...";
 				list.Add(new TumblrWrapper(tcf.Create<TumblrClient>(
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,

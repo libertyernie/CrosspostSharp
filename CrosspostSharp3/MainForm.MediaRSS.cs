@@ -32,7 +32,7 @@ namespace CrosspostSharp3 {
 				if (form.ShowDialog() == DialogResult.OK) {
 					if (MessageBox.Show($"If this feed contains content that is not your work, you are responsible for observing copyright laws. Don't repost copyrighted artwork or photos without permission.", "Please note", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
 						yield return new Settings.MediaRSSSettings {
-							Username = form.FeedLabel,
+							name = form.FeedLabel,
 							url = form.FeedUrl
 						};
 					}

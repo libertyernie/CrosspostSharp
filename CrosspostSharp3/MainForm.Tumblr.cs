@@ -49,8 +49,7 @@ namespace CrosspostSharp3 {
 					yield return new Settings.TumblrSettings {
 						tokenKey = token.Key,
 						tokenSecret = token.Secret,
-						blogName = blog.Name,
-						Username = blog.Name
+						blogName = blog.Name
 					};
 				}
 			}

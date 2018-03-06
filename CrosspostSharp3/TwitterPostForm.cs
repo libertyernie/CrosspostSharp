@@ -23,7 +23,7 @@ namespace CrosspostSharp3 {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
 			_artworkData = d;
-			lblUsername2.Text = "@" + s.Username;
+			lblUsername2.Text = "@" + s.screenName;
 
 			if (string.IsNullOrEmpty(_artworkData.title)) {
 				chkIncludeTitle.Enabled = false;

@@ -34,7 +34,7 @@ namespace CrosspostSharp3 {
 		private async void deviantArtToolStripMenuItem_Click(object sender, EventArgs e) {
 			Settings s = Settings.Load();
 			try {
-				string currentToken = s.DeviantArt?.RefreshToken;
+				string currentToken = s.DeviantArt.RefreshToken;
 				if (currentToken != null) {
 					string newToken = await DeviantArtLoginStatic.UpdateTokens(
 						OAuthConsumer.DeviantArt.CLIENT_ID,
