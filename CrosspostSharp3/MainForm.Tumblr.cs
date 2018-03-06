@@ -20,10 +20,7 @@ namespace CrosspostSharp3 {
 					oauth.getRequestToken();
 					string verifier = oauth.authorizeToken(); // display WebBrowser
 					if (verifier == null) return null;
-
-					string accessToken = oauth.getAccessToken();
-					string accessTokenSecret = oauth.TokenSecret;
-
+					
 					var newTumblrSettings = new Settings.TumblrSettings {
 						tokenKey = oauth.getAccessToken(),
 						tokenSecret = oauth.TokenSecret
@@ -37,9 +34,11 @@ namespace CrosspostSharp3 {
 							newTumblrSettings.tokenSecret));
 					var user = await client.GetUserInfoAsync();
 					using (var f = new TumblrBlogSelectionForm(user.Blogs)) {
+						f.ShowDialog(this);
 						var blog = f.SelectedItem;
 						if (blog != null) {
 							newTumblrSettings.blogName = blog.Name;
+							newTumblrSettings.Username = blog.Name;
 							return newTumblrSettings;
 						} else {
 							return null;

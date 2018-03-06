@@ -37,7 +37,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void Remove_Click(object sender, EventArgs e) {
-			btnAdd.Enabled = btnRemove.Enabled = false;
+			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
 				var obj = listBox1.SelectedItem as T;
 				if (obj != null) {
@@ -49,11 +49,11 @@ namespace CrosspostSharp3 {
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			btnAdd.Enabled = btnRemove.Enabled = true;
+			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = true;
 		}
 
 		private async void btnAdd_Click(object sender, EventArgs e) {
-			btnAdd.Enabled = btnRemove.Enabled = false;
+			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
 				var o = await OnAdd();
 				if (o != null) listBox1.Items.Add(o);
@@ -66,7 +66,7 @@ namespace CrosspostSharp3 {
 				}
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			btnAdd.Enabled = btnRemove.Enabled = true;
+			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = true;
 		}
 	}
 }

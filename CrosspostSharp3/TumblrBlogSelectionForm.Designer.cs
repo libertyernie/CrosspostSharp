@@ -31,7 +31,7 @@
             // 
             // listBox1
             // 
-            this.listBox1.DisplayMember = "Username";
+            this.listBox1.DisplayMember = "Name";
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 0);

@@ -66,8 +66,7 @@ namespace ArtSourceWrapper {
         }
 
         public override async Task<string> WhoamiAsync() {
-            var user = await _client.GetUserInfoAsync();
-            return user.Name;
+			return _blogName;
         }
 
         public override async Task<string> GetUserIconAsync(int size) {

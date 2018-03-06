@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class TumblrBlogSelectionForm : Form {
-		public BlogInfo SelectedItem => listBox1.SelectedItem as BlogInfo;
+		public UserBlogInfo SelectedItem => listBox1.SelectedItem as UserBlogInfo;
 
 		public TumblrBlogSelectionForm(
 			IEnumerable<UserBlogInfo> list
