@@ -40,6 +40,14 @@ namespace CrosspostSharp3 {
 
 		public List<MediaRSSSettings> MediaRSS = new List<MediaRSSSettings>();
 
+		public class TumblrSettings : AccountCredentials {
+			public string tokenKey;
+			public string tokenSecret;
+			public string blogName;
+		}
+
+		public List<TumblrSettings> Tumblr = new List<TumblrSettings>();
+
 		public static Settings Load(string filename = "CrosspostSharp.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {

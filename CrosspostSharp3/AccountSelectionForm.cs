@@ -58,6 +58,12 @@ namespace CrosspostSharp3 {
 				var o = await OnAdd();
 				if (o != null) listBox1.Items.Add(o);
 			} catch (Exception ex) {
+				if (ex is System.Net.WebException w) {
+					using (var s = w.Response.GetResponseStream())
+					using (var sr = new System.IO.StreamReader(s)) {
+						Console.WriteLine(await sr.ReadToEndAsync());
+					}
+				}
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			btnAdd.Enabled = btnRemove.Enabled = true;

@@ -37,6 +37,15 @@
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="DontPanic.TumblrSharp, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TumblrSharp.1.0.0.6\lib\net45\DontPanic.TumblrSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="DontPanic.TumblrSharp.Client, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TumblrSharp.1.0.0.6\lib\net45\DontPanic.TumblrSharp.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="DontPanic.TumblrSharp.Net45, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TumblrSharp.1.0.0.6\lib\net45\DontPanic.TumblrSharp.Net45.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.7.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.7.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -158,6 +167,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TumblrBlogSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TumblrBlogSelectionForm.Designer.cs">
+      <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AccountSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +194,9 @@
     </Compile>
     <Compile Include="HtmlConversion.cs" />
     <Compile Include="MainForm.MediaRSS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Tumblr.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Twitter.cs">
@@ -208,6 +226,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="WebRequestFactory.cs" />
+    <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
+      <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AccountSelectionForm.resx">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
     </EmbeddedResource>

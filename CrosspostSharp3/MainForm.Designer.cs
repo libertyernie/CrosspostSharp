@@ -45,6 +45,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
+            this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -155,7 +156,8 @@
             this.deviantArtToolStripMenuItem,
             this.furAffinityToolStripMenuItem,
             this.mediaRSSToolStripMenuItem,
-            this.twitterToolStripMenuItem});
+            this.twitterToolStripMenuItem,
+            this.tumblrToolStripMenuItem});
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
             this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.accountSetupToolStripMenuItem.Text = "&Account Setup";
@@ -163,28 +165,28 @@
             // deviantArtToolStripMenuItem
             // 
             this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
             this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
             // 
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.furAffinityToolStripMenuItem.Text = "&FurAffinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
             // 
             // mediaRSSToolStripMenuItem
             // 
             this.mediaRSSToolStripMenuItem.Name = "mediaRSSToolStripMenuItem";
-            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
             this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
             // 
             this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.twitterToolStripMenuItem.Text = "&Twitter";
             this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
             // 
@@ -256,6 +258,13 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
+            // tumblrToolStripMenuItem
+            // 
+            this.tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
+            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tumblrToolStripMenuItem.Text = "T&umblr";
+            this.tumblrToolStripMenuItem.Click += new System.EventHandler(this.tumblrToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -308,6 +317,7 @@
 		private System.Windows.Forms.ToolStripMenuItem refreshAllToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mediaRSSToolStripMenuItem;
 		private System.Windows.Forms.Label lblLoadStatus;
+		private System.Windows.Forms.ToolStripMenuItem tumblrToolStripMenuItem;
 	}
 }
 

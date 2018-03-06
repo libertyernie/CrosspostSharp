@@ -1,4 +1,6 @@
 ﻿using ArtSourceWrapper;
+using DontPanic.TumblrSharp;
+using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -131,6 +133,15 @@ namespace CrosspostSharp3 {
 			foreach (var m in s.MediaRSS) {
 				lblLoadStatus.Text = $"Adding Media RSS feed ({m.Username})...";
 				list.Add(new MediaRSSWrapper(new Uri(m.url), m.Username));
+			}
+			TumblrClientFactory tcf = null;
+			foreach (var t in s.Tumblr) {
+				if (tcf == null) tcf = new TumblrClientFactory();
+				lblLoadStatus.Text = $"Adding Tumblr ({t.Username})...";
+				list.Add(new TumblrWrapper(tcf.Create<TumblrClient>(
+					OAuthConsumer.Tumblr.CONSUMER_KEY,
+					OAuthConsumer.Tumblr.CONSUMER_SECRET,
+					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret)), t.blogName));
 			}
 
 			lblLoadStatus.Text = "Checking usernames...";
