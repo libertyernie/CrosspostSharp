@@ -27,7 +27,6 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnView = new System.Windows.Forms.Button();
             this.lnkPreview = new System.Windows.Forms.LinkLabel();
-            this.chkPotentiallySensitiveMaterial = new System.Windows.Forms.CheckBox();
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblTags = new System.Windows.Forms.Label();
             this.txtDescription = new System.Windows.Forms.TextBox();
@@ -38,12 +37,14 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkMature = new System.Windows.Forms.CheckBox();
+            this.chkAdult = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -60,10 +61,11 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.chkAdult);
+            this.splitContainer1.Panel2.Controls.Add(this.chkMature);
             this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
             this.splitContainer1.Panel2.Controls.Add(this.btnView);
             this.splitContainer1.Panel2.Controls.Add(this.lnkPreview);
-            this.splitContainer1.Panel2.Controls.Add(this.chkPotentiallySensitiveMaterial);
             this.splitContainer1.Panel2.Controls.Add(this.txtTags);
             this.splitContainer1.Panel2.Controls.Add(this.lblTags);
             this.splitContainer1.Panel2.Controls.Add(this.txtDescription);
@@ -108,17 +110,6 @@
             this.lnkPreview.TabStop = true;
             this.lnkPreview.Text = "Preview";
             this.lnkPreview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPreview_LinkClicked);
-            // 
-            // chkPotentiallySensitiveMaterial
-            // 
-            this.chkPotentiallySensitiveMaterial.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkPotentiallySensitiveMaterial.AutoSize = true;
-            this.chkPotentiallySensitiveMaterial.Location = new System.Drawing.Point(117, 143);
-            this.chkPotentiallySensitiveMaterial.Name = "chkPotentiallySensitiveMaterial";
-            this.chkPotentiallySensitiveMaterial.Size = new System.Drawing.Size(200, 17);
-            this.chkPotentiallySensitiveMaterial.TabIndex = 7;
-            this.chkPotentiallySensitiveMaterial.Text = "Contains potentially sensitive material";
-            this.chkPotentiallySensitiveMaterial.UseVisualStyleBackColor = true;
             // 
             // txtTags
             // 
@@ -214,28 +205,35 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.saveAsToolStripMenuItem.Text = "&Save As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exportAsToolStripMenuItem
             // 
             this.exportAsToolStripMenuItem.Name = "exportAsToolStripMenuItem";
-            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exportAsToolStripMenuItem.Text = "Export As...";
             this.exportAsToolStripMenuItem.Click += new System.EventHandler(this.exportAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -262,12 +260,25 @@
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
-            // saveAsToolStripMenuItem
+            // chkMature
             // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveAsToolStripMenuItem.Text = "&Save As...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.chkMature.AutoSize = true;
+            this.chkMature.Location = new System.Drawing.Point(117, 143);
+            this.chkMature.Name = "chkMature";
+            this.chkMature.Size = new System.Drawing.Size(59, 17);
+            this.chkMature.TabIndex = 10;
+            this.chkMature.Text = "Mature";
+            this.chkMature.UseVisualStyleBackColor = true;
+            // 
+            // chkAdult
+            // 
+            this.chkAdult.AutoSize = true;
+            this.chkAdult.Location = new System.Drawing.Point(182, 143);
+            this.chkAdult.Name = "chkAdult";
+            this.chkAdult.Size = new System.Drawing.Size(50, 17);
+            this.chkAdult.TabIndex = 11;
+            this.chkAdult.Text = "Adult";
+            this.chkAdult.UseVisualStyleBackColor = true;
             // 
             // ArtworkForm
             // 
@@ -301,7 +312,6 @@
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Label lblTags;
 		private System.Windows.Forms.TextBox txtTags;
-		private System.Windows.Forms.CheckBox chkPotentiallySensitiveMaterial;
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.LinkLabel lnkPreview;
 		private System.Windows.Forms.MenuStrip menuStrip1;
@@ -315,5 +325,7 @@
 		private System.Windows.Forms.Button btnDelete;
 		private System.Windows.Forms.Button btnView;
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+		private System.Windows.Forms.CheckBox chkAdult;
+		private System.Windows.Forms.CheckBox chkMature;
 	}
 }

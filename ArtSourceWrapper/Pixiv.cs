@@ -74,7 +74,8 @@ namespace ArtSourceWrapper {
 
 		public string Title => _work.Title;
 		public string HTMLDescription => _work.Caption;
-		public bool PotentiallySensitive => _work.AgeLimit != null;
+		public bool Mature => false;
+		public bool Adult => _work.AgeLimit != "all-age";
 		public IEnumerable<string> Tags => _work.Tags;
 		public DateTime Timestamp => _work.CreatedTime;
 		public string ViewURL => $"https://www.pixiv.net/member_illust.php?mode=medium&illust_id={_work.Id}";

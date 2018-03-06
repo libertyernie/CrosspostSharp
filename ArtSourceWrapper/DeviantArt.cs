@@ -155,7 +155,8 @@ namespace ArtSourceWrapper {
     }
 
     public class DeviantArtSubmissionWrapper : ISubmissionWrapper {
-        public bool PotentiallySensitive => Deviation.IsMature == true;
+        public bool Mature => Deviation.IsMature == true;
+		public bool Adult => false;
         
         public string HTMLDescription {
             get {

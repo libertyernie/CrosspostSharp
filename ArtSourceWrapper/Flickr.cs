@@ -95,8 +95,9 @@ namespace ArtSourceWrapper {
 
         public string Title => _photo.Title;
         public string HTMLDescription => _photo.Description;
-        public bool PotentiallySensitive => false;
-        public IEnumerable<string> Tags => _photo.Tags;
+        public bool Mature => false;
+        public bool Adult => false;
+		public IEnumerable<string> Tags => _photo.Tags;
         public DateTime Timestamp => _photo.DateUploaded;
         public string ViewURL => $"https://www.flickr.com/photos/{_photo.UserId}/{_photo.PhotoId}";
         public string ImageURL => $"https://farm{_photo.Farm}.staticflickr.com/{_photo.Server}/{_photo.PhotoId}_{_photo.OriginalSecret}_o.{_photo.OriginalFormat}";

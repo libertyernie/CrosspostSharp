@@ -10,16 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharp3 {
-	//public struct ArtworkMetadataMaturityLevel {
-	//	public bool moderate, explicit;
-	//}
-
 	public struct ArtworkData {
 		public byte[] data;
 		public string title, description, url;
 		public IEnumerable<string> tags;
 		public bool mature;
-		//public ArtworkMetadataMaturityLevel nudity, violence;
+		public bool adult;
 
 		public static async Task<ArtworkData> DownloadAsync(ISubmissionWrapper wrapper) {
 			var req = WebRequestFactory.Create(wrapper.ImageURL);
@@ -32,7 +28,8 @@ namespace CrosspostSharp3 {
 					title = wrapper.Title,
 					description = wrapper.HTMLDescription,
 					tags = wrapper.Tags,
-					mature = wrapper.PotentiallySensitive,
+					mature = wrapper.Mature,
+					adult = wrapper.Adult,
 					url = wrapper.ViewURL
 				};
 			}

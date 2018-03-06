@@ -115,8 +115,9 @@ namespace ArtSourceWrapper {
     public interface ISubmissionWrapper {
         string Title { get; }
         string HTMLDescription { get; }
-        bool PotentiallySensitive { get; }
-        IEnumerable<string> Tags { get; }
+        bool Mature { get; }
+		bool Adult { get; }
+		IEnumerable<string> Tags { get; }
         DateTime Timestamp { get; }
 
         string ViewURL { get; }
@@ -137,20 +138,21 @@ namespace ArtSourceWrapper {
             ISubmissionWrapper from,
             string title = null,
             string htmlDescription = null,
-            bool? potentiallySensitive = null,
+            bool? mature = null,
             IEnumerable<string> tags = null
         ) {
             _base = from;
             this.Title = title ?? from.Title;
             this.HTMLDescription = htmlDescription ?? from.HTMLDescription;
-            this.PotentiallySensitive = potentiallySensitive ?? from.PotentiallySensitive;
+            this.Mature = mature ?? from.Mature;
             this.Tags = tags?.ToList() ?? from.Tags;
         }
 
         public string Title { get; set; }
         public string HTMLDescription { get; set; }
-        public bool PotentiallySensitive { get; set; }
-        public IEnumerable<string> Tags { get; set; }
+        public bool Mature { get; set; }
+		public bool Adult { get; set; }
+		public IEnumerable<string> Tags { get; set; }
         public DateTime Timestamp => _base.Timestamp;
 
         public string ViewURL => _base.ViewURL;

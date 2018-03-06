@@ -113,7 +113,8 @@ namespace ArtSourceWrapper {
                 return html;
             }
         }
-        public bool PotentiallySensitive => !string.Equals(_submission.rating, "general", StringComparison.CurrentCultureIgnoreCase);
+        public bool Mature => string.Equals(_submission.rating, "mature", StringComparison.CurrentCultureIgnoreCase);
+		public bool Adult => string.Equals(_submission.rating, "adult", StringComparison.CurrentCultureIgnoreCase);
         public IEnumerable<string> Tags => _submission.keywords;
         public DateTime Timestamp => _submission.posted_at.LocalDateTime;
         public string ViewURL => _submission.link;

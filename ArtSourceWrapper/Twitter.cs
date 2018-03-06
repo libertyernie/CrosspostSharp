@@ -101,7 +101,8 @@ namespace ArtSourceWrapper {
                 return "<p>" + WebUtility.HtmlEncode(text).Replace("\n", "<br/>") + "</p>";
             }
         }
-        public bool PotentiallySensitive => Tweet.PossiblySensitive;
+        public bool Mature => Tweet.PossiblySensitive;
+		public bool Adult => false;
         public IEnumerable<string> Tags => Tweet.Hashtags.Select(h => h.Text);
         public DateTime Timestamp => Tweet.CreatedAt;
         public string ViewURL => Tweet.Url;

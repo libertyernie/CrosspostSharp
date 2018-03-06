@@ -41,7 +41,8 @@ namespace CrosspostSharp3 {
 				description = txtDescription.Text,
 				url = _originalWrapper?.ViewURL,
 				tags = txtTags.Text.Split(' ').Where(s => s != ""),
-				mature = chkPotentiallySensitiveMaterial.Checked,
+				mature = chkMature.Checked,
+				adult = chkAdult.Checked
 			};
 		}
 
@@ -64,7 +65,7 @@ namespace CrosspostSharp3 {
 							txtTitle.Text,
 							txtDescription.Text,
 							txtTags.Text.Split(' ').Where(s => s != ""),
-							chkPotentiallySensitiveMaterial.Checked,
+							chkMature.Checked || chkAdult.Checked,
 							_originalWrapper?.ViewURL);
 						f.ShowDialog(this);
 					}
@@ -110,7 +111,8 @@ namespace CrosspostSharp3 {
 			txtTitle.Text = artwork.title;
 			txtDescription.Text = artwork.description;
 			txtTags.Text = string.Join(" ", artwork.tags);
-			chkPotentiallySensitiveMaterial.Checked = artwork.mature;
+			chkMature.Checked = artwork.mature;
+			chkAdult.Checked = artwork.adult;
 			_originalWrapper = null;
 		}
 

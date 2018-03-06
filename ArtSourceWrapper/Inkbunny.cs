@@ -86,7 +86,8 @@ namespace ArtSourceWrapper {
         
 		public string HTMLDescription => Submission.description_bbcode_parsed;
         public string ImageURL => Submission.file_url_full;
-		public bool PotentiallySensitive => Submission.rating_id != InkbunnyRating.General;
+		public bool Mature => Submission.rating_id == InkbunnyRating.Mature;
+		public bool Adult => Submission.rating_id == InkbunnyRating.Adult;
 		public IEnumerable<string> Tags => Submission.keywords.Select(k => k.keyword_name);
         public string ThumbnailURL => Submission.thumbnail_url_medium ?? Submission.thumbnail_url_medium_noncustom;
 		public DateTime Timestamp => Submission.create_datetime.ToLocalTime().LocalDateTime;

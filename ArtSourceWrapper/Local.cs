@@ -98,7 +98,8 @@ namespace ArtSourceWrapper {
 
         public string Title => Path.GetFileNameWithoutExtension(_path);
         public string HTMLDescription => "";
-        public bool PotentiallySensitive => false;
+        public bool Mature => false;
+		public bool Adult => false;
         public IEnumerable<string> Tags => Enumerable.Empty<string>();
         public DateTime Timestamp => File.GetCreationTime(_path);
         public string ViewURL => null;

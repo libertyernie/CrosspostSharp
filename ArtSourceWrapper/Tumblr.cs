@@ -84,7 +84,8 @@ namespace ArtSourceWrapper {
 
         public string Title => "";
         public string HTMLDescription => Post.Caption;
-        public bool PotentiallySensitive => false;
+        public bool Mature => false;
+		public bool Adult => false;
         public IEnumerable<string> Tags => Post.Tags;
         public DateTime Timestamp => Post.Timestamp;
         public string ViewURL => Post.Url;

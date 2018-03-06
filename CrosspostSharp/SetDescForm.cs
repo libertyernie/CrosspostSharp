@@ -21,7 +21,7 @@ namespace CrosspostSharp {
             this.txtTitle.Text = SubmissionWrapper.Title;
             this.txtDesc.Text = SubmissionWrapper.HTMLDescription;
             this.txtTags.Text = string.Join(" ", SubmissionWrapper.Tags.Select(s => $"#{s}"));
-            this.chkPotentiallySensitive.Checked = SubmissionWrapper.PotentiallySensitive;
+            this.chkPotentiallySensitive.Checked = SubmissionWrapper.Mature || SubmissionWrapper.Adult;
         }
 
         private void btnOkay_Click(object sender, EventArgs e) {
@@ -30,7 +30,7 @@ namespace CrosspostSharp {
                 title: txtTitle.Text,
                 htmlDescription: txtDesc.Text,
                 tags: txtTags.Text.Replace("#", "").Split(' '),
-                potentiallySensitive: chkPotentiallySensitive.Checked);
+                mature: chkPotentiallySensitive.Checked);
         }
     }
 }

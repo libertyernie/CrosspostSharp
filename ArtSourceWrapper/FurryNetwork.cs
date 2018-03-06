@@ -94,7 +94,8 @@ namespace ArtSourceWrapper {
 
 		public string Title => _artwork.Title;
 		public string HTMLDescription => _html ?? _artwork.Description;
-		public bool PotentiallySensitive => _artwork.Rating != 0;
+		public bool Mature => _artwork.Rating == 1;
+		public bool Adult => _artwork.Rating >= 2;
 		public IEnumerable<string> Tags => _artwork.Tags;
 		public DateTime Timestamp => _artwork.Created;
 		public string ViewURL => $"https://beta.furrynetwork.com/artwork/{_artwork.Id}";

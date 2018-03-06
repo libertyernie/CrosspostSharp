@@ -84,7 +84,9 @@ namespace ArtSourceWrapper {
 
 		public string HTMLDescription => _item.OptionalElements.DescriptionNode.DescriptionText;
 
-		public bool PotentiallySensitive => false;
+		public bool Mature => false;
+
+		public bool Adult => false;
 
 		public IEnumerable<string> Tags => Enumerable.Empty<string>();
 

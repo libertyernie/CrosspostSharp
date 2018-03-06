@@ -109,7 +109,8 @@ namespace ArtSourceWrapper {
 
         public string Title => _entry.Metadata.Title;
         public string HTMLDescription => _entry.Metadata.ArtistComment;
-        public bool PotentiallySensitive => false;
+        public bool Mature => false;
+		public bool Adult => false;
         public IEnumerable<string> Tags => _entry.Metadata.Tags;
         public DateTime Timestamp => _entry.Metadata.CreationTime;
         public string ViewURL {
