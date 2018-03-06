@@ -65,12 +65,12 @@ namespace ArtSourceWrapper {
             return new InternalFetchResult(list, position);
         }
 
-        public override async Task<string> WhoamiAsync() {
-			return _blogName;
+        public override Task<string> WhoamiAsync() {
+			return Task.FromResult(_blogName);
         }
 
-        public override async Task<string> GetUserIconAsync(int size) {
-            return $"https://api.tumblr.com/v2/blog/{_blogName}.tumblr.com/avatar/{size}";
+        public override Task<string> GetUserIconAsync(int size) {
+            return Task.FromResult($"https://api.tumblr.com/v2/blog/{_blogName}.tumblr.com/avatar/{size}");
         }
     }
 

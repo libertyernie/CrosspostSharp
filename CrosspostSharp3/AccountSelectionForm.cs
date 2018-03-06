@@ -49,7 +49,7 @@ namespace CrosspostSharp3 {
 			IEnumerable<T> initialList,
 			Func<IEnumerable<T>> onAdd,
 			Action<T> onRemove = null
-		) : this(initialList, async () => onAdd(), onRemove) { }
+		) : this(initialList, () => Task.FromResult(onAdd()), onRemove) { }
 
 		private void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
