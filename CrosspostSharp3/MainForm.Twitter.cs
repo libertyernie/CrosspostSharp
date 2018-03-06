@@ -33,7 +33,9 @@ namespace CrosspostSharp3 {
 							() => Tweetinvi.UserAsync.GetAuthenticatedUser());
 						settings.screenName = user.ScreenName;
 						return new[] { settings };
-					} catch (Exception) { }
+					} catch (Exception ex) {
+						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 
 					return Enumerable.Empty<Settings.TwitterSettings>();
 				}
