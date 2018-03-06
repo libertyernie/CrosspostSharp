@@ -213,8 +213,11 @@
     <PackageReference Include="ISchemm.WinFormsOAuth">
       <Version>1.1.1</Version>
     </PackageReference>
-    <PackageReference Include="TumblrSharp">
-      <Version>1.0.0.6</Version>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="NewTumblrSharp">
+      <Version>1.1.27</Version>
     </PackageReference>
     <PackageReference Include="TweetinviAPI">
       <Version>2.1.0</Version>
