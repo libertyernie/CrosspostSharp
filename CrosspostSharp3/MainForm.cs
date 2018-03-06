@@ -106,8 +106,7 @@ namespace CrosspostSharp3 {
 			var s = Settings.Load();
 			if (s.DeviantArt?.RefreshToken != null) {
 				if (await UpdateDeviantArtTokens()) {
-					list.Add(new DeviantArtWrapper(new DeviantArtGalleryDeviationWrapper()));
-					list.Add(new DeviantArtWrapper(new DeviantArtScrapsDeviationWrapper()));
+					list.Add(new DeviantArtWrapper());
 					list.Add(new StashOrderedWrapper());
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);

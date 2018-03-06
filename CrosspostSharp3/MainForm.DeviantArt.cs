@@ -47,9 +47,9 @@ namespace CrosspostSharp3 {
 						s.Save();
 					}
 
-					string user = await new StashWrapper().WhoamiAsync();
+					string user = await new StashOrderedWrapper().WhoamiAsync();
 					if (MessageBox.Show(this, $"You are currenty logged into DeviantArt and sta.sh as {user}. Would you like to log out?", Text, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-						await DeviantArtDeviationWrapper.LogoutAsync();
+						await DeviantArtWrapper.LogoutAsync();
 						s.DeviantArt = new Settings.DeviantArtSettings {
 							RefreshToken = null
 						};

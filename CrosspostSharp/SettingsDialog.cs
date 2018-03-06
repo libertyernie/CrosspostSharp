@@ -42,7 +42,7 @@ namespace CrosspostSharp {
         private async void btnDeviantArtSignIn_Click(object sender, EventArgs e) {
             try {
                 if (string.Equals("Sign out", btnDeviantArtSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
-                    await DeviantArtDeviationWrapper.LogoutAsync();
+                    await DeviantArtWrapper.LogoutAsync();
                     Settings.DeviantArt.RefreshToken = null;
                 } else {
                     var result = await DeviantartApiLogin.WinForms.Login.SignInAsync(
@@ -186,7 +186,7 @@ namespace CrosspostSharp {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
                 try {
-                    string username = (await DeviantArtDeviationWrapper.GetUserAsync()).Username;
+                    string username = (await DeviantArtWrapper.GetUserAsync()).Username;
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
                     lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {

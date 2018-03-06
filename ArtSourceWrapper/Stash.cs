@@ -8,7 +8,7 @@ using System.Drawing;
 using DeviantartApi.Objects;
 
 namespace ArtSourceWrapper {
-    public class StashWrapper : SiteWrapper<StashSubmissionWrapper, uint> {
+    internal class StashWrapper : SiteWrapper<StashSubmissionWrapper, uint> {
         public override string SiteName => "Sta.sh";
         public override string WrapperName => "Sta.sh";
 

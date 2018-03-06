@@ -139,7 +139,6 @@
   <ItemGroup>
     <Compile Include="AsynchronousCachedEnumerable.cs" />
     <Compile Include="Base.cs" />
-    <Compile Include="DeviantArt.Scraps.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="DeviantArt.cs" />
     <Compile Include="Flickr.cs" />

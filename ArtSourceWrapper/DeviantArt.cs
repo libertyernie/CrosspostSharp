@@ -33,49 +33,12 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public abstract class DeviantArtDeviationWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
-        public string SiteName => "DeviantArt";
-        public abstract string WrapperName { get; }
-
-        public static async Task<User> GetUserAsync() {
-            var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
-            if (result.IsError) {
-                throw new DeviantArtException(result.ErrorText);
-            }
-            if (!string.IsNullOrEmpty(result.Result.Error)) {
-                throw new DeviantArtException(result.Result.ErrorDescription);
-            }
-            return result.Result;
-        }
-
-        private User _user;
-
-        public async Task<string> WhoamiAsync() {
-            if (_user == null) _user = await GetUserAsync();
-            return _user.Username;
-        }
-
-        public async Task<string> GetUserIconAsync() {
-            if (_user == null) _user = await GetUserAsync();
-            return _user.UserIconUrl.AbsoluteUri;
-        }
-
-        public static async Task<bool> LogoutAsync() {
-            bool success = true;
-            foreach (string token in new[] { DeviantartApi.Requester.AccessToken, DeviantartApi.Requester.RefreshToken }) {
-                success = success && await DeviantartApi.Login.LogoutAsync(token);
-            }
-            return success;
-        }
-    }
-
-    public class DeviantArtGalleryDeviationWrapper : DeviantArtDeviationWrapper {
-        public override string WrapperName => "DeviantArt (Gallery)";
+    internal class DeviantArtInternalWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
         public override int BatchSize { get; set; } = 24;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 24;
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+		protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
             uint maxCount = (uint)Math.Max(MinBatchSize, Math.Min(MaxBatchSize, count));
             uint position = startPosition ?? 0;
 
@@ -99,27 +62,42 @@ namespace ArtSourceWrapper {
     }
     
     public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
-        private DeviantArtDeviationWrapper _idWrapper;
+        private DeviantArtInternalWrapper _idWrapper;
 
-        public override string SiteName => _idWrapper.SiteName;
-        public override string WrapperName => _idWrapper.WrapperName;
+		public override string SiteName => "DeviantArt";
+		public override string WrapperName => "DeviantArt";
 
-        public override int BatchSize { get; set; }
+		public override int BatchSize { get; set; }
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => Math.Min(50, _idWrapper.MaxBatchSize);
 
-        public DeviantArtWrapper(DeviantArtDeviationWrapper idWrapper) {
-            _idWrapper = idWrapper;
+        public DeviantArtWrapper() {
+            _idWrapper = new DeviantArtInternalWrapper();
             BatchSize = MaxBatchSize;
         }
 
-        public override Task<string> WhoamiAsync() {
-            return _idWrapper.WhoamiAsync();
-        }
+		public static async Task<User> GetUserAsync() {
+			var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
+			if (result.IsError) {
+				throw new DeviantArtException(result.ErrorText);
+			}
+			if (!string.IsNullOrEmpty(result.Result.Error)) {
+				throw new DeviantArtException(result.Result.ErrorDescription);
+			}
+			return result.Result;
+		}
 
-        public override Task<string> GetUserIconAsync(int size) {
-            return _idWrapper.GetUserIconAsync();
-        }
+		private User _user;
+
+		public override async Task<string> WhoamiAsync() {
+			if (_user == null) _user = await GetUserAsync();
+			return _user.Username;
+		}
+
+		public override async Task<string> GetUserIconAsync(int size) {
+			if (_user == null) _user = await GetUserAsync();
+			return _user.UserIconUrl.AbsoluteUri;
+		}
 
         private static IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {
             foreach (var d in deviations) {
@@ -151,8 +129,16 @@ namespace ArtSourceWrapper {
             var wrappers = Wrap(deviations, metadataResponse.Result.Metadata);
 
             return new InternalFetchResult(wrappers, skip + (uint)take, !_idWrapper.Cache.Skip((int)skip + take).Any() && _idWrapper.IsEnded);
-        }
-    }
+		}
+
+		public static async Task<bool> LogoutAsync() {
+			bool success = true;
+			foreach (string token in new[] { DeviantartApi.Requester.AccessToken, DeviantartApi.Requester.RefreshToken }) {
+				success = success && await DeviantartApi.Login.LogoutAsync(token);
+			}
+			return success;
+		}
+	}
 
     public class DeviantArtSubmissionWrapper : ISubmissionWrapper {
         public bool Mature => Deviation.IsMature == true;
