@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IECookiePersist.cs" />
     <Compile Include="TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
