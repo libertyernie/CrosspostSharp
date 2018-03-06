@@ -36,6 +36,10 @@
             this.picUserIcon = new System.Windows.Forms.PictureBox();
             this.lblUsername1 = new System.Windows.Forms.Label();
             this.lblUsername2 = new System.Windows.Forms.Label();
+            this.chkInkbunnyTag2 = new System.Windows.Forms.CheckBox();
+            this.chkInkbunnyTag3 = new System.Windows.Forms.CheckBox();
+            this.chkInkbunnyTag4 = new System.Windows.Forms.CheckBox();
+            this.chkInkbunnyTag5 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +53,7 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(360, 140);
+            this.txtDescription.Size = new System.Drawing.Size(360, 117);
             this.txtDescription.TabIndex = 5;
             // 
             // btnPost
@@ -58,7 +62,7 @@
             this.btnPost.Location = new System.Drawing.Point(297, 326);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 8;
+            this.btnPost.TabIndex = 15;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
@@ -67,7 +71,7 @@
             // 
             this.lblTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(12, 261);
+            this.lblTags.Location = new System.Drawing.Point(12, 238);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(31, 13);
             this.lblTags.TabIndex = 6;
@@ -77,7 +81,7 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(12, 277);
+            this.txtTags.Location = new System.Drawing.Point(12, 254);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(360, 20);
             this.txtTags.TabIndex = 7;
@@ -88,7 +92,7 @@
             this.lblTitle.Location = new System.Drawing.Point(12, 63);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(27, 13);
-            this.lblTitle.TabIndex = 9;
+            this.lblTitle.TabIndex = 2;
             this.lblTitle.Text = "Title";
             // 
             // txtTitle
@@ -98,7 +102,7 @@
             this.txtTitle.Location = new System.Drawing.Point(12, 79);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(360, 20);
-            this.txtTitle.TabIndex = 10;
+            this.txtTitle.TabIndex = 3;
             // 
             // lblDescription
             // 
@@ -106,7 +110,7 @@
             this.lblDescription.Location = new System.Drawing.Point(12, 102);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Size = new System.Drawing.Size(108, 13);
-            this.lblDescription.TabIndex = 11;
+            this.lblDescription.TabIndex = 4;
             this.lblDescription.Text = "Description (BBCode)";
             // 
             // chkInkbunnyScraps
@@ -116,7 +120,7 @@
             this.chkInkbunnyScraps.Location = new System.Drawing.Point(12, 303);
             this.chkInkbunnyScraps.Name = "chkInkbunnyScraps";
             this.chkInkbunnyScraps.Size = new System.Drawing.Size(59, 17);
-            this.chkInkbunnyScraps.TabIndex = 14;
+            this.chkInkbunnyScraps.TabIndex = 12;
             this.chkInkbunnyScraps.Text = "Scraps";
             this.chkInkbunnyScraps.UseVisualStyleBackColor = true;
             // 
@@ -129,7 +133,7 @@
             this.chkInkbunnyPublic.Location = new System.Drawing.Point(77, 303);
             this.chkInkbunnyPublic.Name = "chkInkbunnyPublic";
             this.chkInkbunnyPublic.Size = new System.Drawing.Size(55, 17);
-            this.chkInkbunnyPublic.TabIndex = 15;
+            this.chkInkbunnyPublic.TabIndex = 13;
             this.chkInkbunnyPublic.Text = "Public";
             this.chkInkbunnyPublic.UseVisualStyleBackColor = true;
             this.chkInkbunnyPublic.CheckedChanged += new System.EventHandler(this.chkInkbunnyPublic_CheckedChanged);
@@ -143,7 +147,7 @@
             this.chkInkbunnyNotifyWatchers.Location = new System.Drawing.Point(138, 303);
             this.chkInkbunnyNotifyWatchers.Name = "chkInkbunnyNotifyWatchers";
             this.chkInkbunnyNotifyWatchers.Size = new System.Drawing.Size(99, 17);
-            this.chkInkbunnyNotifyWatchers.TabIndex = 16;
+            this.chkInkbunnyNotifyWatchers.TabIndex = 14;
             this.chkInkbunnyNotifyWatchers.Text = "Notify watchers";
             this.chkInkbunnyNotifyWatchers.UseVisualStyleBackColor = true;
             // 
@@ -164,7 +168,7 @@
             this.lblUsername1.Location = new System.Drawing.Point(66, 12);
             this.lblUsername1.Name = "lblUsername1";
             this.lblUsername1.Size = new System.Drawing.Size(306, 17);
-            this.lblUsername1.TabIndex = 18;
+            this.lblUsername1.TabIndex = 0;
             this.lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblUsername2
@@ -175,14 +179,62 @@
             this.lblUsername2.Location = new System.Drawing.Point(66, 29);
             this.lblUsername2.Name = "lblUsername2";
             this.lblUsername2.Size = new System.Drawing.Size(306, 13);
-            this.lblUsername2.TabIndex = 19;
+            this.lblUsername2.TabIndex = 1;
             this.lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // chkInkbunnyTag2
+            // 
+            this.chkInkbunnyTag2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkInkbunnyTag2.AutoSize = true;
+            this.chkInkbunnyTag2.Location = new System.Drawing.Point(12, 280);
+            this.chkInkbunnyTag2.Name = "chkInkbunnyTag2";
+            this.chkInkbunnyTag2.Size = new System.Drawing.Size(56, 17);
+            this.chkInkbunnyTag2.TabIndex = 8;
+            this.chkInkbunnyTag2.Text = "Nudity";
+            this.chkInkbunnyTag2.UseVisualStyleBackColor = true;
+            // 
+            // chkInkbunnyTag3
+            // 
+            this.chkInkbunnyTag3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkInkbunnyTag3.AutoSize = true;
+            this.chkInkbunnyTag3.Location = new System.Drawing.Point(74, 280);
+            this.chkInkbunnyTag3.Name = "chkInkbunnyTag3";
+            this.chkInkbunnyTag3.Size = new System.Drawing.Size(67, 17);
+            this.chkInkbunnyTag3.TabIndex = 9;
+            this.chkInkbunnyTag3.Text = "Violence";
+            this.chkInkbunnyTag3.UseVisualStyleBackColor = true;
+            // 
+            // chkInkbunnyTag4
+            // 
+            this.chkInkbunnyTag4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkInkbunnyTag4.AutoSize = true;
+            this.chkInkbunnyTag4.Location = new System.Drawing.Point(147, 280);
+            this.chkInkbunnyTag4.Name = "chkInkbunnyTag4";
+            this.chkInkbunnyTag4.Size = new System.Drawing.Size(95, 17);
+            this.chkInkbunnyTag4.TabIndex = 10;
+            this.chkInkbunnyTag4.Text = "Sexual themes";
+            this.chkInkbunnyTag4.UseVisualStyleBackColor = true;
+            // 
+            // chkInkbunnyTag5
+            // 
+            this.chkInkbunnyTag5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkInkbunnyTag5.AutoSize = true;
+            this.chkInkbunnyTag5.Location = new System.Drawing.Point(248, 280);
+            this.chkInkbunnyTag5.Name = "chkInkbunnyTag5";
+            this.chkInkbunnyTag5.Size = new System.Drawing.Size(100, 17);
+            this.chkInkbunnyTag5.TabIndex = 11;
+            this.chkInkbunnyTag5.Text = "Strong violence";
+            this.chkInkbunnyTag5.UseVisualStyleBackColor = true;
             // 
             // InkbunnyPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 361);
+            this.Controls.Add(this.chkInkbunnyTag5);
+            this.Controls.Add(this.chkInkbunnyTag4);
+            this.Controls.Add(this.chkInkbunnyTag3);
+            this.Controls.Add(this.chkInkbunnyTag2);
             this.Controls.Add(this.picUserIcon);
             this.Controls.Add(this.lblUsername1);
             this.Controls.Add(this.lblUsername2);
@@ -219,5 +271,9 @@
 		private System.Windows.Forms.PictureBox picUserIcon;
 		private System.Windows.Forms.Label lblUsername1;
 		private System.Windows.Forms.Label lblUsername2;
+		private System.Windows.Forms.CheckBox chkInkbunnyTag2;
+		private System.Windows.Forms.CheckBox chkInkbunnyTag3;
+		private System.Windows.Forms.CheckBox chkInkbunnyTag4;
+		private System.Windows.Forms.CheckBox chkInkbunnyTag5;
 	}
 }

@@ -51,10 +51,10 @@ namespace CrosspostSharp3 {
 			btnPost.Enabled = false;
 			try {
 				var rating = new List<InkbunnyRatingTag>();
-				//if (chkInbunnyTag2.Checked) rating.Add(InkbunnyRatingTag.Nudity);
-				//if (chkInbunnyTag3.Checked) rating.Add(InkbunnyRatingTag.Violence);
-				//if (chkInbunnyTag4.Checked) rating.Add(InkbunnyRatingTag.SexualThemes);
-				//if (chkInbunnyTag5.Checked) rating.Add(InkbunnyRatingTag.StrongViolence);
+				if (chkInkbunnyTag2.Checked) rating.Add(InkbunnyRatingTag.Nudity);
+				if (chkInkbunnyTag3.Checked) rating.Add(InkbunnyRatingTag.Violence);
+				if (chkInkbunnyTag4.Checked) rating.Add(InkbunnyRatingTag.SexualThemes);
+				if (chkInkbunnyTag5.Checked) rating.Add(InkbunnyRatingTag.StrongViolence);
 
 				long submission_id = await _client.UploadAsync(files: new byte[][] {
 					_artworkData.data
