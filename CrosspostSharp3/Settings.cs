@@ -69,6 +69,15 @@ namespace CrosspostSharp3 {
 
 		public List<TumblrSettings> Tumblr = new List<TumblrSettings>();
 
+		public struct WeasylSettings : IAccountCredentials {
+			public string username;
+			public string apiKey;
+
+			string IAccountCredentials.Username => username;
+		}
+
+		public List<WeasylSettings> Weasyl = new List<WeasylSettings>();
+
 		public static Settings Load(string filename = "CrosspostSharp.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {

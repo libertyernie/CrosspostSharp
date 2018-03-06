@@ -30,12 +30,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +46,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
-            this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -115,7 +115,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.exportToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -124,21 +123,14 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.exportToolStripMenuItem.Text = "&Export...";
-            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -159,7 +151,8 @@
             this.inkbunnyToolStripMenuItem,
             this.mediaRSSToolStripMenuItem,
             this.twitterToolStripMenuItem,
-            this.tumblrToolStripMenuItem});
+            this.tumblrToolStripMenuItem,
+            this.weasylToolStripMenuItem});
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
             this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.accountSetupToolStripMenuItem.Text = "&Account Setup";
@@ -177,6 +170,13 @@
             this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.furAffinityToolStripMenuItem.Text = "&FurAffinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
+            // 
+            // inkbunnyToolStripMenuItem
+            // 
+            this.inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
+            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
+            this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
             // 
             // mediaRSSToolStripMenuItem
             // 
@@ -267,12 +267,12 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
-            // inkbunnyToolStripMenuItem
+            // weasylToolStripMenuItem
             // 
-            this.inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
-            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
-            this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
+            this.weasylToolStripMenuItem.Name = "weasylToolStripMenuItem";
+            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.weasylToolStripMenuItem.Text = "&Weasyl";
+            this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -313,7 +313,6 @@
 		private System.Windows.Forms.Button btnNext;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem accountSetupToolStripMenuItem;
@@ -328,6 +327,7 @@
 		private System.Windows.Forms.Label lblLoadStatus;
 		private System.Windows.Forms.ToolStripMenuItem tumblrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem inkbunnyToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem weasylToolStripMenuItem;
 	}
 }
 

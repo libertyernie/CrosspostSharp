@@ -149,6 +149,11 @@ namespace CrosspostSharp3 {
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret)), t.blogName));
 			}
+			foreach (var w in s.Weasyl) {
+				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
+				list.Add(new WeasylWrapper(new WeasylGalleryIdWrapper(w.apiKey)));
+				list.Add(new WeasylWrapper(new WeasylCharacterWrapper(w.apiKey)));
+			}
 
 			lblLoadStatus.Text = "Checking usernames...";
 
