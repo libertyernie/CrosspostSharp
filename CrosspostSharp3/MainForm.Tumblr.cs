@@ -20,30 +20,17 @@ namespace CrosspostSharp3 {
 					oauth.getRequestToken();
 					string verifier = oauth.authorizeToken(); // display WebBrowser
 					if (verifier == null) return null;
-					
-					var newTumblrSettings = new Settings.TumblrSettings {
-						tokenKey = oauth.getAccessToken(),
-						tokenSecret = oauth.TokenSecret
-					};
+
+					var token = new DontPanic.TumblrSharp.OAuth.Token(
+						oauth.getAccessToken(),
+						oauth.TokenSecret);
 
 					var client = new TumblrClientFactory().Create<TumblrClient>(
 						OAuthConsumer.Tumblr.CONSUMER_KEY,
 						OAuthConsumer.Tumblr.CONSUMER_SECRET,
-						new DontPanic.TumblrSharp.OAuth.Token(
-							newTumblrSettings.tokenKey,
-							newTumblrSettings.tokenSecret));
+						token);
 					var user = await client.GetUserInfoAsync();
-					using (var f = new TumblrBlogSelectionForm(user.Blogs)) {
-						f.ShowDialog(this);
-						var blog = f.SelectedItem;
-						if (blog != null) {
-							newTumblrSettings.blogName = blog.Name;
-							newTumblrSettings.Username = blog.Name;
-							return newTumblrSettings;
-						} else {
-							return null;
-						}
-					}
+					return TumblrChooseBlogs(token, user.Blogs);
 				}
 			)) {
 				acctSelForm.ShowDialog(this);
@@ -53,6 +40,20 @@ namespace CrosspostSharp3 {
 			}
 
 			toolsToolStripMenuItem.Enabled = true;
+		}
+
+		private static IEnumerable<Settings.TumblrSettings> TumblrChooseBlogs(DontPanic.TumblrSharp.OAuth.Token token, IEnumerable<UserBlogInfo> blogs) {
+			using (var f = new TumblrBlogSelectionForm(blogs)) {
+				f.ShowDialog();
+				foreach (var blog in f.SelectedItems) {
+					yield return new Settings.TumblrSettings {
+						tokenKey = token.Key,
+						tokenSecret = token.Secret,
+						blogName = blog.Name,
+						Username = blog.Name
+					};
+				}
+			}
 		}
 	}
 }

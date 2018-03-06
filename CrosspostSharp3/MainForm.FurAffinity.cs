@@ -18,13 +18,15 @@ namespace CrosspostSharp3 {
 					using (var f = new FAWinFormsLogin.loginPages.LoginFormFA()) {
 						f.Text = "Log In - FurAffinity";
 						if (f.ShowDialog() == DialogResult.OK) {
-							return new Settings.FurAffinitySettings {
-								Username = await new FurAffinityIdWrapper(f.ACookie, f.BCookie).WhoamiAsync(),
-								a = f.ACookie,
-								b = f.BCookie
+							return new[] {
+								new Settings.FurAffinitySettings {
+									Username = await new FurAffinityIdWrapper(f.ACookie, f.BCookie).WhoamiAsync(),
+									a = f.ACookie,
+									b = f.BCookie
+								}
 							};
 						} else {
-							return null;
+							return Enumerable.Empty<Settings.FurAffinitySettings>();
 						}
 					}
 				}

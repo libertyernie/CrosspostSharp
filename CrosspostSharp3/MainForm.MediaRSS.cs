@@ -16,19 +16,7 @@ namespace CrosspostSharp3 {
 			Settings s = Settings.Load();
 			using (var acctSelForm = new AccountSelectionForm<Settings.MediaRSSSettings>(
 				s.MediaRSS,
-				async () => {
-					using (var form = new AddRSSForm()) {
-						if (form.ShowDialog(this) == DialogResult.OK) {
-							if (MessageBox.Show(this, $"If this feed contains content that is not your work, you are responsible for observing copyright laws. Don't repost copyrighted artwork or photos without permission.", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
-								return new Settings.MediaRSSSettings {
-									Username = form.FeedLabel,
-									url = form.FeedUrl
-								};
-							}
-						}
-						return null;
-					}
-				}
+				() => PromptAddMediaRSS()
 			)) {
 				acctSelForm.ShowDialog(this);
 				s.MediaRSS = acctSelForm.CurrentList.ToList();
@@ -37,6 +25,19 @@ namespace CrosspostSharp3 {
 			}
 
 			toolsToolStripMenuItem.Enabled = true;
+		}
+
+		private static IEnumerable<Settings.MediaRSSSettings> PromptAddMediaRSS() {
+			using (var form = new AddRSSForm()) {
+				if (form.ShowDialog() == DialogResult.OK) {
+					if (MessageBox.Show($"If this feed contains content that is not your work, you are responsible for observing copyright laws. Don't repost copyrighted artwork or photos without permission.", "Please note", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
+						yield return new Settings.MediaRSSSettings {
+							Username = form.FeedLabel,
+							url = form.FeedUrl
+						};
+					}
+				}
+			}
 		}
 	}
 }

@@ -32,9 +32,10 @@ namespace CrosspostSharp3 {
 							settings.GetCredentials(),
 							() => Tweetinvi.UserAsync.GetAuthenticatedUser());
 						settings.Username = user.ScreenName;
+						return new[] { settings };
 					} catch (Exception) { }
-					
-					return settings;
+
+					return Enumerable.Empty<Settings.TwitterSettings>();
 				}
 			)) {
 				acctSelForm.ShowDialog(this);

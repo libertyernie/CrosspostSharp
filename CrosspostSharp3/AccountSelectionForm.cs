@@ -10,8 +10,8 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class AccountSelectionForm<T> : Form where T : Settings.AccountCredentials {
-		private Func<Task<T>> OnAdd;
-		private Func<T, Task> OnRemove;
+		private Func<Task<IEnumerable<T>>> OnAdd;
+		private Action<T> OnRemove;
 
 		public IEnumerable<T> CurrentList {
 			get {
@@ -25,8 +25,8 @@ namespace CrosspostSharp3 {
 
 		public AccountSelectionForm(
 			IEnumerable<T> initialList,
-			Func<Task<T>> onAdd,
-			Func<T, Task> onRemove = null
+			Func<Task<IEnumerable<T>>> onAdd,
+			Action<T> onRemove = null
 		) {
 			InitializeComponent();
 			foreach (var o in initialList) {
@@ -36,13 +36,19 @@ namespace CrosspostSharp3 {
 			OnRemove = onRemove;
 		}
 
-		private async void Remove_Click(object sender, EventArgs e) {
+		public AccountSelectionForm(
+			IEnumerable<T> initialList,
+			Func<IEnumerable<T>> onAdd,
+			Action<T> onRemove = null
+		) : this(initialList, async () => onAdd(), onRemove) { }
+
+		private void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
 				var obj = listBox1.SelectedItem as T;
 				if (obj != null) {
 					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} form your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
-						if (OnRemove != null) await OnRemove(obj);
+						OnRemove?.Invoke(obj);
 						listBox1.Items.Remove(obj);
 					}
 				}
@@ -55,8 +61,8 @@ namespace CrosspostSharp3 {
 		private async void btnAdd_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
-				var o = await OnAdd();
-				if (o != null) listBox1.Items.Add(o);
+				var list = await OnAdd();
+				foreach (var o in list) listBox1.Items.Add(o);
 			} catch (Exception ex) {
 				if (ex is System.Net.WebException w) {
 					using (var s = w.Response.GetResponseStream())
