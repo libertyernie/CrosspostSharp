@@ -71,6 +71,13 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
+			foreach (var i in settings.Inkbunny) {
+				listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
+					using (var f = new InkbunnyPostForm(i, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 					using (var f = new TwitterPostForm(t, Export())) {

@@ -73,7 +73,11 @@ namespace CrosspostSharp3 {
 				case HtmlNodeType.Element:
 					switch (node.Name) {
 						case "p":
-							// treat paragraphs as crlf
+							if (node.ParentNode?.FirstChild != node) {
+								outText.Write("\r\n\r\n");
+							}
+							break;
+						case "br":
 							outText.Write("\r\n");
 							break;
 					}

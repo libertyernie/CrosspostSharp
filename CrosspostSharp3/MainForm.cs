@@ -154,7 +154,7 @@ namespace CrosspostSharp3 {
 
 			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
-			wrappers = wrappers.OrderBy(w => w.DisplayName).ToArray();
+			wrappers = wrappers.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray())).ToArray();
 			ddlSource.Items.AddRange(wrappers);
 
 			lblLoadStatus.Visible = false;
