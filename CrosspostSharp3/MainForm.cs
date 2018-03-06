@@ -103,8 +103,12 @@ namespace CrosspostSharp3 {
 
 			var list = new List<ISiteWrapper>();
 
+			lblLoadStatus.Visible = true;
+			lblLoadStatus.Text = "Loading settings...";
+
 			var s = Settings.Load();
 			if (s.DeviantArt?.RefreshToken != null) {
+				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
 					list.Add(new DeviantArtWrapper());
 					list.Add(new StashOrderedWrapper());
@@ -115,21 +119,28 @@ namespace CrosspostSharp3 {
 				}
 			}
 			foreach (var fa in s.FurAffinity) {
+				lblLoadStatus.Text = $"Adding FurAffinity {fa.Username}...";
 				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: fa.a,
 					b: fa.b)));
 			}
 			foreach (var t in s.Twitter) {
+				lblLoadStatus.Text = $"Adding Twitter ({t.Username})...";
 				list.Add(new TwitterWrapper(t.GetCredentials()));
 			}
 			foreach (var m in s.MediaRSS) {
+				lblLoadStatus.Text = $"Adding Media RSS feed ({m.Username})...";
 				list.Add(new MediaRSSWrapper(new Uri(m.url), m.Username));
 			}
+
+			lblLoadStatus.Text = "Checking usernames...";
 
 			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
 			wrappers = wrappers.OrderBy(w => w.DisplayName).ToArray();
 			ddlSource.Items.AddRange(wrappers);
+
+			lblLoadStatus.Visible = false;
 
 			if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
 				ddlSource.SelectedIndex = 0;

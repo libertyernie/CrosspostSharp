@@ -36,6 +36,7 @@
             this.accountSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mediaRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPrevious = new System.Windows.Forms.Button();
@@ -43,7 +44,7 @@
             this.picUserIcon = new System.Windows.Forms.PictureBox();
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
-            this.mediaRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblLoadStatus = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -162,21 +163,28 @@
             // deviantArtToolStripMenuItem
             // 
             this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
             this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
             // 
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.furAffinityToolStripMenuItem.Text = "&FurAffinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
+            // 
+            // mediaRSSToolStripMenuItem
+            // 
+            this.mediaRSSToolStripMenuItem.Name = "mediaRSSToolStripMenuItem";
+            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
+            this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
             // 
             this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.twitterToolStripMenuItem.Text = "&Twitter";
             this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
             // 
@@ -240,18 +248,20 @@
             this.lblSiteName.TabIndex = 12;
             this.lblSiteName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // mediaRSSToolStripMenuItem
+            // lblLoadStatus
             // 
-            this.mediaRSSToolStripMenuItem.Name = "mediaRSSToolStripMenuItem";
-            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
-            this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
+            this.lblLoadStatus.AutoEllipsis = true;
+            this.lblLoadStatus.Location = new System.Drawing.Point(12, 53);
+            this.lblLoadStatus.Name = "lblLoadStatus";
+            this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
+            this.lblLoadStatus.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(334, 361);
+            this.Controls.Add(this.lblLoadStatus);
             this.Controls.Add(this.picUserIcon);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblSiteName);
@@ -297,6 +307,7 @@
 		private System.Windows.Forms.ToolStripMenuItem twitterToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem refreshAllToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mediaRSSToolStripMenuItem;
+		private System.Windows.Forms.Label lblLoadStatus;
 	}
 }
 
