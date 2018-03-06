@@ -26,6 +26,16 @@ namespace CrosspostSharp3 {
 
 		public List<FurAffinitySettings> FurAffinity = new List<FurAffinitySettings>();
 
+		public struct InkbunnySettings : IAccountCredentials {
+			public string sid;
+			public int userId;
+			public string username;
+
+			string IAccountCredentials.Username => username;
+		}
+
+		public List<InkbunnySettings> Inkbunny = new List<InkbunnySettings>();
+
 		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;

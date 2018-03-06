@@ -38,6 +38,7 @@
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -45,7 +46,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
-            this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -155,6 +156,7 @@
             this.accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deviantArtToolStripMenuItem,
             this.furAffinityToolStripMenuItem,
+            this.inkbunnyToolStripMenuItem,
             this.mediaRSSToolStripMenuItem,
             this.twitterToolStripMenuItem,
             this.tumblrToolStripMenuItem});
@@ -189,6 +191,13 @@
             this.twitterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.twitterToolStripMenuItem.Text = "&Twitter";
             this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
+            // 
+            // tumblrToolStripMenuItem
+            // 
+            this.tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
+            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tumblrToolStripMenuItem.Text = "T&umblr";
+            this.tumblrToolStripMenuItem.Click += new System.EventHandler(this.tumblrToolStripMenuItem_Click);
             // 
             // refreshAllToolStripMenuItem
             // 
@@ -258,12 +267,12 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
-            // tumblrToolStripMenuItem
+            // inkbunnyToolStripMenuItem
             // 
-            this.tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
-            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.tumblrToolStripMenuItem.Text = "T&umblr";
-            this.tumblrToolStripMenuItem.Click += new System.EventHandler(this.tumblrToolStripMenuItem_Click);
+            this.inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
+            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
+            this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -318,6 +327,7 @@
 		private System.Windows.Forms.ToolStripMenuItem mediaRSSToolStripMenuItem;
 		private System.Windows.Forms.Label lblLoadStatus;
 		private System.Windows.Forms.ToolStripMenuItem tumblrToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem inkbunnyToolStripMenuItem;
 	}
 }
 
