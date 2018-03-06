@@ -57,7 +57,7 @@ namespace ArtSourceWrapper {
 				var reader = XmlReader.Create(ms);
 				var feed = SyndicationFeed.Load<MediaRssFeed>(reader);
 
-				var wrappers = feed.Items.Select(i => new MediaRSSItemWrapper((MediaRssItem)i));
+				var wrappers = feed.Items.Select(i => new MediaRSSItemWrapper((MediaRssItem)i)).Where(i => i.ImageURL != null);
 
 				int nextPosition = (startPosition ?? 0) + 1;
 				if (nextPosition == _urls.Count) {
@@ -82,7 +82,7 @@ namespace ArtSourceWrapper {
 
 		public string Title => _item.Title.Text;
 
-		public string HTMLDescription => _item.OptionalElements.DescriptionNode.DescriptionText;
+		public string HTMLDescription => _item.OptionalElements?.DescriptionNode?.DescriptionText ?? _item.Summary.Text;
 
 		public bool Mature => false;
 
@@ -96,7 +96,7 @@ namespace ArtSourceWrapper {
 
 		public string ImageURL => _item.ContentNodes.OrderByDescending(c => c.Width * c.Height).Select(c => c.Url.AbsoluteUri).FirstOrDefault();
 
-		public string ThumbnailURL => _item.OptionalElements.ThumbnailNode.Url.AbsoluteUri;
+		public string ThumbnailURL => _item.OptionalElements.ThumbnailNode?.Url?.AbsoluteUri;
 
 		public Color? BorderColor => null;
 	}

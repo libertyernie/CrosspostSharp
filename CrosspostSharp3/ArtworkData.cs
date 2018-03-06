@@ -19,6 +19,9 @@ namespace CrosspostSharp3 {
 		public bool adult;
 
 		public static async Task<ArtworkData> DownloadAsync(ISubmissionWrapper wrapper) {
+			if (wrapper.ImageURL == null) {
+				throw new NotImplementedException("Cannot create a post without an image.");
+			}
 			var req = WebRequestFactory.Create(wrapper.ImageURL);
 			using (var resp = await req.GetResponseAsync())
 			using (var stream = resp.GetResponseStream())
