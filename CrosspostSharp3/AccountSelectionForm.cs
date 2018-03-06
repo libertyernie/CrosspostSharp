@@ -10,14 +10,23 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class AccountSelectionForm<T> : Form where T : Settings.IAccountCredentials {
+		private class MenuItem {
+			public string Username => Account.Username ?? Account.ToString();
+			public T Account;
+
+			public MenuItem(T account) {
+				Account = account;
+			}
+		}
+
 		private Func<Task<IEnumerable<T>>> OnAdd;
 		private Action<T> OnRemove;
 
 		public IEnumerable<T> CurrentList {
 			get {
 				foreach (var item in listBox1.Items) {
-					if (item is T o) {
-						yield return o;
+					if (item is MenuItem o) {
+						yield return o.Account;
 					}
 				}
 			}
@@ -30,7 +39,7 @@ namespace CrosspostSharp3 {
 		) {
 			InitializeComponent();
 			foreach (var o in initialList) {
-				listBox1.Items.Add(o);
+				listBox1.Items.Add(new MenuItem(o));
 			}
 			OnAdd = onAdd;
 			OnRemove = onRemove;
@@ -45,10 +54,10 @@ namespace CrosspostSharp3 {
 		private void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
-				var obj = (T)listBox1.SelectedItem;
+				var obj = listBox1.SelectedItem as MenuItem;
 				if (obj != null) {
 					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} form your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
-						OnRemove?.Invoke(obj);
+						OnRemove?.Invoke(obj.Account);
 						listBox1.Items.Remove(obj);
 					}
 				}
@@ -62,7 +71,7 @@ namespace CrosspostSharp3 {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
 				var list = await OnAdd();
-				foreach (var o in list) listBox1.Items.Add(o);
+				foreach (var o in list) listBox1.Items.Add(new MenuItem(o));
 			} catch (Exception ex) {
 				if (ex is System.Net.WebException w) {
 					using (var s = w.Response.GetResponseStream())
