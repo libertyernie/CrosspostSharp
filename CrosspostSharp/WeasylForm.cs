@@ -447,7 +447,7 @@ namespace CrosspostSharp {
 				ResetTweetText();
 
 				lnkTwitterLinkToInclude.Text = submission.ViewURL ?? "";
-                if (submission.PotentiallySensitive) {
+                if (submission.Mature || submission.Adult) {
                     chkTweetPotentiallySensitive.Checked = true;
                     radFlickrRestricted.Checked = true;
 					radFurryNetworkRating2.Checked = true;
@@ -497,7 +497,7 @@ namespace CrosspostSharp {
                 title: submission?.Title,
                 htmlDescription: submission?.HTMLDescription,
                 tags: tags,
-                mature: submission?.PotentiallySensitive == true,
+                mature: submission?.Mature == true || submission?.Adult == true,
                 originalUrl: submission?.ViewURL);
 
             if (submission is LocalFileSubmissionWrapper) {
@@ -742,7 +742,7 @@ namespace CrosspostSharp {
 				if (chkInbunnyTag3.Checked) rating.Add(InkbunnyRatingTag.Violence);
 				if (chkInbunnyTag4.Checked) rating.Add(InkbunnyRatingTag.SexualThemes);
 				if (chkInbunnyTag5.Checked) rating.Add(InkbunnyRatingTag.StrongViolence);
-				if (currentSubmission.PotentiallySensitive && !rating.Any()) {
+				if ((currentSubmission.Mature || currentSubmission.Adult) && !rating.Any()) {
 					DialogResult r = MessageBox.Show(this, $"This image has a non-general rating on the source site. Are you sure you want to post it on Inkbunny without any ratings?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 					if (r != DialogResult.OK) return;
 				}
@@ -1166,7 +1166,7 @@ namespace CrosspostSharp {
                     description = plainText,
                     tags = this.currentSubmission.Tags,
                     nudity = new {
-                        @explicit = this.currentSubmission.PotentiallySensitive
+                        @explicit = this.currentSubmission.Mature || this.currentSubmission.Adult
                     }
                 }));
             }
