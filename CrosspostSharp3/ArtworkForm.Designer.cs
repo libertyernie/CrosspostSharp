@@ -24,6 +24,8 @@
 		/// </summary>
 		private void InitializeComponent() {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.chkAdult = new System.Windows.Forms.CheckBox();
+            this.chkMature = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnView = new System.Windows.Forms.Button();
             this.lnkPreview = new System.Windows.Forms.LinkLabel();
@@ -43,8 +45,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.chkMature = new System.Windows.Forms.CheckBox();
-            this.chkAdult = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -75,6 +75,26 @@
             this.splitContainer1.Size = new System.Drawing.Size(444, 387);
             this.splitContainer1.SplitterDistance = 177;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // chkAdult
+            // 
+            this.chkAdult.AutoSize = true;
+            this.chkAdult.Location = new System.Drawing.Point(182, 143);
+            this.chkAdult.Name = "chkAdult";
+            this.chkAdult.Size = new System.Drawing.Size(50, 17);
+            this.chkAdult.TabIndex = 11;
+            this.chkAdult.Text = "Adult";
+            this.chkAdult.UseVisualStyleBackColor = true;
+            // 
+            // chkMature
+            // 
+            this.chkMature.AutoSize = true;
+            this.chkMature.Location = new System.Drawing.Point(117, 143);
+            this.chkMature.Name = "chkMature";
+            this.chkMature.Size = new System.Drawing.Size(59, 17);
+            this.chkMature.TabIndex = 10;
+            this.chkMature.Text = "Mature";
+            this.chkMature.UseVisualStyleBackColor = true;
             // 
             // btnDelete
             // 
@@ -139,6 +159,7 @@
             this.txtDescription.Location = new System.Drawing.Point(117, 29);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
+            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(315, 82);
             this.txtDescription.TabIndex = 4;
             // 
@@ -259,26 +280,6 @@
             this.listBox1.Size = new System.Drawing.Size(140, 340);
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
-            // 
-            // chkMature
-            // 
-            this.chkMature.AutoSize = true;
-            this.chkMature.Location = new System.Drawing.Point(117, 143);
-            this.chkMature.Name = "chkMature";
-            this.chkMature.Size = new System.Drawing.Size(59, 17);
-            this.chkMature.TabIndex = 10;
-            this.chkMature.Text = "Mature";
-            this.chkMature.UseVisualStyleBackColor = true;
-            // 
-            // chkAdult
-            // 
-            this.chkAdult.AutoSize = true;
-            this.chkAdult.Location = new System.Drawing.Point(182, 143);
-            this.chkAdult.Name = "chkAdult";
-            this.chkAdult.Size = new System.Drawing.Size(50, 17);
-            this.chkAdult.TabIndex = 11;
-            this.chkAdult.Text = "Adult";
-            this.chkAdult.UseVisualStyleBackColor = true;
             // 
             // ArtworkForm
             // 
