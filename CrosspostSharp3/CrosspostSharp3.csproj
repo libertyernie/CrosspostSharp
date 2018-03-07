@@ -51,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IECookiePersist.cs" />
+    <Compile Include="FurryNetworkPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FurryNetworkPostForm.Designer.cs">
+      <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.Inkbunny.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +157,9 @@
     <Compile Include="WebRequestFactory.cs" />
     <EmbeddedResource Include="FurryNetworkCharacterSelectionForm.resx">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FurryNetworkPostForm.resx">
+      <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
