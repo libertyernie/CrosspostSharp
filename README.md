@@ -22,19 +22,20 @@ Requirements:
 Supported Sites
 ---------------
 
-Use the Tools menu to add and remove accounts.
+Use the Tools menu to add and remove accounts. Multiple accounts per site are
+supported on all sites except DeviantArt and Sta.sh.
 
-* DeviantArt / Sta.sh (only one account supported at a time; cannot read scraps)
+* DeviantArt / Sta.sh
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
+* Pixiv (read-only)
 * Tumblr
 * Twitter
 * Weasyl (read-only)
 
 Coming later:
 * Flickr
-* Pixiv (read-only)
 
 You can also use a Media RSS feed as a source or open or save local files.
 

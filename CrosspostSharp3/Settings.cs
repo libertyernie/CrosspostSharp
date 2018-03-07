@@ -45,6 +45,15 @@ namespace CrosspostSharp3 {
 
 		public List<InkbunnySettings> Inkbunny = new List<InkbunnySettings>();
 
+		public struct PixivSettings : IAccountCredentials {
+			public string username;
+			public string password;
+
+			string IAccountCredentials.Username => username;
+		}
+
+		public List<PixivSettings> Pixiv = new List<PixivSettings>();
+
 		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;

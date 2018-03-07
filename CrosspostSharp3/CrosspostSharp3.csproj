@@ -57,6 +57,9 @@
     <Compile Include="FurryNetworkPostForm.Designer.cs">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.Pixiv.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Inkbunny.cs">
       <SubType>Form</SubType>
     </Compile>

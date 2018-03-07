@@ -82,7 +82,7 @@ namespace ArtSourceWrapper {
 		public string ImageURL => _work.meta_single_page?.OriginalImageUrl
 			?? _work.ImageUrls?.Original
 			?? _work.ImageUrls?.Large;
-		public string ThumbnailURL => _work.ImageUrls.Px128x128;
+		public string ThumbnailURL => _work.ImageUrls.Px128x128 ?? ImageURL;
 		public Color? BorderColor => null;
 	}
 }

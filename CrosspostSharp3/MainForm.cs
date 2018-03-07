@@ -162,6 +162,10 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding Media RSS feed ({m.name})...";
 				list.Add(new MediaRSSWrapper(new Uri(m.url), m.name));
 			}
+			foreach (var p in s.Pixiv) {
+				lblLoadStatus.Text = $"Adding Pixiv ({p.username})...";
+				list.Add(new PixivWrapper(p.username, p.password));
+			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {
 				if (tcf == null) tcf = new TumblrClientFactory();
@@ -179,7 +183,13 @@ namespace CrosspostSharp3 {
 
 			lblLoadStatus.Text = "Checking usernames...";
 
-			var tasks = list.Select(async w => new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}")).ToArray();
+			var tasks = list.Select(async w => {
+				try {
+					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}");
+				} catch (Exception) {
+					return new WrapperMenuItem(w, $"{w.WrapperName} (cannot connect)");
+				}
+			}).Where(item => item != null).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
 			wrappers = wrappers.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray())).ToArray();
 			ddlSource.Items.AddRange(wrappers);
@@ -202,6 +212,7 @@ namespace CrosspostSharp3 {
 				await ReloadWrapperList();
 			} catch (Exception) {
 				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				lblLoadStatus.Visible = false;
 			}
 		}
 
