@@ -62,20 +62,23 @@ namespace ArtSourceWrapper {
 				await Task.WhenAll(searchResults.Hits
 					.Select(h => h.Submission)
 					.Where(h => h is Artwork || h is Photo)
-					.Select(h => FurryNetworkSubmissionWrapper.CreateAsync((FileSubmission)h))
+					.Select(h => FurryNetworkSubmissionWrapper.CreateAsync((FileSubmission)h, _client))
 					.ToArray()),
 				nextPosition,
 				nextPosition >= searchResults.Total);
 		}
 	}
 
-	public class FurryNetworkSubmissionWrapper : ISubmissionWrapper {
+	public class FurryNetworkSubmissionWrapper : ISubmissionWrapper, IDeletable {
+		private int _id;
+		private FurryNetworkClient _client;
+
 		private FileSubmission _artwork;
 		private string _html;
 
 		private FurryNetworkSubmissionWrapper() { }
 
-		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork) {
+		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork, FurryNetworkClient client = null) {
 			string html = null;
 
 			try {
@@ -93,6 +96,8 @@ namespace ArtSourceWrapper {
 			} catch (Exception) {}
 
 			return new FurryNetworkSubmissionWrapper {
+				_id = artwork.Id,
+				_client = client,
 				_artwork = artwork,
 				_html = html
 			};
@@ -111,5 +116,11 @@ namespace ArtSourceWrapper {
 			_artwork.Rating == 0 ? (Color?)null
 			: _artwork.Rating == 1 ? Color.FromArgb(0xFF, 0xFD, 0xD8, 0x35)
 			: Color.FromArgb(0xFF, 0xDD, 0x2c, 0x00);
+
+		public string SiteName => "Furry Network";
+
+		public async Task DeleteAsync() {
+			await _client.DeleteArtwork(_id);
+		}
 	}
 }

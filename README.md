@@ -26,6 +26,7 @@ Use the Tools menu to add and remove accounts.
 
 * DeviantArt / Sta.sh (only one account supported at a time; cannot read scraps)
 * FurAffinity (read-only)
+* Furry Network
 * Inkbunny
 * Tumblr
 * Twitter
@@ -33,7 +34,6 @@ Use the Tools menu to add and remove accounts.
 
 Coming later:
 * Flickr
-* Furry Network
 * Pixiv (read-only)
 
 You can also use a Media RSS feed as a source or open or save local files.
