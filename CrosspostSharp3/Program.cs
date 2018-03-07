@@ -19,6 +19,9 @@ namespace CrosspostSharp3 {
 			IECookiePersist.Suppress(true);
 			IECompatibility.SetForCurrentProcess();
 
+			// Force current directory (if a file or folder was dragged onto CrosspostSharp3.exe)
+			Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			if (args.Length == 1) {
