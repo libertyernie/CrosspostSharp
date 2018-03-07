@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -247,6 +248,10 @@ namespace CrosspostSharp3 {
 				}
 			}
 			Populate();
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+			Process.Start("https://github.com/libertyernie/CrosspostSharp/blob/v3.0/README.md");
 		}
 	}
 }

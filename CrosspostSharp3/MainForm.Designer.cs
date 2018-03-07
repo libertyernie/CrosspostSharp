@@ -35,6 +35,7 @@
             this.accountSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,8 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
-            this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -55,10 +57,9 @@
             // lblSource
             // 
             this.lblSource.AutoSize = true;
-            this.lblSource.Location = new System.Drawing.Point(16, 41);
-            this.lblSource.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSource.Location = new System.Drawing.Point(12, 33);
             this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(53, 17);
+            this.lblSource.Size = new System.Drawing.Size(41, 13);
             this.lblSource.TabIndex = 1;
             this.lblSource.Text = "Source";
             // 
@@ -69,20 +70,18 @@
             this.ddlSource.DisplayMember = "WrapperName";
             this.ddlSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddlSource.FormattingEnabled = true;
-            this.ddlSource.Location = new System.Drawing.Point(79, 36);
-            this.ddlSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ddlSource.Location = new System.Drawing.Point(59, 29);
             this.ddlSource.Name = "ddlSource";
-            this.ddlSource.Size = new System.Drawing.Size(241, 24);
+            this.ddlSource.Size = new System.Drawing.Size(182, 21);
             this.ddlSource.TabIndex = 2;
             // 
             // btnLoad
             // 
             this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoad.Enabled = false;
-            this.btnLoad.Location = new System.Drawing.Point(329, 34);
-            this.btnLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoad.Location = new System.Drawing.Point(247, 28);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(100, 28);
+            this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 3;
             this.btnLoad.Text = "Load";
             this.btnLoad.UseVisualStyleBackColor = true;
@@ -96,13 +95,12 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(20, 135);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 110);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(409, 258);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(307, 210);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // menuStrip1
@@ -110,11 +108,11 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.toolsToolStripMenuItem});
+            this.toolsToolStripMenuItem,
+            this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(445, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(334, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -124,20 +122,20 @@
             this.openToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(44, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(129, 26);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -147,7 +145,7 @@
             this.accountSetupToolStripMenuItem,
             this.refreshAllToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // accountSetupToolStripMenuItem
@@ -162,72 +160,78 @@
             this.tumblrToolStripMenuItem,
             this.weasylToolStripMenuItem});
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
-            this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.accountSetupToolStripMenuItem.Text = "&Account Setup";
             // 
             // deviantArtToolStripMenuItem
             // 
             this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
             this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
             // 
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.furAffinityToolStripMenuItem.Text = "&FurAffinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
+            // 
+            // furryNetworkToolStripMenuItem
+            // 
+            this.furryNetworkToolStripMenuItem.Name = "furryNetworkToolStripMenuItem";
+            this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.furryNetworkToolStripMenuItem.Text = "Furry&Network";
+            this.furryNetworkToolStripMenuItem.Click += new System.EventHandler(this.furryNetworkToolStripMenuItem_Click);
             // 
             // inkbunnyToolStripMenuItem
             // 
             this.inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
-            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
             this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
             // 
             // mediaRSSToolStripMenuItem
             // 
             this.mediaRSSToolStripMenuItem.Name = "mediaRSSToolStripMenuItem";
-            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
             this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
             // 
             this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.twitterToolStripMenuItem.Text = "&Twitter";
             this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
             // 
             // tumblrToolStripMenuItem
             // 
             this.tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
-            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.tumblrToolStripMenuItem.Text = "T&umblr";
             this.tumblrToolStripMenuItem.Click += new System.EventHandler(this.tumblrToolStripMenuItem_Click);
             // 
             // weasylToolStripMenuItem
             // 
             this.weasylToolStripMenuItem.Name = "weasylToolStripMenuItem";
-            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.weasylToolStripMenuItem.Text = "&Weasyl";
             this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
             // 
             // refreshAllToolStripMenuItem
             // 
             this.refreshAllToolStripMenuItem.Name = "refreshAllToolStripMenuItem";
-            this.refreshAllToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.refreshAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.refreshAllToolStripMenuItem.Text = "&Refresh All";
             this.refreshAllToolStripMenuItem.Click += new System.EventHandler(this.refreshAllToolStripMenuItem_Click);
             // 
             // btnPrevious
             // 
             this.btnPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPrevious.Location = new System.Drawing.Point(20, 401);
-            this.btnPrevious.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPrevious.Location = new System.Drawing.Point(15, 326);
             this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(100, 28);
+            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
             this.btnPrevious.TabIndex = 5;
             this.btnPrevious.Text = "← Previous";
             this.btnPrevious.UseVisualStyleBackColor = true;
@@ -236,10 +240,9 @@
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(329, 401);
-            this.btnNext.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnNext.Location = new System.Drawing.Point(247, 326);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(100, 28);
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 6;
             this.btnNext.Text = "Next →";
             this.btnNext.UseVisualStyleBackColor = true;
@@ -247,10 +250,9 @@
             // 
             // picUserIcon
             // 
-            this.picUserIcon.Location = new System.Drawing.Point(20, 69);
-            this.picUserIcon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.picUserIcon.Location = new System.Drawing.Point(15, 56);
             this.picUserIcon.Name = "picUserIcon";
-            this.picUserIcon.Size = new System.Drawing.Size(64, 59);
+            this.picUserIcon.Size = new System.Drawing.Size(48, 48);
             this.picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picUserIcon.TabIndex = 14;
             this.picUserIcon.TabStop = false;
@@ -260,10 +262,9 @@
             this.lblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername.Location = new System.Drawing.Point(92, 69);
-            this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblUsername.Location = new System.Drawing.Point(69, 56);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(337, 21);
+            this.lblUsername.Size = new System.Drawing.Size(253, 17);
             this.lblUsername.TabIndex = 11;
             this.lblUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -272,34 +273,40 @@
             this.lblSiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSiteName.AutoEllipsis = true;
-            this.lblSiteName.Location = new System.Drawing.Point(92, 90);
-            this.lblSiteName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSiteName.Location = new System.Drawing.Point(69, 73);
             this.lblSiteName.Name = "lblSiteName";
-            this.lblSiteName.Size = new System.Drawing.Size(337, 16);
+            this.lblSiteName.Size = new System.Drawing.Size(253, 13);
             this.lblSiteName.TabIndex = 12;
             this.lblSiteName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblLoadStatus
             // 
             this.lblLoadStatus.AutoEllipsis = true;
-            this.lblLoadStatus.Location = new System.Drawing.Point(16, 65);
-            this.lblLoadStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLoadStatus.Location = new System.Drawing.Point(12, 53);
             this.lblLoadStatus.Name = "lblLoadStatus";
-            this.lblLoadStatus.Size = new System.Drawing.Size(413, 16);
+            this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
-            // furryNetworkToolStripMenuItem
+            // helpToolStripMenuItem
             // 
-            this.furryNetworkToolStripMenuItem.Name = "furryNetworkToolStripMenuItem";
-            this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
-            this.furryNetworkToolStripMenuItem.Text = "Furry&Network";
-            this.furryNetworkToolStripMenuItem.Click += new System.EventHandler(this.furryNetworkToolStripMenuItem_Click);
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 444);
+            this.ClientSize = new System.Drawing.Size(334, 361);
             this.Controls.Add(this.lblLoadStatus);
             this.Controls.Add(this.picUserIcon);
             this.Controls.Add(this.lblUsername);
@@ -312,7 +319,6 @@
             this.Controls.Add(this.lblSource);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "CrosspostSharp 3";
             this.Shown += new System.EventHandler(this.Form1_Shown);
@@ -351,6 +357,8 @@
 		private System.Windows.Forms.ToolStripMenuItem inkbunnyToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem weasylToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem furryNetworkToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 	}
 }
 

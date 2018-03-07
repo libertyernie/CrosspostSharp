@@ -105,6 +105,12 @@ namespace CrosspostSharp3 {
 					LaunchEFC(Export());
 				}));
 			}
+
+			Shown += (o, e) => {
+				if (Owner is MainForm) {
+					mainWindowAccountSetupToolStripMenuItem.Enabled = false;
+				}
+			};
 		}
 
 		public ArtworkForm(string filename) : this() {
@@ -268,6 +274,16 @@ namespace CrosspostSharp3 {
 		private void btnView_Click(object sender, EventArgs e) {
 			if (_url != null) {
 				Process.Start(_url);
+			}
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+			Process.Start("https://github.com/libertyernie/CrosspostSharp/blob/v3.0/README.md");
+		}
+
+		private void mainWindowAccountSetupToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var f = new MainForm()) {
+				f.ShowDialog(this);
 			}
 		}
 	}
