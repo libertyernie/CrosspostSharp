@@ -12,7 +12,7 @@ namespace CrosspostSharp3 {
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main() {
+		static void Main(string[] args) {
 			ExceptionHandler.SwallowWebExceptions = false;
 			TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
 
@@ -21,7 +21,19 @@ namespace CrosspostSharp3 {
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			if (args.Length == 1) {
+				try {
+					var artwork = ArtworkData.FromFile(args[0]);
+					if (artwork.data == null) {
+						throw new Exception("This file does not contain a base-64 encoded \"data\" field.");
+					}
+					Application.Run(new ArtworkForm(artwork));
+				} catch (Exception ex) {
+					MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			} else {
+				Application.Run(new MainForm());
+			}
 		}
 	}
 }

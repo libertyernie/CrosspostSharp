@@ -18,7 +18,8 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private byte[] _data;
-		private ISubmissionWrapper _originalWrapper;
+		private string _url;
+		private IDeletable _originalWrapper;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -39,7 +40,7 @@ namespace CrosspostSharp3 {
 				data = _data,
 				title = txtTitle.Text,
 				description = txtDescription.Text,
-				url = _originalWrapper?.ViewURL,
+				url = _url,
 				tags = txtTags.Text.Split(' ').Where(s => s != ""),
 				mature = chkMature.Checked,
 				adult = chkAdult.Checked
@@ -66,7 +67,7 @@ namespace CrosspostSharp3 {
 							txtDescription.Text,
 							txtTags.Text.Split(' ').Where(s => s != ""),
 							chkMature.Checked || chkAdult.Checked,
-							_originalWrapper?.ViewURL);
+							_url);
 						f.ShowDialog(this);
 					}
 				}));
@@ -129,20 +130,24 @@ namespace CrosspostSharp3 {
 				splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
 				_data = ms.ToArray();
 			}
+
 			txtTitle.Text = artwork.title;
 			txtDescription.Text = artwork.description;
 			txtTags.Text = string.Join(" ", artwork.tags);
 			chkMature.Checked = artwork.mature;
 			chkAdult.Checked = artwork.adult;
+
+			_url = artwork.url;
+			btnView.Enabled = _url != null;
+
 			_originalWrapper = null;
 		}
 
 		public async void LoadImage(ISubmissionWrapper wrapper) {
 			try {
 				LoadImage(await ArtworkData.DownloadAsync(wrapper));
-				_originalWrapper = wrapper;
+				_originalWrapper = wrapper as IDeletable;
 				btnDelete.Enabled = _originalWrapper is IDeletable;
-				btnView.Enabled = true;
 			} catch (Exception ex) {
 				splitContainer1.Panel1.Controls.Add(new TextBox {
 					Text = ex.Message + Environment.NewLine + ex.StackTrace,
@@ -196,7 +201,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public const string OpenFilter = "All supported formats|*.png;*.jpg;*.jpeg;*.gif;*.json|Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
+		public const string OpenFilter = "All supported formats|*.png;*.jpg;*.jpeg;*.gif;*.cps|Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON|*.cps|All files|*.*";
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var openFileDialog = new OpenFileDialog()) {
@@ -212,10 +217,10 @@ namespace CrosspostSharp3 {
 			using (var saveFileDialog = new SaveFileDialog()) {
 				using (var ms = new MemoryStream(_data, false))
 				using (var image = Image.FromStream(ms)) {
-					saveFileDialog.Filter = "CrosspostSharp JSON metadata|*.cps.json|All files|*.*";
+					saveFileDialog.Filter = "CrosspostSharp JSON|*.cps|All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(Export()));
+					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(Export(), Formatting.Indented));
 				}
 			}
 		}
@@ -261,8 +266,8 @@ namespace CrosspostSharp3 {
 		}
 
 		private void btnView_Click(object sender, EventArgs e) {
-			if (_originalWrapper?.ViewURL != null) {
-				System.Diagnostics.Process.Start(_originalWrapper.ViewURL);
+			if (_url != null) {
+				Process.Start(_url);
 			}
 		}
 	}
