@@ -15,10 +15,10 @@ namespace CrosspostSharp3 {
 
 		public string UsernameLabel {
 			get {
-				return txtUsername.Text;
+				return lblUsername.Text;
 			}
 			set {
-				txtUsername.Text = value;
+				lblUsername.Text = value;
 			}
 		}
 

@@ -42,8 +42,11 @@ namespace ArtSourceWrapper {
 
 		public override async Task<string> GetUserIconAsync(int size) {
 			var character = await GetCharacter();
-			// TODO: we need to be able to deserialize the avatar object appropriately.
-			return null;
+			string preferred = size <= 50 ? character.Avatars?.Tiny
+				: size <= 80 ? character.Avatars?.Small
+				: size <= 315 ? character.Avatars?.Avatar
+				: character.Avatars?.Original;
+			return preferred ?? character.Avatars?.GetLargest();
 		}
 
 		public override async Task<string> WhoamiAsync() {

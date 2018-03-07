@@ -135,19 +135,6 @@ namespace CrosspostSharp3 {
 				var client = new FurryNetworkClient(refreshToken);
 				try {
 					await client.GetUserAsync();
-					// FurryNetwork doesn't change refresh tokens like dA does.
-					//if (client.RefreshToken != refreshToken) {
-					//	s.FurryNetwork = s.FurryNetwork
-					//		.Select(old => {
-					//			var newSettings = old;
-					//			if (newSettings.refreshToken == refreshToken) {
-					//				newSettings.refreshToken = client.RefreshToken;
-					//			}
-					//			return newSettings;
-					//		}).ToList();
-					//	s.Save();
-					//	refreshToken = client.RefreshToken;
-					//}
 
 					foreach (var fn in g) {
 						list.Add(new FurryNetworkWrapper(client, fn.characterName));
