@@ -41,7 +41,7 @@ namespace ArtSourceWrapper {
             var wrappers = details.submissions
                 .Where(s => s.@public)
                 .OrderByDescending(s => s.create_datetime)
-                .Select(s => new InkbunnySubmissionWrapper(s));
+                .Select(s => new DeletableInkbunnySubmissionWrapper(_client, s));
             return new InternalFetchResult(wrappers, response.page + 1);
         }
 
@@ -101,5 +101,21 @@ namespace ArtSourceWrapper {
         public InkbunnySubmissionWrapper(InkbunnySubmissionDetail submission) {
 			Submission = submission;
         }
+	}
+
+	public class DeletableInkbunnySubmissionWrapper : InkbunnySubmissionWrapper, IDeletable {
+		private readonly InkbunnyClient _client;
+		private readonly int _id;
+
+		public DeletableInkbunnySubmissionWrapper(InkbunnyClient client, InkbunnySubmissionDetail submission) : base(submission) {
+			_client = client;
+			_id = submission.submission_id;
+		}
+
+		public string SiteName => "Inkbunny";
+
+		public async Task DeleteAsync() {
+			await _client.DeleteSubmissionAsync(_id);
+		}
 	}
 }

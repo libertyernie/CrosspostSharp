@@ -60,7 +60,7 @@ namespace ArtSourceWrapper {
                 .Select(post => post as PhotoPost)
                 .Where(post => post != null)
                 .Where(post => _blogNames.Contains(post.RebloggedRootName ?? post.BlogName))
-                .Select(post => new TumblrSubmissionWrapper(post));
+                .Select(post => new DeletableTumblrSubmissionWrapper(_client, post));
 
             return new InternalFetchResult(list, position);
         }
@@ -99,5 +99,23 @@ namespace ArtSourceWrapper {
             }
         }
         public Color? BorderColor => null;
+	}
+
+	public class DeletableTumblrSubmissionWrapper : TumblrSubmissionWrapper, IDeletable {
+		private readonly TumblrClient _client;
+		private readonly string _blogName;
+		private readonly long _id;
+
+		public DeletableTumblrSubmissionWrapper(TumblrClient client, PhotoPost post) : base(post) {
+			_client = client;
+			_blogName = post.BlogName;
+			_id = post.Id;
+		}
+
+		public string SiteName => "Tumblr";
+
+		public async Task DeleteAsync() {
+			await _client.DeletePostAsync(_blogName, _id);
+		}
 	}
 }
