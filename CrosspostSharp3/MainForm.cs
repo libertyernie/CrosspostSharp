@@ -1,6 +1,7 @@
 ﻿using ArtSourceWrapper;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
+using FurryNetworkLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -127,6 +128,39 @@ namespace CrosspostSharp3 {
 				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: fa.a,
 					b: fa.b)));
+			}
+			foreach (var g in s.FurryNetwork.GroupBy(fn => fn.refreshToken)) {
+				lblLoadStatus.Text = $"Adding FurryNetwork ({string.Join(", ", g.Select(fn => fn.characterName))})...";
+				string refreshToken = g.Key;
+				var client = new FurryNetworkClient(refreshToken);
+				try {
+					await client.GetUserAsync();
+					// FurryNetwork doesn't change refresh tokens like dA does.
+					//if (client.RefreshToken != refreshToken) {
+					//	s.FurryNetwork = s.FurryNetwork
+					//		.Select(old => {
+					//			var newSettings = old;
+					//			if (newSettings.refreshToken == refreshToken) {
+					//				newSettings.refreshToken = client.RefreshToken;
+					//			}
+					//			return newSettings;
+					//		}).ToList();
+					//	s.Save();
+					//	refreshToken = client.RefreshToken;
+					//}
+
+					foreach (var fn in g) {
+						list.Add(new FurryNetworkWrapper(client, fn.characterName));
+					}
+				} catch (Exception ex) {
+					Console.Error.WriteLine(ex.Message);
+					Console.Error.WriteLine(ex.StackTrace);
+					MessageBox.Show(this, "FurryNetwork refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					s.FurryNetwork = s.FurryNetwork
+						.Where(fn => fn.refreshToken != refreshToken)
+						.ToList();
+					s.Save();
+				}
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";

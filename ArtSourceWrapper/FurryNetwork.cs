@@ -13,16 +13,19 @@ using System.Threading.Tasks;
 namespace ArtSourceWrapper {
 	public class FurryNetworkWrapper : SiteWrapper<FurryNetworkSubmissionWrapper, int> {
 		private FurryNetworkClient _client;
+		private string _preferredCharacterName;
 		public Character _character;
 
-		public FurryNetworkWrapper(FurryNetworkClient client) {
+		public FurryNetworkWrapper(FurryNetworkClient client, string characterName = null) {
 			_client = client;
+			_preferredCharacterName = characterName;
 		}
 
 		private async Task<Character> GetCharacter() {
 			if (_character == null) {
 				var user = await _client.GetUserAsync();
-				_character = user.DefaultCharacter;
+				_character = user.characters.Where(c => c.Name == _preferredCharacterName).FirstOrDefault()
+					?? user.DefaultCharacter;
 			}
 			return _character;
 		}
