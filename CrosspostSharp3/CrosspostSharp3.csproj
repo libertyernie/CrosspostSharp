@@ -66,6 +66,9 @@
     <Compile Include="MainForm.FurryNetwork.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MainForm.Flickr.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Weasyl.cs">
       <SubType>Form</SubType>
     </Compile>

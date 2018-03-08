@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FlickrNet;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,23 @@ namespace CrosspostSharp3 {
 		}
 
 		public DeviantArtSettings DeviantArt { get; set; }
+
+		public struct FlickrSettings : IAccountCredentials {
+			public string tokenKey;
+			public string tokenSecret;
+			public string username;
+
+			string IAccountCredentials.Username => username;
+
+			public Flickr CreateClient() {
+				return new Flickr(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET) {
+					OAuthAccessToken = tokenKey,
+					OAuthAccessTokenSecret = tokenSecret
+				};
+			}
+		}
+
+		public List<FlickrSettings> Flickr = new List<FlickrSettings>();
 
 		public struct FurAffinitySettings : IAccountCredentials {
 			public string b;

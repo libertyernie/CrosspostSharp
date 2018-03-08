@@ -124,6 +124,10 @@ namespace CrosspostSharp3 {
 					s.Save();
 				}
 			}
+			foreach (var fl in s.Flickr) {
+				lblLoadStatus.Text = $"Adding Flickr {fl.username}...";
+				list.Add(new FlickrWrapper(fl.CreateClient()));
+			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
 				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
