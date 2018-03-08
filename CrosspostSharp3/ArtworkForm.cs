@@ -303,7 +303,7 @@ namespace CrosspostSharp3 {
 		private void radHTML_CheckedChanged(object sender, EventArgs e) {
 			if (radHTML.Checked && !_currentHtml) {
 				// Convert from plain text to HTML
-				txtDescription.Text = "<p>" + WebUtility.HtmlEncode(txtDescription.Text).Replace("\r\n", "<br/>\r\n") + "</p>";
+				txtDescription.Text = "<p>" + WebUtility.HtmlEncode(txtDescription.Text).Replace("\r\n", "<br/>") + "</p>";
 				_currentHtml = true;
 			}
 		}
