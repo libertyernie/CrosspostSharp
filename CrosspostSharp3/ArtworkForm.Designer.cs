@@ -50,11 +50,15 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.radHTML = new System.Windows.Forms.RadioButton();
+            this.radText = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -66,6 +70,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel2);
             this.splitContainer1.Panel2.Controls.Add(this.chkAdult);
             this.splitContainer1.Panel2.Controls.Add(this.chkMature);
             this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
@@ -88,7 +93,7 @@
             this.chkAdult.Location = new System.Drawing.Point(182, 143);
             this.chkAdult.Name = "chkAdult";
             this.chkAdult.Size = new System.Drawing.Size(50, 17);
-            this.chkAdult.TabIndex = 11;
+            this.chkAdult.TabIndex = 9;
             this.chkAdult.Text = "Adult";
             this.chkAdult.UseVisualStyleBackColor = true;
             // 
@@ -99,7 +104,7 @@
             this.chkMature.Location = new System.Drawing.Point(117, 143);
             this.chkMature.Name = "chkMature";
             this.chkMature.Size = new System.Drawing.Size(59, 17);
-            this.chkMature.TabIndex = 10;
+            this.chkMature.TabIndex = 8;
             this.chkMature.Text = "Mature";
             this.chkMature.UseVisualStyleBackColor = true;
             // 
@@ -110,7 +115,7 @@
             this.btnDelete.Location = new System.Drawing.Point(15, 171);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 8;
+            this.btnDelete.TabIndex = 10;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -122,7 +127,7 @@
             this.btnView.Location = new System.Drawing.Point(357, 171);
             this.btnView.Name = "btnView";
             this.btnView.Size = new System.Drawing.Size(75, 23);
-            this.btnView.TabIndex = 9;
+            this.btnView.TabIndex = 11;
             this.btnView.Text = "View";
             this.btnView.UseVisualStyleBackColor = true;
             this.btnView.Click += new System.EventHandler(this.btnView_Click);
@@ -130,10 +135,10 @@
             // lnkPreview
             // 
             this.lnkPreview.AutoSize = true;
-            this.lnkPreview.Location = new System.Drawing.Point(66, 51);
+            this.lnkPreview.Location = new System.Drawing.Point(63, 89);
             this.lnkPreview.Name = "lnkPreview";
             this.lnkPreview.Size = new System.Drawing.Size(45, 13);
-            this.lnkPreview.TabIndex = 3;
+            this.lnkPreview.TabIndex = 4;
             this.lnkPreview.TabStop = true;
             this.lnkPreview.Text = "Preview";
             this.lnkPreview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPreview_LinkClicked);
@@ -145,7 +150,7 @@
             this.txtTags.Location = new System.Drawing.Point(117, 117);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(315, 20);
-            this.txtTags.TabIndex = 6;
+            this.txtTags.TabIndex = 7;
             // 
             // lblTags
             // 
@@ -154,7 +159,7 @@
             this.lblTags.Location = new System.Drawing.Point(80, 120);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(31, 13);
-            this.lblTags.TabIndex = 5;
+            this.lblTags.TabIndex = 6;
             this.lblTags.Text = "Tags";
             // 
             // txtDescription
@@ -168,16 +173,16 @@
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescription.Size = new System.Drawing.Size(315, 82);
-            this.txtDescription.TabIndex = 4;
+            this.txtDescription.TabIndex = 5;
             // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(12, 32);
+            this.lblDescription.Location = new System.Drawing.Point(51, 30);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(99, 13);
+            this.lblDescription.Size = new System.Drawing.Size(60, 13);
             this.lblDescription.TabIndex = 2;
-            this.lblDescription.Text = "Description (HTML)";
+            this.lblDescription.Text = "Description";
             // 
             // txtTitle
             // 
@@ -320,6 +325,39 @@
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.radText);
+            this.panel2.Controls.Add(this.radHTML);
+            this.panel2.Location = new System.Drawing.Point(12, 46);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(99, 40);
+            this.panel2.TabIndex = 3;
+            // 
+            // radHTML
+            // 
+            this.radHTML.AutoSize = true;
+            this.radHTML.Checked = true;
+            this.radHTML.Location = new System.Drawing.Point(41, 3);
+            this.radHTML.Name = "radHTML";
+            this.radHTML.Size = new System.Drawing.Size(55, 17);
+            this.radHTML.TabIndex = 0;
+            this.radHTML.TabStop = true;
+            this.radHTML.Text = "HTML";
+            this.radHTML.UseVisualStyleBackColor = true;
+            this.radHTML.CheckedChanged += new System.EventHandler(this.radHTML_CheckedChanged);
+            // 
+            // radText
+            // 
+            this.radText.AutoSize = true;
+            this.radText.Location = new System.Drawing.Point(50, 23);
+            this.radText.Name = "radText";
+            this.radText.Size = new System.Drawing.Size(46, 17);
+            this.radText.TabIndex = 1;
+            this.radText.Text = "Text";
+            this.radText.UseVisualStyleBackColor = true;
+            this.radText.CheckedChanged += new System.EventHandler(this.radText_CheckedChanged);
+            // 
             // ArtworkForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -339,6 +377,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -372,5 +412,8 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mainWindowAccountSetupToolStripMenuItem;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.RadioButton radText;
+		private System.Windows.Forms.RadioButton radHTML;
 	}
 }

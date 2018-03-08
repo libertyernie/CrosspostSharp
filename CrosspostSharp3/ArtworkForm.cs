@@ -293,5 +293,31 @@ namespace CrosspostSharp3 {
 				f.ShowDialog(this);
 			}
 		}
+
+		private bool _currentHtml = true;
+
+		private static string TextToHtml(string s) {
+			return "<p>" + WebUtility.HtmlEncode(s).Replace("\n", "<br/>") + "</p>";
+		}
+
+		private void radHTML_CheckedChanged(object sender, EventArgs e) {
+			if (radHTML.Checked && !_currentHtml) {
+				// Convert from plain text to HTML
+				txtDescription.Text = "<p>" + WebUtility.HtmlEncode(txtDescription.Text).Replace("\r\n", "<br/>\r\n") + "</p>";
+				_currentHtml = true;
+			}
+		}
+
+		private void radText_CheckedChanged(object sender, EventArgs e) {
+			if (radText.Checked && _currentHtml) {
+				if (MessageBox.Show(this, "Are you sure you want to remove all formatting?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) {
+					radHTML.Checked = true;
+				} else {
+					// Convert from HTML to plain text
+					txtDescription.Text = HtmlConversion.ConvertHtmlToText(txtDescription.Text);
+					_currentHtml = false;
+				}
+			}
+		}
 	}
 }
