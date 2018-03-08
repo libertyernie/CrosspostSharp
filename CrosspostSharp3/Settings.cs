@@ -114,7 +114,7 @@ namespace CrosspostSharp3 {
 
 		public List<WeasylSettings> Weasyl = new List<WeasylSettings>();
 
-		public static Settings Load(string filename = "CrosspostSharp.json") {
+		public static Settings Load(string filename = "CrosspostSharp3.json") {
 			Settings s = new Settings();
 			if (filename != null && File.Exists(filename)) {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
@@ -122,7 +122,7 @@ namespace CrosspostSharp3 {
 			return s;
 		}
 
-		public void Save(string filename = "CrosspostSharp.json") {
+		public void Save(string filename = "CrosspostSharp3.json") {
 			File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
 		}
 	}
