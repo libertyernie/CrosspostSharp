@@ -131,13 +131,15 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
-					a: fa.a,
-					b: fa.b)));
-				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
-					a: fa.a,
-					b: fa.b,
-					scraps: true)));
+				list.Add(new MetaWrapper("FurAffinity", new[] {
+					new FurAffinityWrapper(new FurAffinityIdWrapper(
+						a: fa.a,
+						b: fa.b)),
+					new FurAffinityWrapper(new FurAffinityIdWrapper(
+						a: fa.a,
+						b: fa.b,
+						scraps: true))
+				}));
 			}
 			foreach (var g in s.FurryNetwork.GroupBy(fn => fn.refreshToken)) {
 				lblLoadStatus.Text = $"Adding Furry Network ({string.Join(", ", g.Select(fn => fn.characterName))})...";
@@ -186,12 +188,12 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var w in s.Weasyl) {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
-				list.Add(new WeasylWrapper(new WeasylGalleryIdWrapper(w.apiKey)));
-				list.Add(new WeasylWrapper(new WeasylCharacterWrapper(w.apiKey)));
+				list.Add(new MetaWrapper("Weasyl", new[] {
+					new WeasylWrapper(new WeasylGalleryIdWrapper(w.apiKey)),
+					new WeasylWrapper(new WeasylCharacterWrapper(w.apiKey))
+				}));
 			}
-
-			list.Add(new MetaWrapper(list));
-
+			
 			lblLoadStatus.Text = "Checking usernames...";
 
 			var tasks = list.Select(async w => {
@@ -203,8 +205,7 @@ namespace CrosspostSharp3 {
 			}).Where(item => item != null).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
 			wrappers = wrappers
-				.OrderBy(w => w.BaseWrapper is MetaWrapper)
-				.ThenBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
+				.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
 				.ToArray();
 			ddlSource.Items.AddRange(wrappers);
 

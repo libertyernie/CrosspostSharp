@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
 	public class MetaWrapper : SiteWrapper<ISubmissionWrapper, DateTime> {
+		private readonly string _name;
 		private readonly IEnumerable<ISiteWrapper> _wrappers;
 
-		public MetaWrapper(IEnumerable<ISiteWrapper> wrappers) {
+		public MetaWrapper(string name, IEnumerable<ISiteWrapper> wrappers) {
+			_name = name;
 			_wrappers = wrappers.ToList();
 		}
 
-		public override string SiteName => "All";
+		public override string SiteName => _name;
 
-		public override string WrapperName => "All";
+		public override string WrapperName => _name;
 
 		public override int BatchSize { get; set; }
 
@@ -26,28 +28,28 @@ namespace ArtSourceWrapper {
 			return Task.FromResult<string>(null);
 		}
 
-		public override Task<string> WhoamiAsync() {
-			return Task.FromResult("All");
+		public override async Task<string> WhoamiAsync() {
+			return string.Join(", ", (await Task.WhenAll(_wrappers.Select(w => w.WhoamiAsync()))).Distinct());
+		}
+
+		private async Task<IEnumerable<ISubmissionWrapper>> FetchIfNeeded(ISiteWrapper w, DateTime start) {
+			while (true) {
+				var newest = w.Cache.Where(s => s.Timestamp <= start).FirstOrDefault();
+				if (newest != null) {
+					return new[] { newest };
+				}
+				if (w.IsEnded) {
+					return Enumerable.Empty<ISubmissionWrapper>();
+				}
+				await w.FetchAsync();
+			}
 		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(DateTime? startPosition, int count) {
 			DateTime start = startPosition ?? DateTime.MaxValue;
 
-			var found = new List<ISubmissionWrapper>();
-			foreach (var w in _wrappers) {
-				while (true) {
-					var newest = w.Cache.Where(s => s.Timestamp <= start).FirstOrDefault();
-					if (newest != null) {
-						found.Add(newest);
-						break;
-					}
-					if (w.IsEnded) {
-						break;
-					}
-					await w.FetchAsync();
-				}
-			}
-
+			var found = (await Task.WhenAll(_wrappers.Select(w => FetchIfNeeded(w, start)))).SelectMany(s => s);
+			
 			var ts = found
 				.OrderByDescending(s => s.Timestamp)
 				.Select(s => s.Timestamp)
