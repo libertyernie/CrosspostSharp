@@ -49,7 +49,12 @@ namespace CrosspostSharp3 {
 			chkIncludeTitle.CheckedChanged += (o, e) => UpdateText();
 			chkIncludeDescription.CheckedChanged += (o, e) => UpdateText();
 			chkIncludeLink.CheckedChanged += (o, e) => UpdateText();
-			
+
+			using (var ms = new MemoryStream(d.data, false))
+			using (var image = Image.FromStream(ms)) {
+				chkMakeSquare.Checked = image.Height > image.Width;
+			}
+
 			UpdateText();
 		}
 
@@ -85,8 +90,28 @@ namespace CrosspostSharp3 {
 
 		private async void btnPost_Click(object sender, EventArgs e) {
 			btnPost.Enabled = false;
+
+			byte[] data = _artworkData.data;
+			if (chkMakeSquare.Checked) {
+				using (var ms1 = new MemoryStream(data, false))
+				using (var image1 = Image.FromStream(ms1)) {
+					int size = Math.Max(image1.Width, image1.Height);
+					using (var image2 = new Bitmap(size, size))
+					using (var g2 = Graphics.FromImage(image2))
+					using (var ms2 = new MemoryStream()) {
+						g2.DrawImage(image1,
+							(image2.Width - image1.Width) / 2,
+							(image2.Height - image1.Height) / 2,
+							image1.Width,
+							image1.Height);
+						image2.Save(ms2, image1.RawFormat);
+						data = ms2.ToArray();
+					}
+				}
+			}
+
 			try {
-				BinaryFile imageToPost = new BinaryFile(_artworkData.data,
+				BinaryFile imageToPost = new BinaryFile(data,
 					_artworkData.GetFileName(),
 					_artworkData.GetContentType());
 				PostData post = PostData.CreatePhoto(

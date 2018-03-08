@@ -33,6 +33,7 @@
             this.btnPost = new System.Windows.Forms.Button();
             this.lblTags = new System.Windows.Forms.Label();
             this.txtTags = new System.Windows.Forms.TextBox();
+            this.chkMakeSquare = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +53,7 @@
             this.lblUsername1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUsername1.Location = new System.Drawing.Point(66, 12);
             this.lblUsername1.Name = "lblUsername1";
-            this.lblUsername1.Size = new System.Drawing.Size(306, 17);
+            this.lblUsername1.Size = new System.Drawing.Size(326, 17);
             this.lblUsername1.TabIndex = 0;
             this.lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -63,7 +64,7 @@
             this.lblUsername2.AutoEllipsis = true;
             this.lblUsername2.Location = new System.Drawing.Point(66, 29);
             this.lblUsername2.Name = "lblUsername2";
-            this.lblUsername2.Size = new System.Drawing.Size(306, 13);
+            this.lblUsername2.Size = new System.Drawing.Size(326, 13);
             this.lblUsername2.TabIndex = 1;
             this.lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -111,16 +112,16 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(360, 81);
-            this.textBox1.TabIndex = 5;
+            this.textBox1.Size = new System.Drawing.Size(380, 81);
+            this.textBox1.TabIndex = 6;
             // 
             // btnPost
             // 
             this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(297, 176);
+            this.btnPost.Location = new System.Drawing.Point(317, 176);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 8;
+            this.btnPost.TabIndex = 9;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
@@ -131,7 +132,7 @@
             this.lblTags.Location = new System.Drawing.Point(12, 181);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(31, 13);
-            this.lblTags.TabIndex = 6;
+            this.lblTags.TabIndex = 7;
             this.lblTags.Text = "Tags";
             // 
             // txtTags
@@ -139,13 +140,24 @@
             this.txtTags.Location = new System.Drawing.Point(49, 178);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(242, 20);
-            this.txtTags.TabIndex = 7;
+            this.txtTags.TabIndex = 8;
+            // 
+            // chkMakeSquare
+            // 
+            this.chkMakeSquare.AutoSize = true;
+            this.chkMakeSquare.Location = new System.Drawing.Point(305, 66);
+            this.chkMakeSquare.Name = "chkMakeSquare";
+            this.chkMakeSquare.Size = new System.Drawing.Size(88, 17);
+            this.chkMakeSquare.TabIndex = 5;
+            this.chkMakeSquare.Text = "Make square";
+            this.chkMakeSquare.UseVisualStyleBackColor = true;
             // 
             // TumblrPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 211);
+            this.ClientSize = new System.Drawing.Size(404, 211);
+            this.Controls.Add(this.chkMakeSquare);
             this.Controls.Add(this.txtTags);
             this.Controls.Add(this.lblTags);
             this.Controls.Add(this.btnPost);
@@ -177,5 +189,6 @@
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.Label lblTags;
 		private System.Windows.Forms.TextBox txtTags;
+		private System.Windows.Forms.CheckBox chkMakeSquare;
 	}
 }
