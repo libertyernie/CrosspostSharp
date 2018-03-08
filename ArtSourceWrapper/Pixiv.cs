@@ -52,6 +52,8 @@ namespace ArtSourceWrapper {
 		}
 
 		public override async Task<string> WhoamiAsync() {
+			if (_username != null) return _username;
+
 			await Login();
 			return _user.Name;
 		}
