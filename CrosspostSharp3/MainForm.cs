@@ -59,7 +59,6 @@ namespace CrosspostSharp3 {
 							Cursor = Cursors.Hand,
 							Dock = DockStyle.Fill
 						};
-						p.Controls.Add(new Label { Text = item.Timestamp + item.ViewURL });
 						p.Click += (o, e) => {
 							using (var f = new ArtworkForm(item)) {
 								f.ShowDialog(this);
