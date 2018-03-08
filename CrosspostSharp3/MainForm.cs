@@ -59,6 +59,7 @@ namespace CrosspostSharp3 {
 							Cursor = Cursors.Hand,
 							Dock = DockStyle.Fill
 						};
+						p.Controls.Add(new Label { Text = item.Timestamp + item.ViewURL });
 						p.Click += (o, e) => {
 							using (var f = new ArtworkForm(item)) {
 								f.ShowDialog(this);
@@ -189,6 +190,8 @@ namespace CrosspostSharp3 {
 				list.Add(new WeasylWrapper(new WeasylCharacterWrapper(w.apiKey)));
 			}
 
+			list.Add(new MetaWrapper(list));
+
 			lblLoadStatus.Text = "Checking usernames...";
 
 			var tasks = list.Select(async w => {
@@ -199,7 +202,10 @@ namespace CrosspostSharp3 {
 				}
 			}).Where(item => item != null).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
-			wrappers = wrappers.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray())).ToArray();
+			wrappers = wrappers
+				.OrderBy(w => w.BaseWrapper is MetaWrapper)
+				.ThenBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
+				.ToArray();
 			ddlSource.Items.AddRange(wrappers);
 
 			lblLoadStatus.Visible = false;

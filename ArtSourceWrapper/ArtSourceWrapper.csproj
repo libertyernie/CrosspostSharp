@@ -139,6 +139,7 @@
     <Compile Include="Local.cs" />
     <Compile Include="FurryNetwork.cs" />
     <Compile Include="MediaRSS.cs" />
+    <Compile Include="MetaWrapper.cs" />
     <Compile Include="Pixiv.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Tumblr.cs" />
