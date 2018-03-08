@@ -72,7 +72,10 @@ namespace CrosspostSharp3 {
 		}
 
 		public string GetFileName() {
-			return string.Join("", MD5.Create().ComputeHash(data).Select(b => ((int)b).ToString("X2"))) + "." + GetContentType().Split('/').Last();
+			char[] invalid = Path.GetInvalidFileNameChars();
+			string title = new string(this.title.Where(c => !invalid.Contains(c)).ToArray());
+			string md5 = string.Join("", MD5.Create().ComputeHash(data).Select(b => ((int)b).ToString("x2")));
+			return $"{title} ({md5}).{GetContentType().Split('/').Last()}";
 		}
 	}
 }

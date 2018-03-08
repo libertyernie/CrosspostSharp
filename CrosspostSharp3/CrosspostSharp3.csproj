@@ -59,6 +59,12 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BatchExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BatchExportForm.Designer.cs">
+      <DependentUpon>BatchExportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FlickrPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     <Compile Include="WebRequestFactory.cs" />
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BatchExportForm.resx">
+      <DependentUpon>BatchExportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FurryNetworkCharacterSelectionForm.resx">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>

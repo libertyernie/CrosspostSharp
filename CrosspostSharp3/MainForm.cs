@@ -267,10 +267,8 @@ namespace CrosspostSharp3 {
 		}
 
 		private void refreshAllToolStripMenuItem_Click(object sender, EventArgs e) {
-			foreach (var o in ddlSource.Items) {
-				if (o is WrapperMenuItem w) {
-					w.BaseWrapper.Clear();
-				}
+			foreach (var w in GetWrappers()) {
+				w.Clear();
 			}
 			Populate();
 		}
@@ -281,6 +279,18 @@ namespace CrosspostSharp3 {
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var f = new AboutForm()) {
+				f.ShowDialog(this);
+			}
+		}
+
+		private IEnumerable<ISiteWrapper> GetWrappers() {
+			foreach (var o in ddlSource.Items) {
+				if (o is WrapperMenuItem w) yield return w.BaseWrapper;
+			}
+		}
+
+		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
+			using (var f = new BatchExportForm(GetWrappers())) {
 				f.ShowDialog(this);
 			}
 		}
