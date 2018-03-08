@@ -39,7 +39,7 @@ namespace CrosspostSharp3 {
 			return new ArtworkData {
 				data = _data,
 				title = txtTitle.Text,
-				description = txtDescription.Text,
+				description = wbrDescription.Document.Body.InnerHtml,
 				url = _url,
 				tags = txtTags.Text.Split(' ').Where(s => s != ""),
 				mature = chkMature.Checked,
@@ -64,7 +64,7 @@ namespace CrosspostSharp3 {
 						d.SetSubmission(
 							_data,
 							txtTitle.Text,
-							txtDescription.Text,
+							wbrDescription.Document.Body.InnerHtml,
 							txtTags.Text.Split(' ').Where(s => s != ""),
 							chkMature.Checked || chkAdult.Checked,
 							_url);
@@ -145,7 +145,9 @@ namespace CrosspostSharp3 {
 			}
 
 			txtTitle.Text = artwork.title;
-			txtDescription.Text = artwork.description;
+			wbrDescription.Navigate("about:blank");
+			wbrDescription.Document.Write($"<html><head></head><body>{artwork.description}</body></html>");
+			wbrDescription.Document.Body.SetAttribute("contenteditable", "true");
 			txtTags.Text = string.Join(" ", artwork.tags);
 			chkMature.Checked = artwork.mature;
 			chkAdult.Checked = artwork.adult;
@@ -198,22 +200,7 @@ namespace CrosspostSharp3 {
 			var o = listBox1.SelectedItem as DestinationOption;
 			o?.Click?.Invoke();
 		}
-
-		private void lnkPreview_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			using (var f = new Form()) {
-				f.Text = "Post to DeviantArt";
-				f.Width = 600;
-				f.Height = 350;
-				var w = new WebBrowser {
-					Dock = DockStyle.Fill
-				};
-				f.Controls.Add(w);
-				w.Navigate("about:blank");
-				w.Document.Write(txtDescription.Text);
-				f.ShowDialog(this);
-			}
-		}
-
+		
 		public const string OpenFilter = "All supported formats|*.png;*.jpg;*.jpeg;*.gif;*.cps|Image files|*.png;*.jpg;*.jpeg;*.gif|CrosspostSharp JSON|*.cps|All files|*.*";
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -291,32 +278,6 @@ namespace CrosspostSharp3 {
 		private void mainWindowAccountSetupToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var f = new MainForm()) {
 				f.ShowDialog(this);
-			}
-		}
-
-		private bool _currentHtml = true;
-
-		private static string TextToHtml(string s) {
-			return "<p>" + WebUtility.HtmlEncode(s).Replace("\n", "<br/>") + "</p>";
-		}
-
-		private void radHTML_CheckedChanged(object sender, EventArgs e) {
-			if (radHTML.Checked && !_currentHtml) {
-				// Convert from plain text to HTML
-				txtDescription.Text = "<p>" + WebUtility.HtmlEncode(txtDescription.Text).Replace("\r\n", "<br/>") + "</p>";
-				_currentHtml = true;
-			}
-		}
-
-		private void radText_CheckedChanged(object sender, EventArgs e) {
-			if (radText.Checked && _currentHtml) {
-				if (MessageBox.Show(this, "Are you sure you want to remove all formatting?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No) {
-					radHTML.Checked = true;
-				} else {
-					// Convert from HTML to plain text
-					txtDescription.Text = HtmlConversion.ConvertHtmlToText(txtDescription.Text);
-					_currentHtml = false;
-				}
 			}
 		}
 	}

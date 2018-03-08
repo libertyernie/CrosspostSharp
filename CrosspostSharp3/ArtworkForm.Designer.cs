@@ -25,14 +25,13 @@
 		private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArtworkForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.wbrDescription = new System.Windows.Forms.WebBrowser();
             this.chkAdult = new System.Windows.Forms.CheckBox();
             this.chkMature = new System.Windows.Forms.CheckBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnView = new System.Windows.Forms.Button();
-            this.lnkPreview = new System.Windows.Forms.LinkLabel();
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblTags = new System.Windows.Forms.Label();
-            this.txtDescription = new System.Windows.Forms.TextBox();
             this.lblDescription = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
@@ -50,15 +49,11 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.radHTML = new System.Windows.Forms.RadioButton();
-            this.radText = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -70,21 +65,30 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel2);
+            this.splitContainer1.Panel2.Controls.Add(this.wbrDescription);
             this.splitContainer1.Panel2.Controls.Add(this.chkAdult);
             this.splitContainer1.Panel2.Controls.Add(this.chkMature);
             this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
             this.splitContainer1.Panel2.Controls.Add(this.btnView);
-            this.splitContainer1.Panel2.Controls.Add(this.lnkPreview);
             this.splitContainer1.Panel2.Controls.Add(this.txtTags);
             this.splitContainer1.Panel2.Controls.Add(this.lblTags);
-            this.splitContainer1.Panel2.Controls.Add(this.txtDescription);
             this.splitContainer1.Panel2.Controls.Add(this.lblDescription);
             this.splitContainer1.Panel2.Controls.Add(this.txtTitle);
             this.splitContainer1.Panel2.Controls.Add(this.lblTitle);
             this.splitContainer1.Size = new System.Drawing.Size(444, 387);
             this.splitContainer1.SplitterDistance = 177;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // wbrDescription
+            // 
+            this.wbrDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wbrDescription.Location = new System.Drawing.Point(117, 29);
+            this.wbrDescription.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbrDescription.Name = "wbrDescription";
+            this.wbrDescription.Size = new System.Drawing.Size(315, 82);
+            this.wbrDescription.TabIndex = 12;
             // 
             // chkAdult
             // 
@@ -132,17 +136,6 @@
             this.btnView.UseVisualStyleBackColor = true;
             this.btnView.Click += new System.EventHandler(this.btnView_Click);
             // 
-            // lnkPreview
-            // 
-            this.lnkPreview.AutoSize = true;
-            this.lnkPreview.Location = new System.Drawing.Point(63, 89);
-            this.lnkPreview.Name = "lnkPreview";
-            this.lnkPreview.Size = new System.Drawing.Size(45, 13);
-            this.lnkPreview.TabIndex = 4;
-            this.lnkPreview.TabStop = true;
-            this.lnkPreview.Text = "Preview";
-            this.lnkPreview.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPreview_LinkClicked);
-            // 
             // txtTags
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -161,19 +154,6 @@
             this.lblTags.Size = new System.Drawing.Size(31, 13);
             this.lblTags.TabIndex = 6;
             this.lblTags.Text = "Tags";
-            // 
-            // txtDescription
-            // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtDescription.Location = new System.Drawing.Point(117, 29);
-            this.txtDescription.Multiline = true;
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(315, 82);
-            this.txtDescription.TabIndex = 5;
             // 
             // lblDescription
             // 
@@ -325,39 +305,6 @@
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.radText);
-            this.panel2.Controls.Add(this.radHTML);
-            this.panel2.Location = new System.Drawing.Point(12, 46);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(99, 40);
-            this.panel2.TabIndex = 3;
-            // 
-            // radHTML
-            // 
-            this.radHTML.AutoSize = true;
-            this.radHTML.Checked = true;
-            this.radHTML.Location = new System.Drawing.Point(41, 3);
-            this.radHTML.Name = "radHTML";
-            this.radHTML.Size = new System.Drawing.Size(55, 17);
-            this.radHTML.TabIndex = 0;
-            this.radHTML.TabStop = true;
-            this.radHTML.Text = "HTML";
-            this.radHTML.UseVisualStyleBackColor = true;
-            this.radHTML.CheckedChanged += new System.EventHandler(this.radHTML_CheckedChanged);
-            // 
-            // radText
-            // 
-            this.radText.AutoSize = true;
-            this.radText.Location = new System.Drawing.Point(50, 23);
-            this.radText.Name = "radText";
-            this.radText.Size = new System.Drawing.Size(46, 17);
-            this.radText.TabIndex = 1;
-            this.radText.Text = "Text";
-            this.radText.UseVisualStyleBackColor = true;
-            this.radText.CheckedChanged += new System.EventHandler(this.radText_CheckedChanged);
-            // 
             // ArtworkForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,8 +324,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -387,14 +332,12 @@
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private System.Windows.Forms.TextBox txtDescription;
 		private System.Windows.Forms.Label lblDescription;
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.Label lblTags;
 		private System.Windows.Forms.TextBox txtTags;
 		private System.Windows.Forms.Button btnPost;
-		private System.Windows.Forms.LinkLabel lnkPreview;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -412,8 +355,6 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mainWindowAccountSetupToolStripMenuItem;
-		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.RadioButton radText;
-		private System.Windows.Forms.RadioButton radHTML;
+		private System.Windows.Forms.WebBrowser wbrDescription;
 	}
 }
