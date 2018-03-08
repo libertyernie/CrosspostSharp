@@ -30,6 +30,11 @@ namespace CrosspostSharp3 {
 							return Enumerable.Empty<Settings.InkbunnySettings>();
 						}
 					}
+				},
+				settings => {
+					new InkbunnyLib.InkbunnyClient(settings.sid, settings.userId).LogoutAsync().ContinueWith(t => {
+						if (t.Exception != null) MessageBox.Show(t.Exception.Message);
+					});
 				}
 			)) {
 				acctSelForm.ShowDialog(this);
