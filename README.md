@@ -37,14 +37,33 @@ supported on all sites except DeviantArt / Sta.sh.
 
 You can also use a Media RSS feed as a source or open or save local files.
 
-Additionally, you can install Java and put [efc.jar]
-(https://github.com/libertyernie/Furry-Crossposter/releases),
+Additionally, you can install Java and put
+[efc.jar](https://github.com/libertyernie/Furry-Crossposter/releases)
 in the same folder as CrosspostSharp.exe, which will add support for posting
 to Weasyl and FurAffinity. efc.jar is a fork of another crossposting app
 designed to work with CrosspostSharp. See its page for more information.
 
-Settings
---------
+File Formats
+------------
+
+CrosspostSharp can read PNG, JPEG, and GIF image formats, either from the web
+or from a file (with File > Open.)
+
+CrosspostSharp can also open and save .cps files. These are JSON files that
+contain encoded image data and metadata. The .cps file format looks like this:
+
+	{
+		"data": "[base 64 encoded image data]",
+		"title": "text string",
+		"description": "html string",
+		"url": "text string",
+		"tags": ["tag1", "tag2"],
+		"mature": false,
+		"adult": false
+	}
+
+Credentials
+-----------
 
 Credentials are stored in the file CrosspostSharp.json. This includes tokens
 are used to give CrosspostSharp access to your accounts. Make sure you keep
