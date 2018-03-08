@@ -193,7 +193,7 @@
             // 
             this.furryNetworkToolStripMenuItem.Name = "furryNetworkToolStripMenuItem";
             this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.furryNetworkToolStripMenuItem.Text = "Furry&Network";
+            this.furryNetworkToolStripMenuItem.Text = "Furry &Network";
             this.furryNetworkToolStripMenuItem.Click += new System.EventHandler(this.furryNetworkToolStripMenuItem_Click);
             // 
             // inkbunnyToolStripMenuItem

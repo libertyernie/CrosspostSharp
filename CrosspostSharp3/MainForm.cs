@@ -139,7 +139,7 @@ namespace CrosspostSharp3 {
 					scraps: true)));
 			}
 			foreach (var g in s.FurryNetwork.GroupBy(fn => fn.refreshToken)) {
-				lblLoadStatus.Text = $"Adding FurryNetwork ({string.Join(", ", g.Select(fn => fn.characterName))})...";
+				lblLoadStatus.Text = $"Adding Furry Network ({string.Join(", ", g.Select(fn => fn.characterName))})...";
 				string refreshToken = g.Key;
 				var client = new FurryNetworkClient(refreshToken);
 				try {
@@ -151,7 +151,7 @@ namespace CrosspostSharp3 {
 				} catch (Exception ex) {
 					Console.Error.WriteLine(ex.Message);
 					Console.Error.WriteLine(ex.StackTrace);
-					MessageBox.Show(this, "FurryNetwork refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(this, "Furry Network refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					s.FurryNetwork = s.FurryNetwork
 						.Where(fn => fn.refreshToken != refreshToken)
 						.ToList();
