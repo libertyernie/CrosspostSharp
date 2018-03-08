@@ -133,6 +133,10 @@ namespace CrosspostSharp3 {
 				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
 					a: fa.a,
 					b: fa.b)));
+				list.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(
+					a: fa.a,
+					b: fa.b,
+					scraps: true)));
 			}
 			foreach (var g in s.FurryNetwork.GroupBy(fn => fn.refreshToken)) {
 				lblLoadStatus.Text = $"Adding FurryNetwork ({string.Join(", ", g.Select(fn => fn.characterName))})...";
