@@ -32,7 +32,7 @@ namespace CrosspostSharp3 {
 
 		public static string ConvertHtmlToText(string html) {
 			HtmlDocument doc = new HtmlDocument();
-			doc.LoadHtml(html);
+			doc.LoadHtml(html.Replace("\r", "").Replace("\n", ""));
 
 			StringWriter sw = new StringWriter();
 			ConvertTo(doc.DocumentNode, sw);
