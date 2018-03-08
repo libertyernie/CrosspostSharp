@@ -276,8 +276,14 @@ namespace CrosspostSharp3 {
 			Populate();
 		}
 
-		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
 			Process.Start("https://github.com/libertyernie/CrosspostSharp/blob/v3.0/README.md");
+		}
+
+		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var f = new AboutForm()) {
+				f.ShowDialog(this);
+			}
 		}
 	}
 }

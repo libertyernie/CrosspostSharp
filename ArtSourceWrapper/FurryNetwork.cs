@@ -84,7 +84,7 @@ namespace ArtSourceWrapper {
 			try {
 				var req = WebRequest.CreateHttp("https://api.github.com/markdown/raw");
 				req.Method = "POST";
-				req.UserAgent = "CrosspostSharp/2.2 (https://github.com/libertyernie/CrosspostSharp)";
+				req.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
 				req.ContentType = "text/x-markdown";
 				using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
 					await sw.WriteAsync(artwork.Description);
