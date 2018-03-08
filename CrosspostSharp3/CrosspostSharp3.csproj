@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -233,10 +236,6 @@
       <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
       <Name>ArtSourceWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CrosspostSharp\CrosspostSharp.csproj">
-      <Project>{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}</Project>
-      <Name>CrosspostSharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>
@@ -254,7 +253,7 @@
       <Name>FAWinFormsLogin</Name>
     </ProjectReference>
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj">
-      <Project>{46595381-E1FC-4BE3-A970-B1988C4A2D0E}</Project>
+      <Project>{46595381-e1fc-4be3-a970-b1988c4a2d0e}</Project>
       <Name>FurryNetworkLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
@@ -278,6 +277,9 @@
     <PackageReference Include="TweetinviAPI">
       <Version>2.1.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
