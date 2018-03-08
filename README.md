@@ -23,9 +23,10 @@ Supported Sites
 ---------------
 
 Use the Tools menu to add and remove accounts. Multiple accounts per site are
-supported on all sites except DeviantArt and Sta.sh.
+supported on all sites except DeviantArt / Sta.sh.
 
 * DeviantArt / Sta.sh
+* Flickr
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
@@ -33,9 +34,6 @@ supported on all sites except DeviantArt and Sta.sh.
 * Tumblr
 * Twitter
 * Weasyl (read-only)
-
-Coming later:
-* Flickr
 
 You can also use a Media RSS feed as a source or open or save local files.
 

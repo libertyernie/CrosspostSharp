@@ -72,6 +72,13 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
+			foreach (var fl in settings.Flickr) {
+				listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
+					using (var f = new FlickrPostForm(fl, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
 			foreach (var fn in settings.FurryNetwork) {
 				listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
 					using (var f = new FurryNetworkPostForm(fn, Export())) {

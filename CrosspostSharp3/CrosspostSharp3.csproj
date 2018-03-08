@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FlickrPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlickrPostForm.Designer.cs">
+      <DependentUpon>FlickrPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IECookiePersist.cs" />
     <Compile Include="FurryNetworkPostForm.cs">
       <SubType>Form</SubType>
@@ -164,6 +170,9 @@
     <EmbeddedResource Include="FurryNetworkCharacterSelectionForm.resx">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FlickrPostForm.resx">
+      <DependentUpon>FlickrPostForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -223,6 +232,10 @@
     <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
       <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
       <Name>ArtSourceWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrosspostSharp\CrosspostSharp.csproj">
+      <Project>{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}</Project>
+      <Name>CrosspostSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
