@@ -99,6 +99,7 @@
     <Compile Include="FurryNetworkCharacterSelectionForm.Designer.cs">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Search\DeviantArtSearchInternalWrapper.cs" />
     <Compile Include="Search\SearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
