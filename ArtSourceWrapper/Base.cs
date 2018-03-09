@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Async;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
@@ -10,7 +12,7 @@ namespace ArtSourceWrapper {
     /// An interface representing a client wrapper for an art site.
     /// Normally a class will extend SiteWrapper&lt;TWrapper, TPosition> instead of implementing this interface directly.
     /// </summary>
-    public interface ISiteWrapper {
+    public interface ISiteWrapper : IAsyncEnumerable<ISubmissionWrapper> {
         /// <summary>
         /// The batch size will be this amount if possible, or the greatest possible amount.
         /// Changing the batch size after some elements have been fetched may have unexpected effects in some cases.
@@ -78,7 +80,7 @@ namespace ArtSourceWrapper {
     /// </summary>
     /// <typeparam name="TWrapper">The type of object to wrap submissions in; must derive from TWrapper</typeparam>
     /// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
-    public abstract class SiteWrapper<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
+    public abstract class SiteWrapper<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, IAsyncEnumerable<ISubmissionWrapper>, ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
         /// <summary>
         /// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
         /// </summary>
@@ -102,10 +104,33 @@ namespace ArtSourceWrapper {
         /// <returns>A URL, or null if no image is available</returns>
         public abstract Task<string> GetUserIconAsync(int size);
 
-        /// <summary>
-        /// A list of the currently cached submissions. Call FetchAsync to get more.
-        /// </summary>
-        public new IEnumerable<ISubmissionWrapper> Cache {
+		public Task<IAsyncEnumerator<ISubmissionWrapper>> GetAsyncEnumeratorAsync(CancellationToken cancellationToken = default(CancellationToken)) {
+			IAsyncEnumerator<ISubmissionWrapper> e = new AsyncEnumerator<ISubmissionWrapper>(async y => {
+				int i = 0;
+				while (true) {
+					cancellationToken.ThrowIfCancellationRequested();
+					if (Cache.Skip(i).Any()) {
+						await y.ReturnAsync(Cache.Skip(i).First());
+						i++;
+					} else if (IsEnded) {
+						break;
+					} else {
+						await FetchAsync();
+					}
+				}
+				y.Break();
+			});
+			return Task.FromResult(e);
+		}
+
+		async Task<IAsyncEnumerator> IAsyncEnumerable.GetAsyncEnumeratorAsync(CancellationToken cancellationToken) {
+			return await GetAsyncEnumeratorAsync(cancellationToken);
+		}
+
+		/// <summary>
+		/// A list of the currently cached submissions. Call FetchAsync to get more.
+		/// </summary>
+		public new IEnumerable<ISubmissionWrapper> Cache {
             get {
                 foreach (var w in base.Cache) yield return w;
             }

@@ -289,6 +289,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AsyncEnumerator">
+      <Version>2.1.1</Version>
+    </PackageReference>
     <PackageReference Include="ISchemm.WinFormsOAuth">
       <Version>1.1.1</Version>
     </PackageReference>

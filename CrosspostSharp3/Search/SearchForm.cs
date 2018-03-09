@@ -1,5 +1,6 @@
 ﻿using ArtSourceWrapper;
 using System;
+using System.Collections.Async;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,23 +38,14 @@ namespace CrosspostSharp3.Search {
 			flowLayoutPanel1.Controls.Clear();
 			if (_wrapper == null) return;
 
-			int current = 0;
-
-			while (_wrapper.Cache.Skip(_offset).Count() < _count && !_wrapper.IsEnded) {
-				await _wrapper.FetchAsync();
-
-				int i = 0;
-				foreach (var w in _wrapper.Cache.Skip(_offset).Take(_count)) {
-					if (i >= current) {
-						var l = new LinkLabel {
-							Text = w.Title
-						};
-						l.Click += (o, a) => Process.Start(w.ViewURL);
-						flowLayoutPanel1.Controls.Add(l);
-						current++;
-					}
-					i++;
-				}
+			var e = await _wrapper.Skip(_offset).Take(_count).GetAsyncEnumeratorAsync();
+			while (await e.MoveNextAsync()) {
+				var w = e.Current;
+				var l = new LinkLabel {
+					Text = w.Title
+				};
+				l.Click += (o, a) => Process.Start(w.ViewURL);
+				flowLayoutPanel1.Controls.Add(l);
 			}
 		}
 
