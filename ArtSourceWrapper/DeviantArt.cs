@@ -62,7 +62,7 @@ namespace ArtSourceWrapper {
     }
     
     public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
-        private DeviantArtInternalWrapper _idWrapper;
+        private AsynchronousCachedEnumerable<Deviation, uint> _idWrapper;
 
 		public override string SiteName => "DeviantArt";
 		public override string WrapperName => "DeviantArt";
@@ -71,8 +71,8 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => Math.Min(50, _idWrapper.MaxBatchSize);
 
-        public DeviantArtWrapper() {
-            _idWrapper = new DeviantArtInternalWrapper();
+        public DeviantArtWrapper(AsynchronousCachedEnumerable<Deviation, uint> idWrapper = null) {
+            _idWrapper = idWrapper ?? new DeviantArtInternalWrapper();
             BatchSize = MaxBatchSize;
         }
 
@@ -101,6 +101,8 @@ namespace ArtSourceWrapper {
 
         private static IEnumerable<DeviantArtSubmissionWrapper> Wrap(IEnumerable<Deviation> deviations, IEnumerable<Metadata> metadata) {
             foreach (var d in deviations) {
+				if (d.Content == null) continue;
+
                 var metadata_if_any = metadata.FirstOrDefault(m => m.DeviationId == d.DeviationId);
                 yield return new DeviantArtSubmissionWrapper(d, metadata_if_any);
             }
