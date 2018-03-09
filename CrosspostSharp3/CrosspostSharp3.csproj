@@ -99,6 +99,13 @@
     <Compile Include="FurryNetworkCharacterSelectionForm.Designer.cs">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Search\DeviantArtSearchInternalWrapper.cs" />
+    <Compile Include="Search\SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Search\SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +204,9 @@
     <EmbeddedResource Include="FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Search\SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -280,6 +290,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AsyncEnumerator">
+      <Version>2.1.1</Version>
+    </PackageReference>
     <PackageReference Include="ISchemm.WinFormsOAuth">
       <Version>1.1.1</Version>
     </PackageReference>

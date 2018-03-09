@@ -3,6 +3,7 @@ using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
 using System;
+using System.Collections.Async;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,38 +40,32 @@ namespace CrosspostSharp3 {
 			}
 
 			try {
-				while (true) {
-					for (; i < stop && i < _currentWrapper.Cache.Count(); i++) {
-						var item = _currentWrapper.Cache.Skip(i).First();
+				var e = await _currentWrapper.Skip(_currentPosition).Take(tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount).GetAsyncEnumeratorAsync();
+				while (await e.MoveNextAsync()) {
+					var item = e.Current;
 
-						Image image;
-						var req = WebRequestFactory.Create(item.ThumbnailURL);
-						using (var resp = await req.GetResponseAsync())
-						using (var stream = resp.GetResponseStream())
-						using (var ms = new MemoryStream()) {
-							await stream.CopyToAsync(ms);
-							ms.Position = 0;
-							image = Image.FromStream(ms);
-						}
-
-						var p = new Panel {
-							BackgroundImage = image,
-							BackgroundImageLayout = ImageLayout.Zoom,
-							Cursor = Cursors.Hand,
-							Dock = DockStyle.Fill
-						};
-						p.Click += (o, e) => {
-							using (var f = new ArtworkForm(item)) {
-								f.ShowDialog(this);
-							}
-						};
-						tableLayoutPanel1.Controls.Add(p);
+					Image image;
+					var req = WebRequestFactory.Create(item.ThumbnailURL);
+					using (var resp = await req.GetResponseAsync())
+					using (var stream = resp.GetResponseStream())
+					using (var ms = new MemoryStream()) {
+						await stream.CopyToAsync(ms);
+						ms.Position = 0;
+						image = Image.FromStream(ms);
 					}
 
-					if (i == stop) break;
-
-					if (_currentWrapper.IsEnded) break;
-					await _currentWrapper.FetchAsync();
+					var p = new Panel {
+						BackgroundImage = image,
+						BackgroundImageLayout = ImageLayout.Zoom,
+						Cursor = Cursors.Hand,
+						Dock = DockStyle.Fill
+					};
+					p.Click += (o, a) => {
+						using (var f = new ArtworkForm(item)) {
+							f.ShowDialog(this);
+						}
+					};
+					tableLayoutPanel1.Controls.Add(p);
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -291,6 +286,12 @@ namespace CrosspostSharp3 {
 
 		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
 			using (var f = new BatchExportForm(GetWrappers())) {
+				f.ShowDialog(this);
+			}
+		}
+
+		private void searchToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var f = new Search.SearchForm()) {
 				f.ShowDialog(this);
 			}
 		}
