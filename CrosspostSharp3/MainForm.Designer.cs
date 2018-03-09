@@ -54,6 +54,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
+            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -154,7 +155,8 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accountSetupToolStripMenuItem});
+            this.accountSetupToolStripMenuItem,
+            this.searchToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -179,70 +181,70 @@
             // deviantArtToolStripMenuItem
             // 
             this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
             this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
             // 
             // flickrToolStripMenuItem
             // 
             this.flickrToolStripMenuItem.Name = "flickrToolStripMenuItem";
-            this.flickrToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.flickrToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.flickrToolStripMenuItem.Text = "&Flickr";
             this.flickrToolStripMenuItem.Click += new System.EventHandler(this.flickrToolStripMenuItem_Click);
             // 
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.furAffinityToolStripMenuItem.Text = "Fur&Affinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
             // 
             // furryNetworkToolStripMenuItem
             // 
             this.furryNetworkToolStripMenuItem.Name = "furryNetworkToolStripMenuItem";
-            this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.furryNetworkToolStripMenuItem.Text = "Furry &Network";
             this.furryNetworkToolStripMenuItem.Click += new System.EventHandler(this.furryNetworkToolStripMenuItem_Click);
             // 
             // inkbunnyToolStripMenuItem
             // 
             this.inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
-            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
             this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
             // 
             // mediaRSSToolStripMenuItem
             // 
             this.mediaRSSToolStripMenuItem.Name = "mediaRSSToolStripMenuItem";
-            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
             this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
             // 
             // pixivToolStripMenuItem
             // 
             this.pixivToolStripMenuItem.Name = "pixivToolStripMenuItem";
-            this.pixivToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pixivToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.pixivToolStripMenuItem.Text = "&Pixiv";
             this.pixivToolStripMenuItem.Click += new System.EventHandler(this.pixivToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
             // 
             this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.twitterToolStripMenuItem.Text = "&Twitter";
             this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
             // 
             // tumblrToolStripMenuItem
             // 
             this.tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
-            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.tumblrToolStripMenuItem.Text = "T&umblr";
             this.tumblrToolStripMenuItem.Click += new System.EventHandler(this.tumblrToolStripMenuItem_Click);
             // 
             // weasylToolStripMenuItem
             // 
             this.weasylToolStripMenuItem.Name = "weasylToolStripMenuItem";
-            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.weasylToolStripMenuItem.Text = "&Weasyl";
             this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
             // 
@@ -330,6 +332,13 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
+            // searchToolStripMenuItem
+            // 
+            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.searchToolStripMenuItem.Text = "&Search...";
+            this.searchToolStripMenuItem.Click += new System.EventHandler(this.searchToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -391,6 +400,7 @@
 		private System.Windows.Forms.ToolStripMenuItem flickrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
 	}
 }
 

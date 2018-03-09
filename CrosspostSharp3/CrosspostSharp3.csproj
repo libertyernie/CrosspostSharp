@@ -99,6 +99,12 @@
     <Compile Include="FurryNetworkCharacterSelectionForm.Designer.cs">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Search\SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Search\SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
