@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace CrosspostSharp3 {
 	public struct ArtworkData {
 		public byte[] data;
+		public string contentType;
 		public string title, description, url;
 		public IEnumerable<string> tags;
 		public bool mature;
@@ -29,6 +30,7 @@ namespace CrosspostSharp3 {
 				await stream.CopyToAsync(ms);
 				return new ArtworkData {
 					data = ms.ToArray(),
+					contentType = resp.ContentType,
 					title = wrapper.Title,
 					description = wrapper.HTMLDescription,
 					tags = wrapper.Tags,
@@ -51,6 +53,7 @@ namespace CrosspostSharp3 {
 			}
 			return new ArtworkData {
 				data = data,
+				contentType = GetContentType(data),
 				title = Path.GetFileName(filename),
 				description = "",
 				tags = Enumerable.Empty<string>(),
@@ -59,7 +62,7 @@ namespace CrosspostSharp3 {
 			};
 		}
 
-		public string GetContentType() {
+		private static string GetContentType(byte[] data) {
 			try {
 				using (var ms = new MemoryStream(data, false)) {
 					var image = Image.FromStream(ms);
@@ -69,6 +72,10 @@ namespace CrosspostSharp3 {
 				}
 			} catch (Exception) { }
 			return "application/octet-stream";
+		}
+
+		public string GetContentType() {
+			return contentType;
 		}
 
 		public string GetFileName() {

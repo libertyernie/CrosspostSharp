@@ -18,6 +18,7 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private byte[] _data;
+		private string _contentType;
 		private string _url;
 		private IDeletable _originalWrapper;
 
@@ -38,6 +39,7 @@ namespace CrosspostSharp3 {
 		public ArtworkData Export() {
 			return new ArtworkData {
 				data = _data,
+				contentType = _contentType,
 				title = txtTitle.Text,
 				description = wbrDescription.Document.Body.InnerHtml,
 				url = _url,
@@ -152,6 +154,7 @@ namespace CrosspostSharp3 {
 			chkMature.Checked = artwork.mature;
 			chkAdult.Checked = artwork.adult;
 
+			_contentType = artwork.contentType;
 			_url = artwork.url;
 			btnView.Enabled = _url != null;
 
