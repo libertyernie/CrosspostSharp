@@ -106,6 +106,12 @@
     <Compile Include="Search\SearchForm.Designer.cs">
       <DependentUpon>SearchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Search\Thumbnail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Search\Thumbnail.Designer.cs">
+      <DependentUpon>Thumbnail.cs</DependentUpon>
+    </Compile>
     <Compile Include="TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Search\SearchForm.resx">
       <DependentUpon>SearchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Search\Thumbnail.resx">
+      <DependentUpon>Thumbnail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>

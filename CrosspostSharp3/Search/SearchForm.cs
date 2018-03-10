@@ -27,8 +27,8 @@ namespace CrosspostSharp3.Search {
 			_offset = 0;
 			_count = Math.Max(1, (int)numCount.Value);
 			_wrapper = new MetaWrapper("All", new ISiteWrapper[] {
-				new DeviantArtWrapper(),
-				new WeasylWrapper(new WeasylGalleryIdWrapper(settings.Weasyl.First().apiKey))
+				new DeviantArtWrapper(new DeviantArtSearchInternalWrapper("star trek")),
+				new DeviantArtWrapper(new DeviantArtSearchInternalWrapper("star wars"))
 			});
 
 			Populate();
@@ -41,11 +41,23 @@ namespace CrosspostSharp3.Search {
 			var e = await _wrapper.Skip(_offset).Take(_count).GetAsyncEnumeratorAsync();
 			while (await e.MoveNextAsync()) {
 				var w = e.Current;
-				var l = new LinkLabel {
-					Text = w.Title
-				};
-				l.Click += (o, a) => Process.Start(w.ViewURL);
-				flowLayoutPanel1.Controls.Add(l);
+				var t = new Thumbnail(w);
+				foreach (Control c in t.Controls) {
+					c.Click += (o, a) => {
+						Process.Start(w.ViewURL);
+					};
+					c.MouseEnter += (o, a) => {
+						lock (lblHoverUrl) {
+							lblHoverUrl.Text = w.ViewURL;
+						}
+					};
+					c.MouseLeave += (o, a) => {
+						lock (lblHoverUrl) {
+							if (lblHoverUrl.Text == w.ViewURL) lblHoverUrl.Text = "";
+						}
+					};
+				}
+				flowLayoutPanel1.Controls.Add(t);
 			}
 		}
 
@@ -58,6 +70,10 @@ namespace CrosspostSharp3.Search {
 		private void btnNext_Click(object sender, EventArgs e) {
 			_offset += _count;
 			Populate();
+		}
+
+		private void numCount_ValueChanged(object sender, EventArgs e) {
+			_count = (int)numCount.Value;
 		}
 	}
 }

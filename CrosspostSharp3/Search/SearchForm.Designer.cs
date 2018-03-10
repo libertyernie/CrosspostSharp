@@ -31,6 +31,7 @@
             this.btnPrevious = new System.Windows.Forms.Button();
             this.lblCount = new System.Windows.Forms.Label();
             this.numCount = new System.Windows.Forms.NumericUpDown();
+            this.lblHoverUrl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -40,7 +41,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.Location = new System.Drawing.Point(126, 12);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(446, 20);
+            this.txtSearch.Size = new System.Drawing.Size(646, 20);
             this.txtSearch.TabIndex = 0;
             // 
             // listBox1
@@ -49,13 +50,13 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 0);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 361);
+            this.listBox1.Size = new System.Drawing.Size(120, 581);
             this.listBox1.TabIndex = 1;
             // 
             // btnSearch
             // 
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.Location = new System.Drawing.Point(497, 38);
+            this.btnSearch.Location = new System.Drawing.Point(697, 38);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 2;
@@ -71,13 +72,13 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(126, 67);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(446, 253);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(646, 473);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(497, 326);
+            this.btnNext.Location = new System.Drawing.Point(697, 546);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 8;
@@ -88,7 +89,7 @@
             // btnPrevious
             // 
             this.btnPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrevious.Location = new System.Drawing.Point(416, 326);
+            this.btnPrevious.Location = new System.Drawing.Point(616, 546);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(75, 23);
             this.btnPrevious.TabIndex = 7;
@@ -121,12 +122,25 @@
             0,
             0,
             0});
+            this.numCount.ValueChanged += new System.EventHandler(this.numCount_ValueChanged);
+            // 
+            // lblHoverUrl
+            // 
+            this.lblHoverUrl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblHoverUrl.AutoEllipsis = true;
+            this.lblHoverUrl.Location = new System.Drawing.Point(126, 546);
+            this.lblHoverUrl.Name = "lblHoverUrl";
+            this.lblHoverUrl.Size = new System.Drawing.Size(484, 23);
+            this.lblHoverUrl.TabIndex = 11;
+            this.lblHoverUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 361);
+            this.ClientSize = new System.Drawing.Size(784, 581);
+            this.Controls.Add(this.lblHoverUrl);
             this.Controls.Add(this.numCount);
             this.Controls.Add(this.lblCount);
             this.Controls.Add(this.btnNext);
@@ -153,5 +167,6 @@
 		private System.Windows.Forms.Button btnPrevious;
 		private System.Windows.Forms.Label lblCount;
 		private System.Windows.Forms.NumericUpDown numCount;
+		private System.Windows.Forms.Label lblHoverUrl;
 	}
 }

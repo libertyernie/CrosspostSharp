@@ -8,16 +8,21 @@ using System.Threading.Tasks;
 
 namespace CrosspostSharp3.Search {
 	internal class DeviantArtSearchInternalWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
-		public override int BatchSize { get; set; } = 24;
+		public override int BatchSize { get; set; } = 10;
 		public override int MinBatchSize => 1;
-		public override int MaxBatchSize => 24;
+		public override int MaxBatchSize => 120;
+
+		private readonly string _query;
+		public DeviantArtSearchInternalWrapper(string query) {
+			_query = query;
+		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
 			uint maxCount = (uint)Math.Max(MinBatchSize, Math.Min(MaxBatchSize, count));
 			uint position = startPosition ?? 0;
 
 			var galleryResponse = await new DeviantartApi.Requests.Browse.NewestRequest() {
-				Query = "star trek",
+				Query = _query,
 				Limit = maxCount,
 				Offset = startPosition
 			}.GetNextPageAsync();
