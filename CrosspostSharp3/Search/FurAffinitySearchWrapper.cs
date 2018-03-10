@@ -24,7 +24,7 @@ namespace CrosspostSharp3.Search {
 			string username = await WhoamiAsync();
 
 			int pos = startPosition ?? 1;
-			var result = await _client.GetSearchIdsAsync(_q, pos, rating: FARating.general, type: FAType.art | FAType.photo);
+			var result = await _client.SearchSubmissionIdsAsync(_q, pos, type: FAType.art | FAType.photo);
 			return new InternalFetchResult(result, pos + 1, isEnded: !result.Any());
 		}
 	}

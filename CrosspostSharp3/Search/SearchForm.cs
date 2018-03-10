@@ -56,6 +56,10 @@ namespace CrosspostSharp3.Search {
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret)), txtSearch.Text)));
 			}
+			if (settings.Inkbunny.Any()) {
+				var i = settings.Inkbunny.First();
+				listBox1.Items.Add(new ListItem("Inkbunny", () => new InkbunnySearchWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), txtSearch.Text)));
+			}
 
 			for (int i = 0; i < listBox1.Items.Count; i++) {
 				listBox1.SetSelected(i, true);
@@ -85,6 +89,8 @@ namespace CrosspostSharp3.Search {
 			var e = await _wrapper.Skip(_offset).Take(_count).GetAsyncEnumeratorAsync();
 			while (await e.MoveNextAsync()) {
 				var w = e.Current;
+				if (w.Mature || w.Adult) continue;
+
 				var t = new Thumbnail(w);
 				foreach (Control c in t.Controls) {
 					c.Click += (o, a) => {
