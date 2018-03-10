@@ -78,22 +78,24 @@ namespace ArtSourceWrapper {
 
 		private FurryNetworkSubmissionWrapper() { }
 
-		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork, FurryNetworkClient client = null) {
-			string html = null;
+		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork, FurryNetworkClient client = null, bool convertMarkdown = true) {
+			string html = WebUtility.HtmlEncode(artwork.Description);
 
-			try {
-				var req = WebRequest.CreateHttp("https://api.github.com/markdown/raw");
-				req.Method = "POST";
-				req.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
-				req.ContentType = "text/x-markdown";
-				using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
-					await sw.WriteAsync(artwork.Description);
-				}
-				using (var resp = await req.GetResponseAsync())
-				using (var sr = new StreamReader(resp.GetResponseStream())) {
-					html = await sr.ReadToEndAsync();
-				}
-			} catch (Exception) {}
+			if (convertMarkdown) {
+				try {
+					var req = WebRequest.CreateHttp("https://api.github.com/markdown/raw");
+					req.Method = "POST";
+					req.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
+					req.ContentType = "text/x-markdown";
+					using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
+						await sw.WriteAsync(artwork.Description);
+					}
+					using (var resp = await req.GetResponseAsync())
+					using (var sr = new StreamReader(resp.GetResponseStream())) {
+						html = await sr.ReadToEndAsync();
+					}
+				} catch (Exception) { }
+			}
 
 			return new FurryNetworkSubmissionWrapper {
 				_id = artwork.Id,

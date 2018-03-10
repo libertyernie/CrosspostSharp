@@ -8,10 +8,14 @@ namespace ArtSourceWrapper {
 	public class MetaWrapper : SiteWrapper<ISubmissionWrapper, DateTime> {
 		private readonly string _name;
 		private readonly IEnumerable<ISiteWrapper> _wrappers;
+		private readonly bool _general, _mature, _adult;
 
-		public MetaWrapper(string name, IEnumerable<ISiteWrapper> wrappers) {
+		public MetaWrapper(string name, IEnumerable<ISiteWrapper> wrappers, bool general = true, bool mature = true, bool adult = true) {
 			_name = name;
 			_wrappers = wrappers.ToList();
+			_general = general;
+			_mature = mature;
+			_adult = adult;
 		}
 
 		public override string SiteName => _name;
@@ -58,7 +62,8 @@ namespace ArtSourceWrapper {
 			var nextPosition = ts.AddTicks(-1);
 
 			var items = found
-				.Where(s => s.Timestamp == ts);
+				.Where(s => s.Timestamp == ts)
+				.Where(s => s.Adult ? _adult : s.Mature ? _mature : _general);
 			return new InternalFetchResult(items, nextPosition, _wrappers.All(w => w.IsEnded));
 		}
 	}

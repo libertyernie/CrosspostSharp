@@ -55,6 +55,10 @@ namespace CrosspostSharp3.Search {
 					return new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text, rating: r));
 				}));
 			}
+			if (settings.FurryNetwork.Any()) {
+				var fn = settings.FurryNetwork.First();
+				listBox1.Items.Add(new ListItem("Furry Network", () => new FurryNetworkSearchWrapper(new FurryNetworkLib.FurryNetworkClient(fn.refreshToken), txtSearch.Text)));
+			}
 			if (settings.Tumblr.Any()) {
 				var t = settings.Tumblr.First();
 				var tcf = new TumblrClientFactory();
@@ -84,7 +88,7 @@ namespace CrosspostSharp3.Search {
 
 			_offset = 0;
 			_count = Math.Max(1, (int)numCount.Value);
-			_wrapper = new MetaWrapper("All", GetSelectedWrappers());
+			_wrapper = new MetaWrapper("All", GetSelectedWrappers(), chkGeneral.Checked, chkMature.Checked, chkAdult.Checked);
 
 			Populate();
 		}
@@ -93,35 +97,34 @@ namespace CrosspostSharp3.Search {
 			flowLayoutPanel1.Controls.Clear();
 			if (_wrapper == null) return;
 
-			var e = await _wrapper.Skip(_offset).Take(_count).GetAsyncEnumeratorAsync();
-			while (await e.MoveNextAsync()) {
-				var w = e.Current;
-				if (w.Adult) {
-					if (!chkAdult.Checked) continue;
-				} else if (w.Mature) {
-					if (!chkMature.Checked) continue;
-				} else {
-					if (!chkGeneral.Checked) continue;
+			btnSearch.Enabled = btnPrevious.Enabled = btnNext.Enabled = false;
+			try {
+				var e = await _wrapper.Skip(_offset).Take(_count).GetAsyncEnumeratorAsync();
+				while (await e.MoveNextAsync()) {
+					var w = e.Current;
+					var t = new Thumbnail(w);
+					foreach (Control c in t.Controls) {
+						c.Click += (o, a) => {
+							Process.Start(w.ViewURL);
+						};
+						c.MouseEnter += (o, a) => {
+							lock (lblHoverUrl) {
+								lblHoverUrl.Text = w.ViewURL;
+							}
+						};
+						c.MouseLeave += (o, a) => {
+							lock (lblHoverUrl) {
+								if (lblHoverUrl.Text == w.ViewURL) lblHoverUrl.Text = "";
+							}
+						};
+					}
+					flowLayoutPanel1.Controls.Add(t);
 				}
-
-				var t = new Thumbnail(w);
-				foreach (Control c in t.Controls) {
-					c.Click += (o, a) => {
-						Process.Start(w.ViewURL);
-					};
-					c.MouseEnter += (o, a) => {
-						lock (lblHoverUrl) {
-							lblHoverUrl.Text = w.ViewURL;
-						}
-					};
-					c.MouseLeave += (o, a) => {
-						lock (lblHoverUrl) {
-							if (lblHoverUrl.Text == w.ViewURL) lblHoverUrl.Text = "";
-						}
-					};
-				}
-				flowLayoutPanel1.Controls.Add(t);
+			} catch (Exception ex) {
+				Console.Error.WriteLine(ex.Message);
+				Console.Error.Write(ex.StackTrace);
 			}
+			btnSearch.Enabled = btnPrevious.Enabled = btnNext.Enabled = true;
 		}
 
 		private void btnPrevious_Click(object sender, EventArgs e) {

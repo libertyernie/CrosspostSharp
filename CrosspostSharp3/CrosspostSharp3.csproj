@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Search\DeviantArtSearchWrapper.cs" />
     <Compile Include="Search\FurAffinitySearchWrapper.cs" />
+    <Compile Include="Search\FurryNetworkSearchWrapper.cs" />
     <Compile Include="Search\InkbunnySearchWrapper.cs" />
     <Compile Include="Search\SearchForm.cs">
       <SubType>Form</SubType>

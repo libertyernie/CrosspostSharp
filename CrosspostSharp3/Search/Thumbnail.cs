@@ -21,6 +21,7 @@ namespace CrosspostSharp3.Search {
 		}
 
 		private async void LoadImage(string url) {
+			if (url == null) return;
 			try {
 				var req = WebRequestFactory.Create(url);
 				using (var resp = await req.GetResponseAsync())
