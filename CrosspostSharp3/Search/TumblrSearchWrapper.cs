@@ -35,7 +35,7 @@ namespace ArtSourceWrapper {
                 .Where(post => post != null)
                 .Select(post => new DeletableTumblrSubmissionWrapper(_client, post));
 
-            return new InternalFetchResult(list, posts.Select(p => p.Timestamp).Min(), !posts.Any());
+            return new InternalFetchResult(list, posts.Select(p => p.Timestamp).DefaultIfEmpty(DateTime.MinValue).Min(), !posts.Any());
         }
 
         public async override Task<string> WhoamiAsync() {
