@@ -13,22 +13,48 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3.Search {
 	public partial class SearchForm : Form {
+		public class ListItem {
+			public readonly string _name;
+			public readonly Func<ISiteWrapper> _wrapperFactory;
+
+			public ListItem(string name, Func<ISiteWrapper> wrapper) {
+				_name = name;
+				_wrapperFactory = wrapper;
+			}
+
+			public ISiteWrapper CreateWrapper() {
+				return _wrapperFactory();
+			}
+
+			public override string ToString() {
+				return _name;
+			}
+		}
+
 		private MetaWrapper _wrapper;
 		private int _offset;
 		private int _count = 12;
 
 		public SearchForm() {
 			InitializeComponent();
-		}
 
-		private IEnumerable<ISiteWrapper> GetWrappers() {
 			var settings = Settings.Load();
 			if (settings.DeviantArt.RefreshToken != null) {
-				yield return new DeviantArtWrapper(new DeviantArtSearchWrapper(txtSearch.Text));
+				listBox1.Items.Add(new ListItem("DeviantArt", () => new DeviantArtWrapper(new DeviantArtSearchWrapper(txtSearch.Text))));
 			}
 			if (settings.FurAffinity.Any()) {
 				var fa = settings.FurAffinity.First();
-				yield return new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text));
+				listBox1.Items.Add(new ListItem("FurAffinity", () => new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text))));
+			}
+
+			for (int i = 0; i < listBox1.Items.Count; i++) {
+				listBox1.SetSelected(i, true);
+			}
+		}
+
+		private IEnumerable<ISiteWrapper> GetSelectedWrappers() {
+			foreach (var o in listBox1.SelectedItems) {
+				if (o is ListItem l) yield return l.CreateWrapper();
 			}
 		}
 
@@ -37,7 +63,7 @@ namespace CrosspostSharp3.Search {
 
 			_offset = 0;
 			_count = Math.Max(1, (int)numCount.Value);
-			_wrapper = new MetaWrapper("All", GetWrappers());
+			_wrapper = new MetaWrapper("All", GetSelectedWrappers());
 
 			Populate();
 		}

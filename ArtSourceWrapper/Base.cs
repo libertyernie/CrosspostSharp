@@ -118,7 +118,6 @@ namespace ArtSourceWrapper {
 						await FetchAsync();
 					}
 				}
-				y.Break();
 			});
 			return Task.FromResult(e);
 		}
