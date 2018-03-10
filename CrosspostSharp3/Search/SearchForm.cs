@@ -1,4 +1,6 @@
 ﻿using ArtSourceWrapper;
+using DontPanic.TumblrSharp;
+using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Async;
 using System.Collections.Generic;
@@ -45,6 +47,14 @@ namespace CrosspostSharp3.Search {
 			if (settings.FurAffinity.Any()) {
 				var fa = settings.FurAffinity.First();
 				listBox1.Items.Add(new ListItem("FurAffinity", () => new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text))));
+			}
+			if (settings.Tumblr.Any()) {
+				var t = settings.Tumblr.First();
+				var tcf = new TumblrClientFactory();
+				listBox1.Items.Add(new ListItem("Tumblr", () => new TumblrSearchWrapper(tcf.Create<TumblrClient>(
+					OAuthConsumer.Tumblr.CONSUMER_KEY,
+					OAuthConsumer.Tumblr.CONSUMER_SECRET,
+					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret)), txtSearch.Text)));
 			}
 
 			for (int i = 0; i < listBox1.Items.Count; i++) {

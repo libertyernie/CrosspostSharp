@@ -113,6 +113,7 @@
     <Compile Include="Search\Thumbnail.Designer.cs">
       <DependentUpon>Thumbnail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Search\TumblrSearchWrapper.cs" />
     <Compile Include="TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>

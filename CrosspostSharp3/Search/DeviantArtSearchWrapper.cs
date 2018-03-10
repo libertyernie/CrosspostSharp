@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CrosspostSharp3.Search {
 	internal class DeviantArtSearchWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
-		public override int BatchSize { get; set; } = 10;
+		public override int BatchSize { get; set; } = 120;
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 120;
 
