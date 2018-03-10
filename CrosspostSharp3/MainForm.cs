@@ -126,10 +126,10 @@ namespace CrosspostSharp3 {
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
 				list.Add(new MetaWrapper("FurAffinity", new[] {
-					new FurAffinityWrapper(new FurAffinityIdWrapper(
+					new FurAffinityWrapper(new FurAffinityUserIdWrapper(
 						a: fa.a,
 						b: fa.b)),
-					new FurAffinityWrapper(new FurAffinityIdWrapper(
+					new FurAffinityWrapper(new FurAffinityUserIdWrapper(
 						a: fa.a,
 						b: fa.b,
 						scraps: true))

@@ -21,15 +21,23 @@ namespace CrosspostSharp3.Search {
 			InitializeComponent();
 		}
 
+		private IEnumerable<ISiteWrapper> GetWrappers() {
+			var settings = Settings.Load();
+			if (settings.DeviantArt.RefreshToken != null) {
+				yield return new DeviantArtWrapper(new DeviantArtSearchWrapper(txtSearch.Text));
+			}
+			if (settings.FurAffinity.Any()) {
+				var fa = settings.FurAffinity.First();
+				yield return new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text));
+			}
+		}
+
 		private void btnSearch_Click(object sender, EventArgs e) {
 			var settings = Settings.Load();
 
 			_offset = 0;
 			_count = Math.Max(1, (int)numCount.Value);
-			_wrapper = new MetaWrapper("All", new ISiteWrapper[] {
-				new DeviantArtWrapper(new DeviantArtSearchInternalWrapper("star trek")),
-				new DeviantArtWrapper(new DeviantArtSearchInternalWrapper("star wars"))
-			});
+			_wrapper = new MetaWrapper("All", GetWrappers());
 
 			Populate();
 		}

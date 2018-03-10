@@ -7,35 +7,47 @@ using System.Threading.Tasks;
 using System.Drawing;
 
 namespace ArtSourceWrapper {
-    public class FurAffinityIdWrapper : AsynchronousCachedEnumerable<int, int> {
-        private readonly FAUserClient _client;
+	public abstract class FurAffinityIdWrapper : AsynchronousCachedEnumerable<int, int> {
+		protected readonly FAUserClient _client;
+
+		public abstract string WrapperName { get; }
+
+		public FurAffinityIdWrapper(string a, string b) {
+			_client = new FAUserClient(a, b);
+		}
+
+		private string _cachedUserName;
+
+		public async Task<string> WhoamiAsync() {
+			if (_cachedUserName == null) {
+				_cachedUserName = await _client.WhoamiAsync();
+			}
+			return _cachedUserName;
+		}
+
+		public async Task<string> GetUserIconAync() {
+			var user = await _client.GetUserAsync(await WhoamiAsync());
+			return user.avatar;
+		}
+
+		public async Task<FurAffinitySubmissionWrapper> GetSubmissionDetails(int id) {
+			return new FurAffinitySubmissionWrapper(id, await _client.GetSubmissionAsync(id));
+		}
+	}
+
+	public class FurAffinityUserIdWrapper : FurAffinityIdWrapper {
         private readonly FAFolder _folder;
 
         public override int BatchSize { get; set; } = 60;
         public override int MinBatchSize => 60;
         public override int MaxBatchSize => 60;
 
-        public string WrapperName => _folder == FAFolder.scraps
+        public override string WrapperName => _folder == FAFolder.scraps
             ? "FurAffinity (Scraps)"
             : "FurAffinity (Gallery)";
 
-        public FurAffinityIdWrapper(string a, string b, bool scraps = false) {
-            _client = new FAUserClient(a, b);
+        public FurAffinityUserIdWrapper(string a, string b, bool scraps = false) : base(a, b) {
             _folder = scraps ? FAFolder.scraps : FAFolder.gallery;
-        }
-
-        private string _cachedUserName;
-
-        public async Task<string> WhoamiAsync() {
-            if (_cachedUserName == null) {
-                _cachedUserName = await _client.WhoamiAsync();
-            }
-            return _cachedUserName;
-        }
-
-        public async Task<string> GetUserIconAync() {
-            var user = await _client.GetUserAsync(await WhoamiAsync());
-            return user.avatar;
         }
 
         protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
@@ -45,13 +57,9 @@ namespace ArtSourceWrapper {
             var result = await _client.GetSubmissionIdsAsync(username, _folder, pos);
             return new InternalFetchResult(result, pos + 1, isEnded: !result.Any());
         }
-
-        public async Task<FurAffinitySubmissionWrapper> GetSubmissionDetails(int id) {
-            return new FurAffinitySubmissionWrapper(id, await _client.GetSubmissionAsync(id));
-        }
     }
-
-    public class FurAffinityWrapper : SiteWrapper<FurAffinitySubmissionWrapper, int> {
+	
+	public class FurAffinityWrapper : SiteWrapper<FurAffinitySubmissionWrapper, int> {
         private readonly FurAffinityIdWrapper _idWrapper;
 
         public override int BatchSize { get; set; } = 1;

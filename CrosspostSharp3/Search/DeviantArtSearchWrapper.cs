@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharp3.Search {
-	internal class DeviantArtSearchInternalWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
+	internal class DeviantArtSearchWrapper : AsynchronousCachedEnumerable<Deviation, uint> {
 		public override int BatchSize { get; set; } = 10;
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 120;
 
 		private readonly string _query;
-		public DeviantArtSearchInternalWrapper(string query) {
+		public DeviantArtSearchWrapper(string query) {
 			_query = query;
 		}
 
