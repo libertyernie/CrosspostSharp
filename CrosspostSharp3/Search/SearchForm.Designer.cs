@@ -32,6 +32,9 @@
             this.lblCount = new System.Windows.Forms.Label();
             this.numCount = new System.Windows.Forms.NumericUpDown();
             this.lblHoverUrl = new System.Windows.Forms.Label();
+            this.chkGeneral = new System.Windows.Forms.CheckBox();
+            this.chkMature = new System.Windows.Forms.CheckBox();
+            this.chkAdult = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numCount)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +45,7 @@
             this.txtSearch.Location = new System.Drawing.Point(126, 12);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(646, 20);
-            this.txtSearch.TabIndex = 0;
+            this.txtSearch.TabIndex = 1;
             // 
             // listBox1
             // 
@@ -52,7 +55,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.listBox1.Size = new System.Drawing.Size(120, 581);
-            this.listBox1.TabIndex = 1;
+            this.listBox1.TabIndex = 0;
             // 
             // btnSearch
             // 
@@ -60,7 +63,7 @@
             this.btnSearch.Location = new System.Drawing.Point(697, 38);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnSearch.TabIndex = 2;
+            this.btnSearch.TabIndex = 7;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
@@ -74,7 +77,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(126, 67);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(646, 473);
-            this.flowLayoutPanel1.TabIndex = 3;
+            this.flowLayoutPanel1.TabIndex = 8;
             // 
             // btnNext
             // 
@@ -82,7 +85,7 @@
             this.btnNext.Location = new System.Drawing.Point(697, 546);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
-            this.btnNext.TabIndex = 8;
+            this.btnNext.TabIndex = 11;
             this.btnNext.Text = "Next →";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
@@ -93,7 +96,7 @@
             this.btnPrevious.Location = new System.Drawing.Point(616, 546);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(75, 23);
-            this.btnPrevious.TabIndex = 7;
+            this.btnPrevious.TabIndex = 10;
             this.btnPrevious.Text = "← Previous";
             this.btnPrevious.UseVisualStyleBackColor = true;
             this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
@@ -104,7 +107,7 @@
             this.lblCount.Location = new System.Drawing.Point(126, 43);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(90, 13);
-            this.lblCount.TabIndex = 9;
+            this.lblCount.TabIndex = 2;
             this.lblCount.Text = "Results per page:";
             // 
             // numCount
@@ -117,7 +120,7 @@
             0});
             this.numCount.Name = "numCount";
             this.numCount.Size = new System.Drawing.Size(60, 20);
-            this.numCount.TabIndex = 10;
+            this.numCount.TabIndex = 3;
             this.numCount.Value = new decimal(new int[] {
             12,
             0,
@@ -133,14 +136,49 @@
             this.lblHoverUrl.Location = new System.Drawing.Point(126, 546);
             this.lblHoverUrl.Name = "lblHoverUrl";
             this.lblHoverUrl.Size = new System.Drawing.Size(484, 23);
-            this.lblHoverUrl.TabIndex = 11;
+            this.lblHoverUrl.TabIndex = 9;
             this.lblHoverUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // chkGeneral
+            // 
+            this.chkGeneral.AutoSize = true;
+            this.chkGeneral.Checked = true;
+            this.chkGeneral.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkGeneral.Location = new System.Drawing.Point(288, 42);
+            this.chkGeneral.Name = "chkGeneral";
+            this.chkGeneral.Size = new System.Drawing.Size(63, 17);
+            this.chkGeneral.TabIndex = 4;
+            this.chkGeneral.Text = "General";
+            this.chkGeneral.UseVisualStyleBackColor = true;
+            // 
+            // chkMature
+            // 
+            this.chkMature.AutoSize = true;
+            this.chkMature.Location = new System.Drawing.Point(357, 42);
+            this.chkMature.Name = "chkMature";
+            this.chkMature.Size = new System.Drawing.Size(59, 17);
+            this.chkMature.TabIndex = 5;
+            this.chkMature.Text = "Mature";
+            this.chkMature.UseVisualStyleBackColor = true;
+            // 
+            // chkAdult
+            // 
+            this.chkAdult.AutoSize = true;
+            this.chkAdult.Location = new System.Drawing.Point(422, 42);
+            this.chkAdult.Name = "chkAdult";
+            this.chkAdult.Size = new System.Drawing.Size(50, 17);
+            this.chkAdult.TabIndex = 6;
+            this.chkAdult.Text = "Adult";
+            this.chkAdult.UseVisualStyleBackColor = true;
             // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 581);
+            this.Controls.Add(this.chkAdult);
+            this.Controls.Add(this.chkMature);
+            this.Controls.Add(this.chkGeneral);
             this.Controls.Add(this.lblHoverUrl);
             this.Controls.Add(this.numCount);
             this.Controls.Add(this.lblCount);
@@ -169,5 +207,8 @@
 		private System.Windows.Forms.Label lblCount;
 		private System.Windows.Forms.NumericUpDown numCount;
 		private System.Windows.Forms.Label lblHoverUrl;
+		private System.Windows.Forms.CheckBox chkGeneral;
+		private System.Windows.Forms.CheckBox chkMature;
+		private System.Windows.Forms.CheckBox chkAdult;
 	}
 }

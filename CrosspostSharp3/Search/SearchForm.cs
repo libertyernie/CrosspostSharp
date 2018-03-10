@@ -1,6 +1,7 @@
 ﻿using ArtSourceWrapper;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
+using FAExportLib;
 using System;
 using System.Collections.Async;
 using System.Collections.Generic;
@@ -46,7 +47,13 @@ namespace CrosspostSharp3.Search {
 			}
 			if (settings.FurAffinity.Any()) {
 				var fa = settings.FurAffinity.First();
-				listBox1.Items.Add(new ListItem("FurAffinity", () => new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text))));
+				listBox1.Items.Add(new ListItem("FurAffinity", () => {
+					FARating r = 0;
+					if (chkGeneral.Checked) r |= FARating.general;
+					if (chkMature.Checked) r |= FARating.mature;
+					if (chkAdult.Checked) r |= FARating.adult;
+					return new FurAffinityWrapper(new FurAffinitySearchWrapper(fa.a, fa.b, txtSearch.Text, rating: r));
+				}));
 			}
 			if (settings.Tumblr.Any()) {
 				var t = settings.Tumblr.First();
@@ -89,7 +96,13 @@ namespace CrosspostSharp3.Search {
 			var e = await _wrapper.Skip(_offset).Take(_count).GetAsyncEnumeratorAsync();
 			while (await e.MoveNextAsync()) {
 				var w = e.Current;
-				if (w.Mature || w.Adult) continue;
+				if (w.Adult) {
+					if (!chkAdult.Checked) continue;
+				} else if (w.Mature) {
+					if (!chkMature.Checked) continue;
+				} else {
+					if (!chkGeneral.Checked) continue;
+				}
 
 				var t = new Thumbnail(w);
 				foreach (Control c in t.Controls) {
