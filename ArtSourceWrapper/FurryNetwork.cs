@@ -79,7 +79,7 @@ namespace ArtSourceWrapper {
 		private FurryNetworkSubmissionWrapper() { }
 
 		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork, FurryNetworkClient client = null) {
-			string html = null;
+			string html = WebUtility.HtmlEncode(artwork.Description);
 
 			try {
 				var req = WebRequest.CreateHttp("https://api.github.com/markdown/raw");
