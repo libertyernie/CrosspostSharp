@@ -14,6 +14,8 @@ namespace CrosspostSharpJournal {
 		public override int MinBatchSize => int.MaxValue;
 		public override int MaxBatchSize => int.MaxValue;
 
+		public string SiteName => "FurAffinity";
+
 		public FurAffinityJournalSource(string a, string b) {
 			_client = new FAUserClient(a, b);
 		}

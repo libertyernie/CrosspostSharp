@@ -36,8 +36,8 @@
             this.lblDestination = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblTimestamp = new System.Windows.Forms.Label();
-            this.webDescription = new System.Windows.Forms.WebBrowser();
-            this.webTeaser = new System.Windows.Forms.WebBrowser();
+            this.txtBody = new System.Windows.Forms.TextBox();
+            this.txtTeaser = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -101,6 +101,7 @@
             this.btnPost.TabIndex = 8;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
+            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
             // panel1
             // 
@@ -133,7 +134,7 @@
             // 
             // lstDestination
             // 
-            this.lstDestination.DisplayMember = "Title";
+            this.lstDestination.DisplayMember = "SiteName";
             this.lstDestination.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstDestination.FormattingEnabled = true;
             this.lstDestination.IntegralHeight = false;
@@ -170,34 +171,36 @@
             this.lblTimestamp.TabIndex = 12;
             this.lblTimestamp.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // webDescription
+            // txtBody
             // 
-            this.webDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtBody.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.webDescription.Location = new System.Drawing.Point(156, 83);
-            this.webDescription.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webDescription.Name = "webDescription";
-            this.webDescription.Size = new System.Drawing.Size(416, 138);
-            this.webDescription.TabIndex = 13;
+            this.txtBody.Location = new System.Drawing.Point(156, 83);
+            this.txtBody.Multiline = true;
+            this.txtBody.Name = "txtBody";
+            this.txtBody.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtBody.Size = new System.Drawing.Size(416, 138);
+            this.txtBody.TabIndex = 13;
             // 
-            // webTeaser
+            // txtTeaser
             // 
-            this.webTeaser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtTeaser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.webTeaser.Location = new System.Drawing.Point(156, 240);
-            this.webTeaser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webTeaser.Name = "webTeaser";
-            this.webTeaser.Size = new System.Drawing.Size(416, 80);
-            this.webTeaser.TabIndex = 14;
+            this.txtTeaser.Location = new System.Drawing.Point(156, 240);
+            this.txtTeaser.Multiline = true;
+            this.txtTeaser.Name = "txtTeaser";
+            this.txtTeaser.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtTeaser.Size = new System.Drawing.Size(416, 80);
+            this.txtTeaser.TabIndex = 14;
             // 
             // JournalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
-            this.Controls.Add(this.webTeaser);
-            this.Controls.Add(this.webDescription);
+            this.Controls.Add(this.txtTeaser);
+            this.Controls.Add(this.txtBody);
             this.Controls.Add(this.lblTimestamp);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnPost);
@@ -230,7 +233,7 @@
 		private System.Windows.Forms.Label lblDestination;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Label lblTimestamp;
-		private System.Windows.Forms.WebBrowser webDescription;
-		private System.Windows.Forms.WebBrowser webTeaser;
+		private System.Windows.Forms.TextBox txtBody;
+		private System.Windows.Forms.TextBox txtTeaser;
 	}
 }

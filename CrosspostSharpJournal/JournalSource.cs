@@ -68,6 +68,11 @@ namespace CrosspostSharpJournal {
 
 	public interface IJournalDestination {
 		/// <summary>
+		/// The name of the site.
+		/// </summary>
+		string SiteName { get; }
+
+		/// <summary>
 		/// Looks up the username of the currently logged in user.
 		/// </summary>
 		/// <returns></returns>
@@ -77,9 +82,9 @@ namespace CrosspostSharpJournal {
 		/// Posts a journal to the site.
 		/// </summary>
 		/// <param name="title">The title (optional on some sites)</param>
-		/// <param name="html">The journal body (HTML)</param>
+		/// <param name="html">The journal body (plain text)</param>
 		/// <param name="teaser">The teaser (Furry Network only)</param>
-		Task PostAsync(string title, string html, string teaser);
+		Task PostAsync(string title, string text, string teaser);
 	}
 
 	public interface IJournalWrapper {
