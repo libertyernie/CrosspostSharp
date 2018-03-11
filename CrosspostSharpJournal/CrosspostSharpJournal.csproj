@@ -41,7 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DeviantArtJournalWrapper.cs" />
-    <Compile Include="JournalWrapper.cs" />
+    <Compile Include="FurAffinityJournalSource.cs" />
+    <Compile Include="JournalSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj">
       <Project>{bedb9fa0-1b50-4c19-ad30-fd84d38d6d3b}</Project>
       <Name>DeviantartApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FAExportLib\FAExportLib.vbproj">
+      <Project>{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}</Project>
+      <Name>FAExportLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharpJournal {
-	public class DeviantArtJournalSiteWrapper : JournalSiteWrapper<DeviantArtJournalWrapper, uint> {
+	public class DeviantArtJournalSource : JournalSource<DeviantArtJournalWrapper, uint> {
 		public override string SiteName => "DeviantArt";
 
 		public override int BatchSize { get; set; } = 10;

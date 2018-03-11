@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace CrosspostSharpJournal {
 	/// <summary>
 	/// An interface representing a client wrapper for a site that journals can be posted to.
-	/// Normally a class will extend JournalSiteWrapper&lt;TWrapper, TPosition> instead of implementing this interface directly.
+	/// Normally a class will extend JournalSource&lt;TWrapper, TPosition> instead of implementing this interface directly.
 	/// </summary>
-	public interface IJournalSiteWrapper {
+	public interface IJournalSource {
 		/// <summary>
 		/// The batch size will be this amount if possible, or the greatest possible amount.
 		/// Changing the batch size after some elements have been fetched may have unexpected effects in some cases.
@@ -66,7 +66,7 @@ namespace CrosspostSharpJournal {
 	/// </summary>
 	/// <typeparam name="TWrapper">The type of object to wrap submissions in; must derive from IJournalWrapper</typeparam>
 	/// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
-	public abstract class JournalSiteWrapper<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, IJournalSiteWrapper where TWrapper : IJournalWrapper where TPosition : struct {
+	public abstract class JournalSource<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, IJournalSource where TWrapper : IJournalWrapper where TPosition : struct {
 		/// <summary>
 		/// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
 		/// </summary>
@@ -86,6 +86,22 @@ namespace CrosspostSharpJournal {
 				foreach (var w in base.Cache) yield return w;
 			}
 		}
+	}
+
+	public interface IJournalDestination {
+		/// <summary>
+		/// Looks up the username of the currently logged in user.
+		/// </summary>
+		/// <returns></returns>
+		Task<string> WhoamiAsync();
+
+		/// <summary>
+		/// Posts a journal to the site.
+		/// </summary>
+		/// <param name="title">The title (optional on some sites)</param>
+		/// <param name="html">The journal body (HTML)</param>
+		/// <param name="teaser">The teaser (Furry Network only)</param>
+		Task PostAsync(string title, string html, string teaser);
 	}
 
 	public interface IJournalWrapper {
