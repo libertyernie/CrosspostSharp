@@ -40,9 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviantArtJournalWrapper.cs" />
+    <Compile Include="DeviantArtJournalSource.cs" />
     <Compile Include="FurAffinityJournalSource.cs" />
     <Compile Include="JournalSource.cs" />
+    <Compile Include="MetaJournalSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

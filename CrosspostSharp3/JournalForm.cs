@@ -11,37 +11,42 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class JournalForm : Form {
+		private IJournalSource _source;
+
 		public JournalForm() {
 			InitializeComponent();
 
 			Shown += async (o, a) => {
 				Settings s = Settings.Load();
 
-				var wrappers = new List<IJournalSource>();
+				var sources = new List<IJournalSource>();
 				if (s.DeviantArt.RefreshToken != null) {
-					wrappers.Add(new DeviantArtJournalSource());
+					sources.Add(new DeviantArtJournalSource());
 				}
 				foreach (var x in s.FurAffinity) {
-					wrappers.Add(new FurAffinityJournalSource(x.a, x.b));
+					sources.Add(new FurAffinityJournalSource(x.a, x.b));
 				}
-				await wrappers.Last().FetchAsync();
-				foreach (var j in wrappers.Last().Cache) {
-					lstSource.Items.Add(j);
+				_source = new MetaJournalSource(sources);
+				for (int i = 0; i < 15; i++) {
+					while (!_source.Cache.Skip(i).Any()) await _source.FetchAsync();
+					lstSource.Items.Add(_source.Cache.Skip(i).First());
 				}
 			};
+
+			webDescription.Navigate("about:blank");
+			webDescription.Document.Write($"<html><head></head><body></body></html>");
+			webDescription.Document.Body.SetAttribute("contenteditable", "true");
+			webTeaser.Navigate("about:blank");
+			webTeaser.Document.Write($"<html><head></head><body></body></html>");
+			webTeaser.Document.Body.SetAttribute("contenteditable", "true");
 		}
 
 		private void lstSource_SelectedIndexChanged(object sender, EventArgs e) {
 			var j = lstSource.SelectedItem as IJournalWrapper;
 			lblTimestamp.Text = (j?.Timestamp)?.ToLongDateString() ?? "";
 			txtTitle.Text = j?.Title ?? "";
-			// TODO fix this stuff below
-			webDescription.Navigate("about:blank");
-			webDescription.Document.Write($"<html><head></head><body>{j.HTMLDescription ?? ""}</body></html>");
-			webDescription.Document.Body.SetAttribute("contenteditable", "true");
-			webTeaser.Navigate("about:blank");
-			webTeaser.Document.Write($"<html><head></head><body></body></html>");
-			webTeaser.Document.Body.SetAttribute("contenteditable", "true");
+			webDescription.Document.Body.InnerHtml = j?.HTMLDescription ?? "";
+			webTeaser.Document.Body.InnerHtml = "";
 		}
 	}
 }

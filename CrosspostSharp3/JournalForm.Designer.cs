@@ -24,7 +24,6 @@
 		/// </summary>
 		private void InitializeComponent() {
             this.lstSource = new System.Windows.Forms.ListBox();
-            this.lblSiteName = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblBody = new System.Windows.Forms.Label();
@@ -55,16 +54,6 @@
             this.lstSource.Size = new System.Drawing.Size(150, 248);
             this.lstSource.TabIndex = 0;
             this.lstSource.SelectedIndexChanged += new System.EventHandler(this.lstSource_SelectedIndexChanged);
-            // 
-            // lblSiteName
-            // 
-            this.lblSiteName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSiteName.AutoSize = true;
-            this.lblSiteName.Location = new System.Drawing.Point(451, 15);
-            this.lblSiteName.Name = "lblSiteName";
-            this.lblSiteName.Size = new System.Drawing.Size(121, 13);
-            this.lblSiteName.TabIndex = 1;
-            this.lblSiteName.Text = "lizard-socks (DeviantArt)";
             // 
             // lblTitle
             // 
@@ -175,11 +164,10 @@
             // lblTimestamp
             // 
             this.lblTimestamp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTimestamp.Location = new System.Drawing.Point(186, 28);
+            this.lblTimestamp.Location = new System.Drawing.Point(156, 13);
             this.lblTimestamp.Name = "lblTimestamp";
-            this.lblTimestamp.Size = new System.Drawing.Size(386, 13);
+            this.lblTimestamp.Size = new System.Drawing.Size(416, 13);
             this.lblTimestamp.TabIndex = 12;
-            this.lblTimestamp.Text = "Jan 1, 2000";
             this.lblTimestamp.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // webDescription
@@ -217,7 +205,6 @@
             this.Controls.Add(this.lblBody);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.lblSiteName);
             this.Name = "JournalForm";
             this.Text = "Journals";
             this.panel1.ResumeLayout(false);
@@ -231,7 +218,6 @@
 		#endregion
 
 		private System.Windows.Forms.ListBox lstSource;
-		private System.Windows.Forms.Label lblSiteName;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Label lblBody;

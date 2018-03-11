@@ -26,11 +26,6 @@ namespace CrosspostSharpJournal {
 		/// The maximum batch size for this wrapper. This property is read-only.
 		/// </summary>
 		int MaxBatchSize { get; }
-
-		/// <summary>
-		/// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
-		/// </summary>
-		string SiteName { get; }
 		
 		/// <summary>
 		/// A list of the currently cached submissions. Call FetchAsync to get more.
@@ -41,13 +36,7 @@ namespace CrosspostSharpJournal {
 		/// Whether the cache contains all of the submissions that are available.
 		/// </summary>
 		bool IsEnded { get; }
-
-		/// <summary>
-		/// Find the username of the currently logged in user.
-		/// </summary>
-		/// <returns>The username of the currently logged in user</returns>
-		Task<string> WhoamiAsync();
-
+		
 		/// <summary>
 		/// Get another batch of submissions and add them to the cache.
 		/// </summary>
@@ -67,17 +56,6 @@ namespace CrosspostSharpJournal {
 	/// <typeparam name="TWrapper">The type of object to wrap submissions in; must derive from IJournalWrapper</typeparam>
 	/// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
 	public abstract class JournalSource<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, IJournalSource where TWrapper : IJournalWrapper where TPosition : struct {
-		/// <summary>
-		/// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
-		/// </summary>
-		public abstract string SiteName { get; }
-
-		/// <summary>
-		/// Looks up the username of the currently logged in user.
-		/// </summary>
-		/// <returns></returns>
-		public abstract Task<string> WhoamiAsync();
-
 		/// <summary>
 		/// A list of the currently cached submissions. Call FetchAsync to get more.
 		/// </summary>

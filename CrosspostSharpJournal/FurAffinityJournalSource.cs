@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace CrosspostSharpJournal {
 	public class FurAffinityJournalSource : JournalSource<FurAffinityJournalWrapper, int> {
 		private readonly FAUserClient _client;
-
-		public override string SiteName => "FurAffinity";
-
+		
 		public override int BatchSize { get; set; } = int.MaxValue;
 		public override int MinBatchSize => int.MaxValue;
 		public override int MaxBatchSize => int.MaxValue;
@@ -22,7 +20,7 @@ namespace CrosspostSharpJournal {
 
 		private string _cachedUserName;
 
-		public override async Task<string> WhoamiAsync() {
+		public async Task<string> WhoamiAsync() {
 			if (_cachedUserName == null) {
 				_cachedUserName = await _client.WhoamiAsync();
 			}

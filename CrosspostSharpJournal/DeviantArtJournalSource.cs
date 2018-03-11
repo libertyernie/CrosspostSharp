@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace CrosspostSharpJournal {
 	public class DeviantArtJournalSource : JournalSource<DeviantArtJournalWrapper, uint> {
-		public override string SiteName => "DeviantArt";
-
 		public override int BatchSize { get; set; } = 10;
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 50;
@@ -28,11 +26,6 @@ namespace CrosspostSharpJournal {
 				_user = result.Result;
 			}
 			return _user;
-		}
-
-		public override async Task<string> WhoamiAsync() {
-			var user = await GetUserAsync();
-			return _user.Username;
 		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
