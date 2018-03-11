@@ -27,9 +27,7 @@
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblTitle = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblBody = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.lblTeaser = new System.Windows.Forms.Label();
             this.btnPost = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -39,6 +37,8 @@
             this.lblDestination = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblTimestamp = new System.Windows.Forms.Label();
+            this.webDescription = new System.Windows.Forms.WebBrowser();
+            this.webTeaser = new System.Windows.Forms.WebBrowser();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -84,17 +84,6 @@
             this.txtTitle.Size = new System.Drawing.Size(416, 20);
             this.txtTitle.TabIndex = 3;
             // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(156, 83);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(416, 138);
-            this.textBox1.TabIndex = 5;
-            // 
             // lblBody
             // 
             this.lblBody.AutoSize = true;
@@ -103,16 +92,6 @@
             this.lblBody.Size = new System.Drawing.Size(31, 13);
             this.lblBody.TabIndex = 4;
             this.lblBody.Text = "Body";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(156, 240);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(416, 80);
-            this.textBox2.TabIndex = 7;
             // 
             // lblTeaser
             // 
@@ -203,17 +182,38 @@
             this.lblTimestamp.Text = "Jan 1, 2000";
             this.lblTimestamp.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // webDescription
+            // 
+            this.webDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.webDescription.Location = new System.Drawing.Point(156, 83);
+            this.webDescription.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webDescription.Name = "webDescription";
+            this.webDescription.Size = new System.Drawing.Size(416, 138);
+            this.webDescription.TabIndex = 13;
+            // 
+            // webTeaser
+            // 
+            this.webTeaser.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.webTeaser.Location = new System.Drawing.Point(156, 240);
+            this.webTeaser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webTeaser.Name = "webTeaser";
+            this.webTeaser.Size = new System.Drawing.Size(416, 80);
+            this.webTeaser.TabIndex = 14;
+            // 
             // JournalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
+            this.Controls.Add(this.webTeaser);
+            this.Controls.Add(this.webDescription);
             this.Controls.Add(this.lblTimestamp);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnPost);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.lblTeaser);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.lblBody);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
@@ -234,9 +234,7 @@
 		private System.Windows.Forms.Label lblSiteName;
 		private System.Windows.Forms.Label lblTitle;
 		private System.Windows.Forms.TextBox txtTitle;
-		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label lblBody;
-		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.Label lblTeaser;
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.Panel panel1;
@@ -246,5 +244,7 @@
 		private System.Windows.Forms.Label lblDestination;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Label lblTimestamp;
+		private System.Windows.Forms.WebBrowser webDescription;
+		private System.Windows.Forms.WebBrowser webTeaser;
 	}
 }

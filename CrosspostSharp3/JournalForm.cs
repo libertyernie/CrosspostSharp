@@ -27,8 +27,12 @@ namespace CrosspostSharp3 {
 			var j = lstSource.SelectedItem as IJournalWrapper;
 			lblTimestamp.Text = (j?.Timestamp)?.ToLongDateString() ?? "";
 			txtTitle.Text = j?.Title ?? "";
-			textBox1.Text = j?.HTMLDescription ?? "";
-			textBox2.Text = "";
+			webDescription.Navigate("about:blank");
+			webDescription.Document.Write($"<html><head></head><body>{j.HTMLDescription ?? ""}</body></html>");
+			webDescription.Document.Body.SetAttribute("contenteditable", "true");
+			webTeaser.Navigate("about:blank");
+			webTeaser.Document.Write($"<html><head></head><body></body></html>");
+			webTeaser.Document.Body.SetAttribute("contenteditable", "true");
 		}
 	}
 }

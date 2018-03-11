@@ -69,7 +69,7 @@ namespace CrosspostSharpJournal {
 		}
 
 		public string Title => _deviation.Title;
-		public string HTMLDescription => _deviation.Excerpt + (_deviation.Excerpt.Length > 700 ? $"<a href='{ViewURL}'>Continue reading on DeviantArt</a>" : "");
+		public string HTMLDescription => _deviation.Excerpt + (_deviation.Excerpt.Length > 700 ? $"...<br/><br/><a href='{ViewURL}'>Continue reading on DeviantArt</a>" : "");
 		public DateTime Timestamp => _deviation.PublishedTime ?? DateTime.UtcNow;
 		public string ViewURL => _deviation.Url.AbsoluteUri;
 	}
