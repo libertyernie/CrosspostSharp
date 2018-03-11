@@ -78,6 +78,12 @@
     <Compile Include="FurryNetworkPostForm.Designer.cs">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JournalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JournalForm.Designer.cs">
+      <DependentUpon>JournalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +203,9 @@
     <EmbeddedResource Include="FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="JournalForm.resx">
+      <DependentUpon>JournalForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -253,6 +262,10 @@
     <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
       <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
       <Name>ArtSourceWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrosspostSharpJournal\CrosspostSharpJournal.csproj">
+      <Project>{1b5392b2-2536-4833-adb3-b56659454770}</Project>
+      <Name>CrosspostSharpJournal</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
