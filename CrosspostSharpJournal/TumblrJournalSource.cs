@@ -26,7 +26,7 @@ namespace CrosspostSharpJournal {
 		public string SiteName => "Tumblr";
 
 		public Task<string> WhoamiAsync() {
-			throw new NotImplementedException();
+			return Task.FromResult(_blogName);
 		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int maxCount) {

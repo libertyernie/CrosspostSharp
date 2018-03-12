@@ -2,6 +2,7 @@
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
+using FurryNetworkLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,14 @@ namespace CrosspostSharp3 {
 				foreach (var x in s.FurAffinity) {
 					var y = new FurAffinityJournalSource(x.a, x.b);
 					sources.Add(y);
+				}
+				foreach (var x in s.FurryNetwork) {
+					var client = new FurryNetworkClient(x.refreshToken);
+					var inputs = new[] { "public", "unlisted", "draft" }
+						.Select(status => new FurryNetworkJournalSource(client, x.characterName, status))
+						.ToArray();
+					sources.Add(new MetaJournalSource(inputs));
+					lstDestination.Items.AddRange(inputs);
 				}
 				foreach (var x in s.Tumblr) {
 					var y = new TumblrJournalSource(
