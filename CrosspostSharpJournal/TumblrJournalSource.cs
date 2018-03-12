@@ -4,11 +4,12 @@ using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharpJournal {
-	public class TumblrJournalSource : JournalSource<TumblrJournalWrapper, long> {
+	public class TumblrJournalSource : JournalSource<TumblrJournalWrapper, long>, IJournalDestination {
 		private readonly TumblrClient _client;
 		private string _blogName;
 		private IEnumerable<string> _blogNames;
@@ -21,6 +22,12 @@ namespace CrosspostSharpJournal {
 		public override int BatchSize { get; set; } = 20;
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 20;
+
+		public string SiteName => "Tumblr";
+
+		public Task<string> WhoamiAsync() {
+			throw new NotImplementedException();
+		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int maxCount) {
 			if (_blogNames == null) {
@@ -53,6 +60,10 @@ namespace CrosspostSharpJournal {
 				.Select(post => new TumblrJournalWrapper(post));
 
 			return new InternalFetchResult(list, position);
+		}
+
+		public async Task PostAsync(string title, string text, string teaser) {
+			var post = await _client.CreatePostAsync(_blogName, PostData.CreateText(text, title));
 		}
 	}
 

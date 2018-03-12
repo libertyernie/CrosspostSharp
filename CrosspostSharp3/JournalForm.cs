@@ -39,11 +39,14 @@ namespace CrosspostSharp3 {
 							new Token(x.tokenKey, x.tokenSecret)),
 						x.blogName);
 					sources.Add(y);
+					lstDestination.Items.Add(y);
 				}
 				_source = new MetaJournalSource(sources);
 				for (int i = 0; i < 15; i++) {
-					while (!_source.Cache.Skip(i).Any()) await _source.FetchAsync();
-					lstSource.Items.Add(_source.Cache.Skip(i).First());
+					while (!_source.Cache.Skip(i).Any() && !_source.IsEnded) await _source.FetchAsync();
+					var j = _source.Cache.Skip(i).FirstOrDefault();
+					if (j == null) break;
+					lstSource.Items.Add(j);
 				}
 			};
 		}
@@ -54,6 +57,10 @@ namespace CrosspostSharp3 {
 			txtTitle.Text = j?.Title ?? "";
 			txtBody.Text = HtmlConversion.ConvertHtmlToText(j?.HTMLDescription ?? "");
 			txtTeaser.Text = "";
+		}
+
+		private void lstDestination_SelectedIndexChanged(object sender, EventArgs e) {
+			txtTeaser.Enabled = false;
 		}
 
 		private async void btnPost_Click(object sender, EventArgs e) {

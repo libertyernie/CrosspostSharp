@@ -142,6 +142,7 @@
             this.lstDestination.Name = "lstDestination";
             this.lstDestination.Size = new System.Drawing.Size(150, 87);
             this.lstDestination.TabIndex = 0;
+            this.lstDestination.SelectedIndexChanged += new System.EventHandler(this.lstDestination_SelectedIndexChanged);
             // 
             // lblDestination
             // 
