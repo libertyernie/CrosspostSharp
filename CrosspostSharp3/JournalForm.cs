@@ -1,4 +1,7 @@
 ﻿using CrosspostSharpJournal;
+using DontPanic.TumblrSharp;
+using DontPanic.TumblrSharp.Client;
+using DontPanic.TumblrSharp.OAuth;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +29,15 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var x in s.FurAffinity) {
 					var y = new FurAffinityJournalSource(x.a, x.b);
+					sources.Add(y);
+				}
+				foreach (var x in s.Tumblr) {
+					var y = new TumblrJournalSource(
+						new TumblrClientFactory().Create<TumblrClient>(
+							OAuthConsumer.Tumblr.CONSUMER_KEY,
+							OAuthConsumer.Tumblr.CONSUMER_SECRET,
+							new Token(x.tokenKey, x.tokenSecret)),
+						x.blogName);
 					sources.Add(y);
 				}
 				_source = new MetaJournalSource(sources);
