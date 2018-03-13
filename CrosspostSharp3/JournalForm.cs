@@ -32,6 +32,7 @@ namespace CrosspostSharp3 {
 				foreach (var x in s.FurAffinity) {
 					var y = new FurAffinityJournalSource(x.a, x.b);
 					sources.Add(y);
+					lstDestination.Items.Add(y);
 				}
 				foreach (var x in s.FurryNetwork) {
 					var client = new FurryNetworkClient(x.refreshToken);

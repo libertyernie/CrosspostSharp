@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharpJournal {
-	public class FurAffinityJournalSource : JournalSource<FurAffinityJournalWrapper, int> {
+	public class FurAffinityJournalSource : JournalSource<FurAffinityJournalWrapper, int>, IJournalDestination {
 		private readonly FAUserClient _client;
 		
 		public override int BatchSize { get; set; } = int.MaxValue;
@@ -35,6 +35,10 @@ namespace CrosspostSharpJournal {
 				js.Select(j => new FurAffinityJournalWrapper(j)),
 				js.Count(),
 				true);
+		}
+
+		public async Task PostAsync(string title, string text, string teaser) {
+			await _client.PostJournalAsync(title, text);
 		}
 	}
 
