@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CrosspostSharpJournal {
@@ -58,7 +59,7 @@ namespace CrosspostSharpJournal {
 		}
 
 		public string Title => Journal.Title;
-		public string HTMLDescription => Journal.Content;
+		public string HTMLDescription => new Regex("\r?\n ?").Replace(WebUtility.HtmlEncode(Journal.Content), "<br/>");
 		public DateTime Timestamp => Journal.Created;
 		public string ViewURL => $"https://beta.furrynetwork.com/submissions/journal/public/{Journal.Id}";
 	}
