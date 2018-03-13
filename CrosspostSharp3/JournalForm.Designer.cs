@@ -29,7 +29,6 @@
             this.lblBody = new System.Windows.Forms.Label();
             this.lblTeaser = new System.Windows.Forms.Label();
             this.btnPost = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.lblSource = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lstDestination = new System.Windows.Forms.ListBox();
@@ -38,9 +37,12 @@
             this.lblTimestamp = new System.Windows.Forms.Label();
             this.txtBody = new System.Windows.Forms.TextBox();
             this.txtTeaser = new System.Windows.Forms.TextBox();
-            this.panel1.SuspendLayout();
+            this.pnlSourceNavigation = new System.Windows.Forms.Panel();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.pnlSourceNavigation.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstSource
@@ -52,7 +54,7 @@
             this.lstSource.Location = new System.Drawing.Point(0, 13);
             this.lstSource.Name = "lstSource";
             this.lstSource.Size = new System.Drawing.Size(200, 248);
-            this.lstSource.TabIndex = 0;
+            this.lstSource.TabIndex = 1;
             this.lstSource.SelectedIndexChanged += new System.EventHandler(this.lstSource_SelectedIndexChanged);
             // 
             // lblTitle
@@ -61,7 +63,7 @@
             this.lblTitle.Location = new System.Drawing.Point(206, 28);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(27, 13);
-            this.lblTitle.TabIndex = 2;
+            this.lblTitle.TabIndex = 1;
             this.lblTitle.Text = "Title";
             // 
             // txtTitle
@@ -71,7 +73,7 @@
             this.txtTitle.Location = new System.Drawing.Point(206, 44);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(366, 20);
-            this.txtTitle.TabIndex = 3;
+            this.txtTitle.TabIndex = 2;
             // 
             // lblBody
             // 
@@ -79,7 +81,7 @@
             this.lblBody.Location = new System.Drawing.Point(206, 67);
             this.lblBody.Name = "lblBody";
             this.lblBody.Size = new System.Drawing.Size(31, 13);
-            this.lblBody.TabIndex = 4;
+            this.lblBody.TabIndex = 3;
             this.lblBody.Text = "Body";
             // 
             // lblTeaser
@@ -89,7 +91,7 @@
             this.lblTeaser.Location = new System.Drawing.Point(206, 224);
             this.lblTeaser.Name = "lblTeaser";
             this.lblTeaser.Size = new System.Drawing.Size(40, 13);
-            this.lblTeaser.TabIndex = 6;
+            this.lblTeaser.TabIndex = 5;
             this.lblTeaser.Text = "Teaser";
             // 
             // btnPost
@@ -98,20 +100,10 @@
             this.btnPost.Location = new System.Drawing.Point(497, 326);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 8;
+            this.btnPost.TabIndex = 7;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lstSource);
-            this.panel1.Controls.Add(this.lblSource);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 261);
-            this.panel1.TabIndex = 9;
             // 
             // lblSource
             // 
@@ -119,7 +111,7 @@
             this.lblSource.Location = new System.Drawing.Point(0, 0);
             this.lblSource.Name = "lblSource";
             this.lblSource.Size = new System.Drawing.Size(200, 13);
-            this.lblSource.TabIndex = 1;
+            this.lblSource.TabIndex = 0;
             this.lblSource.Text = "Source";
             // 
             // panel2
@@ -141,7 +133,7 @@
             this.lstDestination.Location = new System.Drawing.Point(0, 13);
             this.lstDestination.Name = "lstDestination";
             this.lstDestination.Size = new System.Drawing.Size(200, 87);
-            this.lstDestination.TabIndex = 0;
+            this.lstDestination.TabIndex = 1;
             this.lstDestination.SelectedIndexChanged += new System.EventHandler(this.lstDestination_SelectedIndexChanged);
             // 
             // lblDestination
@@ -150,12 +142,14 @@
             this.lblDestination.Location = new System.Drawing.Point(0, 0);
             this.lblDestination.Name = "lblDestination";
             this.lblDestination.Size = new System.Drawing.Size(200, 13);
-            this.lblDestination.TabIndex = 1;
+            this.lblDestination.TabIndex = 0;
             this.lblDestination.Text = "Destination";
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.panel1);
+            this.panel3.Controls.Add(this.pnlSourceNavigation);
+            this.panel3.Controls.Add(this.lstSource);
+            this.panel3.Controls.Add(this.lblSource);
             this.panel3.Controls.Add(this.panel2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.Location = new System.Drawing.Point(0, 0);
@@ -169,7 +163,7 @@
             this.lblTimestamp.Location = new System.Drawing.Point(206, 13);
             this.lblTimestamp.Name = "lblTimestamp";
             this.lblTimestamp.Size = new System.Drawing.Size(366, 13);
-            this.lblTimestamp.TabIndex = 12;
+            this.lblTimestamp.TabIndex = 0;
             this.lblTimestamp.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtBody
@@ -182,7 +176,7 @@
             this.txtBody.Name = "txtBody";
             this.txtBody.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtBody.Size = new System.Drawing.Size(366, 138);
-            this.txtBody.TabIndex = 13;
+            this.txtBody.TabIndex = 4;
             // 
             // txtTeaser
             // 
@@ -193,7 +187,39 @@
             this.txtTeaser.Name = "txtTeaser";
             this.txtTeaser.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtTeaser.Size = new System.Drawing.Size(366, 80);
-            this.txtTeaser.TabIndex = 14;
+            this.txtTeaser.TabIndex = 6;
+            // 
+            // pnlSourceNavigation
+            // 
+            this.pnlSourceNavigation.AutoSize = true;
+            this.pnlSourceNavigation.Controls.Add(this.btnNext);
+            this.pnlSourceNavigation.Controls.Add(this.btnPrevious);
+            this.pnlSourceNavigation.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlSourceNavigation.Location = new System.Drawing.Point(0, 232);
+            this.pnlSourceNavigation.Name = "pnlSourceNavigation";
+            this.pnlSourceNavigation.Size = new System.Drawing.Size(200, 29);
+            this.pnlSourceNavigation.TabIndex = 11;
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Location = new System.Drawing.Point(3, 3);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevious.TabIndex = 0;
+            this.btnPrevious.Text = "← Previous";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.Location = new System.Drawing.Point(122, 3);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 1;
+            this.btnNext.Text = "Next →";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // JournalForm
             // 
@@ -211,9 +237,10 @@
             this.Controls.Add(this.lblTitle);
             this.Name = "JournalForm";
             this.Text = "Journals";
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.pnlSourceNavigation.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,7 +254,6 @@
 		private System.Windows.Forms.Label lblBody;
 		private System.Windows.Forms.Label lblTeaser;
 		private System.Windows.Forms.Button btnPost;
-		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Label lblSource;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.ListBox lstDestination;
@@ -236,5 +262,8 @@
 		private System.Windows.Forms.Label lblTimestamp;
 		private System.Windows.Forms.TextBox txtBody;
 		private System.Windows.Forms.TextBox txtTeaser;
+		private System.Windows.Forms.Panel pnlSourceNavigation;
+		private System.Windows.Forms.Button btnNext;
+		private System.Windows.Forms.Button btnPrevious;
 	}
 }

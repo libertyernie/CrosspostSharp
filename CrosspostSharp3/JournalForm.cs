@@ -17,6 +17,7 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class JournalForm : Form {
 		private IJournalSource _source;
+		private int _currentPosition;
 
 		public JournalForm() {
 			InitializeComponent();
@@ -51,13 +52,25 @@ namespace CrosspostSharp3 {
 					lstDestination.Items.Add(y);
 				}
 				_source = new MetaJournalSource(sources);
-				for (int i = 0; i < 15; i++) {
+				_currentPosition = 0;
+				LoadJournals();
+			};
+		}
+
+		private async void LoadJournals() {
+			try {
+				lstSource.Items.Clear();
+				for (int i = _currentPosition; i < _currentPosition + 10; i++) {
 					while (!_source.Cache.Skip(i).Any() && !_source.IsEnded) await _source.FetchAsync();
 					var j = _source.Cache.Skip(i).FirstOrDefault();
 					if (j == null) break;
 					lstSource.Items.Add(j);
 				}
-			};
+				btnPrevious.Enabled = _currentPosition > 0;
+				btnNext.Enabled = _source.Cache.Skip(_currentPosition + 10).Any() || !_source.IsEnded;
+			} catch (Exception ex) {
+				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		private void lstSource_SelectedIndexChanged(object sender, EventArgs e) {
@@ -86,6 +99,17 @@ namespace CrosspostSharp3 {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			btnPost.Enabled = true;
+		}
+
+		private async void btnPrevious_Click(object sender, EventArgs e) {
+			_currentPosition -= 10;
+			if (_currentPosition < 0) _currentPosition = 0;
+			LoadJournals();
+		}
+
+		private async void btnNext_Click(object sender, EventArgs e) {
+			_currentPosition += 10;
+			LoadJournals();
 		}
 	}
 }
