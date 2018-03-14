@@ -45,6 +45,7 @@
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.journalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +55,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
-            this.journalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pinterestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -170,6 +171,7 @@
             this.furryNetworkToolStripMenuItem,
             this.inkbunnyToolStripMenuItem,
             this.mediaRSSToolStripMenuItem,
+            this.pinterestToolStripMenuItem,
             this.pixivToolStripMenuItem,
             this.twitterToolStripMenuItem,
             this.tumblrToolStripMenuItem,
@@ -224,7 +226,7 @@
             // 
             this.pixivToolStripMenuItem.Name = "pixivToolStripMenuItem";
             this.pixivToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pixivToolStripMenuItem.Text = "&Pixiv";
+            this.pixivToolStripMenuItem.Text = "Pi&xiv";
             this.pixivToolStripMenuItem.Click += new System.EventHandler(this.pixivToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
@@ -247,6 +249,13 @@
             this.weasylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.weasylToolStripMenuItem.Text = "&Weasyl";
             this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
+            // 
+            // journalsToolStripMenuItem
+            // 
+            this.journalsToolStripMenuItem.Name = "journalsToolStripMenuItem";
+            this.journalsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.journalsToolStripMenuItem.Text = "&Journals...";
+            this.journalsToolStripMenuItem.Click += new System.EventHandler(this.journalsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -332,12 +341,12 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
-            // journalsToolStripMenuItem
+            // pinterestToolStripMenuItem
             // 
-            this.journalsToolStripMenuItem.Name = "journalsToolStripMenuItem";
-            this.journalsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.journalsToolStripMenuItem.Text = "&Journals...";
-            this.journalsToolStripMenuItem.Click += new System.EventHandler(this.journalsToolStripMenuItem_Click);
+            this.pinterestToolStripMenuItem.Name = "pinterestToolStripMenuItem";
+            this.pinterestToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pinterestToolStripMenuItem.Text = "&Pinterest";
+            this.pinterestToolStripMenuItem.Click += new System.EventHandler(this.pinterestToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -401,6 +410,7 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem journalsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pinterestToolStripMenuItem;
 	}
 }
 

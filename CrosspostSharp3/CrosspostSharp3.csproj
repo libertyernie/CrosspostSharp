@@ -84,6 +84,9 @@
     <Compile Include="JournalForm.Designer.cs">
       <DependentUpon>JournalForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.Pinterest.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +107,9 @@
     </Compile>
     <Compile Include="FurryNetworkCharacterSelectionForm.Designer.cs">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PinterestAuthForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
@@ -301,6 +307,9 @@
     </PackageReference>
     <PackageReference Include="NewTumblrSharp">
       <Version>1.1.27</Version>
+    </PackageReference>
+    <PackageReference Include="PinSharp">
+      <Version>2.2.6</Version>
     </PackageReference>
     <PackageReference Include="TweetinviAPI">
       <Version>2.1.0</Version>
