@@ -59,11 +59,11 @@ namespace ArtSourceWrapper {
 			var searchResults = await _client.SearchByCharacterAsync(character.Name, new[] { "artwork" }, from: startPosition ?? 0);
 			int nextPosition = (startPosition ?? 0) + searchResults.Hits.Count();
 			return new InternalFetchResult(
-				await Task.WhenAll(searchResults.Hits
+				searchResults.Hits
 					.Select(h => h.Submission)
 					.Where(h => h is Artwork || h is Photo)
-					.Select(h => FurryNetworkSubmissionWrapper.CreateAsync((FileSubmission)h, _client))
-					.ToArray()),
+					.Select(h => new FurryNetworkSubmissionWrapper((FileSubmission)h, _client))
+					.ToArray(),
 				nextPosition,
 				nextPosition >= searchResults.Total);
 		}
@@ -75,22 +75,18 @@ namespace ArtSourceWrapper {
 
 		private FileSubmission _artwork;
 		private string _html;
-
-		private FurryNetworkSubmissionWrapper() { }
-
-		public static async Task<FurryNetworkSubmissionWrapper> CreateAsync(FileSubmission artwork, FurryNetworkClient client = null) {
+		
+		public FurryNetworkSubmissionWrapper(FileSubmission artwork, FurryNetworkClient client = null) {
 			string html = WebUtility.HtmlEncode(artwork.Description);
 
 			try {
 				html = CommonMark.CommonMarkConverter.Convert(artwork.Description);
 			} catch (Exception) {}
 
-			return new FurryNetworkSubmissionWrapper {
-				_id = artwork.Id,
-				_client = client,
-				_artwork = artwork,
-				_html = html
-			};
+			_id = artwork.Id;
+			_client = client;
+			_artwork = artwork;
+			_html = html;
 		}
 
 		public string Title => _artwork.Title;
