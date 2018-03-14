@@ -87,6 +87,12 @@
     <Compile Include="Pinterest\MainForm.Pinterest.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pinterest\PinterestPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pinterest\PinterestPostForm.Designer.cs">
+      <DependentUpon>PinterestPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pixiv\MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pinterest\PinterestBoardSelectionForm.resx">
       <DependentUpon>PinterestBoardSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pinterest\PinterestPostForm.resx">
+      <DependentUpon>PinterestPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tumblr\TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
