@@ -39,7 +39,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(204, 26);
             this.label1.TabIndex = 0;
-            this.label1.Text = "CrosspostSharp 3.0";
+            this.label1.Text = "CrosspostSharp 3.1";
             // 
             // linkLabel1
             // 
@@ -78,7 +78,7 @@
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
-            // About
+            // AboutForm
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -88,7 +88,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label1);
-            this.Name = "About";
+            this.Name = "AboutForm";
             this.Text = "AboutForm";
             this.ResumeLayout(false);
             this.PerformLayout();
