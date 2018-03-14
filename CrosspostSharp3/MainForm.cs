@@ -158,7 +158,7 @@ namespace CrosspostSharp3 {
 				list.Add(new MediaRSSWrapper(new Uri(m.url), m.name));
 			}
 			foreach (var p in s.Pinterest) {
-				lblLoadStatus.Text = $"Adding Pinterst ({p.username}: {p.boardName})...";
+				lblLoadStatus.Text = $"Adding Pinterest ({p.username}: {p.boardName})...";
 				list.Add(new PinterestWrapper(p.accessToken, p.boardName));
 			}
 			foreach (var p in s.Pixiv) {

@@ -36,7 +36,7 @@ namespace ArtSourceWrapper {
 		}
 
 		public override string SiteName => "Pinterest";
-		public override string WrapperName => $"Pinterest ({BoardName})";
+		public override string WrapperName => "Pinterest";
 
 		public override int BatchSize { get; set; } = 25;
 
@@ -48,8 +48,8 @@ namespace ArtSourceWrapper {
 			return (await GetUserAsync()).Images.W60?.Url;
 		}
 
-		public override async Task<string> WhoamiAsync() {
-			return (await GetUserAsync()).UserName;
+		public override Task<string> WhoamiAsync() {
+			return Task.FromResult(BoardName);
 		}
 
 		protected override async Task<InternalFetchResult> InternalFetchAsync(PinterestCursor? startPosition, int count) {
