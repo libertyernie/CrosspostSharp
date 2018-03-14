@@ -65,17 +65,17 @@
     <Compile Include="BatchExportForm.Designer.cs">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FlickrPostForm.cs">
+    <Compile Include="Flickr\FlickrPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FlickrPostForm.Designer.cs">
+    <Compile Include="Flickr\FlickrPostForm.Designer.cs">
       <DependentUpon>FlickrPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="IECookiePersist.cs" />
-    <Compile Include="FurryNetworkPostForm.cs">
+    <Compile Include="FurryNetwork\FurryNetworkPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FurryNetworkPostForm.Designer.cs">
+    <Compile Include="FurryNetwork\FurryNetworkPostForm.Designer.cs">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="JournalForm.cs">
@@ -84,43 +84,43 @@
     <Compile Include="JournalForm.Designer.cs">
       <DependentUpon>JournalForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.Pinterest.cs">
+    <Compile Include="Pinterest\MainForm.Pinterest.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Pixiv.cs">
+    <Compile Include="Pixiv\MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Inkbunny.cs">
+    <Compile Include="Inkbunny\MainForm.Inkbunny.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.FurryNetwork.cs">
+    <Compile Include="FurryNetwork\MainForm.FurryNetwork.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Flickr.cs">
+    <Compile Include="Flickr\MainForm.Flickr.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Weasyl.cs">
+    <Compile Include="Weasyl\MainForm.Weasyl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FurryNetworkCharacterSelectionForm.cs">
+    <Compile Include="FurryNetwork\FurryNetworkCharacterSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FurryNetworkCharacterSelectionForm.Designer.cs">
+    <Compile Include="FurryNetwork\FurryNetworkCharacterSelectionForm.Designer.cs">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PinterestAuthForm.cs">
+    <Compile Include="Pinterest\PinterestAuthForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PinterestBoardSelectionForm.cs">
+    <Compile Include="Pinterest\PinterestBoardSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PinterestBoardSelectionForm.Designer.cs">
+    <Compile Include="Pinterest\PinterestBoardSelectionForm.Designer.cs">
       <DependentUpon>PinterestBoardSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TumblrBlogSelectionForm.cs">
+    <Compile Include="Tumblr\TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TumblrBlogSelectionForm.Designer.cs">
+    <Compile Include="Tumblr\TumblrBlogSelectionForm.Designer.cs">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AccountSelectionForm.cs">
@@ -129,10 +129,10 @@
     <Compile Include="AccountSelectionForm.Designer.cs">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddRSSForm.cs">
+    <Compile Include="RSS\AddRSSForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddRSSForm.Designer.cs">
+    <Compile Include="RSS\AddRSSForm.Designer.cs">
       <DependentUpon>AddRSSForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ArtworkData.cs" />
@@ -143,31 +143,31 @@
       <DependentUpon>ArtworkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlConversion.cs" />
-    <Compile Include="MainForm.MediaRSS.cs">
+    <Compile Include="RSS\MainForm.MediaRSS.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Tumblr.cs">
+    <Compile Include="Tumblr\MainForm.Tumblr.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Twitter.cs">
+    <Compile Include="Twitter\MainForm.Twitter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InkbunnyPostForm.cs">
+    <Compile Include="Inkbunny\InkbunnyPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InkbunnyPostForm.Designer.cs">
+    <Compile Include="Inkbunny\InkbunnyPostForm.Designer.cs">
       <DependentUpon>InkbunnyPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TumblrPostForm.cs">
+    <Compile Include="Tumblr\TumblrPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TumblrPostForm.Designer.cs">
+    <Compile Include="Tumblr\TumblrPostForm.Designer.cs">
       <DependentUpon>TumblrPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TwitterPostForm.cs">
+    <Compile Include="Twitter\TwitterPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TwitterPostForm.Designer.cs">
+    <Compile Include="Twitter\TwitterPostForm.Designer.cs">
       <DependentUpon>TwitterPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UsernamePasswordDialog.cs">
@@ -176,10 +176,10 @@
     <Compile Include="UsernamePasswordDialog.Designer.cs">
       <DependentUpon>UsernamePasswordDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="WeasylKeyForm.cs">
+    <Compile Include="Weasyl\WeasylKeyForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WeasylKeyForm.Designer.cs">
+    <Compile Include="Weasyl\WeasylKeyForm.Designer.cs">
       <DependentUpon>WeasylKeyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WrapperMenuItem.cs" />
@@ -189,10 +189,10 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.DeviantArt.cs">
+    <Compile Include="DeviantArt\MainForm.DeviantArt.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.FurAffinity.cs">
+    <Compile Include="FurAffinity\MainForm.FurAffinity.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OAuthConsumer.cs" />
@@ -206,28 +206,28 @@
     <EmbeddedResource Include="BatchExportForm.resx">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FurryNetworkCharacterSelectionForm.resx">
+    <EmbeddedResource Include="FurryNetwork\FurryNetworkCharacterSelectionForm.resx">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FlickrPostForm.resx">
+    <EmbeddedResource Include="Flickr\FlickrPostForm.resx">
       <DependentUpon>FlickrPostForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FurryNetworkPostForm.resx">
+    <EmbeddedResource Include="FurryNetwork\FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JournalForm.resx">
       <DependentUpon>JournalForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PinterestBoardSelectionForm.resx">
+    <EmbeddedResource Include="Pinterest\PinterestBoardSelectionForm.resx">
       <DependentUpon>PinterestBoardSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TumblrBlogSelectionForm.resx">
+    <EmbeddedResource Include="Tumblr\TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AccountSelectionForm.resx">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddRSSForm.resx">
+    <EmbeddedResource Include="RSS\AddRSSForm.resx">
       <DependentUpon>AddRSSForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ArtworkForm.resx">
@@ -245,19 +245,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="InkbunnyPostForm.resx">
+    <EmbeddedResource Include="Inkbunny\InkbunnyPostForm.resx">
       <DependentUpon>InkbunnyPostForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TumblrPostForm.resx">
+    <EmbeddedResource Include="Tumblr\TumblrPostForm.resx">
       <DependentUpon>TumblrPostForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TwitterPostForm.resx">
+    <EmbeddedResource Include="Twitter\TwitterPostForm.resx">
       <DependentUpon>TwitterPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UsernamePasswordDialog.resx">
       <DependentUpon>UsernamePasswordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WeasylKeyForm.resx">
+    <EmbeddedResource Include="Weasyl\WeasylKeyForm.resx">
       <DependentUpon>WeasylKeyForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
