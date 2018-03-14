@@ -22,7 +22,7 @@ namespace ArtSourceWrapper {
 
 		public override int MinBatchSize => 1;
 
-		public override int MaxBatchSize => 1;
+		public override int MaxBatchSize => int.MaxValue;
 
 		public override Task<string> GetUserIconAsync(int size) {
 			return Task.FromResult<string>(null);
@@ -41,6 +41,7 @@ namespace ArtSourceWrapper {
 				if (w.IsEnded) {
 					return Enumerable.Empty<ISubmissionWrapper>();
 				}
+				w.BatchSize = Math.Max(w.MinBatchSize, Math.Min(w.MaxBatchSize, BatchSize));
 				await w.FetchAsync();
 			}
 		}

@@ -113,7 +113,8 @@ namespace ArtSourceWrapper {
             int take = Math.Max(MinBatchSize, Math.Min(MaxBatchSize, BatchSize));
 
             while (_idWrapper.Cache.Count() < skip + take && !_idWrapper.IsEnded) {
-                await _idWrapper.FetchAsync();
+				_idWrapper.BatchSize = Math.Max(_idWrapper.MinBatchSize, Math.Min(_idWrapper.MaxBatchSize, BatchSize));
+				await _idWrapper.FetchAsync();
             }
 
             var deviations = _idWrapper.Cache

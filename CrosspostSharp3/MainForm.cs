@@ -140,25 +140,10 @@ namespace CrosspostSharp3 {
 						scraps: true))
 				}));
 			}
-			foreach (var g in s.FurryNetwork.GroupBy(fn => fn.refreshToken)) {
-				lblLoadStatus.Text = $"Adding Furry Network ({string.Join(", ", g.Select(fn => fn.characterName))})...";
-				string refreshToken = g.Key;
-				var client = new FurryNetworkClient(refreshToken);
-				try {
-					await client.GetUserAsync();
-
-					foreach (var fn in g) {
-						list.Add(new FurryNetworkWrapper(client, fn.characterName));
-					}
-				} catch (Exception ex) {
-					Console.Error.WriteLine(ex.Message);
-					Console.Error.WriteLine(ex.StackTrace);
-					MessageBox.Show(this, "Furry Network refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					s.FurryNetwork = s.FurryNetwork
-						.Where(fn => fn.refreshToken != refreshToken)
-						.ToList();
-					s.Save();
-				}
+			foreach (var fn in s.FurryNetwork) {
+				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
+				var client = new FurryNetworkClient(fn.refreshToken);
+				list.Add(new FurryNetworkWrapper(client, fn.characterName));
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
@@ -195,6 +180,10 @@ namespace CrosspostSharp3 {
 					new WeasylWrapper(new WeasylGalleryIdWrapper(w.apiKey)),
 					new WeasylWrapper(new WeasylCharacterWrapper(w.apiKey))
 				}));
+			}
+
+			foreach (var wrapper in list) {
+				wrapper.BatchSize = Math.Max(wrapper.MinBatchSize, Math.Min(wrapper.MaxBatchSize, 4));
 			}
 			
 			lblLoadStatus.Text = "Checking usernames...";
