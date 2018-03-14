@@ -46,10 +46,14 @@ namespace CrosspostSharp3 {
 			using (var f = new PinterestBoardSelectionForm(boards)) {
 				f.ShowDialog();
 				foreach (var board in f.SelectedItems) {
+					Uri uri = new Uri(board.Url);
+					string boardName = uri.AbsolutePath;
+					while (boardName.StartsWith("/")) boardName = boardName.Substring(1);
+					while (boardName.EndsWith("/")) boardName = boardName.Substring(0, boardName.Length - 1);
 					yield return new Settings.PinterestSettings {
 						accessToken = accessToken,
 						username = username,
-						boardName = board.Name
+						boardName = boardName
 					};
 				}
 			}

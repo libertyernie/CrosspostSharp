@@ -68,7 +68,7 @@ namespace CrosspostSharp3 {
 			public string username;
 			public string boardName;
 
-			string IAccountCredentials.Username => username;
+			string IAccountCredentials.Username => $"{username}: {boardName}";
 		}
 
 		public List<PinterestSettings> Pinterest = new List<PinterestSettings>();
