@@ -186,7 +186,7 @@ namespace CrosspostSharp3 {
 				wrapper.BatchSize = Math.Max(wrapper.MinBatchSize, Math.Min(wrapper.MaxBatchSize, 4));
 			}
 			
-			lblLoadStatus.Text = "Checking usernames...";
+			lblLoadStatus.Text = "Connecting to sites...";
 
 			var tasks = list.Select(async w => {
 				try {
