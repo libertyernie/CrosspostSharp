@@ -11,9 +11,6 @@ accounts, maintaining the title, description, and tags.
 
 Only visual submissions (artwork) are supported at this time.
 
-If you're using CrosspostSharp to upload artwork, you should also try PostyBirb
-(http://postybirb.weebly.com/); it has more features and supports more sites.
-
 Requirements:
 
 * Internet Explorer 11
@@ -23,13 +20,16 @@ Supported Sites
 ---------------
 
 Use the Tools menu to add and remove accounts. Multiple accounts per site are
-supported on all sites except DeviantArt / Sta.sh.
+supported on all sites except DeviantArt / Sta.sh. On Tumblr, Pinterest, and
+Furry Network, CrosspostSharp lets you use read from and post to multiple
+blogs/boards/characters using a single account.
 
 * DeviantArt / Sta.sh
 * Flickr
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
+* Pinterest (added in CrosspostSharp 3.2)
 * Pixiv (read-only)
 * Tumblr
 * Twitter
@@ -39,7 +39,7 @@ You can also use a Media RSS feed as a source or open or save local files.
 
 Additionally, you can install Java and put
 [efc.jar](https://github.com/libertyernie/Furry-Crossposter/releases)
-in the same folder as CrosspostSharp.exe, which will add support for posting
+in the same folder as CrosspostSharp3.exe, which will add support for posting
 to Weasyl and FurAffinity. efc.jar is a fork of another crossposting app
 designed to work with CrosspostSharp. See its page for more information.
 
@@ -95,6 +95,10 @@ OAuth keys, then put the following into OAuthConsumer.cs:
                 public static string CLIENT_SECRET = "client_secret goes here";
             }
             public static class Flickr {
+                public static string KEY = "consumer key goes here";
+                public static string SECRET = "secret key goes here";
+            }
+            public static class Pinterest {
                 public static string KEY = "consumer key goes here";
                 public static string SECRET = "secret key goes here";
             }
