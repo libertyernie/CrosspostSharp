@@ -1,5 +1,6 @@
 ﻿using FurryNetworkLib;
 using PinSharp;
+using PinSharp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,12 +25,8 @@ namespace CrosspostSharp3 {
 								f.Code);
 							var client = new PinSharpClient(token);
 							var user = await client.Me.GetUserAsync();
-							return new[] {
-								new Settings.PinterestSettings {
-									accessToken = token,
-									username = user.UserName
-								}
-							};
+							var boards = await client.Me.GetBoardsAsync();
+							return PinterestChooseBoards(token, user.UserName, boards);
 						} else {
 							return Enumerable.Empty<Settings.PinterestSettings>();
 						}
@@ -43,6 +40,19 @@ namespace CrosspostSharp3 {
 			}
 
 			toolsToolStripMenuItem.Enabled = true;
+		}
+
+		private static IEnumerable<Settings.PinterestSettings> PinterestChooseBoards(string accessToken, string username, IEnumerable<IUserBoard> boards) {
+			using (var f = new PinterestBoardSelectionForm(boards)) {
+				f.ShowDialog();
+				foreach (var board in f.SelectedItems) {
+					yield return new Settings.PinterestSettings {
+						accessToken = accessToken,
+						username = username,
+						boardName = board.Name
+					};
+				}
+			}
 		}
 	}
 }

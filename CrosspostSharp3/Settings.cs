@@ -66,6 +66,7 @@ namespace CrosspostSharp3 {
 		public struct PinterestSettings : IAccountCredentials {
 			public string accessToken;
 			public string username;
+			public string boardName;
 
 			string IAccountCredentials.Username => username;
 		}
