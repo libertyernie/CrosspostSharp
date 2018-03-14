@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantartApi.WinForms", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaRssSharp", "MediaRssSharp\MediaRssSharp\MediaRssSharp.csproj", "{5DD5B31F-DB30-4711-B3B6-46D263C11280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrosspostSharpJournal", "CrosspostSharpJournal\CrosspostSharpJournal.csproj", "{1B5392B2-2536-4833-ADB3-B56659454770}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSourceWrapper.Journal", "ArtSourceWrapper.Journal\ArtSourceWrapper.Journal.csproj", "{1B5392B2-2536-4833-ADB3-B56659454770}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,8 +7,8 @@
     <ProjectGuid>{1B5392B2-2536-4833-ADB3-B56659454770}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CrosspostSharpJournal</RootNamespace>
-    <AssemblyName>CrosspostSharpJournal</AssemblyName>
+    <RootNamespace>ArtSourceWrapper.Journal</RootNamespace>
+    <AssemblyName>ArtSourceWrapper.Journal</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

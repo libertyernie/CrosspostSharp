@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrosspostSharpJournal {
+namespace ArtSourceWrapper.Journal {
 	public class FurAffinityJournalSource : JournalSource<FurAffinityJournalWrapper, int>, IJournalDestination {
 		private readonly FAUserClient _client;
 		

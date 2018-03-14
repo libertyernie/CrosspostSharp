@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrosspostSharpJournal {
+namespace ArtSourceWrapper.Journal {
 	public class DeviantArtJournalSource : JournalSource<DeviantArtJournalWrapper, uint> {
 		public override int BatchSize { get; set; } = 10;
 		public override int MinBatchSize => 1;

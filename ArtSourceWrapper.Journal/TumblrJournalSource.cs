@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrosspostSharpJournal {
+namespace ArtSourceWrapper.Journal {
 	public class TumblrJournalSource : JournalSource<TumblrJournalWrapper, long>, IJournalDestination {
 		private readonly TumblrClient _client;
 		private string _blogName;

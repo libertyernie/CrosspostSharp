@@ -1,4 +1,4 @@
-﻿using CrosspostSharpJournal;
+﻿using ArtSourceWrapper.Journal;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -23,7 +23,7 @@ namespace CrosspostSharp3 {
 		public JournalForm() {
 			InitializeComponent();
 
-			Shown += async (o, a) => {
+			Shown += (o, a) => {
 				Settings s = Settings.Load();
 
 				var sources = new List<IJournalSource>();

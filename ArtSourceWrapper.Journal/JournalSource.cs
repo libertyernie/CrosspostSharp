@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrosspostSharpJournal {
+namespace ArtSourceWrapper.Journal {
 	/// <summary>
 	/// An interface representing a client wrapper for a site that journals can be posted to.
 	/// Normally a class will extend JournalSource&lt;TWrapper, TPosition> instead of implementing this interface directly.

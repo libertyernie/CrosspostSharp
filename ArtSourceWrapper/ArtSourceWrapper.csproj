@@ -132,7 +132,7 @@
     </ProjectReference>
     <ProjectReference Include="..\WeasylLib\WeasylLib.csproj">
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
-      <Name>WeasylSyncLib</Name>
+      <Name>WeasylLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

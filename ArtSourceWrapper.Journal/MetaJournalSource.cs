@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrosspostSharpJournal {
+namespace ArtSourceWrapper.Journal {
 	public class MetaJournalSource : JournalSource<IJournalWrapper, DateTime> {
 		private readonly IEnumerable<IJournalSource> _wrappers;
 

@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CrosspostSharpJournal {
+namespace ArtSourceWrapper.Journal {
 	public class FurryNetworkJournalSource : JournalSource<FurryNetworkJournalWrapper, int>, IJournalDestination {
 		private readonly FurryNetworkClient _client;
 		private string _preferredCharacterName;
@@ -52,9 +52,9 @@ namespace CrosspostSharpJournal {
 	}
 
 	public class FurryNetworkJournalWrapper : IJournalWrapper {
-		public readonly Journal Journal;
+		public readonly FurryNetworkLib.Journal Journal;
 
-		public FurryNetworkJournalWrapper(Journal journal) {
+		public FurryNetworkJournalWrapper(FurryNetworkLib.Journal journal) {
 			Journal = journal;
 		}
 
