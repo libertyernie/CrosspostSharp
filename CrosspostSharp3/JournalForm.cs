@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -80,6 +81,7 @@ namespace CrosspostSharp3 {
 			txtTitle.Text = j?.Title ?? "";
 			txtBody.Text = HtmlConversion.ConvertHtmlToText(j?.HTMLDescription ?? "");
 			txtTeaser.Text = "";
+			linkLabel1.Text = j?.ViewURL ?? "";
 		}
 
 		private void lstDestination_SelectedIndexChanged(object sender, EventArgs e) {
@@ -111,6 +113,11 @@ namespace CrosspostSharp3 {
 		private async void btnNext_Click(object sender, EventArgs e) {
 			_currentPosition += 10;
 			LoadJournals();
+		}
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+			if (linkLabel1.Text.StartsWith("http://") || linkLabel1.Text.StartsWith("https://"))
+				Process.Start(linkLabel1.Text);
 		}
 	}
 }

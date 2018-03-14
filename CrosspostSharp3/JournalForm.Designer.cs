@@ -34,12 +34,13 @@
             this.lstDestination = new System.Windows.Forms.ListBox();
             this.lblDestination = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.pnlSourceNavigation = new System.Windows.Forms.Panel();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnPrevious = new System.Windows.Forms.Button();
             this.lblTimestamp = new System.Windows.Forms.Label();
             this.txtBody = new System.Windows.Forms.TextBox();
             this.txtTeaser = new System.Windows.Forms.TextBox();
-            this.pnlSourceNavigation = new System.Windows.Forms.Panel();
-            this.btnPrevious = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.pnlSourceNavigation.SuspendLayout();
@@ -60,7 +61,7 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(206, 28);
+            this.lblTitle.Location = new System.Drawing.Point(206, 45);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(27, 13);
             this.lblTitle.TabIndex = 1;
@@ -70,7 +71,7 @@
             // 
             this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTitle.Location = new System.Drawing.Point(206, 44);
+            this.txtTitle.Location = new System.Drawing.Point(206, 61);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(366, 20);
             this.txtTitle.TabIndex = 2;
@@ -78,7 +79,7 @@
             // lblBody
             // 
             this.lblBody.AutoSize = true;
-            this.lblBody.Location = new System.Drawing.Point(206, 67);
+            this.lblBody.Location = new System.Drawing.Point(206, 84);
             this.lblBody.Name = "lblBody";
             this.lblBody.Size = new System.Drawing.Size(31, 13);
             this.lblBody.TabIndex = 3;
@@ -157,6 +158,38 @@
             this.panel3.Size = new System.Drawing.Size(200, 361);
             this.panel3.TabIndex = 11;
             // 
+            // pnlSourceNavigation
+            // 
+            this.pnlSourceNavigation.AutoSize = true;
+            this.pnlSourceNavigation.Controls.Add(this.btnNext);
+            this.pnlSourceNavigation.Controls.Add(this.btnPrevious);
+            this.pnlSourceNavigation.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlSourceNavigation.Location = new System.Drawing.Point(0, 232);
+            this.pnlSourceNavigation.Name = "pnlSourceNavigation";
+            this.pnlSourceNavigation.Size = new System.Drawing.Size(200, 29);
+            this.pnlSourceNavigation.TabIndex = 11;
+            // 
+            // btnNext
+            // 
+            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.Location = new System.Drawing.Point(122, 3);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 1;
+            this.btnNext.Text = "Next →";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Location = new System.Drawing.Point(3, 3);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevious.TabIndex = 0;
+            this.btnPrevious.Text = "← Previous";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            // 
             // lblTimestamp
             // 
             this.lblTimestamp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -171,11 +204,11 @@
             this.txtBody.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBody.Location = new System.Drawing.Point(206, 83);
+            this.txtBody.Location = new System.Drawing.Point(206, 100);
             this.txtBody.Multiline = true;
             this.txtBody.Name = "txtBody";
             this.txtBody.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBody.Size = new System.Drawing.Size(366, 138);
+            this.txtBody.Size = new System.Drawing.Size(366, 121);
             this.txtBody.TabIndex = 4;
             // 
             // txtTeaser
@@ -189,43 +222,23 @@
             this.txtTeaser.Size = new System.Drawing.Size(366, 80);
             this.txtTeaser.TabIndex = 6;
             // 
-            // pnlSourceNavigation
+            // linkLabel1
             // 
-            this.pnlSourceNavigation.AutoSize = true;
-            this.pnlSourceNavigation.Controls.Add(this.btnNext);
-            this.pnlSourceNavigation.Controls.Add(this.btnPrevious);
-            this.pnlSourceNavigation.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlSourceNavigation.Location = new System.Drawing.Point(0, 232);
-            this.pnlSourceNavigation.Name = "pnlSourceNavigation";
-            this.pnlSourceNavigation.Size = new System.Drawing.Size(200, 29);
-            this.pnlSourceNavigation.TabIndex = 11;
-            // 
-            // btnPrevious
-            // 
-            this.btnPrevious.Location = new System.Drawing.Point(3, 3);
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
-            this.btnPrevious.TabIndex = 0;
-            this.btnPrevious.Text = "← Previous";
-            this.btnPrevious.UseVisualStyleBackColor = true;
-            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
-            // 
-            // btnNext
-            // 
-            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(122, 3);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 23);
-            this.btnNext.TabIndex = 1;
-            this.btnNext.Text = "Next →";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.Location = new System.Drawing.Point(206, 29);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(366, 13);
+            this.linkLabel1.TabIndex = 13;
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // JournalForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.txtTeaser);
             this.Controls.Add(this.txtBody);
             this.Controls.Add(this.lblTimestamp);
@@ -265,5 +278,6 @@
 		private System.Windows.Forms.Panel pnlSourceNavigation;
 		private System.Windows.Forms.Button btnNext;
 		private System.Windows.Forms.Button btnPrevious;
+		private System.Windows.Forms.LinkLabel linkLabel1;
 	}
 }

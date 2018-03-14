@@ -257,11 +257,7 @@ namespace CrosspostSharp3 {
 				}
 			}
 		}
-
-		private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
-			throw new NotImplementedException();
-		}
-
+		
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
 			Application.Exit();
 		}
