@@ -20,16 +20,15 @@ Supported Sites
 ---------------
 
 Use the Tools menu to add and remove accounts. Multiple accounts per site are
-supported on all sites except DeviantArt / Sta.sh. On Tumblr, Pinterest, and
+supported on all sites except DeviantArt / Sta.sh. On Tumblr and
 Furry Network, CrosspostSharp lets you use read from and post to multiple
-blogs/boards/characters using a single account.
+blogs/characters using a single account.
 
 * DeviantArt / Sta.sh
 * Flickr
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
-* Pinterest (write-only; added in CrosspostSharp 3.2)
 * Pixiv (read-only)
 * Tumblr
 * Twitter
