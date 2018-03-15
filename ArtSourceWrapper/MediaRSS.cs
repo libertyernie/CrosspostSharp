@@ -48,7 +48,7 @@ namespace ArtSourceWrapper {
 
 			var req = WebRequest.Create(url);
 			req.Method = "GET";
-			if (req is HttpWebRequest h) h.UserAgent = "CrosspostSharp/3.0 (https://github.com/libertyernie/CrosspostSharp)";
+			if (req is HttpWebRequest h) h.UserAgent = "CrosspostSharp/3.2 (https://github.com/libertyernie/CrosspostSharp)";
 			using (var resp = await req.GetResponseAsync())
 			using (var stream = resp.GetResponseStream())
 			using (var ms = new MemoryStream()) {

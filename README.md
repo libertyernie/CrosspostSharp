@@ -29,7 +29,7 @@ blogs/boards/characters using a single account.
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
-* Pinterest (added in CrosspostSharp 3.2)
+* Pinterest (write-only; added in CrosspostSharp 3.2)
 * Pixiv (read-only)
 * Tumblr
 * Twitter
