@@ -111,6 +111,9 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Loading settings...";
 
 			var s = Settings.Load();
+			if (!s.PinterestEnabled) {
+				pinterestToolStripMenuItem.Visible = false;
+			}
 			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {

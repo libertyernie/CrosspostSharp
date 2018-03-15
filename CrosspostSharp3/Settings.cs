@@ -71,6 +71,8 @@ namespace CrosspostSharp3 {
 			string IAccountCredentials.Username => boardName;
 		}
 
+		public bool PinterestEnabled = false;
+
 		public List<PinterestSettings> Pinterest = new List<PinterestSettings>();
 
 		public struct PixivSettings : IAccountCredentials {
