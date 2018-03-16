@@ -29,7 +29,7 @@ namespace CrosspostSharp3 {
 
 			txtTitle.Text = d.title;
 			txtDescription.Enabled = false;
-			txtTags.Text = string.Join(" ", d.tags);
+			txtTags.Text = string.Join(" ", d.tags.Where(t => t.Length >= 3));
 
 			if (_artworkData.adult) {
 				radFurryNetworkRating2.Checked = true;
@@ -45,9 +45,9 @@ namespace CrosspostSharp3 {
 			PopulateIcon();
 		}
 
-		private async void PopulateDescription() {
+		private void PopulateDescription() {
 			try {
-				txtDescription.Text = await HtmlConversion.ConvertHtmlToMarkdown(_artworkData.description);
+				txtDescription.Text = HtmlConversion.ConvertHtmlToText(_artworkData.description);
 			} catch (Exception) { }
 			txtDescription.Enabled = true;
 		}
@@ -94,6 +94,18 @@ namespace CrosspostSharp3 {
 				});
 
 				Close();
+			} catch (WebException ex) {
+				string errors = "";
+				try {
+					using (var sr = new StreamReader(ex.Response.GetResponseStream())) {
+						errors = await sr.ReadToEndAsync();
+						if (errors.Length > 200) {
+							errors = errors.Substring(0, 199) + "…";
+						}
+					}
+				} catch (Exception) { }
+				btnPost.Enabled = true;
+				MessageBox.Show(this, ex.Message + ": " + errors, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			} catch (Exception ex) {
 				btnPost.Enabled = true;
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);

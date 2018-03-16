@@ -128,6 +128,7 @@
             // 
             // lblTags
             // 
+            this.lblTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTags.AutoSize = true;
             this.lblTags.Location = new System.Drawing.Point(12, 181);
             this.lblTags.Name = "lblTags";
@@ -137,6 +138,8 @@
             // 
             // txtTags
             // 
+            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(49, 178);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(242, 20);

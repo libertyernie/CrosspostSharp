@@ -310,7 +310,7 @@
             this.Controls.Add(this.btnPost);
             this.Controls.Add(this.txtDescription);
             this.Name = "FurryNetworkPostForm";
-            this.Text = "Post to Inkbunny";
+            this.Text = "Post to Furry Network";
             this.Shown += new System.EventHandler(this.Form_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
             this.groupBox4.ResumeLayout(false);
