@@ -95,7 +95,7 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
-			foreach (var p in settings.Pinterest) {
+			foreach (var p in settings.Pinterest.accounts) {
 				listBox1.Items.Add(new DestinationOption($"Pinterest ({p.boardName})", () => {
 					using (var f = new PinterestPostForm(p, Export())) {
 						f.ShowDialog(this);

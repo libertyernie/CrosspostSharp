@@ -10,18 +10,29 @@ using System.Threading.Tasks;
 namespace CrosspostSharp3 {
 	public partial class MainForm {
 		private async void pinterestToolStripMenuItem_Click(object sender, EventArgs e) {
+			Settings s = Settings.Load();
+			if (string.IsNullOrEmpty(s.Pinterest.appId) || string.IsNullOrEmpty(s.Pinterest.appSecret)) {
+				using (var f = new PinterestAppForm()) {
+					if (f.ShowDialog() != System.Windows.Forms.DialogResult.OK) {
+						return;
+					}
+					s.Pinterest.appId = f.AppId;
+					s.Pinterest.appSecret = f.AppSecret;
+					s.Save();
+				}
+			}
+
 			toolsToolStripMenuItem.Enabled = false;
 
-			Settings s = Settings.Load();
 			using (var acctSelForm = new AccountSelectionForm<Settings.PinterestSettings>(
-				s.Pinterest,
+				s.Pinterest.accounts,
 				async () => {
-					using (var f = new PinterestAuthForm(OAuthConsumer.Pinterest.KEY, "https://www.example.org/", new[] { "read_public", "write_public" })) {
+					using (var f = new PinterestAuthForm(s.Pinterest.appId, "https://www.example.org/", new[] { "read_public", "write_public" })) {
 						f.ShowDialog();
 						if (f.Code != null) {
 							string token = await PinSharpAuthClient.GetAccessTokenAsync(
-								OAuthConsumer.Pinterest.KEY,
-								OAuthConsumer.Pinterest.SECRET,
+								s.Pinterest.appId,
+								s.Pinterest.appSecret,
 								f.Code);
 							var client = new PinSharpClient(token);
 							var user = await client.Me.GetUserAsync();
@@ -34,7 +45,7 @@ namespace CrosspostSharp3 {
 				}
 			)) {
 				acctSelForm.ShowDialog(this);
-				s.Pinterest = acctSelForm.CurrentList.ToList();
+				s.Pinterest.accounts = acctSelForm.CurrentList.ToList();
 				s.Save();
 				await ReloadWrapperList();
 			}
