@@ -1,5 +1,5 @@
-CrosspostSharp 3
-================
+CrosspostSharp 3.2
+==================
 
 Source: https://github.com/libertyernie/CrosspostSharp
 
@@ -29,6 +29,7 @@ blogs/characters using a single account.
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
+* Pinterest (write-only; app ID and secret required)
 * Pixiv (read-only)
 * Tumblr
 * Twitter
@@ -94,10 +95,6 @@ OAuth keys, then put the following into OAuthConsumer.cs:
                 public static string CLIENT_SECRET = "client_secret goes here";
             }
             public static class Flickr {
-                public static string KEY = "consumer key goes here";
-                public static string SECRET = "secret key goes here";
-            }
-            public static class Pinterest {
                 public static string KEY = "consumer key goes here";
                 public static string SECRET = "secret key goes here";
             }
