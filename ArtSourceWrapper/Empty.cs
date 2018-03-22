@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
     public class EmptyWrapper : SiteWrapper<ISubmissionWrapper, int> {
-        public override string SiteName => null;
         public override string WrapperName => "None";
+		public override bool SubmissionsFiltered => false;
 
-        public override int BatchSize { get; set; } = 0;
+		public override int BatchSize { get; set; } = 0;
         public override int MinBatchSize => 0;
         public override int MaxBatchSize => 0;
 

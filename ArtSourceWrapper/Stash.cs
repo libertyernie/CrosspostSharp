@@ -9,10 +9,10 @@ using DeviantartApi.Objects;
 
 namespace ArtSourceWrapper {
     internal class StashWrapper : SiteWrapper<StashSubmissionWrapper, uint> {
-        public override string SiteName => "Sta.sh";
         public override string WrapperName => "Sta.sh";
+		public override bool SubmissionsFiltered => true;
 
-        public override int BatchSize { get; set; } = 120;
+		public override int BatchSize { get; set; } = 120;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 120;
 
@@ -66,16 +66,17 @@ namespace ArtSourceWrapper {
 
     public class StashOrderedWrapper : SiteWrapper<StashSubmissionWrapper, int> {
         private StashWrapper _wrapper;
-
-        public override string SiteName => _wrapper.SiteName;
+		
         public override string WrapperName => _wrapper.WrapperName + " (newest first)";
+		public override bool SubmissionsFiltered => false;
 
-        public override int BatchSize { get; set; } = 0;
+		public override int BatchSize { get; set; } = 0;
         public override int MinBatchSize => 0;
         public override int MaxBatchSize => 0;
 
         public StashOrderedWrapper() {
             _wrapper = new StashWrapper();
+			_wrapper.BatchSize = _wrapper.MaxBatchSize;
         }
 
         public override Task<string> WhoamiAsync() {

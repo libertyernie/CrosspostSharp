@@ -99,7 +99,7 @@ namespace CrosspostSharp3 {
 			}
 
 			lblUsername.Text = await _currentWrapper.WhoamiAsync();
-			lblSiteName.Text = _currentWrapper.SiteName;
+			lblSiteName.Text = _currentWrapper.WrapperName;
 		}
 
 		private async Task ReloadWrapperList() {
@@ -179,7 +179,9 @@ namespace CrosspostSharp3 {
 			}
 
 			foreach (var wrapper in list) {
-				wrapper.BatchSize = Math.Max(wrapper.MinBatchSize, Math.Min(wrapper.MaxBatchSize, 4));
+				if (!wrapper.SubmissionsFiltered) {
+					wrapper.BatchSize = Math.Max(wrapper.MinBatchSize, Math.Min(wrapper.MaxBatchSize, 4));
+				}
 			}
 			
 			lblLoadStatus.Text = "Connecting to sites...";

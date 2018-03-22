@@ -29,10 +29,10 @@ namespace ArtSourceWrapper {
 			}
 			return _character;
 		}
-
-		public override string SiteName => "Furry Network";
-
+		
 		public override string WrapperName => "Furry Network";
+
+		public override bool SubmissionsFiltered => true;
 
 		public override int BatchSize { get; set; }
 

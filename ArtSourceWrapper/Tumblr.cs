@@ -24,11 +24,11 @@ namespace ArtSourceWrapper {
             _client = client;
             _blogName = blogName;
         }
-
-        public override string SiteName => "Tumblr";
+		
         public override string WrapperName => "Tumblr";
+		public override bool SubmissionsFiltered => true;
 
-        public override int BatchSize { get; set; } = 20;
+		public override int BatchSize { get; set; } = 20;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 20;
 

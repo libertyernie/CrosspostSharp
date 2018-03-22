@@ -118,11 +118,11 @@ namespace ArtSourceWrapper {
         public override int BatchSize { get; set; } = 1;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 1;
-
-        public override string SiteName => "Weasyl";
+		
         public override string WrapperName => _idWrapper.WrapperName;
+		public override bool SubmissionsFiltered => false;
 
-        public WeasylWrapper(WeasylIdWrapper idWrapper) {
+		public WeasylWrapper(WeasylIdWrapper idWrapper) {
             _idWrapper = idWrapper;
         }
 

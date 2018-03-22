@@ -17,11 +17,11 @@ namespace ArtSourceWrapper {
 
     public class TwitterWrapper : SiteWrapper<TwitterSubmissionWrapper, long> {
         private readonly ITwitterCredentials _credentials;
-
-        public override string SiteName => "Twitter";
+		
         public override string WrapperName => "Twitter";
+		public override bool SubmissionsFiltered => true;
 
-        public override int BatchSize { get; set; } = 200;
+		public override int BatchSize { get; set; } = 200;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 200;
 

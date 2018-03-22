@@ -26,10 +26,10 @@ namespace ArtSourceWrapper {
 			_username = username;
 			_password = password;
 		}
-
-		public override string SiteName => "Pixiv";
-
+		
 		public override string WrapperName => "Pixiv";
+
+		public override bool SubmissionsFiltered => false;
 
 		public override int BatchSize { get; set; }
 

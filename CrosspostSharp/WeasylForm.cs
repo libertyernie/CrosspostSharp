@@ -201,7 +201,7 @@ namespace CrosspostSharp {
             WrapperPosition = 0;
 
             picUserIcon.Image = null;
-            lblWeasylStatus1.Text = SourceWrapper.SiteName ?? "";
+            lblWeasylStatus1.Text = SourceWrapper.WrapperName ?? "";
 
             string user = null;
             try {
@@ -622,7 +622,7 @@ namespace CrosspostSharp {
             }
 
 			html.Replace("{URL}", txtURL.Text)
-                .Replace("{SITENAME}", SourceWrapper.SiteName);
+                .Replace("{SITENAME}", txtURL.Text);
 
 			return html.ToString();
 		}

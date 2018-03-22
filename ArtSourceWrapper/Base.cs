@@ -26,21 +26,24 @@ namespace ArtSourceWrapper {
         /// The maximum batch size for this wrapper. This property is read-only.
         /// </summary>
         int MaxBatchSize { get; }
-
-        /// <summary>
-        /// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
-        /// </summary>
-        string SiteName { get; }
-
+		
         /// <summary>
         /// A display name for this wrapper, e.g. "DeviantArt (Scraps)".
         /// </summary>
         string WrapperName { get; }
 
-        /// <summary>
-        /// A list of the currently cached submissions. Call FetchAsync to get more.
-        /// </summary>
-        IEnumerable<ISubmissionWrapper> Cache { get; }
+		/// <summary>
+		/// Whether this wrapper is expected to omit some of the posts from
+		/// the source, thus returning less than BatchSize items on a regular
+		/// basis (for example, tweets or Tumblr posts with no images, or
+		/// Inkbunny posts that are not public.)
+		/// </summary>
+		bool SubmissionsFiltered { get; }
+
+		/// <summary>
+		/// A list of the currently cached submissions. Call FetchAsync to get more.
+		/// </summary>
+		IEnumerable<ISubmissionWrapper> Cache { get; }
 
         /// <summary>
         /// Whether the cache contains all of the submissions that are available.
@@ -80,14 +83,17 @@ namespace ArtSourceWrapper {
     /// <typeparam name="TPosition">The type of object to use for an internal position counter; must be a value type</typeparam>
     public abstract class SiteWrapper<TWrapper, TPosition> : AsynchronousCachedEnumerable<TWrapper, TPosition>, ISiteWrapper where TWrapper : ISubmissionWrapper where TPosition : struct {
         /// <summary>
-        /// The name of the site this wrapper is for (to be shown to the user), e.g. "DeviantArt".
-        /// </summary>
-        public abstract string SiteName { get; }
-
-        /// <summary>
         /// A display name for this wrapper, e.g. "DeviantArt (Scraps)".
         /// </summary>
         public abstract string WrapperName { get; }
+
+		/// <summary>
+		/// Whether this wrapper is expected to omit some of the posts from
+		/// the source, thus returning less than BatchSize items on a regular
+		/// basis (for example, tweets or Tumblr posts with no images, or
+		/// Inkbunny posts that are not public.)
+		/// </summary>
+		public abstract bool SubmissionsFiltered { get; }
 
         /// <summary>
         /// Looks up the username of the currently logged in user.

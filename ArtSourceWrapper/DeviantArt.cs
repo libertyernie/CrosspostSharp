@@ -63,9 +63,9 @@ namespace ArtSourceWrapper {
     
     public class DeviantArtWrapper : SiteWrapper<DeviantArtSubmissionWrapper, uint> {
         private AsynchronousCachedEnumerable<Deviation, uint> _idWrapper;
-
-		public override string SiteName => "DeviantArt";
+		
 		public override string WrapperName => "DeviantArt";
+		public override bool SubmissionsFiltered => true;
 
 		public override int BatchSize { get; set; }
         public override int MinBatchSize => 1;

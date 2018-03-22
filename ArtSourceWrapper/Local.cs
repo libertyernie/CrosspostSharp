@@ -11,11 +11,11 @@ namespace ArtSourceWrapper {
     public class LocalPathWrapper : SiteWrapper<LocalFileSubmissionWrapper, int> {
         private string _path;
         private Stack<string> _fileStack;
-
-        public override string SiteName => "Local";
+		
         public override string WrapperName => _path ?? "Local folder";
+		public override bool SubmissionsFiltered => false;
 
-        public override int BatchSize { get; set; } = 1;
+		public override int BatchSize { get; set; } = 1;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => int.MaxValue;
 

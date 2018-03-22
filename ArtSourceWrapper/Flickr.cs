@@ -20,11 +20,11 @@ namespace ArtSourceWrapper {
         public FlickrWrapper(Flickr client) {
             _flickr = client;
         }
-
-        public override string SiteName => "Flickr";
+		
         public override string WrapperName => "Flickr";
+		public override bool SubmissionsFiltered => false;
 
-        public override int BatchSize { get; set; } = 100;
+		public override int BatchSize { get; set; } = 100;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 500;
 

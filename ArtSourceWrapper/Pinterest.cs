@@ -34,9 +34,9 @@ namespace ArtSourceWrapper {
 			_client = new PinSharpClient(accessToken);
 			BoardName = boardName;
 		}
-
-		public override string SiteName => "Pinterest";
+		
 		public override string WrapperName => "Pinterest";
+		public override bool SubmissionsFiltered => false;
 
 		public override int BatchSize { get; set; } = 25;
 

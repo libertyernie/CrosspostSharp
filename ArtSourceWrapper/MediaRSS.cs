@@ -23,10 +23,10 @@ namespace ArtSourceWrapper {
 			_name = name ?? url.AbsoluteUri;
 			_urls = new List<Uri> { url };
 		}
-
-		public override string SiteName => _initialUrl.AbsoluteUri;
-
+		
 		public override string WrapperName => _initialUrl.AbsoluteUri;
+
+		public override bool SubmissionsFiltered => true;
 
 		public override int BatchSize { get; set; }
 

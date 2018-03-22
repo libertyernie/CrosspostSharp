@@ -13,10 +13,10 @@ namespace ArtSourceWrapper {
 			_name = name;
 			_wrappers = wrappers.ToList();
 		}
-
-		public override string SiteName => _name;
-
+		
 		public override string WrapperName => _name;
+
+		public override bool SubmissionsFiltered => false;
 
 		public override int BatchSize { get; set; }
 
@@ -61,6 +61,10 @@ namespace ArtSourceWrapper {
 			var items = found
 				.Where(s => s.Timestamp == ts);
 			return new InternalFetchResult(items, nextPosition, _wrappers.All(w => w.IsEnded));
+		}
+
+		public override string ToString() {
+			return $"{base.ToString()} ({string.Join(", ", _wrappers)})";
 		}
 	}
 }

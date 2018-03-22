@@ -61,11 +61,11 @@ namespace ArtSourceWrapper {
         public FurAffinityWrapper(FurAffinityIdWrapper idWrapper) {
             _idWrapper = idWrapper;
         }
-
-        public override string SiteName => "FurAffinity";
+		
         public override string WrapperName => _idWrapper.WrapperName;
+		public override bool SubmissionsFiltered => false;
 
-        public override Task<string> WhoamiAsync() {
+		public override Task<string> WhoamiAsync() {
             return _idWrapper.WhoamiAsync();
         }
 
