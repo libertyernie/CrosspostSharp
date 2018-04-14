@@ -142,6 +142,7 @@
             // 
             // lblCounter
             // 
+            this.lblCounter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCounter.AutoSize = true;
             this.lblCounter.Location = new System.Drawing.Point(243, 181);
             this.lblCounter.Name = "lblCounter";

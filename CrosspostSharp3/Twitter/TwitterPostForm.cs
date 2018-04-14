@@ -129,7 +129,7 @@ namespace CrosspostSharp3 {
 
 		private void textBox1_TextChanged(object sender, EventArgs e) {
 			int count = textBox1.Text.Where(c => !char.IsLowSurrogate(c)).Count();
-			if (textBox1.Text.Contains(_artworkData.url)) {
+			if (_artworkData.url != null && textBox1.Text.Contains(_artworkData.url)) {
 				count -= _artworkData.url.Length;
 				count += _tcoUrlLength.Value;
 			}
