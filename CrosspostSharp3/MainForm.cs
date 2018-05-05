@@ -189,6 +189,8 @@ namespace CrosspostSharp3 {
 			var tasks = list.Select(async w => {
 				try {
 					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}");
+				} catch (FurryNetworkClient.TokenException ex) {
+					return new WrapperMenuItem(w, $"{w.WrapperName} (cannot connect: {ex.Message})");
 				} catch (Exception) {
 					return new WrapperMenuItem(w, $"{w.WrapperName} (cannot connect)");
 				}
