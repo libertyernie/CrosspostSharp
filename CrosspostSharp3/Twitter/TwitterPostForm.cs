@@ -112,7 +112,7 @@ namespace CrosspostSharp3 {
 				await Auth.ExecuteOperationWithCredentials(
 					_credentials,
 					async () => {
-						IMedia media = Upload.UploadImage(_artworkData.data);
+						IMedia media = Upload.UploadBinary(_artworkData.data);
 						var tweet = await TweetAsync.PublishTweet(textBox1.Text, new Tweetinvi.Parameters.PublishTweetOptionalParameters {
 							PossiblySensitive = chkPotentiallySensitive.Checked,
 							Medias = new List<IMedia> { media }
