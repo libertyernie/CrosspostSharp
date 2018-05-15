@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace CrosspostSharp3 {
 	public static class HtmlConversion {
 		public static string ConvertHtmlToText(string html) {
+			html = html.Replace("<div><br></div>", "");
 			using (var w = new System.Windows.Forms.WebBrowser()) {
 				w.Navigate("about:blank");
 				w.Document.Write(html);
