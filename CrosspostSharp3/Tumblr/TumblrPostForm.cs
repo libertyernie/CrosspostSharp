@@ -44,7 +44,7 @@ namespace CrosspostSharp3 {
 				chkIncludeLink.Checked = false;
 			}
 
-			txtTags.Text = string.Join(" ", d.tags);
+			txtTags.Text = string.Join(", ", new[] { "my art" }.Concat(d.tags));
 
 			chkIncludeTitle.CheckedChanged += (o, e) => UpdateText();
 			chkIncludeDescription.CheckedChanged += (o, e) => UpdateText();
@@ -118,7 +118,7 @@ namespace CrosspostSharp3 {
 					new BinaryFile[] { imageToPost },
 					textBox1.Text,
 					_artworkData.url,
-					txtTags.Text.Replace("#", "").Split(' ').Where(s => s != ""));
+					txtTags.Text.Replace("#", "").Split(',').Select(s => s.Trim()).Where(s => s != ""));
 				PostCreationInfo info = await _client.CreatePostAsync(_blogName, post);
 				Close();
 			} catch (Exception ex) {

@@ -142,7 +142,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTags.Location = new System.Drawing.Point(49, 178);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(242, 20);
+            this.txtTags.Size = new System.Drawing.Size(262, 20);
             this.txtTags.TabIndex = 8;
             // 
             // chkMakeSquare

@@ -13,7 +13,7 @@ namespace CrosspostSharp3 {
 			using (var w = new System.Windows.Forms.WebBrowser()) {
 				w.Navigate("about:blank");
 				w.Document.Write(html);
-				return w.Document.Body.InnerText;
+				return w.Document.Body.InnerText.Trim();
 			}
 		}
 	}
