@@ -19,7 +19,7 @@ namespace ArtSourceWrapper {
         private readonly ITwitterCredentials _credentials;
 		private readonly bool _photosOnly;
 
-		public override string WrapperName => _photosOnly ? "Twitter (photos only)" : "Twitter (all)";
+		public override string WrapperName => _photosOnly ? "Twitter (photos)" : "Twitter (text + photos)";
 		public override bool SubmissionsFiltered => _photosOnly;
 
 		public override int BatchSize { get; set; } = 200;
