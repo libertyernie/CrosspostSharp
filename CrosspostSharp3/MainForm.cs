@@ -151,7 +151,8 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
-				list.Add(new TwitterWrapper(t.GetCredentials()));
+				list.Add(new TwitterWrapper(t.GetCredentials(), photosOnly: true));
+				list.Add(new TwitterWrapper(t.GetCredentials(), photosOnly: false));
 			}
 			foreach (var m in s.MediaRSS) {
 				lblLoadStatus.Text = $"Adding Media RSS feed ({m.name})...";

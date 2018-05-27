@@ -17,17 +17,20 @@ namespace ArtSourceWrapper {
 
     public class TwitterWrapper : SiteWrapper<TwitterSubmissionWrapper, long> {
         private readonly ITwitterCredentials _credentials;
-		
-        public override string WrapperName => "Twitter";
-		public override bool SubmissionsFiltered => true;
+		private readonly bool _photosOnly;
+
+		public override string WrapperName => _photosOnly ? "Twitter (photos only)" : "Twitter (all)";
+		public override bool SubmissionsFiltered => _photosOnly;
 
 		public override int BatchSize { get; set; } = 200;
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 200;
 
-        public TwitterWrapper(ITwitterCredentials credentials) {
+        public TwitterWrapper(ITwitterCredentials credentials, bool photosOnly = true) {
             _credentials = credentials;
-        }
+			_photosOnly = photosOnly;
+
+		}
 
         private IEnumerable<TwitterSubmissionWrapper> Wrap(IEnumerable<ITweet> tweets) {
             foreach (var t in tweets.OrderByDescending(t => t.CreatedAt)) {
@@ -38,6 +41,10 @@ namespace ArtSourceWrapper {
                         yield return new TwitterSubmissionWrapper(t, m, _credentials);
                     }
                 }
+
+				if (!_photosOnly && !t.Media.Any(m => m.MediaType == "photo")) {
+					yield return new TwitterSubmissionWrapper(t, null, _credentials);
+				}
             }
         }
 
@@ -97,7 +104,9 @@ namespace ArtSourceWrapper {
         public string Title => "";
         public string HTMLDescription {
             get {
-                string text = Tweet.FullText.Replace(Media.URL, "");
+                string text = Media == null
+					? Tweet.FullText
+					: Tweet.FullText.Replace(Media.URL, "");
                 return "<p>" + WebUtility.HtmlEncode(text).Replace("\n", "<br/>") + "</p>";
             }
         }
