@@ -167,10 +167,12 @@ namespace CrosspostSharp3 {
 			foreach (var t in s.Tumblr) {
 				if (tcf == null) tcf = new TumblrClientFactory();
 				lblLoadStatus.Text = $"Adding Tumblr ({t.blogName})...";
-				list.Add(new TumblrWrapper(tcf.Create<TumblrClient>(
+				var client = tcf.Create<TumblrClient>(
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
-					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret)), t.blogName));
+					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
+				list.Add(new TumblrWrapper(client, t.blogName, photosOnly: true));
+				list.Add(new TumblrWrapper(client, t.blogName, photosOnly: false));
 			}
 			foreach (var w in s.Weasyl) {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";

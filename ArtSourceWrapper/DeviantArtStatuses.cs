@@ -72,7 +72,7 @@ namespace ArtSourceWrapper {
 		}
 	}
 
-    public class DeviantArtStatusSubmissionWrapper : ISubmissionWrapper {
+    public class DeviantArtStatusSubmissionWrapper : ISubmissionWrapper, IStatusUpdate {
 		private Status _status;
 		public DeviantArtStatusSubmissionWrapper(Status status) {
 			_status = status;
@@ -99,5 +99,9 @@ namespace ArtSourceWrapper {
 		public Color? BorderColor => Mature
 			? Color.FromArgb(225, 141, 67)
 			: (Color?)null;
+
+		public bool PotentiallySensitive => Mature || Adult;
+		public bool HasPhoto => MainDeviation != null;
+		public IEnumerable<string> AdditionalLinks => OtherDeviations.Select(d => d.Url.AbsoluteUri);
 	}
 }

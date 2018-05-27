@@ -89,7 +89,7 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class TwitterSubmissionWrapper : ISubmissionWrapper, IDeletable {
+    public class TwitterSubmissionWrapper : ISubmissionWrapper, IStatusUpdate, IDeletable {
         public readonly ITweet Tweet;
         public readonly IMediaEntity Media;
 
@@ -122,6 +122,10 @@ namespace ArtSourceWrapper {
             : (Color?)null;
 		
 		public string SiteName => "Twitter";
+
+		public bool PotentiallySensitive => Mature || Adult;
+		public bool HasPhoto => Media != null;
+		public IEnumerable<string> AdditionalLinks => Tweet.Entities.Urls.Select(u => u.ExpandedURL);
 
 		public Task DeleteAsync() {
 			return Auth.ExecuteOperationWithCredentials(_credentials, async () => {

@@ -132,6 +132,14 @@ namespace ArtSourceWrapper {
         Color? BorderColor { get; }
     }
 
+	public interface IStatusUpdate {
+		bool PotentiallySensitive { get; }
+		string HTMLDescription { get; }
+
+		bool HasPhoto { get; }
+		IEnumerable<string> AdditionalLinks { get; }
+	}
+
 	public interface IDeletable {
 		Task DeleteAsync();
 		string SiteName { get; }
@@ -165,5 +173,5 @@ namespace ArtSourceWrapper {
         public string ImageURL => _base.ImageURL;
         public string ThumbnailURL => _base.ThumbnailURL;
         public Color? BorderColor => _base.BorderColor;
-    }
+	}
 }
