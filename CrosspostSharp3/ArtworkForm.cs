@@ -20,7 +20,7 @@ namespace CrosspostSharp3 {
 		private byte[] _data;
 		private string _contentType;
 		private string _url;
-		private IDeletable _originalWrapper;
+		private object _originalWrapper;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -104,8 +104,18 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					using (var f = new TwitterPostForm(t, Export())) {
-						f.ShowDialog(this);
+					if (_originalWrapper is IStatusUpdate status && !status.HasPhoto) {
+						string text = HtmlConversion.ConvertHtmlToText(wbrDescription.Document.Body.InnerHtml);
+						foreach (string link in status.AdditionalLinks) {
+							text += $" {link}";
+						}
+						using (var f = new TwitterNoPhotoPostForm(t, text, status.PotentiallySensitive)) {
+							f.ShowDialog(this);
+						}
+					} else {
+						using (var f = new TwitterPostForm(t, Export())) {
+							f.ShowDialog(this);
+						}
 					}
 				}));
 			}
@@ -171,7 +181,7 @@ namespace CrosspostSharp3 {
 		public async void LoadImage(ISubmissionWrapper wrapper) {
 			try {
 				LoadImage(await ArtworkData.DownloadAsync(wrapper));
-				_originalWrapper = wrapper as IDeletable;
+				_originalWrapper = wrapper;
 				btnDelete.Enabled = _originalWrapper is IDeletable;
 			} catch (Exception ex) {
 				splitContainer1.Panel1.Controls.Add(new TextBox {
