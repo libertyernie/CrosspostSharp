@@ -123,6 +123,7 @@ namespace ArtSourceWrapper {
 		
 		public string SiteName => "Twitter";
 
+		public string FullHTML => HTMLDescription;
 		public bool PotentiallySensitive => Mature || Adult;
 		public bool HasPhoto => Media != null;
 		public IEnumerable<string> AdditionalLinks => Tweet.Entities.Urls.Select(u => u.ExpandedURL);

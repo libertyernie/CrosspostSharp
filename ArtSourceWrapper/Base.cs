@@ -134,7 +134,7 @@ namespace ArtSourceWrapper {
 
 	public interface IStatusUpdate {
 		bool PotentiallySensitive { get; }
-		string HTMLDescription { get; }
+		string FullHTML { get; }
 
 		bool HasPhoto { get; }
 		IEnumerable<string> AdditionalLinks { get; }

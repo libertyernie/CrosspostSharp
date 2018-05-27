@@ -131,6 +131,9 @@ namespace ArtSourceWrapper {
 		public override string Title => Post.Title;
 		public override string HTMLDescription => Post.Body;
 
+		public string FullHTML => string.IsNullOrEmpty(Title)
+			? HTMLDescription
+			: $"<h1>{Title}</h1>{HTMLDescription}";
 		public bool PotentiallySensitive => Mature || Adult;
 		public bool HasPhoto => false;
 		public IEnumerable<string> AdditionalLinks => Enumerable.Empty<string>();

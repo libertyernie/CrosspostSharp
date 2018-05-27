@@ -100,6 +100,7 @@ namespace ArtSourceWrapper {
 			? Color.FromArgb(225, 141, 67)
 			: (Color?)null;
 
+		public string FullHTML => HTMLDescription;
 		public bool PotentiallySensitive => Mature || Adult;
 		public bool HasPhoto => MainDeviation != null;
 		public IEnumerable<string> AdditionalLinks => OtherDeviations.Select(d => d.Url.AbsoluteUri);
