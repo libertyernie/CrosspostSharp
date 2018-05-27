@@ -107,6 +107,13 @@ namespace CrosspostSharp3 {
 				saveAsToolStripMenuItem.Enabled = false;
 				exportAsToolStripMenuItem.Enabled = false;
 
+				if (settings.DeviantArt.RefreshToken != null) {
+					listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+						using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 						string text = HtmlConversion.ConvertHtmlToText(wbrDescription.Document.Body.InnerHtml);
@@ -146,6 +153,11 @@ namespace CrosspostSharp3 {
 								txtTags.Text.Split(' ').Where(s => s != ""),
 								chkMature.Checked || chkAdult.Checked,
 								_url);
+							f.ShowDialog(this);
+						}
+					}));
+					listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+						using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml, _data)) {
 							f.ShowDialog(this);
 						}
 					}));

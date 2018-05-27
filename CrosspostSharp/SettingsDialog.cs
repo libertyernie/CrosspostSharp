@@ -50,7 +50,7 @@ namespace CrosspostSharp {
                         OAuthConsumer.DeviantArt.CLIENT_SECRET,
                         new Uri("https://www.example.com"),
                         s => { },
-                        new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
+                        new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish, DeviantartApi.Login.Scope.UserManage });
                     if (result.IsLoginError) {
                         throw new Exception(result.LoginErrorText);
                     }

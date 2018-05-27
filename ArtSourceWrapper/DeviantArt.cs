@@ -24,7 +24,7 @@ namespace ArtSourceWrapper {
                 new Uri("https://www.example.com"),
                 refreshToken ?? "",
                 null,
-                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish });
+                new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish, DeviantartApi.Login.Scope.UserManage });
 
             if (result.IsLoginError) {
                 throw new DeviantArtException(result.LoginErrorText);

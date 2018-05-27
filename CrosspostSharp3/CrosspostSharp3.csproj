@@ -65,6 +65,12 @@
     <Compile Include="BatchExportForm.Designer.cs">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeviantArt\DeviantArtStatusUpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtStatusUpdateForm.Designer.cs">
+      <DependentUpon>DeviantArtStatusUpdateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Flickr\FlickrPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,6 +235,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BatchExportForm.resx">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviantArt\DeviantArtStatusUpdateForm.resx">
+      <DependentUpon>DeviantArtStatusUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FurryNetwork\FurryNetworkCharacterSelectionForm.resx">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
