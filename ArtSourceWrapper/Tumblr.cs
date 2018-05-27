@@ -65,9 +65,9 @@ namespace ArtSourceWrapper {
 			foreach (var post in posts) {
 				if (_blogNames.Contains(post.RebloggedRootName ?? post.BlogName)) {
 					if (post is PhotoPost p1) {
-						yield return new DeletableTumblrSubmissionWrapper(_client, p1);
+						yield return new TumblrPhotoPostSubmissionWrapper(_client, p1);
 					} else if (post is TextPost p2) {
-						yield return new TumblrTextPostSubmissionWrapper(p2);
+						yield return new TumblrTextPostSubmissionWrapper(_client, p2);
 					}
 				}
 			}
@@ -82,22 +82,39 @@ namespace ArtSourceWrapper {
         }
     }
 
-    public class TumblrSubmissionWrapper : ISubmissionWrapper {
-		public readonly PhotoPost Post;
-        
-		public TumblrSubmissionWrapper(PhotoPost post) {
-            Post = post;
-        }
+	public abstract class TumblrSubmissionWrapper<T> : ISubmissionWrapper, IDeletable where T : BasePost {
+		private readonly TumblrClient _client;
+		public readonly T Post;
+		
+		public TumblrSubmissionWrapper(TumblrClient client, T post) {
+			_client = client;
+			Post = post ?? throw new ArgumentNullException(nameof(post));
+		}
 
-        public string Title => "";
-        public string HTMLDescription => Post.Caption;
-        public bool Mature => false;
+		public virtual string Title => "";
+		public abstract string HTMLDescription { get; }
+		public bool Mature => false;
 		public bool Adult => false;
-        public IEnumerable<string> Tags => Post.Tags;
-        public DateTime Timestamp => Post.Timestamp;
-        public string ViewURL => Post.Url;
-        public string ImageURL => Post.Photo.OriginalSize.ImageUrl;
-        public string ThumbnailURL {
+		public IEnumerable<string> Tags => Post.Tags;
+		public DateTime Timestamp => Post.Timestamp;
+		public string ViewURL => Post.Url;
+		public virtual string ImageURL => $"https://api.tumblr.com/v2/blog/{Post.BlogName}.tumblr.com/avatar/512";
+		public virtual string ThumbnailURL => $"https://api.tumblr.com/v2/blog/{Post.BlogName}.tumblr.com/avatar/128";
+		public Color? BorderColor => null;
+		
+		public string SiteName => "Tumblr";
+
+		public async Task DeleteAsync() {
+			await _client.DeletePostAsync(Post.BlogName, Post.Id);
+		}
+	}
+
+    public class TumblrPhotoPostSubmissionWrapper : TumblrSubmissionWrapper<PhotoPost> {
+		public TumblrPhotoPostSubmissionWrapper(TumblrClient client, PhotoPost post) : base(client, post) { }
+		
+        public override string HTMLDescription => Post.Caption;
+        public override string ImageURL => Post.Photo.OriginalSize.ImageUrl;
+        public override string ThumbnailURL {
             get {
 				foreach (var alt in Post.Photo.AlternateSizes.OrderBy(s => s.Width)) {
                     if (alt.Width < 120 && alt.Height < 120) continue;
@@ -106,47 +123,16 @@ namespace ArtSourceWrapper {
                 return Post.Photo.OriginalSize.ImageUrl;
             }
         }
-        public Color? BorderColor => null;
 	}
 
-	public class TumblrTextPostSubmissionWrapper : ISubmissionWrapper, IStatusUpdate {
-		public readonly TextPost Post;
+	public class TumblrTextPostSubmissionWrapper : TumblrSubmissionWrapper<TextPost>, IStatusUpdate {
+		public TumblrTextPostSubmissionWrapper(TumblrClient client, TextPost post) : base(client, post) { }
 
-		public TumblrTextPostSubmissionWrapper(TextPost post) {
-			Post = post;
-		}
-
-		public string Title => "";
-		public string HTMLDescription => $"<h1>{Post.Title}</h1>{Post.Body}";
-		public bool Mature => false;
-		public bool Adult => false;
-		public IEnumerable<string> Tags => Post.Tags;
-		public DateTime Timestamp => Post.Timestamp;
-		public string ViewURL => Post.Url;
-		public string ImageURL => $"https://api.tumblr.com/v2/blog/{Post.BlogName}.tumblr.com/avatar/512";
-		public string ThumbnailURL => $"https://api.tumblr.com/v2/blog/{Post.BlogName}.tumblr.com/avatar/128";
-		public Color? BorderColor => null;
+		public override string Title => Post.Title;
+		public override string HTMLDescription => Post.Body;
 
 		public bool PotentiallySensitive => Mature || Adult;
 		public bool HasPhoto => false;
 		public IEnumerable<string> AdditionalLinks => Enumerable.Empty<string>();
-	}
-
-	public class DeletableTumblrSubmissionWrapper : TumblrSubmissionWrapper, IDeletable {
-		private readonly TumblrClient _client;
-		private readonly string _blogName;
-		private readonly long _id;
-
-		public DeletableTumblrSubmissionWrapper(TumblrClient client, PhotoPost post) : base(post) {
-			_client = client;
-			_blogName = post.BlogName;
-			_id = post.Id;
-		}
-
-		public string SiteName => "Tumblr";
-
-		public async Task DeleteAsync() {
-			await _client.DeletePostAsync(_blogName, _id);
-		}
 	}
 }
