@@ -133,7 +133,7 @@ namespace CrosspostSharp {
                 ITweet tweet = await Task.Run(() => {
                     return Auth.ExecuteOperationWithCredentials(TwitterCredentials, () => {
                         var options = new PublishTweetOptionalParameters {
-                            Medias = datas.Select(data => Upload.UploadImage(data)).ToList()
+                            Medias = datas.Select(data => Upload.UploadBinary(data)).ToList()
                         };
 
                         return Tweet.PublishTweet(text, options);

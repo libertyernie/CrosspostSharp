@@ -1048,7 +1048,7 @@ namespace CrosspostSharp {
                     var options = new PublishTweetOptionalParameters();
 
                     if (chkIncludeImage.Checked) {
-                        IMedia media = Upload.UploadImage(currentImage.Data);
+                        IMedia media = Upload.UploadBinary(currentImage.Data);
                         options.Medias = new List<IMedia> { media };
                     }
                     LProgressBar.Report(0.5);
