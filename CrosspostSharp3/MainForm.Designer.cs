@@ -41,11 +41,11 @@
             this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaRSSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pinterestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pixivToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.journalsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +55,6 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
-            this.pinterestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -129,37 +128,36 @@
             this.exportToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.exportToolStripMenuItem.Text = "&Export...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click_1);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accountSetupToolStripMenuItem,
-            this.journalsToolStripMenuItem});
+            this.accountSetupToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // accountSetupToolStripMenuItem
@@ -222,6 +220,13 @@
             this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
             this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
             // 
+            // pinterestToolStripMenuItem
+            // 
+            this.pinterestToolStripMenuItem.Name = "pinterestToolStripMenuItem";
+            this.pinterestToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pinterestToolStripMenuItem.Text = "&Pinterest";
+            this.pinterestToolStripMenuItem.Click += new System.EventHandler(this.pinterestToolStripMenuItem_Click);
+            // 
             // pixivToolStripMenuItem
             // 
             this.pixivToolStripMenuItem.Name = "pixivToolStripMenuItem";
@@ -250,33 +255,26 @@
             this.weasylToolStripMenuItem.Text = "&Weasyl";
             this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
             // 
-            // journalsToolStripMenuItem
-            // 
-            this.journalsToolStripMenuItem.Name = "journalsToolStripMenuItem";
-            this.journalsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.journalsToolStripMenuItem.Text = "&Journals...";
-            this.journalsToolStripMenuItem.Click += new System.EventHandler(this.journalsToolStripMenuItem_Click);
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpToolStripMenuItem1,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -341,13 +339,6 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
-            // pinterestToolStripMenuItem
-            // 
-            this.pinterestToolStripMenuItem.Name = "pinterestToolStripMenuItem";
-            this.pinterestToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pinterestToolStripMenuItem.Text = "&Pinterest";
-            this.pinterestToolStripMenuItem.Click += new System.EventHandler(this.pinterestToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -409,7 +400,6 @@
 		private System.Windows.Forms.ToolStripMenuItem flickrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem journalsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pinterestToolStripMenuItem;
 	}
 }

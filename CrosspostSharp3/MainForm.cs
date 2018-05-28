@@ -287,11 +287,5 @@ namespace CrosspostSharp3 {
 				f.ShowDialog(this);
 			}
 		}
-
-		private void journalsToolStripMenuItem_Click(object sender, EventArgs e) {
-			using (var f = new JournalForm()) {
-				f.ShowDialog(this);
-			}
-		}
 	}
 }
