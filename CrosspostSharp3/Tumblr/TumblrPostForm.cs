@@ -44,7 +44,7 @@ namespace CrosspostSharp3 {
 				chkIncludeLink.Checked = false;
 			}
 
-			txtTags.Text = string.Join(", ", new[] { "my art" }.Concat(d.tags));
+			txtTags.Text = string.Join(", ", (s.tags ?? Enumerable.Empty<string>()).Concat(d.tags));
 
 			chkIncludeTitle.CheckedChanged += (o, e) => UpdateText();
 			chkIncludeDescription.CheckedChanged += (o, e) => UpdateText();

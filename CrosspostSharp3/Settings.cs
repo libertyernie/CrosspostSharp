@@ -117,6 +117,7 @@ namespace CrosspostSharp3 {
 			public string tokenKey;
 			public string tokenSecret;
 			public string blogName;
+			public IEnumerable<string> tags;
 
 			string IAccountCredentials.Username => blogName;
 		}
