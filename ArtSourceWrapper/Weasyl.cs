@@ -63,14 +63,14 @@ namespace ArtSourceWrapper {
         /// </summary>
         /// <param name="startPosition">The nextid from the previous Weasyl search.</param>
         /// <param name="maxCount">The number of results to return.</param>
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int maxCount) {
+        protected override async Task<InternalFetchResult<int, int>> InternalFetchAsync(int? startPosition, int maxCount) {
             if (_username == null) {
                 _username = await WhoamiAsync();
             }
 
             var result = await Client.GetUserGalleryAsync(_username, nextid: startPosition, count: maxCount);
 
-            return new InternalFetchResult(
+            return new InternalFetchResult<int, int>(
                 result.submissions.Select(s => s.submitid),
                 result.nextid ?? 0,
                 isEnded: result.nextid == null
@@ -98,13 +98,13 @@ namespace ArtSourceWrapper {
         /// </summary>
         /// <param name="startPosition">The ID of the lowest (oldest) character already downloaded.</param>
         /// <param name="maxCount">Ignored.</param>
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int maxCount) {
+        protected override async Task<InternalFetchResult<int, int>> InternalFetchAsync(int? startPosition, int maxCount) {
             if (_username == null) {
                 _username = await WhoamiAsync();
             }
             List<int> all_ids = await Client.ScrapeCharacterIdsAsync(_username);
             
-            return new InternalFetchResult(
+            return new InternalFetchResult<int, int>(
                 all_ids,
                 all_ids.DefaultIfEmpty(0).Min(),
                 isEnded: true
@@ -134,7 +134,7 @@ namespace ArtSourceWrapper {
             return _idWrapper.GetUserIconAsync();
         }
 
-        protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected async override Task<InternalFetchResult<WeasylSubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
             int skip = startPosition ?? 0;
 
             while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
@@ -150,7 +150,7 @@ namespace ArtSourceWrapper {
                 ? Enumerable.Empty<WeasylSubmissionWrapper>()
                 : new[] { new WeasylSubmissionWrapper(await task) };
 
-            return new InternalFetchResult(wrappers, skip + 1, !_idWrapper.Cache.Skip(skip + 1).Any() && _idWrapper.IsEnded);
+            return new InternalFetchResult<WeasylSubmissionWrapper, int>(wrappers, skip + 1, !_idWrapper.Cache.Skip(skip + 1).Any() && _idWrapper.IsEnded);
         }
     }
 

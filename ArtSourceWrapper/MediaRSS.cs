@@ -42,7 +42,7 @@ namespace ArtSourceWrapper {
 			return Task.FromResult(_name);
 		}
 
-		protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+		protected override async Task<InternalFetchResult<MediaRSSItemWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
 			Uri url = _urls.Skip(startPosition ?? 0).FirstOrDefault();
 			if (url == null) throw new NotImplementedException("Cannot jump ahead here - please start at 0");
 
@@ -65,7 +65,7 @@ namespace ArtSourceWrapper {
 					if (q.Any()) _urls.Add(q.First());
 				}
 
-				return new InternalFetchResult(
+				return new InternalFetchResult<MediaRSSItemWrapper, int>(
 					wrappers,
 					nextPosition,
 					!_urls.Skip(nextPosition).Any());

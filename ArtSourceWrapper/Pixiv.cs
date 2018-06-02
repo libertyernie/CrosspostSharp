@@ -58,10 +58,10 @@ namespace ArtSourceWrapper {
 			return _user.Name;
 		}
 
-		protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+		protected override async Task<InternalFetchResult<PixivSubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
 			await Login();
 			var result = await _tokens.GetUserWorksAsync(_user.Id.Value, offset: startPosition ?? 0);
-			return new InternalFetchResult(result.illusts.Select(i => new PixivSubmissionWrapper(i)),
+			return new InternalFetchResult<PixivSubmissionWrapper, int>(result.illusts.Select(i => new PixivSubmissionWrapper(i)),
 				result.illusts.Length + (startPosition ?? 0),
 				result.next_url != null);
 		}

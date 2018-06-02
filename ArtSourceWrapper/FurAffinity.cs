@@ -38,12 +38,12 @@ namespace ArtSourceWrapper {
             return user.avatar;
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected override async Task<InternalFetchResult<int, int>> InternalFetchAsync(int? startPosition, int count) {
             string username = await WhoamiAsync();
 
             int pos = startPosition ?? 1;
             var result = await _client.GetSubmissionIdsAsync(username, _folder, pos);
-            return new InternalFetchResult(result, pos + 1, isEnded: !result.Any());
+            return new InternalFetchResult<int, int>(result, pos + 1, isEnded: !result.Any());
         }
 
         public async Task<FurAffinitySubmissionWrapper> GetSubmissionDetails(int id) {
@@ -73,7 +73,7 @@ namespace ArtSourceWrapper {
             return _idWrapper.GetUserIconAync();
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected override async Task<InternalFetchResult<FurAffinitySubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
             int skip = startPosition ?? 0;
             
             while (_idWrapper.Cache.Count() < skip + 1 && !_idWrapper.IsEnded) {
@@ -89,7 +89,7 @@ namespace ArtSourceWrapper {
                 ? Enumerable.Empty<FurAffinitySubmissionWrapper>()
                 : new[] { await task };
 
-            return new InternalFetchResult(wrappers, skip + 1, !_idWrapper.Cache.Skip(skip + 1).Any() && _idWrapper.IsEnded);
+            return new InternalFetchResult<FurAffinitySubmissionWrapper, int>(wrappers, skip + 1, !_idWrapper.Cache.Skip(skip + 1).Any() && _idWrapper.IsEnded);
         }
     }
 

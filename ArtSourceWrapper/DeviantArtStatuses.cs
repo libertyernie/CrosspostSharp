@@ -46,7 +46,7 @@ namespace ArtSourceWrapper {
 			}
 		}
 
-        protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+        protected async override Task<InternalFetchResult<DeviantArtStatusSubmissionWrapper, uint>> InternalFetchAsync(uint? startPosition, int count) {
             uint skip = startPosition ?? 0;
             uint take = (uint)Math.Max(MinBatchSize, Math.Min(MaxBatchSize, BatchSize));
 
@@ -60,7 +60,7 @@ namespace ArtSourceWrapper {
 			if (!string.IsNullOrEmpty(resp.Result.Error)) {
 				throw new DeviantArtException(resp.Result.ErrorDescription);
 			}
-			return new InternalFetchResult(Wrap(resp.Result.Results), skip + take, !resp.Result.HasMore);
+			return new InternalFetchResult<DeviantArtStatusSubmissionWrapper, uint>(Wrap(resp.Result.Results), skip + take, !resp.Result.HasMore);
 		}
 
 		public static async Task<bool> LogoutAsync() {

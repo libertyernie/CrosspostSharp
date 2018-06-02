@@ -23,7 +23,7 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 100;
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int maxCount) {
+        protected override async Task<InternalFetchResult<InkbunnySubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int maxCount) {
             var response = startPosition == null
                 ? await _client.SearchAsync(
                     new InkbunnySearchParameters { UserId = _client.UserId, DaysLimit = 30 },
@@ -33,7 +33,7 @@ namespace ArtSourceWrapper {
                     maxCount);
             
             if (response.pages_count < (startPosition ?? 1)) {
-                return new InternalFetchResult(response.page + 1, isEnded: true);
+                return new InternalFetchResult<InkbunnySubmissionWrapper, int>(response.page + 1, isEnded: true);
             }
 
             _rid = response.rid;
@@ -42,7 +42,7 @@ namespace ArtSourceWrapper {
                 .Where(s => s.@public)
                 .OrderByDescending(s => s.create_datetime)
                 .Select(s => new DeletableInkbunnySubmissionWrapper(_client, s));
-            return new InternalFetchResult(wrappers, response.page + 1);
+            return new InternalFetchResult<InkbunnySubmissionWrapper, int>(wrappers, response.page + 1);
         }
 
         public override async Task<string> WhoamiAsync() {

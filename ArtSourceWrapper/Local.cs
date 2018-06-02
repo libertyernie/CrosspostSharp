@@ -83,10 +83,10 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected override Task<InternalFetchResult<LocalFileSubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
             var wrappers = Wrap().Take(count).ToList();
             var isEnded = _fileStack?.Any() != true;
-            return Task.FromResult(new InternalFetchResult(wrappers, 0, isEnded));
+            return Task.FromResult(new InternalFetchResult<LocalFileSubmissionWrapper, int>(wrappers, 0, isEnded));
         }
     }
 

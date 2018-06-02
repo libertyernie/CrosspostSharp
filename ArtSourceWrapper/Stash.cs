@@ -41,7 +41,7 @@ namespace ArtSourceWrapper {
             return _user.UserIconUrl.AbsoluteUri;
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+        protected override async Task<InternalFetchResult<StashSubmissionWrapper, uint>> InternalFetchAsync(uint? startPosition, int count) {
             var result = await new DeviantartApi.Requests.Stash.DeltaRequest() {
                 Offset = startPosition,
                 Limit = (uint)count
@@ -57,7 +57,7 @@ namespace ArtSourceWrapper {
                     .Where(e => e.ItemId != 0)
                     .Where(e => e.Metadata.Files != null)
                     .Select(e => new StashSubmissionWrapper(e));
-            return new InternalFetchResult(
+            return new InternalFetchResult<StashSubmissionWrapper, uint>(
                 q,
                 (uint)(result.Result.NextOffset ?? 0),
                 !result.Result.HasMore);
@@ -87,7 +87,7 @@ namespace ArtSourceWrapper {
             return _wrapper.GetUserIconAsync(size);
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected override async Task<InternalFetchResult<StashSubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
             for (int i=0; i<10; i++) {
                 int read = await _wrapper.FetchAsync();
                 if (read == -1) break;
@@ -97,7 +97,7 @@ namespace ArtSourceWrapper {
             }
 
             AsynchronousCachedEnumerable<StashSubmissionWrapper, uint> w = _wrapper;
-            return new InternalFetchResult(w.Cache.OrderByDescending(c => c.Timestamp), 0, true);
+            return new InternalFetchResult<StashSubmissionWrapper, int>(w.Cache.OrderByDescending(c => c.Timestamp), 0, true);
         }
     }
 

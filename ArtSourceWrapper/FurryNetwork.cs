@@ -54,11 +54,11 @@ namespace ArtSourceWrapper {
 			return character.Name;
 		}
 
-		protected override async Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+		protected override async Task<InternalFetchResult<FurryNetworkSubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
 			var character = await GetCharacter();
 			var searchResults = await _client.SearchByCharacterAsync(character.Name, new[] { "artwork" }, from: startPosition ?? 0);
 			int nextPosition = (startPosition ?? 0) + searchResults.Hits.Count();
-			return new InternalFetchResult(
+			return new InternalFetchResult<FurryNetworkSubmissionWrapper, int>(
 				searchResults.Hits
 					.Select(h => h.Submission)
 					.Where(h => h is Artwork || h is Photo)

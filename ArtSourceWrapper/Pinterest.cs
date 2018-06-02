@@ -52,14 +52,14 @@ namespace ArtSourceWrapper {
 			return Task.FromResult(BoardName);
 		}
 
-		protected override async Task<InternalFetchResult> InternalFetchAsync(PinterestCursor? startPosition, int count) {
+		protected override async Task<InternalFetchResult<PinterestSubmissionWrapper, PinterestWrapper.PinterestCursor>> InternalFetchAsync(PinterestCursor? startPosition, int count) {
 			var pins = startPosition == null
 				? await _client.Boards.GetPinsAsync(BoardName, BatchSize)
 				: await _client.Boards.GetPinsAsync(BoardName, startPosition.Value.cursor, BatchSize);
 			if (pins == null) {
 				throw new Exception($"No pins returned. Board name \"{BoardName}\" may be invalid.");
 			}
-			return new InternalFetchResult(
+			return new InternalFetchResult<PinterestSubmissionWrapper, PinterestWrapper.PinterestCursor>(
 				pins.Select(p => new PinterestSubmissionWrapper(p)),
 				new PinterestCursor(pins.NextPageCursor),
 				pins.NextPageCursor == null);

@@ -24,8 +24,8 @@ namespace ArtSourceWrapper {
             return Task.FromResult<string>(null);
         }
 
-        protected override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
-            return Task.FromResult(new InternalFetchResult(0, true));
+        protected override Task<InternalFetchResult<ISubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
+            return Task.FromResult(new InternalFetchResult<ISubmissionWrapper, int>(0, true));
         }
     }
 }

@@ -68,7 +68,7 @@ namespace ArtSourceWrapper {
                 : $"https://www.flickr.com/images/buddyicon.gif";
         }
 
-        protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
+        protected async override Task<InternalFetchResult<FlickrSubmissionWrapper, int>> InternalFetchAsync(int? startPosition, int count) {
             var t = new TaskCompletionSource<PhotoCollection>();
             _flickr.PeopleGetPhotosAsync("me",
                 PhotoSearchExtras.Description | PhotoSearchExtras.Tags | PhotoSearchExtras.DateUploaded | PhotoSearchExtras.OriginalFormat,
@@ -83,7 +83,7 @@ namespace ArtSourceWrapper {
                 });
             var r = await t.Task;
 
-            return new InternalFetchResult(r.Select(p => new FlickrSubmissionWrapper(p)), r.Page + 1, r.Page == r.Pages);
+            return new InternalFetchResult<FlickrSubmissionWrapper, int>(r.Select(p => new FlickrSubmissionWrapper(p)), r.Page + 1, r.Page == r.Pages);
         }
     }
 

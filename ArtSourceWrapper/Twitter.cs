@@ -58,7 +58,7 @@ namespace ArtSourceWrapper {
             return _user;
         }
 
-        protected override async Task<InternalFetchResult> InternalFetchAsync(long? startPosition, int maxCount) {
+        protected override async Task<InternalFetchResult<TwitterSubmissionWrapper, long>> InternalFetchAsync(long? startPosition, int maxCount) {
             return await Auth.ExecuteOperationWithCredentials(_credentials, async () => {
                 var ps = new UserTimelineParameters {
                     ExcludeReplies = false,
@@ -73,10 +73,10 @@ namespace ArtSourceWrapper {
 
                 // If no tweets were returned, then there are no more tweets
                 if (!tweets.Any()) {
-                    return new InternalFetchResult(ps.MaxId, isEnded: true);
+                    return new InternalFetchResult<TwitterSubmissionWrapper, long>(ps.MaxId, isEnded: true);
                 }
 
-                return new InternalFetchResult(Wrap(tweets), tweets.Select(t => t.Id).Min() - 1);
+                return new InternalFetchResult<TwitterSubmissionWrapper, long>(Wrap(tweets), tweets.Select(t => t.Id).Min() - 1);
             });
         }
 

@@ -46,7 +46,7 @@ namespace ArtSourceWrapper {
 			}
 		}
 
-		protected override async Task<InternalFetchResult> InternalFetchAsync(DateTime? startPosition, int count) {
+		protected override async Task<InternalFetchResult<ISubmissionWrapper, DateTime>> InternalFetchAsync(DateTime? startPosition, int count) {
 			DateTime start = startPosition ?? DateTime.MaxValue;
 
 			var found = (await Task.WhenAll(_wrappers.Select(w => FetchIfNeeded(w, start)))).SelectMany(s => s);
@@ -60,7 +60,7 @@ namespace ArtSourceWrapper {
 
 			var items = found
 				.Where(s => s.Timestamp == ts);
-			return new InternalFetchResult(items, nextPosition, _wrappers.All(w => w.IsEnded));
+			return new InternalFetchResult<ISubmissionWrapper, DateTime>(items, nextPosition, _wrappers.All(w => w.IsEnded));
 		}
 
 		public override string ToString() {

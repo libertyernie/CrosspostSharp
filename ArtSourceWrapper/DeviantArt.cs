@@ -38,7 +38,7 @@ namespace ArtSourceWrapper {
         public override int MinBatchSize => 1;
         public override int MaxBatchSize => 24;
 
-		protected override async Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+		protected override async Task<InternalFetchResult<Deviation, uint>> InternalFetchAsync(uint? startPosition, int count) {
             uint maxCount = (uint)Math.Max(MinBatchSize, Math.Min(MaxBatchSize, count));
             uint position = startPosition ?? 0;
 
@@ -54,7 +54,7 @@ namespace ArtSourceWrapper {
                 throw new DeviantArtException(galleryResponse.Result.ErrorDescription);
             }
 
-            return new InternalFetchResult(
+            return new InternalFetchResult<Deviation, uint>(
                 galleryResponse.Result.Results,
                 position + (uint)galleryResponse.Result.Results.Count,
                 !galleryResponse.Result.HasMore);
@@ -108,7 +108,7 @@ namespace ArtSourceWrapper {
             }
         }
 
-        protected async override Task<InternalFetchResult> InternalFetchAsync(uint? startPosition, int count) {
+        protected async override Task<InternalFetchResult<DeviantArtSubmissionWrapper, uint>> InternalFetchAsync(uint? startPosition, int count) {
             uint skip = startPosition ?? 0;
             int take = Math.Max(MinBatchSize, Math.Min(MaxBatchSize, BatchSize));
 
@@ -131,7 +131,7 @@ namespace ArtSourceWrapper {
 
             var wrappers = Wrap(deviations, metadataResponse.Result.Metadata);
 
-            return new InternalFetchResult(wrappers, skip + (uint)take, !_idWrapper.Cache.Skip((int)skip + take).Any() && _idWrapper.IsEnded);
+            return new InternalFetchResult<DeviantArtSubmissionWrapper, uint>(wrappers, skip + (uint)take, !_idWrapper.Cache.Skip((int)skip + take).Any() && _idWrapper.IsEnded);
 		}
 
 		public static async Task<bool> LogoutAsync() {
