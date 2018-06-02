@@ -35,6 +35,7 @@ type public TumblrWrapper(client: TumblrClient, blogName: string, photosOnly: bo
             let position =
                 if startPosition.HasValue then startPosition.Value
                 else int64 0
+            let count = maxCount |> max this.MinBatchSize |> min this.MaxBatchSize
 
             let t = if photosOnly then PostType.Photo else PostType.All
 
@@ -42,7 +43,7 @@ type public TumblrWrapper(client: TumblrClient, blogName: string, photosOnly: bo
                 Async.AwaitTask <| client.GetPostsAsync(
                     blogName,
                     position,
-                    maxCount,
+                    count,
                     t,
                     true)
             

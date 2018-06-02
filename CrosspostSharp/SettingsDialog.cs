@@ -1,4 +1,5 @@
 ﻿using ArtSourceWrapper;
+using ArtSourceWrapperFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -186,7 +187,7 @@ namespace CrosspostSharp {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
                 try {
-                    string username = (await DeviantArtWrapper.GetUserAsync()).Username;
+					string username = await new DeviantArtWrapper().WhoamiAsync();
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
                     lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {

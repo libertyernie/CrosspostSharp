@@ -117,7 +117,7 @@ namespace CrosspostSharp {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    lblDeviantArtStatus2.Text = (await DeviantArtWrapper.GetUserAsync()).Username;
+					lblDeviantArtStatus2.Text = await new DeviantArtWrapper().WhoamiAsync();
                     return;
                 } catch (DeviantArtException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;

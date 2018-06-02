@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="DeviantArtWrapper.fs" />
     <Compile Include="TumblrWrapper.fs" />
   </ItemGroup>
 
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj" />
+    <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
   </ItemGroup>
 
 </Project>
