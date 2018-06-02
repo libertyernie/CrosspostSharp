@@ -1,4 +1,5 @@
 ﻿using ArtSourceWrapper;
+using ArtSourceWrapperFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;

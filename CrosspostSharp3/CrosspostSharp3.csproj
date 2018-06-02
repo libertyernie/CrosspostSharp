@@ -310,6 +310,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArtSourceWrapperFs\ArtSourceWrapperFs.fsproj">
+      <Project>{3ab0fe4b-f3f8-4f9c-a317-6514caf00db6}</Project>
+      <Name>ArtSourceWrapperFs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
       <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
       <Name>ArtSourceWrapper</Name>

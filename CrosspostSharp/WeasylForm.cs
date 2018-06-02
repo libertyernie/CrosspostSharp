@@ -20,6 +20,7 @@ using ArtSourceWrapper;
 using FlickrNet;
 using System.Drawing.Imaging;
 using FurryNetworkLib;
+using ArtSourceWrapperFs;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -162,7 +163,7 @@ namespace CrosspostSharp {
                 }
 
                 if (Tumblr != null) {
-                    wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
+                    wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName, true));
                 }
 
                 if (Flickr != null) {
