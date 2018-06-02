@@ -6,37 +6,9 @@ open DeviantartApi.Requests
 open System
 open System.Threading.Tasks
 
-type internal DeviantArtInternalWrapper() =
-    inherit AsynchronousCachedEnumerable<Deviation, uint32>()
-
-    override val BatchSize = 24 with get, set
-    override this.MinBatchSize = 1
-    override this.MaxBatchSize = 24
-
-    override this.InternalFetchAsync(startPosition, count) =
-        Async.StartAsTask (async {
-            let position = if startPosition.HasValue then startPosition.Value else uint32 0
-            
-            let galleryRequest = Gallery.AllRequest()
-            galleryRequest.Limit <- count |> max this.MinBatchSize |> min this.MaxBatchSize |> uint32 |> Nullable
-            galleryRequest.Offset <- position |> Nullable
-
-            let! galleryResponse = Async.AwaitTask <| galleryRequest.GetNextPageAsync()
-
-            if galleryResponse.IsError then
-                failwith galleryResponse.ErrorText
-            else if galleryResponse.Result.Error |> (not << String.IsNullOrEmpty) then
-                failwith galleryResponse.Result.ErrorDescription
-
-            return InternalFetchResult(galleryResponse.Result.Results, position + uint32 galleryResponse.Result.Results.Count, not galleryResponse.Result.HasMore)
-        })
-
 type public DeviantArtWrapper() =
     inherit SiteWrapper<DeviantArtSubmissionWrapper, int32>()
-
-    let idWrapper = DeviantArtInternalWrapper()
-    let maxBatch = min 50 idWrapper.MaxBatchSize
-
+    
     let getUser =
         let workflow = async {
             let! result = Async.AwaitTask <| User.WhoAmIRequest().ExecuteAsync()
@@ -58,8 +30,8 @@ type public DeviantArtWrapper() =
     override this.SubmissionsFiltered = true
 
     override this.MinBatchSize = 1
-    override this.MaxBatchSize = maxBatch
-    override val BatchSize = maxBatch with get, set
+    override this.MaxBatchSize = 24
+    override val BatchSize = 24 with get, set
 
     override this.WhoamiAsync() = Async.StartAsTask <| async {
         let! user = getUser()
@@ -74,25 +46,23 @@ type public DeviantArtWrapper() =
     override this.InternalFetchAsync(startPosition, count) = Async.StartAsTask <| async {
         let skip = if startPosition.HasValue then startPosition.Value else 0
         let take = count |> max this.MinBatchSize |> min this.MaxBatchSize
-        
-        idWrapper.BatchSize <- this.BatchSize
-
-        let countWanted = skip + take
-        while Seq.length idWrapper.Cache < countWanted && not idWrapper.IsEnded do
-            do! idWrapper.FetchAsync() |> Async.AwaitTask |> Async.Ignore
-
-        let skipSafe num = 
-            Seq.zip (Seq.initInfinite id)
-            >> Seq.skipWhile (fun (i, _) -> i < num)
-            >> Seq.map snd
-
-        let deviations =
-            idWrapper.Cache
-            |> skipSafe skip
-            |> Seq.truncate take
-            |> Seq.filter (fun d -> d.Content |> (not << isNull))
     
         let execute (r: Request<'a>) = r.ExecuteAsync() |> Async.AwaitTask
+        
+        let galleryRequest = Gallery.AllRequest()
+        galleryRequest.Limit <- take |> uint32 |> Nullable
+        galleryRequest.Offset <- skip |> uint32 |> Nullable
+
+        let! galleryResponse = galleryRequest |> execute
+
+        if galleryResponse.IsError then
+            failwith galleryResponse.ErrorText
+        else if galleryResponse.Result.Error |> (not << String.IsNullOrEmpty) then
+            failwith galleryResponse.Result.ErrorDescription
+            
+        let deviations =
+            galleryResponse.Result.Results
+            |> Seq.filter (fun d -> d.Content |> (not << isNull))
 
         let! result =
             deviations
@@ -117,16 +87,8 @@ type public DeviantArtWrapper() =
         let wrappers =
             deviations
             |> Seq.map (fun d -> DeviantArtSubmissionWrapper(d, d.DeviationId |> metadataForId |> noneToNull))
-
-        let moreIdsCached =
-            idWrapper.Cache
-            |> skipSafe skip
-            |> skipSafe take
-            |> (not << Seq.isEmpty)
-
-        let moreIdsAvailable = not idWrapper.IsEnded
-
-        return InternalFetchResult(wrappers, skip + take, (not moreIdsCached && not moreIdsAvailable))
+            
+        return InternalFetchResult(wrappers, skip + take, not galleryResponse.Result.HasMore)
     }
 
     static member LogoutAsync() = Async.StartAsTask <| async {
