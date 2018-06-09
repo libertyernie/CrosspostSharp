@@ -101,6 +101,7 @@
     <Compile Include="MetaWrapper.cs" />
     <Compile Include="Pinterest.cs" />
     <Compile Include="Pixiv.cs" />
+    <Compile Include="SourceWrapperWrapper.cs" />
     <Compile Include="Stash.cs" />
     <Compile Include="Tumblr.cs" />
     <Compile Include="Twitter.cs" />
@@ -131,6 +132,10 @@
     <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj">
       <Project>{337daf53-dcc0-477d-a7b9-5c4c37547292}</Project>
       <Name>PixivAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj">
+      <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
+      <Name>SourceWrappers</Name>
     </ProjectReference>
     <ProjectReference Include="..\WeasylLib\WeasylLib.csproj">
       <Project>{f0d78011-193f-44eb-9189-7462877c13a9}</Project>
