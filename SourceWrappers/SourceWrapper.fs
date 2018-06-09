@@ -14,32 +14,15 @@ type IPostWrapper =
     abstract member ThumbnailURL: string with get
 
 [<AbstractClass>]
-type SourceWrapper() =
+type SourceWrapper<'cursor when 'cursor : struct>() =
     abstract member Name: string with get
     abstract member SubmissionsFiltered: bool with get
     
-    abstract member Fetch: int -> int -> Async<seq<IPostWrapper>>
+    abstract member Fetch: 'cursor option -> int -> Async<'cursor * seq<IPostWrapper>>
     abstract member Whoami: unit -> Async<string>
     abstract member GetUserIcon: int -> Async<string>
-
-    member this.FetchAsync (skip, take) = this.Fetch skip take |> Async.StartAsTask
+    
+    member this.StartAsync take = this.Fetch None take |> Async.StartAsTask
+    member this.MoreAsync skip take = this.Fetch skip take |> Async.StartAsTask
     member this.WhoamiAsync () = this.Whoami () |> Async.StartAsTask
     member this.GetUserIconAsync size = this.GetUserIcon size |> Async.StartAsTask
-
-type SampleWrapper2(folder: string) =
-    inherit SourceWrapper()
-
-    override this.Name with get() = ""
-    override this.SubmissionsFiltered with get() = false
-
-    override this.Fetch skip take = async {
-        return Seq.empty
-    }
-
-    override this.Whoami () = async {
-        return "user"
-    }
-
-    override this.GetUserIcon size = async {
-        return null;
-    }

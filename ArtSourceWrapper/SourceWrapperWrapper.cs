@@ -26,10 +26,10 @@ namespace ArtSourceWrapper {
 		public Color? BorderColor => null;
 	}
 
-	public class SourceWrapperWrapper : SiteWrapper<PostWrapperWrapper, int> {
-		private readonly SourceWrapper _source;
+	public class SourceWrapperWrapper<TCursor> : SiteWrapper<PostWrapperWrapper, TCursor> where TCursor : struct {
+		private readonly SourceWrapper<TCursor> _source;
 
-		public SourceWrapperWrapper(SourceWrapper source) {
+		public SourceWrapperWrapper(SourceWrapper<TCursor> source) {
 			_source = source ?? throw new ArgumentNullException(nameof(source));
 		}
 
@@ -49,10 +49,11 @@ namespace ArtSourceWrapper {
 			return _source.GetUserIconAsync(size);
 		}
 
-		protected async override Task<InternalFetchResult> InternalFetchAsync(int? startPosition, int count) {
-			int startPos = startPosition ?? 0;
-			var got = await _source.FetchAsync(startPos, count);
-			return new InternalFetchResult(got.Select(w => new PostWrapperWrapper(w)), startPos + count, false);
+		protected async override Task<InternalFetchResult> InternalFetchAsync(TCursor? startPosition, int count) {
+			var got = startPosition is TCursor cursor
+				? await _source.MoreAsync(cursor, count)
+				: await _source.StartAsync(count);
+			return new InternalFetchResult(got.Item2.Select(w => new PostWrapperWrapper(w)), got.Item1, false);
 		}
 	}
 }

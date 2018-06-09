@@ -50,7 +50,7 @@ type TumblrTextPostWrapper(client: TumblrClient, post: TextPost) =
     override this.HTMLDescription = post.Body
 
 type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
-    inherit SourceWrapper()
+    inherit SourceWrapper<int64>()
 
     let mutable blogNames: seq<string> = null
 
@@ -62,22 +62,24 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
 
     override this.SubmissionsFiltered = false
 
-    override this.Fetch skip take = async {
+    override this.Fetch cursor take = async {
         if isNull blogNames then
             let! user = client.GetUserInfoAsync() |> Async.AwaitTask
             blogNames <- user.Blogs |> Seq.map (fun b -> b.Name)
 
         let t = if photosOnly then PostType.Photo else PostType.All
 
+        let skip = cursor |> Option.defaultValue (int64 0)
+
         let! posts =
             Async.AwaitTask <| client.GetPostsAsync(
                 blogName,
-                int64 skip,
+                skip ,
                 take,
                 t,
                 true)
                 
-        return seq {
+        let wrapped = seq {
             for post in posts.Result do
                 let postBlogName =
                     if not (isNull post.RebloggedRootName)
@@ -89,12 +91,18 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
                     | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) :> IPostWrapper
                     | _ -> ()
         }
+        return (skip + (int64 take), wrapped)
     }
 
     override this.Whoami () = async {
-        return "user"
+        return blogName
     }
 
     override this.GetUserIcon size = async {
-        return null;
+        let blogHostname =
+            if blogName.Contains(".") then
+                sprintf "%s.tumblr.com" blogName
+            else
+                blogName
+        return sprintf "https://api.tumblr.com/v2/blog/%s/avatar/%d" blogHostname size
     }
