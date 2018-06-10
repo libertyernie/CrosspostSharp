@@ -91,7 +91,10 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
                     | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) :> IPostWrapper
                     | _ -> ()
         }
-        return (skip + (int64 take), wrapped)
+        return {
+            Posts = wrapped
+            Next = skip + (int64 take)
+        }
     }
 
     override this.Whoami () = async {

@@ -53,7 +53,7 @@ namespace ArtSourceWrapper {
 			var got = startPosition is TCursor cursor
 				? await _source.MoreAsync(cursor, count)
 				: await _source.StartAsync(count);
-			return new InternalFetchResult(got.Item2.Select(w => new PostWrapperWrapper(w)), got.Item1, false);
+			return new InternalFetchResult(got.Posts.Select(w => new PostWrapperWrapper(w)), got.Next, false);
 		}
 	}
 }
