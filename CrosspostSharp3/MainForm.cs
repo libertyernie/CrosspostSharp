@@ -172,8 +172,8 @@ namespace CrosspostSharp3 {
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-				list.Add(new SourceWrapperWrapper<long>(new TumblrWrapper2(client, t.blogName, photosOnly: true)));
-				list.Add(new SourceWrapperWrapper<long>(new TumblrWrapper2(client, t.blogName, photosOnly: false)));
+				list.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(client, t.blogName, photosOnly: true)));
+				list.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(client, t.blogName, photosOnly: false)));
 			}
 			foreach (var w in s.Weasyl) {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";

@@ -49,7 +49,7 @@ type TumblrTextPostWrapper(client: TumblrClient, post: TextPost) =
 
     override this.HTMLDescription = post.Body
 
-type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
+type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: bool) =
     inherit SourceWrapper<int64>()
 
     let mutable blogNames: seq<string> = null
@@ -59,8 +59,6 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
             "Tumblr (photos) (F#)"
         else
             "Tumblr (text + photos) (F#)"
-
-    override this.SubmissionsFiltered = true
 
     override this.Fetch cursor take = async {
         if isNull blogNames then
@@ -74,7 +72,7 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
         let! posts =
             Async.AwaitTask <| client.GetPostsAsync(
                 blogName,
-                skip ,
+                skip,
                 take,
                 t,
                 true)
@@ -94,6 +92,7 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
         return {
             Posts = wrapped
             Next = skip + (int64 take)
+            HasMore = posts.Result.Length > 0
         }
     }
 

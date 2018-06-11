@@ -16,18 +16,18 @@ type IPostWrapper =
 type FetchResult<'cursor when 'cursor : struct> = {
     Posts: seq<IPostWrapper>
     Next: 'cursor
+    HasMore: bool
 }
 
 [<AbstractClass>]
 type SourceWrapper<'cursor when 'cursor : struct>() =
     abstract member Name: string with get
-    abstract member SubmissionsFiltered: bool with get
     
     abstract member Fetch: 'cursor option -> int -> Async<FetchResult<'cursor>>
     abstract member Whoami: unit -> Async<string>
     abstract member GetUserIcon: int -> Async<string>
     
     member this.StartAsync take = this.Fetch None take |> Async.StartAsTask
-    member this.MoreAsync skip take = this.Fetch skip take |> Async.StartAsTask
+    member this.MoreAsync cursor take = this.Fetch cursor take |> Async.StartAsTask
     member this.WhoamiAsync () = this.Whoami () |> Async.StartAsTask
     member this.GetUserIconAsync size = this.GetUserIcon size |> Async.StartAsTask

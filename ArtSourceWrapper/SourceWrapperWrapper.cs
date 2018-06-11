@@ -34,9 +34,9 @@ namespace ArtSourceWrapper {
 		}
 
 		public override string WrapperName => _source.Name;
-		public override bool SubmissionsFiltered => _source.SubmissionsFiltered;
+		public override bool SubmissionsFiltered => true;
 
-		public override int BatchSize { get; set; } = 5;
+		public override int BatchSize { get; set; } = 20;
 
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 200;
@@ -53,7 +53,7 @@ namespace ArtSourceWrapper {
 			var got = startPosition is TCursor cursor
 				? await _source.MoreAsync(cursor, count)
 				: await _source.StartAsync(count);
-			return new InternalFetchResult(got.Posts.Select(w => new PostWrapperWrapper(w)), got.Next, false);
+			return new InternalFetchResult(got.Posts.Select(w => new PostWrapperWrapper(w)), got.Next, !got.HasMore);
 		}
 	}
 }

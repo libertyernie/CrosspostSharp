@@ -51,7 +51,6 @@ type DeviantArtSourceWrapper() =
     }
     
     override this.Name = "DeviantArt (F#)"
-    override this.SubmissionsFiltered = true
 
     override this.Fetch cursor take = async {
         let position = cursor |> Option.defaultValue (uint32 0)
@@ -77,16 +76,18 @@ type DeviantArtSourceWrapper() =
         
         let wrappers = seq {
             for d in gallery.Results do
-                let m =
-                    metadata.Metadata
-                    |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
-                    |> Seq.tryHead
-                yield DeviantArtPostWrapper(d, m) :> IPostWrapper
+                if not (isNull d.Content) then
+                    let m =
+                        metadata.Metadata
+                        |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
+                        |> Seq.tryHead
+                    yield DeviantArtPostWrapper(d, m) :> IPostWrapper
         }
 
         return {
             Posts = wrappers
             Next = gallery.NextOffset |> Option.ofNullable |> Option.defaultValue 0 |> uint32
+            HasMore = gallery.HasMore
         }
     }
 
