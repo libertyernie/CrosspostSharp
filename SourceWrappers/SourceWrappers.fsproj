@@ -5,12 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="AsyncHelpers.fs" />
     <Compile Include="SourceWrapper.fs" />
+    <Compile Include="DeviantArt.fs" />
     <Compile Include="Tumblr.fs" />
   </ItemGroup>
 
+  <ItemGroup />
+
   <ItemGroup>
     <PackageReference Include="NewTumblrSharp" Version="1.1.27" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
   </ItemGroup>
 
 </Project>

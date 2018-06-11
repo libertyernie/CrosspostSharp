@@ -60,7 +60,7 @@ type TumblrWrapper2(client: TumblrClient, blogName: string, photosOnly: bool) =
         else
             "Tumblr (text + photos) (F#)"
 
-    override this.SubmissionsFiltered = false
+    override this.SubmissionsFiltered = true
 
     override this.Fetch cursor take = async {
         if isNull blogNames then
