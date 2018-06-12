@@ -301,6 +301,10 @@
       <Project>{337daf53-dcc0-477d-a7b9-5c4c37547292}</Project>
       <Name>PixivAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj">
+      <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
+      <Name>SourceWrappers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

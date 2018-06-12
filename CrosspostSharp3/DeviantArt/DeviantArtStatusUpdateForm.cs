@@ -67,10 +67,10 @@ namespace CrosspostSharp3 {
 					};
 					var resp1 = await req1.ExecuteAsync();
 					if (resp1.IsError) {
-						throw new DeviantArtException(resp1.ErrorText);
+						throw new Exception(resp1.ErrorText);
 					}
 					if (!string.IsNullOrEmpty(resp1.Result.Error)) {
-						throw new DeviantArtException(resp1.Result.ErrorDescription);
+						throw new Exception(resp1.Result.ErrorDescription);
 					}
 					itemId = resp1.Result.ItemId;
 				}
@@ -81,10 +81,10 @@ namespace CrosspostSharp3 {
 				};
 				var resp = await req.ExecuteAsync();
 				if (resp.IsError) {
-					throw new DeviantArtException(resp.ErrorText);
+					throw new Exception(resp.ErrorText);
 				}
 				if (!string.IsNullOrEmpty(resp.Result.Error)) {
-					throw new DeviantArtException(resp.Result.ErrorDescription);
+					throw new Exception(resp.Result.ErrorDescription);
 				}
 				Close();
 			} catch (Exception ex) {

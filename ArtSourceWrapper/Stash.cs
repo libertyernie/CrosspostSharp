@@ -21,10 +21,10 @@ namespace ArtSourceWrapper {
         public static async Task<User> GetUserAsync() {
             var result = await new DeviantartApi.Requests.User.WhoAmIRequest().ExecuteAsync();
             if (result.IsError) {
-                throw new DeviantArtException(result.ErrorText);
+                throw new Exception(result.ErrorText);
             }
             if (!string.IsNullOrEmpty(result.Result.Error)) {
-                throw new DeviantArtException(result.Result.ErrorDescription);
+                throw new Exception(result.Result.ErrorDescription);
             }
             return result.Result;
         }
@@ -47,10 +47,10 @@ namespace ArtSourceWrapper {
                 Limit = (uint)count
             }.ExecuteAsync();
             if (result.IsError) {
-                throw new DeviantArtException(result.ErrorText);
+                throw new Exception(result.ErrorText);
             }
             if (!string.IsNullOrEmpty(result.Result.Error)) {
-                throw new DeviantArtException(result.Result.ErrorDescription);
+                throw new Exception(result.Result.ErrorDescription);
             }
             TotalItemsIncludingStacks += result.Result.Entries.Count;
             var q = result.Result.Entries

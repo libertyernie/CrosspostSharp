@@ -20,6 +20,8 @@ using ArtSourceWrapper;
 using FlickrNet;
 using System.Drawing.Imaging;
 using FurryNetworkLib;
+using SourceWrappers;
+using DeviantArtControls;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -116,13 +118,13 @@ namespace CrosspostSharp {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    lblDeviantArtStatus2.Text = (await DeviantArtWrapper.GetUserAsync()).Username;
+                    lblDeviantArtStatus2.Text = await new DeviantArtSourceWrapper().WhoamiAsync();
                     return;
-                } catch (DeviantArtException e) when (e.Message == "User canceled") {
+                } catch (DeviantArtLoginException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
-                } catch (DeviantArtException e) when (e.Message == "The refresh_token is invalid.") {
+                } catch (DeviantArtLoginException e) when (e.Message == "The refresh_token is invalid.") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
-                } catch (DeviantArtException e) {
+                } catch (DeviantArtLoginException e) {
                     ShowException(e, nameof(DeviantArtLogin));
                 }
             }
@@ -136,7 +138,7 @@ namespace CrosspostSharp {
             } else {
                 if (GlobalSettings.DeviantArt.RefreshToken != null) {
                     try {
-                        wrappers.Add(new DeviantArtWrapper());
+                        wrappers.Add(new SourceWrapperWrapper<uint>(new DeviantArtSourceWrapper()));
 						wrappers.Add(new StashOrderedWrapper());
                     } catch (Exception e) {
                         ShowException(e, nameof(GetNewWrapper));
@@ -162,7 +164,7 @@ namespace CrosspostSharp {
                 }
 
                 if (Tumblr != null) {
-                    wrappers.Add(new TumblrWrapper(Tumblr, GlobalSettings.Tumblr.BlogName));
+                    wrappers.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(Tumblr, GlobalSettings.Tumblr.BlogName, photosOnly: true)));
                 }
 
                 if (Flickr != null) {

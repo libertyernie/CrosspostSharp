@@ -66,6 +66,7 @@
     <Compile Include="DeviantArtFolderSelectionForm.Designer.cs">
       <DependentUpon>DeviantArtFolderSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeviantArtLoginStatic.cs" />
     <Compile Include="DeviantArtUploadControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -1,9 +1,11 @@
 ﻿using ArtSourceWrapper;
+using DeviantArtControls;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
 using FAWinFormsLogin.loginPages;
 using FurryNetworkLib;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,7 +44,7 @@ namespace CrosspostSharp {
         private async void btnDeviantArtSignIn_Click(object sender, EventArgs e) {
             try {
                 if (string.Equals("Sign out", btnDeviantArtSignIn.Text, StringComparison.InvariantCultureIgnoreCase)) {
-                    await DeviantArtWrapper.LogoutAsync();
+                    await DeviantArtLoginStatic.LogoutAsync();
                     Settings.DeviantArt.RefreshToken = null;
                 } else {
                     var result = await DeviantartApiLogin.WinForms.Login.SignInAsync(
@@ -186,7 +188,7 @@ namespace CrosspostSharp {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
                 try {
-                    string username = (await DeviantArtWrapper.GetUserAsync()).Username;
+					string username = await new DeviantArtSourceWrapper().WhoamiAsync();
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
                     lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {

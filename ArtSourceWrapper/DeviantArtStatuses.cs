@@ -20,10 +20,10 @@ namespace ArtSourceWrapper {
 		public static async Task<User> GetUserAsync() {
 			var result = await new WhoAmIRequest().ExecuteAsync();
 			if (result.IsError) {
-				throw new DeviantArtException(result.ErrorText);
+				throw new Exception(result.ErrorText);
 			}
 			if (!string.IsNullOrEmpty(result.Result.Error)) {
-				throw new DeviantArtException(result.Result.ErrorDescription);
+				throw new Exception(result.Result.ErrorDescription);
 			}
 			return result.Result;
 		}
@@ -55,10 +55,10 @@ namespace ArtSourceWrapper {
 			req.Offset = skip;
 			var resp = await req.ExecuteAsync();
 			if (resp.IsError) {
-				throw new DeviantArtException(resp.ErrorText);
+				throw new Exception(resp.ErrorText);
 			}
 			if (!string.IsNullOrEmpty(resp.Result.Error)) {
-				throw new DeviantArtException(resp.Result.ErrorDescription);
+				throw new Exception(resp.Result.ErrorDescription);
 			}
 			return new InternalFetchResult(Wrap(resp.Result.Results), skip + take, !resp.Result.HasMore);
 		}

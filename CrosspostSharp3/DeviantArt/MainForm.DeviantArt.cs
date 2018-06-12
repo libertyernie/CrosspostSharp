@@ -49,7 +49,7 @@ namespace CrosspostSharp3 {
 
 					string user = await new StashOrderedWrapper().WhoamiAsync();
 					if (MessageBox.Show(this, $"You are currenty logged into DeviantArt and sta.sh as {user}. Would you like to log out?", Text, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-						await DeviantArtWrapper.LogoutAsync();
+						await DeviantArtLoginStatic.LogoutAsync();
 						s.DeviantArt = new Settings.DeviantArtSettings {
 							RefreshToken = null
 						};
@@ -60,7 +60,7 @@ namespace CrosspostSharp3 {
 						return;
 					}
 				}
-			} catch (DeviantArtException ex) when (ex.Message == "User canceled" || ex.Message == "The refresh_token is invalid.") {
+			} catch (DeviantArtLoginException ex) when (ex.Message == "User canceled" || ex.Message == "The refresh_token is invalid.") {
 				s.DeviantArt = new Settings.DeviantArtSettings {
 					RefreshToken = null
 				};
