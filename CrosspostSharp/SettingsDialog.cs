@@ -261,7 +261,7 @@ namespace CrosspostSharp {
         private async void UpdateFurAffinityTokenLabel() {
             if (Settings.FurAffinity?.a != null && Settings.FurAffinity?.b != null) {
                 btnFurAffinitySignIn.Text = "Sign out";
-                var fa = new FurAffinityIdWrapper(Settings.FurAffinity.a, Settings.FurAffinity.b);
+                var fa = new FurAffinityMinimalSourceWrapper(Settings.FurAffinity.a, Settings.FurAffinity.b, false);
                 try {
                     string username = await fa.WhoamiAsync();
                     lblfurAffinityUsername2.ForeColor = Color.Green;

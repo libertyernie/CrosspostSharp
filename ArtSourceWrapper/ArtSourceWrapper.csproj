@@ -90,13 +90,10 @@
     <Compile Include="Base.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="Flickr.cs" />
-    <Compile Include="FurAffinity.cs" />
-    <Compile Include="HtmlLinkUtils.cs" />
     <Compile Include="Inkbunny.cs" />
     <Compile Include="Local.cs" />
     <Compile Include="FurryNetwork.cs" />
     <Compile Include="MediaRSS.cs" />
-    <Compile Include="MetaWrapper.cs" />
     <Compile Include="Pinterest.cs" />
     <Compile Include="Pixiv.cs" />
     <Compile Include="SourceWrapperWrapper.cs" />

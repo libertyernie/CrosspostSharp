@@ -36,7 +36,11 @@ namespace CrosspostSharp3 {
 			progressBar1.Maximum = (int)numericUpDown1.Value;
 
 			try {
-				var wrapper = new MetaWrapper("Batch Export", SelectedWrappers);
+				if (SelectedWrappers.Count() != 1) {
+					throw new NotImplementedException();
+				}
+
+				var wrapper = SelectedWrappers.Single();
 
 				for (int i = 0; i < numericUpDown1.Value; i++) {
 					progressBar1.Value = i;

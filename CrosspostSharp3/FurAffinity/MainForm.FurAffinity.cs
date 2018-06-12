@@ -1,4 +1,4 @@
-﻿using ArtSourceWrapper;
+﻿using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace CrosspostSharp3 {
 						if (f.ShowDialog() == DialogResult.OK) {
 							return new[] {
 								new Settings.FurAffinitySettings {
-									username = await new FurAffinityIdWrapper(f.ACookie, f.BCookie).WhoamiAsync(),
+									username = await new FurAffinityMinimalSourceWrapper(f.ACookie, f.BCookie, false).WhoamiAsync(),
 									a = f.ACookie,
 									b = f.BCookie
 								}

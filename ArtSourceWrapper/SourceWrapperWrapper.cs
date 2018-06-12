@@ -36,7 +36,7 @@ namespace ArtSourceWrapper {
 		public override string WrapperName => _source.Name;
 		public override bool SubmissionsFiltered => true;
 
-		public override int BatchSize { get; set; } = 20;
+		public override int BatchSize { get; set; } = 5;
 
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 200;

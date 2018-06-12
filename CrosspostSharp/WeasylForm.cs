@@ -146,13 +146,13 @@ namespace CrosspostSharp {
                 }
 
                 if (!string.IsNullOrEmpty(GlobalSettings.FurAffinity.a) && !string.IsNullOrEmpty(GlobalSettings.FurAffinity.b)) {
-                    wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
-                    wrappers.Add(new FurAffinityWrapper(new FurAffinityIdWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
                 }
 
                 if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                    wrappers.Add(new WeasylWrapper(new WeasylGalleryIdWrapper(GlobalSettings.Weasyl.APIKey)));
-                    wrappers.Add(new WeasylWrapper(new WeasylCharacterWrapper(GlobalSettings.Weasyl.APIKey)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(GlobalSettings.Weasyl.APIKey)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(GlobalSettings.Weasyl.APIKey)));
                 }
 
                 if (Inkbunny != null) {

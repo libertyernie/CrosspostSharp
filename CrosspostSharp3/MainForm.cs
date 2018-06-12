@@ -135,15 +135,14 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				list.Add(new MetaWrapper("FurAffinity", new[] {
-					new FurAffinityWrapper(new FurAffinityIdWrapper(
-						a: fa.a,
-						b: fa.b)),
-					new FurAffinityWrapper(new FurAffinityIdWrapper(
-						a: fa.a,
-						b: fa.b,
-						scraps: true))
-				}));
+				list.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(
+					a: fa.a,
+					b: fa.b,
+					scraps: false)));
+				list.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(
+					a: fa.a,
+					b: fa.b,
+					scraps: true)));
 			}
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
@@ -180,10 +179,6 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var w in s.Weasyl) {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
-				//list.Add(new MetaWrapper("Weasyl", new[] {
-				//	new SourceWrapperWrapper<int>(new WeasylSourceWrapper(w.apiKey)),
-				//	new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(w.apiKey))
-				//}));
 				list.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(w.apiKey)));
 				list.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(w.apiKey)));
 			}
