@@ -10,6 +10,7 @@
     <Compile Include="CachedSourceWrapper.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtStatus.fs" />
+    <Compile Include="FurAffinity.fs" />
     <Compile Include="Tumblr.fs" />
     <Compile Include="Weasyl.fs" />
   </ItemGroup>
@@ -21,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
+    <ProjectReference Include="..\FAExportLib\FAExportLib.vbproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj" />
   </ItemGroup>

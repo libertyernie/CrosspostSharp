@@ -3,11 +3,12 @@
 open AsyncHelpers
 open WeasylLib.Api
 open WeasylLib.Frontend
+open System.Threading.Tasks
 
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
     interface IPostWrapper with
         member this.Title = ""
-        member this.HTMLDescription = submission.HTMLDescription (*HtmlLinkUtils.MakeLinksAbsolute(submission.HTMLDescription, "http://www.weasyl.com")*)
+        member this.HTMLDescription = submission.HTMLDescription
         member this.Mature = submission.rating = "mature"
         member this.Adult = submission.rating = "explicit"
         member this.Tags = submission.tags |> Seq.map id
@@ -44,8 +45,8 @@ type WeasylSourceWrapper(apiKey: string) =
         let! submissions =
             gallery.submissions
             |> Seq.map (fun s -> apiClient.GetSubmissionAsync(s.submitid))
-            |> Seq.map Async.AwaitTask
-            |> Async.Parallel
+            |> Task.WhenAll
+            |> Async.AwaitTask
 
         return {
             Posts = submissions
