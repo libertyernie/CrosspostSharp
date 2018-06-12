@@ -88,7 +88,6 @@
   <ItemGroup>
     <Compile Include="AsynchronousCachedEnumerable.cs" />
     <Compile Include="Base.cs" />
-    <Compile Include="DeviantArtStatuses.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="Flickr.cs" />
     <Compile Include="FurAffinity.cs" />

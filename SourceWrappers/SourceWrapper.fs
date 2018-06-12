@@ -13,6 +13,12 @@ type IPostWrapper =
     abstract member ImageURL: string with get
     abstract member ThumbnailURL: string with get
 
+type IStatusUpdate =
+    abstract member PotentiallySensitive: bool with get
+    abstract member FullHTML: string with get
+    abstract member HasPhoto: bool with get
+    abstract member AdditionalLinks: seq<string> with get
+
 type FetchResult<'cursor when 'cursor : struct> = {
     Posts: seq<IPostWrapper>
     Next: 'cursor

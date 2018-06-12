@@ -103,7 +103,7 @@ namespace CrosspostSharp3 {
 		private void ReloadOptions() {
 			Settings settings = Settings.Load();
 
-			if (_originalWrapper is IStatusUpdate status && !status.HasPhoto) {
+			if (_originalWrapper is SourceWrappers.IStatusUpdate status && !status.HasPhoto) {
 				saveAsToolStripMenuItem.Enabled = false;
 				exportAsToolStripMenuItem.Enabled = false;
 

@@ -119,7 +119,7 @@
             this.Controls.Add(this.lblUsername2);
             this.Name = "DeviantArtStatusUpdateForm";
             this.Text = "DeviantArt Status Update";
-            this.Shown += new System.EventHandler(this.TumblrPostForm_Shown);
+            this.Shown += new System.EventHandler(this.DeviantArtStatusUpdateForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

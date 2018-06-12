@@ -116,7 +116,7 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
 					list.Add(new SourceWrapperWrapper<uint>(new DeviantArtSourceWrapper()));
-					list.Add(new DeviantArtStatusWrapper());
+					list.Add(new SourceWrapperWrapper<uint>(new DeviantArtStatusSourceWrapper()));
 					list.Add(new StashOrderedWrapper());
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);

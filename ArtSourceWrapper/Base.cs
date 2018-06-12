@@ -132,13 +132,7 @@ namespace ArtSourceWrapper {
         Color? BorderColor { get; }
     }
 
-	public interface IStatusUpdate {
-		bool PotentiallySensitive { get; }
-		string FullHTML { get; }
-
-		bool HasPhoto { get; }
-		IEnumerable<string> AdditionalLinks { get; }
-	}
+	public interface IStatusUpdate : SourceWrappers.IStatusUpdate { }
 
 	public interface IDeletable {
 		Task DeleteAsync();

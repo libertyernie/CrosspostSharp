@@ -3,6 +3,7 @@ using DeviantartApi.Requests.User.Statuses;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +30,7 @@ namespace CrosspostSharp3 {
 			textBox1.Text = html;
 		}
 
-		private async void TumblrPostForm_Shown(object sender, EventArgs e) {
+		private async void DeviantArtStatusUpdateForm_Shown(object sender, EventArgs e) {
 			try {
 				if (_image != null) {
 					using (var ms = new MemoryStream(_image, false)) {
@@ -39,7 +40,7 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				var wrapper = new DeviantArtStatusWrapper();
+				var wrapper = new DeviantArtStatusSourceWrapper();
 				lblUsername2.Text = "Logged in as: " + await wrapper.WhoamiAsync();
 
 				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync(picUserIcon.Width));
