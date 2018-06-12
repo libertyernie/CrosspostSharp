@@ -1,6 +1,7 @@
 namespace SourceWrappers
 
 open System
+open System.Threading.Tasks
 
 type IPostWrapper =
     abstract member Title: string with get
@@ -25,15 +26,26 @@ type FetchResult<'cursor when 'cursor : struct> = {
     HasMore: bool
 }
 
+type ISourceWrapper<'cursor when 'cursor : struct> =
+    abstract member Name: string with get
+    abstract member StartAsync: int -> Task<FetchResult<'cursor>>
+    abstract member MoreAsync: 'cursor -> int -> Task<FetchResult<'cursor>>
+    abstract member WhoamiAsync: unit -> Task<string>
+    abstract member GetUserIconAsync: int -> Task<string>
+
 [<AbstractClass>]
 type SourceWrapper<'cursor when 'cursor : struct>() =
     abstract member Name: string with get
     
     abstract member Fetch: 'cursor option -> int -> Async<FetchResult<'cursor>>
-    abstract member Whoami: unit -> Async<string>
+    abstract member Whoami: Async<string>
     abstract member GetUserIcon: int -> Async<string>
+
+    member this.AsISourceWrapper () = this :> ISourceWrapper<'cursor>
     
-    member this.StartAsync take = this.Fetch None take |> Async.StartAsTask
-    member this.MoreAsync cursor take = this.Fetch cursor take |> Async.StartAsTask
-    member this.WhoamiAsync () = this.Whoami () |> Async.StartAsTask
-    member this.GetUserIconAsync size = this.GetUserIcon size |> Async.StartAsTask
+    interface ISourceWrapper<'cursor> with
+        member this.Name = this.Name
+        member this.StartAsync take = this.Fetch None take |> Async.StartAsTask
+        member this.MoreAsync cursor take = this.Fetch (Some cursor) take |> Async.StartAsTask
+        member this.WhoamiAsync () = this.Whoami |> Async.StartAsTask
+        member this.GetUserIconAsync size = this.GetUserIcon size |> Async.StartAsTask

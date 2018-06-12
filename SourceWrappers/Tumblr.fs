@@ -96,7 +96,7 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
         }
     }
 
-    override this.Whoami () = async {
+    override this.Whoami = async {
         return blogName
     }
 

@@ -27,9 +27,9 @@ namespace ArtSourceWrapper {
 	}
 
 	public class SourceWrapperWrapper<TCursor> : SiteWrapper<PostWrapperWrapper, TCursor> where TCursor : struct {
-		private readonly SourceWrapper<TCursor> _source;
+		private readonly ISourceWrapper<TCursor> _source;
 
-		public SourceWrapperWrapper(SourceWrapper<TCursor> source) {
+		public SourceWrapperWrapper(ISourceWrapper<TCursor> source) {
 			_source = source ?? throw new ArgumentNullException(nameof(source));
 		}
 

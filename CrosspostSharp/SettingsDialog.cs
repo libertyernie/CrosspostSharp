@@ -188,7 +188,7 @@ namespace CrosspostSharp {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
                 try {
-					string username = await new DeviantArtSourceWrapper().WhoamiAsync();
+					string username = await new DeviantArtSourceWrapper().AsISourceWrapper().WhoamiAsync();
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
                     lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {
@@ -263,7 +263,7 @@ namespace CrosspostSharp {
                 btnFurAffinitySignIn.Text = "Sign out";
                 var fa = new FurAffinityMinimalSourceWrapper(Settings.FurAffinity.a, Settings.FurAffinity.b, false);
                 try {
-                    string username = await fa.WhoamiAsync();
+                    string username = await fa.AsISourceWrapper().WhoamiAsync();
                     lblfurAffinityUsername2.ForeColor = Color.Green;
                     lblfurAffinityUsername2.Text = $"{username} ({Settings.FurAffinity.a}..., {Settings.FurAffinity.b}...)";
                 } catch (Exception e) {

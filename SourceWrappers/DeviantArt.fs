@@ -91,6 +91,6 @@ type DeviantArtSourceWrapper() =
         }
     }
 
-    override this.Whoami () = getUser |> whenDone (fun u -> u.Username)
+    override this.Whoami = getUser |> whenDone (fun u -> u.Username)
 
     override this.GetUserIcon size = getUser |> whenDone (fun u -> u.UserIconUrl.AbsoluteUri)

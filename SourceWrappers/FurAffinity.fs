@@ -70,7 +70,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
         }
     }
 
-    override this.Whoami () = getUser
+    override this.Whoami = getUser
 
     override this.GetUserIcon size = async {
         let! username = getUser
@@ -119,5 +119,5 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
         }
     }
 
-    override this.Whoami () = source.Whoami()
+    override this.Whoami = source.Whoami
     override this.GetUserIcon size = source.GetUserIcon size

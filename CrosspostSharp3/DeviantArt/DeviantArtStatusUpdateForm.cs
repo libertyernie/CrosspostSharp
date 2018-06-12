@@ -40,7 +40,7 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				var wrapper = new DeviantArtStatusSourceWrapper();
+				var wrapper = new DeviantArtStatusSourceWrapper().AsISourceWrapper();
 				lblUsername2.Text = "Logged in as: " + await wrapper.WhoamiAsync();
 
 				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync(picUserIcon.Width));

@@ -34,7 +34,7 @@ type WeasylSourceWrapper(apiKey: string) =
     override this.Name = "Weasyl"
 
     override this.Fetch cursor take = async {
-        let! username = this.Whoami()
+        let! username = this.Whoami
 
         let gallery_options = new WeasylApiClient.GalleryRequestOptions()
         gallery_options.nextid <- cursor |> Option.toNullable
@@ -58,13 +58,13 @@ type WeasylSourceWrapper(apiKey: string) =
         }
     }
 
-    override this.Whoami () = async {
+    override this.Whoami = async {
         let! user = getUser
         return user.login
     }
 
     override this.GetUserIcon size = async {
-        let! username = this.Whoami()
+        let! username = this.Whoami
         return! apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
     }
 
@@ -85,7 +85,7 @@ type WeasylCharacterSourceWrapper(apiKey: string) =
     override this.Name = "Weasyl (characters)"
 
     override this.Fetch cursor take = async {
-        let! username = this.Whoami()
+        let! username = this.Whoami
 
         let! allIds = Scraper.GetCharacterIdsAsync(username) |> Async.AwaitTask
         let skip = cursor |> Option.defaultValue 0
@@ -107,12 +107,12 @@ type WeasylCharacterSourceWrapper(apiKey: string) =
         }
     }
 
-    override this.Whoami () = async {
+    override this.Whoami = async {
         let! user = getUser
         return user.login
     }
 
     override this.GetUserIcon size = async {
-        let! username = this.Whoami()
+        let! username = this.Whoami
         return! apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
     }

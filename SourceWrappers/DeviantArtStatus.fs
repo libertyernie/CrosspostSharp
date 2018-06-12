@@ -69,7 +69,7 @@ type DeviantArtStatusSourceWrapper() =
     override this.Fetch cursor take = async {
         let position = cursor |> Option.defaultValue (uint32 0)
 
-        let! username = this.Whoami()
+        let! username = this.Whoami
 
         let statusesRequest = new StatusesRequest(username)
         statusesRequest.Limit <- take |> uint32 |> Nullable
@@ -87,6 +87,6 @@ type DeviantArtStatusSourceWrapper() =
         }
     }
 
-    override this.Whoami () = getUser |> whenDone (fun u -> u.Username)
+    override this.Whoami = getUser |> whenDone (fun u -> u.Username)
 
     override this.GetUserIcon size = getUser |> whenDone (fun u -> u.UserIconUrl.AbsoluteUri)

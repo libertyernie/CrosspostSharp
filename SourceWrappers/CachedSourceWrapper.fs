@@ -39,6 +39,6 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
             return! this.Fetch index take
     }
 
-    override this.Whoami() = source.Whoami()
+    override this.Whoami = source.Whoami
 
     override this.GetUserIcon size = source.GetUserIcon size

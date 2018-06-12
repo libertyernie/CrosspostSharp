@@ -18,7 +18,7 @@ namespace CrosspostSharp3 {
 					using (var f = new WeasylKeyForm()) {
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var username = await new WeasylSourceWrapper(f.APIKey).WhoamiAsync();
+								var username = await new WeasylSourceWrapper(f.APIKey).AsISourceWrapper().WhoamiAsync();
 								return new[] {
 									new Settings.WeasylSettings {
 										username = username,
