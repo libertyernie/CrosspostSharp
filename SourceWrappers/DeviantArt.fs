@@ -50,7 +50,7 @@ type DeviantArtSourceWrapper() =
         return cached_user
     }
     
-    override this.Name = "DeviantArt (F#)"
+    override this.Name = "DeviantArt"
 
     override this.Fetch cursor take = async {
         let position = cursor |> Option.defaultValue (uint32 0)

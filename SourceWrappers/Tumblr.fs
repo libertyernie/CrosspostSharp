@@ -56,9 +56,9 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
 
     override this.Name =
         if photosOnly then
-            "Tumblr (photos) (F#)"
+            "Tumblr (photos)"
         else
-            "Tumblr (text + photos) (F#)"
+            "Tumblr (text + photos)"
 
     override this.Fetch cursor take = async {
         if isNull blogNames then
