@@ -74,6 +74,9 @@ namespace CrosspostSharp3 {
 					await _currentWrapper.FetchAsync();
 				}
 			} catch (Exception ex) {
+				while (ex is AggregateException a && a.InnerExceptions.Count == 1) {
+					ex = ex.InnerException;
+				}
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
@@ -177,10 +180,12 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var w in s.Weasyl) {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
-				list.Add(new MetaWrapper("Weasyl", new[] {
-					new WeasylWrapper(new WeasylGalleryIdWrapper(w.apiKey)),
-					new WeasylWrapper(new WeasylCharacterWrapper(w.apiKey))
-				}));
+				//list.Add(new MetaWrapper("Weasyl", new[] {
+				//	new SourceWrapperWrapper<int>(new WeasylSourceWrapper(w.apiKey)),
+				//	new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(w.apiKey))
+				//}));
+				list.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(w.apiKey)));
+				list.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(w.apiKey)));
 			}
 
 			foreach (var wrapper in list) {

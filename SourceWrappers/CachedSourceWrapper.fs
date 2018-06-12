@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open AsyncHelpers
 open System.Collections.Generic
 
 type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
@@ -8,12 +9,7 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
     let cache = new List<IPostWrapper>()
     let mutable cursor: 'a option = None
     let mutable ended = false
-
-    let skipSafe num = 
-        Seq.zip (Seq.initInfinite id)
-        >> Seq.skipWhile (fun (i, _) -> i < num)
-        >> Seq.map snd
-
+    
     override this.Name = source.Name
 
     override this.Fetch index take = async {

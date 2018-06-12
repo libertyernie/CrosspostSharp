@@ -1,12 +1,10 @@
-﻿using ArtSourceWrapper;
-using ISchemm.WinFormsOAuth;
+﻿using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
@@ -20,7 +18,7 @@ namespace CrosspostSharp3 {
 					using (var f = new WeasylKeyForm()) {
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var username = await new WeasylGalleryIdWrapper(f.APIKey).WhoamiAsync();
+								var username = await new WeasylSourceWrapper(f.APIKey).WhoamiAsync();
 								return new[] {
 									new Settings.WeasylSettings {
 										username = username,
