@@ -19,12 +19,11 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NewTumblrSharp" Version="1.1.27" />
-    <PackageReference Include="TweetinviAPI" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
-    <ProjectReference Include="..\FAExportLib\FAExportLib.vbproj" />
+    <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj" />
   </ItemGroup>

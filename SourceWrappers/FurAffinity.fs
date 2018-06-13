@@ -5,36 +5,36 @@ open System
 open AsyncHelpers
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
-    member this.Id = submission.id
+    member this.Id = submission.Id
 
     interface IPostWrapper with
-        member this.Title = submission.title
+        member this.Title = submission.Title
         member this.HTMLDescription = ""
         member this.Mature = true
         member this.Adult = true
         member this.Tags = Seq.empty
         member this.Timestamp = DateTime.UtcNow
-        member this.ViewURL = submission.link
-        member this.ImageURL = submission.thumbnail
-        member this.ThumbnailURL = submission.thumbnail
+        member this.ViewURL = submission.Link
+        member this.ImageURL = submission.Thumbnail
+        member this.ThumbnailURL = submission.Thumbnail
 
 type FurAffinityPostWrapper(submission: FASubmission) =
     interface IPostWrapper with
-        member this.Title = submission.title
+        member this.Title = submission.Title
         member this.HTMLDescription =
-            let html = submission.description
+            let html = submission.Description
             let index = html.IndexOf("<br><br>")
             if index > 1 then
                 html.Substring(index + 8).TrimStart()
             else
                 html
-        member this.Mature = submission.rating.ToLowerInvariant() = "mature"
-        member this.Adult = submission.rating.ToLowerInvariant() = "explicit"
-        member this.Tags = submission.keywords |> Seq.map id
-        member this.Timestamp = submission.posted_at.UtcDateTime
-        member this.ViewURL = submission.link
-        member this.ImageURL = submission.download
-        member this.ThumbnailURL = submission.thumbnail
+        member this.Mature = submission.Rating.ToLowerInvariant() = "mature"
+        member this.Adult = submission.Rating.ToLowerInvariant() = "explicit"
+        member this.Tags = submission.Keywords |> Seq.map id
+        member this.Timestamp = submission.PostedAt.UtcDateTime
+        member this.ViewURL = submission.Link
+        member this.ImageURL = submission.Download
+        member this.ThumbnailURL = submission.Thumbnail
 
 type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     inherit SourceWrapper<int>()
@@ -76,7 +76,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     override this.GetUserIcon size = async {
         let! username = getUser
         let! user = apiClient.GetUserAsync(username) |> Async.AwaitTask
-        return user.avatar
+        return user.Avatar
     }
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =

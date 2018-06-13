@@ -106,10 +106,6 @@
       <Project>{bedb9fa0-1b50-4c19-ad30-fd84d38d6d3b}</Project>
       <Name>DeviantartApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FAExportLib\FAExportLib.vbproj">
-      <Project>{D3A089EB-DE32-43EA-BD70-4C229C0D91CF}</Project>
-      <Name>FAExportLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj">
       <Project>{46595381-e1fc-4be3-a970-b1988c4a2d0e}</Project>
       <Name>FurryNetworkLib</Name>
