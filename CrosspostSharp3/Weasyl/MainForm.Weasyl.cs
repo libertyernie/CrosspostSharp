@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeasylLib.Frontend;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
@@ -15,14 +16,19 @@ namespace CrosspostSharp3 {
 			using (var acctSelForm = new AccountSelectionForm<Settings.WeasylSettings>(
 				s.Weasyl,
 				async () => {
-					using (var f = new WeasylKeyForm()) {
+					using (var f = new UsernamePasswordDialog()) {
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var username = await new WeasylSourceWrapper(f.APIKey).AsISourceWrapper().WhoamiAsync();
+								var client = new WeasylFrontendClient();
+								await client.SignInAsync(f.Username, f.Password);
+								string username = await client.GetUsernameAsync();
+								if (username == null) {
+									throw new Exception("Username/password invalid");
+								}
 								return new[] {
 									new Settings.WeasylSettings {
 										username = username,
-										apiKey = f.APIKey
+										wzl = client.WZL
 									}
 								};
 							} catch (Exception ex) {

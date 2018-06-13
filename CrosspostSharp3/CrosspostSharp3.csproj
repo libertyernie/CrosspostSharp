@@ -200,11 +200,11 @@
     <Compile Include="UsernamePasswordDialog.Designer.cs">
       <DependentUpon>UsernamePasswordDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Weasyl\WeasylKeyForm.cs">
+    <Compile Include="Weasyl\WeasylPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Weasyl\WeasylKeyForm.Designer.cs">
-      <DependentUpon>WeasylKeyForm.cs</DependentUpon>
+    <Compile Include="Weasyl\WeasylPostForm.Designer.cs">
+      <DependentUpon>WeasylPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WrapperMenuItem.cs" />
     <Compile Include="MainForm.cs">
@@ -293,8 +293,8 @@
     <EmbeddedResource Include="UsernamePasswordDialog.resx">
       <DependentUpon>UsernamePasswordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Weasyl\WeasylKeyForm.resx">
-      <DependentUpon>WeasylKeyForm.cs</DependentUpon>
+    <EmbeddedResource Include="Weasyl\WeasylPostForm.resx">
+      <DependentUpon>WeasylPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -341,6 +341,14 @@
     <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj">
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj">
+      <Project>{f1ddf56b-a30b-4b63-99ff-3652214900e1}</Project>
+      <Name>WeasylLib.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj">
+      <Project>{33059de0-90fb-44d2-af5f-461ce4b88e91}</Project>
+      <Name>WeasylLib.Frontend</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

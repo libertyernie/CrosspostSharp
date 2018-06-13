@@ -1,4 +1,5 @@
 ﻿using ArtSourceWrapper;
+using CrosspostSharp3.Weasyl;
 using DeviantArtControls;
 using Newtonsoft.Json;
 using System;
@@ -200,6 +201,14 @@ namespace CrosspostSharp3 {
 				foreach (var t in settings.Tumblr) {
 					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
 						using (var f = new TumblrPostForm(t, Export())) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
+				foreach (var w in settings.Weasyl) {
+					if (w.wzl == null) continue;
+					listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
+						using (var f = new WeasylPostForm(w, Export())) {
 							f.ShowDialog(this);
 						}
 					}));

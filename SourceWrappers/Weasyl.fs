@@ -17,25 +17,14 @@ type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
         member this.ImageURL = submission.media.submission |> Seq.map (fun s -> s.url) |> Seq.head
         member this.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
 
-type WeasylSourceWrapper(apiKey: string) =
+type WeasylSourceWrapper(username: string) =
     inherit SourceWrapper<int>()
 
-    let apiClient = new WeasylApiClient(apiKey)
-
-    let mutable cached_user: WeasylUser = null
-
-    let getUser = async {
-        if isNull cached_user then
-            let! u = apiClient.WhoamiAsync() |> Async.AwaitTask
-            cached_user <- u
-        return cached_user
-    }
+    let apiClient = new WeasylApiClient()
     
     override this.Name = "Weasyl"
 
     override this.Fetch cursor take = async {
-        let! username = this.Whoami
-
         let gallery_options = new WeasylApiClient.GalleryRequestOptions()
         gallery_options.nextid <- cursor |> Option.toNullable
         gallery_options.count <- Some take |> Option.toNullable
@@ -59,34 +48,21 @@ type WeasylSourceWrapper(apiKey: string) =
     }
 
     override this.Whoami = async {
-        let! user = getUser
-        return user.login
+        return username
     }
 
     override this.GetUserIcon size = async {
-        let! username = this.Whoami
         return! apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
     }
 
-type WeasylCharacterSourceWrapper(apiKey: string) =
+type WeasylCharacterSourceWrapper(username: string) =
     inherit SourceWrapper<int>()
 
-    let apiClient = new WeasylApiClient(apiKey)
-
-    let mutable cached_user: WeasylUser = null
-
-    let getUser = async {
-        if isNull cached_user then
-            let! u = apiClient.WhoamiAsync() |> Async.AwaitTask
-            cached_user <- u
-        return cached_user
-    }
+    let apiClient = new WeasylApiClient()
     
     override this.Name = "Weasyl (characters)"
 
     override this.Fetch cursor take = async {
-        let! username = this.Whoami
-
         let! allIds = Scraper.GetCharacterIdsAsync(username) |> Async.AwaitTask
         let skip = cursor |> Option.defaultValue 0
         let ids = allIds |> skipSafe skip |> Seq.truncate take
@@ -108,11 +84,9 @@ type WeasylCharacterSourceWrapper(apiKey: string) =
     }
 
     override this.Whoami = async {
-        let! user = getUser
-        return user.login
+        return username
     }
 
     override this.GetUserIcon size = async {
-        let! username = this.Whoami
         return! apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
     }

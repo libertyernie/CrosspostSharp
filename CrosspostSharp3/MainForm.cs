@@ -15,6 +15,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeasylLib.Frontend;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -178,9 +179,13 @@ namespace CrosspostSharp3 {
 				list.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(client, t.blogName, photosOnly: false)));
 			}
 			foreach (var w in s.Weasyl) {
+				if (w.wzl == null) continue;
+
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
-				list.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(w.apiKey)));
-				list.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(w.apiKey)));
+
+				var username = await new WeasylFrontendClient() { WZL = w.wzl }.GetUsernameAsync();
+				list.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(username)));
+				list.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(username)));
 			}
 
 			foreach (var wrapper in list) {

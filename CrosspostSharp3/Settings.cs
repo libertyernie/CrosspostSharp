@@ -126,7 +126,7 @@ namespace CrosspostSharp3 {
 
 		public struct WeasylSettings : IAccountCredentials {
 			public string username;
-			public string apiKey;
+			public string wzl;
 
 			string IAccountCredentials.Username => username;
 		}
