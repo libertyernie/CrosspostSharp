@@ -2,34 +2,6 @@
 
 open AsyncHelpers
 open System.Collections.Generic
-open System
-
-type SourceWrapperQueue(wrapper: AbstractCachedSourceWrapper) =
-    let mutable cursor: int option = None
-    let mutable ended = false
-
-    let buffer = new Queue<IPostWrapper>()
-    
-    member this.PeekTimestamp() =
-        if buffer.Count = 0 then
-            DateTime.MinValue
-        else
-            buffer.Peek().Timestamp
-
-    member this.Dequeue() =
-        if buffer.Count = 0 then
-            None
-        else
-            Some (buffer.Dequeue())
-
-    member this.AdvanceIfNeeded() = async {
-        if buffer.Count = 0 && not ended then
-            let! result = wrapper.Fetch cursor 1
-            cursor <- Some result.Next
-            ended <- not result.HasMore
-            for p in result.Posts do
-                buffer.Enqueue p
-    }
 
 type MetaSourceWrapper(name: string, sources: seq<AbstractCachedSourceWrapper>) =
     inherit SourceWrapper<int>()
