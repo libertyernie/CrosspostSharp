@@ -3,8 +3,12 @@
 open AsyncHelpers
 open System.Collections.Generic
 
-type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
+[<AbstractClass>]
+type AbstractCachedSourceWrapper() =
     inherit SourceWrapper<int>()
+
+type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
+    inherit AbstractCachedSourceWrapper()
 
     let cache = new List<IPostWrapper>()
     let mutable cursor: 'a option = None
