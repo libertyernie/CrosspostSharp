@@ -59,6 +59,8 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
             "Tumblr (photos)"
         else
             "Tumblr (text + photos)"
+    
+    override this.SuggestedBatchSize = 20
 
     override this.Fetch cursor take = async {
         if isNull blogNames then
@@ -70,12 +72,12 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
         let skip = cursor |> Option.defaultValue (int64 0)
 
         let! posts =
-            Async.AwaitTask <| client.GetPostsAsync(
+            client.GetPostsAsync(
                 blogName,
                 skip,
                 take,
                 t,
-                true)
+                true) |> Async.AwaitTask
                 
         let wrapped = seq {
             for post in posts.Result do

@@ -11,6 +11,7 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
     let mutable ended = false
     
     override this.Name = source.Name
+    override this.SuggestedBatchSize = 1
 
     override this.Fetch index take = async {
         let skip = index |> Option.defaultValue 0
@@ -29,8 +30,7 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
                 HasMore = false
             }
         else
-            let needed = skip + take - cache.Count
-            let! result = source.Fetch cursor needed
+            let! result = source.Fetch cursor source.SuggestedBatchSize
 
             cache.AddRange(result.Posts)
             cursor <- Some result.Next

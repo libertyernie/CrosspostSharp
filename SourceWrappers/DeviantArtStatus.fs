@@ -65,6 +65,7 @@ type DeviantArtStatusSourceWrapper() =
     }
     
     override this.Name = "DeviantArt (statuses)"
+    override this.SuggestedBatchSize = 10
 
     override this.Fetch cursor take = async {
         let position = cursor |> Option.defaultValue (uint32 0)
@@ -72,7 +73,7 @@ type DeviantArtStatusSourceWrapper() =
         let! username = this.Whoami
 
         let statusesRequest = new StatusesRequest(username)
-        statusesRequest.Limit <- take |> uint32 |> Nullable
+        statusesRequest.Limit <- take |> min 50 |> uint32 |> Nullable
         statusesRequest.Offset <- position |> Nullable
 
         let! statuses =

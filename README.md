@@ -1,4 +1,4 @@
-CrosspostSharp 3.2
+CrosspostSharp 3.3
 ==================
 
 Source: https://github.com/libertyernie/CrosspostSharp
@@ -8,6 +8,10 @@ Source: https://github.com/libertyernie/CrosspostSharp
 CrosspostSharp is a Windows desktop application that loads individual
 submissions from art sites and lets you post them to your other
 accounts, maintaining the title, description, and tags.
+
+The application is written primarily in C#. The SourceWrappers library (which
+wraps the libraries used to get existing submissions from sites) is written in
+F#.
 
 Only visual submissions (artwork) are supported at this time.
 
@@ -20,28 +24,22 @@ Supported Sites
 ---------------
 
 Use the Tools menu to add and remove accounts. Multiple accounts per site are
-supported on all sites except DeviantArt / Sta.sh. On Tumblr and
-Furry Network, CrosspostSharp lets you use read from and post to multiple
-blogs/characters using a single account.
+supported on all sites except DeviantArt and Sta.sh.
+
+On Tumblr and Furry Network, CrosspostSharp lets you use read from and post to
+multiple blogs/characters using a single account.
 
 * DeviantArt / Sta.sh
 * Flickr
 * FurAffinity (read-only)
 * Furry Network
 * Inkbunny
-* Pinterest (write-only; app ID and secret required)
 * Pixiv (read-only)
 * Tumblr
 * Twitter
-* Weasyl (read-only)
+* Weasyl
 
 You can also use a Media RSS feed as a source or open or save local files.
-
-Additionally, you can install Java and put
-[efc.jar](https://github.com/libertyernie/Furry-Crossposter/releases)
-in the same folder as CrosspostSharp3.exe, which will add support for posting
-to Weasyl and FurAffinity. efc.jar is a fork of another crossposting app
-designed to work with CrosspostSharp. See its page for more information.
 
 File Formats
 ------------

@@ -55,6 +55,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     }
     
     override this.Name = if scraps then "Fur Affinity (scraps)" else "Fur Affinity (gallery)"
+    override this.SuggestedBatchSize = 60
 
     override this.Fetch cursor take = async {
         let! username = getUser
@@ -88,6 +89,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
     let mutable cache_has_more = true
     
     override this.Name = source.Name
+    override this.SuggestedBatchSize = 4
 
     override this.Fetch cursor take = async {
         let skip = cursor |> Option.defaultValue 0

@@ -51,12 +51,13 @@ type DeviantArtSourceWrapper() =
     }
     
     override this.Name = "DeviantArt"
+    override this.SuggestedBatchSize = 10
 
     override this.Fetch cursor take = async {
         let position = cursor |> Option.defaultValue (uint32 0)
 
         let galleryRequest = new AllRequest()
-        galleryRequest.Limit <- take |> uint32 |> Nullable
+        galleryRequest.Limit <- take |> min 24 |> uint32 |> Nullable
         galleryRequest.Offset <- position |> Nullable
 
         let! gallery =

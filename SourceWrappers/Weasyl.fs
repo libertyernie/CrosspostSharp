@@ -23,11 +23,12 @@ type WeasylSourceWrapper(username: string) =
     let apiClient = new WeasylApiClient()
     
     override this.Name = "Weasyl"
+    override this.SuggestedBatchSize = 4
 
     override this.Fetch cursor take = async {
         let gallery_options = new WeasylApiClient.GalleryRequestOptions()
         gallery_options.nextid <- cursor |> Option.toNullable
-        gallery_options.count <- Some take |> Option.toNullable
+        gallery_options.count <- take |> min 100 |> Some |> Option.toNullable
 
         let! gallery = apiClient.GetUserGalleryAsync(username, gallery_options) |> Async.AwaitTask
 
@@ -61,6 +62,7 @@ type WeasylCharacterSourceWrapper(username: string) =
     let apiClient = new WeasylApiClient()
     
     override this.Name = "Weasyl (characters)"
+    override this.SuggestedBatchSize = 4
 
     override this.Fetch cursor take = async {
         let! allIds = Scraper.GetCharacterIdsAsync(username) |> Async.AwaitTask

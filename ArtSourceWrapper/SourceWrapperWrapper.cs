@@ -31,12 +31,13 @@ namespace ArtSourceWrapper {
 
 		public SourceWrapperWrapper(ISourceWrapper<TCursor> source) {
 			_source = source ?? throw new ArgumentNullException(nameof(source));
+			BatchSize = _source.SuggestedBatchSize;
 		}
 
 		public override string WrapperName => _source.Name;
 		public override bool SubmissionsFiltered => true;
 
-		public override int BatchSize { get; set; } = 5;
+		public override int BatchSize { get; set; }
 
 		public override int MinBatchSize => 1;
 		public override int MaxBatchSize => 200;
