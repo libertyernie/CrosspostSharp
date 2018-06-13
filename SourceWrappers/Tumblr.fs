@@ -31,6 +31,10 @@ type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BaseP
         member this.ImageURL = this.ImageURL
         member this.ThumbnailURL = this.ThumbnailURL
 
+    interface IDeletable with
+        member this.SiteName = "Tumblr"
+        member this.DeleteAsync () = client.DeletePostAsync(post.BlogName, post.Id)
+
 type TumblrPhotoPostWrapper(client: TumblrClient, post: PhotoPost) =
     inherit TumblrPostWrapper<PhotoPost>(client, post)
 

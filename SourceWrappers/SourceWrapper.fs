@@ -20,6 +20,10 @@ type IStatusUpdate =
     abstract member HasPhoto: bool with get
     abstract member AdditionalLinks: seq<string> with get
 
+type IDeletable =
+    abstract member DeleteAsync: unit -> Task
+    abstract member SiteName: string with get
+
 type FetchResult<'cursor when 'cursor : struct> = {
     Posts: seq<IPostWrapper>
     Next: 'cursor

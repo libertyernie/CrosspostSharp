@@ -134,10 +134,7 @@ namespace ArtSourceWrapper {
 
 	public interface IStatusUpdate : SourceWrappers.IStatusUpdate { }
 
-	public interface IDeletable {
-		Task DeleteAsync();
-		string SiteName { get; }
-	}
+	public interface IDeletable : SourceWrappers.IDeletable { }
 
     public class MetadataModificationSubmissionWrapper : ISubmissionWrapper {
         private ISubmissionWrapper _base;
