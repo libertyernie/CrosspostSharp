@@ -10,8 +10,8 @@ submissions from art sites and lets you post them to your other
 accounts, maintaining the title, description, and tags.
 
 The application is written primarily in C#. The SourceWrappers library (which
-wraps the libraries used to get existing submissions from sites) is written in
-F#.
+wraps the libraries used to get existing submissions from sites) is mostly
+written in F# (except the Twitter wrapper, which is in C#.)
 
 Only visual submissions (artwork) are supported at this time.
 

@@ -3,6 +3,7 @@ using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
 using SourceWrappers;
+using SourceWrappers.Twitter;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -156,8 +157,8 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
-				list.Add(new TwitterWrapper(t.GetCredentials(), photosOnly: true));
-				list.Add(new TwitterWrapper(t.GetCredentials(), photosOnly: false));
+				list.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true)));
+				list.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false)));
 			}
 			foreach (var m in s.MediaRSS) {
 				lblLoadStatus.Text = $"Adding Media RSS feed ({m.name})...";

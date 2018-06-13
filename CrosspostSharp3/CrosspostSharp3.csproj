@@ -338,6 +338,10 @@
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SourceWrappers.Twitter\SourceWrappers.Twitter.csproj">
+      <Project>{BC58C8D2-C135-439B-A794-44E6C21F5483}</Project>
+      <Name>SourceWrappers.Twitter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj">
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
