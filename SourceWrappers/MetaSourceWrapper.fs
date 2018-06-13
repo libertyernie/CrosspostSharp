@@ -4,8 +4,8 @@ open AsyncHelpers
 open System.Collections.Generic
 open System
 
-type SourceWrapperQueue<'a when 'a : struct>(wrapper: SourceWrapper<'a>) =
-    let mutable cursor: 'a option = None
+type SourceWrapperQueue(wrapper: AbstractCachedSourceWrapper) =
+    let mutable cursor: int option = None
     let mutable ended = false
 
     let buffer = new Queue<IPostWrapper>()
