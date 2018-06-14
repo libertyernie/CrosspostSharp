@@ -1,5 +1,6 @@
 ﻿using ArtSourceWrapper;
 using ISchemm.WinFormsOAuth;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace CrosspostSharp3 {
 						tokenSecret = accessTokenSecret
 					};
 
-					string username = await new FlickrWrapper(settings.CreateClient()).WhoamiAsync();
+					string username = await new FlickrSourceWrapper(settings.CreateClient()).AsISourceWrapper().WhoamiAsync();
 
 					settings.username = username;
 					return new[] { settings };

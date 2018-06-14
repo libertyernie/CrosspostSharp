@@ -11,12 +11,14 @@
     <Compile Include="MetaSourceWrapper.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtStatus.fs" />
+    <Compile Include="Flickr.fs" />
     <Compile Include="FurAffinity.fs" />
     <Compile Include="Tumblr.fs" />
     <Compile Include="Weasyl.fs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FlickrNet" Version="3.25.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NewTumblrSharp" Version="1.1.27" />
   </ItemGroup>

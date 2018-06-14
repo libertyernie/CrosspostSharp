@@ -169,7 +169,7 @@ namespace CrosspostSharp {
                 }
 
                 if (Flickr != null) {
-                    wrappers.Add(new FlickrWrapper(Flickr));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new FlickrSourceWrapper(Flickr)));
 				}
 
 				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.Username) && !string.IsNullOrEmpty(GlobalSettings.Pixiv.Password)) {

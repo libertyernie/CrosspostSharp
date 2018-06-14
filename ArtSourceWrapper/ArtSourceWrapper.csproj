@@ -89,7 +89,6 @@
     <Compile Include="AsynchronousCachedEnumerable.cs" />
     <Compile Include="Base.cs" />
     <Compile Include="Empty.cs" />
-    <Compile Include="Flickr.cs" />
     <Compile Include="Inkbunny.cs" />
     <Compile Include="Local.cs" />
     <Compile Include="FurryNetwork.cs" />

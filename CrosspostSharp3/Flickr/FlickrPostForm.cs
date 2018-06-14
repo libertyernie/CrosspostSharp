@@ -1,6 +1,7 @@
 ﻿using ArtSourceWrapper;
 using FlickrNet;
 using FurryNetworkLib;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,7 +42,7 @@ namespace CrosspostSharp3 {
 
 		private async void Form_Shown(object sender, EventArgs e) {
 			try {
-				string avatar = await new FlickrWrapper(_client).GetUserIconAsync(picUserIcon.Width);
+				string avatar = await new FlickrSourceWrapper(_client).AsISourceWrapper().GetUserIconAsync(picUserIcon.Width);
 				if (avatar != null) {
 					var req = WebRequestFactory.Create(avatar);
 					using (var resp = await req.GetResponseAsync())

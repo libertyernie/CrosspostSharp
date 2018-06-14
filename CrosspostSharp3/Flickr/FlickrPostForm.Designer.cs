@@ -333,7 +333,7 @@
             this.Controls.Add(this.btnPost);
             this.Controls.Add(this.txtDescription);
             this.Name = "FlickrPostForm";
-            this.Text = "Post to Inkbunny";
+            this.Text = "Post to Flickr";
             this.Shown += new System.EventHandler(this.Form_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
             this.groupFlickrContentType.ResumeLayout(false);
