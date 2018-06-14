@@ -18,13 +18,17 @@ type FlickrPostWrapper(photo: Photo) =
 type FlickrSourceWrapper(flickr: Flickr) =
     inherit SourceWrapper<int>()
 
+    let flickrCall f1 = async {
+        let tcs = new TaskCompletionSource<'a>()
+        f1(new System.Action<FlickrResult<'a>>(fun r -> if r.HasError then tcs.SetException r.Error else tcs.SetResult r.Result))
+        return! tcs.Task |> Async.AwaitTask
+    }
+
     let mutable user: FoundUser = null
 
     let getUser = async {
         if isNull user then
-            let tcs = new TaskCompletionSource<Auth>()
-            flickr.AuthOAuthCheckTokenAsync(fun r -> if r.HasError then tcs.SetException r.Error else tcs.SetResult r.Result)
-            let! oauth = tcs.Task |> Async.AwaitTask
+            let! oauth = flickrCall (fun callback -> flickr.AuthOAuthCheckTokenAsync(callback))
             user <- oauth.User
         return user
     }
@@ -39,9 +43,7 @@ type FlickrSourceWrapper(flickr: Flickr) =
         let start = cursor |> Option.defaultValue 1
         let extras = PhotoSearchExtras.Description ||| PhotoSearchExtras.Tags ||| PhotoSearchExtras.DateUploaded ||| PhotoSearchExtras.OriginalFormat
         
-        let tcs = new TaskCompletionSource<PhotoCollection>()
-        flickr.PeopleGetPhotosAsync("me", extras, start, take |> min 500, fun r -> if r.HasError then tcs.SetException r.Error else tcs.SetResult r.Result)
-        let! posts = tcs.Task |> Async.AwaitTask
+        let! posts = flickrCall (fun callback -> flickr.PeopleGetPhotosAsync("me", extras, start, take |> min 500, callback))
         return {
             Posts = posts |> Seq.map FlickrPostWrapper |> Seq.map (fun w -> w :> IPostWrapper)
             Next = posts.Page + 1
@@ -56,10 +58,8 @@ type FlickrSourceWrapper(flickr: Flickr) =
 
     override this.GetUserIcon size = async {
         let! user = getUser
-
-        let tcs = new TaskCompletionSource<Person>()
-        flickr.PeopleGetInfoAsync(user.UserId, fun r -> if r.HasError then tcs.SetException r.Error else tcs.SetResult r.Result)
-        let! person = tcs.Task |> Async.AwaitTask
+        
+        let! person = flickrCall (fun callback -> flickr.PeopleGetInfoAsync(user.UserId, callback))
         return if person.IconServer = "0"
             then "https://www.flickr.com/images/buddyicon.gif"
             else sprintf "http://farm%s.staticflickr.com/%s/buddyicons/%s.jpg" person.IconFarm person.IconServer person.UserId
