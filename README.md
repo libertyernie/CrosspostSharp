@@ -5,15 +5,14 @@ Source: https://github.com/libertyernie/CrosspostSharp
 
 --------------------
 
-CrosspostSharp is a Windows desktop application that loads individual
-submissions from art sites and lets you post them to your other
-accounts, maintaining the title, description, and tags.
+CrosspostSharp is a Windows desktop application (written in C# and F#) that
+loads individual submissions from art sites and lets you post them to your
+other accounts, maintaining the title, description, and tags.
 
-The application is written primarily in C#. The SourceWrappers library (which
-wraps the libraries used to get existing submissions from sites) is mostly
-written in F# (except the Twitter wrapper, which is in C#.)
-
-Only visual submissions (artwork) are supported at this time.
+In most cases, only photo posts are supported. However, Twitter and Tumblr
+text posts and DeviantArt status updates will be recognized as simple text
+posts, and you will be able to crosspost them easily without uploading a
+photo.
 
 Requirements:
 
@@ -39,7 +38,7 @@ multiple blogs/characters using a single account.
 * Twitter
 * Weasyl
 
-You can also use a Media RSS feed as a source or open or save local files.
+You can also open or save local files.
 
 File Formats
 ------------

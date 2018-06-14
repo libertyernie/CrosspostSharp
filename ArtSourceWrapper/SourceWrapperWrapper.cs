@@ -26,6 +26,19 @@ namespace ArtSourceWrapper {
 		public Color? BorderColor => null;
 	}
 
+	public class StatusUpdatePostWrapperWrapper : PostWrapperWrapper, IStatusUpdate {
+		private readonly IStatusUpdate _status;
+
+		public StatusUpdatePostWrapperWrapper(IPostWrapper post, IStatusUpdate status) : base(post) {
+			_status = status;
+		}
+
+		public bool PotentiallySensitive => _status.PotentiallySensitive;
+		public string FullHTML => _status.FullHTML;
+		public bool HasPhoto => _status.HasPhoto;
+		public IEnumerable<string> AdditionalLinks => _status.AdditionalLinks;
+	}
+
 	public class SourceWrapperWrapper<TCursor> : SiteWrapper<PostWrapperWrapper, TCursor> where TCursor : struct {
 		private readonly ISourceWrapper<TCursor> _source;
 
@@ -54,7 +67,7 @@ namespace ArtSourceWrapper {
 			var got = startPosition is TCursor cursor
 				? await _source.MoreAsync(cursor, count)
 				: await _source.StartAsync(count);
-			return new InternalFetchResult(got.Posts.Select(w => new PostWrapperWrapper(w)), got.Next, !got.HasMore);
+			return new InternalFetchResult(got.Posts.Select(w => w is IStatusUpdate s ? new StatusUpdatePostWrapperWrapper(w, s) : new PostWrapperWrapper(w)), got.Next, !got.HasMore);
 		}
 	}
 }
