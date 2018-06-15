@@ -140,9 +140,6 @@
     <PackageReference Include="NewTumblrSharp">
       <Version>1.1.27</Version>
     </PackageReference>
-    <PackageReference Include="PinSharp">
-      <Version>2.2.6</Version>
-    </PackageReference>
     <PackageReference Include="TweetinviAPI">
       <Version>3.0.0</Version>
     </PackageReference>

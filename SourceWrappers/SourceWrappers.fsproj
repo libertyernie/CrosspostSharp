@@ -15,7 +15,6 @@
     <Compile Include="FurAffinity.fs" />
     <Compile Include="FurryNetwork.fs" />
     <Compile Include="Inkbunny.fs" />
-    <Compile Include="Pinterest.fs" />
     <Compile Include="Tumblr.fs" />
     <Compile Include="Weasyl.fs" />
   </ItemGroup>
@@ -25,7 +24,6 @@
     <PackageReference Include="FlickrNet" Version="3.25.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NewTumblrSharp" Version="1.1.27" />
-    <PackageReference Include="PinSharp" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>
