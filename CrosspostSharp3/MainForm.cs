@@ -153,7 +153,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
-				list.Add(new InkbunnyWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId)));
+				list.Add(new SourceWrapperWrapper<int>(new InkbunnySourceWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), 4)));
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";

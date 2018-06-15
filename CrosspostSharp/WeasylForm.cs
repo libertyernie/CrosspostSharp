@@ -157,7 +157,7 @@ namespace CrosspostSharp {
                 }
 
                 if (Inkbunny != null) {
-                    wrappers.Add(new InkbunnyWrapper(Inkbunny));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new InkbunnySourceWrapper(Inkbunny, 20)));
                 }
 
                 if (TwitterCredentials != null) {
@@ -177,7 +177,7 @@ namespace CrosspostSharp {
 				}
 
 				if (FurryNetwork != null) {
-					wrappers.Add(new FurryNetworkWrapper(FurryNetwork));
+					wrappers.Add(new SourceWrapperWrapper<int>(new FurryNetworkSourceWrapper(FurryNetwork, null)));
 				}
 
 				wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();

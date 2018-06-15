@@ -89,7 +89,6 @@
     <Compile Include="AsynchronousCachedEnumerable.cs" />
     <Compile Include="Base.cs" />
     <Compile Include="Empty.cs" />
-    <Compile Include="Inkbunny.cs" />
     <Compile Include="Local.cs" />
     <Compile Include="MediaRSS.cs" />
     <Compile Include="Pinterest.cs" />
