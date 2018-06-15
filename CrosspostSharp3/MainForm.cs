@@ -149,7 +149,7 @@ namespace CrosspostSharp3 {
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
 				var client = new FurryNetworkClient(fn.refreshToken);
-				list.Add(new FurryNetworkWrapper(client, fn.characterName));
+				list.Add(new SourceWrapperWrapper<int>(new FurryNetworkSourceWrapper(client, fn.characterName)));
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
