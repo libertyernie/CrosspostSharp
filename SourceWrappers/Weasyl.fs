@@ -1,6 +1,6 @@
 ﻿namespace SourceWrappers
 
-open AsyncHelpers
+open WrapperUtility
 open WeasylLib.Api
 open WeasylLib.Frontend
 open System.Threading.Tasks
@@ -42,7 +42,7 @@ type WeasylSourceWrapper(username: string) =
             Posts = submissions
                 |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
                 |> Seq.map WeasylPostWrapper
-                |> Seq.map (fun w -> w :> IPostWrapper)
+                |> asIPostWrappers
             Next = gallery.nextid |> Option.ofNullable |> Option.defaultValue 0
             HasMore = gallery.nextid.HasValue
         }
@@ -79,7 +79,7 @@ type WeasylCharacterSourceWrapper(username: string) =
             Posts = submissions
                 |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
                 |> Seq.map WeasylPostWrapper
-                |> Seq.map (fun w -> w :> IPostWrapper)
+                |> asIPostWrappers
             Next = skip + take
             HasMore = allIds.Count > skip + take
         }

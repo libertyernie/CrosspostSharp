@@ -2,7 +2,6 @@
 
 open InkbunnyLib
 open System
-open AsyncHelpers
 
 type InkbunnyPostWrapper(submission: InkbunnySubmissionDetail, client: InkbunnyClient) =
     interface IPostWrapper with
@@ -58,7 +57,7 @@ type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
                 |> Seq.filter (fun s -> s.``public``.value)
                 |> Seq.sortByDescending (fun s -> s.create_datetime)
                 |> Seq.map (fun s -> new InkbunnyPostWrapper(s, client))
-                |> Seq.map (fun w -> w :> IPostWrapper)
+                |> Seq.map Swu.toPostWrapperInterface
             Next = response.page + 1
             HasMore = response.pages_count >= (cursor |> Option.defaultValue 1)
         }
@@ -68,7 +67,7 @@ type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
         match firstSubmission with
         | Some s -> return s
         | None ->
-            do! inkbunnyFetch None |> whenDone ignore
+            do! inkbunnyFetch None |> Swu.whenDone ignore
             match firstSubmission with
             | Some s -> return s
             | None -> return failwith "Cannot get Inkbunny icon if no submissions are present"

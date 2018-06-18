@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="AsyncHelpers.fs" />
     <Compile Include="SourceWrapper.fs" />
     <Compile Include="CachedSourceWrapper.fs" />
     <Compile Include="MetaSourceWrapper.fs" />

@@ -1,6 +1,6 @@
 ﻿namespace SourceWrappers
 
-open FlickrNet;
+open FlickrNet
 open System.Threading.Tasks
 
 type FlickrPostWrapper(photo: Photo) =
@@ -45,7 +45,7 @@ type FlickrSourceWrapper(flickr: Flickr) =
         
         let! posts = flickrCall (fun callback -> flickr.PeopleGetPhotosAsync("me", extras, start, take |> min 500, callback))
         return {
-            Posts = posts |> Seq.map FlickrPostWrapper |> Seq.map (fun w -> w :> IPostWrapper)
+            Posts = posts |> Seq.map FlickrPostWrapper |> Seq.map Swu.toPostWrapperInterface
             Next = posts.Page + 1
             HasMore = posts.Page = posts.Pages
         }

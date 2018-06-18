@@ -2,7 +2,7 @@
 
 open FAExportLib
 open System
-open AsyncHelpers
+open WrapperUtility
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
     member this.Id = submission.Id
@@ -65,7 +65,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
         let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
         
         return {
-            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> Seq.map (fun w -> w :> IPostWrapper)
+            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> asIPostWrappers
             Next = page + 1
             HasMore = Seq.length gallery > 0
         }
@@ -115,7 +115,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
             |> Async.Parallel
 
         return {
-            Posts = gallery |> Seq.map FurAffinityPostWrapper |> Seq.map (fun w -> w :> IPostWrapper)
+            Posts = gallery |> Seq.map FurAffinityPostWrapper |> asIPostWrappers
             Next = skip + take
             HasMore = Seq.length gallery > 0
         }

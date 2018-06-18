@@ -3,9 +3,6 @@
 open DeviantartApi.Objects
 open System
 open DeviantartApi.Requests.User
-open AsyncHelpers
-open DeviantartApi.Requests.Gallery
-open DeviantartApi.Requests.Deviation
 
 type DeviantArtStatusPostWrapper(status: Status) =
     let Deviations =
@@ -59,7 +56,7 @@ type DeviantArtStatusSourceWrapper() =
             let! u =
                 req.ExecuteAsync()
                 |> Async.AwaitTask
-                |> whenDone processDeviantArtError
+                |> Swu.whenDone Swu.processDeviantArtError
             cached_user <- u
         return cached_user
     }
@@ -79,15 +76,15 @@ type DeviantArtStatusSourceWrapper() =
         let! statuses =
             statusesRequest.ExecuteAsync()
             |> Async.AwaitTask
-            |> whenDone processDeviantArtError
+            |> Swu.whenDone Swu.processDeviantArtError
         
         return {
-            Posts = statuses.Results |> Seq.map (fun s -> new DeviantArtStatusPostWrapper(s) :> IPostWrapper)
+            Posts = statuses.Results |> Seq.map DeviantArtStatusPostWrapper |> Seq.map Swu.toPostWrapperInterface
             Next = statuses.NextOffset |> Option.ofNullable |> Option.defaultValue 0 |> uint32
             HasMore = statuses.HasMore
         }
     }
 
-    override this.Whoami = getUser |> whenDone (fun u -> u.Username)
+    override this.Whoami = getUser |> Swu.whenDone (fun u -> u.Username)
 
-    override this.GetUserIcon size = getUser |> whenDone (fun u -> u.UserIconUrl.AbsoluteUri)
+    override this.GetUserIcon size = getUser |> Swu.whenDone (fun u -> u.UserIconUrl.AbsoluteUri)
