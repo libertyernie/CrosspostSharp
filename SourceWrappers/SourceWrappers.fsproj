@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="SourceWrapper.fs" />
+    <Compile Include="PagedWrapperConsumer.fs" />
     <Compile Include="CachedSourceWrapper.fs" />
     <Compile Include="OrderedSourceWrapper.fs" />
     <Compile Include="MetaSourceWrapper.fs" />

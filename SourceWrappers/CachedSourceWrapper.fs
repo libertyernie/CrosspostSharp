@@ -47,7 +47,7 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
 
     override this.GetUserIcon size = source.GetUserIcon size
 
-type SourceWrapperQueue(wrapper: AbstractCachedSourceWrapper) =
+type internal SourceWrapperQueue(wrapper: AbstractCachedSourceWrapper) =
     let mutable cursor: int option = None
     let mutable ended = false
 

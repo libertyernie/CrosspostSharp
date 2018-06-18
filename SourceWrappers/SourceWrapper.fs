@@ -24,11 +24,19 @@ type IDeletable =
     abstract member DeleteAsync: unit -> Task
     abstract member SiteName: string with get
 
-type FetchResult<'cursor when 'cursor : struct> = {
-    Posts: seq<IPostWrapper>
-    Next: 'cursor
-    HasMore: bool
-}
+type GenericFetchResult =
+    abstract member Posts: seq<IPostWrapper>
+    abstract member HasMore: bool
+
+type FetchResult<'cursor when 'cursor : struct> =
+    {
+        Posts: seq<IPostWrapper>
+        Next: 'cursor
+        HasMore: bool
+    }
+    interface GenericFetchResult with
+        member this.Posts = this.Posts
+        member this.HasMore = this.HasMore
 
 type ISourceWrapper<'cursor when 'cursor : struct> =
     abstract member Name: string with get
