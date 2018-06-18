@@ -1,10 +1,6 @@
 ﻿namespace SourceWrappers
 
-open DeviantartApi.Objects
 open System
-open DeviantartApi.Requests.User
-open DeviantartApi.Requests.Gallery
-open DeviantartApi.Requests.Deviation
 open DeviantartApi.Objects.SubObjects.StashDelta
 open System.Text
 open System.Threading.Tasks
