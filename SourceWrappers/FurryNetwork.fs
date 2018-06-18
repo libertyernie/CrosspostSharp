@@ -66,16 +66,8 @@ type FurryNetworkSourceWrapper(client: FurryNetworkClient, characterName: string
 
     override this.GetUserIcon size = async {
         let! character = getCharacter
-        return 
-            if isNull character.Avatars then null
-            else
-                let preferred =
-                    if size <= 50 then character.Avatars.Tiny
-                    else if size <= 80 then character.Avatars.Small
-                    else if size <= 315 then character.Avatars.Avatar
-                    else character.Avatars.Original
-                if isNull preferred then
-                    character.Avatars.GetLargest()
-                else
-                    preferred
+        return character.Avatars
+            |> Option.ofObj
+            |> Option.map (fun a -> a.GetBySize(size))
+            |> Option.defaultValue null
     }
