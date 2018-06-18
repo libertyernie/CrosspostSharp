@@ -1,7 +1,7 @@
-﻿using ArtSourceWrapper;
-using CrosspostSharp3.Weasyl;
+﻿using CrosspostSharp3.Weasyl;
 using DeviantArtControls;
 using Newtonsoft.Json;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -68,7 +68,7 @@ namespace CrosspostSharp3 {
 			this.Shown += (o, e) => LoadImage(artworkData);
 		}
 
-		public ArtworkForm(ISubmissionWrapper wrapper) : this() {
+		public ArtworkForm(IPostWrapper wrapper) : this() {
 			this.Shown += (o, e) => LoadImage(wrapper);
 		}
 
@@ -221,11 +221,11 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public async void LoadImage(ISubmissionWrapper wrapper) {
+		public async void LoadImage(IPostWrapper wrapper) {
 			try {
 				LoadImage(await ArtworkData.DownloadAsync(wrapper));
 				_originalWrapper = wrapper;
-				btnDelete.Enabled = _originalWrapper is IDeletable;
+				btnDelete.Enabled = _originalWrapper is SourceWrappers.IDeletable;
 			} catch (Exception ex) {
 				splitContainer1.Panel1.Controls.Add(new TextBox {
 					Text = ex.Message + Environment.NewLine + ex.StackTrace,
@@ -316,7 +316,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnDelete_Click(object sender, EventArgs e) {
-			if (_originalWrapper is IDeletable d) {
+			if (_originalWrapper is SourceWrappers.IDeletable d) {
 				if (MessageBox.Show(this, $"Are you sure you want to permanently delete this submission from {d.SiteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
 					try {
 						await d.DeleteAsync();

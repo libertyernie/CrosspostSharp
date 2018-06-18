@@ -1,5 +1,4 @@
-﻿using ArtSourceWrapper;
-using ISchemm.WinFormsOAuth;
+﻿using ISchemm.WinFormsOAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;

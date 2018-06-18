@@ -153,12 +153,6 @@
     <Compile Include="AccountSelectionForm.Designer.cs">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RSS\AddRSSForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RSS\AddRSSForm.Designer.cs">
-      <DependentUpon>AddRSSForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ArtworkData.cs" />
     <Compile Include="ArtworkForm.cs">
       <SubType>Form</SubType>
@@ -167,9 +161,6 @@
       <DependentUpon>ArtworkForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlConversion.cs" />
-    <Compile Include="RSS\MainForm.MediaRSS.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Tumblr\MainForm.Tumblr.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,9 +248,6 @@
     <EmbeddedResource Include="AccountSelectionForm.resx">
       <DependentUpon>AccountSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RSS\AddRSSForm.resx">
-      <DependentUpon>AddRSSForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ArtworkForm.resx">
       <DependentUpon>ArtworkForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -310,10 +298,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
-      <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
-      <Name>ArtSourceWrapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>

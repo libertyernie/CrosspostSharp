@@ -1,5 +1,5 @@
-﻿using ArtSourceWrapper;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,15 +13,15 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class BatchExportForm : Form {
-		public BatchExportForm(IEnumerable<ISiteWrapper> wrappers) {
+		public BatchExportForm(IEnumerable<IPagedWrapperConsumer> wrappers) {
 			InitializeComponent();
 			foreach (var w in wrappers) listBox1.Items.Add(w);
 		}
 
-		public IEnumerable<ISiteWrapper> SelectedWrappers {
+		public IEnumerable<IPagedWrapperConsumer> SelectedWrappers {
 			get {
 				foreach (var o in listBox1.SelectedItems) {
-					if (o is ISiteWrapper w) yield return w;
+					if (o is IPagedWrapperConsumer w) yield return w;
 				}
 			}
 		}
@@ -36,32 +36,33 @@ namespace CrosspostSharp3 {
 			progressBar1.Maximum = (int)numericUpDown1.Value;
 
 			try {
-				if (SelectedWrappers.Count() != 1) {
-					throw new NotImplementedException();
-				}
+				throw new NotImplementedException();
+				//if (SelectedWrappers.Count() != 1) {
+				//	throw new NotImplementedException();
+				//}
 
-				var wrapper = SelectedWrappers.Single();
+				//var wrapper = SelectedWrappers.Single();
 
-				for (int i = 0; i < numericUpDown1.Value; i++) {
-					progressBar1.Value = i;
+				//for (int i = 0; i < numericUpDown1.Value; i++) {
+				//	progressBar1.Value = i;
 					
-					while (!wrapper.Cache.Skip(i).Any() && !wrapper.IsEnded) {
-						await wrapper.FetchAsync();
-					}
+				//	while (!wrapper.Cache.Skip(i).Any() && !wrapper.IsEnded) {
+				//		await wrapper.FetchAsync();
+				//	}
 
-					if (wrapper.IsEnded) break;
+				//	if (wrapper.IsEnded) break;
 
-					var submission = wrapper.Cache.Skip(i).First();
-					var artworkData = await ArtworkData.DownloadAsync(submission);
-					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, artworkData.GetFileName());
+				//	var submission = wrapper.Cache.Skip(i).First();
+				//	var artworkData = await ArtworkData.DownloadAsync(submission);
+				//	string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, artworkData.GetFileName());
 
-					if (chkExportImage.Checked) {
-						File.WriteAllBytes(imagePath, artworkData.data);
-					}
-					if (chkExportCps.Checked) {
-						File.WriteAllText(imagePath + ".cps", JsonConvert.SerializeObject(artworkData, Formatting.Indented));
-					}
-				}
+				//	if (chkExportImage.Checked) {
+				//		File.WriteAllBytes(imagePath, artworkData.data);
+				//	}
+				//	if (chkExportCps.Checked) {
+				//		File.WriteAllText(imagePath + ".cps", JsonConvert.SerializeObject(artworkData, Formatting.Indented));
+				//	}
+				//}
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}

@@ -1,5 +1,5 @@
-﻿using ArtSourceWrapper;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,7 +19,7 @@ namespace CrosspostSharp3 {
 		public bool mature;
 		public bool adult;
 
-		public static async Task<ArtworkData> DownloadAsync(ISubmissionWrapper wrapper) {
+		public static async Task<ArtworkData> DownloadAsync(IPostWrapper wrapper) {
 			if (wrapper.ImageURL == null) {
 				throw new NotImplementedException("Cannot create a post without an image.");
 			}

@@ -1,5 +1,4 @@
-﻿using ArtSourceWrapper;
-using DeviantartApi.Requests.User.Statuses;
+﻿using DeviantartApi.Requests.User.Statuses;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;

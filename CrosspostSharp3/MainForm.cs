@@ -1,5 +1,4 @@
-﻿using ArtSourceWrapper;
-using DontPanic.TumblrSharp;
+﻿using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
 using SourceWrappers;
@@ -20,16 +19,15 @@ using WeasylLib.Frontend;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
-		private ISiteWrapper _currentWrapper;
+		private IPagedWrapperConsumer _currentWrapper;
 		private int _currentPosition = 0;
 
-		private async void Populate() {
+		private enum Direction { PREV, NEXT, FIRST };
+
+		private async void Populate(Direction direction) {
 			if (_currentWrapper == null) return;
 
 			tableLayoutPanel1.Controls.Clear();
-
-			int i = _currentPosition;
-			int stop = _currentPosition + (tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount);
 
 			btnLoad.Enabled = false;
 			btnPrevious.Enabled = false;
@@ -42,38 +40,38 @@ namespace CrosspostSharp3 {
 			}
 
 			try {
-				while (true) {
-					for (; i < stop && i < _currentWrapper.Cache.Count(); i++) {
-						var item = _currentWrapper.Cache.Skip(i).First();
+				GenericFetchResult result =
+					direction == Direction.PREV ? await _currentWrapper.PrevAsync()
+					: direction == Direction.NEXT ? await _currentWrapper.NextAsync()
+					: direction == Direction.FIRST ? await _currentWrapper.FirstAsync()
+					: throw new ArgumentException(nameof(direction));
 
-						Image image;
-						var req = WebRequestFactory.Create(item.ThumbnailURL);
-						using (var resp = await req.GetResponseAsync())
-						using (var stream = resp.GetResponseStream())
-						using (var ms = new MemoryStream()) {
-							await stream.CopyToAsync(ms);
-							ms.Position = 0;
-							image = Image.FromStream(ms);
-						}
+				btnPrevious.Enabled = _currentPosition > 0;
+				btnNext.Enabled = result.HasMore;
 
-						var p = new Panel {
-							BackgroundImage = image,
-							BackgroundImageLayout = ImageLayout.Zoom,
-							Cursor = Cursors.Hand,
-							Dock = DockStyle.Fill
-						};
-						p.Click += (o, e) => {
-							using (var f = new ArtworkForm(item)) {
-								f.ShowDialog(this);
-							}
-						};
-						tableLayoutPanel1.Controls.Add(p);
+				foreach (var item in result.Posts) {
+					Image image;
+					var req = WebRequestFactory.Create(item.ThumbnailURL);
+					using (var resp = await req.GetResponseAsync())
+					using (var stream = resp.GetResponseStream())
+					using (var ms = new MemoryStream()) {
+						await stream.CopyToAsync(ms);
+						ms.Position = 0;
+						image = Image.FromStream(ms);
 					}
 
-					if (i == stop) break;
-
-					if (_currentWrapper.IsEnded) break;
-					await _currentWrapper.FetchAsync();
+					var p = new Panel {
+						BackgroundImage = image,
+						BackgroundImageLayout = ImageLayout.Zoom,
+						Cursor = Cursors.Hand,
+						Dock = DockStyle.Fill
+					};
+					p.Click += (o, e) => {
+						using (var f = new ArtworkForm(item)) {
+							f.ShowDialog(this);
+						}
+					};
+					tableLayoutPanel1.Controls.Add(p);
 				}
 			} catch (Exception ex) {
 				while (ex is AggregateException a && a.InnerExceptions.Count == 1) {
@@ -83,8 +81,6 @@ namespace CrosspostSharp3 {
 			}
 
 			btnLoad.Enabled = true;
-			btnPrevious.Enabled = _currentPosition > 0;
-			btnNext.Enabled = _currentWrapper.Cache.Count() > stop || !_currentWrapper.IsEnded;
 		}
 
 		private async Task UpdateAvatar() {
@@ -105,13 +101,17 @@ namespace CrosspostSharp3 {
 			}
 
 			lblUsername.Text = await _currentWrapper.WhoamiAsync();
-			lblSiteName.Text = _currentWrapper.WrapperName;
+			lblSiteName.Text = _currentWrapper.Name;
+		}
+
+		private static IPagedWrapperConsumer CreatePager<T>(ISourceWrapper<T> wrapper) where T : struct {
+			return new PagedWrapperConsumer<T>(wrapper, 4);
 		}
 
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
-			var list = new List<ISiteWrapper>();
+			var list = new List<IPagedWrapperConsumer>();
 
 			lblLoadStatus.Visible = true;
 			lblLoadStatus.Text = "Loading settings...";
@@ -120,9 +120,9 @@ namespace CrosspostSharp3 {
 			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
-					list.Add(new SourceWrapperWrapper<int>(new DeviantArtSourceWrapper()));
-					list.Add(new SourceWrapperWrapper<int>(new DeviantArtStatusSourceWrapper()));
-					list.Add(new SourceWrapperWrapper<int>(new OrderedSourceWrapper<int>(new StashSourceWrapper())));
+					list.Add(CreatePager(new DeviantArtSourceWrapper()));
+					list.Add(CreatePager(new DeviantArtStatusSourceWrapper()));
+					list.Add(CreatePager(new OrderedSourceWrapper<int>(new StashSourceWrapper())));
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					s.DeviantArt = new Settings.DeviantArtSettings {
@@ -133,15 +133,15 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fl in s.Flickr) {
 				lblLoadStatus.Text = $"Adding Flickr {fl.username}...";
-				list.Add(new SourceWrapperWrapper<int>(new FlickrSourceWrapper(fl.CreateClient())));
+				list.Add(CreatePager(new FlickrSourceWrapper(fl.CreateClient())));
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				list.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(
+				list.Add(CreatePager(new FurAffinitySourceWrapper(
 					a: fa.a,
 					b: fa.b,
 					scraps: false)));
-				list.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(
+				list.Add(CreatePager(new FurAffinitySourceWrapper(
 					a: fa.a,
 					b: fa.b,
 					scraps: true)));
@@ -149,24 +149,20 @@ namespace CrosspostSharp3 {
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
 				var client = new FurryNetworkClient(fn.refreshToken);
-				list.Add(new SourceWrapperWrapper<int>(new FurryNetworkSourceWrapper(client, fn.characterName)));
+				list.Add(CreatePager(new FurryNetworkSourceWrapper(client, fn.characterName)));
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
-				list.Add(new SourceWrapperWrapper<int>(new InkbunnySourceWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), 4)));
+				list.Add(CreatePager(new InkbunnySourceWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), 4)));
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
-				list.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true)));
-				list.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false)));
-			}
-			foreach (var m in s.MediaRSS) {
-				lblLoadStatus.Text = $"Adding Media RSS feed ({m.name})...";
-				list.Add(new MediaRSSWrapper(new Uri(m.url), m.name));
+				list.Add(CreatePager(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true)));
+				list.Add(CreatePager(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false)));
 			}
 			foreach (var p in s.Pixiv) {
 				lblLoadStatus.Text = $"Adding Pixiv ({p.username})...";
-				list.Add(new SourceWrapperWrapper<int>(new PixivSourceWrapper(p.username, p.password)));
+				list.Add(CreatePager(new PixivSourceWrapper(p.username, p.password)));
 			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {
@@ -176,8 +172,8 @@ namespace CrosspostSharp3 {
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-				list.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(client, t.blogName, photosOnly: true)));
-				list.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(client, t.blogName, photosOnly: false)));
+				list.Add(CreatePager(new TumblrSourceWrapper(client, t.blogName, photosOnly: true)));
+				list.Add(CreatePager(new TumblrSourceWrapper(client, t.blogName, photosOnly: false)));
 			}
 			foreach (var w in s.Weasyl) {
 				if (w.wzl == null) continue;
@@ -185,25 +181,19 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
 
 				var username = await new WeasylFrontendClient() { WZL = w.wzl }.GetUsernameAsync();
-				list.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(username)));
-				list.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(username)));
-			}
-
-			foreach (var wrapper in list) {
-				if (!wrapper.SubmissionsFiltered) {
-					wrapper.BatchSize = Math.Max(wrapper.MinBatchSize, Math.Min(wrapper.MaxBatchSize, 4));
-				}
+				list.Add(CreatePager(new WeasylSourceWrapper(username)));
+				list.Add(CreatePager(new WeasylCharacterSourceWrapper(username)));
 			}
 			
 			lblLoadStatus.Text = "Connecting to sites...";
 
 			var tasks = list.Select(async w => {
 				try {
-					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.WrapperName}");
+					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.Name}");
 				} catch (FurryNetworkClient.TokenException ex) {
-					return new WrapperMenuItem(w, $"{w.WrapperName} (cannot connect: {ex.Message})");
+					return new WrapperMenuItem(w, $"{w.Name} (cannot connect: {ex.Message})");
 				} catch (Exception) {
-					return new WrapperMenuItem(w, $"{w.WrapperName} (cannot connect)");
+					return new WrapperMenuItem(w, $"{w.Name} (cannot connect)");
 				}
 			}).Where(item => item != null).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
@@ -237,17 +227,17 @@ namespace CrosspostSharp3 {
 		private void btnLoad_Click(object sender, EventArgs e) {
 			_currentWrapper = (ddlSource.SelectedItem as WrapperMenuItem)?.BaseWrapper;
 			_currentPosition = 0;
-			Populate();
+			Populate(Direction.FIRST);
 		}
 
 		private void btnPrevious_Click(object sender, EventArgs e) {
 			_currentPosition = Math.Max(0, _currentPosition - 4);
-			Populate();
+			Populate(Direction.PREV);
 		}
 
 		private void btnNext_Click(object sender, EventArgs e) {
 			_currentPosition += tableLayoutPanel1.RowCount + tableLayoutPanel1.ColumnCount;
-			Populate();
+			Populate(Direction.NEXT);
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -267,10 +257,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void refreshAllToolStripMenuItem_Click(object sender, EventArgs e) {
-			foreach (var w in GetWrappers()) {
-				w.Clear();
-			}
-			Populate();
+			Populate(Direction.FIRST);
 		}
 
 		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -283,7 +270,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private IEnumerable<ISiteWrapper> GetWrappers() {
+		private IEnumerable<IPagedWrapperConsumer> GetWrappers() {
 			foreach (var o in ddlSource.Items) {
 				if (o is WrapperMenuItem w) yield return w.BaseWrapper;
 			}

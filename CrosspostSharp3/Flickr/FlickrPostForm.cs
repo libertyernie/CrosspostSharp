@@ -1,5 +1,4 @@
-﻿using ArtSourceWrapper;
-using FlickrNet;
+﻿using FlickrNet;
 using FurryNetworkLib;
 using SourceWrappers;
 using System;

@@ -1,5 +1,4 @@
-﻿using ArtSourceWrapper;
-using FurryNetworkLib;
+﻿using FurryNetworkLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

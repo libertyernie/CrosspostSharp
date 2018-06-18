@@ -213,13 +213,6 @@
             this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
             this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
             // 
-            // mediaRSSToolStripMenuItem
-            // 
-            this.mediaRSSToolStripMenuItem.Name = "mediaRSSToolStripMenuItem";
-            this.mediaRSSToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mediaRSSToolStripMenuItem.Text = "&Media RSS";
-            this.mediaRSSToolStripMenuItem.Click += new System.EventHandler(this.mediaRSSToolStripMenuItem_Click);
-            // 
             // pinterestToolStripMenuItem
             // 
             this.pinterestToolStripMenuItem.Name = "pinterestToolStripMenuItem";

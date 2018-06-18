@@ -5,8 +5,9 @@ open System.Threading.Tasks
 type IPagedWrapperConsumer =
     abstract member Name: string with get
     abstract member SuggestedBatchSize: int with get
-    abstract member NextAsync: Task<GenericFetchResult>
-    abstract member PrevAsync: Task<GenericFetchResult>
+    abstract member NextAsync: unit -> Task<GenericFetchResult>
+    abstract member PrevAsync: unit -> Task<GenericFetchResult>
+    abstract member FirstAsync: unit -> Task<GenericFetchResult>
     abstract member WhoamiAsync: unit -> Task<string>
     abstract member GetUserIconAsync: int -> Task<string>
 
@@ -29,6 +30,8 @@ type PagedWrapperConsumer<'a when 'a : struct>(wrapper: ISourceWrapper<'a>, page
             | Some c -> wrapper.MoreAsync c.cursor page_size |> Async.AwaitTask
             | None -> wrapper.StartAsync page_size |> Async.AwaitTask
 
+        if Seq.length r.Posts > page_size then failwith "This wrapper does not support custom page sizes."
+
         let n = {
             cursor = r.Next
             last = next_cursor
@@ -44,10 +47,16 @@ type PagedWrapperConsumer<'a when 'a : struct>(wrapper: ISourceWrapper<'a>, page
         return! next
     }
 
+    let first = async {
+        next_cursor <- None
+        return! next
+    }
+
     interface IPagedWrapperConsumer with
         member this.Name = wrapper.Name
         member this.SuggestedBatchSize = wrapper.SuggestedBatchSize
-        member this.NextAsync = next |> Async.StartAsTask
-        member this.PrevAsync = prev |> Async.StartAsTask
+        member this.NextAsync() = next |> Async.StartAsTask
+        member this.PrevAsync() = prev |> Async.StartAsTask
+        member this.FirstAsync() = first |> Async.StartAsTask
         member this.WhoamiAsync() = wrapper.WhoamiAsync()
         member this.GetUserIconAsync size = wrapper.GetUserIconAsync size
