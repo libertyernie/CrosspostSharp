@@ -93,7 +93,6 @@
     <Compile Include="MediaRSS.cs" />
     <Compile Include="Pixiv.cs" />
     <Compile Include="SourceWrapperWrapper.cs" />
-    <Compile Include="Stash.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

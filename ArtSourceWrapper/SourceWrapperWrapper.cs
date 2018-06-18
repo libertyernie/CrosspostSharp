@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
-	public class PostWrapperWrapper : ISubmissionWrapper {
+	public class PostWrapperWrapper : ISubmissionWrapper, IDeletable {
 		private IPostWrapper _post;
 
 		public PostWrapperWrapper(IPostWrapper post) {
@@ -24,6 +24,11 @@ namespace ArtSourceWrapper {
 		public string ImageURL => _post.ImageURL;
 		public string ThumbnailURL => _post.ThumbnailURL;
 		public Color? BorderColor => null;
+
+		public string SiteName => (_post as SourceWrappers.IDeletable)?.SiteName ?? "the site";
+		public Task DeleteAsync() {
+			return (_post as SourceWrappers.IDeletable)?.DeleteAsync() ?? Task.FromException(new NotImplementedException());
+		}
 	}
 
 	public class StatusUpdatePostWrapperWrapper : PostWrapperWrapper, IStatusUpdate {

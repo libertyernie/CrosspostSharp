@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Include="SourceWrapper.fs" />
     <Compile Include="CachedSourceWrapper.fs" />
+    <Compile Include="OrderedSourceWrapper.fs" />
     <Compile Include="MetaSourceWrapper.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtStatus.fs" />
@@ -14,6 +15,7 @@
     <Compile Include="FurAffinity.fs" />
     <Compile Include="FurryNetwork.fs" />
     <Compile Include="Inkbunny.fs" />
+    <Compile Include="Stash.fs" />
     <Compile Include="Tumblr.fs" />
     <Compile Include="Weasyl.fs" />
   </ItemGroup>
