@@ -2,7 +2,6 @@
 
 open FAExportLib
 open System
-open WrapperUtility
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
     member this.Id = submission.Id
@@ -30,7 +29,7 @@ type FurAffinityPostWrapper(submission: FASubmission) =
                 html
         member this.Mature = submission.Rating.ToLowerInvariant() = "mature"
         member this.Adult = submission.Rating.ToLowerInvariant() = "explicit"
-        member this.Tags = submission.Keywords |> Seq.map id
+        member this.Tags = submission.Keywords :> seq<string>
         member this.Timestamp = submission.PostedAt.UtcDateTime
         member this.ViewURL = submission.Link
         member this.ImageURL = submission.Download
@@ -65,7 +64,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
         let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
         
         return {
-            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> asIPostWrappers
+            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> Seq.map Swu.toPostWrapperInterface
             Next = page + 1
             HasMore = Seq.length gallery > 0
         }
@@ -104,7 +103,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
 
         let ids =
             cache
-            |> skipSafe skip
+            |> Swu.skipSafe skip
             |> Seq.truncate take
 
         let v = Seq.length ids
@@ -115,7 +114,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
             |> Async.Parallel
 
         return {
-            Posts = gallery |> Seq.map FurAffinityPostWrapper |> asIPostWrappers
+            Posts = gallery |> Seq.map FurAffinityPostWrapper |> Seq.map Swu.toPostWrapperInterface
             Next = skip + take
             HasMore = Seq.length gallery > 0
         }

@@ -1,6 +1,5 @@
 ﻿namespace SourceWrappers
 
-open WrapperUtility
 open System.Collections.Generic
 
 type MetaSourceWrapper(name: string, sources: seq<AbstractCachedSourceWrapper>) =
@@ -15,7 +14,7 @@ type MetaSourceWrapper(name: string, sources: seq<AbstractCachedSourceWrapper>) 
             queues
             |> Seq.map (fun s -> s.AdvanceIfNeeded())
             |> Async.Parallel
-            |> whenDone ignore
+            |> Swu.whenDone ignore
         let first =
             queues
             |> Seq.sortByDescending (fun queue -> queue.PeekTimestamp())
@@ -34,7 +33,7 @@ type MetaSourceWrapper(name: string, sources: seq<AbstractCachedSourceWrapper>) 
             do! addNext
 
         return {
-            Posts = cache |> skipSafe skip |> Seq.truncate take
+            Posts = cache |> Swu.skipSafe skip |> Seq.truncate take
             Next = skip + take
             HasMore = not ended
         }

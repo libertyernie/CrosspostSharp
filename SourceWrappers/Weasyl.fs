@@ -1,6 +1,5 @@
 ﻿namespace SourceWrappers
 
-open WrapperUtility
 open WeasylLib.Api
 open WeasylLib.Frontend
 open System.Threading.Tasks
@@ -11,7 +10,7 @@ type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
         member this.HTMLDescription = submission.HTMLDescription
         member this.Mature = submission.rating = "mature"
         member this.Adult = submission.rating = "explicit"
-        member this.Tags = submission.tags |> Seq.map id
+        member this.Tags = submission.tags :> seq<string>
         member this.Timestamp = submission.posted_at
         member this.ViewURL = submission.link
         member this.ImageURL = submission.media.submission |> Seq.map (fun s -> s.url) |> Seq.head
@@ -42,7 +41,7 @@ type WeasylSourceWrapper(username: string) =
             Posts = submissions
                 |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
                 |> Seq.map WeasylPostWrapper
-                |> asIPostWrappers
+                |> Seq.map Swu.toPostWrapperInterface
             Next = gallery.nextid |> Option.ofNullable |> Option.defaultValue 0
             HasMore = gallery.nextid.HasValue
         }
@@ -67,7 +66,7 @@ type WeasylCharacterSourceWrapper(username: string) =
     override this.Fetch cursor take = async {
         let! allIds = Scraper.GetCharacterIdsAsync(username) |> Async.AwaitTask
         let skip = cursor |> Option.defaultValue 0
-        let ids = allIds |> skipSafe skip |> Seq.truncate take
+        let ids = allIds |> Swu.skipSafe skip |> Seq.truncate take
 
         let! submissions =
             ids
@@ -79,7 +78,7 @@ type WeasylCharacterSourceWrapper(username: string) =
             Posts = submissions
                 |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
                 |> Seq.map WeasylPostWrapper
-                |> asIPostWrappers
+                |> Seq.map Swu.toPostWrapperInterface
             Next = skip + take
             HasMore = allIds.Count > skip + take
         }

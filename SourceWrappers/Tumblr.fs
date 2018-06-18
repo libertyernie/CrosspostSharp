@@ -25,7 +25,7 @@ type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BaseP
         member this.HTMLDescription = this.HTMLDescription
         member this.Mature = false
         member this.Adult = false
-        member this.Tags = post.Tags |> Seq.map id
+        member this.Tags = post.Tags :> seq<string>
         member this.Timestamp = post.Timestamp
         member this.ViewURL = post.Url
         member this.ImageURL = this.ImageURL

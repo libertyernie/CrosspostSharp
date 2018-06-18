@@ -12,11 +12,7 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
         member this.Title = deviation.Title
         member this.HTMLDescription =
             match metadata with
-                | Some m -> 
-                    if m.Description.Contains("<P>") || m.Description.Contains("<p>") then
-                        m.Description
-                    else
-                        sprintf "<p>%s</p>" m.Description
+                | Some m -> m.Description
                 | None -> null
         member this.Mature = deviation.IsMature |> Option.ofNullable |> Option.defaultValue false
         member this.Adult = false

@@ -1,6 +1,5 @@
 ﻿namespace SourceWrappers
 
-open WrapperUtility
 open System.Collections.Generic
 open System
 
@@ -23,12 +22,12 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
 
         if cache.Count >= skip + take then
             return {
-                Posts = cache |> skipSafe skip |> Seq.truncate take
+                Posts = cache |> Swu.skipSafe skip |> Seq.truncate take
                 Next = skip + take
                 HasMore = true
             }
         else if ended then
-            let posts = cache |> skipSafe skip |> Seq.truncate take
+            let posts = cache |> Swu.skipSafe skip |> Seq.truncate take
             return {
                 Posts = posts
                 Next = skip + Seq.length posts
