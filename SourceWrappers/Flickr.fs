@@ -47,7 +47,7 @@ type FlickrSourceWrapper(flickr: Flickr) =
         return {
             Posts = posts |> Seq.map FlickrPostWrapper |> Seq.map Swu.toPostWrapperInterface
             Next = posts.Page + 1
-            HasMore = posts.Page = posts.Pages
+            HasMore = posts.Page < posts.Pages
         }
     }
 
