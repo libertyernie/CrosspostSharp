@@ -46,7 +46,7 @@ type DeviantArtStatusPostWrapper(status: Status) =
         member this.AdditionalLinks = OtherDeviations |> Seq.map (fun d -> d.Url.AbsoluteUri)
 
 type DeviantArtStatusSourceWrapper() =
-    inherit SourceWrapper<uint32>()
+    inherit SourceWrapper<int>()
 
     let mutable cached_user: User = null
 
@@ -65,13 +65,13 @@ type DeviantArtStatusSourceWrapper() =
     override this.SuggestedBatchSize = 10
 
     override this.Fetch cursor take = async {
-        let position = cursor |> Option.defaultValue (uint32 0)
+        let position = cursor |> Option.defaultValue 0
 
         let! username = this.Whoami
 
         let statusesRequest = new StatusesRequest(username)
         statusesRequest.Limit <- take |> min 50 |> uint32 |> Nullable
-        statusesRequest.Offset <- position |> Nullable
+        statusesRequest.Offset <- position |> uint32 |> Nullable
 
         let! statuses =
             statusesRequest.ExecuteAsync()
@@ -80,7 +80,7 @@ type DeviantArtStatusSourceWrapper() =
         
         return {
             Posts = statuses.Results |> Seq.map DeviantArtStatusPostWrapper |> Seq.map Swu.toPostWrapperInterface
-            Next = statuses.NextOffset |> Option.ofNullable |> Option.defaultValue 0 |> uint32
+            Next = statuses.NextOffset |> Option.ofNullable |> Option.defaultValue 0
             HasMore = statuses.HasMore
         }
     }

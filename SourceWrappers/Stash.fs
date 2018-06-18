@@ -50,7 +50,7 @@ type StashPostWrapper(entry: Entry) =
         member this.DeleteAsync() = delete |> Async.StartAsTask :> Task
 
 type StashSourceWrapper() =
-    inherit SourceWrapper<uint32>()
+    inherit SourceWrapper<int>()
 
     let deviantArtWrapper = new DeviantArtSourceWrapper()
     
@@ -58,11 +58,11 @@ type StashSourceWrapper() =
     override this.SuggestedBatchSize = 120
 
     override this.Fetch cursor take = async {
-        let position = cursor |> Option.defaultValue (uint32 0)
+        let position = cursor |> Option.defaultValue 0
 
         let deltaRequest = new DeltaRequest()
         deltaRequest.Limit <- take |> min 120 |> uint32 |> Nullable
-        deltaRequest.Offset <- position |> Nullable
+        deltaRequest.Offset <- position |> uint32 |> Nullable
 
         let! result =
             deltaRequest.ExecuteAsync()
@@ -78,7 +78,7 @@ type StashSourceWrapper() =
 
         return {
             Posts = wrappers
-            Next = result.NextOffset |> Option.ofNullable |> Option.defaultValue 0 |> uint32
+            Next = result.NextOffset |> Option.ofNullable |> Option.defaultValue 0
             HasMore = result.HasMore
         }
     }

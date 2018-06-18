@@ -30,7 +30,7 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
             |> Option.defaultValue deviation.Content.Src
 
 type DeviantArtSourceWrapper() =
-    inherit SourceWrapper<uint32>()
+    inherit SourceWrapper<int>()
 
     let mutable cached_user: User = null
 
@@ -49,11 +49,11 @@ type DeviantArtSourceWrapper() =
     override this.SuggestedBatchSize = 10
 
     override this.Fetch cursor take = async {
-        let position = cursor |> Option.defaultValue (uint32 0)
+        let position = cursor |> Option.defaultValue 0
 
         let galleryRequest = new AllRequest()
         galleryRequest.Limit <- take |> min 24 |> uint32 |> Nullable
-        galleryRequest.Offset <- position |> Nullable
+        galleryRequest.Offset <- position |> uint32 |> Nullable
 
         let! gallery =
             galleryRequest.ExecuteAsync()
@@ -82,7 +82,7 @@ type DeviantArtSourceWrapper() =
 
         return {
             Posts = wrappers
-            Next = gallery.NextOffset |> Option.ofNullable |> Option.defaultValue 0 |> uint32
+            Next = gallery.NextOffset |> Option.ofNullable |> Option.defaultValue 0
             HasMore = gallery.HasMore
         }
     }
