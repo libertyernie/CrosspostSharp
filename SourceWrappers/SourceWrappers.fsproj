@@ -15,6 +15,7 @@
     <Compile Include="FurAffinity.fs" />
     <Compile Include="FurryNetwork.fs" />
     <Compile Include="Inkbunny.fs" />
+    <Compile Include="Pixiv.fs" />
     <Compile Include="Stash.fs" />
     <Compile Include="Tumblr.fs" />
     <Compile Include="Weasyl.fs" />
@@ -32,6 +33,7 @@
     <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />
+    <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj" />
   </ItemGroup>

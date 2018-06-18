@@ -91,7 +91,6 @@
     <Compile Include="Empty.cs" />
     <Compile Include="Local.cs" />
     <Compile Include="MediaRSS.cs" />
-    <Compile Include="Pixiv.cs" />
     <Compile Include="SourceWrapperWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

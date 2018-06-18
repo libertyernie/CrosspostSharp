@@ -166,7 +166,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var p in s.Pixiv) {
 				lblLoadStatus.Text = $"Adding Pixiv ({p.username})...";
-				list.Add(new PixivWrapper(p.username, p.password));
+				list.Add(new SourceWrapperWrapper<int>(new PixivSourceWrapper(p.username, p.password)));
 			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {

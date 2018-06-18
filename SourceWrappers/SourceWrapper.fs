@@ -60,6 +60,9 @@ type SourceWrapper<'cursor when 'cursor : struct>() =
 module internal Swu =
     open DeviantartApi.Objects
 
+    let tryMapSingle x f =
+        if isNull x then None else Some (f x)
+
     let skipSafe num = 
         Seq.zip (Seq.initInfinite id)
         >> Seq.skipWhile (fun (i, _) -> i < num)

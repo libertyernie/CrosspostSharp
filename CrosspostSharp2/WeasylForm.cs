@@ -173,7 +173,7 @@ namespace CrosspostSharp {
 				}
 
 				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.Username) && !string.IsNullOrEmpty(GlobalSettings.Pixiv.Password)) {
-					wrappers.Add(new PixivWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password));
+					wrappers.Add(new SourceWrapperWrapper<int>(new PixivSourceWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password)));
 				}
 
 				if (FurryNetwork != null) {
