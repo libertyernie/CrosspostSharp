@@ -39,15 +39,15 @@ namespace CrosspostSharp3 {
 				Console.Error.WriteLine($"Could not load avatar: {ex.Message}");
 			}
 
+			bool more = true;
+
 			try {
 				GenericFetchResult result =
 					direction == Direction.PREV ? await _currentWrapper.PrevAsync()
 					: direction == Direction.NEXT ? await _currentWrapper.NextAsync()
 					: direction == Direction.FIRST ? await _currentWrapper.FirstAsync()
 					: throw new ArgumentException(nameof(direction));
-
-				btnPrevious.Enabled = _currentPosition > 0;
-				btnNext.Enabled = result.HasMore;
+				more = result.HasMore;
 
 				foreach (var item in result.Posts) {
 					Image image;
@@ -81,6 +81,8 @@ namespace CrosspostSharp3 {
 			}
 
 			btnLoad.Enabled = true;
+			btnPrevious.Enabled = _currentPosition > 0;
+			btnNext.Enabled = more;
 		}
 
 		private async Task UpdateAvatar() {
@@ -113,6 +115,10 @@ namespace CrosspostSharp3 {
 
 			var list = new List<IPagedWrapperConsumer>();
 
+			void add<T>(ISourceWrapper<T> wrapper) where T : struct {
+				list.Add(new PagedWrapperConsumer<int>(new CachedSourceWrapper<T>(wrapper), 4));
+			}
+
 			lblLoadStatus.Visible = true;
 			lblLoadStatus.Text = "Loading settings...";
 
@@ -120,9 +126,9 @@ namespace CrosspostSharp3 {
 			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
-					list.Add(CreatePager(new DeviantArtSourceWrapper()));
-					list.Add(CreatePager(new DeviantArtStatusSourceWrapper()));
-					list.Add(CreatePager(new OrderedSourceWrapper<int>(new StashSourceWrapper())));
+					add(new DeviantArtSourceWrapper());
+					add(new DeviantArtStatusSourceWrapper());
+					add(new OrderedSourceWrapper<int>(new StashSourceWrapper()));
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					s.DeviantArt = new Settings.DeviantArtSettings {
@@ -133,15 +139,15 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fl in s.Flickr) {
 				lblLoadStatus.Text = $"Adding Flickr {fl.username}...";
-				list.Add(CreatePager(new FlickrSourceWrapper(fl.CreateClient())));
+				add(new FlickrSourceWrapper(fl.CreateClient()));
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				list.Add(CreatePager(new FurAffinitySourceWrapper(
+				add((new FurAffinitySourceWrapper(
 					a: fa.a,
 					b: fa.b,
 					scraps: false)));
-				list.Add(CreatePager(new FurAffinitySourceWrapper(
+				add((new FurAffinitySourceWrapper(
 					a: fa.a,
 					b: fa.b,
 					scraps: true)));
@@ -149,20 +155,20 @@ namespace CrosspostSharp3 {
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
 				var client = new FurryNetworkClient(fn.refreshToken);
-				list.Add(CreatePager(new FurryNetworkSourceWrapper(client, fn.characterName)));
+				add(new FurryNetworkSourceWrapper(client, fn.characterName));
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
-				list.Add(CreatePager(new InkbunnySourceWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), 4)));
+				add(new InkbunnySourceWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), 4));
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
-				list.Add(CreatePager(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true)));
-				list.Add(CreatePager(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false)));
+				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true));
+				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false));
 			}
 			foreach (var p in s.Pixiv) {
 				lblLoadStatus.Text = $"Adding Pixiv ({p.username})...";
-				list.Add(CreatePager(new PixivSourceWrapper(p.username, p.password)));
+				add(new PixivSourceWrapper(p.username, p.password));
 			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {
@@ -172,8 +178,8 @@ namespace CrosspostSharp3 {
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-				list.Add(CreatePager(new TumblrSourceWrapper(client, t.blogName, photosOnly: true)));
-				list.Add(CreatePager(new TumblrSourceWrapper(client, t.blogName, photosOnly: false)));
+				add(new TumblrSourceWrapper(client, t.blogName, photosOnly: true));
+				add(new TumblrSourceWrapper(client, t.blogName, photosOnly: false));
 			}
 			foreach (var w in s.Weasyl) {
 				if (w.wzl == null) continue;
@@ -181,8 +187,8 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
 
 				var username = await new WeasylFrontendClient() { WZL = w.wzl }.GetUsernameAsync();
-				list.Add(CreatePager(new WeasylSourceWrapper(username)));
-				list.Add(CreatePager(new WeasylCharacterSourceWrapper(username)));
+				add(new WeasylSourceWrapper(username));
+				add(new WeasylCharacterSourceWrapper(username));
 			}
 			
 			lblLoadStatus.Text = "Connecting to sites...";

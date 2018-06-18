@@ -7,7 +7,7 @@ open System
 type AbstractCachedSourceWrapper() =
     inherit SourceWrapper<int>()
 
-type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
+type CachedSourceWrapper<'a when 'a : struct>(source: ISourceWrapper<'a>) =
     inherit AbstractCachedSourceWrapper()
 
     let cache = new List<IPostWrapper>()
@@ -34,7 +34,9 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
                 HasMore = false
             }
         else
-            let! result = source.Fetch cursor source.SuggestedBatchSize
+            let! result = match cursor with
+                | Some c -> source.MoreAsync c source.SuggestedBatchSize |> Async.AwaitTask
+                | None -> source.StartAsync source.SuggestedBatchSize |> Async.AwaitTask
 
             cache.AddRange(result.Posts)
             cursor <- Some result.Next
@@ -43,9 +45,9 @@ type CachedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
             return! this.Fetch index take
     }
 
-    override this.Whoami = source.Whoami
+    override this.Whoami = source.WhoamiAsync() |> Async.AwaitTask
 
-    override this.GetUserIcon size = source.GetUserIcon size
+    override this.GetUserIcon size = source.GetUserIconAsync size |> Async.AwaitTask
 
 type internal SourceWrapperQueue(wrapper: AbstractCachedSourceWrapper) =
     let mutable cursor: int option = None
