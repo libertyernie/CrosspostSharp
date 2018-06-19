@@ -113,14 +113,10 @@ namespace CrosspostSharp3 {
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
-			var list = new List<IPagedWrapperConsumer>();
+			var list = new List<AbstractCachedSourceWrapper>();
 
-			void add<T>(IPagedSourceWrapper<T> wrapper, bool cache = true) where T : struct {
-				if (cache) {
-					list.Add(new PagedWrapperConsumer<int>(new CachedSourceWrapper<T>(wrapper), 4));
-				} else {
-					list.Add(new PagedWrapperConsumer<T>(wrapper, 4));
-				}
+			void add<T>(IPagedSourceWrapper<T> wrapper) where T : struct {
+				list.Add(new CachedSourceWrapper<T>(wrapper));
 			}
 
 			lblLoadStatus.Visible = true;
@@ -196,8 +192,9 @@ namespace CrosspostSharp3 {
 			}
 			
 			lblLoadStatus.Text = "Connecting to sites...";
-
-			var tasks = list.Select(async w => {
+			
+			var tasks = list.Select(async c => {
+				IPagedWrapperConsumer w = new PagedWrapperConsumer<int>(c, 4);
 				try {
 					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.Name}");
 				} catch (FurryNetworkClient.TokenException ex) {
@@ -211,6 +208,8 @@ namespace CrosspostSharp3 {
 				.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
 				.ToArray();
 			ddlSource.Items.AddRange(wrappers);
+
+			ddlSource.Items.Add(new WrapperMenuItem(new PagedWrapperConsumer<int>(new MetaSourceWrapper("All", list), 4), "All"));
 
 			lblLoadStatus.Visible = false;
 
