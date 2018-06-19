@@ -90,7 +90,6 @@
     <Compile Include="Base.cs" />
     <Compile Include="Empty.cs" />
     <Compile Include="Local.cs" />
-    <Compile Include="MediaRSS.cs" />
     <Compile Include="SourceWrapperWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,10 +105,6 @@
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}</Project>
       <Name>InkbunnyLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MediaRssSharp\MediaRssSharp\MediaRssSharp.csproj">
-      <Project>{5DD5B31F-DB30-4711-B3B6-46D263C11280}</Project>
-      <Name>MediaRssSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj">
       <Project>{337daf53-dcc0-477d-a7b9-5c4c37547292}</Project>
