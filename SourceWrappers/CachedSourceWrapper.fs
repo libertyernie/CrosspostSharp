@@ -1,14 +1,13 @@
 ﻿namespace SourceWrappers
 
 open System.Collections.Generic
-open System
 
 [<AbstractClass>]
-type AbstractCachedSourceWrapper() =
+type CachedSourceWrapper() =
     inherit SourceWrapper<int>()
 
-type CachedSourceWrapper<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
-    inherit AbstractCachedSourceWrapper()
+type CachedSourceWrapperImpl<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
+    inherit CachedSourceWrapper()
 
     let cache = new List<IPostWrapper>()
     let mutable cursor: 'a option = None
@@ -34,7 +33,8 @@ type CachedSourceWrapper<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
                 HasMore = false
             }
         else
-            let! result = match cursor with
+            let! result =
+                match cursor with
                 | Some c -> source.MoreAsync c (max take source.SuggestedBatchSize) |> Async.AwaitTask
                 | None -> source.StartAsync (max take source.SuggestedBatchSize) |> Async.AwaitTask
 
@@ -48,30 +48,3 @@ type CachedSourceWrapper<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
     override this.Whoami = source.WhoamiAsync() |> Async.AwaitTask
 
     override this.GetUserIcon size = source.GetUserIconAsync size |> Async.AwaitTask
-
-type internal SourceWrapperQueue(wrapper: AbstractCachedSourceWrapper) =
-    let mutable cursor: int option = None
-    let mutable ended = false
-
-    let buffer = new Queue<IPostWrapper>()
-    
-    member this.PeekTimestamp() =
-        if buffer.Count = 0 then
-            DateTime.MinValue
-        else
-            buffer.Peek().Timestamp
-
-    member this.Dequeue() =
-        if buffer.Count = 0 then
-            None
-        else
-            Some (buffer.Dequeue())
-
-    member this.AdvanceIfNeeded() = async {
-        if buffer.Count = 0 && not ended then
-            let! result = wrapper.Fetch cursor 1
-            cursor <- Some result.Next
-            ended <- not result.HasMore
-            for p in result.Posts do
-                buffer.Enqueue p
-    }

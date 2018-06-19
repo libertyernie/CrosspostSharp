@@ -29,7 +29,7 @@ type FurAffinityPostWrapper(submission: FASubmission) =
                 html
         member this.Mature = submission.Rating.ToLowerInvariant() = "mature"
         member this.Adult = submission.Rating.ToLowerInvariant() = "explicit"
-        member this.Tags = submission.Keywords :> seq<string>
+        member this.Tags = submission.Keywords
         member this.Timestamp = submission.PostedAt.UtcDateTime
         member this.ViewURL = submission.Link
         member this.ImageURL = submission.Download
