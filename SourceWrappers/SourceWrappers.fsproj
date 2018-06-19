@@ -9,7 +9,6 @@
     <Compile Include="PagedWrapperConsumer.fs" />
     <Compile Include="CachedSourceWrapper.fs" />
     <Compile Include="OrderedSourceWrapper.fs" />
-    <Compile Include="MetaSourceWrapper.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtStatus.fs" />
     <Compile Include="Flickr.fs" />

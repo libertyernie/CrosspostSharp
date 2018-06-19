@@ -208,9 +208,7 @@ namespace CrosspostSharp3 {
 				.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
 				.ToArray();
 			ddlSource.Items.AddRange(wrappers);
-
-			ddlSource.Items.Add(new WrapperMenuItem(new PagedWrapperConsumer<int>(new MetaSourceWrapper("All", list), 4), "All"));
-
+			
 			lblLoadStatus.Visible = false;
 
 			if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
