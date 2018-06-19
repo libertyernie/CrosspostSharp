@@ -1,32 +1,19 @@
 ﻿namespace SourceWrappers
 
-open System.Collections.Generic
-
-/// A wrapper around another IPagedSourceWrapper that sorts each batch in descending order by post date. For best results, ask for a single large batch.
+/// A wrapper around another ISourceWrapper that fetches a given number of posts and returns them sorted by post date (newest first.)
 type OrderedSourceWrapper<'a when 'a : struct>(source: ISourceWrapper<'a>) =
-    inherit SourceWrapper<'a>()
+    inherit SourceWrapper<int>()
 
     override this.Name = source.Name
-    override this.SuggestedBatchSize = source.SuggestedBatchSize * 10
+    override this.SuggestedBatchSize = 1000
 
     override this.Fetch initialCursor take = async {
-        let cache = new List<IPostWrapper>()
-        let mutable cursor = initialCursor
-        
-        let mutable hasMore = true
-        while hasMore && cache.Count < take do
-            let! result =
-                match cursor with
-                | Some c -> source.MoreAsync c take |> Async.AwaitTask
-                | None -> source.StartAsync take |> Async.AwaitTask
-            cache.AddRange(result.Posts)
-            cursor <- Some result.Next
-            hasMore <- result.HasMore
+        let! result = source.FetchAllAsync take |> Async.AwaitTask
 
         return {
-            Posts = cache |> Seq.sortByDescending (fun w -> w.Timestamp)
-            Next = cursor.Value
-            HasMore = hasMore
+            Posts = result |> Seq.sortByDescending (fun w -> w.Timestamp)
+            Next = 0
+            HasMore = false
         }
     }
 

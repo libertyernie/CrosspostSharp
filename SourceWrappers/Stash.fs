@@ -49,7 +49,7 @@ type StashPostWrapper(entry: Entry) =
         member this.SiteName = "Sta.sh"
         member this.DeleteAsync() = delete |> Async.StartAsTask :> Task
 
-type StashSourceWrapper() =
+type UnorderedStashSourceWrapper() =
     inherit SourceWrapper<int>()
 
     let deviantArtWrapper = new DeviantArtSourceWrapper()
