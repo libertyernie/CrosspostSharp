@@ -74,7 +74,7 @@ namespace SourceWrappers.Twitter {
 		public string Name => _photosOnly ? "Twitter (photos)" : "Twitter (text + photos)";
 		public int SuggestedBatchSize => 20;
 
-		public Task<PagedFetchResult<long>> MoreAsync(long cursor, int take) {
+		public Task<FetchResult<long>> MoreAsync(long cursor, int take) {
 			return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
 				var ps = new UserTimelineParameters {
 					ExcludeReplies = false,
@@ -102,14 +102,14 @@ namespace SourceWrappers.Twitter {
 					}
 				}
 
-				return new PagedFetchResult<long>(
+				return new FetchResult<long>(
 					posts: Wrap(),
 					next: tweets.Select(t => t.Id).Min() - 1,
 					hasMore: tweets.Any());
 			});
 		}
 
-		public Task<PagedFetchResult<long>> StartAsync(int take) {
+		public Task<FetchResult<long>> StartAsync(int take) {
 			return MoreAsync(-1, take);
 		}
 

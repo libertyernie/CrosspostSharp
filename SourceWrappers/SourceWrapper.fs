@@ -25,19 +25,11 @@ type IDeletable =
     abstract member DeleteAsync: unit -> Task
     abstract member SiteName: string with get
 
-type IFetchResult =
-    abstract member Posts: seq<IPostWrapper>
-    abstract member HasMore: bool
-
-type PagedFetchResult<'cursor when 'cursor : struct> =
-    {
-        Posts: seq<IPostWrapper>
-        Next: 'cursor
-        HasMore: bool
-    }
-    interface IFetchResult with
-        member this.Posts = this.Posts
-        member this.HasMore = this.HasMore
+type FetchResult<'cursor when 'cursor : struct> = {
+    Posts: seq<IPostWrapper>
+    Next: 'cursor
+    HasMore: bool
+}
 
 type ISourceWrapper =
     abstract member Name: string with get
@@ -48,15 +40,15 @@ type ISourceWrapper =
 
 type IPagedSourceWrapper<'cursor when 'cursor : struct> =
     inherit ISourceWrapper
-    abstract member StartAsync: int -> Task<PagedFetchResult<'cursor>>
-    abstract member MoreAsync: 'cursor -> int -> Task<PagedFetchResult<'cursor>>
+    abstract member StartAsync: int -> Task<FetchResult<'cursor>>
+    abstract member MoreAsync: 'cursor -> int -> Task<FetchResult<'cursor>>
 
 [<AbstractClass>]
 type SourceWrapper<'cursor when 'cursor : struct>() =
     abstract member Name: string with get
     abstract member SuggestedBatchSize: int
     
-    abstract member Fetch: 'cursor option -> int -> Async<PagedFetchResult<'cursor>>
+    abstract member Fetch: 'cursor option -> int -> Async<FetchResult<'cursor>>
     abstract member Whoami: Async<string>
     abstract member GetUserIcon: int -> Async<string>
 

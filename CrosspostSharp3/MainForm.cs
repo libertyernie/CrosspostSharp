@@ -42,14 +42,14 @@ namespace CrosspostSharp3 {
 			bool more = true;
 
 			try {
-				IFetchResult result =
+				var posts =
 					direction == Direction.PREV ? await _currentWrapper.PrevAsync()
 					: direction == Direction.NEXT ? await _currentWrapper.NextAsync()
 					: direction == Direction.FIRST ? await _currentWrapper.FirstAsync()
 					: throw new ArgumentException(nameof(direction));
-				more = result.HasMore;
+				more = _currentWrapper.HasMore;
 
-				foreach (var item in result.Posts) {
+				foreach (var item in posts) {
 					Image image;
 					var req = WebRequestFactory.Create(item.ThumbnailURL);
 					using (var resp = await req.GetResponseAsync())

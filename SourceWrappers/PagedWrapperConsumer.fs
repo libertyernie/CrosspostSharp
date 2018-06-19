@@ -5,10 +5,11 @@ open System.Threading.Tasks
 type IPagedWrapperConsumer =
     abstract member Wrapper: ISourceWrapper
     abstract member Name: string with get
+    abstract member HasMore: bool with get
     abstract member SuggestedBatchSize: int with get
-    abstract member NextAsync: unit -> Task<IFetchResult>
-    abstract member PrevAsync: unit -> Task<IFetchResult>
-    abstract member FirstAsync: unit -> Task<IFetchResult>
+    abstract member NextAsync: unit -> Task<seq<IPostWrapper>>
+    abstract member PrevAsync: unit -> Task<seq<IPostWrapper>>
+    abstract member FirstAsync: unit -> Task<seq<IPostWrapper>>
     abstract member WhoamiAsync: unit -> Task<string>
     abstract member GetUserIconAsync: int -> Task<string>
 
@@ -19,6 +20,7 @@ type internal PagedWrapperCursor<'a> = {
 
 type PagedWrapperConsumer<'a when 'a : struct>(wrapper: IPagedSourceWrapper<'a>, page_size: int) =
     let mutable next_cursor: PagedWrapperCursor<'a> option = None
+    let mutable has_more = true
 
     let back cursor =
         match cursor with
@@ -38,8 +40,8 @@ type PagedWrapperConsumer<'a when 'a : struct>(wrapper: IPagedSourceWrapper<'a>,
             last = next_cursor
         }
         next_cursor <- Some n
-
-        return r :> IFetchResult
+        has_more <- r.HasMore
+        return r.Posts
     }
 
     let prev = async {
@@ -55,6 +57,7 @@ type PagedWrapperConsumer<'a when 'a : struct>(wrapper: IPagedSourceWrapper<'a>,
     interface IPagedWrapperConsumer with
         member this.Wrapper = wrapper :> ISourceWrapper
         member this.Name = wrapper.Name
+        member this.HasMore = has_more
         member this.SuggestedBatchSize = wrapper.SuggestedBatchSize
         member this.NextAsync() = next |> Async.StartAsTask
         member this.PrevAsync() = prev |> Async.StartAsTask
