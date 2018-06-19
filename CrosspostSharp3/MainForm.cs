@@ -105,17 +105,13 @@ namespace CrosspostSharp3 {
 			lblUsername.Text = await _currentWrapper.WhoamiAsync();
 			lblSiteName.Text = _currentWrapper.Name;
 		}
-
-		private static IPagedWrapperConsumer CreatePager<T>(IPagedSourceWrapper<T> wrapper) where T : struct {
-			return new PagedWrapperConsumer<T>(wrapper, 4);
-		}
-
+		
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
 			var list = new List<CachedSourceWrapper>();
 
-			void add<T>(IPagedSourceWrapper<T> wrapper) where T : struct {
+			void add<T>(ISourceWrapper<T> wrapper) where T : struct {
 				list.Add(new CachedSourceWrapperImpl<T>(wrapper));
 			}
 
@@ -278,9 +274,9 @@ namespace CrosspostSharp3 {
 		}
 		
 		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
-			IEnumerable<ISourceWrapper> GetWrappers() {
+			IEnumerable<IPagedWrapperConsumer> GetWrappers() {
 				foreach (var o in ddlSource.Items) {
-					if (o is WrapperMenuItem w) yield return w.BaseWrapper.Wrapper;
+					if (o is WrapperMenuItem w) yield return w.BaseWrapper;
 				}
 			}
 

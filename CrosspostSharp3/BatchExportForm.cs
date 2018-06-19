@@ -13,15 +13,15 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class BatchExportForm : Form {
-		public BatchExportForm(IEnumerable<ISourceWrapper> wrappers) {
+		public BatchExportForm(IEnumerable<IPagedWrapperConsumer> wrappers) {
 			InitializeComponent();
 			foreach (var w in wrappers) listBox1.Items.Add(w);
 		}
 
-		public IEnumerable<ISourceWrapper> SelectedWrappers {
+		public IEnumerable<IPagedWrapperConsumer> SelectedWrappers {
 			get {
 				foreach (var o in listBox1.SelectedItems) {
-					if (o is ISourceWrapper w) yield return w;
+					if (o is IPagedWrapperConsumer w) yield return w;
 				}
 			}
 		}
@@ -41,9 +41,9 @@ namespace CrosspostSharp3 {
 					throw new NotImplementedException();
 				}
 
-				var wrapper = SelectedWrappers.Single();
+				var consumer = SelectedWrappers.Single();
 
-				var posts = await wrapper.FetchAllAsync((int)numericUpDown1.Value);
+				var posts = await consumer.FetchAllAsync((int)numericUpDown1.Value);
 
 				foreach (var submission in posts) {
 					progressBar1.Value++;

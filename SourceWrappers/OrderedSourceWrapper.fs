@@ -1,10 +1,9 @@
 ﻿namespace SourceWrappers
 
 open System.Collections.Generic
-open System
 
-/// A wrapper around another IPagedSourceWrapper that sorts each page in descending order by post date. The default page size is 10 times the default page size of the source.
-type OrderedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
+/// A wrapper around another IPagedSourceWrapper that sorts each batch in descending order by post date. For best results, ask for a single large batch.
+type OrderedSourceWrapper<'a when 'a : struct>(source: ISourceWrapper<'a>) =
     inherit SourceWrapper<'a>()
 
     override this.Name = source.Name
@@ -16,7 +15,10 @@ type OrderedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
         
         let mutable hasMore = true
         while hasMore && cache.Count < take do
-            let! result = source.Fetch cursor take
+            let! result =
+                match cursor with
+                | Some c -> source.MoreAsync c take |> Async.AwaitTask
+                | None -> source.StartAsync take |> Async.AwaitTask
             cache.AddRange(result.Posts)
             cursor <- Some result.Next
             hasMore <- result.HasMore
@@ -28,6 +30,6 @@ type OrderedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
         }
     }
 
-    override this.Whoami = source.Whoami
+    override this.Whoami = source.WhoamiAsync() |> Async.AwaitTask
 
-    override this.GetUserIcon size = source.GetUserIcon size
+    override this.GetUserIcon size = source.GetUserIconAsync size |> Async.AwaitTask

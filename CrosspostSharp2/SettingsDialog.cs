@@ -281,7 +281,7 @@ namespace CrosspostSharp {
             if (Settings.Flickr?.TokenKey != null && Settings.Flickr?.TokenSecret != null) {
                 btnFlickrSignIn.Text = "Sign out";
                 try {
-                    IPagedSourceWrapper<int> flickr = new FlickrSourceWrapper(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET, Settings.Flickr.TokenKey, Settings.Flickr.TokenSecret);
+                    var flickr = new FlickrSourceWrapper(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET, Settings.Flickr.TokenKey, Settings.Flickr.TokenSecret).AsISourceWrapper();
                     string username = await flickr.WhoamiAsync();
                     lblFlickrTokenStatus.ForeColor = Color.Green;
                     lblFlickrTokenStatus.Text = $"{username} ({Settings.Flickr.TokenKey}...)";

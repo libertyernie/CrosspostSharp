@@ -52,7 +52,7 @@ namespace SourceWrappers.Twitter {
 		}
 	}
 
-	public class TwitterSourceWrapper : IPagedSourceWrapper<long> {
+	public class TwitterSourceWrapper : ISourceWrapper<long> {
 		private readonly ITwitterCredentials _credentials;
 		private readonly bool _photosOnly;
 

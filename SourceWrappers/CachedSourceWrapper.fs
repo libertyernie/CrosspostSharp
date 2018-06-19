@@ -8,7 +8,7 @@ type CachedSourceWrapper() =
     inherit SourceWrapper<int>()
 
 /// A wrapper around another IPagedSourceWrapper that caches results and uses an integer index as the cursor.
-type CachedSourceWrapperImpl<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
+type CachedSourceWrapperImpl<'a when 'a : struct>(source: ISourceWrapper<'a>) =
     inherit CachedSourceWrapper()
 
     let cache = new List<IPostWrapper>()
