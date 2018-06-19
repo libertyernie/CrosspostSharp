@@ -42,7 +42,7 @@ namespace CrosspostSharp3 {
 			bool more = true;
 
 			try {
-				GenericFetchResult result =
+				IFetchResult result =
 					direction == Direction.PREV ? await _currentWrapper.PrevAsync()
 					: direction == Direction.NEXT ? await _currentWrapper.NextAsync()
 					: direction == Direction.FIRST ? await _currentWrapper.FirstAsync()
@@ -106,7 +106,7 @@ namespace CrosspostSharp3 {
 			lblSiteName.Text = _currentWrapper.Name;
 		}
 
-		private static IPagedWrapperConsumer CreatePager<T>(ISourceWrapper<T> wrapper) where T : struct {
+		private static IPagedWrapperConsumer CreatePager<T>(IPagedSourceWrapper<T> wrapper) where T : struct {
 			return new PagedWrapperConsumer<T>(wrapper, 4);
 		}
 
@@ -115,7 +115,7 @@ namespace CrosspostSharp3 {
 
 			var list = new List<IPagedWrapperConsumer>();
 
-			void add<T>(ISourceWrapper<T> wrapper) where T : struct {
+			void add<T>(IPagedSourceWrapper<T> wrapper) where T : struct {
 				list.Add(new PagedWrapperConsumer<int>(new CachedSourceWrapper<T>(wrapper), 4));
 			}
 

@@ -5,9 +5,9 @@ open System.Threading.Tasks
 type IPagedWrapperConsumer =
     abstract member Name: string with get
     abstract member SuggestedBatchSize: int with get
-    abstract member NextAsync: unit -> Task<GenericFetchResult>
-    abstract member PrevAsync: unit -> Task<GenericFetchResult>
-    abstract member FirstAsync: unit -> Task<GenericFetchResult>
+    abstract member NextAsync: unit -> Task<IFetchResult>
+    abstract member PrevAsync: unit -> Task<IFetchResult>
+    abstract member FirstAsync: unit -> Task<IFetchResult>
     abstract member WhoamiAsync: unit -> Task<string>
     abstract member GetUserIconAsync: int -> Task<string>
 
@@ -16,7 +16,7 @@ type internal PagedWrapperCursor<'a> = {
     last: PagedWrapperCursor<'a> option
 }
 
-type PagedWrapperConsumer<'a when 'a : struct>(wrapper: ISourceWrapper<'a>, page_size: int) =
+type PagedWrapperConsumer<'a when 'a : struct>(wrapper: IPagedSourceWrapper<'a>, page_size: int) =
     let mutable next_cursor: PagedWrapperCursor<'a> option = None
 
     let back cursor =
@@ -38,12 +38,11 @@ type PagedWrapperConsumer<'a when 'a : struct>(wrapper: ISourceWrapper<'a>, page
         }
         next_cursor <- Some n
 
-        return r :> GenericFetchResult
+        return r :> IFetchResult
     }
 
     let prev = async {
-        let prev_cursor = next_cursor |> back |> back
-        next_cursor <- prev_cursor
+        next_cursor <- next_cursor |> back |> back
         return! next
     }
 

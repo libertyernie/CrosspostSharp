@@ -52,7 +52,7 @@ namespace SourceWrappers.Twitter {
 		}
 	}
 
-	public class TwitterSourceWrapper : ISourceWrapper<long> {
+	public class TwitterSourceWrapper : IPagedSourceWrapper<long> {
 		private readonly ITwitterCredentials _credentials;
 		private readonly bool _photosOnly;
 
@@ -74,7 +74,7 @@ namespace SourceWrappers.Twitter {
 		public string Name => _photosOnly ? "Twitter (photos)" : "Twitter (text + photos)";
 		public int SuggestedBatchSize => 20;
 
-		public Task<FetchResult<long>> MoreAsync(long cursor, int take) {
+		public Task<PagedFetchResult<long>> MoreAsync(long cursor, int take) {
 			return Auth.ExecuteOperationWithCredentials(_credentials, async () => {
 				var ps = new UserTimelineParameters {
 					ExcludeReplies = false,
@@ -102,15 +102,29 @@ namespace SourceWrappers.Twitter {
 					}
 				}
 
-				return new FetchResult<long>(
+				return new PagedFetchResult<long>(
 					posts: Wrap(),
 					next: tweets.Select(t => t.Id).Min() - 1,
 					hasMore: tweets.Any());
 			});
 		}
 
-		public Task<FetchResult<long>> StartAsync(int take) {
+		public Task<PagedFetchResult<long>> StartAsync(int take) {
 			return MoreAsync(-1, take);
+		}
+
+		public async Task<IEnumerable<IPostWrapper>> FetchAllAsync(int limit) {
+			var list = new List<IPostWrapper>();
+
+			var result = await StartAsync(limit);
+			list.AddRange(result.Posts);
+
+			while (result.HasMore && list.Count < limit) {
+				result = await MoreAsync(result.Next, limit - list.Count);
+				list.AddRange(result.Posts);
+			}
+
+			return list;
 		}
 
 		public async Task<string> WhoamiAsync() {

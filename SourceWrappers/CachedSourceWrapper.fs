@@ -7,7 +7,7 @@ open System
 type AbstractCachedSourceWrapper() =
     inherit SourceWrapper<int>()
 
-type CachedSourceWrapper<'a when 'a : struct>(source: ISourceWrapper<'a>) =
+type CachedSourceWrapper<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
     inherit AbstractCachedSourceWrapper()
 
     let cache = new List<IPostWrapper>()

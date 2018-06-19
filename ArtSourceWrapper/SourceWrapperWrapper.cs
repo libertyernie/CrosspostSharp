@@ -45,9 +45,9 @@ namespace ArtSourceWrapper {
 	}
 
 	public class SourceWrapperWrapper<TCursor> : SiteWrapper<PostWrapperWrapper, TCursor> where TCursor : struct {
-		private readonly ISourceWrapper<TCursor> _source;
+		private readonly IPagedSourceWrapper<TCursor> _source;
 
-		public SourceWrapperWrapper(ISourceWrapper<TCursor> source) {
+		public SourceWrapperWrapper(IPagedSourceWrapper<TCursor> source) {
 			_source = source ?? throw new ArgumentNullException(nameof(source));
 			BatchSize = _source.SuggestedBatchSize;
 		}
