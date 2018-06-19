@@ -3,6 +3,7 @@
 open System.Collections.Generic
 open System
 
+/// A wrapper around another IPagedSourceWrapper that sorts each page in descending order by post date. The default page size is 10 times the default page size of the source.
 type OrderedSourceWrapper<'a when 'a : struct>(source: SourceWrapper<'a>) =
     inherit SourceWrapper<'a>()
 

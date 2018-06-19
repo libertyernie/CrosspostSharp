@@ -2,10 +2,12 @@
 
 open System.Collections.Generic
 
+/// A wrapper around another IPagedSourceWrapper that caches results and uses an integer index as the cursor.
 [<AbstractClass>]
 type CachedSourceWrapper() =
     inherit SourceWrapper<int>()
 
+/// A wrapper around another IPagedSourceWrapper that caches results and uses an integer index as the cursor.
 type CachedSourceWrapperImpl<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
     inherit CachedSourceWrapper()
 

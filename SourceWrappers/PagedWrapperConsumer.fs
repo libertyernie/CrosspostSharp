@@ -2,6 +2,7 @@
 
 open System.Threading.Tasks
 
+/// Consumes IPagedSourceWrapper, one page at a time. Some wrappers might not support a constant page size and need to be wrapped in a CachedSourceWrapper first.
 type IPagedWrapperConsumer =
     abstract member Wrapper: ISourceWrapper
     abstract member Name: string with get
@@ -18,6 +19,7 @@ type internal PagedWrapperCursor<'a> = {
     last: PagedWrapperCursor<'a> option
 }
 
+/// Consumes IPagedSourceWrapper, one page at a time. Some wrappers might not support a constant page size and need to be wrapped in a CachedSourceWrapper first.
 type PagedWrapperConsumer<'a when 'a : struct>(wrapper: IPagedSourceWrapper<'a>, page_size: int) =
     let mutable next_cursor: PagedWrapperCursor<'a> option = None
     let mutable has_more = true
