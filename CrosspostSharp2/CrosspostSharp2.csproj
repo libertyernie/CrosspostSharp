@@ -145,6 +145,11 @@
     <Compile Include="AboutDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ArtSourceWrapper\AsynchronousCachedEnumerable.cs" />
+    <Compile Include="ArtSourceWrapper\Base.cs" />
+    <Compile Include="ArtSourceWrapper\Empty.cs" />
+    <Compile Include="ArtSourceWrapper\Local.cs" />
+    <Compile Include="ArtSourceWrapper\SourceWrapperWrapper.cs" />
     <Compile Include="DeviantArtAuthForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -269,10 +274,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArtSourceWrapper\ArtSourceWrapper.csproj">
-      <Project>{7a2c180c-8396-4a4a-a2b7-aab7f243173b}</Project>
-      <Name>ArtSourceWrapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>
