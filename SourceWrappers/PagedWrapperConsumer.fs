@@ -3,6 +3,7 @@
 open System.Threading.Tasks
 
 type IPagedWrapperConsumer =
+    abstract member Wrapper: ISourceWrapper
     abstract member Name: string with get
     abstract member SuggestedBatchSize: int with get
     abstract member NextAsync: unit -> Task<IFetchResult>
@@ -52,6 +53,7 @@ type PagedWrapperConsumer<'a when 'a : struct>(wrapper: IPagedSourceWrapper<'a>,
     }
 
     interface IPagedWrapperConsumer with
+        member this.Wrapper = wrapper :> ISourceWrapper
         member this.Name = wrapper.Name
         member this.SuggestedBatchSize = wrapper.SuggestedBatchSize
         member this.NextAsync() = next |> Async.StartAsTask

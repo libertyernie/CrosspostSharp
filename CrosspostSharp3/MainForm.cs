@@ -115,8 +115,12 @@ namespace CrosspostSharp3 {
 
 			var list = new List<IPagedWrapperConsumer>();
 
-			void add<T>(IPagedSourceWrapper<T> wrapper) where T : struct {
-				list.Add(new PagedWrapperConsumer<int>(new CachedSourceWrapper<T>(wrapper), 4));
+			void add<T>(IPagedSourceWrapper<T> wrapper, bool cache = true) where T : struct {
+				if (cache) {
+					list.Add(new PagedWrapperConsumer<int>(new CachedSourceWrapper<T>(wrapper), 4));
+				} else {
+					list.Add(new PagedWrapperConsumer<T>(wrapper, 4));
+				}
 			}
 
 			lblLoadStatus.Visible = true;
@@ -143,14 +147,14 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				add((new FurAffinitySourceWrapper(
+				add(new FurAffinitySourceWrapper(
 					a: fa.a,
 					b: fa.b,
-					scraps: false)));
-				add((new FurAffinitySourceWrapper(
+					scraps: false));
+				add(new FurAffinitySourceWrapper(
 					a: fa.a,
 					b: fa.b,
-					scraps: true)));
+					scraps: true));
 			}
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
@@ -275,14 +279,14 @@ namespace CrosspostSharp3 {
 				f.ShowDialog(this);
 			}
 		}
-
-		private IEnumerable<IPagedWrapperConsumer> GetWrappers() {
-			foreach (var o in ddlSource.Items) {
-				if (o is WrapperMenuItem w) yield return w.BaseWrapper;
-			}
-		}
-
+		
 		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
+			IEnumerable<ISourceWrapper> GetWrappers() {
+				foreach (var o in ddlSource.Items) {
+					if (o is WrapperMenuItem w) yield return w.BaseWrapper.Wrapper;
+				}
+			}
+
 			using (var f = new BatchExportForm(GetWrappers())) {
 				f.ShowDialog(this);
 			}

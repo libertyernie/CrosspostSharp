@@ -35,8 +35,8 @@ type CachedSourceWrapper<'a when 'a : struct>(source: IPagedSourceWrapper<'a>) =
             }
         else
             let! result = match cursor with
-                | Some c -> source.MoreAsync c source.SuggestedBatchSize |> Async.AwaitTask
-                | None -> source.StartAsync source.SuggestedBatchSize |> Async.AwaitTask
+                | Some c -> source.MoreAsync c (max take source.SuggestedBatchSize) |> Async.AwaitTask
+                | None -> source.StartAsync (max take source.SuggestedBatchSize) |> Async.AwaitTask
 
             cache.AddRange(result.Posts)
             cursor <- Some result.Next
