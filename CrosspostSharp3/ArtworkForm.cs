@@ -184,13 +184,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				foreach (var p in settings.Pinterest.accounts) {
-					listBox1.Items.Add(new DestinationOption($"Pinterest ({p.boardName})", () => {
-						using (var f = new PinterestPostForm(p, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 						using (var f = new TwitterPostForm(t, Export())) {

@@ -84,21 +84,6 @@
     <Compile Include="FurryNetwork\FurryNetworkPostForm.Designer.cs">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pinterest\MainForm.Pinterest.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pinterest\PinterestAppForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pinterest\PinterestAppForm.Designer.cs">
-      <DependentUpon>PinterestAppForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pinterest\PinterestPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pinterest\PinterestPostForm.Designer.cs">
-      <DependentUpon>PinterestPostForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Pixiv\MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,15 +116,6 @@
     </Compile>
     <Compile Include="FurryNetwork\FurryNetworkCharacterSelectionForm.Designer.cs">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Pinterest\PinterestAuthForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pinterest\PinterestBoardSelectionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Pinterest\PinterestBoardSelectionForm.Designer.cs">
-      <DependentUpon>PinterestBoardSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Tumblr\TumblrBlogSelectionForm.cs">
       <SubType>Form</SubType>
@@ -232,15 +208,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FurryNetwork\FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Pinterest\PinterestAppForm.resx">
-      <DependentUpon>PinterestAppForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Pinterest\PinterestBoardSelectionForm.resx">
-      <DependentUpon>PinterestBoardSelectionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Pinterest\PinterestPostForm.resx">
-      <DependentUpon>PinterestPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tumblr\TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
@@ -348,9 +315,6 @@
     </PackageReference>
     <PackageReference Include="NewTumblrSharp">
       <Version>1.1.27</Version>
-    </PackageReference>
-    <PackageReference Include="PinSharp">
-      <Version>2.2.6</Version>
     </PackageReference>
     <PackageReference Include="TweetinviAPI">
       <Version>3.0.0</Version>

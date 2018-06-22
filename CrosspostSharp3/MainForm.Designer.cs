@@ -40,7 +40,6 @@
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pinterestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pixivToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -167,7 +166,6 @@
             this.furAffinityToolStripMenuItem,
             this.furryNetworkToolStripMenuItem,
             this.inkbunnyToolStripMenuItem,
-            this.pinterestToolStripMenuItem,
             this.pixivToolStripMenuItem,
             this.twitterToolStripMenuItem,
             this.tumblrToolStripMenuItem,
@@ -210,13 +208,6 @@
             this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
             this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
-            // 
-            // pinterestToolStripMenuItem
-            // 
-            this.pinterestToolStripMenuItem.Name = "pinterestToolStripMenuItem";
-            this.pinterestToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pinterestToolStripMenuItem.Text = "&Pinterest";
-            this.pinterestToolStripMenuItem.Click += new System.EventHandler(this.pinterestToolStripMenuItem_Click);
             // 
             // pixivToolStripMenuItem
             // 
@@ -390,7 +381,6 @@
 		private System.Windows.Forms.ToolStripMenuItem flickrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pinterestToolStripMenuItem;
 	}
 }
 
