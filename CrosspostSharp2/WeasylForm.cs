@@ -22,7 +22,6 @@ using System.Drawing.Imaging;
 using FurryNetworkLib;
 using SourceWrappers;
 using DeviantArtControls;
-using SourceWrappers.Twitter;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -161,7 +160,7 @@ namespace CrosspostSharp {
                 }
 
                 if (TwitterCredentials != null) {
-                    wrappers.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(TwitterCredentials)));
+                    wrappers.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(TwitterCredentials, true)));
                 }
 
                 if (Tumblr != null) {

@@ -36,8 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib.Frontend", "Weasy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAExportLib", "FAExportLib\FAExportLib.csproj", "{DCFBC5B7-F332-445C-9493-E7B3990864AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceWrappers.Twitter", "SourceWrappers.Twitter\SourceWrappers.Twitter.csproj", "{BC58C8D2-C135-439B-A794-44E6C21F5483}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -204,18 +202,6 @@ Global
 		{DCFBC5B7-F332-445C-9493-E7B3990864AF}.Release|x64.Build.0 = Release|Any CPU
 		{DCFBC5B7-F332-445C-9493-E7B3990864AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{DCFBC5B7-F332-445C-9493-E7B3990864AF}.Release|x86.Build.0 = Release|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Debug|x64.Build.0 = Debug|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Debug|x86.Build.0 = Debug|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Release|x64.ActiveCfg = Release|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Release|x64.Build.0 = Release|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Release|x86.ActiveCfg = Release|Any CPU
-		{BC58C8D2-C135-439B-A794-44E6C21F5483}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

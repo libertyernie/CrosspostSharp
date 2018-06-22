@@ -2,7 +2,6 @@
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
 using SourceWrappers;
-using SourceWrappers.Twitter;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
