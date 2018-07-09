@@ -192,10 +192,16 @@ namespace CrosspostSharp3 {
 				IPagedWrapperConsumer w = new PagedWrapperConsumer<int>(c, 4);
 				try {
 					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.Name}");
-				} catch (FurryNetworkClient.TokenException ex) {
-					return new WrapperMenuItem(w, $"{w.Name} (cannot connect: {ex.Message})");
-				} catch (Exception) {
-					return new WrapperMenuItem(w, $"{w.Name} (cannot connect)");
+				} catch (Exception ex) {
+					var inner = ex;
+					while (inner is AggregateException a) {
+						inner = inner.InnerException;
+					}
+					if (inner is FurryNetworkClient.TokenException t) {
+						return new WrapperMenuItem(w, $"{w.Name} (cannot connect: {t.Message})");
+					} else {
+						return new WrapperMenuItem(w, $"{w.Name} (cannot connect)");
+					}
 				}
 			}).Where(item => item != null).ToArray();
 			var wrappers = await Task.WhenAll(tasks);
