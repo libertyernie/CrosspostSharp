@@ -161,9 +161,9 @@ namespace CrosspostSharp3 {
 				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true));
 				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false));
 			}
-			foreach (var p in PillowfortClients) {
-				lblLoadStatus.Text = $"Adding Pillowfort ({p.Key})...";
-				add(new PillowfortSourceWrapper(p.Value));
+			foreach (var p in s.Pillowfort) {
+				lblLoadStatus.Text = $"Adding Pillowfort ({p.username})...";
+				add(new PillowfortSourceWrapper(new PillowfortFs.PillowfortClient { Cookie = p.cookie }));
 			}
 			foreach (var p in s.Pixiv) {
 				lblLoadStatus.Text = $"Adding Pixiv ({p.username})...";
@@ -292,10 +292,6 @@ namespace CrosspostSharp3 {
 			using (var f = new BatchExportForm(GetWrappers())) {
 				f.ShowDialog(this);
 			}
-		}
-
-		private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
-			SavePillowfortSettings();
 		}
 	}
 }
