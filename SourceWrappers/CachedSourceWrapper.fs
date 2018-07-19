@@ -21,17 +21,19 @@ type CachedSourceWrapperImpl<'a when 'a : struct>(source: ISourceWrapper<'a>) =
     override this.Fetch index take = async {
         let skip = index |> Option.defaultValue 0
 
+        let found = cache |> Swu.skipSafe skip |> Seq.truncate take
+        let at_end = cache |> Swu.skipSafe (skip + take) |> Seq.isEmpty
+
         if cache.Count >= skip + take then
             return {
-                Posts = cache |> Swu.skipSafe skip |> Seq.truncate take
+                Posts = found
                 Next = skip + take
-                HasMore = true
+                HasMore = not at_end
             }
         else if ended then
-            let posts = cache |> Swu.skipSafe skip |> Seq.truncate take
             return {
-                Posts = posts
-                Next = skip + Seq.length posts
+                Posts = found
+                Next = skip + Seq.length found
                 HasMore = false
             }
         else
