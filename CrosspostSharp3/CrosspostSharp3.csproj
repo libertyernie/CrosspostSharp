@@ -84,6 +84,9 @@
     <Compile Include="FurryNetwork\FurryNetworkPostForm.Designer.cs">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pixiv\MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,6 +268,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj">
+      <Project>{c7896315-81d7-48e6-b632-10955d4fc3e3}</Project>
+      <Name>PillowfortFs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>

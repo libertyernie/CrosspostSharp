@@ -19,3 +19,6 @@
 [submodule "DeviantartApi"]
 	path = DeviantartApi
 	url = https://github.com/libertyernie/DeviantartApi
+[submodule "PillowfortFs"]
+	path = PillowfortFs
+	url = https://github.com/libertyernie/PillowfortFs

@@ -53,6 +53,7 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
+            this.pillowfortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -166,6 +167,7 @@
             this.furAffinityToolStripMenuItem,
             this.furryNetworkToolStripMenuItem,
             this.inkbunnyToolStripMenuItem,
+            this.pillowfortToolStripMenuItem,
             this.pixivToolStripMenuItem,
             this.twitterToolStripMenuItem,
             this.tumblrToolStripMenuItem,
@@ -321,6 +323,13 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
+            // pillowfortToolStripMenuItem
+            // 
+            this.pillowfortToolStripMenuItem.Name = "pillowfortToolStripMenuItem";
+            this.pillowfortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pillowfortToolStripMenuItem.Text = "&Pillowfort";
+            this.pillowfortToolStripMenuItem.Click += new System.EventHandler(this.pillowfortToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -341,6 +350,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "CrosspostSharp 3";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -381,6 +391,7 @@
 		private System.Windows.Forms.ToolStripMenuItem flickrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pillowfortToolStripMenuItem;
 	}
 }
 

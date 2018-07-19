@@ -63,6 +63,15 @@ namespace CrosspostSharp3 {
 
 		public List<InkbunnySettings> Inkbunny = new List<InkbunnySettings>();
 
+		public struct PillowfortSettings : IAccountCredentials {
+			public string username;
+			public string cookie;
+
+			string IAccountCredentials.Username => username;
+		}
+
+		public List<PillowfortSettings> Pillowfort = new List<PillowfortSettings>();
+
 		public struct PinterestSettings : IAccountCredentials {
 			public string accessToken;
 			public string username;
