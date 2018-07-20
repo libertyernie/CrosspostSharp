@@ -117,6 +117,13 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
+				foreach (var p in settings.Pillowfort) {
+					listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
+						using (var f = new PillowfortPostForm(p, wbrDescription.Document.Body.InnerHtml, status.PotentiallySensitive)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 						string text = HtmlConversion.ConvertHtmlToText(wbrDescription.Document.Body.InnerHtml);
@@ -135,10 +142,10 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-			}
 
-			listBox1.Items.Add("");
-			listBox1.Items.Add("--- Post as photo ---");
+				listBox1.Items.Add("");
+				listBox1.Items.Add("--- Post as photo ---");
+			}
 
 			saveAsToolStripMenuItem.Enabled = true;
 			exportAsToolStripMenuItem.Enabled = true;
@@ -186,6 +193,13 @@ namespace CrosspostSharp3 {
 			foreach (var i in settings.Inkbunny) {
 				listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
 					using (var f = new InkbunnyPostForm(i, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var p in settings.Pillowfort) {
+				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
+					using (var f = new PillowfortPostForm(p, Export())) {
 						f.ShowDialog(this);
 					}
 				}));

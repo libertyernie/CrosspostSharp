@@ -87,6 +87,12 @@
     <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pillowfort\PillowfortPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pillowfort\PillowfortPostForm.Designer.cs">
+      <DependentUpon>PillowfortPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pixiv\MainForm.Pixiv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FurryNetwork\FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pillowfort\PillowfortPostForm.resx">
+      <DependentUpon>PillowfortPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tumblr\TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
