@@ -268,10 +268,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj">
-      <Project>{c7896315-81d7-48e6-b632-10955d4fc3e3}</Project>
-      <Name>PillowfortFs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>
@@ -295,6 +291,10 @@
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj">
+      <Project>{cb2d34c8-7afc-4f4c-b08d-09460d50e06a}</Project>
+      <Name>PillowfortFs</Name>
     </ProjectReference>
     <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj">
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>

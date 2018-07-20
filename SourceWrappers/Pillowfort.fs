@@ -30,7 +30,8 @@ type PillowfortSourceWrapper(client: PillowfortClient) =
 
     override __.Fetch cursor _ = async {
         let page = cursor |> Option.defaultValue 1
-        let! response = client.AsyncGetPosts page
+        let! username = client.AsyncWhoami
+        let! response = client.AsyncGetPosts username page
         
         let h = 20 * (page - 1) + (Seq.length response.posts) > response.total_count
         return {
