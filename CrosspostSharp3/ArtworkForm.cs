@@ -105,6 +105,8 @@ namespace CrosspostSharp3 {
 			Settings settings = Settings.Load();
 
 			if (_originalWrapper is SourceWrappers.IStatusUpdate status && !status.HasPhoto) {
+				listBox1.Items.Add("--- Post as text ---");
+
 				saveAsToolStripMenuItem.Enabled = false;
 				exportAsToolStripMenuItem.Enabled = false;
 
@@ -133,84 +135,87 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-			} else {
-				saveAsToolStripMenuItem.Enabled = true;
-				exportAsToolStripMenuItem.Enabled = true;
+			}
 
-				if (settings.DeviantArt.RefreshToken != null) {
-					listBox1.Items.Add(new DestinationOption("DeviantArt / Sta.sh", () => {
-						using (var f = new Form()) {
-							f.Width = 600;
-							f.Height = 350;
-							var d = new DeviantArtUploadControl {
-								Dock = DockStyle.Fill
-							};
-							f.Controls.Add(d);
-							d.Uploaded += url => f.Close();
-							d.SetSubmission(
-								_data,
-								txtTitle.Text,
-								wbrDescription.Document.Body.InnerHtml,
-								txtTags.Text.Split(' ').Where(s => s != ""),
-								chkMature.Checked || chkAdult.Checked,
-								_url);
-							f.ShowDialog(this);
-						}
-					}));
-					listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
-						using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml, _data)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var fl in settings.Flickr) {
-					listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
-						using (var f = new FlickrPostForm(fl, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var fn in settings.FurryNetwork) {
-					listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
-						using (var f = new FurryNetworkPostForm(fn, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var i in settings.Inkbunny) {
-					listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
-						using (var f = new InkbunnyPostForm(i, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var t in settings.Twitter) {
-					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using (var f = new TwitterPostForm(t, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var t in settings.Tumblr) {
-					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-						using (var f = new TumblrPostForm(t, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var w in settings.Weasyl) {
-					if (w.wzl == null) continue;
-					listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
-						using (var f = new WeasylPostForm(w, Export())) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				if (File.Exists("efc.jar")) {
-					listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
-						LaunchEFC(Export());
-					}));
-				}
+			listBox1.Items.Add("");
+			listBox1.Items.Add("--- Post as photo ---");
+
+			saveAsToolStripMenuItem.Enabled = true;
+			exportAsToolStripMenuItem.Enabled = true;
+
+			if (settings.DeviantArt.RefreshToken != null) {
+				listBox1.Items.Add(new DestinationOption("DeviantArt / Sta.sh", () => {
+					using (var f = new Form()) {
+						f.Width = 600;
+						f.Height = 350;
+						var d = new DeviantArtUploadControl {
+							Dock = DockStyle.Fill
+						};
+						f.Controls.Add(d);
+						d.Uploaded += url => f.Close();
+						d.SetSubmission(
+							_data,
+							txtTitle.Text,
+							wbrDescription.Document.Body.InnerHtml,
+							txtTags.Text.Split(' ').Where(s => s != ""),
+							chkMature.Checked || chkAdult.Checked,
+							_url);
+						f.ShowDialog(this);
+					}
+				}));
+				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+					using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml, _data)) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var fl in settings.Flickr) {
+				listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
+					using (var f = new FlickrPostForm(fl, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var fn in settings.FurryNetwork) {
+				listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
+					using (var f = new FurryNetworkPostForm(fn, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var i in settings.Inkbunny) {
+				listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
+					using (var f = new InkbunnyPostForm(i, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Twitter) {
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
+					using (var f = new TwitterPostForm(t, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Tumblr) {
+				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
+					using (var f = new TumblrPostForm(t, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var w in settings.Weasyl) {
+				if (w.wzl == null) continue;
+				listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
+					using (var f = new WeasylPostForm(w, Export())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			if (File.Exists("efc.jar")) {
+				listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
+					LaunchEFC(Export());
+				}));
 			}
 		}
 

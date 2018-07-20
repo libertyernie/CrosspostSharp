@@ -17,7 +17,7 @@ namespace CrosspostSharp3 {
 						f.UsernameLabel = "Email";
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var client = await PillowfortClientFactory.CreateClientAsync(f.Username, f.Password);
+								var client = await PillowfortClientFactory.LoginAsync(f.Username, f.Password);
 								string username = await client.WhoamiAsync();
 								return new[] {
 									new Settings.PillowfortSettings {

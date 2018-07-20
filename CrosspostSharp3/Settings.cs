@@ -66,6 +66,7 @@ namespace CrosspostSharp3 {
 		public struct PillowfortSettings : IAccountCredentials {
 			public string username;
 			public string cookie;
+			public IEnumerable<string> tags;
 
 			string IAccountCredentials.Username => username;
 		}

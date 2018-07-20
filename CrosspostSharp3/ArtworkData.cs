@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CrosspostSharp3 {
+	/// <summary>
+	/// A photo post whose image data has been downloaded and stored in memory.
+	/// </summary>
 	public struct ArtworkData {
 		public byte[] data;
 		public string contentType;
@@ -18,6 +21,12 @@ namespace CrosspostSharp3 {
 		public IEnumerable<string> tags;
 		public bool mature;
 		public bool adult;
+
+		/// <summary>
+		/// The IPostWrapper that this object was created from, if any.
+		/// </summary>
+		[JsonIgnore]
+		public IPostWrapper originalPost;
 
 		public static async Task<ArtworkData> DownloadAsync(IPostWrapper wrapper) {
 			if (wrapper.ImageURL == null) {
@@ -36,7 +45,8 @@ namespace CrosspostSharp3 {
 					tags = wrapper.Tags,
 					mature = wrapper.Mature,
 					adult = wrapper.Adult,
-					url = wrapper.ViewURL
+					url = wrapper.ViewURL,
+					originalPost = wrapper
 				};
 			}
 		}
