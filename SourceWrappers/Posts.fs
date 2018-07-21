@@ -2,7 +2,7 @@
 
 open System
 
-/// A shared parent interface for objects with metadata for a photo post.
+/// A shared base interface for text and photo posts.
 type IPostMetadata =
     abstract member Title: string with get
     abstract member HTMLDescription: string with get
@@ -18,13 +18,6 @@ type IPostWrapper =
     abstract member ViewURL: string with get
     abstract member ImageURL: string with get
     abstract member ThumbnailURL: string with get
-
-/// A wrapper around a short text post.
-type IStatusUpdate =
-    abstract member PotentiallySensitive: bool with get
-    abstract member FullHTML: string with get
-    abstract member HasPhoto: bool with get
-    abstract member AdditionalLinks: seq<string> with get
 
 /// An object representing an image post, including the image data. Can be serialized to JSON.
 type ArtworkData =

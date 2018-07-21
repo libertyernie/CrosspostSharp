@@ -20,7 +20,7 @@ namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private byte[] _data;
 		private string _url;
-		private object _originalWrapper;
+		private IPostMetadata _originalWrapper;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -101,48 +101,43 @@ namespace CrosspostSharp3 {
 		private void ReloadOptions() {
 			Settings settings = Settings.Load();
 
-			if (_originalWrapper is SourceWrappers.IStatusUpdate status && !status.HasPhoto) {
-				listBox1.Items.Add("--- Post as text ---");
+			listBox1.Items.Add("--- Post as text ---");
 
-				saveAsToolStripMenuItem.Enabled = false;
-				exportAsToolStripMenuItem.Enabled = false;
+			saveAsToolStripMenuItem.Enabled = false;
+			exportAsToolStripMenuItem.Enabled = false;
 
-				if (settings.DeviantArt.RefreshToken != null) {
-					listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
-						using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var p in settings.Pillowfort) {
-					listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-						using (var f = new PillowfortPostForm(p, wbrDescription.Document.Body.InnerHtml, status.PotentiallySensitive)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var t in settings.Twitter) {
-					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						string text = HtmlConversion.ConvertHtmlToText(wbrDescription.Document.Body.InnerHtml);
-						foreach (string link in status.AdditionalLinks) {
-							text += $" {link}";
-						}
-						using (var f = new TwitterNoPhotoPostForm(t, text, status.PotentiallySensitive)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var t in settings.Tumblr) {
-					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-						using (var f = new TumblrNoPhotoPostForm(t, wbrDescription.Document.Body.InnerHtml)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-
-				listBox1.Items.Add("");
-				listBox1.Items.Add("--- Post as photo ---");
+			if (settings.DeviantArt.RefreshToken != null) {
+				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+					using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml)) {
+						f.ShowDialog(this);
+					}
+				}));
 			}
+			foreach (var p in settings.Pillowfort) {
+				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
+					using (var f = new PillowfortPostForm(p, wbrDescription.Document.Body.InnerHtml, _originalWrapper.Mature || _originalWrapper.Adult)) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Twitter) {
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
+					string text = HtmlConversion.ConvertHtmlToText(wbrDescription.Document.Body.InnerHtml);
+					using (var f = new TwitterNoPhotoPostForm(t, text, _originalWrapper.Mature || _originalWrapper.Adult)) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Tumblr) {
+				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
+					using (var f = new TumblrNoPhotoPostForm(t, wbrDescription.Document.Body.InnerHtml)) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+
+			listBox1.Items.Add("");
+			listBox1.Items.Add("--- Post as photo ---");
 
 			saveAsToolStripMenuItem.Enabled = true;
 			exportAsToolStripMenuItem.Enabled = true;

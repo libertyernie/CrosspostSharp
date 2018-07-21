@@ -31,12 +31,6 @@ type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterCreden
             | Some m -> sprintf "%s:thumb" m.MediaURLHttps
             | None -> tweet.CreatedBy.ProfileImageUrl
 
-    interface IStatusUpdate with
-        member this.PotentiallySensitive = tweet.PossiblySensitive
-        member this.FullHTML = html
-        member this.HasPhoto = Option.isSome media
-        member this.AdditionalLinks = tweet.Entities.Urls |> Seq.map (fun u -> u.ExpandedURL)
-
     interface IDeletable with
         member this.SiteName = "Twitter"
         member this.DeleteAsync () = Auth.ExecuteOperationWithCredentials(twitterCredentials, (fun () -> TweetAsync.DestroyTweet(tweet))) :> Task

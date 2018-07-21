@@ -132,8 +132,6 @@ namespace ArtSourceWrapper {
         Color? BorderColor { get; }
     }
 
-	public interface IStatusUpdate : SourceWrappers.IStatusUpdate { }
-
 	public interface IDeletable : SourceWrappers.IDeletable { }
 
     public class MetadataModificationSubmissionWrapper : ISubmissionWrapper {

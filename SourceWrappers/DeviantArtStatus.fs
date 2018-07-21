@@ -4,23 +4,27 @@ open DeviantartApi.Objects
 open System
 open DeviantartApi.Requests.User
 
-type DeviantArtStatusPostWrapper(status: Status) =
-    let Deviations =
-        status.Items
-        |> Seq.map (fun i -> i.Deviation)
-        |> Seq.filter (not << isNull)
-    let MainDeviation =
-        Deviations
-        |> Seq.filter (fun d -> d.Author.UserId = status.Author.UserId)
-        |> Seq.tryHead
-    let OtherDeviations =
-        match MainDeviation with
-            | Some d -> Deviations |> Seq.except [d]
-            | None -> Deviations
+type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
+    //let Deviations =
+    //    status.Items
+    //    |> Seq.map (fun i -> i.Deviation)
+    //    |> Seq.filter (not << isNull)
+    //let MainDeviation =
+    //    Deviations
+    //    |> Seq.filter (fun d -> d.Author.UserId = status.Author.UserId)
+    //    |> Seq.tryHead
+    //let OtherDeviations =
+    //    match MainDeviation with
+    //        | Some d -> Deviations |> Seq.except [d]
+    //        | None -> Deviations
 
     let Icon = status.Author.UserIconUrl.AbsoluteUri
 
-    let Mature = Deviations |> Seq.exists (fun d -> d.IsMature |> Option.ofNullable |> Option.defaultValue false)
+    let Mature =
+        deviation
+        |> Option.map (fun d -> Option.ofNullable d.IsMature)
+        |> Option.flatten
+        |> Option.defaultValue false
 
     interface IPostWrapper with
         member this.Title = ""
@@ -31,19 +35,13 @@ type DeviantArtStatusPostWrapper(status: Status) =
         member this.Timestamp = status.TimeStamp
         member this.ViewURL = status.Url.AbsoluteUri
         member this.ImageURL =
-            match MainDeviation with
+            match deviation with
                 | Some d -> if isNull d.Content then Icon else d.Content.Src
                 | None -> Icon
         member this.ThumbnailURL =
-            match MainDeviation with
+            match deviation with
                 | Some d -> d.Thumbs |> Seq.map (fun t -> t.Src) |> Seq.tryHead |> Option.defaultValue Icon
                 | None -> Icon
-
-    interface IStatusUpdate with
-        member this.PotentiallySensitive = Mature
-        member this.FullHTML = status.Body
-        member this.HasPhoto = Option.isSome MainDeviation
-        member this.AdditionalLinks = OtherDeviations |> Seq.map (fun d -> d.Url.AbsoluteUri)
 
 type DeviantArtStatusSourceWrapper() =
     inherit SourceWrapper<int>()
@@ -79,7 +77,15 @@ type DeviantArtStatusSourceWrapper() =
             |> Swu.whenDone Swu.processDeviantArtError
         
         return {
-            Posts = statuses.Results |> Seq.map DeviantArtStatusPostWrapper |> Seq.map Swu.toPostWrapperInterface
+            Posts = seq {
+                for r in statuses.Results do
+                    let items = r.Items |> Seq.map (fun i -> i.Deviation) |> Seq.filter (not << isNull)
+                    if Seq.isEmpty items then
+                        yield new DeviantArtStatusPostWrapper(r, None)
+                    else
+                        for d in items do
+                            yield new DeviantArtStatusPostWrapper(r, Some d)
+            } |> Seq.map Swu.toPostWrapperInterface
             Next = statuses.NextOffset |> Option.ofNullable |> Option.defaultValue 0
             HasMore = statuses.HasMore
         }
