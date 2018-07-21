@@ -22,7 +22,7 @@ type CachedSourceWrapperImpl<'a when 'a : struct>(source: ISourceWrapper<'a>) =
         let skip = index |> Option.defaultValue 0
 
         let found = cache |> Swu.skipSafe skip |> Seq.truncate take
-        let at_end = cache |> Swu.skipSafe (skip + take) |> Seq.isEmpty
+        let at_end = ended && cache |> Swu.skipSafe (skip + take) |> Seq.isEmpty
 
         if cache.Count >= skip + take then
             return {
