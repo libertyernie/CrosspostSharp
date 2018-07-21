@@ -78,16 +78,14 @@ module PostConverter =
     let DownloadAsync post = AsyncDownload post |> Async.StartAsTask
 
     let GetContentType (post: SavedPhotoPost) =
-        try
-            use ms = new MemoryStream(post.data, false)
-            let image = Image.FromStream(ms)
-            match image.RawFormat.Guid with
-            | x when x = ImageFormat.Png.Guid -> "image/png"
-            | x when x = ImageFormat.Jpeg.Guid -> "image/jpeg"
-            | x when x = ImageFormat.Gif.Guid -> "image/gif"
-            | _ -> "application/octet-stream"
-        with
-            | _ -> "application/octet-stream"
+        let startsWith header file =
+            let byte_header = header |> Seq.map byte
+            Seq.forall2 (=) byte_header file && Array.length file >= Seq.length header
+
+        if startsWith [0xFF; 0xD8] post.data then "image/jpeg"
+        else if startsWith [0x89; 0x50; 0x4E; 0x47; 0x0D; 0x0A; 0x1A; 0x0A] post.data then "image/png"
+        else if startsWith [0x47; 0x49; 0x46] post.data then "image/gif"
+        else "application/octet-stream"
 
     let FromData data title =
         {
