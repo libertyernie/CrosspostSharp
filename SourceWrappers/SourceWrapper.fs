@@ -4,25 +4,6 @@ open System
 open System.Threading.Tasks
 open System.Security.Cryptography
 
-/// A wrapper around a post (probably an image post) from an art or social media site.
-type IPostWrapper =
-    abstract member Title: string with get
-    abstract member HTMLDescription: string with get
-    abstract member Mature: bool with get
-    abstract member Adult: bool with get
-    abstract member Tags: seq<string> with get
-    abstract member Timestamp: DateTime with get
-    abstract member ViewURL: string with get
-    abstract member ImageURL: string with get
-    abstract member ThumbnailURL: string with get
-
-/// A wrapper around a short text post.
-type IStatusUpdate =
-    abstract member PotentiallySensitive: bool with get
-    abstract member FullHTML: string with get
-    abstract member HasPhoto: bool with get
-    abstract member AdditionalLinks: seq<string> with get
-
 /// An interface that provides a method for deleting a post.
 type IDeletable =
     abstract member DeleteAsync: unit -> Task

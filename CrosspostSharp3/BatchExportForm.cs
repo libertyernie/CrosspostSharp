@@ -47,8 +47,8 @@ namespace CrosspostSharp3 {
 
 				foreach (var submission in posts) {
 					progressBar1.Value++;
-					var artworkData = await ArtworkData.DownloadAsync(submission);
-					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, artworkData.GetFileName());
+					var artworkData = await PostConverter.DownloadAsync(submission);
+					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, PostConverter.CreateFilename(artworkData));
 
 					if (chkExportImage.Checked) {
 						File.WriteAllBytes(imagePath, artworkData.data);

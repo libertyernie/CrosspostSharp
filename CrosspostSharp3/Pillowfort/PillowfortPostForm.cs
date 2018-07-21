@@ -1,4 +1,5 @@
 ﻿using PillowfortFs;
+using SourceWrappers;
 using System;
 using System.Drawing;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class PillowfortPostForm : Form {
 		private readonly PillowfortClient _client;
-		private readonly ArtworkData? _artworkData;
+		private readonly ArtworkData _artworkData;
 
 		public PillowfortPostForm(Settings.PillowfortSettings s, ArtworkData artworkData) {
 			InitializeComponent();

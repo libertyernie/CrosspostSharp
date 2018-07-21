@@ -85,7 +85,7 @@ namespace CrosspostSharp3 {
 					
 					_client.UploadPictureAsync(
 						ms,
-						_artworkData.GetFileName(),
+						PostConverter.CreateFilename(_artworkData),
 						txtTitle.Text,
 						txtDescription.Text,
 						txtTags.Text.Replace("#", ""),

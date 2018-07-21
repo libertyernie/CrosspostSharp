@@ -1,4 +1,5 @@
 ﻿using ISchemm.WinFormsOAuth;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace CrosspostSharp3 {
 			Application.SetCompatibleTextRenderingDefault(false);
 			if (args.Length == 1) {
 				try {
-					var artwork = ArtworkData.FromFile(args[0]);
+					var artwork = PostConverter.FromFile(args[0]);
 					if (artwork.data == null) {
 						throw new Exception("This file does not contain a base-64 encoded \"data\" field.");
 					}

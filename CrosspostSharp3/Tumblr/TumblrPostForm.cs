@@ -1,6 +1,7 @@
 ﻿using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -112,8 +113,8 @@ namespace CrosspostSharp3 {
 
 			try {
 				BinaryFile imageToPost = new BinaryFile(data,
-					_artworkData.GetFileName(),
-					_artworkData.GetContentType());
+					PostConverter.CreateFilename(_artworkData),
+					PostConverter.GetContentType(_artworkData));
 				PostData post = PostData.CreatePhoto(
 					new BinaryFile[] { imageToPost },
 					textBox1.Text,

@@ -19,7 +19,6 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private byte[] _data;
-		private string _contentType;
 		private string _url;
 		private object _originalWrapper;
 
@@ -38,16 +37,15 @@ namespace CrosspostSharp3 {
 		}
 
 		public ArtworkData Export() {
-			return new ArtworkData {
-				data = _data,
-				contentType = _contentType,
-				title = txtTitle.Text,
-				description = wbrDescription.Document.Body.InnerHtml,
-				url = _url,
-				tags = txtTags.Text.Split(' ').Where(s => s != ""),
-				mature = chkMature.Checked,
-				adult = chkAdult.Checked
-			};
+			return new ArtworkData(
+				data: _data,
+				title: txtTitle.Text,
+				description: wbrDescription.Document.Body.InnerHtml,
+				url: _url,
+				tags: txtTags.Text.Split(' ').Where(s => s != ""),
+				mature: chkMature.Checked,
+				adult: chkAdult.Checked
+			);
 		}
 
 		public ArtworkForm() {
@@ -73,7 +71,7 @@ namespace CrosspostSharp3 {
 		}
 
 		public void LoadImage(string filename) {
-			LoadImage(ArtworkData.FromFile(filename));
+			LoadImage(PostConverter.FromFile(filename));
 		}
 
 		public void LoadImage(ArtworkData artwork) {
@@ -92,7 +90,6 @@ namespace CrosspostSharp3 {
 			chkMature.Checked = artwork.mature;
 			chkAdult.Checked = artwork.adult;
 
-			_contentType = artwork.contentType;
 			_url = artwork.url;
 			btnView.Enabled = _url != null;
 
@@ -235,7 +232,7 @@ namespace CrosspostSharp3 {
 
 		public async void LoadImage(IPostWrapper wrapper) {
 			try {
-				LoadImage(await ArtworkData.DownloadAsync(wrapper));
+				LoadImage(await PostConverter.DownloadAsync(wrapper));
 				_originalWrapper = wrapper;
 				btnDelete.Enabled = _originalWrapper is SourceWrappers.IDeletable;
 			} catch (Exception ex) {
@@ -249,10 +246,16 @@ namespace CrosspostSharp3 {
 		}
 
 		private static void LaunchEFC(ArtworkData artwork) {
-			var data = artwork;
-			data.description = HtmlConversion.ConvertHtmlToText(artwork.description);
 			string jsonFile = Path.GetTempFileName();
-			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(data));
+			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(new {
+				artwork.adult,
+				artwork.data,
+				description = HtmlConversion.ConvertHtmlToText(artwork.description),
+				artwork.mature,
+				artwork.tags,
+				artwork.title,
+				artwork.url
+			}));
 
 			Process process = Process.Start(new ProcessStartInfo("java", $"-jar efc.jar {jsonFile}") {
 				RedirectStandardError = true,

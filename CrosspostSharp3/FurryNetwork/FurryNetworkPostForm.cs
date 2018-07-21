@@ -1,4 +1,5 @@
 ﻿using FurryNetworkLib;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -76,8 +77,8 @@ namespace CrosspostSharp3 {
 				var artwork = await _client.UploadArtwork(
 					_characterName,
 					_artworkData.data,
-					_artworkData.GetContentType(),
-					_artworkData.GetFileName());
+					PostConverter.GetContentType(_artworkData),
+					PostConverter.CreateFilename(_artworkData));
 				await _client.UpdateArtwork(artwork.Id, new FurryNetworkClient.UpdateArtworkParameters {
 					Community_tags_allowed = chkFurryNetworkAllowCommunityTags.Checked,
 					Description = txtDescription.Text,
