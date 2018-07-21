@@ -36,7 +36,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public ArtworkData Export() {
+		public ArtworkData ExportAsImage() {
 			return new ArtworkData(
 				data: _data,
 				title: txtTitle.Text,
@@ -46,6 +46,26 @@ namespace CrosspostSharp3 {
 				mature: chkMature.Checked,
 				adult: chkAdult.Checked
 			);
+		}
+
+		private class TextPost : IPostMetadata {
+			public string Title { get; set; }
+			public string HTMLDescription { get; set; }
+			public bool Mature { get; set; }
+			public bool Adult { get; set; }
+			public IEnumerable<string> Tags { get; set; }
+
+			public TextPost() { }
+		}
+
+		public IPostMetadata ExportAsText() {
+			return new TextPost {
+				Title = txtTitle.Text,
+				HTMLDescription = wbrDescription.Document.Body.InnerHtml,
+				Tags = txtTags.Text.Split(' ').Where(s => s != ""),
+				Mature = chkMature.Checked,
+				Adult = chkAdult.Checked
+			};
 		}
 
 		public ArtworkForm() {
@@ -108,29 +128,28 @@ namespace CrosspostSharp3 {
 
 			if (settings.DeviantArt.RefreshToken != null) {
 				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
-					using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml)) {
+					using (var f = new DeviantArtStatusUpdateForm(ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var p in settings.Pillowfort) {
 				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-					using (var f = new PillowfortPostForm(p, wbrDescription.Document.Body.InnerHtml, _originalWrapper.Mature || _originalWrapper.Adult)) {
+					using (var f = new PillowfortPostForm(p, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					string text = HtmlConversion.ConvertHtmlToText(wbrDescription.Document.Body.InnerHtml);
-					using (var f = new TwitterNoPhotoPostForm(t, text, _originalWrapper.Mature || _originalWrapper.Adult)) {
+					using (var f = new TwitterNoPhotoPostForm(t, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var t in settings.Tumblr) {
 				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-					using (var f = new TumblrNoPhotoPostForm(t, wbrDescription.Document.Body.InnerHtml)) {
+					using (var f = new TumblrNoPhotoPostForm(t, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));
@@ -163,49 +182,49 @@ namespace CrosspostSharp3 {
 					}
 				}));
 				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
-					using (var f = new DeviantArtStatusUpdateForm(wbrDescription.Document.Body.InnerHtml, _data)) {
+					using (var f = new DeviantArtStatusUpdateForm(ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var fl in settings.Flickr) {
 				listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
-					using (var f = new FlickrPostForm(fl, Export())) {
+					using (var f = new FlickrPostForm(fl, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var fn in settings.FurryNetwork) {
 				listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
-					using (var f = new FurryNetworkPostForm(fn, Export())) {
+					using (var f = new FurryNetworkPostForm(fn, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var i in settings.Inkbunny) {
 				listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
-					using (var f = new InkbunnyPostForm(i, Export())) {
+					using (var f = new InkbunnyPostForm(i, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var p in settings.Pillowfort) {
 				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-					using (var f = new PillowfortPostForm(p, Export())) {
+					using (var f = new PillowfortPostForm(p, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					using (var f = new TwitterPostForm(t, Export())) {
+					using (var f = new TwitterPostForm(t, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			foreach (var t in settings.Tumblr) {
 				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-					using (var f = new TumblrPostForm(t, Export())) {
+					using (var f = new TumblrPostForm(t, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
@@ -213,14 +232,14 @@ namespace CrosspostSharp3 {
 			foreach (var w in settings.Weasyl) {
 				if (w.wzl == null) continue;
 				listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
-					using (var f = new WeasylPostForm(w, Export())) {
+					using (var f = new WeasylPostForm(w, ExportAsImage())) {
 						f.ShowDialog(this);
 					}
 				}));
 			}
 			if (File.Exists("efc.jar")) {
 				listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
-					LaunchEFC(Export());
+					LaunchEFC(ExportAsImage());
 				}));
 			}
 		}
@@ -293,7 +312,7 @@ namespace CrosspostSharp3 {
 					saveFileDialog.Filter = "CrosspostSharp JSON|*.cps|All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(Export(), Formatting.Indented));
+					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(ExportAsImage(), Formatting.Indented));
 				}
 			}
 		}

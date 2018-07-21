@@ -1,6 +1,7 @@
 ﻿using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace CrosspostSharp3 {
 		private readonly TumblrClient _client;
 		private readonly string _blogName;
 
-		public TumblrNoPhotoPostForm(Settings.TumblrSettings s, string html) {
+		public TumblrNoPhotoPostForm(Settings.TumblrSettings s, IPostMetadata post) {
 			InitializeComponent();
 			_client = new TumblrClientFactory().Create<TumblrClient>(
 				OAuthConsumer.Tumblr.CONSUMER_KEY,
@@ -29,8 +30,8 @@ namespace CrosspostSharp3 {
 			_blogName = s.blogName;
 			lblUsername1.Text = _blogName;
 
-			textBox1.Text = html;
-			txtTags.Text = "";
+			textBox1.Text = post.HTMLDescription;
+			txtTags.Text = string.Join(", ", post.Tags);
 		}
 
 		private async void TumblrPostForm_Shown(object sender, EventArgs e) {

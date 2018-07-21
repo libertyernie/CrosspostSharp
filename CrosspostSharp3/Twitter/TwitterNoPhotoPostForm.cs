@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SourceWrappers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,14 +16,14 @@ namespace CrosspostSharp3 {
 	public partial class TwitterNoPhotoPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
 		
-		public TwitterNoPhotoPostForm(Settings.TwitterSettings s, string text, bool sensitive) {
+		public TwitterNoPhotoPostForm(Settings.TwitterSettings s, IPostMetadata post) {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
 			lblUsername2.Text = "@" + s.screenName;
 			
-			chkPotentiallySensitive.Checked = sensitive;
+			chkPotentiallySensitive.Checked = post.Mature || post.Adult;
 			
-			textBox1.Text = text;
+			textBox1.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
 		}
 
 		private async void TwitterPostForm_Shown(object sender, EventArgs e) {

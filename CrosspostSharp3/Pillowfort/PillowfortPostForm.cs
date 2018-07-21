@@ -10,27 +10,17 @@ namespace CrosspostSharp3 {
 		private readonly PillowfortClient _client;
 		private readonly ArtworkData _artworkData;
 
-		public PillowfortPostForm(Settings.PillowfortSettings s, ArtworkData artworkData) {
+		public PillowfortPostForm(Settings.PillowfortSettings s, IPostMetadata post) {
 			InitializeComponent();
 			_client = new PillowfortClient { Cookie = s.cookie };
 
-			_artworkData = artworkData;
-			txtTitle.Text = artworkData.title;
-			txtDescription.Text = artworkData.description;
-			txtTags.Text = string.Join(", ", artworkData.tags);
-			chkIncludeImage.Enabled = true;
-			chkIncludeImage.Checked = true;
-			chkNsfw.Checked = artworkData.mature || artworkData.adult;
-		}
-
-		public PillowfortPostForm(Settings.PillowfortSettings s, string html, bool nsfw) {
-			InitializeComponent();
-			_client = new PillowfortClient { Cookie = s.cookie };
-			
-			txtDescription.Text = html;
-			chkIncludeImage.Enabled = false;
-			chkIncludeImage.Checked = false;
-			chkNsfw.Checked = nsfw;
+			_artworkData = post as ArtworkData;
+			txtTitle.Text = post.Title;
+			txtDescription.Text = post.HTMLDescription;
+			txtTags.Text = string.Join(", ", post.Tags);
+			chkIncludeImage.Enabled = _artworkData != null;
+			chkIncludeImage.Checked = _artworkData != null;
+			chkNsfw.Checked = post.Mature || post.Adult;
 		}
 
 		private void chkIncludeImage_CheckedChanged(object sender, EventArgs e) {
