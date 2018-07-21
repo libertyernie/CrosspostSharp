@@ -3,7 +3,7 @@
 open PillowfortFs
 
 type PillowfortPostWrapper(post: PillowfortPost, media: PillowfortMedia option) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member __.Title = post.title
         member __.HTMLDescription = post.content
         member __.Mature = post.nsfw

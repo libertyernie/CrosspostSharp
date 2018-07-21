@@ -7,10 +7,10 @@ type IPagedWrapperConsumer =
     abstract member Name: string with get
     abstract member HasMore: bool with get
     abstract member SuggestedBatchSize: int with get
-    abstract member NextAsync: unit -> Task<seq<IPostWrapper>>
-    abstract member PrevAsync: unit -> Task<seq<IPostWrapper>>
-    abstract member FirstAsync: unit -> Task<seq<IPostWrapper>>
-    abstract member FetchAllAsync: int -> Task<seq<IPostWrapper>>
+    abstract member NextAsync: unit -> Task<seq<IRemotePhotoPost>>
+    abstract member PrevAsync: unit -> Task<seq<IRemotePhotoPost>>
+    abstract member FirstAsync: unit -> Task<seq<IRemotePhotoPost>>
+    abstract member FetchAllAsync: int -> Task<seq<IRemotePhotoPost>>
     abstract member WhoamiAsync: unit -> Task<string>
     abstract member GetUserIconAsync: int -> Task<string>
 

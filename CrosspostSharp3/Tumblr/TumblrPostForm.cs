@@ -20,9 +20,9 @@ namespace CrosspostSharp3 {
 	public partial class TumblrPostForm : Form {
 		private readonly TumblrClient _client;
 		private readonly string _blogName;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 
-		public TumblrPostForm(Settings.TumblrSettings s, ArtworkData d) {
+		public TumblrPostForm(Settings.TumblrSettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_client = new TumblrClientFactory().Create<TumblrClient>(
 				OAuthConsumer.Tumblr.CONSUMER_KEY,

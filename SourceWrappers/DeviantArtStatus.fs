@@ -26,7 +26,7 @@ type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
         |> Option.flatten
         |> Option.defaultValue false
 
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = ""
         member this.HTMLDescription = status.Body
         member this.Mature = Mature

@@ -1,9 +1,10 @@
 ﻿namespace SourceWrappers
 
 open System
+open System.Threading.Tasks
 
 /// A shared base interface for text and photo posts.
-type IPostMetadata =
+type IPostBase =
     abstract member Title: string with get
     abstract member HTMLDescription: string with get
     abstract member Mature: bool with get
@@ -11,8 +12,8 @@ type IPostMetadata =
     abstract member Tags: seq<string> with get
 
 /// A wrapper around a post (probably an image post) from an art or social media site.
-type IPostWrapper =
-    inherit IPostMetadata
+type IRemotePhotoPost =
+    inherit IPostBase
 
     abstract member Timestamp: DateTime with get
     abstract member ViewURL: string with get
@@ -20,7 +21,7 @@ type IPostWrapper =
     abstract member ThumbnailURL: string with get
 
 /// An object representing an image post, including the image data. Can be serialized to JSON.
-type ArtworkData =
+type SavedPhotoPost =
     {
         data: byte[]
         title: string
@@ -30,13 +31,19 @@ type ArtworkData =
         mature: bool
         adult: bool
     }
-    interface IPostMetadata with
+    interface IPostBase with
         member this.Title = this.title
         member this.HTMLDescription = this.description
         member this.Mature = this.mature
         member this.Adult = this.adult
         member this.Tags = this.tags
 
+/// An interface that provides a method for deleting a post.
+type IDeletable =
+    abstract member DeleteAsync: unit -> Task
+    abstract member SiteName: string with get
+
+/// Supplies methods for converting an IPostWrapper or a file to an ArtworkData and finding valid mimetypes and filenames for images.
 module PostConverter =
     open System.Net
     open System.IO
@@ -46,7 +53,7 @@ module PostConverter =
     open System.Drawing.Imaging
     open System.Security.Cryptography
 
-    let AsyncDownload (post: IPostWrapper) = async {
+    let AsyncDownload (post: IRemotePhotoPost) = async {
         if isNull post.ImageURL then
             invalidArg "post" "Cannot create a SavedPost object from a post without an image."
 
@@ -70,7 +77,7 @@ module PostConverter =
 
     let DownloadAsync post = AsyncDownload post |> Async.StartAsTask
 
-    let GetContentType (post: ArtworkData) =
+    let GetContentType (post: SavedPhotoPost) =
         try
             use ms = new MemoryStream(post.data, false)
             let image = Image.FromStream(ms)
@@ -97,7 +104,7 @@ module PostConverter =
         if Seq.tryHead data = Some (byte '{') then
             // Try to parse JSON
             try
-                data |> Encoding.UTF8.GetString |> JsonConvert.DeserializeObject<ArtworkData> |> Some
+                data |> Encoding.UTF8.GetString |> JsonConvert.DeserializeObject<SavedPhotoPost> |> Some
             with
                 | _ -> None
         else
@@ -108,7 +115,7 @@ module PostConverter =
         let data = File.ReadAllBytes filename
         TryDeserializeJson data |> Option.defaultValue (FromData data default_title)
 
-    let CreateFilename (post: ArtworkData) =
+    let CreateFilename (post: SavedPhotoPost) =
         let invalid = Path.GetInvalidFileNameChars()
         let title =
             post.title

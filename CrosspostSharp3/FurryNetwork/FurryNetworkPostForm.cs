@@ -18,9 +18,9 @@ namespace CrosspostSharp3 {
 	public partial class FurryNetworkPostForm : Form {
 		private readonly FurryNetworkClient _client;
 		private readonly string _characterName;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 
-		public FurryNetworkPostForm(Settings.FurryNetworkSettings s, ArtworkData d) {
+		public FurryNetworkPostForm(Settings.FurryNetworkSettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_client = new FurryNetworkClient(s.refreshToken);
 			_artworkData = d;

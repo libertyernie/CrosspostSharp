@@ -16,7 +16,7 @@ namespace CrosspostSharp3 {
 	public partial class TwitterNoPhotoPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
 		
-		public TwitterNoPhotoPostForm(Settings.TwitterSettings s, IPostMetadata post) {
+		public TwitterNoPhotoPostForm(Settings.TwitterSettings s, IPostBase post) {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
 			lblUsername2.Text = "@" + s.screenName;

@@ -4,7 +4,7 @@ open FlickrNet
 open System.Threading.Tasks
 
 type FlickrPostWrapper(photo: Photo) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = photo.Title
         member this.HTMLDescription = photo.Description
         member this.Mature = false

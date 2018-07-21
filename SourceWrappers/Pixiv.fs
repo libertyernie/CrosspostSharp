@@ -20,7 +20,7 @@ type PixivPostWrapper(work: IllustWork) =
         |> Option.orElse (List.tryHead thumbnails)
         |> Option.defaultValue thumbnailUrl
 
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = work.Title
         member this.HTMLDescription = work.Caption
         member this.Mature = false

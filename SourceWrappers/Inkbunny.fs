@@ -4,7 +4,7 @@ open InkbunnyLib
 open System
 
 type InkbunnyPostWrapper(submission: InkbunnySubmissionDetail, client: InkbunnyClient) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = submission.title
         member this.HTMLDescription = submission.description_bbcode_parsed
         member this.Mature = submission.rating_id = InkbunnyRating.Mature

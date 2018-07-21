@@ -11,7 +11,7 @@ type CachedSourceWrapper() =
 type CachedSourceWrapperImpl<'a when 'a : struct>(source: ISourceWrapper<'a>) =
     inherit CachedSourceWrapper()
 
-    let cache = new List<IPostWrapper>()
+    let cache = new List<IRemotePhotoPost>()
     let mutable cursor: 'a option = None
     let mutable ended = false
     

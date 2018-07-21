@@ -20,7 +20,7 @@ type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BaseP
     default this.ImageURL = getImageUrl 512
     default this.ThumbnailURL = getImageUrl 128
 
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = ""
         member this.HTMLDescription = this.HTMLDescription
         member this.Mature = false
@@ -91,8 +91,8 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
                         else post.BlogName
                 if blogNames |> Seq.contains postBlogName then
                     match post with
-                    | :? PhotoPost as photo -> yield TumblrPhotoPostWrapper(client, photo) :> IPostWrapper
-                    | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) :> IPostWrapper
+                    | :? PhotoPost as photo -> yield TumblrPhotoPostWrapper(client, photo) :> IRemotePhotoPost
+                    | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) :> IRemotePhotoPost
                     | _ -> ()
         }
         return {

@@ -14,7 +14,7 @@ type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterCreden
             | Some m -> tweet.FullText.Replace(m.URL, "")
             | None -> tweet.FullText
         sprintf "<p>%s</p>" (WebUtility.HtmlEncode(text).Replace("\n", "<br/>"))
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = ""
         member this.HTMLDescription = html
         member this.Mature = tweet.PossiblySensitive

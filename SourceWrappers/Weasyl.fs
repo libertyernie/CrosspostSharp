@@ -5,7 +5,7 @@ open WeasylLib.Frontend
 open System.Threading.Tasks
 
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = ""
         member this.HTMLDescription = submission.HTMLDescription
         member this.Mature = submission.rating = "mature"

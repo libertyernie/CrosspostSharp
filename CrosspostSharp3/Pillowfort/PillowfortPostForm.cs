@@ -8,13 +8,13 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class PillowfortPostForm : Form {
 		private readonly PillowfortClient _client;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 
-		public PillowfortPostForm(Settings.PillowfortSettings s, IPostMetadata post) {
+		public PillowfortPostForm(Settings.PillowfortSettings s, IPostBase post) {
 			InitializeComponent();
 			_client = new PillowfortClient { Cookie = s.cookie };
 
-			_artworkData = post as ArtworkData;
+			_artworkData = post as SavedPhotoPost;
 			txtTitle.Text = post.Title;
 			txtDescription.Text = post.HTMLDescription;
 			txtTags.Text = string.Join(", ", post.Tags);

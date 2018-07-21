@@ -6,7 +6,7 @@ open System
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
     member this.Id = submission.Id
 
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = submission.Title
         member this.HTMLDescription = ""
         member this.Mature = true
@@ -18,7 +18,7 @@ type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
         member this.ThumbnailURL = submission.Thumbnail
 
 type FurAffinityPostWrapper(submission: FASubmission) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = submission.Title
         member this.HTMLDescription =
             let html = submission.Description

@@ -21,7 +21,7 @@ namespace CrosspostSharp3 {
 		private readonly TumblrClient _client;
 		private readonly string _blogName;
 
-		public TumblrNoPhotoPostForm(Settings.TumblrSettings s, IPostMetadata post) {
+		public TumblrNoPhotoPostForm(Settings.TumblrSettings s, IPostBase post) {
 			InitializeComponent();
 			_client = new TumblrClientFactory().Create<TumblrClient>(
 				OAuthConsumer.Tumblr.CONSUMER_KEY,

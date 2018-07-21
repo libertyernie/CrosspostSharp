@@ -21,12 +21,12 @@ namespace CrosspostSharp3 {
 	public partial class DeviantArtStatusUpdateForm : Form {
 		private byte[] _image;
 
-		public DeviantArtStatusUpdateForm(IPostMetadata post) {
+		public DeviantArtStatusUpdateForm(IPostBase post) {
 			InitializeComponent();
 
 			lblUsername1.Text = "abc";
 			textBox1.Text = post.HTMLDescription;
-			_image = (post as ArtworkData)?.data;
+			_image = (post as SavedPhotoPost)?.data;
 		}
 
 		private async void DeviantArtStatusUpdateForm_Shown(object sender, EventArgs e) {

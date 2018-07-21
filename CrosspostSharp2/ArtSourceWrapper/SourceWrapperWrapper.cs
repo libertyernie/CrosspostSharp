@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
 	public class PostWrapperWrapper : ISubmissionWrapper, IDeletable {
-		private IPostWrapper _post;
+		private IRemotePhotoPost _post;
 
-		public PostWrapperWrapper(IPostWrapper post) {
+		public PostWrapperWrapper(IRemotePhotoPost post) {
 			_post = post ?? throw new ArgumentNullException(nameof(post));
 		}
 

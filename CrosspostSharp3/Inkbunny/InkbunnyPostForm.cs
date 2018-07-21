@@ -17,9 +17,9 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class InkbunnyPostForm : Form {
 		private readonly InkbunnyClient _client;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 
-		public InkbunnyPostForm(Settings.InkbunnySettings s, ArtworkData d) {
+		public InkbunnyPostForm(Settings.InkbunnySettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_client = new InkbunnyClient(s.sid, s.userId);
 			_artworkData = d;

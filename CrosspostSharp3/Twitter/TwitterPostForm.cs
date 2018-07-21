@@ -15,12 +15,12 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 		private string _plainTextDescription;
 
 		private static int? _tcoUrlLength;
 
-		public TwitterPostForm(Settings.TwitterSettings s, ArtworkData d) {
+		public TwitterPostForm(Settings.TwitterSettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
 			_artworkData = d;

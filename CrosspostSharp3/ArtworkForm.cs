@@ -20,7 +20,7 @@ namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private byte[] _data;
 		private string _url;
-		private IPostMetadata _originalWrapper;
+		private IPostBase _originalWrapper;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -36,8 +36,8 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public ArtworkData ExportAsImage() {
-			return new ArtworkData(
+		public SavedPhotoPost ExportAsImage() {
+			return new SavedPhotoPost(
 				data: _data,
 				title: txtTitle.Text,
 				description: wbrDescription.Document.Body.InnerHtml,
@@ -48,7 +48,7 @@ namespace CrosspostSharp3 {
 			);
 		}
 
-		private class TextPost : IPostMetadata {
+		private class TextPost : IPostBase {
 			public string Title { get; set; }
 			public string HTMLDescription { get; set; }
 			public bool Mature { get; set; }
@@ -58,7 +58,7 @@ namespace CrosspostSharp3 {
 			public TextPost() { }
 		}
 
-		public IPostMetadata ExportAsText() {
+		public IPostBase ExportAsText() {
 			return new TextPost {
 				Title = txtTitle.Text,
 				HTMLDescription = wbrDescription.Document.Body.InnerHtml,
@@ -82,11 +82,11 @@ namespace CrosspostSharp3 {
 			this.Shown += (o, e) => LoadImage(filename);
 		}
 
-		public ArtworkForm(ArtworkData artworkData) : this() {
+		public ArtworkForm(SavedPhotoPost artworkData) : this() {
 			this.Shown += (o, e) => LoadImage(artworkData);
 		}
 
-		public ArtworkForm(IPostWrapper wrapper) : this() {
+		public ArtworkForm(IRemotePhotoPost wrapper) : this() {
 			this.Shown += (o, e) => LoadImage(wrapper);
 		}
 
@@ -94,7 +94,7 @@ namespace CrosspostSharp3 {
 			LoadImage(PostConverter.FromFile(filename));
 		}
 
-		public void LoadImage(ArtworkData artwork) {
+		public void LoadImage(SavedPhotoPost artwork) {
 			using (var ms = new MemoryStream(artwork.data, false)) {
 				var image = Image.FromStream(ms);
 				splitContainer1.Panel1.BackgroundImage = image;
@@ -244,7 +244,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public async void LoadImage(IPostWrapper wrapper) {
+		public async void LoadImage(IRemotePhotoPost wrapper) {
 			try {
 				LoadImage(await PostConverter.DownloadAsync(wrapper));
 				_originalWrapper = wrapper;
@@ -259,7 +259,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private static void LaunchEFC(ArtworkData artwork) {
+		private static void LaunchEFC(SavedPhotoPost artwork) {
 			string jsonFile = Path.GetTempFileName();
 			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(new {
 				artwork.adult,
@@ -268,7 +268,8 @@ namespace CrosspostSharp3 {
 				artwork.mature,
 				artwork.tags,
 				artwork.title,
-				artwork.url
+				artwork.url,
+				contentType = PostConverter.GetContentType(artwork)
 			}));
 
 			Process process = Process.Start(new ProcessStartInfo("java", $"-jar efc.jar {jsonFile}") {

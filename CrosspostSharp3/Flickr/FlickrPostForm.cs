@@ -18,9 +18,9 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class FlickrPostForm : Form {
 		private readonly Flickr _client;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 
-		public FlickrPostForm(Settings.FlickrSettings s, ArtworkData d) {
+		public FlickrPostForm(Settings.FlickrSettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_client = s.CreateClient();
 			_artworkData = d;

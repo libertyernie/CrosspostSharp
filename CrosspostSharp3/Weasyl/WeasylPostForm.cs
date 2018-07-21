@@ -16,9 +16,9 @@ namespace CrosspostSharp3.Weasyl {
 	public partial class WeasylPostForm : Form {
 		private readonly WeasylFrontendClient _frontendClient;
 		private readonly WeasylApiClient _apiClient;
-		private readonly ArtworkData _artworkData;
+		private readonly SavedPhotoPost _artworkData;
 
-		public WeasylPostForm(Settings.WeasylSettings s, ArtworkData d) {
+		public WeasylPostForm(Settings.WeasylSettings s, SavedPhotoPost d) {
 			InitializeComponent();
 
 			_frontendClient = new WeasylFrontendClient {

@@ -5,7 +5,7 @@ open System.Net
 open System
 
 type FurryNetworkPostWrapper(artwork: FileSubmission, client: FurryNetworkClient) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = artwork.Title
         member this.HTMLDescription =
             try

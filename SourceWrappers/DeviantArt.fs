@@ -8,7 +8,7 @@ open DeviantartApi.Requests.Gallery
 open DeviantartApi.Requests.Deviation
 
 type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = deviation.Title
         member this.HTMLDescription =
             match metadata with
@@ -77,7 +77,7 @@ type DeviantArtSourceWrapper() =
                         metadata.Metadata
                         |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
                         |> Seq.tryHead
-                    yield DeviantArtPostWrapper(d, m) :> IPostWrapper
+                    yield DeviantArtPostWrapper(d, m) :> IRemotePhotoPost
         }
 
         return {

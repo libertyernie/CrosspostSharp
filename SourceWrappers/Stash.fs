@@ -22,7 +22,7 @@ type StashPostWrapper(entry: Entry) =
             |> Swu.whenDone ignore
     }
 
-    interface IPostWrapper with
+    interface IRemotePhotoPost with
         member this.Title = entry.Metadata.Title
         member this.HTMLDescription = entry.Metadata.ArtistComment
         member this.Mature = false
