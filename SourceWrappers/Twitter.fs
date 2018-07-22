@@ -51,7 +51,7 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
             return u
     }
 
-    let wrap t m = TwitterPostWrapper (t, m, twitterCredentials) |> Swu.toPostWrapperInterface
+    let wrap t m = TwitterPostWrapper (t, m, twitterCredentials) |> Swu.potBase
 
     let isPhoto (m: IMediaEntity) = m.MediaType = "photo"
 

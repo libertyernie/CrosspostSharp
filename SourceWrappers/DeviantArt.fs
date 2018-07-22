@@ -77,7 +77,7 @@ type DeviantArtSourceWrapper() =
                         metadata.Metadata
                         |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
                         |> Seq.tryHead
-                    yield DeviantArtPostWrapper(d, m) :> IRemotePhotoPost
+                    yield DeviantArtPostWrapper(d, m) |> Swu.potBase
         }
 
         return {

@@ -85,7 +85,7 @@ type DeviantArtStatusSourceWrapper() =
                     else
                         for d in items do
                             yield new DeviantArtStatusPostWrapper(r, Some d)
-            } |> Seq.map Swu.toPostWrapperInterface
+            } |> Seq.map Swu.potBase
             Next = statuses.NextOffset |> Option.ofNullable |> Option.defaultValue 0
             HasMore = statuses.HasMore
         }

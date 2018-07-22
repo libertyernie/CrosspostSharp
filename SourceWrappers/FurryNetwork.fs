@@ -53,7 +53,7 @@ type FurryNetworkSourceWrapper(client: FurryNetworkClient, characterName: string
                 |> Seq.filter (fun s -> s :? Artwork || s :? Photo)
                 |> Seq.map (fun s -> s :?> FileSubmission)
                 |> Seq.map (fun s -> new FurryNetworkPostWrapper(s, client))
-                |> Seq.map Swu.toPostWrapperInterface
+                |> Seq.map Swu.potBase
             Next = nextPosition
             HasMore = nextPosition > searchResults.Total
         }

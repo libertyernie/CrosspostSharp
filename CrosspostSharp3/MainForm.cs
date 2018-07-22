@@ -49,14 +49,25 @@ namespace CrosspostSharp3 {
 				more = _currentWrapper.HasMore;
 
 				foreach (var item in posts) {
-					Image image;
-					var req = WebRequestFactory.Create(item.ThumbnailURL);
-					using (var resp = await req.GetResponseAsync())
-					using (var stream = resp.GetResponseStream())
-					using (var ms = new MemoryStream()) {
-						await stream.CopyToAsync(ms);
-						ms.Position = 0;
-						image = Image.FromStream(ms);
+					Image image = null;
+
+					if (item is IRemotePhotoPost remote) {
+						var req = WebRequestFactory.Create(remote.ThumbnailURL);
+						using (var resp = await req.GetResponseAsync())
+						using (var stream = resp.GetResponseStream())
+						using (var ms = new MemoryStream()) {
+							await stream.CopyToAsync(ms);
+							ms.Position = 0;
+							image = Image.FromStream(ms);
+						}
+					} else if (item is SavedPhotoPost saved) {
+						using (var ms = new MemoryStream(saved.data, false)) {
+							image = Image.FromStream(ms);
+						}
+					} else {
+						var b = new Bitmap(1, 1);
+						b.SetPixel(0, 0, Color.Blue);
+						image = b;
 					}
 
 					var p = new Panel {

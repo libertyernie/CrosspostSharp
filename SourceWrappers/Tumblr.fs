@@ -91,8 +91,8 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
                         else post.BlogName
                 if blogNames |> Seq.contains postBlogName then
                     match post with
-                    | :? PhotoPost as photo -> yield TumblrPhotoPostWrapper(client, photo) :> IRemotePhotoPost
-                    | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) :> IRemotePhotoPost
+                    | :? PhotoPost as photo -> yield TumblrPhotoPostWrapper(client, photo) |> Swu.potBase
+                    | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) |> Swu.potBase
                     | _ -> ()
         }
         return {

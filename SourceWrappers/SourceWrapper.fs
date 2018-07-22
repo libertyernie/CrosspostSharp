@@ -5,7 +5,7 @@ open System.Threading.Tasks
 
 /// A result returned from an IPagedSourceWrapper. Use the Next cursor to fetch the next page of results.
 type FetchResult<'cursor when 'cursor : struct> = {
-    Posts: seq<IRemotePhotoPost>
+    Posts: seq<IPostBase>
     Next: 'cursor
     HasMore: bool
 }
@@ -13,7 +13,7 @@ type FetchResult<'cursor when 'cursor : struct> = {
 /// A wrapper to get information from an art or social media site.
 type ISourceWrapper<'cursor when 'cursor : struct> =
     abstract member Name: string with get
-    abstract member FetchAllAsync: int -> Task<seq<IRemotePhotoPost>>
+    abstract member FetchAllAsync: int -> Task<seq<IPostBase>>
     abstract member WhoamiAsync: unit -> Task<string>
     abstract member GetUserIconAsync: int -> Task<string>
     abstract member SuggestedBatchSize: int with get
@@ -32,7 +32,7 @@ type SourceWrapper<'cursor when 'cursor : struct>() =
 
     member this.AsISourceWrapper () = this :> ISourceWrapper<'cursor>
 
-    member private this.FetchAll (initial: seq<IRemotePhotoPost>) (cursor: 'cursor option) (limit: int) = async {
+    member private this.FetchAll (initial: seq<IPostBase>) (cursor: 'cursor option) (limit: int) = async {
         let! result = this.Fetch cursor limit
         if not result.HasMore || Seq.length result.Posts >= limit then
             return result.Posts |> Seq.truncate limit |> Seq.append initial
@@ -70,4 +70,4 @@ module internal Swu =
         if (resp.Result.Error |> String.IsNullOrEmpty |> not) then failwith resp.Result.Error
         resp.Result
 
-    let toPostWrapperInterface w = w :> IRemotePhotoPost
+    let potBase w = w :> IPostBase

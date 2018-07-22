@@ -10,12 +10,12 @@ type IPostBase =
     abstract member Mature: bool with get
     abstract member Adult: bool with get
     abstract member Tags: seq<string> with get
+    abstract member Timestamp: DateTime with get
 
 /// A wrapper around a post (probably an image post) from an art or social media site.
 type IRemotePhotoPost =
     inherit IPostBase
 
-    abstract member Timestamp: DateTime with get
     abstract member ViewURL: string with get
     abstract member ImageURL: string with get
     abstract member ThumbnailURL: string with get
@@ -37,6 +37,7 @@ type SavedPhotoPost =
         member this.Mature = this.mature
         member this.Adult = this.adult
         member this.Tags = this.tags
+        member __.Timestamp = DateTime.UtcNow
 
 /// An interface that provides a method for deleting a post.
 type IDeletable =

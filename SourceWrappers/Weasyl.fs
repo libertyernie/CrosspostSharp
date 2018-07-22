@@ -41,7 +41,7 @@ type WeasylSourceWrapper(username: string) =
             Posts = submissions
                 |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
                 |> Seq.map WeasylPostWrapper
-                |> Seq.map Swu.toPostWrapperInterface
+                |> Seq.map Swu.potBase
             Next = gallery.nextid |> Option.ofNullable |> Option.defaultValue 0
             HasMore = gallery.nextid.HasValue
         }
@@ -78,7 +78,7 @@ type WeasylCharacterSourceWrapper(username: string) =
             Posts = submissions
                 |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
                 |> Seq.map WeasylPostWrapper
-                |> Seq.map Swu.toPostWrapperInterface
+                |> Seq.map Swu.potBase
             Next = skip + take
             HasMore = allIds.Count > skip + take
         }

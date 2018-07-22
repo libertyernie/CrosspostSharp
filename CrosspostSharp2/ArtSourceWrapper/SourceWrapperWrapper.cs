@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
 	public class PostWrapperWrapper : ISubmissionWrapper, IDeletable {
-		private IRemotePhotoPost _post;
+		private const string T = "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif";
 
-		public PostWrapperWrapper(IRemotePhotoPost post) {
+		private IPostBase _post;
+
+		public PostWrapperWrapper(IPostBase post) {
 			_post = post ?? throw new ArgumentNullException(nameof(post));
 		}
 
@@ -20,9 +22,9 @@ namespace ArtSourceWrapper {
 		public bool Adult => _post.Adult;
 		public IEnumerable<string> Tags => _post.Tags;
 		public DateTime Timestamp => _post.Timestamp;
-		public string ViewURL => _post.ViewURL;
-		public string ImageURL => _post.ImageURL;
-		public string ThumbnailURL => _post.ThumbnailURL;
+		public string ViewURL => (_post as IRemotePhotoPost)?.ViewURL;
+		public string ImageURL => (_post as IRemotePhotoPost)?.ImageURL ?? T;
+		public string ThumbnailURL => (_post as IRemotePhotoPost)?.ThumbnailURL ?? T;
 		public Color? BorderColor => null;
 
 		public string SiteName => (_post as SourceWrappers.IDeletable)?.SiteName ?? "the site";

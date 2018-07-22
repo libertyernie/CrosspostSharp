@@ -74,7 +74,7 @@ type UnorderedStashSourceWrapper() =
             |> Seq.filter (fun e -> e.ItemId <> int64 0)
             |> Seq.filter (fun e -> (not << isNull) e.Metadata.Files)
             |> Seq.map StashPostWrapper
-            |> Seq.map Swu.toPostWrapperInterface
+            |> Seq.map Swu.potBase
 
         return {
             Posts = wrappers
