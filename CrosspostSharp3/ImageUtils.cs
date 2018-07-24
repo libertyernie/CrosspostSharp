@@ -15,6 +15,18 @@ namespace CrosspostSharp3 {
 				using (var image2 = new Bitmap(size, size))
 				using (var g2 = Graphics.FromImage(image2))
 				using (var ms2 = new MemoryStream()) {
+					if (image1 is Bitmap b) {
+						var colors = new[] {
+							b.GetPixel(0, 0),
+							b.GetPixel(0, b.Height - 1),
+							b.GetPixel(b.Width - 1, 0),
+							b.GetPixel(b.Width - 1, b.Height - 1)
+						};
+						if (colors.Distinct().Count() == 1) {
+							g2.FillRectangle(new SolidBrush(colors[0]), 0, 0, image2.Width, image2.Height);
+						}
+					}
+
 					g2.DrawImage(image1,
 						(image2.Width - image1.Width) / 2,
 						(image2.Height - image1.Height) / 2,
