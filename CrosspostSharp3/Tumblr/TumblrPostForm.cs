@@ -94,21 +94,7 @@ namespace CrosspostSharp3 {
 
 			byte[] data = _artworkData.data;
 			if (chkMakeSquare.Checked) {
-				using (var ms1 = new MemoryStream(data, false))
-				using (var image1 = Image.FromStream(ms1)) {
-					int size = Math.Max(image1.Width, image1.Height);
-					using (var image2 = new Bitmap(size, size))
-					using (var g2 = Graphics.FromImage(image2))
-					using (var ms2 = new MemoryStream()) {
-						g2.DrawImage(image1,
-							(image2.Width - image1.Width) / 2,
-							(image2.Height - image1.Height) / 2,
-							image1.Width,
-							image1.Height);
-						image2.Save(ms2, image1.RawFormat);
-						data = ms2.ToArray();
-					}
-				}
+				data = ImageUtils.MakeSquare(data);
 			}
 
 			try {

@@ -84,6 +84,7 @@
     <Compile Include="FurryNetwork\FurryNetworkPostForm.Designer.cs">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageUtils.cs" />
     <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -318,6 +319,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Imgur.API">
+      <Version>4.0.1</Version>
+    </PackageReference>
     <PackageReference Include="ISchemm.WinFormsOAuth">
       <Version>1.1.1</Version>
     </PackageReference>

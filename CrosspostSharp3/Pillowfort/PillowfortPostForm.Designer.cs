@@ -37,13 +37,15 @@
             this.chkRebloggable = new System.Windows.Forms.CheckBox();
             this.chkCommentable = new System.Windows.Forms.CheckBox();
             this.chkNsfw = new System.Windows.Forms.CheckBox();
+            this.ddlPrivacy = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // chkMakeSquare
             // 
             this.chkMakeSquare.AutoSize = true;
-            this.chkMakeSquare.Location = new System.Drawing.Point(160, 182);
+            this.chkMakeSquare.Location = new System.Drawing.Point(302, 155);
             this.chkMakeSquare.Name = "chkMakeSquare";
             this.chkMakeSquare.Size = new System.Drawing.Size(88, 17);
             this.chkMakeSquare.TabIndex = 6;
@@ -73,11 +75,11 @@
             // chkIncludeImage
             // 
             this.chkIncludeImage.AutoSize = true;
-            this.chkIncludeImage.Location = new System.Drawing.Point(62, 182);
+            this.chkIncludeImage.Location = new System.Drawing.Point(62, 155);
             this.chkIncludeImage.Name = "chkIncludeImage";
-            this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
+            this.chkIncludeImage.Size = new System.Drawing.Size(234, 17);
             this.chkIncludeImage.TabIndex = 5;
-            this.chkIncludeImage.Text = "Include image";
+            this.chkIncludeImage.Text = "Include image (file will be uploaded to Imgur)";
             this.chkIncludeImage.UseVisualStyleBackColor = true;
             this.chkIncludeImage.CheckedChanged += new System.EventHandler(this.chkIncludeImage_CheckedChanged);
             // 
@@ -116,7 +118,7 @@
             this.txtDescription.Location = new System.Drawing.Point(62, 92);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(360, 84);
+            this.txtDescription.Size = new System.Drawing.Size(360, 57);
             this.txtDescription.TabIndex = 4;
             // 
             // txtTags
@@ -126,7 +128,7 @@
             this.txtTags.Location = new System.Drawing.Point(62, 228);
             this.txtTags.Name = "txtTags";
             this.txtTags.Size = new System.Drawing.Size(279, 20);
-            this.txtTags.TabIndex = 11;
+            this.txtTags.TabIndex = 13;
             // 
             // lblTags
             // 
@@ -135,7 +137,7 @@
             this.lblTags.Location = new System.Drawing.Point(12, 231);
             this.lblTags.Name = "lblTags";
             this.lblTags.Size = new System.Drawing.Size(31, 13);
-            this.lblTags.TabIndex = 10;
+            this.lblTags.TabIndex = 12;
             this.lblTags.Text = "Tags";
             // 
             // btnPost
@@ -144,14 +146,17 @@
             this.btnPost.Location = new System.Drawing.Point(347, 226);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 12;
+            this.btnPost.TabIndex = 14;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
+            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
             // 
             // chkRebloggable
             // 
             this.chkRebloggable.AutoSize = true;
-            this.chkRebloggable.Location = new System.Drawing.Point(62, 205);
+            this.chkRebloggable.Checked = true;
+            this.chkRebloggable.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkRebloggable.Location = new System.Drawing.Point(62, 178);
             this.chkRebloggable.Name = "chkRebloggable";
             this.chkRebloggable.Size = new System.Drawing.Size(88, 17);
             this.chkRebloggable.TabIndex = 7;
@@ -161,7 +166,9 @@
             // chkCommentable
             // 
             this.chkCommentable.AutoSize = true;
-            this.chkCommentable.Location = new System.Drawing.Point(156, 205);
+            this.chkCommentable.Checked = true;
+            this.chkCommentable.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCommentable.Location = new System.Drawing.Point(156, 178);
             this.chkCommentable.Name = "chkCommentable";
             this.chkCommentable.Size = new System.Drawing.Size(102, 17);
             this.chkCommentable.TabIndex = 8;
@@ -171,18 +178,40 @@
             // chkNsfw
             // 
             this.chkNsfw.AutoSize = true;
-            this.chkNsfw.Location = new System.Drawing.Point(264, 205);
+            this.chkNsfw.Location = new System.Drawing.Point(264, 178);
             this.chkNsfw.Name = "chkNsfw";
             this.chkNsfw.Size = new System.Drawing.Size(58, 17);
             this.chkNsfw.TabIndex = 9;
             this.chkNsfw.Text = "NSFW";
             this.chkNsfw.UseVisualStyleBackColor = true;
             // 
+            // ddlPrivacy
+            // 
+            this.ddlPrivacy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ddlPrivacy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddlPrivacy.FormattingEnabled = true;
+            this.ddlPrivacy.Location = new System.Drawing.Point(62, 201);
+            this.ddlPrivacy.Name = "ddlPrivacy";
+            this.ddlPrivacy.Size = new System.Drawing.Size(121, 21);
+            this.ddlPrivacy.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 204);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Visibility";
+            // 
             // PillowfortPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 261);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.ddlPrivacy);
             this.Controls.Add(this.chkNsfw);
             this.Controls.Add(this.chkRebloggable);
             this.Controls.Add(this.chkCommentable);
@@ -222,5 +251,7 @@
 		private System.Windows.Forms.CheckBox chkRebloggable;
 		private System.Windows.Forms.CheckBox chkCommentable;
 		private System.Windows.Forms.CheckBox chkNsfw;
+		private System.Windows.Forms.ComboBox ddlPrivacy;
+		private System.Windows.Forms.Label label1;
 	}
 }
