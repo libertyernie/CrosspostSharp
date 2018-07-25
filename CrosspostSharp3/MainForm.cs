@@ -65,9 +65,7 @@ namespace CrosspostSharp3 {
 							image = Image.FromStream(ms);
 						}
 					} else {
-						var b = new Bitmap(1, 1);
-						b.SetPixel(0, 0, Color.Blue);
-						image = b;
+						image = picUserIcon.Image;
 					}
 
 					var p = new Panel {

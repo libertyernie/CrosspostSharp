@@ -5,28 +5,13 @@ open System
 open DeviantartApi.Requests.User
 
 type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
-    //let Deviations =
-    //    status.Items
-    //    |> Seq.map (fun i -> i.Deviation)
-    //    |> Seq.filter (not << isNull)
-    //let MainDeviation =
-    //    Deviations
-    //    |> Seq.filter (fun d -> d.Author.UserId = status.Author.UserId)
-    //    |> Seq.tryHead
-    //let OtherDeviations =
-    //    match MainDeviation with
-    //        | Some d -> Deviations |> Seq.except [d]
-    //        | None -> Deviations
-
-    let Icon = status.Author.UserIconUrl.AbsoluteUri
-
     let Mature =
         deviation
         |> Option.map (fun d -> Option.ofNullable d.IsMature)
         |> Option.flatten
         |> Option.defaultValue false
 
-    interface IRemotePhotoPost with
+    interface IPostBase with
         member this.Title = ""
         member this.HTMLDescription = status.Body
         member this.Mature = Mature
@@ -34,14 +19,22 @@ type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
         member this.Tags = Seq.empty
         member this.Timestamp = status.TimeStamp
         member this.ViewURL = status.Url.AbsoluteUri
-        member this.ImageURL =
-            match deviation with
-                | Some d -> if isNull d.Content then Icon else d.Content.Src
-                | None -> Icon
-        member this.ThumbnailURL =
-            match deviation with
-                | Some d -> d.Thumbs |> Seq.map (fun t -> t.Src) |> Seq.tryHead |> Option.defaultValue Icon
-                | None -> Icon
+
+type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: Deviation) =
+    inherit DeviantArtStatusPostWrapper(status, Some deviation)
+    let Icon = status.Author.UserIconUrl.AbsoluteUri
+
+    interface IRemotePhotoPost with
+        member __.ImageURL =
+            deviation.Content
+            |> Option.ofObj
+            |> Option.map (fun d -> d.Src)
+            |> Option.defaultValue Icon
+        member __.ThumbnailURL =
+            deviation.Thumbs
+            |> Seq.map (fun t -> t.Src)
+            |> Seq.tryHead
+            |> Option.defaultValue Icon
 
 type DeviantArtStatusSourceWrapper() =
     inherit SourceWrapper<int>()

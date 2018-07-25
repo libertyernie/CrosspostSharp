@@ -8,32 +8,28 @@ open Tweetinvi
 open Tweetinvi.Parameters
 
 type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterCredentials: ITwitterCredentials) =
-    let html =
-        let text =
-            match media with
-            | Some m -> tweet.FullText.Replace(m.URL, "")
-            | None -> tweet.FullText
-        sprintf "<p>%s</p>" (WebUtility.HtmlEncode(text).Replace("\n", "<br/>"))
-    interface IRemotePhotoPost with
+    interface IPostBase with
         member this.Title = ""
-        member this.HTMLDescription = html
+        member this.HTMLDescription =
+            let text =
+                match media with
+                | Some m -> tweet.FullText.Replace(m.URL, "")
+                | None -> tweet.FullText
+            sprintf "<p>%s</p>" (WebUtility.HtmlEncode(text).Replace("\n", "<br/>"))
         member this.Mature = tweet.PossiblySensitive
         member this.Adult = false
         member this.Tags = tweet.Hashtags |> Seq.map (fun t -> t.Text)
         member this.Timestamp = tweet.CreatedAt
         member this.ViewURL = tweet.Url
-        member this.ImageURL =
-            match media with
-            | Some m -> sprintf "%s:large" m.MediaURLHttps
-            | None -> tweet.CreatedBy.ProfileImageUrl
-        member this.ThumbnailURL =
-            match media with
-            | Some m -> sprintf "%s:thumb" m.MediaURLHttps
-            | None -> tweet.CreatedBy.ProfileImageUrl
-
     interface IDeletable with
         member this.SiteName = "Twitter"
         member this.DeleteAsync () = Auth.ExecuteOperationWithCredentials(twitterCredentials, (fun () -> TweetAsync.DestroyTweet(tweet))) :> Task
+
+type TwitterPhotoPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCredentials: ITwitterCredentials) =
+    inherit TwitterPostWrapper(tweet, Some media, twitterCredentials)
+    interface IRemotePhotoPost with
+        member this.ImageURL = sprintf "%s:large" media.MediaURLHttps
+        member this.ThumbnailURL = sprintf "%s:thumb" media.MediaURLHttps
 
 type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: bool) =
     inherit SourceWrapper<int64>()
@@ -51,7 +47,8 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
             return u
     }
 
-    let wrap t m = TwitterPostWrapper (t, m, twitterCredentials) |> Swu.potBase
+    let wrap t = TwitterPostWrapper (t, None, twitterCredentials) |> Swu.potBase
+    let wrapPhoto t m = TwitterPhotoPostWrapper (t, m, twitterCredentials) |> Swu.potBase
 
     let isPhoto (m: IMediaEntity) = m.MediaType = "photo"
 
@@ -88,10 +85,10 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
                             let photos = t.Media |> Seq.filter isPhoto
                             if Seq.isEmpty photos then
                                 if not photosOnly then
-                                    yield wrap t None
+                                    yield wrap t
                             else
                                 for m in photos do
-                                    yield wrap t (Some m)
+                                    yield wrapPhoto t m
 
                 }
                 Next = (tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L

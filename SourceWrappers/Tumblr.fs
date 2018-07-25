@@ -5,22 +5,9 @@ open DontPanic.TumblrSharp
 
 [<AbstractClass>]
 type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BasePost) =
-    let getImageUrl size =
-        let blogHostname =
-            if post.BlogName.Contains(".") then
-                sprintf "%s.tumblr.com" post.BlogName
-            else
-                post.BlogName
-        sprintf "https://api.tumblr.com/v2/blog/%s/avatar/%d" blogHostname size
-
     abstract member HTMLDescription: string with get
-    abstract member ImageURL: string with get
-    abstract member ThumbnailURL: string with get
 
-    default this.ImageURL = getImageUrl 512
-    default this.ThumbnailURL = getImageUrl 128
-
-    interface IRemotePhotoPost with
+    interface IPostBase with
         member this.Title = ""
         member this.HTMLDescription = this.HTMLDescription
         member this.Mature = false
@@ -28,8 +15,6 @@ type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BaseP
         member this.Tags = post.Tags :> seq<string>
         member this.Timestamp = post.Timestamp
         member this.ViewURL = post.Url
-        member this.ImageURL = this.ImageURL
-        member this.ThumbnailURL = this.ThumbnailURL
 
     interface IDeletable with
         member this.SiteName = "Tumblr"
@@ -37,21 +22,21 @@ type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BaseP
 
 type TumblrPhotoPostWrapper(client: TumblrClient, post: PhotoPost) =
     inherit TumblrPostWrapper<PhotoPost>(client, post)
+    override __.HTMLDescription = post.Caption
 
-    override this.HTMLDescription = post.Caption
-    override this.ImageURL = post.Photo.OriginalSize.ImageUrl
-    override this.ThumbnailURL =
-        post.Photo.AlternateSizes
-        |> Seq.sortBy (fun s -> s.Width)
-        |> Seq.filter (fun s -> s.Width >= 120 && s.Height >= 120)
-        |> Seq.map (fun s -> s.ImageUrl)
-        |> Seq.append (Seq.singleton this.ImageURL)
-        |> Seq.head
+    interface IRemotePhotoPost with
+        member __.ImageURL = post.Photo.OriginalSize.ImageUrl
+        member __.ThumbnailURL =
+            post.Photo.AlternateSizes
+            |> Seq.sortBy (fun s -> s.Width)
+            |> Seq.filter (fun s -> s.Width >= 120 && s.Height >= 120)
+            |> Seq.map (fun s -> s.ImageUrl)
+            |> Seq.append (Seq.singleton post.Photo.OriginalSize.ImageUrl)
+            |> Seq.head
 
 type TumblrTextPostWrapper(client: TumblrClient, post: TextPost) =
     inherit TumblrPostWrapper<TextPost>(client, post)
-
-    override this.HTMLDescription = post.Body
+    override __.HTMLDescription = post.Body
 
 type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: bool) =
     inherit SourceWrapper<int64>()
