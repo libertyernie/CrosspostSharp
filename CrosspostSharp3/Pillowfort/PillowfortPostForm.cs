@@ -1,4 +1,5 @@
-﻿using Imgur.API.Authentication.Impl;
+﻿using CrosspostSharp3.Imgur;
+using Imgur.API.Authentication.Impl;
 using Imgur.API.Endpoints.Impl;
 using PillowfortFs;
 using SourceWrappers;
@@ -68,19 +69,12 @@ namespace CrosspostSharp3 {
 			string imageUrl = null;
 			if (_artworkData != null && chkIncludeImage.Checked) {
 				byte[] data = _artworkData.data;
+
 				if (chkMakeSquare.Checked) {
 					data = ImageUtils.MakeSquare(data);
 				}
 
-				var imgur = new ImgurClient(OAuthConsumer.Imgur.CLIENT_ID, OAuthConsumer.Imgur.CLIENT_SECRET);
-				var endpoint = new ImageEndpoint(imgur);
-				var image = await endpoint.UploadImageBinaryAsync(data, description: $"Copyright {DateTime.Now.Year} {lblUsername1.Text}");
-
-				imageUrl = image.Link;
-				using (var fs = new FileStream("imgur-uploads.txt", FileMode.Append, FileAccess.Write))
-				using (var sw = new StreamWriter(fs)) {
-					await sw.WriteLineAsync($"{image.Link} {image.DeleteHash}");
-				}
+				imageUrl = await ImgurAnonymousUpload.UploadAsync(data);
 			}
 			
 			try {

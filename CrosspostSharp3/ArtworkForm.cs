@@ -1,4 +1,5 @@
-﻿using CrosspostSharp3.Weasyl;
+﻿using CrosspostSharp3.Imgur;
+using CrosspostSharp3.Weasyl;
 using DeviantArtControls;
 using Imgur.API.Authentication.Impl;
 using Imgur.API.Endpoints.Impl;
@@ -351,23 +352,8 @@ namespace CrosspostSharp3 {
 					}
 				}
 
-				if (d is IRemotePhotoPost p && File.Exists("imgur-uploads.txt")) {
-					using (var fs = new FileStream("imgur-uploads.txt", FileMode.Open, FileAccess.Read))
-					using (var sr = new StreamReader(fs)) {
-						string line;
-						while ((line = await sr.ReadLineAsync()) != null) {
-							string[] split = line.Split(' ');
-							if (p.ImageURL == split[0]) {
-								string deletehash = split[1];
-								if (MessageBox.Show(this, $"Your submission has been deleted from {d.SiteName}. Would you also like to delete it from Imgur?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-									var imgur = new ImgurClient(OAuthConsumer.Imgur.CLIENT_ID, OAuthConsumer.Imgur.CLIENT_SECRET);
-									var endpoint = new ImageEndpoint(imgur);
-									await endpoint.DeleteImageAsync(deletehash);
-									break;
-								}
-							}
-						}
-					}
+				if (d is IRemotePhotoPost p) {
+					await ImgurAnonymousUpload.PromptForDeletionAsync(p.ImageURL);
 				}
 			}
 		}
