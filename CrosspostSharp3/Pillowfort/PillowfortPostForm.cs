@@ -77,6 +77,10 @@ namespace CrosspostSharp3 {
 				var image = await endpoint.UploadImageBinaryAsync(data, description: $"Copyright {DateTime.Now.Year} {lblUsername1.Text}");
 
 				imageUrl = image.Link;
+				using (var fs = new FileStream("imgur-uploads.txt", FileMode.Append, FileAccess.Write))
+				using (var sw = new StreamWriter(fs)) {
+					await sw.WriteLineAsync($"{image.Link} {image.DeleteHash}");
+				}
 			}
 			
 			try {

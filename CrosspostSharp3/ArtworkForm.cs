@@ -1,5 +1,7 @@
 ﻿using CrosspostSharp3.Weasyl;
 using DeviantArtControls;
+using Imgur.API.Authentication.Impl;
+using Imgur.API.Endpoints.Impl;
 using Newtonsoft.Json;
 using SourceWrappers;
 using System;
@@ -339,11 +341,33 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnDelete_Click(object sender, EventArgs e) {
+			string deletehash = null;
+			if (_origWrapper is IRemotePhotoPost p && File.Exists("imgur-uploads.txt")) {
+				using (var fs = new FileStream("imgur-uploads.txt", FileMode.Open, FileAccess.Read))
+				using (var sr = new StreamReader(fs)) {
+					string line;
+					while ((line = await sr.ReadLineAsync()) != null) {
+						string[] split = line.Split(' ');
+						if (p.ImageURL == split[0]) {
+							deletehash = split[1];
+						}
+					}
+				}
+			}
+
 			if (_origWrapper is IDeletable d) {
 				string siteName = d.SiteName;
+				if (deletehash != null) {
+					siteName += " and Imgur";
+				}
 				if (MessageBox.Show(this, $"Are you sure you want to permanently delete this submission from {siteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
 					try {
 						await d.DeleteAsync();
+						if (deletehash != null) {
+							var imgur = new ImgurClient(OAuthConsumer.Imgur.CLIENT_ID, OAuthConsumer.Imgur.CLIENT_SECRET);
+							var endpoint = new ImageEndpoint(imgur);
+							await endpoint.DeleteImageAsync(deletehash);
+						}
 						Close();
 					} catch (Exception ex) {
 						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
