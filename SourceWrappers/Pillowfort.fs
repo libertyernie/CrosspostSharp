@@ -2,7 +2,7 @@
 
 open PillowfortFs
 
-type PillowfortPostWrapper(post: PillowfortPost, media: PillowfortMedia option) =
+type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media: PillowfortMedia option) =
     interface IRemotePhotoPost with
         member __.Title = post.title
         member __.HTMLDescription = post.content
@@ -19,11 +19,14 @@ type PillowfortPostWrapper(post: PillowfortPost, media: PillowfortMedia option) 
             match media with
             | Some m -> m.url
             | None -> post.avatar_url
+    interface IDeletable with
+        member __.SiteName = "Pillowfort"
+        member __.DeleteAsync() = client.AsyncDeletePost post.id |> Async.StartAsTask :> System.Threading.Tasks.Task
 
 type PillowfortSourceWrapper(client: PillowfortClient) =
     inherit SourceWrapper<int>()
 
-    let wrap p m = PillowfortPostWrapper (p, m) |> Swu.potBase
+    let wrap p m = PillowfortPostWrapper (client, p, m) |> Swu.potBase
 
     override __.Name = "Pillowfort"
     override __.SuggestedBatchSize = 20

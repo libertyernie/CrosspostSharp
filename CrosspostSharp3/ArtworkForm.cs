@@ -18,7 +18,8 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
-		private IPostBase _originalWrapper;
+		private SavedPhotoPost _downloaded;
+		private IPostBase _origWrapper;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -40,6 +41,7 @@ namespace CrosspostSharp3 {
 			public bool Mature { get; set; }
 			public bool Adult { get; set; }
 			public IEnumerable<string> Tags { get; set; }
+			public string ViewURL { get; set; }
 
 			DateTime IPostBase.Timestamp => DateTime.UtcNow;
 
@@ -52,7 +54,8 @@ namespace CrosspostSharp3 {
 				HTMLDescription = wbrDescription.Document.Body.InnerHtml,
 				Tags = txtTags.Text.Split(' ').Where(s => s != ""),
 				Mature = chkMature.Checked,
-				Adult = chkAdult.Checked
+				Adult = chkAdult.Checked,
+				ViewURL = _origWrapper.ViewURL
 			};
 		}
 
@@ -79,9 +82,13 @@ namespace CrosspostSharp3 {
 		}
 
 		public async void LoadImage(IPostBase artwork) {
+			_origWrapper = artwork;
+			_downloaded = artwork as SavedPhotoPost;
+			btnDelete.Enabled = _origWrapper is IDeletable;
+
 			if (artwork is IRemotePhotoPost remote) {
 				try {
-					artwork = await PostConverter.DownloadAsync(remote);
+					_downloaded = await PostConverter.DownloadAsync(remote);
 				} catch (Exception ex) {
 					Console.Error.WriteLine(ex);
 					MessageBox.Show(this, $"Could not download remote photo", Text);
@@ -90,8 +97,8 @@ namespace CrosspostSharp3 {
 
 			btnView.Enabled = saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (artwork is SavedPhotoPost x && x.url != null);
 
-			if (artwork is SavedPhotoPost s) {
-				using (var ms = new MemoryStream(s.data, false)) {
+			if (_downloaded != null) {
+				using (var ms = new MemoryStream(_downloaded.data, false)) {
 					var image = Image.FromStream(ms);
 					splitContainer1.Panel1.BackgroundImage = image;
 					splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
@@ -105,8 +112,6 @@ namespace CrosspostSharp3 {
 			txtTags.Text = string.Join(" ", artwork.Tags);
 			chkMature.Checked = artwork.Mature;
 			chkAdult.Checked = artwork.Adult;
-
-			_originalWrapper = artwork;
 
 			BeginInvoke(new Action(ReloadOptions));
 		}
@@ -148,7 +153,8 @@ namespace CrosspostSharp3 {
 				}));
 			}
 
-			if (_originalWrapper is SavedPhotoPost post) {
+			if (_downloaded != null) {
+				var post = _downloaded;
 				listBox1.Items.Add("");
 				listBox1.Items.Add("--- Post as photo ---");
 
@@ -239,21 +245,6 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public async void LoadImage(IRemotePhotoPost wrapper) {
-			try {
-				LoadImage(await PostConverter.DownloadAsync(wrapper));
-				_originalWrapper = wrapper;
-				btnDelete.Enabled = _originalWrapper is SourceWrappers.IDeletable;
-			} catch (Exception ex) {
-				splitContainer1.Panel1.Controls.Add(new TextBox {
-					Text = ex.Message + Environment.NewLine + ex.StackTrace,
-					Multiline = true,
-					Dock = DockStyle.Fill,
-					ReadOnly = true
-				});
-			}
-		}
-
 		private static void LaunchEFC(SavedPhotoPost artwork) {
 			string jsonFile = Path.GetTempFileName();
 			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(new {
@@ -302,7 +293,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (!(_originalWrapper is SavedPhotoPost post)) {
+			if (_downloaded == null) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
 				return;
 			}
@@ -310,19 +301,19 @@ namespace CrosspostSharp3 {
 			using (var saveFileDialog = new SaveFileDialog()) {
 				saveFileDialog.Filter = "CrosspostSharp JSON|*.cps|All files|*.*";
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(post, Formatting.Indented));
+					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(_downloaded, Formatting.Indented));
 				}
 			}
 		}
 
 		private void exportAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (!(_originalWrapper is SavedPhotoPost post)) {
+			if (_downloaded == null) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
 				return;
 			}
 
 			using (var saveFileDialog = new SaveFileDialog()) {
-				using (var ms = new MemoryStream(post.data, false))
+				using (var ms = new MemoryStream(_downloaded.data, false))
 				using (var image = Image.FromStream(ms)) {
 					saveFileDialog.Filter = image.RawFormat.Equals(ImageFormat.Png) ? "PNG images|*.png"
 						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "JPEG images|*.jpg;*.jpeg"
@@ -330,7 +321,7 @@ namespace CrosspostSharp3 {
 						: "All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllBytes(saveFileDialog.FileName, post.data);
+					File.WriteAllBytes(saveFileDialog.FileName, _downloaded.data);
 				}
 			}
 		}
@@ -348,8 +339,9 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnDelete_Click(object sender, EventArgs e) {
-			if (_originalWrapper is IDeletable d) {
-				if (MessageBox.Show(this, $"Are you sure you want to permanently delete this submission from {d.SiteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+			if (_origWrapper is IDeletable d) {
+				string siteName = d.SiteName;
+				if (MessageBox.Show(this, $"Are you sure you want to permanently delete this submission from {siteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
 					try {
 						await d.DeleteAsync();
 						Close();
@@ -361,9 +353,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void btnView_Click(object sender, EventArgs e) {
-			if (_originalWrapper is SavedPhotoPost post && post.url != null) {
-				Process.Start(post.url);
-			}
+			Process.Start(_origWrapper.ViewURL);
 		}
 
 		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
