@@ -198,6 +198,7 @@ namespace CrosspostSharp3 {
 				add(new WeasylSourceWrapper(username));
 				add(new WeasylCharacterSourceWrapper(username));
 			}
+			add(new Imgur.PreviousImgurUploadsWrapper());
 			
 			lblLoadStatus.Text = "Connecting to sites...";
 			

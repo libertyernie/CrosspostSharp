@@ -98,7 +98,8 @@ namespace CrosspostSharp3 {
 				}
 			}
 
-			btnView.Enabled = saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (artwork is SavedPhotoPost x && x.url != null);
+			btnView.Enabled = _origWrapper.ViewURL != null;
+			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (artwork is SavedPhotoPost x && x.url != null);
 
 			if (_downloaded != null) {
 				using (var ms = new MemoryStream(_downloaded.data, false)) {
@@ -213,6 +214,19 @@ namespace CrosspostSharp3 {
 						LaunchEFC(post);
 					}));
 				}
+				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
+					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
+						try {
+							var image = await ImgurAnonymousUpload.UploadAsync(post.data,
+								title: txtTitle.Text,
+								description: wbrDescription.Document.Body.InnerHtml);
+							Process.Start(image);
+						} catch (Exception ex) {
+							Console.Error.WriteLine(ex);
+							MessageBox.Show(this, "Could not upload to Imgur (an unknown error occured.)");
+						}
+					}
+				}));
 				listBox1.Items.Add("");
 			}
 

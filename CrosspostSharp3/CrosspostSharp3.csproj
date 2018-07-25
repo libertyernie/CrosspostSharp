@@ -86,6 +86,7 @@
     </Compile>
     <Compile Include="ImageUtils.cs" />
     <Compile Include="Imgur\ImgurAnonymousUpload.cs" />
+    <Compile Include="Imgur\PreviousImgurUploadsWrapper.cs" />
     <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
       <SubType>Form</SubType>
     </Compile>

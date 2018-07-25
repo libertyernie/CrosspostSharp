@@ -74,6 +74,10 @@ namespace CrosspostSharp3 {
 					data = ImageUtils.MakeSquare(data);
 				}
 
+				if (MessageBox.Show(this, "This will upload the image itself to Imgur. Is this OK?", Text, MessageBoxButtons.OKCancel) != DialogResult.OK) {
+					return;
+				}
+
 				imageUrl = await ImgurAnonymousUpload.UploadAsync(data);
 			}
 			
