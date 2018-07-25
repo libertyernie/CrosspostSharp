@@ -121,43 +121,11 @@ namespace CrosspostSharp3 {
 		private void ReloadOptions() {
 			Settings settings = Settings.Load();
 
-			listBox1.Items.Add("--- Post as text ---");
-
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
 
-			if (settings.DeviantArt.RefreshToken != null) {
-				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
-					using (var f = new DeviantArtStatusUpdateForm(ExportAsText())) {
-						f.ShowDialog(this);
-					}
-				}));
-			}
-			foreach (var p in settings.Pillowfort) {
-				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-					using (var f = new PillowfortPostForm(p, ExportAsText())) {
-						f.ShowDialog(this);
-					}
-				}));
-			}
-			foreach (var t in settings.Twitter) {
-				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					using (var f = new TwitterNoPhotoPostForm(t, ExportAsText())) {
-						f.ShowDialog(this);
-					}
-				}));
-			}
-			foreach (var t in settings.Tumblr) {
-				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-					using (var f = new TumblrNoPhotoPostForm(t, ExportAsText())) {
-						f.ShowDialog(this);
-					}
-				}));
-			}
-
 			if (_downloaded != null) {
 				var post = _downloaded;
-				listBox1.Items.Add("");
 				listBox1.Items.Add("--- Post as photo ---");
 
 				saveAsToolStripMenuItem.Enabled = true;
@@ -244,6 +212,38 @@ namespace CrosspostSharp3 {
 						LaunchEFC(post);
 					}));
 				}
+				listBox1.Items.Add("");
+			}
+
+			listBox1.Items.Add("--- Post as text ---");
+
+			if (settings.DeviantArt.RefreshToken != null) {
+				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+					using (var f = new DeviantArtStatusUpdateForm(ExportAsText())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var p in settings.Pillowfort) {
+				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
+					using (var f = new PillowfortPostForm(p, ExportAsText())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Twitter) {
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
+					using (var f = new TwitterNoPhotoPostForm(t, ExportAsText())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var t in settings.Tumblr) {
+				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
+					using (var f = new TumblrNoPhotoPostForm(t, ExportAsText())) {
+						f.ShowDialog(this);
+					}
+				}));
 			}
 		}
 
