@@ -1,4 +1,6 @@
-﻿using SourceWrappers;
+﻿using Imgur.API.Authentication.Impl;
+using Imgur.API.Endpoints.Impl;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,20 +9,29 @@ using System.Threading.Tasks;
 
 namespace CrosspostSharp3.Imgur {
 	public class ImgurPostWrapper : IRemotePhotoPost, IDeletable {
-		public string ImageURL { get; set; }
-		public string ThumbnailURL => ImageURL;
+		private readonly string _imageUrl;
+		private readonly string _deleteHash;
+
+		public ImgurPostWrapper(string imageUrl, string deleteHash) {
+			this._imageUrl = imageUrl ?? throw new ArgumentNullException(nameof(imageUrl));
+			this._deleteHash = deleteHash ?? throw new ArgumentNullException(nameof(deleteHash));
+		}
+
+		public string ImageURL => _imageUrl;
+		public string ThumbnailURL => _imageUrl;
 		public string Title => "";
 		public string HTMLDescription => "";
 		public bool Mature => false;
 		public bool Adult => false;
 		public IEnumerable<string> Tags => Enumerable.Empty<string>();
 		public DateTime Timestamp => DateTime.UtcNow;
-		public string ViewURL => ImageURL;
+		public string ViewURL => _imageUrl;
 
 		public string SiteName => "Imgur";
-		public Task DeleteAsync() {
-			// Actual deletion will be done through Imgur post-delete handler
-			return Task.CompletedTask;
+		public async Task DeleteAsync() {
+			var imgur = new ImgurClient(OAuthConsumer.Imgur.CLIENT_ID, OAuthConsumer.Imgur.CLIENT_SECRET);
+			var endpoint = new ImageEndpoint(imgur);
+			await endpoint.DeleteImageAsync(_deleteHash);
 		}
 	}
 
@@ -35,7 +46,7 @@ namespace CrosspostSharp3.Imgur {
 				string line;
 				while ((line = sr.ReadLine()) != null) {
 					string[] split = line.Split(' ');
-					yield return new ImgurPostWrapper { ImageURL = split[0] };
+					yield return new ImgurPostWrapper(split[0], split[1]);
 				}
 			}
 		}

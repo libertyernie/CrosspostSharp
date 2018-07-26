@@ -365,10 +365,6 @@ namespace CrosspostSharp3 {
 						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}
 				}
-
-				if (d is IRemotePhotoPost p) {
-					await ImgurAnonymousUpload.PromptForDeletionAsync(p.ImageURL);
-				}
 			}
 		}
 
