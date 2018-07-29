@@ -21,7 +21,7 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
-		private SavedPhotoPost _downloaded;
+		private byte[] _downloaded;
 		private IPostBase _origWrapper;
 
 		private class DestinationOption {
@@ -62,6 +62,19 @@ namespace CrosspostSharp3 {
 			};
 		}
 
+		public SavedPhotoPost ExportAsPhoto() {
+			if (_downloaded == null) throw new Exception("Not a photo post (_downloaded is null)");
+
+			return new SavedPhotoPost(
+				_downloaded,
+				txtTitle.Text,
+				wbrDescription.Document.Body.InnerHtml,
+				_origWrapper.ViewURL,
+				txtTags.Text.Split(' ').Where(s => s != ""),
+				chkMature.Checked,
+				chkAdult.Checked);
+		}
+
 		public ArtworkForm() {
 			InitializeComponent();
 
@@ -86,29 +99,30 @@ namespace CrosspostSharp3 {
 
 		public async void LoadImage(IPostBase artwork) {
 			_origWrapper = artwork;
-			_downloaded = artwork as SavedPhotoPost;
 			btnDelete.Enabled = _origWrapper is IDeletable;
 
-			if (artwork is IRemotePhotoPost remote) {
-				try {
-					_downloaded = await PostConverter.DownloadAsync(remote);
-				} catch (Exception ex) {
-					Console.Error.WriteLine(ex);
-					MessageBox.Show(this, $"Could not download remote photo", Text);
+			if (_origWrapper is SavedPhotoPost saved) {
+				_downloaded = saved.data;
+			} else if (_origWrapper is IRemotePhotoPost remote) {
+				var req = WebRequestFactory.Create(remote.ImageURL);
+				using (var resp = await req.GetResponseAsync())
+				using (var stream = resp.GetResponseStream())
+				using (var ms = new MemoryStream()) {
+					await stream.CopyToAsync(ms);
+					_downloaded = ms.ToArray();
 				}
 			}
 
-			btnView.Enabled = _origWrapper.ViewURL != null;
-			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (artwork is SavedPhotoPost x && x.url != null);
-
 			if (_downloaded != null) {
-				using (var ms = new MemoryStream(_downloaded.data, false)) {
+				using (var ms = new MemoryStream(_downloaded, false)) {
 					var image = Image.FromStream(ms);
 					splitContainer1.Panel1.BackgroundImage = image;
 					splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
 				}
 			}
 
+			btnView.Enabled = _origWrapper.ViewURL != null;
+			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (artwork is SavedPhotoPost x && x.url != null);
 			txtTitle.Text = artwork.Title;
 			wbrDescription.Navigate("about:blank");
 			wbrDescription.Document.Write($"<html><head></head><body>{artwork.HTMLDescription}</body></html>");
@@ -127,7 +141,6 @@ namespace CrosspostSharp3 {
 			exportAsToolStripMenuItem.Enabled = false;
 
 			if (_downloaded != null) {
-				var post = _downloaded;
 				listBox1.Items.Add("--- Post as photo ---");
 
 				saveAsToolStripMenuItem.Enabled = true;
@@ -144,59 +157,59 @@ namespace CrosspostSharp3 {
 							f.Controls.Add(d);
 							d.Uploaded += url => f.Close();
 							d.SetSubmission(
-								post.data,
+								_downloaded,
 								txtTitle.Text,
 								wbrDescription.Document.Body.InnerHtml,
 								txtTags.Text.Split(' ').Where(s => s != ""),
 								chkMature.Checked || chkAdult.Checked,
-								post.url);
+								_origWrapper.ViewURL);
 							f.ShowDialog(this);
 						}
 					}));
 					listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
-						using (var f = new DeviantArtStatusUpdateForm(post)) {
+						using (var f = new DeviantArtStatusUpdateForm(ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var fl in settings.Flickr) {
 					listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
-						using (var f = new FlickrPostForm(fl, post)) {
+						using (var f = new FlickrPostForm(fl, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var fn in settings.FurryNetwork) {
 					listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
-						using (var f = new FurryNetworkPostForm(fn, post)) {
+						using (var f = new FurryNetworkPostForm(fn, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var i in settings.Inkbunny) {
 					listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
-						using (var f = new InkbunnyPostForm(i, post)) {
+						using (var f = new InkbunnyPostForm(i, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var p in settings.Pillowfort) {
 					listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-						using (var f = new PillowfortPostForm(p, post)) {
+						using (var f = new PillowfortPostForm(p, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using (var f = new TwitterPostForm(t, post)) {
+						using (var f = new TwitterPostForm(t, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var t in settings.Tumblr) {
 					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-						using (var f = new TumblrPostForm(t, post)) {
+						using (var f = new TumblrPostForm(t, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -204,20 +217,20 @@ namespace CrosspostSharp3 {
 				foreach (var w in settings.Weasyl) {
 					if (w.wzl == null) continue;
 					listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
-						using (var f = new WeasylPostForm(w, post)) {
+						using (var f = new WeasylPostForm(w, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				if (File.Exists("efc.jar")) {
 					listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
-						LaunchEFC(post);
+						LaunchEFC(ExportAsPhoto());
 					}));
 				}
 				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
 					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
 						try {
-							var image = await ImgurAnonymousUpload.UploadAsync(post.data,
+							var image = await ImgurAnonymousUpload.UploadAsync(_downloaded,
 								title: txtTitle.Text,
 								description: wbrDescription.Document.Body.InnerHtml);
 							Process.Start(image);
@@ -330,7 +343,7 @@ namespace CrosspostSharp3 {
 			}
 
 			using (var saveFileDialog = new SaveFileDialog()) {
-				using (var ms = new MemoryStream(_downloaded.data, false))
+				using (var ms = new MemoryStream(_downloaded, false))
 				using (var image = Image.FromStream(ms)) {
 					saveFileDialog.Filter = image.RawFormat.Equals(ImageFormat.Png) ? "PNG images|*.png"
 						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "JPEG images|*.jpg;*.jpeg"
@@ -338,7 +351,7 @@ namespace CrosspostSharp3 {
 						: "All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllBytes(saveFileDialog.FileName, _downloaded.data);
+					File.WriteAllBytes(saveFileDialog.FileName, _downloaded);
 				}
 			}
 		}
