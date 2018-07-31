@@ -1,6 +1,7 @@
 ﻿namespace SourceWrappers
 
 open PillowfortFs
+open System
 
 type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media: PillowfortMedia option) =
     interface IRemotePhotoPost with
@@ -44,7 +45,8 @@ type PillowfortSourceWrapper(client: PillowfortClient) =
                         yield wrap p None
                     else
                         for m in p.media do
-                            yield wrap p (Some m)
+                            if not (String.IsNullOrEmpty m.url) then
+                                yield wrap p (Some m)
             }
             Next = page + 1
             HasMore = h
