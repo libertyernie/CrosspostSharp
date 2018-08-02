@@ -77,6 +77,12 @@
     <Compile Include="Flickr\FlickrPostForm.Designer.cs">
       <DependentUpon>FlickrPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FurAffinity\FurAffinityPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FurAffinity\FurAffinityPostForm.Designer.cs">
+      <DependentUpon>FurAffinityPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="IECookiePersist.cs" />
     <Compile Include="FurryNetwork\FurryNetworkPostForm.cs">
       <SubType>Form</SubType>
@@ -211,6 +217,9 @@
     <EmbeddedResource Include="DeviantArt\DeviantArtStatusUpdateForm.resx">
       <DependentUpon>DeviantArtStatusUpdateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FurAffinity\FurAffinityPostForm.resx">
+      <DependentUpon>FurAffinityPostForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FurryNetwork\FurryNetworkCharacterSelectionForm.resx">
       <DependentUpon>FurryNetworkCharacterSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -294,6 +303,10 @@
     <ProjectReference Include="..\FAWinFormsLogin\FAWinFormsLogin.csproj">
       <Project>{5939939e-b9b0-4766-afb9-4fff83c16fb8}</Project>
       <Name>FAWinFormsLogin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FurAffinityFs\FurAffinityFs\FurAffinityFs.fsproj">
+      <Project>{48e5e654-f069-4af6-bd06-84e2d0c05a53}</Project>
+      <Name>FurAffinityFs</Name>
     </ProjectReference>
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj">
       <Project>{46595381-e1fc-4be3-a970-b1988c4a2d0e}</Project>

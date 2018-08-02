@@ -22,3 +22,6 @@
 [submodule "PillowfortFs"]
 	path = PillowfortFs
 	url = https://github.com/libertyernie/PillowfortFs
+[submodule "FurAffinityFs"]
+	path = FurAffinityFs
+	url = https://github.com/libertyernie/FurAffinityFs
