@@ -179,6 +179,13 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
+				foreach (var fa in settings.FurAffinity) {
+					listBox1.Items.Add(new DestinationOption($"Fur Affinity ({fa.username})", () => {
+						using (var f = new FurAffinityPostForm(fa, ExportAsPhoto())) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
 				foreach (var fn in settings.FurryNetwork) {
 					listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
 						using (var f = new FurryNetworkPostForm(fn, ExportAsPhoto())) {

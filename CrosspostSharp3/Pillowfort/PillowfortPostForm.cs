@@ -49,13 +49,16 @@ namespace CrosspostSharp3 {
 			try {
 				lblUsername1.Text = await _client.WhoamiAsync();
 
-				var req = WebRequestFactory.Create(await _client.GetAvatarAsync());
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					ms.Position = 0;
-					picUserIcon.Image = Image.FromStream(ms);
+				string avatar = await _client.GetAvatarAsync();
+				if (avatar != null) {
+					var req = WebRequestFactory.Create(avatar);
+					using (var resp = await req.GetResponseAsync())
+					using (var stream = resp.GetResponseStream())
+					using (var ms = new MemoryStream()) {
+						await stream.CopyToAsync(ms);
+						ms.Position = 0;
+						picUserIcon.Image = Image.FromStream(ms);
+					}
 				}
 			} catch (Exception) { }
 		}

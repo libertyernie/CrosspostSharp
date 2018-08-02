@@ -55,4 +55,4 @@ type PillowfortSourceWrapper(client: PillowfortClient) =
 
     override __.Whoami = client.AsyncWhoami
 
-    override __.GetUserIcon _ = client.AsyncGetAvatar
+    override __.GetUserIcon _ = client.AsyncGetAvatar |> Swu.whenDone (Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif")

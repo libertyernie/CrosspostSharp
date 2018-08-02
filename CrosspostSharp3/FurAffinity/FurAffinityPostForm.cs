@@ -1,31 +1,24 @@
-﻿using FurryNetworkLib;
+﻿using FurAffinityFs;
+using FurryNetworkLib;
 using SourceWrappers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public partial class FurAffinityPostForm : Form {
-		private readonly FurryNetworkClient _client;
-		private readonly string _characterName;
+		private readonly FurAffinityClient _client;
 		private readonly SavedPhotoPost _artworkData;
 
-		public FurAffinityPostForm(Settings.FurryNetworkSettings s, SavedPhotoPost d) {
+		public FurAffinityPostForm(Settings.FurAffinitySettings s, SavedPhotoPost d) {
 			InitializeComponent();
-			_client = new FurryNetworkClient(s.refreshToken);
+			_client = new FurAffinityClient(a: s.a, b: s.b);
 			_artworkData = d;
-			_characterName = s.characterName;
-			lblUsername1.Text = s.characterName;
 
 			txtTitle.Text = d.title;
 			txtDescription.Enabled = false;
@@ -38,6 +31,22 @@ namespace CrosspostSharp3 {
 			} else {
 				radRating0.Checked = true;
 			}
+
+			foreach (var x in Enum.GetValues(typeof(FurAffinityCategory))) {
+				ddlCategory.Items.Add((FurAffinityCategory)x);
+			}
+			foreach (var x in Enum.GetValues(typeof(FurAffinityType))) {
+				ddlTheme.Items.Add((FurAffinityType)x);
+			}
+			foreach (var x in Enum.GetValues(typeof(FurAffinitySpecies))) {
+				ddlSpecies.Items.Add((FurAffinitySpecies)x);
+			}
+			foreach (var x in Enum.GetValues(typeof(FurAffinityGender))) {
+				ddlGender.Items.Add((FurAffinityGender)x);
+			}
+
+			chkScraps.Enabled = false;
+			chkLockComments.Enabled = false;
 		}
 
 		private void Form_Shown(object sender, EventArgs e) {
@@ -52,19 +61,24 @@ namespace CrosspostSharp3 {
 			txtDescription.Enabled = true;
 		}
 
-
 		private async void PopulateIcon() {
 			try {
-				var character = await _client.GetCharacterAsync(_characterName);
-				string avatar = character.Avatars.Tiny ?? character.Avatars.GetLargest();
-				if (avatar != null) {
-					var req = WebRequestFactory.Create(avatar);
-					using (var resp = await req.GetResponseAsync())
-					using (var stream = resp.GetResponseStream())
-					using (var ms = new MemoryStream()) {
-						await stream.CopyToAsync(ms);
-						ms.Position = 0;
-						picUserIcon.Image = Image.FromStream(ms);
+				string username = await _client.WhoamiAsync();
+				if (username == null) {
+					lblUsername1.Text = "Not logged in";
+				} else {
+					lblUsername1.Text = username;
+
+					Uri avatar = await _client.GetAvatarUriAsync(username);
+					if (avatar != null) {
+						var req = WebRequestFactory.Create(avatar.AbsoluteUri);
+						using (var resp = await req.GetResponseAsync())
+						using (var stream = resp.GetResponseStream())
+						using (var ms = new MemoryStream()) {
+							await stream.CopyToAsync(ms);
+							ms.Position = 0;
+							picUserIcon.Image = Image.FromStream(ms);
+						}
 					}
 				}
 			} catch (Exception) { }
@@ -73,21 +87,32 @@ namespace CrosspostSharp3 {
 		private async void btnPost_Click(object sender, EventArgs e) {
 			btnPost.Enabled = false;
 			try {
-				throw new NotImplementedException();
+				string contentType;
+				using (var ms = new MemoryStream(_artworkData.data, false))
+				using (var image = Image.FromStream(ms)) {
+					contentType = image.RawFormat.Equals(ImageFormat.Png) ? "image/png"
+						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "image/jpeg"
+						: image.RawFormat.Equals(ImageFormat.Gif) ? "image/gif"
+						: throw new ApplicationException("Only JPEG, GIF, and PNG images are supported.");
+				}
+
+				await _client.SubmitPostAsync(new FurAffinitySubmission(
+					data: _artworkData.data,
+					contentType: contentType,
+					title: txtTitle.Text,
+					message: txtDescription.Text,
+					keywords: txtTags.Text.Split(' ').Select(s => s.Trim()).Where(s => s != ""),
+					cat: (FurAffinityCategory)ddlCategory.SelectedItem,
+					atype: (FurAffinityType)ddlTheme.SelectedItem,
+					species: (FurAffinitySpecies)ddlSpecies.SelectedItem,
+					gender: (FurAffinityGender)ddlGender.SelectedItem,
+					rating: radRating0.Checked ? FurAffinityRating.General
+						: radRating1.Checked ? FurAffinityRating.Mature
+						: radRating2.Checked ? FurAffinityRating.Adult
+						: throw new ApplicationException("Must select a rating")
+				));
 
 				Close();
-			} catch (WebException ex) {
-				string errors = "";
-				try {
-					using (var sr = new StreamReader(ex.Response.GetResponseStream())) {
-						errors = await sr.ReadToEndAsync();
-						if (errors.Length > 200) {
-							errors = errors.Substring(0, 199) + "…";
-						}
-					}
-				} catch (Exception) { }
-				btnPost.Enabled = true;
-				MessageBox.Show(this, ex.Message + ": " + errors, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			} catch (Exception ex) {
 				btnPost.Enabled = true;
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
