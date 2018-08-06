@@ -44,9 +44,6 @@ namespace CrosspostSharp3 {
 			foreach (var x in Enum.GetValues(typeof(FurAffinityGender))) {
 				ddlGender.Items.Add((FurAffinityGender)x);
 			}
-
-			chkScraps.Enabled = false;
-			chkLockComments.Enabled = false;
 		}
 
 		private void Form_Shown(object sender, EventArgs e) {
@@ -103,13 +100,15 @@ namespace CrosspostSharp3 {
 					message: txtDescription.Text,
 					keywords: txtTags.Text.Split(' ').Select(s => s.Trim()).Where(s => s != ""),
 					cat: (FurAffinityCategory)ddlCategory.SelectedItem,
+					scrap: chkScraps.Checked,
 					atype: (FurAffinityType)ddlTheme.SelectedItem,
 					species: (FurAffinitySpecies)ddlSpecies.SelectedItem,
 					gender: (FurAffinityGender)ddlGender.SelectedItem,
 					rating: radRating0.Checked ? FurAffinityRating.General
 						: radRating1.Checked ? FurAffinityRating.Mature
 						: radRating2.Checked ? FurAffinityRating.Adult
-						: throw new ApplicationException("Must select a rating")
+						: throw new ApplicationException("Must select a rating"),
+					lock_comments: chkLockComments.Checked
 				));
 
 				Close();
