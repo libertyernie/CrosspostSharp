@@ -338,7 +338,7 @@ namespace CrosspostSharp3 {
 			using (var saveFileDialog = new SaveFileDialog()) {
 				saveFileDialog.Filter = "CrosspostSharp JSON|*.cps|All files|*.*";
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(_downloaded, Formatting.Indented));
+					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(ExportAsPhoto(), Formatting.Indented));
 				}
 			}
 		}
