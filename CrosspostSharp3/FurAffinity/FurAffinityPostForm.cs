@@ -120,10 +120,6 @@ namespace CrosspostSharp3 {
 					}
 				}
 
-				File.WriteAllBytes("C:/Users/admin/Desktop/aa.png", data);
-				System.Diagnostics.Process.Start("C:/Users/admin/Desktop/aa.png");
-				return;
-
 				await _client.SubmitPostAsync(new FurAffinitySubmission(
 					data: data,
 					contentType: contentType,
