@@ -22,6 +22,8 @@ type StashPostWrapper(entry: Entry) =
             |> Swu.whenDone ignore
     }
 
+    member __.ItemId = entry.ItemId
+
     interface IRemotePhotoPost with
         member this.Title = entry.Metadata.Title
         member this.HTMLDescription = entry.Metadata.ArtistComment
