@@ -15,6 +15,8 @@ namespace CrosspostSharp3 {
 		private readonly FurAffinityClient _client;
 		private readonly SavedPhotoPost _artworkData;
 
+		private Image _image;
+
 		public FurAffinityPostForm(Settings.FurAffinitySettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_client = new FurAffinityClient(a: s.a, b: s.b);
@@ -46,9 +48,18 @@ namespace CrosspostSharp3 {
 			}
 		}
 
+		private static bool HasAlpha(Image image) {
+			return image.PixelFormat.HasFlag(PixelFormat.Alpha);
+		}
+
 		private void Form_Shown(object sender, EventArgs e) {
 			PopulateDescription();
 			PopulateIcon();
+
+			using (var ms = new MemoryStream(_artworkData.data, false))
+			using (var image = Image.FromStream(ms)) {
+				chkRemoveTransparency.Enabled = HasAlpha(image);
+			}
 		}
 
 		private void PopulateDescription() {
@@ -85,16 +96,36 @@ namespace CrosspostSharp3 {
 			btnPost.Enabled = false;
 			try {
 				string contentType;
+				byte[] data = _artworkData.data;
 				using (var ms = new MemoryStream(_artworkData.data, false))
 				using (var image = Image.FromStream(ms)) {
 					contentType = image.RawFormat.Equals(ImageFormat.Png) ? "image/png"
 						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "image/jpeg"
 						: image.RawFormat.Equals(ImageFormat.Gif) ? "image/gif"
 						: throw new ApplicationException("Only JPEG, GIF, and PNG images are supported.");
+
+					if (chkRemoveTransparency.Checked) {
+						using (var newImage = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb)) {
+							using (var g = Graphics.FromImage(newImage)) {
+								g.FillRectangle(new SolidBrush(Color.White), 0, 0, image.Width, image.Height);
+								g.DrawImage(image, 0, 0, image.Width, image.Height);
+							}
+
+							using (var msout = new MemoryStream()) {
+								newImage.Save(msout, ImageFormat.Png);
+								data = msout.ToArray();
+								contentType = "image/png";
+							}
+						}
+					}
 				}
 
+				File.WriteAllBytes("C:/Users/admin/Desktop/aa.png", data);
+				System.Diagnostics.Process.Start("C:/Users/admin/Desktop/aa.png");
+				return;
+
 				await _client.SubmitPostAsync(new FurAffinitySubmission(
-					data: _artworkData.data,
+					data: data,
 					contentType: contentType,
 					title: txtTitle.Text,
 					message: txtDescription.Text,

@@ -47,6 +47,7 @@
             this.radRating2 = new System.Windows.Forms.RadioButton();
             this.radRating1 = new System.Windows.Forms.RadioButton();
             this.radRating0 = new System.Windows.Forms.RadioButton();
+            this.chkRemoveTransparency = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -300,11 +301,23 @@
             this.radRating0.Text = "General";
             this.radRating0.UseVisualStyleBackColor = true;
             // 
+            // chkRemoveTransparency
+            // 
+            this.chkRemoveTransparency.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkRemoveTransparency.AutoSize = true;
+            this.chkRemoveTransparency.Location = new System.Drawing.Point(325, 303);
+            this.chkRemoveTransparency.Name = "chkRemoveTransparency";
+            this.chkRemoveTransparency.Size = new System.Drawing.Size(130, 17);
+            this.chkRemoveTransparency.TabIndex = 21;
+            this.chkRemoveTransparency.Text = "Remove transparency";
+            this.chkRemoveTransparency.UseVisualStyleBackColor = true;
+            // 
             // FurAffinityPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 361);
+            this.Controls.Add(this.chkRemoveTransparency);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.ddlGender);
             this.Controls.Add(this.lblGender);
@@ -362,5 +375,6 @@
 		private System.Windows.Forms.RadioButton radRating2;
 		private System.Windows.Forms.RadioButton radRating1;
 		private System.Windows.Forms.RadioButton radRating0;
+		private System.Windows.Forms.CheckBox chkRemoveTransparency;
 	}
 }
