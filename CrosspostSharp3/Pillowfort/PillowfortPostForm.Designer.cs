@@ -44,6 +44,7 @@
             // 
             // chkMakeSquare
             // 
+            this.chkMakeSquare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkMakeSquare.AutoSize = true;
             this.chkMakeSquare.Location = new System.Drawing.Point(302, 155);
             this.chkMakeSquare.Name = "chkMakeSquare";
@@ -74,6 +75,7 @@
             // 
             // chkIncludeImage
             // 
+            this.chkIncludeImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkIncludeImage.AutoSize = true;
             this.chkIncludeImage.Location = new System.Drawing.Point(62, 155);
             this.chkIncludeImage.Name = "chkIncludeImage";
@@ -153,6 +155,7 @@
             // 
             // chkRebloggable
             // 
+            this.chkRebloggable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkRebloggable.AutoSize = true;
             this.chkRebloggable.Checked = true;
             this.chkRebloggable.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -165,6 +168,7 @@
             // 
             // chkCommentable
             // 
+            this.chkCommentable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkCommentable.AutoSize = true;
             this.chkCommentable.Checked = true;
             this.chkCommentable.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -177,6 +181,7 @@
             // 
             // chkNsfw
             // 
+            this.chkNsfw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkNsfw.AutoSize = true;
             this.chkNsfw.Location = new System.Drawing.Point(264, 178);
             this.chkNsfw.Name = "chkNsfw";
