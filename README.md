@@ -39,7 +39,12 @@ multiple blogs/characters using a single account.
 * Twitter
 * Weasyl
 
-You can also open or save local files.
+You can also upload images anonymously to Imgur. When you do this, a key will
+be stored in the file imgur-uploads.txt, which CrosspostSharp will use to find
+previously uploaded images on Imgur and let you delete them.
+
+You can also open or save local files, either in PNG or JPEG format or in .cps
+files which contain metadata like description, tags, etc.
 
 File Formats
 ------------

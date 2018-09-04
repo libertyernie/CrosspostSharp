@@ -65,7 +65,7 @@ namespace CrosspostSharp3.Imgur {
 
 		public Task<FetchResult<int>> MoreAsync(int cursor, int take) {
 			var e = FetchAllNewestFirst().Skip(cursor).Take(take);
-			return Task.FromResult(new FetchResult<int>(e, take, e.Any()));
+			return Task.FromResult(new FetchResult<int>(e, take + cursor, e.Any()));
 		}
 
 		public Task<FetchResult<int>> StartAsync(int take) {
