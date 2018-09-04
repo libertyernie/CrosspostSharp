@@ -1,4 +1,4 @@
-CrosspostSharp 3.3
+CrosspostSharp 3.4
 ==================
 
 Source: https://github.com/libertyernie/CrosspostSharp
@@ -30,9 +30,10 @@ multiple blogs/characters using a single account.
 
 * DeviantArt / Sta.sh
 * Flickr
-* FurAffinity (read-only)
+* FurAffinity
 * Furry Network
 * Inkbunny
+* Pillowfort
 * Pixiv (read-only)
 * Tumblr
 * Twitter
