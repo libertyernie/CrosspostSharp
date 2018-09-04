@@ -236,11 +236,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				if (File.Exists("efc.jar")) {
-					listBox1.Items.Add(new DestinationOption($"FurAffinity / Weasyl", () => {
-						LaunchEFC(ExportAsPhoto());
-					}));
-				}
 				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
 					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
 						try {
@@ -287,36 +282,6 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
-		}
-
-		private static void LaunchEFC(SavedPhotoPost artwork) {
-			string jsonFile = Path.GetTempFileName();
-			File.WriteAllText(jsonFile, JsonConvert.SerializeObject(new {
-				artwork.adult,
-				artwork.data,
-				description = HtmlConversion.ConvertHtmlToText(artwork.description),
-				artwork.mature,
-				artwork.tags,
-				artwork.title,
-				artwork.url,
-				contentType = PostConverter.GetContentType(artwork)
-			}));
-
-			Process process = Process.Start(new ProcessStartInfo("java", $"-jar efc.jar {jsonFile}") {
-				RedirectStandardError = true,
-				UseShellExecute = false,
-				WorkingDirectory = Environment.CurrentDirectory,
-				CreateNoWindow = true
-			});
-			process.EnableRaisingEvents = true;
-			process.Exited += (o, a) => {
-				if (process.ExitCode != 0) {
-					string stderr = process.StandardError.ReadToEnd();
-					MessageBox.Show(null, stderr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
-
-				if (jsonFile != null) File.Delete(jsonFile);
-			};
 		}
 
 		private void btnPost_Click(object sender, EventArgs ea) {

@@ -1136,60 +1136,6 @@ namespace CrosspostSharp {
         private void setTitleCommentsallTabsToolStripMenuItem_Click(object sender, EventArgs e) {
             ShowSetDescForm();
         }
-
-        private void lnkFAC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start(lnkFAC.Text);
-        }
-
-        private void btnLaunchEFC_Click(object sender, EventArgs e) {
-            string jsonFile = null, imageFile = null;
-            if (this.currentImage != null) {
-                char[] invalid = Path.GetInvalidFileNameChars();
-                string basename = this.currentSubmission?.Title;
-                if (string.IsNullOrEmpty(basename)) {
-                    basename = "image";
-                }
-                basename = new string(basename.Select(c => invalid.Contains(c) ? '_' : c).ToArray());
-                string ext = this.currentImage.MimeType.StartsWith("image/")
-                    ? $".{this.currentImage.MimeType.Replace("image/", "")}"
-                    : $".{Path.GetExtension(this.currentImage.FileName)}";
-                string imageFilename = basename + ext;
-
-                imageFile = Path.Combine(Path.GetTempPath(), imageFilename);
-                File.WriteAllBytes(imageFile, this.currentImage.Data);
-
-                string bbCode = HtmlToBBCode.ConvertHtml(txtDescription.Text);
-                string plainText = Regex.Replace(bbCode, @"\[\/?(b|i|u|q|url=?[^\]]*)\]", "");
-
-                jsonFile = Path.GetTempFileName();
-                File.WriteAllText(jsonFile, JsonSerializer.ToJson(new {
-                    imagePath = imageFile,
-                    title = this.currentSubmission.Title,
-                    description = plainText,
-                    tags = this.currentSubmission.Tags,
-                    nudity = new {
-                        @explicit = this.currentSubmission.Mature || this.currentSubmission.Adult
-                    }
-                }));
-            }
-            
-            Process p = Process.Start(new ProcessStartInfo("java", $"-jar efc.jar {jsonFile}") {
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                WorkingDirectory = Environment.CurrentDirectory
-            });
-
-            Task.Run(() => p.WaitForExit())
-                .ContinueWith(t => {
-                    if (p.ExitCode != 0) {
-                        string stderr = p.StandardError.ReadToEnd();
-                        MessageBox.Show(null, stderr, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-                    if (jsonFile != null) File.Delete(jsonFile);
-                    if (imageFile != null) File.Delete(imageFile);
-                });
-        }
         #endregion
 
         public static BinaryFile MakeSquare(Image oldBitmap) {
