@@ -198,14 +198,22 @@ namespace CrosspostSharp3 {
 				add(new WeasylSourceWrapper(username));
 				add(new WeasylCharacterSourceWrapper(username));
 			}
-			add(new Imgur.PreviousImgurUploadsWrapper());
+
+			var imgur = new Imgur.PreviousImgurUploadsWrapper();
+			var imgur_results = await imgur.FetchAllAsync(1);
+			if (imgur_results.Any()) {
+				add(imgur);
+			}
 			
 			lblLoadStatus.Text = "Connecting to sites...";
 			
 			var tasks = list.Select(async c => {
 				IPagedWrapperConsumer w = new PagedWrapperConsumer<int>(c, 4);
 				try {
-					return new WrapperMenuItem(w, $"{await w.WhoamiAsync()} - {w.Name}");
+					string username = await w.WhoamiAsync();
+					return new WrapperMenuItem(w, string.IsNullOrEmpty(username)
+						? w.Name
+						: $"{username} - {w.Name}");
 				} catch (Exception ex) {
 					var inner = ex;
 					while (inner is AggregateException a) {

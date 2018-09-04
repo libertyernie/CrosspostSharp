@@ -41,6 +41,10 @@ namespace CrosspostSharp3.Imgur {
 		public int SuggestedBatchSize => 1;
 
 		public IEnumerable<IPostBase> FetchAllOldestFirst() {
+			if (!File.Exists("imgur-uploads.txt")) {
+				yield break;
+			}
+
 			using (var fs = new FileStream("imgur-uploads.txt", FileMode.Open, FileAccess.Read))
 			using (var sr = new StreamReader(fs)) {
 				string line;
