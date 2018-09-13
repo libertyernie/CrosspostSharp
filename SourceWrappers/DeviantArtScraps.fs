@@ -70,55 +70,52 @@ type DeviantArtScrapsSourceWrapper(username: string) =
     let link_wrapper = username |> DeviantArtScrapsLinkSourceWrapper |> CachedSourceWrapperImpl<DeviantArtScrapsCursor>
     let app_link_regex = new Regex("DeviantArt://deviation/(........-....-....-....-............)")
 
+    let wrapPost (w: IPostBase) = async {
+        let! html =
+            w.ViewURL
+            |> Uri
+            |> DeviantartApi.Requester.MakeRequestRawAsync
+            |> Async.AwaitTask
+
+        let m = app_link_regex.Match(html)
+        if not m.Success then
+            failwithf "Could not scrape GUID from DeviantArt page: %s" w.ViewURL
+
+        let executeAsync (r: Request<'a>) = async {
+            let! x = r.ExecuteAsync() |> Async.AwaitTask
+            return Swu.processDeviantArtError x
+        }
+
+        let! deviation =
+            m.Groups.[1].Value
+            |> DeviationRequest
+            |> executeAsync
+
+        let! metadata =
+            m.Groups.[1].Value
+            |> Seq.singleton
+            |> MetadataRequest
+            |> executeAsync
+
+        let d = deviation
+        let m = metadata.Metadata |> Seq.head
+
+        return new DeviantArtPostWrapper(d, Some m)
+    }
+
     override __.Name = "DeviantArt (scraps)"
     override __.SuggestedBatchSize = 1
 
-    override __.Fetch cursor _ = async {
-        let! items = link_wrapper.Fetch cursor 1
-        let item = Seq.tryHead items.Posts
+    override __.Fetch cursor take = async {
+        let! items = link_wrapper.Fetch cursor take
+        
+        let! posts = items.Posts |> Seq.map wrapPost |> Async.Parallel
 
-        match item with
-            | Some i ->
-                let! html =
-                    i.ViewURL
-                    |> Uri
-                    |> DeviantartApi.Requester.MakeRequestRawAsync
-                    |> Async.AwaitTask
-
-                let m = app_link_regex.Match(html)
-                if not m.Success then
-                    failwithf "Could not scrape GUID from DeviantArt page: %s" i.ViewURL
-
-                let executeAsync (r: Request<'a>) = async {
-                    let! x = r.ExecuteAsync() |> Async.AwaitTask
-                    return Swu.processDeviantArtError x
-                }
-
-                let! deviation =
-                    m.Groups.[1].Value
-                    |> DeviationRequest
-                    |> executeAsync
-
-                let! metadata =
-                    m.Groups.[1].Value
-                    |> Seq.singleton
-                    |> MetadataRequest
-                    |> executeAsync
-
-                let d = deviation
-                let m = metadata.Metadata |> Seq.head
-
-                return {
-                    Posts = (d, Some m) |> DeviantArtPostWrapper |> Swu.potBase |> Seq.singleton
-                    Next = items.Next
-                    HasMore = items.HasMore
-                }
-            | None ->
-                return {
-                    Posts = Seq.empty
-                    Next = 0
-                    HasMore = false
-                }
+        return {
+            Posts = posts |> Seq.cast
+            Next = items.Next
+            HasMore = items.HasMore
+        }
     }
 
     override __.Whoami = link_wrapper.Whoami
