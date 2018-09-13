@@ -55,21 +55,14 @@ type DeviantArtSourceWrapper() =
         galleryRequest.Limit <- take |> min 24 |> uint32 |> Nullable
         galleryRequest.Offset <- position |> uint32 |> Nullable
 
-        let! gallery =
-            galleryRequest.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
-        
-        let metadataRequest =
+        let! gallery = Swu.executeAsync galleryRequest
+
+        let! metadata =
             gallery.Results
             |> Seq.map (fun d -> d.DeviationId)
             |> MetadataRequest
-        
-        let! metadata =
-            metadataRequest.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
-        
+            |> Swu.executeAsync
+
         let wrappers = seq {
             for d in gallery.Results do
                 if not (isNull d.Content) then
@@ -77,11 +70,11 @@ type DeviantArtSourceWrapper() =
                         metadata.Metadata
                         |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
                         |> Seq.tryHead
-                    yield DeviantArtPostWrapper(d, m) |> Swu.potBase
+                    yield DeviantArtPostWrapper(d, m)
         }
 
         return {
-            Posts = wrappers
+            Posts = wrappers |> Seq.cast
             Next = gallery.NextOffset |> Option.ofNullable |> Option.defaultValue 0
             HasMore = gallery.HasMore
         }

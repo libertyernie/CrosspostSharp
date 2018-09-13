@@ -45,7 +45,7 @@ type FlickrSourceWrapper(flickr: Flickr) =
         
         let! posts = flickrCall (fun callback -> flickr.PeopleGetPhotosAsync("me", extras, start, take |> min 500, callback))
         return {
-            Posts = posts |> Seq.map FlickrPostWrapper |> Seq.map Swu.potBase
+            Posts = posts |> Seq.map FlickrPostWrapper |> Seq.cast
             Next = posts.Page + 1
             HasMore = posts.Page < posts.Pages
         }

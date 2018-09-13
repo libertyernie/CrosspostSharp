@@ -64,7 +64,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
         let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
         
         return {
-            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> Seq.map Swu.potBase
+            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> Seq.cast
             Next = page + 1
             HasMore = Seq.length gallery > 0
         }
@@ -114,7 +114,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
             |> Async.Parallel
 
         return {
-            Posts = gallery |> Seq.map FurAffinityPostWrapper |> Seq.map Swu.potBase
+            Posts = gallery |> Seq.map FurAffinityPostWrapper |> Seq.cast
             Next = skip + take
             HasMore = Seq.length gallery > 0
         }

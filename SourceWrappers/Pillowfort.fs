@@ -27,7 +27,7 @@ type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media
 type PillowfortSourceWrapper(client: PillowfortClient) =
     inherit SourceWrapper<int>()
 
-    let wrap p m = PillowfortPostWrapper (client, p, m) |> Swu.potBase
+    let wrap p m = PillowfortPostWrapper (client, p, m)
 
     override __.Name = "Pillowfort"
     override __.SuggestedBatchSize = 20

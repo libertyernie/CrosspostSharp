@@ -4,9 +4,8 @@ open SourceWrappers
 open System
 open System.Text.RegularExpressions
 open DeviantartApi.Requests.Deviation
-open DeviantartApi.Requests
 
-type DeviantArtScrapsLinkWrapper(url: string) =
+type internal DeviantArtScrapsLinkWrapper(url: string) =
     interface IPostBase with
         member __.Title = url
         member __.HTMLDescription = null
@@ -17,11 +16,11 @@ type DeviantArtScrapsLinkWrapper(url: string) =
         member __.ViewURL = url
 
 [<Struct>]
-type DeviantArtScrapsCursor = {
+type internal DeviantArtScrapsCursor = {
     NextURL: string
 }
 
-type DeviantArtScrapsLinkSourceWrapper(username: string) =
+type internal DeviantArtScrapsLinkSourceWrapper(username: string) =
     inherit SourceWrapper<DeviantArtScrapsCursor>()
 
     let link_regex = new Regex("https://www\.deviantart\.com/[^/]+/art/[^'\"]+")
@@ -81,21 +80,16 @@ type DeviantArtScrapsSourceWrapper(username: string) =
         if not m.Success then
             failwithf "Could not scrape GUID from DeviantArt page: %s" w.ViewURL
 
-        let executeAsync (r: Request<'a>) = async {
-            let! x = r.ExecuteAsync() |> Async.AwaitTask
-            return Swu.processDeviantArtError x
-        }
-
         let! deviation =
             m.Groups.[1].Value
             |> DeviationRequest
-            |> executeAsync
+            |> Swu.executeAsync
 
         let! metadata =
             m.Groups.[1].Value
             |> Seq.singleton
             |> MetadataRequest
-            |> executeAsync
+            |> Swu.executeAsync
 
         let d = deviation
         let m = metadata.Metadata |> Seq.head

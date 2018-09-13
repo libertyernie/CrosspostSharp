@@ -50,7 +50,7 @@ type PixivSourceWrapper(username: string, password: string) =
         let (tokens, user) = login_info.Value
         let! result = tokens.GetUserWorksAsync(user.Id.Value, offset = (cursor |> Option.toNullable)) |> Async.AwaitTask
         return {
-            Posts = result.illusts |> Seq.map PixivPostWrapper |> Seq.map Swu.potBase
+            Posts = result.illusts |> Seq.map PixivPostWrapper |> Seq.cast
             Next = result.illusts.Length + (cursor |> Option.defaultValue 0)
             HasMore = not (isNull result.next_url)
         }

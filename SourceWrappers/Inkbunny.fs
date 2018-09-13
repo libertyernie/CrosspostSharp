@@ -57,7 +57,7 @@ type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
                 |> Seq.filter (fun s -> s.``public``.value)
                 |> Seq.sortByDescending (fun s -> s.create_datetime)
                 |> Seq.map (fun s -> new InkbunnyPostWrapper(s, client))
-                |> Seq.map Swu.potBase
+                |> Seq.cast
             Next = response.page + 1
             HasMore = response.pages_count >= (cursor |> Option.defaultValue 1)
         }

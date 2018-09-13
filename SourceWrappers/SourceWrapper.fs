@@ -70,4 +70,7 @@ module internal Swu =
         if (resp.Result.Error |> String.IsNullOrEmpty |> not) then failwith resp.Result.Error
         resp.Result
 
-    let potBase w = w :> IPostBase
+    let executeAsync (r: DeviantartApi.Requests.Request<'a>) = async {
+        let! x = r.ExecuteAsync() |> Async.AwaitTask
+        return processDeviantArtError x
+    }
