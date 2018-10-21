@@ -24,7 +24,6 @@ namespace CrosspostSharp3 {
 		public DeviantArtStatusUpdateForm(IPostBase post) {
 			InitializeComponent();
 
-			lblUsername1.Text = "abc";
 			textBox1.Text = post.HTMLDescription;
 			_image = (post as SavedPhotoPost)?.data;
 		}
@@ -40,7 +39,7 @@ namespace CrosspostSharp3 {
 				}
 
 				var wrapper = new DeviantArtStatusSourceWrapper().AsISourceWrapper();
-				lblUsername2.Text = "Logged in as: " + await wrapper.WhoamiAsync();
+				lblUsername1.Text = await wrapper.WhoamiAsync();
 
 				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync(picUserIcon.Width));
 				using (var resp = await req.GetResponseAsync())
