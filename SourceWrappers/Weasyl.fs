@@ -3,10 +3,11 @@
 open WeasylLib.Api
 open WeasylLib.Frontend
 open System.Threading.Tasks
+open System.Runtime.InteropServices
 
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
     interface IRemotePhotoPost with
-        member this.Title = ""
+        member this.Title = submission.title
         member this.HTMLDescription = submission.HTMLDescription
         member this.Mature = submission.rating = "mature"
         member this.Adult = submission.rating = "explicit"
@@ -16,7 +17,14 @@ type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
         member this.ImageURL = submission.media.submission |> Seq.map (fun s -> s.url) |> Seq.head
         member this.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
 
-type WeasylSourceWrapper(username: string) =
+type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylFrontendClient) =
+    inherit WeasylPostWrapper(submission)
+
+    interface IDeletable with
+        member this.SiteName = "Weasyl"
+        member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submitid)
+
+type WeasylSourceWrapper(username: string, [<Optional;DefaultParameterValue(null)>] ?frontendClient: WeasylFrontendClient) =
     inherit SourceWrapper<int>()
 
     let apiClient = new WeasylApiClient()
@@ -37,10 +45,14 @@ type WeasylSourceWrapper(username: string) =
             |> Task.WhenAll
             |> Async.AwaitTask
 
+        let wrap s =
+            match frontendClient with
+            | Some f -> new WeasylSubmissionWrapper(s, f) :> WeasylPostWrapper
+            | None -> new WeasylPostWrapper(s)
+
         return {
             Posts = submissions
-                |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
-                |> Seq.map WeasylPostWrapper
+                |> Seq.map wrap
                 |> Seq.cast
             Next = gallery.nextid |> Option.ofNullable |> Option.defaultValue 0
             HasMore = gallery.nextid.HasValue

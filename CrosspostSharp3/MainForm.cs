@@ -198,8 +198,9 @@ namespace CrosspostSharp3 {
 
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
 
-				var username = await new WeasylFrontendClient() { WZL = w.wzl }.GetUsernameAsync();
-				add(new WeasylSourceWrapper(username));
+				var frontendClient = new WeasylFrontendClient() { WZL = w.wzl };
+				var username = await frontendClient.GetUsernameAsync();
+				add(new WeasylSourceWrapper(username, frontendClient));
 				add(new WeasylCharacterSourceWrapper(username));
 			}
 
