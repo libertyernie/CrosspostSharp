@@ -44,6 +44,20 @@ type DeviantArtSourceWrapper() =
             cached_user <- u
         return cached_user
     }
+
+    let asyncGetMetadata (list: seq<Deviation>) = async {
+        if Seq.isEmpty list then
+            return Seq.empty
+        else
+            let! response =
+                list
+                |> Seq.map (fun d -> d.DeviationId)
+                |> MetadataRequest
+                |> Swu.executeAsync
+            return seq {
+                yield! response.Metadata
+            }
+    }
     
     override this.Name = "DeviantArt"
     override this.SuggestedBatchSize = 10
@@ -57,17 +71,13 @@ type DeviantArtSourceWrapper() =
 
         let! gallery = Swu.executeAsync galleryRequest
 
-        let! metadata =
-            gallery.Results
-            |> Seq.map (fun d -> d.DeviationId)
-            |> MetadataRequest
-            |> Swu.executeAsync
+        let! metadata = asyncGetMetadata gallery.Results
 
         let wrappers = seq {
             for d in gallery.Results do
                 if not (isNull d.Content) then
                     let m =
-                        metadata.Metadata
+                        metadata
                         |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
                         |> Seq.tryHead
                     yield DeviantArtPostWrapper(d, m)
