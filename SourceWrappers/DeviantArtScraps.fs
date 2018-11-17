@@ -99,7 +99,7 @@ type DeviantArtScrapsSourceWrapper(username: string) =
 
     override __.StartNew() =
         let parent = link_wrapper :> AsyncSeqWrapper
-        let sequence = parent.Cache
+        let sequence = parent
         AsyncSeq.mapAsync wrapPost sequence
 
     override __.Whoami = link_wrapper.Whoami

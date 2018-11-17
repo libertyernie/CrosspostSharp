@@ -87,7 +87,6 @@ type AsyncSeqWrapper() as this =
     abstract member StartNew: unit -> AsyncSeq<IPostBase>
 
     member this.AsISourceWrapper () = this :> ISourceWrapper<int>
-    member this.Cache = cache.Value
 
     member private __.BackCompatFetch cursor take = async {
         let! arrayPlusOne =
@@ -103,7 +102,10 @@ type AsyncSeqWrapper() as this =
             HasMore = Seq.length arrayPlusOne > len
         }
     }
-    
+
+    interface AsyncSeq<IPostBase> with
+        member __.GetEnumerator() = cache.Value.GetEnumerator()
+
     interface ISourceWrapper<int> with
         member __.Name = this.Name
         member __.SuggestedBatchSize = 1
