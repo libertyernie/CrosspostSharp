@@ -62,7 +62,7 @@ type DeviantArtSourceWrapper() =
     
     override __.Name = "DeviantArt"
 
-    override __.Source = asyncSeq {
+    override __.StartNew() = asyncSeq {
         let mutable cursor = uint32 0
         let mutable more = true
 

@@ -76,14 +76,18 @@ module internal Swu =
 /// An abstract class defined in F# that implements StartAsync, MoreAsync, and FetchAllAsync through an AsyncSeq. Wrappers in other languages (such as C# or VB.NET) should probably implement IPagedSourceWrapper instead.
 [<AbstractClass>]
 type AsyncSeqWrapper() as this =
-    let cache = lazy (AsyncSeq.cache this.Source)
+    let cache = lazy (
+        printfn "%s: Initializing cache" this.Name
+        this.StartNew() |> AsyncSeq.cache
+    )
 
     abstract member Name: string with get
-    abstract member Source: AsyncSeq<IPostBase>
     abstract member Whoami: Async<string>
     abstract member GetUserIcon: int -> Async<string>
+    abstract member StartNew: unit -> AsyncSeq<IPostBase>
 
     member this.AsISourceWrapper () = this :> ISourceWrapper<int>
+    member this.Cache = cache.Value
 
     member private __.BackCompatFetch cursor take = async {
         let! arrayPlusOne =
