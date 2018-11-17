@@ -4,6 +4,7 @@ open SourceWrappers
 open System
 open System.Text.RegularExpressions
 open DeviantartApi.Requests.Deviation
+open FSharp.Control
 
 type internal DeviantArtScrapsLinkWrapper(url: string) =
     interface IPostBase with
@@ -15,48 +16,45 @@ type internal DeviantArtScrapsLinkWrapper(url: string) =
         member __.Timestamp = DateTime.MinValue
         member __.ViewURL = url
 
-[<Struct>]
-type internal DeviantArtScrapsCursor = {
-    NextURL: string
-}
-
 type internal DeviantArtScrapsLinkSourceWrapper(username: string) =
-    inherit SourceWrapper<DeviantArtScrapsCursor>()
+    inherit AsyncSeqWrapper()
 
     let link_regex = new Regex("https://www\.deviantart\.com/[^/]+/art/[^'\"]+")
     let next_regex = new Regex("<link href=\"([^'\"]+)\" rel=\"next\">")
 
+    let findMatches html (r: Regex) = seq {
+        for o in r.Matches(html) do
+            yield o.Value
+    }
+
     override __.Name = "DeviantArt (scraps - links only)"
-    override __.SuggestedBatchSize = 24
 
-    override __.Fetch cursor _ = async {
-        let! html =
-            cursor
-            |> Option.map (fun c -> c.NextURL)
-            |> Option.defaultValue (sprintf "https://%s.deviantart.com/gallery/?catpath=scraps" username)
-            |> Uri
-            |> DeviantartApi.Requester.MakeRequestRawAsync
-            |> Async.AwaitTask
+    override __.StartNew() = asyncSeq {
+        let mutable url = sprintf "https://%s.deviantart.com/gallery/?catpath=scraps" username
+        let mutable more = true
 
-        let matches = seq {
-            for o in link_regex.Matches(html) do
-                yield o
-        }
+        while more do
+            let! html =
+                new Uri(url)
+                |> DeviantartApi.Requester.MakeRequestRawAsync
+                |> Async.AwaitTask
 
-        let next = next_regex.Match(html)
-
-        // DeviantArt bug workaround
-        let next_url = next.Groups.[1].Value.Replace(sprintf "%s/%s" username username, username)
-
-        return {
-            Posts = matches
-                |> Seq.map (fun m -> m.Value)
+            let posts =
+                link_regex
+                |> findMatches html
                 |> Seq.distinct
                 |> Seq.map DeviantArtScrapsLinkWrapper
                 |> Seq.cast
-            Next = { NextURL = next_url }
-            HasMore = next.Success
-        }
+            for o in posts do
+                yield o :> IPostBase
+
+            let next = next_regex.Match(html)
+
+            // DeviantArt bug workaround
+            let next_url = next.Groups.[1].Value.Replace(sprintf "%s/%s" username username, username)
+
+            url <- next_url
+            more <- next.Success
     }
 
     override __.Whoami = async { return username }
@@ -64,9 +62,9 @@ type internal DeviantArtScrapsLinkSourceWrapper(username: string) =
     override __.GetUserIcon _ = async { return sprintf "https://a.deviantart.net/avatars/%c/%c/%s.png" username.[0] username.[1] username }
 
 type DeviantArtScrapsSourceWrapper(username: string) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
-    let link_wrapper = username |> DeviantArtScrapsLinkSourceWrapper |> CachedSourceWrapperImpl<DeviantArtScrapsCursor>
+    let link_wrapper = username |> DeviantArtScrapsLinkSourceWrapper
     let app_link_regex = new Regex("DeviantArt://deviation/(........-....-....-....-............)")
 
     let wrapPost (w: IPostBase) = async {
@@ -94,23 +92,15 @@ type DeviantArtScrapsSourceWrapper(username: string) =
         let d = deviation
         let m = metadata.Metadata |> Seq.head
 
-        return new DeviantArtPostWrapper(d, Some m)
+        return new DeviantArtPostWrapper(d, Some m) :> IPostBase
     }
 
     override __.Name = "DeviantArt (scraps)"
-    override __.SuggestedBatchSize = 1
 
-    override __.Fetch cursor take = async {
-        let! items = link_wrapper.Fetch cursor take
-        
-        let! posts = items.Posts |> Seq.map wrapPost |> Async.Parallel
-
-        return {
-            Posts = posts |> Seq.cast
-            Next = items.Next
-            HasMore = items.HasMore
-        }
-    }
+    override __.StartNew() =
+        let parent = link_wrapper :> AsyncSeqWrapper
+        let sequence = parent.Cache
+        AsyncSeq.mapAsync wrapPost sequence
 
     override __.Whoami = link_wrapper.Whoami
 
