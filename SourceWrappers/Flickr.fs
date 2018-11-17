@@ -2,6 +2,7 @@
 
 open FlickrNet
 open System.Threading.Tasks
+open FSharp.Control
 
 type FlickrPostWrapper(photo: Photo) =
     interface IRemotePhotoPost with
@@ -16,7 +17,7 @@ type FlickrPostWrapper(photo: Photo) =
         member this.ThumbnailURL = sprintf "https://farm%s.staticflickr.com/%s/%s_%s_q.jpg" photo.Farm photo.Server photo.PhotoId photo.Secret
 
 type FlickrSourceWrapper(flickr: Flickr) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let flickrCall f1 = async {
         let tcs = new TaskCompletionSource<'a>()
@@ -37,18 +38,19 @@ type FlickrSourceWrapper(flickr: Flickr) =
         FlickrSourceWrapper(new Flickr(apiKey, sharedSecret, OAuthAccessToken = oAuthAccessToken, OAuthAccessTokenSecret = oAuthAccessTokenSecret))
 
     override this.Name = "Flickr"
-    override this.SuggestedBatchSize = 100
 
-    override this.Fetch cursor take = async {
-        let start = cursor |> Option.defaultValue 1
+    override this.StartNew() = asyncSeq {
+        let mutable cursor = 1
+        let mutable more = true
         let extras = PhotoSearchExtras.Description ||| PhotoSearchExtras.Tags ||| PhotoSearchExtras.DateUploaded ||| PhotoSearchExtras.OriginalFormat
         
-        let! posts = flickrCall (fun callback -> flickr.PeopleGetPhotosAsync("me", extras, start, take |> min 500, callback))
-        return {
-            Posts = posts |> Seq.map FlickrPostWrapper |> Seq.cast
-            Next = posts.Page + 1
-            HasMore = posts.Page < posts.Pages
-        }
+        while more do
+            let! posts = flickrCall (fun callback -> flickr.PeopleGetPhotosAsync("me", extras, cursor, 100 |> min 500, callback))
+            for p in posts do
+                yield new FlickrPostWrapper(p) :> IPostBase
+            
+            cursor <- posts.Page + 1
+            more <- posts.Page < posts.Pages
     }
 
     override this.Whoami = async {

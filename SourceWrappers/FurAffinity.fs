@@ -2,6 +2,7 @@
 
 open FAExportLib
 open System
+open FSharp.Control
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
     member this.Id = submission.Id
@@ -36,7 +37,7 @@ type FurAffinityPostWrapper(submission: FASubmission) =
         member this.ThumbnailURL = submission.Thumbnail
 
 type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let apiClient = new FAUserClient(a, b)
 
@@ -54,20 +55,22 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     }
     
     override this.Name = if scraps then "Fur Affinity (scraps)" else "Fur Affinity (gallery)"
-    override this.SuggestedBatchSize = 60
 
-    override this.Fetch cursor take = async {
+    override this.StartNew() = asyncSeq {
+        let mutable page = 1
+        let mutable more = true
+
         let! username = getUser
-        let folder = if scraps then FAFolder.scraps else FAFolder.gallery
-        let page = cursor |> Option.defaultValue 1
 
-        let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
+        while more do
+            let folder = if scraps then FAFolder.scraps else FAFolder.gallery
+
+            let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
+            for post in gallery do
+                yield new FurAffinityMinimalPostWrapper(post) :> IPostBase
         
-        return {
-            Posts = gallery |> Seq.map FurAffinityMinimalPostWrapper |> Seq.cast
-            Next = page + 1
-            HasMore = Seq.length gallery > 0
-        }
+            page <- page + 1
+            more <- Seq.length gallery > 0
     }
 
     override this.Whoami = getUser
@@ -79,46 +82,22 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     }
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let source = new FurAffinityMinimalSourceWrapper(a, b, scraps)
-    
-    let cache = new System.Collections.Generic.List<int>()
-    let mutable cache_cursor: int option = None
-    let mutable cache_has_more = true
-    
-    override this.Name = source.Name
-    override this.SuggestedBatchSize = 4
 
-    override this.Fetch cursor take = async {
-        let skip = cursor |> Option.defaultValue 0
-        while cache.Count < skip + take && cache_has_more do
-            let! result = source.Fetch cache_cursor 60
-            result.Posts
-                |> Seq.map (fun w -> w :?> FurAffinityMinimalPostWrapper)
-                |> Seq.map (fun w -> w.Id)
-                |> cache.AddRange
-            cache_cursor <- Some result.Next
-            cache_has_more <- result.HasMore
-
-        let ids =
-            cache
-            |> Swu.skipSafe skip
-            |> Seq.truncate take
-
-        let v = Seq.length ids
-
-        let! gallery =
-            ids
-            |> Seq.map source.GetSubmission
-            |> Async.Parallel
-
-        return {
-            Posts = gallery |> Seq.map FurAffinityPostWrapper |> Seq.cast
-            Next = skip + take
-            HasMore = Seq.length gallery > 0
-        }
+    let wrap id = async {
+        let! post = source.GetSubmission id
+        return new FurAffinityPostWrapper(post) :> IPostBase
     }
+
+    override this.Name = source.Name
+
+    override this.StartNew() =
+        source
+        |> AsyncSeq.map (fun w -> w :?> FurAffinityMinimalPostWrapper)
+        |> AsyncSeq.map (fun w -> w.Id)
+        |> AsyncSeq.mapAsync wrap
 
     override this.Whoami = source.Whoami
     override this.GetUserIcon size = source.GetUserIcon size
