@@ -6,6 +6,7 @@ open System
 open DeviantartApi.Requests.User
 open DeviantartApi.Requests.Gallery
 open DeviantartApi.Requests.Deviation
+open FSharp.Control
 
 type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
     interface IRemotePhotoPost with
@@ -30,7 +31,7 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
             |> Option.defaultValue deviation.Content.Src
 
 type DeviantArtSourceWrapper() =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let mutable cached_user: User = null
 
@@ -59,37 +60,35 @@ type DeviantArtSourceWrapper() =
             }
     }
     
-    override this.Name = "DeviantArt"
-    override this.SuggestedBatchSize = 10
+    override __.Name = "DeviantArt"
 
-    override this.Fetch cursor take = async {
-        let position = cursor |> Option.defaultValue 0
+    override __.Source = asyncSeq {
+        let mutable cursor = uint32 0
+        let mutable more = true
 
-        let galleryRequest = new AllRequest()
-        galleryRequest.Limit <- take |> min 24 |> uint32 |> Nullable
-        galleryRequest.Offset <- position |> uint32 |> Nullable
+        while more do
+            let galleryRequest = new AllRequest()
+            galleryRequest.Limit <- uint32 24 |> Nullable
+            galleryRequest.Offset <- cursor |> Nullable
 
-        let! gallery = Swu.executeAsync galleryRequest
+            let! gallery = Swu.executeAsync galleryRequest
+            let! metadata = asyncGetMetadata gallery.Results
 
-        let! metadata = asyncGetMetadata gallery.Results
-
-        let wrappers = seq {
             for d in gallery.Results do
                 if not (isNull d.Content) then
                     let m =
                         metadata
                         |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
                         |> Seq.tryHead
-                    yield DeviantArtPostWrapper(d, m)
-        }
-
-        return {
-            Posts = wrappers |> Seq.cast
-            Next = gallery.NextOffset |> Option.ofNullable |> Option.defaultValue 0
-            HasMore = gallery.HasMore
-        }
+                    yield DeviantArtPostWrapper(d, m) :> IPostBase
+            
+            cursor <- gallery.NextOffset
+                |> Option.ofNullable
+                |> Option.defaultValue 0
+                |> uint32
+            more <- gallery.HasMore
     }
 
-    override this.Whoami = getUser |> Swu.whenDone (fun u -> u.Username)
+    override __.Whoami = getUser |> Swu.whenDone (fun u -> u.Username)
 
-    override this.GetUserIcon size = getUser |> Swu.whenDone (fun u -> u.UserIconUrl.AbsoluteUri)
+    override __.GetUserIcon size = getUser |> Swu.whenDone (fun u -> u.UserIconUrl.AbsoluteUri)

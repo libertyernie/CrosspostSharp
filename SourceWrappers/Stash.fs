@@ -5,6 +5,7 @@ open DeviantartApi.Objects.SubObjects.StashDelta
 open System.Text
 open System.Threading.Tasks
 open DeviantartApi.Requests.Stash
+open FSharp.Control
 
 type StashPostWrapper(entry: Entry) =
     let imageUrl =
@@ -52,39 +53,41 @@ type StashPostWrapper(entry: Entry) =
         member this.DeleteAsync() = delete |> Async.StartAsTask :> Task
 
 type UnorderedStashSourceWrapper() =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let deviantArtWrapper = new DeviantArtSourceWrapper()
     
-    override this.Name = "Sta.sh"
-    override this.SuggestedBatchSize = 120
+    override __.Name = "Sta.sh"
 
-    override this.Fetch cursor take = async {
-        let position = cursor |> Option.defaultValue 0
-
-        let deltaRequest = new DeltaRequest()
-        deltaRequest.Limit <- take |> min 120 |> uint32 |> Nullable
-        deltaRequest.Offset <- position |> uint32 |> Nullable
-
-        let! result =
-            deltaRequest.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
+    override __.Source = asyncSeq {
+        let mutable cursor = uint32 0
+        let mutable more = true
         
-        let wrappers =
-            result.Entries
-            |> Seq.filter (fun e -> e.ItemId <> int64 0)
-            |> Seq.filter (fun e -> (not << isNull) e.Metadata.Files)
-            |> Seq.map StashPostWrapper
-            |> Seq.cast
+        while more do
+            let deltaRequest = new DeltaRequest()
+            deltaRequest.Limit <- uint32 120 |> Nullable
+            deltaRequest.Offset <- cursor |> Nullable
 
-        return {
-            Posts = wrappers
-            Next = result.NextOffset |> Option.ofNullable |> Option.defaultValue 0
-            HasMore = result.HasMore
-        }
+            let! result =
+                deltaRequest.ExecuteAsync()
+                |> Async.AwaitTask
+                |> Swu.whenDone Swu.processDeviantArtError
+
+            let wrappers =
+                result.Entries
+                |> Seq.filter (fun e -> e.ItemId <> int64 0)
+                |> Seq.filter (fun e -> (not << isNull) e.Metadata.Files)
+                |> Seq.map StashPostWrapper
+            for o in wrappers do
+                yield o :> IPostBase
+
+            cursor <- result.NextOffset
+                |> Option.ofNullable
+                |> Option.defaultValue 0
+                |> uint32
+            more <- result.HasMore
     }
 
-    override this.Whoami = deviantArtWrapper.Whoami
+    override __.Whoami = deviantArtWrapper.Whoami
 
-    override this.GetUserIcon size = deviantArtWrapper.GetUserIcon size
+    override __.GetUserIcon size = deviantArtWrapper.GetUserIcon size
