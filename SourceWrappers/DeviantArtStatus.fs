@@ -3,6 +3,7 @@
 open DeviantartApi.Objects
 open System
 open DeviantartApi.Requests.User
+open FSharp.Control
 
 type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
     let Mature =
@@ -37,7 +38,7 @@ type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: Deviation) =
             |> Option.defaultValue Icon
 
 type DeviantArtStatusSourceWrapper() =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let mutable cached_user: User = null
 
@@ -53,35 +54,36 @@ type DeviantArtStatusSourceWrapper() =
     }
     
     override this.Name = "DeviantArt (statuses)"
-    override this.SuggestedBatchSize = 10
 
-    override this.Fetch cursor take = async {
-        let position = cursor |> Option.defaultValue 0
+    override this.StartNew() = asyncSeq {
+        let mutable position = 0
+        let mutable more = true
 
-        let! username = this.Whoami
+        while more do
+            let! username = this.Whoami
 
-        let statusesRequest = new StatusesRequest(username)
-        statusesRequest.Limit <- take |> min 50 |> uint32 |> Nullable
-        statusesRequest.Offset <- position |> uint32 |> Nullable
+            let statusesRequest = new StatusesRequest(username)
+            statusesRequest.Limit <- 50 |> uint32 |> Nullable
+            statusesRequest.Offset <- position |> uint32 |> Nullable
 
-        let! statuses =
-            statusesRequest.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
-        
-        return {
-            Posts = seq {
-                for r in statuses.Results do
-                    let items = r.Items |> Seq.map (fun i -> i.Deviation) |> Seq.filter (not << isNull)
-                    if Seq.isEmpty items then
-                        yield new DeviantArtStatusPostWrapper(r, None)
-                    else
-                        for d in items do
-                            yield new DeviantArtStatusPostWrapper(r, Some d)
-            } |> Seq.cast
-            Next = statuses.NextOffset |> Option.ofNullable |> Option.defaultValue 0
-            HasMore = statuses.HasMore
-        }
+            let! statuses =
+                statusesRequest.ExecuteAsync()
+                |> Async.AwaitTask
+                |> Swu.whenDone Swu.processDeviantArtError
+
+            for r in statuses.Results do
+                let items = r.Items |> Seq.map (fun i -> i.Deviation) |> Seq.filter (not << isNull)
+                if Seq.isEmpty items then
+                    yield new DeviantArtStatusPostWrapper(r, None) :> IPostBase
+                else
+                    for d in items do
+                        yield new DeviantArtStatusPhotoPostWrapper(r, d) :> IPostBase
+
+            position <-
+                statuses.NextOffset
+                |> Option.ofNullable
+                |> Option.defaultValue position
+            more <- statuses.HasMore
     }
 
     override this.Whoami = getUser |> Swu.whenDone (fun u -> u.Username)
