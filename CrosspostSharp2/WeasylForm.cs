@@ -151,7 +151,7 @@ namespace CrosspostSharp {
                 }
 
                 if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(GlobalSettings.Weasyl.APIKey)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(GlobalSettings.Weasyl.APIKey, null)));
                     wrappers.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(GlobalSettings.Weasyl.APIKey)));
                 }
 

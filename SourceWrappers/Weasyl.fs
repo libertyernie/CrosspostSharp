@@ -24,10 +24,11 @@ type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylF
         member this.SiteName = "Weasyl"
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submitid)
 
-type WeasylSourceWrapper(username: string, [<Optional;DefaultParameterValue(null)>] ?frontendClient: WeasylFrontendClient) =
+type WeasylSourceWrapper(username: string, frontendClientParam: WeasylFrontendClient) =
     inherit SourceWrapper<int>()
 
     let apiClient = new WeasylApiClient()
+    let frontendClient = Option.ofObj frontendClientParam
     
     override this.Name = "Weasyl"
     override this.SuggestedBatchSize = 4
