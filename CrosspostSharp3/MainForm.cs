@@ -117,10 +117,14 @@ namespace CrosspostSharp3 {
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
-			var list = new List<CachedSourceWrapper>();
+			var list = new List<ISourceWrapper<int>>();
 
 			void add<T>(ISourceWrapper<T> wrapper) where T : struct {
-				list.Add(new CachedSourceWrapperImpl<T>(wrapper));
+				if (wrapper is AsyncSeqWrapper a) {
+					list.Add(a);
+				} else {
+					list.Add(new CachedSourceWrapperImpl<T>(wrapper));
+				}
 			}
 
 			lblLoadStatus.Visible = true;

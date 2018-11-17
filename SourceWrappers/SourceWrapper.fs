@@ -2,6 +2,7 @@ namespace SourceWrappers
 
 open System
 open System.Threading.Tasks
+open FSharp.Control
 
 /// A result returned from an IPagedSourceWrapper. Use the Next cursor to fetch the next page of results.
 type FetchResult<'cursor when 'cursor : struct> = {
@@ -71,3 +72,44 @@ module internal Swu =
         let! x = r.ExecuteAsync() |> Async.AwaitTask
         return processDeviantArtError x
     }
+
+/// An abstract class defined in F# that implements StartAsync, MoreAsync, and FetchAllAsync through an AsyncSeq. Wrappers in other languages (such as C# or VB.NET) should probably implement IPagedSourceWrapper instead.
+[<AbstractClass>]
+type AsyncSeqWrapper() as this =
+    let cache = lazy (AsyncSeq.cache this.Source)
+
+    abstract member Name: string with get
+    abstract member Source: AsyncSeq<IPostBase>
+    abstract member Whoami: Async<string>
+    abstract member GetUserIcon: int -> Async<string>
+
+    member this.AsISourceWrapper () = this :> ISourceWrapper<int>
+
+    member private __.BackCompatFetch cursor take = async {
+        let! arrayPlusOne =
+            cache.Value
+            |> AsyncSeq.skip cursor
+            |> AsyncSeq.take (take + 1)
+            |> AsyncSeq.toArrayAsync
+        let s = arrayPlusOne |> Seq.truncate take
+        let len = Seq.length s
+        return {
+            Posts = s
+            Next = cursor + len
+            HasMore = Seq.length arrayPlusOne > len
+        }
+    }
+    
+    interface ISourceWrapper<int> with
+        member __.Name = this.Name
+        member __.SuggestedBatchSize = 1
+        member __.StartAsync take = this.BackCompatFetch 0 take |> Async.StartAsTask
+        member __.MoreAsync cursor take = this.BackCompatFetch cursor take |> Async.StartAsTask
+        member __.FetchAllAsync limit =
+            cache.Value
+            |> AsyncSeq.take limit
+            |> AsyncSeq.toArrayAsync
+            |> Swu.whenDone Seq.cast
+            |> Async.StartAsTask
+        member __.WhoamiAsync () = this.Whoami |> Async.StartAsTask
+        member __.GetUserIconAsync size = this.GetUserIcon size |> Async.StartAsTask
