@@ -45,8 +45,12 @@ type PillowfortSourceWrapper(client: PillowfortClient) =
                         yield wrap p None
                     else
                         for m in p.media do
-                            if not (String.IsNullOrEmpty m.url) then
-                                yield wrap p (Some m)
+                            if isNull m.url then
+                                () // No URL - ignore
+                            else
+                                let (success, uri) = Uri.TryCreate(m.url, UriKind.Absolute)
+                                if success then
+                                    yield wrap p (Some m)
             }
             Next = page + 1
             HasMore = h
