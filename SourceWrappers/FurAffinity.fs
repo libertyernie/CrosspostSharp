@@ -47,11 +47,11 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     
     override this.Name = if scraps then "Fur Affinity (scraps)" else "Fur Affinity (gallery)"
 
-    override this.StartNew() = asyncSeq {
+    override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable page = 1
         let mutable more = true
 
-        let! user = this.GetUserAsync()
+        let! user = this.AsyncGetUser()
 
         while more do
             let folder = if scraps then FAFolder.scraps else FAFolder.gallery
@@ -85,7 +85,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
 
     override this.Name = source.Name
 
-    override this.StartNew() =
+    override this.FetchSubmissionsInternal() =
         source
         |> AsyncSeq.map (fun w -> w :?> FurAffinityMinimalPostWrapper)
         |> AsyncSeq.map (fun w -> w.Id)

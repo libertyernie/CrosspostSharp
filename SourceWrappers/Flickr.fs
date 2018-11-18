@@ -30,7 +30,7 @@ type FlickrSourceWrapper(flickr: Flickr) =
 
     override this.Name = "Flickr"
 
-    override this.StartNew() = asyncSeq {
+    override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable cursor = 1
         let mutable more = true
         let extras = PhotoSearchExtras.Description ||| PhotoSearchExtras.Tags ||| PhotoSearchExtras.DateUploaded ||| PhotoSearchExtras.OriginalFormat

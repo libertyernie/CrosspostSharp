@@ -58,7 +58,7 @@ type UnorderedStashSourceWrapper() =
 
     override __.Name = "Sta.sh"
 
-    override __.StartNew() = asyncSeq {
+    override __.FetchSubmissionsInternal() = asyncSeq {
         let mutable cursor = uint32 0
         let mutable more = true
         

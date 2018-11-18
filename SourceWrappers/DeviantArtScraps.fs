@@ -30,7 +30,7 @@ type internal DeviantArtScrapsLinkSourceWrapper(username: string) =
 
     override __.Name = "DeviantArt (scraps - links only)"
 
-    override __.StartNew() = asyncSeq {
+    override __.FetchSubmissionsInternal() = asyncSeq {
         let mutable url = sprintf "https://%s.deviantart.com/gallery/?catpath=scraps" username
         let mutable more = true
 
@@ -106,7 +106,7 @@ type DeviantArtScrapsSourceWrapper(username: string) =
 
     override __.Name = "DeviantArt (scraps)"
 
-    override __.StartNew() =
+    override __.FetchSubmissionsInternal() =
         let parent = link_wrapper :> AsyncSeqWrapper
         let sequence = parent
         AsyncSeq.mapAsync wrapPost sequence

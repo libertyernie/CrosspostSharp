@@ -42,7 +42,7 @@ type DeviantArtStatusSourceWrapper() =
 
     override this.Name = "DeviantArt (statuses)"
 
-    override this.StartNew() = asyncSeq {
+    override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable position = 0
         let mutable more = true
 

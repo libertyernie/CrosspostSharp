@@ -83,14 +83,14 @@ type AsyncSeqWrapperUserInfo = {
 type AsyncSeqWrapper() as this =
     let cache = lazy (
         printfn "%s: Initializing cache" this.Name
-        this.StartNew() |> AsyncSeq.cache
+        this.FetchSubmissionsInternal() |> AsyncSeq.cache
     )
 
     let user = lazy (this.FetchUserInternal() |> Async.StartAsTask)
 
     abstract member Name: string with get
     abstract member FetchUserInternal: unit -> Async<AsyncSeqWrapperUserInfo>
-    abstract member StartNew: unit -> AsyncSeq<IPostBase>
+    abstract member FetchSubmissionsInternal: unit -> AsyncSeq<IPostBase>
 
     member this.AsISourceWrapper () = this :> ISourceWrapper<int>
 
@@ -109,13 +109,16 @@ type AsyncSeqWrapper() as this =
         }
     }
 
-    member __.GetUserAsync() = user.Force() |> Async.AwaitTask
+    member __.GetSubmissions() = cache.Force()
+    member __.GetUserAsync() = user.Force()
+
+    member __.AsyncGetUser() = this.GetUserAsync() |> Async.AwaitTask
     member __.AsyncWhoami() = async {
-        let! user = this.GetUserAsync()
+        let! user = this.AsyncGetUser()
         return user.username
     }
     member __.AsyncGetUserIcon() = async {
-        let! user = this.GetUserAsync()
+        let! user = this.AsyncGetUser()
         return user.icon_url |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
     }
 
