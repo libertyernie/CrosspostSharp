@@ -6,6 +6,7 @@ open System.Text
 open System.Threading.Tasks
 open DeviantartApi.Requests.Stash
 open FSharp.Control
+open DeviantartApi.Requests.User
 
 type StashPostWrapper(entry: Entry) =
     let imageUrl =
@@ -55,8 +56,6 @@ type StashPostWrapper(entry: Entry) =
 type UnorderedStashSourceWrapper() =
     inherit AsyncSeqWrapper()
 
-    let deviantArtWrapper = new DeviantArtSourceWrapper()
-    
     override __.Name = "Sta.sh"
 
     override __.StartNew() = asyncSeq {
@@ -88,6 +87,14 @@ type UnorderedStashSourceWrapper() =
             more <- result.HasMore
     }
 
-    override __.Whoami = deviantArtWrapper.Whoami
-
-    override __.GetUserIcon size = deviantArtWrapper.GetUserIcon size
+    override __.FetchUserInternal() = async {
+        let req = new WhoAmIRequest()
+        let! u =
+            req.ExecuteAsync()
+            |> Async.AwaitTask
+            |> Swu.whenDone Swu.processDeviantArtError
+        return {
+            username = u.Username
+            icon_url = Some u.UserIconUrl.AbsoluteUri
+        }
+    }

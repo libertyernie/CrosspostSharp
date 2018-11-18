@@ -73,6 +73,11 @@ module internal Swu =
         return processDeviantArtError x
     }
 
+type AsyncSeqWrapperUserInfo = {
+    username: string
+    icon_url: string option
+}
+
 /// An abstract class defined in F# that implements StartAsync, MoreAsync, and FetchAllAsync through an AsyncSeq. Wrappers in other languages (such as C# or VB.NET) should probably implement IPagedSourceWrapper instead.
 [<AbstractClass>]
 type AsyncSeqWrapper() as this =
@@ -81,9 +86,10 @@ type AsyncSeqWrapper() as this =
         this.StartNew() |> AsyncSeq.cache
     )
 
+    let user = lazy (this.FetchUserInternal() |> Async.StartAsTask)
+
     abstract member Name: string with get
-    abstract member Whoami: Async<string>
-    abstract member GetUserIcon: int -> Async<string>
+    abstract member FetchUserInternal: unit -> Async<AsyncSeqWrapperUserInfo>
     abstract member StartNew: unit -> AsyncSeq<IPostBase>
 
     member this.AsISourceWrapper () = this :> ISourceWrapper<int>
@@ -103,6 +109,16 @@ type AsyncSeqWrapper() as this =
         }
     }
 
+    member __.GetUserAsync() = user.Force() |> Async.AwaitTask
+    member __.AsyncWhoami() = async {
+        let! user = this.GetUserAsync()
+        return user.username
+    }
+    member __.AsyncGetUserIcon() = async {
+        let! user = this.GetUserAsync()
+        return user.icon_url |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
+    }
+
     interface AsyncSeq<IPostBase> with
         member __.GetEnumerator() = cache.Value.GetEnumerator()
 
@@ -117,5 +133,5 @@ type AsyncSeqWrapper() as this =
             |> AsyncSeq.toArrayAsync
             |> Swu.whenDone Seq.cast
             |> Async.StartAsTask
-        member __.WhoamiAsync () = this.Whoami |> Async.StartAsTask
-        member __.GetUserIconAsync size = this.GetUserIcon size |> Async.StartAsTask
+        member __.WhoamiAsync() = this.AsyncWhoami() |> Async.StartAsTask
+        member __.GetUserIconAsync _ = this.AsyncGetUserIcon() |> Async.StartAsTask

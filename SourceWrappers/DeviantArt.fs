@@ -33,19 +33,6 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
 type DeviantArtSourceWrapper() =
     inherit AsyncSeqWrapper()
 
-    let mutable cached_user: User = null
-
-    let getUser = async {
-        if isNull cached_user then
-            let req = new WhoAmIRequest()
-            let! u =
-                req.ExecuteAsync()
-                |> Async.AwaitTask
-                |> Swu.whenDone Swu.processDeviantArtError
-            cached_user <- u
-        return cached_user
-    }
-
     let asyncGetMetadata (list: seq<Deviation>) = async {
         if Seq.isEmpty list then
             return Seq.empty
@@ -89,6 +76,14 @@ type DeviantArtSourceWrapper() =
             more <- gallery.HasMore
     }
 
-    override __.Whoami = getUser |> Swu.whenDone (fun u -> u.Username)
-
-    override __.GetUserIcon size = getUser |> Swu.whenDone (fun u -> u.UserIconUrl.AbsoluteUri)
+    override __.FetchUserInternal() = async {
+        let req = new WhoAmIRequest()
+        let! u =
+            req.ExecuteAsync()
+            |> Async.AwaitTask
+            |> Swu.whenDone Swu.processDeviantArtError
+        return {
+            username = u.Username
+            icon_url = Some u.UserIconUrl.AbsoluteUri
+        }
+    }

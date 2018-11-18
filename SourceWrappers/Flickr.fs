@@ -25,15 +25,6 @@ type FlickrSourceWrapper(flickr: Flickr) =
         return! tcs.Task |> Async.AwaitTask
     }
 
-    let mutable user: FoundUser = null
-
-    let getUser = async {
-        if isNull user then
-            let! oauth = flickrCall (fun callback -> flickr.AuthOAuthCheckTokenAsync(callback))
-            user <- oauth.User
-        return user
-    }
-
     new(apiKey: string, sharedSecret: string, oAuthAccessToken: string, oAuthAccessTokenSecret: string) =
         FlickrSourceWrapper(new Flickr(apiKey, sharedSecret, OAuthAccessToken = oAuthAccessToken, OAuthAccessTokenSecret = oAuthAccessTokenSecret))
 
@@ -53,16 +44,15 @@ type FlickrSourceWrapper(flickr: Flickr) =
             more <- posts.Page < posts.Pages
     }
 
-    override this.Whoami = async {
-        let! user = getUser
-        return user.UserName
-    }
+    override this.FetchUserInternal() = async {
+        let! oauth = flickrCall (fun callback -> flickr.AuthOAuthCheckTokenAsync(callback))
+        let! person = flickrCall (fun callback -> flickr.PeopleGetInfoAsync(oauth.User.UserId, callback))
 
-    override this.GetUserIcon size = async {
-        let! user = getUser
-        
-        let! person = flickrCall (fun callback -> flickr.PeopleGetInfoAsync(user.UserId, callback))
-        return if person.IconServer = "0"
-            then "https://www.flickr.com/images/buddyicon.gif"
-            else sprintf "http://farm%s.staticflickr.com/%s/buddyicons/%s.jpg" person.IconFarm person.IconServer person.UserId
+        return {
+            username = oauth.User.UserName
+            icon_url =
+                if person.IconServer = "0"
+                then None
+                else Some (sprintf "http://farm%s.staticflickr.com/%s/buddyicons/%s.jpg" person.IconFarm person.IconServer person.UserId)
+        }
     }

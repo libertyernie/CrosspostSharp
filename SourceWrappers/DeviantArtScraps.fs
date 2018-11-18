@@ -5,6 +5,7 @@ open System
 open System.Text.RegularExpressions
 open DeviantartApi.Requests.Deviation
 open FSharp.Control
+open DeviantartApi.Requests.User.Profile
 
 type internal DeviantArtScrapsLinkWrapper(url: string) =
     interface IPostBase with
@@ -57,9 +58,17 @@ type internal DeviantArtScrapsLinkSourceWrapper(username: string) =
             more <- next.Success
     }
 
-    override __.Whoami = async { return username }
-
-    override __.GetUserIcon _ = async { return sprintf "https://a.deviantart.net/avatars/%c/%c/%s.png" username.[0] username.[1] username }
+    override __.FetchUserInternal() = async {
+        let req = new UsernameRequest(username)
+        let! profile =
+            req.ExecuteAsync()
+            |> Async.AwaitTask
+            |> Swu.whenDone Swu.processDeviantArtError
+        return {
+            username = username
+            icon_url = Some profile.User.UserIconUrl.AbsoluteUri
+        }
+    }
 
 type DeviantArtScrapsSourceWrapper(username: string) =
     inherit AsyncSeqWrapper()
@@ -102,6 +111,4 @@ type DeviantArtScrapsSourceWrapper(username: string) =
         let sequence = parent
         AsyncSeq.mapAsync wrapPost sequence
 
-    override __.Whoami = link_wrapper.Whoami
-
-    override __.GetUserIcon size = link_wrapper.GetUserIcon size
+    override __.FetchUserInternal() = link_wrapper.FetchUserInternal()

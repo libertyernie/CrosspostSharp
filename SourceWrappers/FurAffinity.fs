@@ -41,15 +41,6 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
 
     let apiClient = new FAUserClient(a, b)
 
-    let mutable cached_username: string = null
-
-    let getUser = async {
-        if isNull cached_username then
-            let! u = apiClient.WhoamiAsync() |> Async.AwaitTask
-            cached_username <- u
-        return cached_username
-    }
-
     member this.GetSubmission id = async {
         return! apiClient.GetSubmissionAsync id |> Async.AwaitTask
     }
@@ -60,12 +51,12 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
         let mutable page = 1
         let mutable more = true
 
-        let! username = getUser
+        let! user = this.GetUserAsync()
 
         while more do
             let folder = if scraps then FAFolder.scraps else FAFolder.gallery
 
-            let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
+            let! gallery = apiClient.GetSubmissionsAsync(user.username, folder, page) |> Async.AwaitTask
             for post in gallery do
                 yield new FurAffinityMinimalPostWrapper(post) :> IPostBase
         
@@ -73,12 +64,13 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
             more <- Seq.length gallery > 0
     }
 
-    override this.Whoami = getUser
-
-    override this.GetUserIcon size = async {
-        let! username = getUser
+    override this.FetchUserInternal() = async {
+        let! username = apiClient.WhoamiAsync() |> Async.AwaitTask
         let! user = apiClient.GetUserAsync(username) |> Async.AwaitTask
-        return user.Avatar
+        return {
+            username = username
+            icon_url = Some user.Avatar
+        }
     }
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
@@ -99,5 +91,4 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
         |> AsyncSeq.map (fun w -> w.Id)
         |> AsyncSeq.mapAsync wrap
 
-    override this.Whoami = source.Whoami
-    override this.GetUserIcon size = source.GetUserIcon size
+    override this.FetchUserInternal() = source.FetchUserInternal()

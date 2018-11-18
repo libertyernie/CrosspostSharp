@@ -40,19 +40,6 @@ type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: Deviation) =
 type DeviantArtStatusSourceWrapper() =
     inherit AsyncSeqWrapper()
 
-    let mutable cached_user: User = null
-
-    let getUser = async {
-        if isNull cached_user then
-            let req = new WhoAmIRequest()
-            let! u =
-                req.ExecuteAsync()
-                |> Async.AwaitTask
-                |> Swu.whenDone Swu.processDeviantArtError
-            cached_user <- u
-        return cached_user
-    }
-    
     override this.Name = "DeviantArt (statuses)"
 
     override this.StartNew() = asyncSeq {
@@ -60,7 +47,7 @@ type DeviantArtStatusSourceWrapper() =
         let mutable more = true
 
         while more do
-            let! username = this.Whoami
+            let! username = this.AsyncWhoami()
 
             let statusesRequest = new StatusesRequest(username)
             statusesRequest.Limit <- 50 |> uint32 |> Nullable
@@ -86,6 +73,14 @@ type DeviantArtStatusSourceWrapper() =
             more <- statuses.HasMore
     }
 
-    override this.Whoami = getUser |> Swu.whenDone (fun u -> u.Username)
-
-    override this.GetUserIcon size = getUser |> Swu.whenDone (fun u -> u.UserIconUrl.AbsoluteUri)
+    override __.FetchUserInternal() = async {
+        let req = new WhoAmIRequest()
+        let! u =
+            req.ExecuteAsync()
+            |> Async.AwaitTask
+            |> Swu.whenDone Swu.processDeviantArtError
+        return {
+            username = u.Username
+            icon_url = Some u.UserIconUrl.AbsoluteUri
+        }
+    }
