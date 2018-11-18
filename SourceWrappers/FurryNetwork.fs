@@ -3,6 +3,7 @@
 open FurryNetworkLib
 open System.Net
 open System
+open FSharp.Control
 
 type FurryNetworkPostWrapper(artwork: FileSubmission, client: FurryNetworkClient) =
     interface IRemotePhotoPost with
@@ -24,50 +25,40 @@ type FurryNetworkPostWrapper(artwork: FileSubmission, client: FurryNetworkClient
         member this.DeleteAsync () = client.DeleteArtwork artwork.Id
 
 type FurryNetworkSourceWrapper(client: FurryNetworkClient, characterName: string) =
-    inherit SourceWrapper<int>()
-    
-    let mutable character: Character = null
+    inherit AsyncSeqWrapper()
 
-    let getCharacter = async {
-        if isNull character then
-            let! user = client.GetUserAsync() |> Async.AwaitTask
-            character <-
-                user.characters
-                |> Seq.filter (fun c -> c.Name = characterName)
-                |> Seq.tryHead
-                |> Option.defaultValue user.DefaultCharacter
-        return character
-    }
-    
     override this.Name = "Furry Network"
-    override this.SuggestedBatchSize = 30
 
-    override this.Fetch cursor take = async {
-        let start = cursor |> Option.defaultValue 0
-        let! character = getCharacter
-        let! searchResults = client.SearchByCharacterAsync(character.Name, Seq.singleton "artwork", from = (start |> Nullable)) |> Async.AwaitTask
-        let nextPosition = start + Seq.length searchResults.Hits
+    override this.FetchSubmissionsInternal() = asyncSeq {
+        let mutable cursor = 0
+        let mutable more = true
+        let! characterName = this.AsyncWhoami()
+
+        while more do
+            let! searchResults = client.SearchByCharacterAsync(characterName, Seq.singleton "artwork", from = (cursor |> Nullable)) |> Async.AwaitTask
+            
+            for h in searchResults.Hits do
+                match h.Submission with
+                | :? FileSubmission as f -> 
+                    if f :? Artwork || f :? Photo then
+                        yield new FurryNetworkPostWrapper(f, client) :> IPostBase
+                | _ -> ()
+            
+            cursor <- cursor + Seq.length searchResults.Hits
+            more <- cursor > searchResults.Total
+    }
+
+    override this.FetchUserInternal() = async {
+        let! user = client.GetUserAsync() |> Async.AwaitTask
+        let character =
+            user.characters
+            |> Seq.filter (fun c -> c.Name = characterName)
+            |> Seq.tryHead
+            |> Option.defaultValue user.DefaultCharacter
         return {
-            Posts = searchResults.Hits
-                |> Seq.map (fun h -> h.Submission)
-                |> Seq.filter (fun s -> s :? Artwork || s :? Photo)
-                |> Seq.map (fun s -> s :?> FileSubmission)
-                |> Seq.map (fun s -> new FurryNetworkPostWrapper(s, client))
-                |> Seq.cast
-            Next = nextPosition
-            HasMore = nextPosition > searchResults.Total
+            username = character.Name
+            icon_url = character.Avatars
+                |> Option.ofObj
+                |> Option.map (fun a -> a.GetLargest())
         }
-    }
-
-    override this.Whoami = async {
-        let! character = getCharacter
-        return character.Name
-    }
-
-    override this.GetUserIcon size = async {
-        let! character = getCharacter
-        return character.Avatars
-            |> Option.ofObj
-            |> Option.map (fun a -> a.GetBySize(size))
-            |> Option.defaultValue null
     }
