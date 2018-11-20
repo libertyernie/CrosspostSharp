@@ -23,22 +23,22 @@ type InkbunnyPostWrapper(submission: InkbunnySubmissionDetail, client: InkbunnyC
         member this.SiteName = "Inkbunny"
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submission_id)
 
-type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
+type InkbunnySourceWrapper(client: InkbunnyClient) =
     inherit AsyncSeqWrapper()
 
     let initialFetch maxCount =
         let searchParams = new InkbunnySearchParameters()
         searchParams.UserId <- client.UserId |> Nullable
-        client.SearchAsync(searchParams, maxCount |> Nullable) |> Async.AwaitTask
+        client.SearchAsync(searchParams, maxCount |> Option.toNullable) |> Async.AwaitTask
 
     let furtherFetch rid page maxCount =
-        client.SearchAsync(rid, page, maxCount |> Nullable) |> Async.AwaitTask
+        client.SearchAsync(rid, page, maxCount |> Option.toNullable) |> Async.AwaitTask
 
-    let fetch max = asyncSeq {
+    let fetch count = asyncSeq {
         let mutable rid: string option = None
         let mutable page = 1
         let mutable more = true
-        let maxCount = max |> min 100
+        let maxCount = count |> Option.map (min 100)
 
         while more do
             let! response =
@@ -51,6 +51,7 @@ type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
 
             rid <- Some response.rid
         
+            // We need to get more information on these submissions so we can grab the description and tags.
             let! details = client.GetSubmissionsAsync(response.submissions |> Seq.map (fun s -> s.submission_id), show_description_bbcode_parsed=true) |> Async.AwaitTask
 
             for o in details.submissions |> Seq.sortByDescending (fun s -> s.create_datetime) do
@@ -61,14 +62,16 @@ type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
             more <- response.pages_count >= page
     }
 
+    member val BatchSize: Nullable<int> = Nullable() with get, set
+
     override __.Name = "Inkbunny"
 
-    override __.FetchSubmissionsInternal() =
-        fetch batchSize
+    override this.FetchSubmissionsInternal() =
+        fetch (Option.ofNullable this.BatchSize)
         |> AsyncSeq.map (fun o -> new InkbunnyPostWrapper(o, client) :> IPostBase)
 
     override __.FetchUserInternal() = async {
-        let! submission = fetch 1 |> AsyncSeq.tryFirst
+        let! submission = fetch (Some 1) |> AsyncSeq.tryFirst
         return match submission with
         | Some s ->
             {
