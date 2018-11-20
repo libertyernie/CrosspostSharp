@@ -705,7 +705,7 @@ namespace CrosspostSharp {
 
                 LProgressBar.Report(0.5);
                 try {
-                    var newPost = await Tumblr.GetPostAsync(info.PostId);
+                    var newPost = await Tumblr.GetPostAsync(GlobalSettings.Tumblr.BlogName, info.PostId);
                     lblPosted1.Visible = true;
                     lblPosted2.Visible = true;
                     lblPosted2.Text = newPost.Url;
