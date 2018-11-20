@@ -2,6 +2,7 @@
 
 open InkbunnyLib
 open System
+open FSharp.Control
 
 type InkbunnyPostWrapper(submission: InkbunnySubmissionDetail, client: InkbunnyClient) =
     interface IRemotePhotoPost with
@@ -23,10 +24,7 @@ type InkbunnyPostWrapper(submission: InkbunnySubmissionDetail, client: InkbunnyC
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submission_id)
 
 type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
-    inherit SourceWrapper<int>()
-
-    let mutable rid: string option = None
-    let mutable firstSubmission: InkbunnySubmissionDetail option = None
+    inherit AsyncSeqWrapper()
 
     let initialFetch maxCount =
         let searchParams = new InkbunnySearchParameters()
@@ -36,54 +34,46 @@ type InkbunnySourceWrapper(client: InkbunnyClient, batchSize: int) =
     let furtherFetch rid page maxCount =
         client.SearchAsync(rid, page, maxCount |> Nullable) |> Async.AwaitTask
 
-    let inkbunnyFetch cursor = async {
-        let maxCount = batchSize |> min 100
-        let! response =
-            match cursor with
-            | None -> initialFetch maxCount
-            | Some c ->
-                match rid with
-                | None -> initialFetch maxCount
-                | Some r -> furtherFetch r (c + 1) maxCount
+    let fetch max = asyncSeq {
+        let mutable rid: string option = None
+        let mutable page = 1
+        let mutable more = true
+        let maxCount = max |> min 100
 
-        rid <- Some response.rid
+        while more do
+            let! response =
+                match page with
+                | 1 -> initialFetch maxCount
+                | p ->
+                    match rid with
+                    | None -> initialFetch maxCount
+                    | Some r -> furtherFetch r p maxCount
+
+            rid <- Some response.rid
         
-        let! details = client.GetSubmissionsAsync(response.submissions |> Seq.map (fun s -> s.submission_id), show_description_bbcode_parsed=true) |> Async.AwaitTask
-        
-        firstSubmission <- details.submissions |> Seq.tryHead
+            let! details = client.GetSubmissionsAsync(response.submissions |> Seq.map (fun s -> s.submission_id), show_description_bbcode_parsed=true) |> Async.AwaitTask
 
-        return {
-            Posts = details.submissions
-                |> Seq.filter (fun s -> s.``public``.value)
-                |> Seq.sortByDescending (fun s -> s.create_datetime)
-                |> Seq.map (fun s -> new InkbunnyPostWrapper(s, client))
-                |> Seq.cast
-            Next = response.page + 1
-            HasMore = response.pages_count >= (cursor |> Option.defaultValue 1)
-        }
+            for o in details.submissions |> Seq.sortByDescending (fun s -> s.create_datetime) do
+                if o.``public``.value then
+                    yield o
+
+            page <- response.page + 1
+            more <- response.pages_count >= page
     }
 
-    let getFirstSubmission = async {
-        match firstSubmission with
-        | Some s -> return s
-        | None ->
-            do! inkbunnyFetch None |> Swu.whenDone ignore
-            match firstSubmission with
-            | Some s -> return s
-            | None -> return failwith "Cannot get Inkbunny icon if no submissions are present"
-    }
+    override __.Name = "Inkbunny"
 
-    override this.Name = "Inkbunny"
-    override this.SuggestedBatchSize = batchSize
+    override __.FetchSubmissionsInternal() =
+        fetch batchSize
+        |> AsyncSeq.map (fun o -> new InkbunnyPostWrapper(o, client) :> IPostBase)
 
-    override this.Fetch cursor take = inkbunnyFetch cursor
-
-    override this.Whoami = async {
-        let! s = getFirstSubmission
-        return s.username
-    }
-
-    override this.GetUserIcon size = async {
-        let! s = getFirstSubmission
-        return s.user_icon_url_small
+    override __.FetchUserInternal() = async {
+        let! submission = fetch 1 |> AsyncSeq.tryFirst
+        return match submission with
+        | Some s ->
+            {
+                username = s.username
+                icon_url = Option.ofObj s.user_icon_url_small
+            }
+        | None -> failwith "Cannot get Inkbunny username and icon if no submissions are present"
     }
