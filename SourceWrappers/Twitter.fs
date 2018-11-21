@@ -6,6 +6,7 @@ open Tweetinvi.Models
 open Tweetinvi.Models.Entities
 open Tweetinvi
 open Tweetinvi.Parameters
+open FSharp.Control
 
 type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterCredentials: ITwitterCredentials) =
     interface IPostBase with
@@ -32,76 +33,60 @@ type TwitterPhotoPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCredenti
         member this.ThumbnailURL = sprintf "%s:thumb" media.MediaURLHttps
 
 type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: bool) =
-    inherit SourceWrapper<int64>()
+    inherit AsyncSeqWrapper()
 
     let execute_with_credentials (f: unit -> Task<'a>) = Auth.ExecuteOperationWithCredentials(twitterCredentials, f) |> Async.AwaitTask
 
-    let mutable user: IAuthenticatedUser option = None
+    let user_task = lazy(Auth.ExecuteOperationWithCredentials (twitterCredentials, fun () -> UserAsync.GetAuthenticatedUser()))
 
-    let getUser = async {
-        match user with
-        | Some u -> return u
-        | None ->
-            let! u = execute_with_credentials (fun () -> UserAsync.GetAuthenticatedUser())
-            user <- Some u
-            return u
-    }
+    let getUser = user_task.Force() |> Async.AwaitTask
 
-    let wrap t = TwitterPostWrapper (t, None, twitterCredentials)
-    let wrapPhoto t m = TwitterPhotoPostWrapper (t, m, twitterCredentials)
+    let wrap t = TwitterPostWrapper (t, None, twitterCredentials) :> IPostBase
+    let wrapPhoto t m = TwitterPhotoPostWrapper (t, m, twitterCredentials) :> IPostBase
 
     let isPhoto (m: IMediaEntity) = m.MediaType = "photo"
 
-    override this.Name =
+    member val BatchSize: int = 20 with get, set
+
+    override __.Name =
         if photosOnly then
             "Twitter (photos)"
         else
             "Twitter (text + photos)"
-    
-    override this.SuggestedBatchSize = 20
 
-    override this.Fetch cursor take = async {
-        let ps = new UserTimelineParameters()
-        ps.ExcludeReplies <- false
-        ps.IncludeEntities <- true
-        ps.IncludeRTS <- true
-        ps.MaxId <- cursor |> Option.defaultValue -1L
-        ps.MaximumNumberOfTweetsToRetrieve <- take
+    override this.FetchSubmissionsInternal() = asyncSeq {
+        let mutable maxId = -1L
+        let mutable more = true
 
-        let! user = getUser
-        let! tweets = execute_with_credentials (fun () -> TimelineAsync.GetUserTimeline(user, ps))
+        while more do
+            let ps = new UserTimelineParameters()
+            ps.ExcludeReplies <- false
+            ps.IncludeEntities <- true
+            ps.IncludeRTS <- true
+            ps.MaxId <- maxId
+            ps.MaximumNumberOfTweetsToRetrieve <- this.BatchSize
 
-        if Seq.isEmpty tweets then
-            return {
-                Posts = Seq.empty
-                Next = ps.MaxId
-                HasMore = false
-            }
-        else
-            return {
-                Posts = seq {
-                    for t in tweets do
-                        if not t.IsRetweet then
-                            let photos = t.Media |> Seq.filter isPhoto
-                            if Seq.isEmpty photos then
-                                if not photosOnly then
-                                    yield wrap t
-                            else
-                                for m in photos do
-                                    yield wrapPhoto t m
+            let! user = getUser
+            let! tweets = execute_with_credentials (fun () -> TimelineAsync.GetUserTimeline(user, ps))
 
-                }
-                Next = (tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
-                HasMore = true
-            }
+            for t in tweets do
+                if not t.IsRetweet then
+                    let photos = t.Media |> Seq.filter isPhoto
+                    if Seq.isEmpty photos then
+                        if not photosOnly then
+                            yield wrap t
+                    else
+                        for m in photos do
+                            yield wrapPhoto t m
+
+            maxId <- (tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
+            more <- not (Seq.isEmpty tweets)
     }
 
-    override this.Whoami = async {
+    override this.FetchUserInternal() = async {
         let! u = getUser
-        return u.ScreenName
-    }
-
-    override this.GetUserIcon size = async {
-        let! u = getUser
-        return u.ProfileImageUrl
+        return {
+            username = u.ScreenName
+            icon_url = u.ProfileImageUrl |> Option.ofObj
+        }
     }
