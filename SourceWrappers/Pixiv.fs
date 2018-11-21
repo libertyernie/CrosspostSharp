@@ -2,6 +2,8 @@
 
 open Pixeez.Objects
 open Pixeez
+open FSharp.Control
+open System
 
 type PixivPostWrapper(work: IllustWork) =
     let thumbnails =
@@ -32,38 +34,29 @@ type PixivPostWrapper(work: IllustWork) =
         member this.ThumbnailURL = thumbnailUrl
 
 type PixivSourceWrapper(username: string, password: string) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
-    let mutable login_info: (Tokens * User) option = None
+    let login_task = lazy(Auth.AuthorizeAsync(username, password, null, null))
 
-    let login = async {
-        if Option.isNone login_info then
-            let! authResult = Auth.AuthorizeAsync(username, password, null, null) |> Async.AwaitTask
-            login_info <- Some (authResult.Tokens, authResult.Authorize.User)
+    override __.Name = "Pixiv"
+
+    override __.FetchSubmissionsInternal() = asyncSeq {
+        let! login_info = login_task.Force() |> Async.AwaitTask
+
+        let mutable offset = 0
+        let mutable more = true
+        while more do
+            let! result = login_info.Tokens.GetUserWorksAsync(login_info.Authorize.User.Id.Value, offset = (Nullable offset)) |> Async.AwaitTask
+            for i in result.illusts do
+                yield new PixivPostWrapper(i) :> IPostBase
+            offset <- result.illusts.Length + offset
+            more <- not (isNull result.next_url)
     }
 
-    override this.Name = "Pixiv"
-    override this.SuggestedBatchSize = 1
-
-    override this.Fetch cursor take = async {
-        do! login
-        let (tokens, user) = login_info.Value
-        let! result = tokens.GetUserWorksAsync(user.Id.Value, offset = (cursor |> Option.toNullable)) |> Async.AwaitTask
+    override __.FetchUserInternal() = async {
+        let! login_info = login_task.Force() |> Async.AwaitTask
         return {
-            Posts = result.illusts |> Seq.map PixivPostWrapper |> Seq.cast
-            Next = result.illusts.Length + (cursor |> Option.defaultValue 0)
-            HasMore = not (isNull result.next_url)
+            username = login_info.Authorize.User.Name
+            icon_url = login_info.Authorize.User.GetAvatarUrl() |> Option.ofObj
         }
-    }
-
-    override this.Whoami = async {
-        do! login
-        let (tokens, user) = login_info.Value
-        return user.Name
-    }
-
-    override this.GetUserIcon size = async {
-        do! login
-        let (tokens, user) = login_info.Value
-        return user.GetAvatarUrl()
     }
