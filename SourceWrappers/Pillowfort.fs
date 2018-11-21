@@ -2,6 +2,7 @@
 
 open PillowfortFs
 open System
+open FSharp.Control
 
 type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media: PillowfortMedia option) =
     interface IRemotePhotoPost with
@@ -25,38 +26,39 @@ type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media
         member __.DeleteAsync() = client.AsyncDeletePost post.id |> Async.StartAsTask :> System.Threading.Tasks.Task
 
 type PillowfortSourceWrapper(client: PillowfortClient) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
-    let wrap p m = PillowfortPostWrapper (client, p, m)
+    let wrap p m = PillowfortPostWrapper (client, p, m) :> IPostBase
 
     override __.Name = "Pillowfort"
-    override __.SuggestedBatchSize = 20
 
-    override __.Fetch cursor _ = async {
-        let page = cursor |> Option.defaultValue 1
-        let! username = client.AsyncWhoami
-        let! response = client.AsyncGetPosts username page
-        
-        let h = 20 * (page - 1) + (Seq.length response.posts) > response.total_count
-        return {
-            Posts = seq {
-                for p in response.posts do
-                    if Seq.isEmpty p.media then
-                        yield wrap p None
-                    else
-                        for m in p.media do
-                            if isNull m.url then
-                                () // No URL - ignore
-                            else
-                                let (success, uri) = Uri.TryCreate(m.url, UriKind.Absolute)
-                                if success then
-                                    yield wrap p (Some m)
-            }
-            Next = page + 1
-            HasMore = h
-        }
+    override this.FetchSubmissionsInternal() = asyncSeq {
+        let mutable page = 1
+        let mutable more = true
+
+        let! user = this.AsyncGetUser()
+
+        while more do
+            let! response = client.AsyncGetPosts user.username page
+            for p in response.posts do
+                if Seq.isEmpty p.media then
+                    yield wrap p None
+                else
+                    for m in p.media do
+                        if not (isNull m.url) then
+                            let (success, _) = Uri.TryCreate(m.url, UriKind.Absolute)
+                            if success then
+                                yield wrap p (Some m)
+
+            more <- 20 * (page - 1) + (Seq.length response.posts) > response.total_count
+            page <- page + 1
     }
 
-    override __.Whoami = client.AsyncWhoami
-
-    override __.GetUserIcon _ = client.AsyncGetAvatar |> Swu.whenDone (Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif")
+    override __.FetchUserInternal() = async {
+        let! username = client.AsyncWhoami
+        let! avatar = client.AsyncGetAvatar
+        return {
+            username = username
+            icon_url = avatar
+        }
+    }
