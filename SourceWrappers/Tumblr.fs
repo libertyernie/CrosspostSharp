@@ -2,6 +2,7 @@
 
 open DontPanic.TumblrSharp.Client
 open DontPanic.TumblrSharp
+open FSharp.Control
 
 [<AbstractClass>]
 type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BasePost) =
@@ -39,36 +40,37 @@ type TumblrTextPostWrapper(client: TumblrClient, post: TextPost) =
     override __.HTMLDescription = post.Body
 
 type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: bool) =
-    inherit SourceWrapper<int64>()
+    inherit AsyncSeqWrapper()
 
-    let mutable blogNames: seq<string> = null
+    let blogNamesTask = lazy(
+        let a = async {
+            let! user = client.GetUserInfoAsync() |> Async.AwaitTask
+            return user.Blogs |> Seq.map (fun b -> b.Name)
+        }
+        Async.StartAsTask a
+    )
 
-    override this.Name =
+    override __.Name =
         if photosOnly then
             "Tumblr (photos)"
         else
             "Tumblr (text + photos)"
     
-    override this.SuggestedBatchSize = 20
-
-    override this.Fetch cursor take = async {
-        if isNull blogNames then
-            let! user = client.GetUserInfoAsync() |> Async.AwaitTask
-            blogNames <- user.Blogs |> Seq.map (fun b -> b.Name)
-
+    override __.FetchSubmissionsInternal() = asyncSeq {
+        let! blogNames = Async.AwaitTask (blogNamesTask.Force())
         let t = if photosOnly then PostType.Photo else PostType.All
 
-        let skip = cursor |> Option.defaultValue (int64 0)
+        let mutable skip = 0L
+        let mutable more = true
+        while more do
+            let! posts =
+                client.GetPostsAsync(
+                    blogName,
+                    skip,
+                    20,
+                    t,
+                    true) |> Async.AwaitTask
 
-        let! posts =
-            client.GetPostsAsync(
-                blogName,
-                skip,
-                take,
-                t,
-                true) |> Async.AwaitTask
-                
-        let wrapped = seq {
             for post in posts.Result do
                 let postBlogName =
                     if not (isNull post.RebloggedRootName)
@@ -79,23 +81,19 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
                     | :? PhotoPost as photo -> yield TumblrPhotoPostWrapper(client, photo) :> IPostBase
                     | :? TextPost as text -> yield TumblrTextPostWrapper(client, text) :> IPostBase
                     | _ -> ()
-        }
-        return {
-            Posts = wrapped
-            Next = skip + (int64 take)
-            HasMore = posts.Result.Length > 0
-        }
+            skip <- skip + posts.Result.LongLength
+            more <- posts.Result.LongLength > 0L
     }
 
-    override this.Whoami = async {
-        return blogName
-    }
-
-    override this.GetUserIcon size = async {
+    override __.FetchUserInternal() = async {
         let blogHostname =
             if blogName.Contains(".") then
                 sprintf "%s.tumblr.com" blogName
             else
                 blogName
-        return sprintf "https://api.tumblr.com/v2/blog/%s/avatar/%d" blogHostname size
+
+        return {
+            username = blogName
+            icon_url = Some (sprintf "https://api.tumblr.com/v2/blog/%s/avatar/64" blogHostname)
+        }
     }
