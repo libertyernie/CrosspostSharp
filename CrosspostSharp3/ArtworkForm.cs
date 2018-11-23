@@ -109,6 +109,8 @@ namespace CrosspostSharp3 {
 					artwork = await deferred.GetActualAsync();
 				} catch (Exception) { }
 
+				if (this.IsDisposed) return;
+
 				this.Text = origText;
 				for (int i = 0; i < Controls.Count; i++) {
 					Controls[i].Enabled = true;

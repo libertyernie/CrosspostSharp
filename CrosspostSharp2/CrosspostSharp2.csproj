@@ -317,6 +317,10 @@
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj">
+      <Project>{F1DDF56B-A30B-4B63-99FF-3652214900E1}</Project>
+      <Name>WeasylLib.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj">
       <Project>{33059de0-90fb-44d2-af5f-461ce4b88e91}</Project>
       <Name>WeasylLib.Frontend</Name>

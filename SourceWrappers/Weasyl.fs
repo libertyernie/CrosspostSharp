@@ -4,6 +4,14 @@ open WeasylLib.Api
 open WeasylLib.Frontend
 open FSharp.Control
 
+type WeasylDeferredPostWrapper(submission: WeasylGallerySubmission, get: Async<IRemotePhotoPost>) =
+    inherit DeferredPhotoPost()
+
+    override __.Title = submission.title
+    override __.ViewURL = submission.link
+    override __.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
+    override __.AsyncGetActual() = get
+
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
     interface IRemotePhotoPost with
         member this.Title = submission.title
@@ -42,11 +50,14 @@ type WeasylSourceWrapper(username: string, frontendClientParam: WeasylFrontendCl
             let! gallery = apiClient.GetUserGalleryAsync(username, gallery_options) |> Async.AwaitTask
 
             for s1 in gallery.submissions do
-                let! s2 = apiClient.GetSubmissionAsync(s1.submitid) |> Async.AwaitTask
-
-                match frontendClient with
-                | Some f -> yield new WeasylSubmissionWrapper(s2, f) :> IPostBase
-                | None -> yield new WeasylPostWrapper(s2) :> IPostBase
+                let get = async {
+                    let! s2 = apiClient.GetSubmissionAsync(s1.submitid) |> Async.AwaitTask
+                    match frontendClient with
+                    | Some f -> return new WeasylSubmissionWrapper(s2, f) :> IRemotePhotoPost
+                    | None -> return new WeasylPostWrapper(s2) :> IRemotePhotoPost
+                }
+                
+                yield new WeasylDeferredPostWrapper(s1, get) :> IPostBase
 
             cursor <- Option.ofNullable gallery.nextid
             more <- Option.isSome cursor

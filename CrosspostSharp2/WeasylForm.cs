@@ -23,6 +23,7 @@ using FurryNetworkLib;
 using SourceWrappers;
 using DeviantArtControls;
 using CrosspostSharp2.Compat;
+using WeasylLib.Api;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -158,8 +159,10 @@ namespace CrosspostSharp {
                 }
 
                 if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                    wrappers.Add(ww(new WeasylSourceWrapper(GlobalSettings.Weasyl.APIKey, null)));
-                    wrappers.Add(ww(new WeasylCharacterSourceWrapper(GlobalSettings.Weasyl.APIKey)));
+					var w = new WeasylApiClient(GlobalSettings.Weasyl.APIKey);
+					var u = await w.WhoamiAsync();
+					wrappers.Add(ww(new WeasylSourceWrapper(u.login, null)));
+                    wrappers.Add(ww(new WeasylCharacterSourceWrapper(u.login)));
                 }
 
                 if (Inkbunny != null) {
