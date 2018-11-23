@@ -151,11 +151,11 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				add(new FurAffinitySourceWrapper(
+				add(new FurAffinityMinimalSourceWrapper(
 					a: fa.a,
 					b: fa.b,
 					scraps: false));
-				add(new FurAffinitySourceWrapper(
+				add(new FurAffinityMinimalSourceWrapper(
 					a: fa.a,
 					b: fa.b,
 					scraps: true));

@@ -98,6 +98,23 @@ namespace CrosspostSharp3 {
 		}
 
 		public async void LoadImage(IPostBase artwork) {
+			if (artwork is DeferredPhotoPost deferred) {
+				for (int i = 0; i < Controls.Count; i++) {
+					Controls[i].Enabled = false;
+				}
+				string origText = this.Text;
+				this.Text = "Loading...";
+
+				try {
+					artwork = await deferred.GetActualAsync();
+				} catch (Exception) { }
+
+				this.Text = origText;
+				for (int i = 0; i < Controls.Count; i++) {
+					Controls[i].Enabled = true;
+				}
+			}
+
 			_origWrapper = artwork;
 			btnDelete.Enabled = _origWrapper is IDeletable;
 
