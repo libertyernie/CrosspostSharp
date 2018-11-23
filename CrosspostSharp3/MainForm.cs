@@ -212,21 +212,21 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Connecting to sites...";
 			
 			var tasks = list.Select(async c => {
-				IPagedWrapperConsumer w = new PagedWrapperConsumer<int>(c, 4);
+				AsyncSeqWrapperPagedConsumer w = new AsyncSeqWrapperPagedConsumer(c, 4);
 				try {
-					string username = await w.WhoamiAsync();
-					return new WrapperMenuItem(w, string.IsNullOrEmpty(username)
-						? w.Name
-						: $"{username} - {w.Name}");
+					var user = await c.GetUserAsync();
+					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.username)
+						? c.Name
+						: $"{user.username} - {c.Name}");
 				} catch (Exception ex) {
 					var inner = ex;
 					while (inner is AggregateException a) {
 						inner = inner.InnerException;
 					}
 					if (inner is FurryNetworkClient.TokenException t) {
-						return new WrapperMenuItem(w, $"{w.Name} (cannot connect: {t.Message})");
+						return new WrapperMenuItem(w, $"{c.Name} (cannot connect: {t.Message})");
 					} else {
-						return new WrapperMenuItem(w, $"{w.Name} (cannot connect)");
+						return new WrapperMenuItem(w, $"{c.Name} (cannot connect)");
 					}
 				}
 			}).Where(item => item != null).ToArray();
