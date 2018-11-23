@@ -36,10 +36,10 @@ type PillowfortSourceWrapper(client: PillowfortClient) =
         let mutable page = 1
         let mutable more = true
 
-        let! user = this.AsyncGetUser()
+        let! username = this.WhoamiAsync() |> Async.AwaitTask
 
         while more do
-            let! response = client.AsyncGetPosts user.username page
+            let! response = client.AsyncGetPosts username page
             for p in response.posts do
                 if Seq.isEmpty p.media then
                     yield wrap p None

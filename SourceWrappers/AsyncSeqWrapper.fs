@@ -17,14 +17,11 @@ module internal Swu =
         return f result
     }
 
-    let processDeviantArtError<'a when 'a :> BaseObject> (resp: DeviantartApi.Requests.Response<'a>) =
+    let executeAsync (r: DeviantartApi.Requests.Request<'a>) = async {
+        let! resp = r.ExecuteAsync() |> Async.AwaitTask
         if (resp.IsError) then failwith resp.ErrorText
         if (resp.Result.Error |> String.IsNullOrEmpty |> not) then failwith resp.Result.Error
-        resp.Result
-
-    let executeAsync (r: DeviantartApi.Requests.Request<'a>) = async {
-        let! x = r.ExecuteAsync() |> Async.AwaitTask
-        return processDeviantArtError x
+        return resp.Result
     }
 
 type AsyncSeqWrapperUserInfo = {
@@ -48,18 +45,17 @@ type AsyncSeqWrapper() as this =
     member __.GetSubmissions() = cache.Force()
     member __.GetUserAsync() = user.Force()
 
-    member __.AsyncGetUser() = this.GetUserAsync() |> Async.AwaitTask
-    member __.AsyncWhoami() = async {
-        let! user = this.AsyncGetUser()
-        return user.username
-    }
-    member __.AsyncGetUserIcon() = async {
-        let! user = this.AsyncGetUser()
-        return user.icon_url |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
-    }
-
-    member __.WhoamiAsync() = this.AsyncWhoami() |> Async.StartAsTask
-    member __.GetUserIconAsync() = this.AsyncGetUserIcon() |> Async.StartAsTask
+    member __.WhoamiAsync() =
+        this.GetUserAsync()
+        |> Async.AwaitTask
+        |> Swu.whenDone (fun u -> u.username)
+        |> Async.StartAsTask
+    member __.GetUserIconAsync() =
+        this.GetUserAsync()
+        |> Async.AwaitTask
+        |> Swu.whenDone (fun u -> u.icon_url)
+        |> Swu.whenDone (Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif")
+        |> Async.StartAsTask
 
     interface AsyncSeq<IPostBase> with
         member __.GetEnumerator() = cache.Value.GetEnumerator()

@@ -78,10 +78,7 @@ type DeviantArtSourceWrapper() =
 
     override __.FetchUserInternal() = async {
         let req = new WhoAmIRequest()
-        let! u =
-            req.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
+        let! u = Swu.executeAsync req
         return {
             username = u.Username
             icon_url = Some u.UserIconUrl.AbsoluteUri

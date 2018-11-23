@@ -60,10 +60,7 @@ type internal DeviantArtScrapsLinkSourceWrapper(username: string) =
 
     override __.FetchUserInternal() = async {
         let req = new UsernameRequest(username)
-        let! profile =
-            req.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
+        let! profile = Swu.executeAsync req
         return {
             username = username
             icon_url = Some profile.User.UserIconUrl.AbsoluteUri

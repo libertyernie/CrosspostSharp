@@ -51,5 +51,5 @@ type SourceWrapper(w: AsyncSeqWrapper) =
         member this.StartAsync take = fetch 0 take |> Async.StartAsTask
         member this.MoreAsync cursor take = fetch cursor take |> Async.StartAsTask
         member this.FetchAllAsync limit = fetchAll limit |> Async.StartAsTask
-        member this.WhoamiAsync() = w.AsyncWhoami() |> Async.StartAsTask
-        member this.GetUserIconAsync _ = w.AsyncGetUserIcon() |> Async.StartAsTask
+        member this.WhoamiAsync() = w.WhoamiAsync()
+        member this.GetUserIconAsync _ = w.GetUserIconAsync()

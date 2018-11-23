@@ -32,7 +32,7 @@ type FurryNetworkSourceWrapper(client: FurryNetworkClient, characterName: string
     override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable cursor = 0
         let mutable more = true
-        let! characterName = this.AsyncWhoami()
+        let! characterName = this.WhoamiAsync() |> Async.AwaitTask
 
         while more do
             let! searchResults = client.SearchByCharacterAsync(characterName, Seq.singleton "artwork", from = (cursor |> Nullable)) |> Async.AwaitTask

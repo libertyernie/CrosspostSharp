@@ -56,8 +56,6 @@ type AsyncSeqWrapperPagedConsumer(wrapper: AsyncSeqWrapper, page_size: int) =
             |> toSeqAsync
             |> Async.StartAsTask
         member this.WhoamiAsync() =
-            wrapper.AsyncWhoami()
-            |> Async.StartAsTask
+            wrapper.WhoamiAsync()
         member this.GetUserIconAsync _ =
-            wrapper.AsyncGetUserIcon() 
-            |> Async.StartAsTask
+            wrapper.GetUserIconAsync()

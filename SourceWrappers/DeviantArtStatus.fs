@@ -47,16 +47,13 @@ type DeviantArtStatusSourceWrapper() =
         let mutable more = true
 
         while more do
-            let! username = this.AsyncWhoami()
+            let! username = this.WhoamiAsync() |> Async.AwaitTask
 
             let statusesRequest = new StatusesRequest(username)
             statusesRequest.Limit <- 50 |> uint32 |> Nullable
             statusesRequest.Offset <- position |> uint32 |> Nullable
 
-            let! statuses =
-                statusesRequest.ExecuteAsync()
-                |> Async.AwaitTask
-                |> Swu.whenDone Swu.processDeviantArtError
+            let! statuses = Swu.executeAsync statusesRequest
 
             for r in statuses.Results do
                 let items = r.Items |> Seq.map (fun i -> i.Deviation) |> Seq.filter (not << isNull)
@@ -75,10 +72,7 @@ type DeviantArtStatusSourceWrapper() =
 
     override __.FetchUserInternal() = async {
         let req = new WhoAmIRequest()
-        let! u =
-            req.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
+        let! u = Swu.executeAsync req
         return {
             username = u.Username
             icon_url = Some u.UserIconUrl.AbsoluteUri

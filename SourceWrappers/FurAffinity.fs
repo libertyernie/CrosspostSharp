@@ -51,12 +51,12 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
         let mutable page = 1
         let mutable more = true
 
-        let! user = this.AsyncGetUser()
+        let! username = this.WhoamiAsync() |> Async.AwaitTask
 
         while more do
             let folder = if scraps then FAFolder.scraps else FAFolder.gallery
 
-            let! gallery = apiClient.GetSubmissionsAsync(user.username, folder, page) |> Async.AwaitTask
+            let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
             for post in gallery do
                 yield new FurAffinityMinimalPostWrapper(post) :> IPostBase
         

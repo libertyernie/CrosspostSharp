@@ -18,10 +18,7 @@ type StashPostWrapper(entry: Entry) =
 
     let delete = async {
         let req = new DeviantartApi.Requests.Stash.DeleteRequest(entry.ItemId)
-        do! req.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
-            |> Swu.whenDone ignore
+        do! Swu.executeAsync req |> Swu.whenDone ignore
     }
 
     member __.ItemId = entry.ItemId
@@ -67,10 +64,7 @@ type UnorderedStashSourceWrapper() =
             deltaRequest.Limit <- uint32 120 |> Nullable
             deltaRequest.Offset <- cursor |> Nullable
 
-            let! result =
-                deltaRequest.ExecuteAsync()
-                |> Async.AwaitTask
-                |> Swu.whenDone Swu.processDeviantArtError
+            let! result = Swu.executeAsync deltaRequest
 
             let wrappers =
                 result.Entries
@@ -89,10 +83,7 @@ type UnorderedStashSourceWrapper() =
 
     override __.FetchUserInternal() = async {
         let req = new WhoAmIRequest()
-        let! u =
-            req.ExecuteAsync()
-            |> Async.AwaitTask
-            |> Swu.whenDone Swu.processDeviantArtError
+        let! u = Swu.executeAsync req
         return {
             username = u.Username
             icon_url = Some u.UserIconUrl.AbsoluteUri
