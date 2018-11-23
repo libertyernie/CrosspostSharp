@@ -117,14 +117,10 @@ namespace CrosspostSharp3 {
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
-			var list = new List<ISourceWrapper<int>>();
+			var list = new List<AsyncSeqWrapper>();
 
-			void add<T>(ISourceWrapper<T> wrapper) where T : struct {
-				if (wrapper is AsyncSeqWrapper a) {
-					list.Add(a);
-				} else {
-					list.Add(new CachedSourceWrapperImpl<T>(wrapper));
-				}
+			void add(AsyncSeqWrapper wrapper) {
+				list.Add(wrapper);
 			}
 
 			lblLoadStatus.Visible = true;
@@ -134,13 +130,13 @@ namespace CrosspostSharp3 {
 			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
-					ISourceWrapper<int> w = new DeviantArtSourceWrapper();
-					string u = await w.WhoamiAsync();
+					var w = new DeviantArtSourceWrapper();
+					var u = await w.GetUserAsync();
 
 					add(w);
-					add(new DeviantArtScrapsSourceWrapper(u));
+					add(new DeviantArtScrapsSourceWrapper(u.username));
 					add(new DeviantArtStatusSourceWrapper());
-					add(new OrderedSourceWrapper<int>(new UnorderedStashSourceWrapper()));
+					add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper()));
 				} else {
 					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					s.DeviantArt = new Settings.DeviantArtSettings {
@@ -208,10 +204,9 @@ namespace CrosspostSharp3 {
 				add(new WeasylCharacterSourceWrapper(username));
 			}
 
-			var imgur = new Imgur.PreviousImgurUploadsWrapper();
-			var imgur_results = await imgur.FetchAllAsync(1);
-			if (imgur_results.Any()) {
-				add(imgur);
+			IEnumerable<IPostBase> imgur = Imgur.ImgurPostWrapper.AllPreviousUploads().ToList();
+			if (imgur.Any()) {
+				add(new AsyncSeqWrapperOfSeq("Previous Imgur uploads", imgur.Reverse()));
 			}
 			
 			lblLoadStatus.Text = "Connecting to sites...";

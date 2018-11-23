@@ -78,7 +78,6 @@ type AsyncSeqWrapperUserInfo = {
     icon_url: string option
 }
 
-/// An abstract class defined in F# that implements StartAsync, MoreAsync, and FetchAllAsync through an AsyncSeq. Wrappers in other languages (such as C# or VB.NET) should probably implement IPagedSourceWrapper instead.
 [<AbstractClass>]
 type AsyncSeqWrapper() as this =
     let cache = lazy (
@@ -138,3 +137,26 @@ type AsyncSeqWrapper() as this =
             |> Async.StartAsTask
         member __.WhoamiAsync() = this.AsyncWhoami() |> Async.StartAsTask
         member __.GetUserIconAsync _ = this.AsyncGetUserIcon() |> Async.StartAsTask
+
+type OrderedAsyncSeqWrapper(wrapper: AsyncSeqWrapper) =
+    inherit AsyncSeqWrapper()
+
+    override __.Name = wrapper.Name
+    override __.FetchSubmissionsInternal() = asyncSeq {
+        let! all = wrapper.GetSubmissions() |> AsyncSeq.toListAsync
+        for x in all |> Seq.sortByDescending (fun x -> x.Timestamp) do
+            yield x
+    }
+    override __.FetchUserInternal() = wrapper.FetchUserInternal()
+
+type AsyncSeqWrapperOfSeq(name: string, seq: seq<IPostBase>) =
+    inherit AsyncSeqWrapper()
+
+    override __.Name = name
+    override __.FetchSubmissionsInternal() = AsyncSeq.ofSeq seq
+    override __.FetchUserInternal() = async {
+        return {
+            username = ""
+            icon_url = None
+        }
+    }

@@ -1,5 +1,6 @@
 ﻿using Imgur.API.Authentication.Impl;
 using Imgur.API.Endpoints.Impl;
+using Microsoft.FSharp.Control;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
@@ -33,14 +34,8 @@ namespace CrosspostSharp3.Imgur {
 			var endpoint = new ImageEndpoint(imgur);
 			await endpoint.DeleteImageAsync(_deleteHash);
 		}
-	}
 
-	public class PreviousImgurUploadsWrapper : ISourceWrapper<int> {
-		public string Name => "Previous Imgur uploads";
-
-		public int SuggestedBatchSize => 1;
-
-		public IEnumerable<IPostBase> FetchAllOldestFirst() {
+		public static IEnumerable<IPostBase> AllPreviousUploads() {
 			if (!File.Exists("imgur-uploads.txt")) {
 				yield break;
 			}
@@ -53,32 +48,6 @@ namespace CrosspostSharp3.Imgur {
 					yield return new ImgurPostWrapper(split[0], split[1]);
 				}
 			}
-		}
-
-		public IEnumerable<IPostBase> FetchAllNewestFirst() {
-			return FetchAllOldestFirst().Reverse().ToList();
-		}
-
-		public Task<IEnumerable<IPostBase>> FetchAllAsync(int limit) {
-			return Task.FromResult(FetchAllNewestFirst().Take(limit));
-		}
-
-		public Task<string> GetUserIconAsync(int size) {
-			throw new NotImplementedException();
-		}
-
-		public Task<FetchResult<int>> MoreAsync(int cursor, int take) {
-			var e = FetchAllNewestFirst().Skip(cursor).Take(take);
-			return Task.FromResult(new FetchResult<int>(e, take + cursor, e.Any()));
-		}
-
-		public Task<FetchResult<int>> StartAsync(int take) {
-			var e = FetchAllNewestFirst().Take(take);
-			return Task.FromResult(new FetchResult<int>(e, take, e.Any()));
-		}
-
-		public Task<string> WhoamiAsync() {
-			return Task.FromResult("");
 		}
 	}
 }
