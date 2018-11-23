@@ -46,7 +46,7 @@ namespace CrosspostSharp3 {
 					: direction == Direction.NEXT ? await _currentWrapper.NextAsync()
 					: direction == Direction.FIRST ? await _currentWrapper.FirstAsync()
 					: throw new ArgumentException(nameof(direction));
-				more = _currentWrapper.HasMore;
+				more = await _currentWrapper.HasMoreAsync();
 
 				foreach (var item in posts) {
 					Image image = null;
