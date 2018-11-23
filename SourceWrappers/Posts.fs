@@ -20,6 +20,36 @@ type IRemotePhotoPost =
     abstract member ImageURL: string with get
     abstract member ThumbnailURL: string with get
 
+type DeferredPhotoPostParameters = {
+    Title: string
+    Mature: bool
+    Adult: bool
+    Timestamp: DateTime
+    ViewURL: string
+    ThumbnailURL: string
+}
+
+[<AbstractClass>]
+type DeferredPhotoPost() =
+    abstract member Title: string with get
+    abstract member ViewURL: string with get
+    abstract member ThumbnailURL: string with get
+
+    abstract member AsyncGetActual: unit -> Async<IRemotePhotoPost>
+    member this.GetActualAsync() = this.AsyncGetActual() |> Async.StartAsTask
+
+    interface IRemotePhotoPost with
+        member this.Title = this.Title
+        member this.ViewURL = this.ViewURL
+        member this.ThumbnailURL = this.ThumbnailURL
+
+        member this.HTMLDescription = ""
+        member this.Mature = false
+        member this.Adult = false
+        member this.Tags = Seq.empty
+        member this.Timestamp = DateTime.MinValue
+        member this.ImageURL = this.ThumbnailURL
+
 /// An object representing an image post, including the image data. Can be serialized to JSON.
 type SavedPhotoPost =
     {

@@ -23,7 +23,7 @@ type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media
             | None -> post.avatar_url
     interface IDeletable with
         member __.SiteName = "Pillowfort"
-        member __.DeleteAsync() = client.AsyncDeletePost post.id |> Async.StartAsTask :> System.Threading.Tasks.Task
+        member __.DeleteAsync() = client.DeletePostAsync post.id
 
 type PillowfortSourceWrapper(client: PillowfortClient) =
     inherit AsyncSeqWrapper()

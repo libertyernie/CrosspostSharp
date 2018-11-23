@@ -4,19 +4,14 @@ open FAExportLib
 open System
 open FSharp.Control
 
-type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission) =
-    member this.Id = submission.Id
+type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IRemotePhotoPost>) =
+    inherit DeferredPhotoPost()
 
-    interface IRemotePhotoPost with
-        member this.Title = submission.Title
-        member this.HTMLDescription = ""
-        member this.Mature = true
-        member this.Adult = true
-        member this.Tags = Seq.empty
-        member this.Timestamp = DateTime.UtcNow
-        member this.ViewURL = submission.Link
-        member this.ImageURL = submission.Thumbnail
-        member this.ThumbnailURL = submission.Thumbnail
+    override this.Title = submission.Title
+    override this.ViewURL = submission.Link
+    override this.ThumbnailURL = submission.Thumbnail
+
+    override this.AsyncGetActual() = get
 
 type FurAffinityPostWrapper(submission: FASubmission) =
     interface IRemotePhotoPost with
@@ -42,6 +37,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     let apiClient = new FAUserClient(a, b)
 
     member this.GetSubmission id = async {
+        printfn "id: %d" id
         return! apiClient.GetSubmissionAsync id |> Async.AwaitTask
     }
     
@@ -58,7 +54,11 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
 
             let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
             for post in gallery do
-                yield new FurAffinityMinimalPostWrapper(post) :> IPostBase
+                let get = async {
+                    let! p = this.GetSubmission post.Id
+                    return new FurAffinityPostWrapper(p) :> IRemotePhotoPost
+                }
+                yield new FurAffinityMinimalPostWrapper(post, get) :> IPostBase
         
             page <- page + 1
             more <- Seq.length gallery > 0
@@ -88,7 +88,7 @@ type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
     override this.FetchSubmissionsInternal() =
         source
         |> AsyncSeq.map (fun w -> w :?> FurAffinityMinimalPostWrapper)
-        |> AsyncSeq.map (fun w -> w.Id)
-        |> AsyncSeq.mapAsync wrap
+        |> AsyncSeq.mapAsync (fun w -> w.AsyncGetActual())
+        |> AsyncSeq.map (fun w -> w :> IPostBase)
 
     override this.FetchUserInternal() = source.FetchUserInternal()
