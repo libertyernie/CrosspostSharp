@@ -2,8 +2,7 @@
 
 open WeasylLib.Api
 open WeasylLib.Frontend
-open System.Threading.Tasks
-open System.Runtime.InteropServices
+open FSharp.Control
 
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
     interface IRemotePhotoPost with
@@ -25,82 +24,60 @@ type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylF
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submitid)
 
 type WeasylSourceWrapper(username: string, frontendClientParam: WeasylFrontendClient) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let apiClient = new WeasylApiClient()
     let frontendClient = Option.ofObj frontendClientParam
     
-    override this.Name = "Weasyl"
-    override this.SuggestedBatchSize = 4
+    override __.Name = "Weasyl"
 
-    override this.Fetch cursor take = async {
-        let gallery_options = new WeasylApiClient.GalleryRequestOptions()
-        gallery_options.nextid <- cursor |> Option.toNullable
-        gallery_options.count <- take |> min 100 |> Some |> Option.toNullable
+    override __.FetchSubmissionsInternal() = asyncSeq {
+        let mutable cursor: int option = None
+        let mutable more = true
 
-        let! gallery = apiClient.GetUserGalleryAsync(username, gallery_options) |> Async.AwaitTask
+        while more do
+            let gallery_options = new WeasylApiClient.GalleryRequestOptions()
+            gallery_options.nextid <- Option.toNullable cursor
 
-        let! submissions =
-            gallery.submissions
-            |> Seq.map (fun s -> apiClient.GetSubmissionAsync(s.submitid))
-            |> Task.WhenAll
-            |> Async.AwaitTask
+            let! gallery = apiClient.GetUserGalleryAsync(username, gallery_options) |> Async.AwaitTask
 
-        let wrap s =
-            match frontendClient with
-            | Some f -> new WeasylSubmissionWrapper(s, f) :> WeasylPostWrapper
-            | None -> new WeasylPostWrapper(s)
+            for s1 in gallery.submissions do
+                let! s2 = apiClient.GetSubmissionAsync(s1.submitid) |> Async.AwaitTask
 
+                match frontendClient with
+                | Some f -> yield new WeasylSubmissionWrapper(s2, f) :> IPostBase
+                | None -> yield new WeasylPostWrapper(s2) :> IPostBase
+
+            cursor <- Option.ofNullable gallery.nextid
+            more <- Option.isSome cursor
+    }
+
+    override __.FetchUserInternal() = async {
+        let! icon_url = apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
         return {
-            Posts = submissions
-                |> Seq.map wrap
-                |> Seq.cast
-            Next = gallery.nextid |> Option.ofNullable |> Option.defaultValue 0
-            HasMore = gallery.nextid.HasValue
+            username = username
+            icon_url = Option.ofObj icon_url
         }
-    }
-
-    override this.Whoami = async {
-        return username
-    }
-
-    override this.GetUserIcon size = async {
-        return! apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
     }
 
 type WeasylCharacterSourceWrapper(username: string) =
-    inherit SourceWrapper<int>()
+    inherit AsyncSeqWrapper()
 
     let apiClient = new WeasylApiClient()
     
-    override this.Name = "Weasyl (characters)"
-    override this.SuggestedBatchSize = 4
+    override __.Name = "Weasyl (characters)"
 
-    override this.Fetch cursor take = async {
+    override __.FetchSubmissionsInternal() = asyncSeq {
         let! allIds = Scraper.GetCharacterIdsAsync(username) |> Async.AwaitTask
-        let skip = cursor |> Option.defaultValue 0
-        let ids = allIds |> Swu.skipSafe skip |> Seq.truncate take
+        for id in allIds do
+            let! c = apiClient.GetCharacterAsync(id) |> Async.AwaitTask
+            yield new WeasylPostWrapper(c) :> IPostBase
+    }
 
-        let! submissions =
-            ids
-            |> Seq.map apiClient.GetCharacterAsync
-            |> Seq.map Async.AwaitTask
-            |> Async.Parallel
-
+    override __.FetchUserInternal() = async {
+        let! icon_url = apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
         return {
-            Posts = submissions
-                |> Seq.map (fun s -> s :> WeasylSubmissionBaseDetail)
-                |> Seq.map WeasylPostWrapper
-                |> Seq.cast
-            Next = skip + take
-            HasMore = allIds.Count > skip + take
+            username = username
+            icon_url = Option.ofObj icon_url
         }
-    }
-
-    override this.Whoami = async {
-        return username
-    }
-
-    override this.GetUserIcon size = async {
-        return! apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
     }
