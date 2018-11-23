@@ -41,7 +41,7 @@ namespace CrosspostSharp3 {
 
 		private async void Form_Shown(object sender, EventArgs e) {
 			try {
-				string avatar = await new FlickrSourceWrapper(_client).AsISourceWrapper().GetUserIconAsync(picUserIcon.Width);
+				string avatar = await new FlickrSourceWrapper(_client).GetUserIconAsync();
 				if (avatar != null) {
 					var req = WebRequestFactory.Create(avatar);
 					using (var resp = await req.GetResponseAsync())

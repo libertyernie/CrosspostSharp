@@ -1,4 +1,5 @@
-﻿using SourceWrappers;
+﻿using CrosspostSharp2.Compat;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,6 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtSourceWrapper {
+	public static class AsyncSeqWrapperExtensions {
+		public static ISourceWrapper<int> AsISourceWrapper(this AsyncSeqWrapper w) {
+			return new SourceWrapper(w);
+		}
+	}
+
 	public class PostWrapperWrapper : ISubmissionWrapper, IDeletable {
 		private const string T = "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif";
 

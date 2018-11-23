@@ -281,6 +281,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrosspostSharp2.Compat\CrosspostSharp2.Compat.fsproj">
+      <Project>{6562abca-c258-4774-847b-9b3ee91b188f}</Project>
+      <Name>CrosspostSharp2.Compat</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
       <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
       <Name>DeviantartApi.WinForms</Name>

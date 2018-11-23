@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SourceWrapper.fs" />
+    <Compile Include="OrderedSourceWrapper.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj" />
+  </ItemGroup>
+
+</Project>

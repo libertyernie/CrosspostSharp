@@ -38,10 +38,10 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				var wrapper = new DeviantArtStatusSourceWrapper().AsISourceWrapper();
+				var wrapper = new DeviantArtStatusSourceWrapper();
 				lblUsername1.Text = await wrapper.WhoamiAsync();
 
-				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync(picUserIcon.Width));
+				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync());
 				using (var resp = await req.GetResponseAsync())
 				using (var stream = resp.GetResponseStream())
 				using (var ms = new MemoryStream()) {

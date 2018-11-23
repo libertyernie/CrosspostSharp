@@ -6,9 +6,8 @@
 
   <ItemGroup>
     <Compile Include="Posts.fs" />
-    <Compile Include="SourceWrapper.fs" />
+    <Compile Include="AsyncSeqWrapper.fs" />
     <Compile Include="AsyncSeqWrapperPagedConsumer.fs" />
-    <Compile Include="OrderedSourceWrapper.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtScraps.fs" />
     <Compile Include="DeviantArtStatus.fs" />

@@ -22,6 +22,7 @@ using System.Drawing.Imaging;
 using FurryNetworkLib;
 using SourceWrappers;
 using DeviantArtControls;
+using CrosspostSharp2.Compat;
 
 namespace CrosspostSharp {
 	public partial class WeasylForm : Form {
@@ -133,50 +134,56 @@ namespace CrosspostSharp {
         private async Task GetNewWrapper(ISiteWrapper initialWrapper = null, Type preferredWrapperType = null) {
             List<ISiteWrapper> wrappers = new List<ISiteWrapper>();
 
+			ISiteWrapper ww(AsyncSeqWrapper w) {
+				return new SourceWrapperWrapper<int>(w.AsISourceWrapper());
+			}
+
             if (initialWrapper != null) {
                 wrappers.Add(initialWrapper);
             } else {
                 if (GlobalSettings.DeviantArt.RefreshToken != null) {
                     try {
-                        wrappers.Add(new SourceWrapperWrapper<int>(new DeviantArtSourceWrapper()));
-						wrappers.Add(new SourceWrapperWrapper<int>(new OrderedSourceWrapper<int>(new UnorderedStashSourceWrapper())));
+                        wrappers.Add(ww(new DeviantArtSourceWrapper()));
+						var uo = new UnorderedStashSourceWrapper().AsISourceWrapper();
+						var ow = new OrderedSourceWrapper<int>(uo);
+						wrappers.Add(new SourceWrapperWrapper<int>(ow.AsISourceWrapper()));
 					} catch (Exception e) {
                         ShowException(e, nameof(GetNewWrapper));
                     }
                 }
 
                 if (!string.IsNullOrEmpty(GlobalSettings.FurAffinity.a) && !string.IsNullOrEmpty(GlobalSettings.FurAffinity.b)) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
-                    wrappers.Add(new SourceWrapperWrapper<int>(new FurAffinitySourceWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
+                    wrappers.Add(ww(new FurAffinitySourceWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: true)));
+                    wrappers.Add(ww(new FurAffinitySourceWrapper(GlobalSettings.FurAffinity.a, GlobalSettings.FurAffinity.b, scraps: false)));
                 }
 
                 if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new WeasylSourceWrapper(GlobalSettings.Weasyl.APIKey, null)));
-                    wrappers.Add(new SourceWrapperWrapper<int>(new WeasylCharacterSourceWrapper(GlobalSettings.Weasyl.APIKey)));
+                    wrappers.Add(ww(new WeasylSourceWrapper(GlobalSettings.Weasyl.APIKey, null)));
+                    wrappers.Add(ww(new WeasylCharacterSourceWrapper(GlobalSettings.Weasyl.APIKey)));
                 }
 
                 if (Inkbunny != null) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new InkbunnySourceWrapper(Inkbunny)));
+                    wrappers.Add(ww(new InkbunnySourceWrapper(Inkbunny)));
                 }
 
                 if (TwitterCredentials != null) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new TwitterSourceWrapper(TwitterCredentials, true)));
+                    wrappers.Add(ww(new TwitterSourceWrapper(TwitterCredentials, true)));
                 }
 
                 if (Tumblr != null) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new TumblrSourceWrapper(Tumblr, GlobalSettings.Tumblr.BlogName, photosOnly: true)));
+                    wrappers.Add(ww(new TumblrSourceWrapper(Tumblr, GlobalSettings.Tumblr.BlogName, photosOnly: true)));
                 }
 
                 if (Flickr != null) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new FlickrSourceWrapper(Flickr)));
+                    wrappers.Add(ww(new FlickrSourceWrapper(Flickr)));
 				}
 
 				if (!string.IsNullOrEmpty(GlobalSettings.Pixiv.Username) && !string.IsNullOrEmpty(GlobalSettings.Pixiv.Password)) {
-					wrappers.Add(new SourceWrapperWrapper<int>(new PixivSourceWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password)));
+					wrappers.Add(ww(new PixivSourceWrapper(GlobalSettings.Pixiv.Username, GlobalSettings.Pixiv.Password)));
 				}
 
 				if (FurryNetwork != null) {
-					wrappers.Add(new SourceWrapperWrapper<int>(new FurryNetworkSourceWrapper(FurryNetwork, null)));
+					wrappers.Add(ww(new FurryNetworkSourceWrapper(FurryNetwork, null)));
 				}
 
 				wrappers = wrappers.OrderBy(w => w.WrapperName).ToList();

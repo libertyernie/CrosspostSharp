@@ -28,7 +28,7 @@ namespace CrosspostSharp3 {
 						tokenSecret = accessTokenSecret
 					};
 
-					string username = await new FlickrSourceWrapper(settings.CreateClient()).AsISourceWrapper().WhoamiAsync();
+					string username = await new FlickrSourceWrapper(settings.CreateClient()).WhoamiAsync();
 
 					settings.username = username;
 					return new[] { settings };
