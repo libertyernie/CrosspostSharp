@@ -156,15 +156,15 @@ namespace CrosspostSharp {
                 }
 
                 if (Inkbunny != null) {
-                    wrappers.Add(new SourceWrapperWrapper<int>(new InkbunnySourceWrapper(Inkbunny, 20)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new InkbunnySourceWrapper(Inkbunny)));
                 }
 
                 if (TwitterCredentials != null) {
-                    wrappers.Add(new SourceWrapperWrapper<long>(new TwitterSourceWrapper(TwitterCredentials, true)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new TwitterSourceWrapper(TwitterCredentials, true)));
                 }
 
                 if (Tumblr != null) {
-                    wrappers.Add(new SourceWrapperWrapper<long>(new TumblrSourceWrapper(Tumblr, GlobalSettings.Tumblr.BlogName, photosOnly: true)));
+                    wrappers.Add(new SourceWrapperWrapper<int>(new TumblrSourceWrapper(Tumblr, GlobalSettings.Tumblr.BlogName, photosOnly: true)));
                 }
 
                 if (Flickr != null) {
