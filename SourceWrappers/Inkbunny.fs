@@ -15,15 +15,33 @@ type InkbunnyPostWrapper(submission: InkbunnySubmissionDetail, client: InkbunnyC
         member this.ViewURL = sprintf "https://inkbunny.net/submissionview.php?id=%d" submission.submission_id
         member this.ImageURL = submission.file_url_full
         member this.ThumbnailURL =
-            [submission.thumbnail_url_medium; submission.thumbnail_url_medium_noncustom]
-            |> Seq.filter (fun s -> not <| isNull s)
-            |> Seq.tryHead
+            (Option.ofObj submission.thumbnail_url_medium)
+            |> Option.orElse (Option.ofObj submission.thumbnail_url_medium_noncustom)
             |> Option.defaultValue submission.file_url_full
     interface IDeletable with
         member this.SiteName = "Inkbunny"
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submission_id)
 
-type InkbunnySourceWrapper(client: InkbunnyClient) =
+type InkbunnyDeferredPostWrapper(submission: InkbunnySubmission, client: InkbunnyClient) =
+    inherit DeferredPhotoPost()
+
+    override __.Title = submission.title
+    override __.ViewURL = sprintf "https://inkbunny.net/submissionview.php?id=%d" submission.submission_id
+    override __.ThumbnailURL =
+        (Option.ofObj submission.thumbnail_url_medium)
+        |> Option.orElse (Option.ofObj submission.thumbnail_url_medium_noncustom)
+        |> Option.defaultValue submission.file_url_full
+    override __.AsyncGetActual() = async {
+        let! details = client.GetSubmissionsAsync(Seq.singleton submission.submission_id, show_description_bbcode_parsed=true) |> Async.AwaitTask
+        let s = Seq.head details.submissions
+        return new InkbunnyPostWrapper(s, client) :> IRemotePhotoPost
+    }
+
+    interface IDeletable with
+        member this.SiteName = "Inkbunny"
+        member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submission_id)
+
+type InkbunnySourceWrapper(client: InkbunnyClient, loadAll: bool) =
     inherit AsyncSeqWrapper()
 
     let initialFetch maxCount =
@@ -33,6 +51,13 @@ type InkbunnySourceWrapper(client: InkbunnyClient) =
 
     let furtherFetch rid page maxCount =
         client.SearchAsync(rid, page, maxCount |> Option.toNullable) |> Async.AwaitTask
+
+    let getDetails (submissions: seq<InkbunnySearchSubmission>) = async {
+        let! details = client.GetSubmissionsAsync(submissions |> Seq.map (fun s -> s.submission_id), show_description_bbcode_parsed=true) |> Async.AwaitTask
+        if details.error_code.HasValue then
+            failwith details.error_message
+        return details.submissions
+    }
 
     let fetch count = asyncSeq {
         let mutable rid: string option = None
@@ -51,12 +76,17 @@ type InkbunnySourceWrapper(client: InkbunnyClient) =
 
             rid <- Some response.rid
         
-            // We need to get more information on these submissions so we can grab the description and tags.
-            let! details = client.GetSubmissionsAsync(response.submissions |> Seq.map (fun s -> s.submission_id), show_description_bbcode_parsed=true) |> Async.AwaitTask
+            if loadAll then
+                // We need to get more information on these submissions so we can grab the description and tags.
+                let! details = getDetails response.submissions
 
-            for o in details.submissions |> Seq.sortByDescending (fun s -> s.create_datetime) do
-                if o.``public``.value then
-                    yield o
+                for o in details |> Seq.sortByDescending (fun s -> s.create_datetime) do
+                    if o.``public``.value then
+                        yield new InkbunnyPostWrapper(o, client) :> IPostBase
+            else
+                for o in response.submissions |> Seq.sortByDescending (fun s -> s.create_datetime) do
+                    if o.``public``.value then
+                        yield new InkbunnyDeferredPostWrapper(o, client) :> IPostBase
 
             page <- response.page + 1
             more <- response.pages_count >= page
@@ -66,17 +96,17 @@ type InkbunnySourceWrapper(client: InkbunnyClient) =
 
     override __.Name = "Inkbunny"
 
-    override this.FetchSubmissionsInternal() =
-        fetch (Option.ofNullable this.BatchSize)
-        |> AsyncSeq.map (fun o -> new InkbunnyPostWrapper(o, client) :> IPostBase)
+    override this.FetchSubmissionsInternal() = fetch (Option.ofNullable this.BatchSize)
 
     override __.FetchUserInternal() = async {
-        let! submission = fetch (Some 1) |> AsyncSeq.tryFirst
-        return match submission with
-        | Some s ->
-            {
-                username = s.username
-                icon_url = Option.ofObj s.user_icon_url_small
-            }
-        | None -> failwith "Cannot get Inkbunny username and icon if no submissions are present"
+        let! response = initialFetch (Some 1)
+        if Seq.isEmpty response.submissions then
+            failwith "Cannot get Inkbunny username and icon if no submissions are present"
+
+        let! details = getDetails response.submissions
+        let first = Seq.head details
+        return {
+            username = first.username
+            icon_url = Option.ofObj first.user_icon_url_small
+        }
     }

@@ -32,7 +32,7 @@ namespace CrosspostSharp3 {
 
 		private async void Form_Shown(object sender, EventArgs e) {
 			try {
-				var wrapper = new InkbunnySourceWrapper(_client);
+				var wrapper = new InkbunnySourceWrapper(_client, loadAll: false);
 				lblUsername1.Text = await wrapper.WhoamiAsync();
 
 				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync());

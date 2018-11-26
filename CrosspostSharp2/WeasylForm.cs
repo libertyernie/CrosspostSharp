@@ -166,7 +166,7 @@ namespace CrosspostSharp {
                 }
 
                 if (Inkbunny != null) {
-                    wrappers.Add(ww(new InkbunnySourceWrapper(Inkbunny)));
+                    wrappers.Add(ww(new InkbunnySourceWrapper(Inkbunny, loadAll: true)));
                 }
 
                 if (TwitterCredentials != null) {
