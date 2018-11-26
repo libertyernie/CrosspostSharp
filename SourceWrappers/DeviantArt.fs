@@ -30,7 +30,25 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
             |> Seq.tryHead
             |> Option.defaultValue deviation.Content.Src
 
-type DeviantArtSourceWrapper() =
+type DeviantArtDeferredPostWrapper(deviation: Deviation) =
+    inherit DeferredPhotoPost()
+
+    override __.Title = deviation.Title
+    override __.ThumbnailURL =
+        deviation.Thumbs
+        |> Seq.map (fun d -> d.Src)
+        |> Seq.tryHead
+        |> Option.defaultValue deviation.Content.Src
+    override __.ViewURL = deviation.Url.AbsoluteUri
+    override __.AsyncGetActual() = async {
+        let! resp =
+            Seq.singleton deviation.DeviationId
+            |> MetadataRequest
+            |> Swu.executeAsync
+        return new DeviantArtPostWrapper(deviation, Seq.tryHead resp.Metadata) :> IRemotePhotoPost
+    }
+
+type DeviantArtSourceWrapper(loadAll: bool) =
     inherit AsyncSeqWrapper()
 
     let asyncGetMetadata (list: seq<Deviation>) = async {
@@ -59,15 +77,18 @@ type DeviantArtSourceWrapper() =
             galleryRequest.Offset <- cursor |> Nullable
 
             let! gallery = Swu.executeAsync galleryRequest
-            let! metadata = asyncGetMetadata gallery.Results
-
-            for d in gallery.Results do
-                if not (isNull d.Content) then
-                    let m =
-                        metadata
-                        |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
-                        |> Seq.tryHead
-                    yield DeviantArtPostWrapper(d, m) :> IPostBase
+            if loadAll then
+                let! metadata = asyncGetMetadata gallery.Results
+                for d in gallery.Results do
+                    if not (isNull d.Content) then
+                        let m =
+                            metadata
+                            |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
+                            |> Seq.tryHead
+                        yield DeviantArtPostWrapper(d, m) :> IPostBase
+            else
+                for d in gallery.Results do
+                    yield DeviantArtDeferredPostWrapper(d) :> IPostBase
             
             cursor <- gallery.NextOffset
                 |> Option.ofNullable

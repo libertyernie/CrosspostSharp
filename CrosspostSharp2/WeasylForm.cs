@@ -120,7 +120,7 @@ namespace CrosspostSharp {
                         GlobalSettings.DeviantArt.RefreshToken = newToken;
                         GlobalSettings.Save();
                     }
-                    lblDeviantArtStatus2.Text = await new DeviantArtSourceWrapper().AsISourceWrapper().WhoamiAsync();
+                    lblDeviantArtStatus2.Text = await new DeviantArtSourceWrapper(loadAll: true).AsISourceWrapper().WhoamiAsync();
                     return;
                 } catch (DeviantArtLoginException e) when (e.Message == "User canceled") {
                     GlobalSettings.DeviantArt.RefreshToken = null;
@@ -144,7 +144,7 @@ namespace CrosspostSharp {
             } else {
                 if (GlobalSettings.DeviantArt.RefreshToken != null) {
                     try {
-                        wrappers.Add(ww(new DeviantArtSourceWrapper()));
+                        wrappers.Add(ww(new DeviantArtSourceWrapper(loadAll: true)));
 						var uo = new UnorderedStashSourceWrapper().AsISourceWrapper();
 						var ow = new OrderedSourceWrapper<int>(uo);
 						wrappers.Add(new SourceWrapperWrapper<int>(ow.AsISourceWrapper()));
