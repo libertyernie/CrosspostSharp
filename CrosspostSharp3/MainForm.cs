@@ -200,7 +200,7 @@ namespace CrosspostSharp3 {
 
 				var frontendClient = new WeasylFrontendClient() { WZL = w.wzl };
 				var username = await frontendClient.GetUsernameAsync();
-				add(new WeasylSourceWrapper(username, frontendClient));
+				add(new WeasylSourceWrapper(username, loadAll: false, frontendClientParam: frontendClient));
 				add(new WeasylCharacterSourceWrapper(username));
 			}
 

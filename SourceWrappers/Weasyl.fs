@@ -31,7 +31,7 @@ type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylF
         member this.SiteName = "Weasyl"
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submitid)
 
-type WeasylSourceWrapper(username: string, frontendClientParam: WeasylFrontendClient) =
+type WeasylSourceWrapper(username: string, loadAll: bool, frontendClientParam: WeasylFrontendClient) =
     inherit AsyncSeqWrapper()
 
     let apiClient = new WeasylApiClient()
@@ -57,7 +57,11 @@ type WeasylSourceWrapper(username: string, frontendClientParam: WeasylFrontendCl
                     | None -> return new WeasylPostWrapper(s2) :> IRemotePhotoPost
                 }
                 
-                yield new WeasylDeferredPostWrapper(s1, get) :> IPostBase
+                if loadAll then
+                    let! post = get
+                    yield post :> IPostBase
+                else
+                    yield new WeasylDeferredPostWrapper(s1, get) :> IPostBase
 
             cursor <- Option.ofNullable gallery.nextid
             more <- Option.isSome cursor

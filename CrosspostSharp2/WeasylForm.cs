@@ -161,7 +161,7 @@ namespace CrosspostSharp {
                 if (!string.IsNullOrEmpty(GlobalSettings.Weasyl.APIKey)) {
 					var w = new WeasylApiClient(GlobalSettings.Weasyl.APIKey);
 					var u = await w.WhoamiAsync();
-					wrappers.Add(ww(new WeasylSourceWrapper(u.login, null)));
+					wrappers.Add(ww(new WeasylSourceWrapper(u.login, loadAll: true, frontendClientParam: null)));
                     wrappers.Add(ww(new WeasylCharacterSourceWrapper(u.login)));
                 }
 

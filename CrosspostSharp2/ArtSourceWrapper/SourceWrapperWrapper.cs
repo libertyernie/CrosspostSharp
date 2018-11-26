@@ -68,15 +68,7 @@ namespace ArtSourceWrapper {
 			var got = startPosition is TCursor cursor
 				? await _source.MoreAsync(cursor, count)
 				: await _source.StartAsync(count);
-			var posts = await Task.WhenAll(
-				got.Posts.Select(async p => {
-					if (p is DeferredPhotoPost d) {
-						return await d.GetActualAsync();
-					} else {
-						return p;
-					}
-				}));
-			return new InternalFetchResult(posts.Select(w => new PostWrapperWrapper(w)), got.Next, !got.HasMore);
+			return new InternalFetchResult(got.Posts.Select(w => new PostWrapperWrapper(w)), got.Next, !got.HasMore);
 		}
 	}
 }
