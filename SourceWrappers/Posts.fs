@@ -35,6 +35,8 @@ type DeferredPhotoPost() =
     abstract member ViewURL: string with get
     abstract member ThumbnailURL: string with get
 
+    abstract member Timestamp: DateTime option with get
+
     abstract member AsyncGetActual: unit -> Async<IRemotePhotoPost>
     member this.GetActualAsync() = this.AsyncGetActual() |> Async.StartAsTask
 
@@ -47,7 +49,7 @@ type DeferredPhotoPost() =
         member this.Mature = false
         member this.Adult = false
         member this.Tags = Seq.empty
-        member this.Timestamp = DateTime.MinValue
+        member this.Timestamp = this.Timestamp |> Option.defaultValue DateTime.MinValue
         member this.ImageURL = this.ThumbnailURL
 
 /// An object representing an image post, including the image data. Can be serialized to JSON.

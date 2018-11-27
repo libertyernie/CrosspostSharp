@@ -11,6 +11,8 @@ type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IR
     override this.ViewURL = submission.Link
     override this.ThumbnailURL = submission.Thumbnail
 
+    override this.Timestamp = None
+
     override this.AsyncGetActual() = get
 
 type FurAffinityPostWrapper(submission: FASubmission) =

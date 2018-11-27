@@ -7,7 +7,7 @@ open DeviantartApi.Requests.Deviation
 open FSharp.Control
 open DeviantartApi.Requests.User.Profile
 
-type internal DeviantArtScrapsLinkWrapper(url: string, title: string, img: string) =
+type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string) =
     inherit DeferredPhotoPost()
     
     let app_link_regex = new Regex("DeviantArt://deviation/(........-....-....-....-............)")
@@ -15,6 +15,7 @@ type internal DeviantArtScrapsLinkWrapper(url: string, title: string, img: strin
     override __.Title = title
     override __.ViewURL = url
     override __.ThumbnailURL = img
+    override __.Timestamp = None
     override __.AsyncGetActual() = async {
         let! html =
             new Uri(url)

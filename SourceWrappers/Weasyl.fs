@@ -10,6 +10,7 @@ type WeasylDeferredPostWrapper(submission: WeasylGallerySubmission, get: Async<I
     override __.Title = submission.title
     override __.ViewURL = submission.link
     override __.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
+    override __.Timestamp = submission.posted_at
     override __.AsyncGetActual() = get
 
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =

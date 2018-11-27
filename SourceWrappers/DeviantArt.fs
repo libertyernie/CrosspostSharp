@@ -40,6 +40,7 @@ type DeviantArtDeferredPostWrapper(deviation: Deviation) =
         |> Seq.tryHead
         |> Option.defaultValue deviation.Content.Src
     override __.ViewURL = deviation.Url.AbsoluteUri
+    override __.Timestamp = deviation.PublishedTime |> Option.ofNullable
     override __.AsyncGetActual() = async {
         let! resp =
             Seq.singleton deviation.DeviationId
