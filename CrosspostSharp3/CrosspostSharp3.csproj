@@ -324,13 +324,9 @@
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj">
-      <Project>{f1ddf56b-a30b-4b63-99ff-3652214900e1}</Project>
-      <Name>WeasylLib.Api</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj">
-      <Project>{33059de0-90fb-44d2-af5f-461ce4b88e91}</Project>
-      <Name>WeasylLib.Frontend</Name>
+    <ProjectReference Include="..\WeasylLib\WeasylLib\WeasylLib.csproj">
+      <Project>{ddc6b066-0c3a-4f0e-a06e-dfcfd7286b17}</Project>
+      <Name>WeasylLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

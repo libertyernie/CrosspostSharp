@@ -126,12 +126,12 @@ namespace CrosspostSharp3 {
 
 		public struct WeasylSettings : IAccountCredentials {
 			public string username;
-			public string wzl;
+			public string apiKey;
 
 			string IAccountCredentials.Username => username;
 		}
 
-		public List<WeasylSettings> Weasyl = new List<WeasylSettings>();
+		public List<WeasylSettings> WeasylApi = new List<WeasylSettings>();
 
 		public static Settings Load(string filename = "CrosspostSharp3.json") {
 			Settings s = new Settings();

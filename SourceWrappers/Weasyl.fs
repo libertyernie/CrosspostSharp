@@ -1,7 +1,6 @@
 ﻿namespace SourceWrappers
 
-open WeasylLib.Api
-open WeasylLib.Frontend
+open WeasylLib
 open FSharp.Control
 
 type WeasylDeferredPostWrapper(submission: WeasylGallerySubmission, get: Async<IRemotePhotoPost>) =
@@ -10,7 +9,7 @@ type WeasylDeferredPostWrapper(submission: WeasylGallerySubmission, get: Async<I
     override __.Title = submission.title
     override __.ViewURL = submission.link
     override __.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
-    override __.Timestamp = submission.posted_at
+    override __.Timestamp = Some submission.posted_at
     override __.AsyncGetActual() = get
 
 type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
@@ -25,37 +24,37 @@ type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
         member this.ImageURL = submission.media.submission |> Seq.map (fun s -> s.url) |> Seq.head
         member this.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
 
-type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylFrontendClient) =
+type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylClient) =
     inherit WeasylPostWrapper(submission)
 
     interface IDeletable with
         member this.SiteName = "Weasyl"
         member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submitid)
 
-type WeasylSourceWrapper(username: string, loadAll: bool, frontendClientParam: WeasylFrontendClient) =
+type WeasylSourceWrapper(api_key: string, loadAll: bool) =
     inherit AsyncSeqWrapper()
 
-    let apiClient = new WeasylApiClient()
-    let frontendClient = Option.ofObj frontendClientParam
+    let apiClient = new WeasylClient(api_key)
+    let frontendClient = apiClient
     
     override __.Name = "Weasyl"
 
-    override __.FetchSubmissionsInternal() = asyncSeq {
+    override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable cursor: int option = None
         let mutable more = true
 
+        let! user = apiClient.WhoamiAsync() |> Async.AwaitTask
+
         while more do
-            let gallery_options = new WeasylApiClient.GalleryRequestOptions()
+            let gallery_options = new WeasylClient.GalleryRequestOptions()
             gallery_options.nextid <- Option.toNullable cursor
 
-            let! gallery = apiClient.GetUserGalleryAsync(username, gallery_options) |> Async.AwaitTask
+            let! gallery = apiClient.GetUserGalleryAsync(user.login, gallery_options) |> Async.AwaitTask
 
             for s1 in gallery.submissions do
                 let get = async {
                     let! s2 = apiClient.GetSubmissionAsync(s1.submitid) |> Async.AwaitTask
-                    match frontendClient with
-                    | Some f -> return new WeasylSubmissionWrapper(s2, f) :> IRemotePhotoPost
-                    | None -> return new WeasylPostWrapper(s2) :> IRemotePhotoPost
+                    return new WeasylSubmissionWrapper(s2, frontendClient) :> IRemotePhotoPost
                 }
                 
                 if loadAll then
@@ -69,9 +68,10 @@ type WeasylSourceWrapper(username: string, loadAll: bool, frontendClientParam: W
     }
 
     override __.FetchUserInternal() = async {
-        let! icon_url = apiClient.GetAvatarUrlAsync(username) |> Async.AwaitTask
+        let! user = apiClient.WhoamiAsync() |> Async.AwaitTask
+        let! icon_url = apiClient.GetAvatarUrlAsync(user.login) |> Async.AwaitTask
         return {
-            username = username
+            username = user.login
             icon_url = Option.ofObj icon_url
         }
     }
@@ -79,7 +79,7 @@ type WeasylSourceWrapper(username: string, loadAll: bool, frontendClientParam: W
 type WeasylCharacterSourceWrapper(username: string) =
     inherit AsyncSeqWrapper()
 
-    let apiClient = new WeasylApiClient()
+    let apiClient = new WeasylClient()
     
     override __.Name = "Weasyl (characters)"
 

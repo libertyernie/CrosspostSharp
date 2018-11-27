@@ -23,8 +23,6 @@
     <Compile Include="Weasyl.fs" />
   </ItemGroup>
 
-  <ItemGroup />
-
   <ItemGroup>
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
     <PackageReference Include="FlickrNet" Version="3.25.0" />
@@ -41,8 +39,7 @@
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />
     <ProjectReference Include="..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj" />
     <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj" />
-    <ProjectReference Include="..\WeasylLib\WeasylLib.Api\WeasylLib.Api.csproj" />
-    <ProjectReference Include="..\WeasylLib\WeasylLib.Frontend\WeasylLib.Frontend.csproj" />
+    <ProjectReference Include="..\WeasylLib\WeasylLib\WeasylLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

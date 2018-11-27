@@ -31,7 +31,7 @@ type InkbunnyDeferredPostWrapper(submission: InkbunnySubmission, client: Inkbunn
         (Option.ofObj submission.thumbnail_url_medium)
         |> Option.orElse (Option.ofObj submission.thumbnail_url_medium_noncustom)
         |> Option.defaultValue submission.file_url_full
-    override __.Timestamp = submission.create_datetime.UtcDateTime
+    override __.Timestamp = Some submission.create_datetime.UtcDateTime
     override __.AsyncGetActual() = async {
         let! details = client.GetSubmissionsAsync(Seq.singleton submission.submission_id, show_description_bbcode_parsed=true) |> Async.AwaitTask
         let s = Seq.head details.submissions

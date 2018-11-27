@@ -22,6 +22,15 @@ namespace CrosspostSharp3 {
 			}
 		}
 
+		public bool ShowPassword {
+			get {
+				return lblPassword.Visible || txtPassword.Visible;
+			}
+			set {
+				lblPassword.Visible = txtPassword.Visible = value;
+			}
+		}
+
 		public UsernamePasswordDialog() {
 			InitializeComponent();
 		}
