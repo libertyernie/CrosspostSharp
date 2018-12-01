@@ -188,7 +188,7 @@ namespace CrosspostSharp {
             if (Settings.DeviantArt.RefreshToken != null) {
                 btnDeviantArtSignIn.Text = "Sign out";
                 try {
-					string username = await new DeviantArtSourceWrapper().AsISourceWrapper().WhoamiAsync();
+					string username = await new DeviantArtSourceWrapper(false).AsISourceWrapper().WhoamiAsync();
                     lblDeviantArtTokenStatus.ForeColor = Color.Green;
                     lblDeviantArtTokenStatus.Text = $"{username} ({Settings.DeviantArt.RefreshToken}...)";
                 } catch (Exception e) {

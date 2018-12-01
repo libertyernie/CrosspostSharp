@@ -3,6 +3,7 @@
 open FAExportLib
 open System
 open FSharp.Control
+open System.Deployment.Internal
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IRemotePhotoPost>) =
     inherit DeferredPhotoPost()
@@ -33,23 +34,26 @@ type FurAffinityPostWrapper(submission: FASubmission) =
         member this.ImageURL = submission.Download
         member this.ThumbnailURL = submission.Thumbnail
 
-type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
+[<AbstractClass>]
+type FurAffinityAbstractSourceWrapper(scraps: bool) =
     inherit AsyncSeqWrapper()
 
-    let apiClient = new FAUserClient(a, b)
+    abstract GetAPIClient: unit -> FAClient
+    abstract AsyncGetUsername: unit -> Async<string>
 
     member this.GetSubmission id = async {
-        printfn "id: %d" id
+        let apiClient = this.GetAPIClient()
         return! apiClient.GetSubmissionAsync id |> Async.AwaitTask
     }
     
-    override this.Name = if scraps then "Fur Affinity (scraps)" else "Fur Affinity (gallery)"
+    override __.Name = if scraps then "Fur Affinity (scraps)" else "Fur Affinity (gallery)"
 
     override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable page = 1
         let mutable more = true
 
-        let! username = this.WhoamiAsync() |> Async.AwaitTask
+        let! username = this.AsyncGetUsername()
+        let apiClient = this.GetAPIClient()
 
         while more do
             let folder = if scraps then FAFolder.scraps else FAFolder.gallery
@@ -67,13 +71,29 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     }
 
     override this.FetchUserInternal() = async {
-        let! username = apiClient.WhoamiAsync() |> Async.AwaitTask
+        let! username = this.AsyncGetUsername()
+
+        let apiClient = this.GetAPIClient()
         let! user = apiClient.GetUserAsync(username) |> Async.AwaitTask
         return {
             username = username
             icon_url = Some user.Avatar
         }
     }
+
+type FurAffinityUserSourceWrapper(username: string, scraps: bool) =
+    inherit FurAffinityAbstractSourceWrapper(scraps)
+
+    override __.GetAPIClient() = new FAClient()
+    override __.AsyncGetUsername() = async { return username }
+
+type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
+    inherit FurAffinityAbstractSourceWrapper(scraps)
+
+    let apiClient = FAUserClient(a, b)
+
+    override __.GetAPIClient() = apiClient :> FAClient
+    override __.AsyncGetUsername() = apiClient.WhoamiAsync() |> Async.AwaitTask
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
     inherit AsyncSeqWrapper()
