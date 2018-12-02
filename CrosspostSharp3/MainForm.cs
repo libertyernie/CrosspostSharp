@@ -48,31 +48,22 @@ namespace CrosspostSharp3 {
 				more = await _currentWrapper.HasMoreAsync();
 
 				foreach (var item in posts) {
-					Image image = null;
-
-					if (item is IRemotePhotoPost remote) {
-						var req = WebRequestFactory.Create(remote.ThumbnailURL);
-						using (var resp = await req.GetResponseAsync())
-						using (var stream = resp.GetResponseStream())
-						using (var ms = new MemoryStream()) {
-							await stream.CopyToAsync(ms);
-							ms.Position = 0;
-							image = Image.FromStream(ms);
-						}
-					} else if (item is SavedPhotoPost saved) {
-						using (var ms = new MemoryStream(saved.data, false)) {
-							image = Image.FromStream(ms);
-						}
-					} else {
-						image = picUserIcon.Image;
-					}
-
-					var p = new Panel {
-						BackgroundImage = image,
-						BackgroundImageLayout = ImageLayout.Zoom,
+					var p = new PictureBox {
+						SizeMode = PictureBoxSizeMode.Zoom,
 						Cursor = Cursors.Hand,
 						Dock = DockStyle.Fill
 					};
+
+					if (item is IRemotePhotoPost remote) {
+						p.ImageLocation = remote.ThumbnailURL;
+					} else if (item is SavedPhotoPost saved) {
+						using (var ms = new MemoryStream(saved.data, false)) {
+							p.Image = Image.FromStream(ms);
+						}
+					} else {
+						p.ImageLocation = picUserIcon.ImageLocation;
+					}
+
 					p.Click += (o, e) => {
 						using (var f = new ArtworkForm(item)) {
 							f.ShowDialog(this);
@@ -93,21 +84,9 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task UpdateAvatar() {
-			picUserIcon.Image = null;
 			lblUsername.Text = "";
 			lblSiteName.Text = "";
-			string avatarUrl = await _currentWrapper.GetUserIconAsync(picUserIcon.Width);
-
-			if (avatarUrl != null) {
-				var req = WebRequestFactory.Create(avatarUrl);
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					ms.Position = 0;
-					picUserIcon.Image = Image.FromStream(ms);
-				}
-			}
+			picUserIcon.ImageLocation = await _currentWrapper.GetUserIconAsync(picUserIcon.Width);
 
 			lblUsername.Text = await _currentWrapper.WhoamiAsync();
 			lblSiteName.Text = _currentWrapper.Name;
