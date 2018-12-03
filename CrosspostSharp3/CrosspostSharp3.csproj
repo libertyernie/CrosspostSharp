@@ -65,11 +65,30 @@
     <Compile Include="BatchExportForm.Designer.cs">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeviantArt\DeviantArtCategoryBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtCategoryBrowser.Designer.cs">
+      <DependentUpon>DeviantArtCategoryBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtFolderSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtFolderSelectionForm.Designer.cs">
+      <DependentUpon>DeviantArtFolderSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtLoginStatic.cs" />
     <Compile Include="DeviantArt\DeviantArtStatusUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DeviantArt\DeviantArtStatusUpdateForm.Designer.cs">
       <DependentUpon>DeviantArtStatusUpdateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtUploadControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeviantArt\DeviantArtUploadControl.Designer.cs">
+      <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Flickr\FlickrPostForm.cs">
       <SubType>Form</SubType>
@@ -214,8 +233,17 @@
     <EmbeddedResource Include="BatchExportForm.resx">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DeviantArt\DeviantArtCategoryBrowser.resx">
+      <DependentUpon>DeviantArtCategoryBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviantArt\DeviantArtFolderSelectionForm.resx">
+      <DependentUpon>DeviantArtFolderSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeviantArt\DeviantArtStatusUpdateForm.resx">
       <DependentUpon>DeviantArtStatusUpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviantArt\DeviantArtUploadControl.resx">
+      <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FurAffinity\FurAffinityPostForm.resx">
       <DependentUpon>FurAffinityPostForm.cs</DependentUpon>
@@ -295,10 +323,6 @@
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj">
       <Project>{bedb9fa0-1b50-4c19-ad30-fd84d38d6d3b}</Project>
       <Name>DeviantartApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeviantArtControls\DeviantArtControls.csproj">
-      <Project>{fdc116bb-ee52-423c-85b8-469c8ac787f1}</Project>
-      <Name>DeviantArtControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\FAWinFormsLogin\FAWinFormsLogin.csproj">
       <Project>{5939939e-b9b0-4766-afb9-4fff83c16fb8}</Project>

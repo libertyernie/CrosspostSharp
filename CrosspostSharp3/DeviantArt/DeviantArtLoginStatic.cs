@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeviantArtControls {
+namespace CrosspostSharp3 {
 	public class DeviantArtLoginException : Exception {
 		public DeviantArtLoginException(string message) : base(message) { }
 	}

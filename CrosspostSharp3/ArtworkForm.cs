@@ -1,6 +1,5 @@
 ﻿using CrosspostSharp3.Imgur;
 using CrosspostSharp3.Weasyl;
-using DeviantArtControls;
 using Imgur.API.Authentication.Impl;
 using Imgur.API.Endpoints.Impl;
 using Newtonsoft.Json;

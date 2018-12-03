@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DeviantArtControls {
+namespace CrosspostSharp3 {
     public partial class DeviantArtFolderSelectionForm : Form {
         public class Folder {
             public string FolderId;

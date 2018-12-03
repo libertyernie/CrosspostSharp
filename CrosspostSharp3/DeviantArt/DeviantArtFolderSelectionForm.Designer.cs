@@ -1,4 +1,4 @@
-﻿namespace DeviantArtControls {
+﻿namespace CrosspostSharp3 {
     partial class DeviantArtFolderSelectionForm {
         /// <summary>
         /// Required designer variable.

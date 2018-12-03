@@ -1,4 +1,4 @@
-﻿namespace DeviantArtControls {
+﻿namespace CrosspostSharp3 {
     partial class DeviantArtUploadControl {
         /// <summary> 
         /// Required designer variable.

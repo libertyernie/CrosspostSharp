@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DeviantArtControls {
+namespace CrosspostSharp3 {
     public partial class DeviantArtUploadControl : UserControl {
 		public delegate void DeviantArtUploadedHandler(string url);
 		public event DeviantArtUploadedHandler Uploaded;
