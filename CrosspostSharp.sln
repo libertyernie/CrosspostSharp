@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrosspostSharp2", "CrosspostSharp2\CrosspostSharp2.csproj", "{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CAEA56D-AF4C-4CCB-92AE-8AE3FFF3BDB0}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -36,8 +34,6 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PillowfortFs", "PillowfortF
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FurAffinityFs", "FurAffinityFs\FurAffinityFs\FurAffinityFs.fsproj", "{48E5E654-F069-4AF6-BD06-84E2D0C05A53}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CrosspostSharp2.Compat", "CrosspostSharp2.Compat\CrosspostSharp2.Compat.fsproj", "{6562ABCA-C258-4774-847B-9B3EE91B188F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib", "WeasylLib\WeasylLib\WeasylLib.csproj", "{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UserDemo", "UserDemo\UserDemo.vbproj", "{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}"
@@ -52,18 +48,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|x64.Build.0 = Debug|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Debug|x86.Build.0 = Debug|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|x64.ActiveCfg = Release|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|x64.Build.0 = Release|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|x86.ActiveCfg = Release|Any CPU
-		{BE965F1B-7589-4B0C-BD28-B526BC4BC57D}.Release|x86.Build.0 = Release|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -208,18 +192,6 @@ Global
 		{48E5E654-F069-4AF6-BD06-84E2D0C05A53}.Release|x64.Build.0 = Release|Any CPU
 		{48E5E654-F069-4AF6-BD06-84E2D0C05A53}.Release|x86.ActiveCfg = Release|Any CPU
 		{48E5E654-F069-4AF6-BD06-84E2D0C05A53}.Release|x86.Build.0 = Release|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Debug|x64.Build.0 = Debug|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Debug|x86.Build.0 = Debug|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Release|x64.ActiveCfg = Release|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Release|x64.Build.0 = Release|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Release|x86.ActiveCfg = Release|Any CPU
-		{6562ABCA-C258-4774-847B-9B3EE91B188F}.Release|x86.Build.0 = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Debug|x64.ActiveCfg = Debug|Any CPU
