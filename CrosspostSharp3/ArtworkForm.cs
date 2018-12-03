@@ -158,13 +158,6 @@ namespace CrosspostSharp3 {
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
 
-			if (_origWrapper is StashPostWrapper stash) {
-				listBox1.Items.Add(new DestinationOption("Publish in web browser", async () => {
-					Process.Start($"https://www.deviantart.com/submit?deviationids={stash.ItemId}");
-				}));
-				listBox1.Items.Add("");
-			}
-
 			if (_downloaded != null) {
 				listBox1.Items.Add("--- Post as photo ---");
 
@@ -181,13 +174,7 @@ namespace CrosspostSharp3 {
 							};
 							f.Controls.Add(d);
 							d.Uploaded += url => f.Close();
-							d.SetSubmission(
-								_downloaded,
-								txtTitle.Text,
-								wbrDescription.Document.Body.InnerHtml,
-								txtTags.Text.Split(' ').Where(s => s != ""),
-								chkMature.Checked || chkAdult.Checked,
-								_origWrapper.ViewURL);
+							d.SetSubmission(ExportAsPhoto(), (_origWrapper as StashPostWrapper)?.ItemId);
 							f.ShowDialog(this);
 						}
 					}));

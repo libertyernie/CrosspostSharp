@@ -1,8 +1,8 @@
 ﻿using DeviantartApi.Objects;
 using DeviantartApi.Requests.Stash;
+using SourceWrappers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,16 +39,8 @@ namespace CrosspostSharp3 {
             }
         }
 
-        private byte[] _data;
-        public byte[] Data {
-            get {
-                return _data;
-            }
-            set {
-                _data = value;
-                btnPublish.Enabled = _data != null && _data.Length != 0;
-            }
-        }
+		private byte[] _downloaded;
+		private long? _stashItemId;
 
         private string _originalUrl;
 
@@ -65,24 +57,19 @@ namespace CrosspostSharp3 {
             ddlSharing.SelectedIndex = 0;
         }
 
-        public void SetSubmission(
-            byte[] data,
-            string title = "",
-            string htmlDescription = "",
-            IEnumerable<string> tags = null,
-            bool mature = false,
-            string originalUrl = null
-        ) {
-            Data = data;
-            txtTitle.Text = title ?? "";
-            txtArtistComments.Text = htmlDescription ?? "";
-            txtTags.Text = string.Join(" ", tags?.Select(s => $"#{s}") ?? Enumerable.Empty<string>());
-            if (mature) {
+        public void SetSubmission(SavedPhotoPost post, long? stashItemId) {
+			_downloaded = post.data;
+			_stashItemId = stashItemId;
+
+            txtTitle.Text = post.title ?? "";
+            txtArtistComments.Text = post.description ?? "";
+            txtTags.Text = string.Join(" ", post.tags?.Select(s => $"#{s}") ?? Enumerable.Empty<string>());
+            if (post.mature) {
                 radStrict.Checked = true;
             } else {
                 radNone.Checked = true;
             }
-            _originalUrl = originalUrl;
+            _originalUrl = post.url;
         }
 
         private void MatureChanged(object sender, EventArgs e) {
@@ -113,7 +100,8 @@ namespace CrosspostSharp3 {
         private async Task<SubmitResult> UploadToStash() {
             var r1 = await new SubmitRequest {
                 ArtistComments = txtArtistComments.Text,
-                Data = _data,
+                Data = _downloaded,
+				ItemId = _stashItemId,
                 IsDirty = false,
                 OriginalUrl = _originalUrl,
                 Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
