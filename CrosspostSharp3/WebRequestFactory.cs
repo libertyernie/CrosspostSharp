@@ -14,7 +14,7 @@ namespace CrosspostSharp3 {
 				if (req.RequestUri.Host.EndsWith(".pximg.net")) {
 					httpreq.Referer = "https://app-api.pixiv.net/";
 				} else {
-					httpreq.UserAgent = "CrosspostSharp/3.4 (https://github.com/libertyernie/CrosspostSharp)";
+					httpreq.UserAgent = "CrosspostSharp/3.5 (https://github.com/libertyernie/CrosspostSharp)";
 				}
 			}
 			return req;

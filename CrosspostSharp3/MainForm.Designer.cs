@@ -40,10 +40,14 @@
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pillowfortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pixivToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pageSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsiPageSize4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsiPageSize9 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +57,6 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
-            this.pillowfortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -127,36 +130,37 @@
             this.exportToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.exportToolStripMenuItem.Text = "&Export...";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click_1);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.accountSetupToolStripMenuItem});
+            this.accountSetupToolStripMenuItem,
+            this.pageSizeToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // accountSetupToolStripMenuItem
@@ -179,65 +183,95 @@
             // deviantArtToolStripMenuItem
             // 
             this.deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
             this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
             // 
             // flickrToolStripMenuItem
             // 
             this.flickrToolStripMenuItem.Name = "flickrToolStripMenuItem";
-            this.flickrToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.flickrToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.flickrToolStripMenuItem.Text = "&Flickr";
             this.flickrToolStripMenuItem.Click += new System.EventHandler(this.flickrToolStripMenuItem_Click);
             // 
             // furAffinityToolStripMenuItem
             // 
             this.furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.furAffinityToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.furAffinityToolStripMenuItem.Text = "Fur&Affinity";
             this.furAffinityToolStripMenuItem.Click += new System.EventHandler(this.furAffinityToolStripMenuItem_Click);
             // 
             // furryNetworkToolStripMenuItem
             // 
             this.furryNetworkToolStripMenuItem.Name = "furryNetworkToolStripMenuItem";
-            this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.furryNetworkToolStripMenuItem.Text = "Furry &Network";
             this.furryNetworkToolStripMenuItem.Click += new System.EventHandler(this.furryNetworkToolStripMenuItem_Click);
             // 
             // inkbunnyToolStripMenuItem
             // 
             this.inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
-            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.inkbunnyToolStripMenuItem.Text = "&Inkbunny";
             this.inkbunnyToolStripMenuItem.Click += new System.EventHandler(this.inkbunnyToolStripMenuItem_Click);
+            // 
+            // pillowfortToolStripMenuItem
+            // 
+            this.pillowfortToolStripMenuItem.Name = "pillowfortToolStripMenuItem";
+            this.pillowfortToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.pillowfortToolStripMenuItem.Text = "&Pillowfort";
+            this.pillowfortToolStripMenuItem.Click += new System.EventHandler(this.pillowfortToolStripMenuItem_Click);
             // 
             // pixivToolStripMenuItem
             // 
             this.pixivToolStripMenuItem.Name = "pixivToolStripMenuItem";
-            this.pixivToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pixivToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.pixivToolStripMenuItem.Text = "Pi&xiv";
             this.pixivToolStripMenuItem.Click += new System.EventHandler(this.pixivToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
             // 
             this.twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.twitterToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.twitterToolStripMenuItem.Text = "&Twitter";
             this.twitterToolStripMenuItem.Click += new System.EventHandler(this.twitterToolStripMenuItem_Click);
             // 
             // tumblrToolStripMenuItem
             // 
             this.tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
-            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tumblrToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.tumblrToolStripMenuItem.Text = "T&umblr";
             this.tumblrToolStripMenuItem.Click += new System.EventHandler(this.tumblrToolStripMenuItem_Click);
             // 
             // weasylToolStripMenuItem
             // 
             this.weasylToolStripMenuItem.Name = "weasylToolStripMenuItem";
-            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.weasylToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.weasylToolStripMenuItem.Text = "&Weasyl";
             this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
+            // 
+            // pageSizeToolStripMenuItem
+            // 
+            this.pageSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsiPageSize4,
+            this.tsiPageSize9});
+            this.pageSizeToolStripMenuItem.Name = "pageSizeToolStripMenuItem";
+            this.pageSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pageSizeToolStripMenuItem.Text = "&Page Size";
+            // 
+            // tsiPageSize4
+            // 
+            this.tsiPageSize4.Name = "tsiPageSize4";
+            this.tsiPageSize4.Size = new System.Drawing.Size(180, 22);
+            this.tsiPageSize4.Text = "4";
+            this.tsiPageSize4.Click += new System.EventHandler(this.tsiPageSize4_Click);
+            // 
+            // tsiPageSize9
+            // 
+            this.tsiPageSize9.Name = "tsiPageSize9";
+            this.tsiPageSize9.Size = new System.Drawing.Size(180, 22);
+            this.tsiPageSize9.Text = "9";
+            this.tsiPageSize9.Click += new System.EventHandler(this.tsiPageSize9_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -245,20 +279,20 @@
             this.helpToolStripMenuItem1,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -323,13 +357,6 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
             this.lblLoadStatus.TabIndex = 0;
             // 
-            // pillowfortToolStripMenuItem
-            // 
-            this.pillowfortToolStripMenuItem.Name = "pillowfortToolStripMenuItem";
-            this.pillowfortToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pillowfortToolStripMenuItem.Text = "&Pillowfort";
-            this.pillowfortToolStripMenuItem.Click += new System.EventHandler(this.pillowfortToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -391,6 +418,9 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pillowfortToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pageSizeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tsiPageSize4;
+		private System.Windows.Forms.ToolStripMenuItem tsiPageSize9;
 	}
 }
 

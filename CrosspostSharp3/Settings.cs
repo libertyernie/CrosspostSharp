@@ -7,6 +7,12 @@ using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public class Settings {
+		public struct MainFormSettings {
+			public int rows, columns;
+		}
+
+		public MainFormSettings? MainForm { get; set; }
+
 		public interface IAccountCredentials {
 			string Username { get; }
 		}
