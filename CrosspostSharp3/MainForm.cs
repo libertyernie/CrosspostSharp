@@ -122,7 +122,7 @@ namespace CrosspostSharp3 {
 			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
-					var w = new DeviantArtSourceWrapper(loadAll: false);
+					var w = new DeviantArtSourceWrapper(loadAll: false, includeLiterature: false);
 					var u = await w.GetUserAsync();
 
 					add(w);

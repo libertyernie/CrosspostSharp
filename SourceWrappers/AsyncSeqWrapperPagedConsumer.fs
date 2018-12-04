@@ -33,6 +33,8 @@ type AsyncSeqWrapperPagedConsumer(wrapper: AsyncSeqWrapper, page_size: int) =
         |> toSeqAsync
         |> Async.StartAsTask
 
+    member __.Name = wrapper.Name
+
     interface IPagedWrapperConsumer with
         member __.Name = wrapper.Name
         member __.HasMoreAsync() =
