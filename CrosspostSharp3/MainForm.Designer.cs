@@ -177,7 +177,7 @@
             this.tumblrToolStripMenuItem,
             this.weasylToolStripMenuItem});
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
-            this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.accountSetupToolStripMenuItem.Text = "&Account Setup";
             // 
             // deviantArtToolStripMenuItem
@@ -256,20 +256,20 @@
             this.tsiPageSize4,
             this.tsiPageSize9});
             this.pageSizeToolStripMenuItem.Name = "pageSizeToolStripMenuItem";
-            this.pageSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pageSizeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.pageSizeToolStripMenuItem.Text = "&Page Size";
             // 
             // tsiPageSize4
             // 
             this.tsiPageSize4.Name = "tsiPageSize4";
-            this.tsiPageSize4.Size = new System.Drawing.Size(180, 22);
+            this.tsiPageSize4.Size = new System.Drawing.Size(80, 22);
             this.tsiPageSize4.Text = "4";
             this.tsiPageSize4.Click += new System.EventHandler(this.tsiPageSize4_Click);
             // 
             // tsiPageSize9
             // 
             this.tsiPageSize9.Name = "tsiPageSize9";
-            this.tsiPageSize9.Size = new System.Drawing.Size(180, 22);
+            this.tsiPageSize9.Size = new System.Drawing.Size(80, 22);
             this.tsiPageSize9.Text = "9";
             this.tsiPageSize9.Click += new System.EventHandler(this.tsiPageSize9_Click);
             // 
@@ -351,10 +351,12 @@
             // 
             // lblLoadStatus
             // 
+            this.lblLoadStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLoadStatus.AutoEllipsis = true;
             this.lblLoadStatus.Location = new System.Drawing.Point(12, 53);
             this.lblLoadStatus.Name = "lblLoadStatus";
-            this.lblLoadStatus.Size = new System.Drawing.Size(310, 13);
+            this.lblLoadStatus.Size = new System.Drawing.Size(310, 51);
             this.lblLoadStatus.TabIndex = 0;
             // 
             // MainForm

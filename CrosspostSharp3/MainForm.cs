@@ -207,10 +207,12 @@ namespace CrosspostSharp3 {
 				AsyncSeqWrapperPagedConsumer w = new AsyncSeqWrapperPagedConsumer(c, tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount);
 				try {
 					var user = await c.GetUserAsync();
+					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: ok)"));
 					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.username)
 						? c.Name
 						: $"{user.username} - {c.Name}");
 				} catch (Exception ex) {
+					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: failed)"));
 					var inner = ex;
 					while (inner is AggregateException a) {
 						inner = inner.InnerException;
