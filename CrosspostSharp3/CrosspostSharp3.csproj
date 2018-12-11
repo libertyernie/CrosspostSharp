@@ -361,10 +361,10 @@
       <Version>1.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
+      <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="NewTumblrSharp">
-      <Version>1.1.112</Version>
+      <Version>1.1.133</Version>
     </PackageReference>
     <PackageReference Include="TweetinviAPI">
       <Version>4.0.0</Version>
