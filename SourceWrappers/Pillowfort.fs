@@ -55,8 +55,10 @@ type PillowfortSourceWrapper(client: PillowfortClient) =
     }
 
     override __.FetchUserInternal() = async {
-        let! username = client.AsyncWhoami
-        let! avatar = client.AsyncGetAvatar
+        let! fn1 = Async.StartChild client.AsyncWhoami
+        let! fn2 = Async.StartChild client.AsyncGetAvatar
+        let! username = fn1
+        let! avatar = fn2
         return {
             username = username
             icon_url = avatar

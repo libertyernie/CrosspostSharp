@@ -249,12 +249,14 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void Form1_Shown(object sender, EventArgs e) {
+			toolsToolStripMenuItem.Enabled = false;
 			try {
 				await ReloadWrapperList();
 			} catch (Exception) {
 				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				lblLoadStatus.Visible = false;
 			}
+			toolsToolStripMenuItem.Enabled = true;
 		}
 
 		private void btnLoad_Click(object sender, EventArgs e) {
