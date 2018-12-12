@@ -1,0 +1,9 @@
+*.vspscc
+bin
+obj
+*.suo
+*.user
+packages
+*.log
+.vs
+*.mmdb

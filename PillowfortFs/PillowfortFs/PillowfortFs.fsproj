@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="UserAgent.fs" />
+    <Compile Include="SingleCookieWrapper.fs" />
+    <Compile Include="AuthenticityToken.fs" />
+    <Compile Include="Post.fs" />
+    <Compile Include="Request.fs" />
+    <Compile Include="PillowfortClient.fs" />
+    <Compile Include="PillowfortClientFactory.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.5.3" />
+  </ItemGroup>
+
+</Project>
