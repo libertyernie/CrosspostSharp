@@ -273,6 +273,13 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
+			foreach (var m in settings.Mastodon) {
+				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
+					using (var f = new MastodonNoPhotoPostForm(m, ExportAsText())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
 			foreach (var p in settings.Pillowfort) {
 				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
 					using (var f = new PillowfortPostForm(p, ExportAsText())) {

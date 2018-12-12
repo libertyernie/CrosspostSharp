@@ -52,9 +52,9 @@ type TumblrSourceWrapper(client: TumblrClient, blogName: string, photosOnly: boo
 
     override __.Name =
         if photosOnly then
-            "Tumblr (photos)"
+            "Tumblr (images)"
         else
-            "Tumblr (text + photos)"
+            "Tumblr (text + images)"
     
     override __.FetchSubmissionsInternal() = asyncSeq {
         let! blogNames = Async.AwaitTask (blogNamesTask.Force())

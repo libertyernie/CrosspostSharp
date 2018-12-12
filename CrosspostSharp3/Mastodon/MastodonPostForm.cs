@@ -24,7 +24,6 @@ namespace CrosspostSharp3 {
 			InitializeComponent();
 			_client = s.CreateClient();
 			_artworkData = d;
-			lblUsername2.Text = "@" + s.username + "@" + s.Instance;
 
 			if (string.IsNullOrEmpty(_artworkData.title)) {
 				chkIncludeTitle.Enabled = false;
@@ -89,7 +88,7 @@ namespace CrosspostSharp3 {
 				using (var ms = new MemoryStream(_artworkData.data, false)) {
 					a = await _client.UploadMedia(ms, PostConverter.CreateFilename(_artworkData));
 				}
-				await _client.PostStatus(textBox1.Text, Visibility.Public, mediaIds: new[] { a.Id }, sensitive: _artworkData.mature || _artworkData.adult);
+				await _client.PostStatus(textBox1.Text, Visibility.Public, mediaIds: new[] { a.Id }, sensitive: chkPotentiallySensitive.Checked);
 				Close();
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);

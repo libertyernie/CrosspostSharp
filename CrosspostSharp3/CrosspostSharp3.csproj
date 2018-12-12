@@ -127,6 +127,12 @@
     <Compile Include="Mastodon\MastodonPostForm.Designer.cs">
       <DependentUpon>MastodonPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mastodon\MastodonNoPhotoPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mastodon\MastodonNoPhotoPostForm.Designer.cs">
+      <DependentUpon>MastodonNoPhotoPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mastodon\MastodonPostForm.resx">
       <DependentUpon>MastodonPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mastodon\MastodonNoPhotoPostForm.resx">
+      <DependentUpon>MastodonNoPhotoPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pillowfort\PillowfortPostForm.resx">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>
