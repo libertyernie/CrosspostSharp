@@ -104,11 +104,25 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Visible = true;
 			lblLoadStatus.Text = "Loading settings...";
 
-			var s = Settings.Load();
+			Settings s = Settings.Load();
+			tableLayoutPanel1.Controls.Clear();
+			tableLayoutPanel1.RowCount = s.MainForm?.rows ?? 2;
+			tableLayoutPanel1.ColumnCount = s.MainForm?.columns ?? 2;
+			tableLayoutPanel1.RowStyles.Clear();
+			for (int i = 0; i < tableLayoutPanel1.RowCount; i++) {
+				tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0f / tableLayoutPanel1.RowCount));
+			}
+			tableLayoutPanel1.ColumnStyles.Clear();
+			for (int i = 0; i < tableLayoutPanel1.ColumnCount; i++) {
+				tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0f / tableLayoutPanel1.ColumnCount));
+			}
+			tsiPageSize4.Checked = tableLayoutPanel1.RowCount == 2 && tableLayoutPanel1.ColumnCount == 2;
+			tsiPageSize9.Checked = tableLayoutPanel1.RowCount == 3 && tableLayoutPanel1.ColumnCount == 3;
+
 			if (s.DeviantArt.RefreshToken != null) {
 				lblLoadStatus.Text = "Adding DeviantArt...";
 				if (await UpdateDeviantArtTokens()) {
-					var w = new DeviantArtSourceWrapper(loadAll: false);
+					var w = new DeviantArtSourceWrapper(loadAll: false, includeLiterature: false);
 					var u = await w.GetUserAsync();
 
 					add(w);
@@ -190,13 +204,15 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Connecting to sites...";
 			
 			var tasks = list.Select(async c => {
-				AsyncSeqWrapperPagedConsumer w = new AsyncSeqWrapperPagedConsumer(c, 4);
+				AsyncSeqWrapperPagedConsumer w = new AsyncSeqWrapperPagedConsumer(c, tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount);
 				try {
 					var user = await c.GetUserAsync();
+					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: ok)"));
 					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.username)
 						? c.Name
 						: $"{user.username} - {c.Name}");
 				} catch (Exception ex) {
+					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: failed)"));
 					var inner = ex;
 					while (inner is AggregateException a) {
 						inner = inner.InnerException;
@@ -291,6 +307,36 @@ namespace CrosspostSharp3 {
 
 			using (var f = new BatchExportForm(GetWrappers())) {
 				f.ShowDialog(this);
+			}
+		}
+
+		private async void tsiPageSize4_Click(object sender, EventArgs e) {
+			Settings s = Settings.Load();
+			s.MainForm = new Settings.MainFormSettings {
+				columns = 2,
+				rows = 2,
+			};
+			s.Save();
+			try {
+				await ReloadWrapperList();
+			} catch (Exception) {
+				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				lblLoadStatus.Visible = false;
+			}
+		}
+
+		private async void tsiPageSize9_Click(object sender, EventArgs e) {
+			Settings s = Settings.Load();
+			s.MainForm = new Settings.MainFormSettings {
+				columns = 3,
+				rows = 3,
+			};
+			s.Save();
+			try {
+				await ReloadWrapperList();
+			} catch (Exception) {
+				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				lblLoadStatus.Visible = false;
 			}
 		}
 	}

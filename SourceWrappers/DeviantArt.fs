@@ -9,6 +9,12 @@ open DeviantartApi.Requests.Deviation
 open FSharp.Control
 
 type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
+    let src =
+        deviation.Content
+        |> Option.ofObj
+        |> Option.map (fun c -> c.Src)
+        |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
+
     interface IRemotePhotoPost with
         member this.Title = deviation.Title
         member this.HTMLDescription =
@@ -23,22 +29,28 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
                 | None -> Seq.empty
         member this.Timestamp = deviation.PublishedTime |> Option.ofNullable |> Option.defaultValue DateTime.UtcNow
         member this.ViewURL = deviation.Url.AbsoluteUri
-        member this.ImageURL = deviation.Content.Src
+        member this.ImageURL = src
         member this.ThumbnailURL =
             deviation.Thumbs
             |> Seq.map (fun d -> d.Src)
             |> Seq.tryHead
-            |> Option.defaultValue deviation.Content.Src
+            |> Option.defaultValue src
 
 type DeviantArtDeferredPostWrapper(deviation: Deviation) =
     inherit DeferredPhotoPost()
+
+    let src =
+        deviation.Content
+        |> Option.ofObj
+        |> Option.map (fun c -> c.Src)
+        |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
 
     override __.Title = deviation.Title
     override __.ThumbnailURL =
         deviation.Thumbs
         |> Seq.map (fun d -> d.Src)
         |> Seq.tryHead
-        |> Option.defaultValue deviation.Content.Src
+        |> Option.defaultValue src
     override __.ViewURL = deviation.Url.AbsoluteUri
     override __.Timestamp = deviation.PublishedTime |> Option.ofNullable
     override __.AsyncGetActual() = async {
@@ -49,7 +61,7 @@ type DeviantArtDeferredPostWrapper(deviation: Deviation) =
         return new DeviantArtPostWrapper(deviation, Seq.tryHead resp.Metadata) :> IRemotePhotoPost
     }
 
-type DeviantArtSourceWrapper(loadAll: bool) =
+type DeviantArtSourceWrapper(loadAll: bool, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
     let asyncGetMetadata (list: seq<Deviation>) = async {
@@ -81,7 +93,7 @@ type DeviantArtSourceWrapper(loadAll: bool) =
             if loadAll then
                 let! metadata = asyncGetMetadata gallery.Results
                 for d in gallery.Results do
-                    if not (isNull d.Content) then
+                    if includeLiterature || not (isNull d.Content) then
                         let m =
                             metadata
                             |> Seq.filter (fun m -> m.DeviationId = d.DeviationId)
@@ -89,7 +101,8 @@ type DeviantArtSourceWrapper(loadAll: bool) =
                         yield DeviantArtPostWrapper(d, m) :> IPostBase
             else
                 for d in gallery.Results do
-                    yield DeviantArtDeferredPostWrapper(d) :> IPostBase
+                    if includeLiterature || not (isNull d.Content) then
+                        yield DeviantArtDeferredPostWrapper(d) :> IPostBase
             
             cursor <- gallery.NextOffset
                 |> Option.ofNullable
