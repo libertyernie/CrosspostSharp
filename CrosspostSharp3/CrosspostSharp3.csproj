@@ -121,6 +121,12 @@
     <Compile Include="Mastodon\MastodonLoginDialog.Designer.cs">
       <DependentUpon>MastodonLoginDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mastodon\MastodonPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mastodon\MastodonPostForm.Designer.cs">
+      <DependentUpon>MastodonPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -268,6 +274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Mastodon\MastodonLoginDialog.resx">
       <DependentUpon>MastodonLoginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mastodon\MastodonPostForm.resx">
+      <DependentUpon>MastodonPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pillowfort\PillowfortPostForm.resx">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>
