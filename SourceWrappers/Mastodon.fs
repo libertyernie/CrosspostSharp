@@ -21,7 +21,7 @@ type MastodonPhotoPostWrapper(status: Status, attachment: Attachment) =
         member __.ImageURL = attachment.Url
         member __.ThumbnailURL = attachment.PreviewUrl
 
-type MastodonSourceWrapper(client: IMastodonClient) =
+type MastodonSourceWrapper(client: IMastodonClient, photosOnly: bool) =
     inherit AsyncSeqWrapper()
 
     let user_task = lazy(client.GetCurrentUser())
@@ -30,7 +30,11 @@ type MastodonSourceWrapper(client: IMastodonClient) =
 
     let isPhoto (a: Attachment) = a.Type = "image"
 
-    override __.Name = sprintf "%s (Mastodon)" client.Instance
+    override __.Name =
+        if photosOnly then
+            sprintf "%s (images)" client.Instance
+        else
+            sprintf "%s (text + images)" client.Instance
 
     override __.FetchSubmissionsInternal() = asyncSeq {
         let! user = getUser
@@ -45,7 +49,8 @@ type MastodonSourceWrapper(client: IMastodonClient) =
                 if isNull t.Reblog then
                     let photos = t.MediaAttachments |> Seq.filter isPhoto
                     if Seq.isEmpty photos then
-                        yield new MastodonPostWrapper(t) :> IPostBase
+                        if not photosOnly then
+                            yield new MastodonPostWrapper(t) :> IPostBase
                     else
                         for a in photos do
                             yield new MastodonPhotoPostWrapper(t, a) :> IPostBase

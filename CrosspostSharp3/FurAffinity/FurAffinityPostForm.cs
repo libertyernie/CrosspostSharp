@@ -15,8 +15,6 @@ namespace CrosspostSharp3 {
 		private readonly FurAffinityClient _client;
 		private readonly SavedPhotoPost _artworkData;
 
-		private Image _image;
-
 		public FurAffinityPostForm(Settings.FurAffinitySettings s, SavedPhotoPost d) {
 			InitializeComponent();
 			_client = new FurAffinityClient(a: s.a, b: s.b);

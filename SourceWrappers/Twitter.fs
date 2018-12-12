@@ -50,9 +50,9 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
 
     override __.Name =
         if photosOnly then
-            "Twitter (photos)"
+            "Twitter (images)"
         else
-            "Twitter (text + photos)"
+            "Twitter (text + images)"
 
     override this.FetchSubmissionsInternal() = asyncSeq {
         let mutable maxId = -1L

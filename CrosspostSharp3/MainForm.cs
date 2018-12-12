@@ -163,7 +163,8 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var p in s.Mastodon) {
 				lblLoadStatus.Text = $"Adding Mastodon (@{p.username}@{p.appRegistration.Instance})...";
-				add(new MastodonSourceWrapper(p.CreateClient()));
+				add(new MastodonSourceWrapper(p.CreateClient(), photosOnly: true));
+				add(new MastodonSourceWrapper(p.CreateClient(), photosOnly: false));
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
