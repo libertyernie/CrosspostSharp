@@ -37,11 +37,11 @@
   <ItemGroup>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
     <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
-    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj" />
+    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />
-    <ProjectReference Include="..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj" />
+    <ProjectReference Include="..\PillowfortFs\PillowfortFs.fsproj" />
     <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj" />
-    <ProjectReference Include="..\WeasylLib\WeasylLib\WeasylLib.csproj" />
+    <ProjectReference Include="..\WeasylLib\WeasylLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
