@@ -77,6 +77,29 @@ namespace CrosspostSharp3 {
 			string IAccountCredentials.Username => username;
 		}
 
+		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
+
+		public struct MastodonSettings : IAccountCredentials {
+			public Mastonet.Entities.AppRegistration appRegistration;
+			public Mastonet.Entities.Auth auth;
+
+			public string Instance {
+				get {
+					return appRegistration.Instance;
+				}
+				set {
+					appRegistration.Instance = value;
+				}
+			}
+
+			public string username;
+			string IAccountCredentials.Username => username;
+
+			public Mastonet.MastodonClient CreateClient() {
+				return new Mastonet.MastodonClient(appRegistration, auth);
+			}
+		}
+
 		public List<PillowfortSettings> Pillowfort = new List<PillowfortSettings>();
 
 		public struct PinterestSettings : IAccountCredentials {

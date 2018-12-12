@@ -78,9 +78,10 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
                     else
                         for m in photos do
                             yield wrapPhoto t m
-
-            maxId <- (tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
+                            
             more <- not (Seq.isEmpty tweets)
+            if more then
+                maxId <- (tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
     }
 
     override this.FetchUserInternal() = async {
