@@ -34,7 +34,6 @@ multiple blogs/characters using a single account.
 * Furry Network
 * Inkbunny
 * Pillowfort
-* Pixiv (read-only)
 * Tumblr
 * Twitter
 * Weasyl
@@ -70,8 +69,7 @@ Credentials
 
 Credentials are stored in the file CrosspostSharp.json. This includes tokens
 are used to give CrosspostSharp access to your accounts. Make sure you keep
-this file safe! (Note that for Pixiv, your actual password will be stored in
-plaintext.)
+this file safe!
 
 Compiling from Source
 ---------------------

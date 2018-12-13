@@ -142,9 +142,6 @@
     <Compile Include="Pillowfort\PillowfortPostForm.Designer.cs">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pixiv\MainForm.Pixiv.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Inkbunny\MainForm.Inkbunny.cs">
       <SubType>Form</SubType>
     </Compile>
