@@ -200,8 +200,8 @@ type FurAffinityClient(a: string, b: string) =
         let! html = sr.ReadToEndAsync() |> Async.AwaitTask
         let m = Regex.Match(html, """id="my-username"[^>]*>~([^<]+)""")
         return if m.Success
-            then Some m.Groups.[1].Value
-            else None
+            then m.Groups.[1].Value
+            else failwithf "Username not found on page (not logged in?)"
     }
 
     member __.AsyncGetAvatarUri username = async {
@@ -216,5 +216,5 @@ type FurAffinityClient(a: string, b: string) =
     }
 
     member this.SubmitPostAsync(post) = this.AsyncSubmitPost post |> Async.StartAsTask
-    member this.WhoamiAsync() = this.AsyncWhoami |> asyncOptionDefault null |> Async.StartAsTask
+    member this.WhoamiAsync() = this.AsyncWhoami |> Async.StartAsTask
     member this.GetAvatarUriAsync(username) = this.AsyncGetAvatarUri username |> asyncOptionDefault null |> Async.StartAsTask

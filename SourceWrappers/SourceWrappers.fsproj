@@ -36,6 +36,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
     <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
+    <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />
     <ProjectReference Include="..\PillowfortFs\PillowfortFs.fsproj" />

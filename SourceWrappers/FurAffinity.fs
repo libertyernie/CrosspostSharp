@@ -3,7 +3,7 @@
 open FAExportLib
 open System
 open FSharp.Control
-open System.Deployment.Internal
+open FurAffinityFs
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IRemotePhotoPost>) =
     inherit DeferredPhotoPost()
@@ -39,6 +39,7 @@ type FurAffinityAbstractSourceWrapper(scraps: bool) =
     inherit AsyncSeqWrapper()
 
     abstract GetAPIClient: unit -> FAClient
+    abstract GetScraper: unit -> FurAffinityClient option
     abstract AsyncGetUsername: unit -> Async<string>
 
     member this.GetSubmission id = async {
@@ -71,13 +72,19 @@ type FurAffinityAbstractSourceWrapper(scraps: bool) =
     }
 
     override this.FetchUserInternal() = async {
+        let dt = DateTime.UtcNow
         let! username = this.AsyncGetUsername()
+        DateTime.UtcNow - dt |> printfn "A %O"
 
-        let apiClient = this.GetAPIClient()
-        let! user = apiClient.GetUserAsync(username) |> Async.AwaitTask
+        let client = this.GetAPIClient()
+        let! icon_uri =
+            match this.GetScraper() with
+            | Some s -> s.AsyncGetAvatarUri username
+            | None -> async { return None }
+        DateTime.UtcNow - dt |> printfn "B %O"
         return {
             username = username
-            icon_url = Some user.Avatar
+            icon_url = icon_uri |> Option.map (fun u -> u.AbsoluteUri)
         }
     }
 
@@ -85,15 +92,18 @@ type FurAffinityUserSourceWrapper(username: string, scraps: bool) =
     inherit FurAffinityAbstractSourceWrapper(scraps)
 
     override __.GetAPIClient() = new FAClient()
+    override __.GetScraper() = None
     override __.AsyncGetUsername() = async { return username }
 
 type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     inherit FurAffinityAbstractSourceWrapper(scraps)
 
     let apiClient = FAUserClient(a, b)
+    let scraper = FurAffinityClient(a, b)
 
     override __.GetAPIClient() = apiClient :> FAClient
-    override __.AsyncGetUsername() = apiClient.WhoamiAsync() |> Async.AwaitTask
+    override __.GetScraper() = Some scraper
+    override __.AsyncGetUsername() = scraper.AsyncWhoami
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
     inherit AsyncSeqWrapper()
