@@ -2,6 +2,8 @@
 
 This is a C# (.NET Standard) library that interfaces with the Weasyl API.
 
+This library was developed as part of [CrosspostSharp](https://github.com/libertyernie/CrosspostSharp).
+
 Supported endpoints:
 
 * whoami
