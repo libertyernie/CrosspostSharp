@@ -17,7 +17,6 @@
     <Compile Include="Inkbunny.fs" />
     <Compile Include="Mastodon.fs" />
     <Compile Include="Pillowfort.fs" />
-    <Compile Include="Pixiv.fs" />
     <Compile Include="Stash.fs" />
     <Compile Include="Twitter.fs" />
     <Compile Include="Tumblr.fs" />
@@ -37,11 +36,11 @@
   <ItemGroup>
     <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
     <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
-    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj" />
+    <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
+    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />
-    <ProjectReference Include="..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj" />
-    <ProjectReference Include="..\PixivUniversal\PixivAPI\PixivAPI.csproj" />
-    <ProjectReference Include="..\WeasylLib\WeasylLib\WeasylLib.csproj" />
+    <ProjectReference Include="..\PillowfortFs\PillowfortFs.fsproj" />
+    <ProjectReference Include="..\WeasylLib\WeasylLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

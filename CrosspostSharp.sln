@@ -14,9 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InkbunnyLib", "InkbunnyLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAWinFormsLogin", "FAWinFormsLogin\FAWinFormsLogin.csproj", "{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixivAPI", "PixivUniversal\PixivAPI\PixivAPI.csproj", "{337DAF53-DCC0-477D-A7B9-5C4C37547292}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurryNetworkLib", "FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj", "{46595381-E1FC-4BE3-A970-B1988C4A2D0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurryNetworkLib", "FurryNetworkLib\FurryNetworkLib.csproj", "{46595381-E1FC-4BE3-A970-B1988C4A2D0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrosspostSharp3", "CrosspostSharp3\CrosspostSharp3.csproj", "{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}"
 EndProject
@@ -28,13 +26,11 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SourceWrappers", "SourceWra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAExportLib", "FAExportLib\FAExportLib.csproj", "{DCFBC5B7-F332-445C-9493-E7B3990864AF}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PillowfortFs", "PillowfortFs\PillowfortFs\PillowfortFs.fsproj", "{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PillowfortFs", "PillowfortFs\PillowfortFs.fsproj", "{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FurAffinityFs", "FurAffinityFs\FurAffinityFs\FurAffinityFs.fsproj", "{48E5E654-F069-4AF6-BD06-84E2D0C05A53}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FurAffinityFs", "FurAffinityFs\FurAffinityFs.fsproj", "{48E5E654-F069-4AF6-BD06-84E2D0C05A53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib", "WeasylLib\WeasylLib\WeasylLib.csproj", "{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UserDemo", "UserDemo\UserDemo.vbproj", "{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib", "WeasylLib\WeasylLib.csproj", "{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,18 +66,6 @@ Global
 		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x64.Build.0 = Release|Any CPU
 		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x86.ActiveCfg = Release|Any CPU
 		{5939939E-B9B0-4766-AFB9-4FFF83C16FB8}.Release|x86.Build.0 = Release|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Debug|x64.Build.0 = Debug|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Debug|x86.Build.0 = Debug|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Release|Any CPU.Build.0 = Release|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Release|x64.ActiveCfg = Release|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Release|x64.Build.0 = Release|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Release|x86.ActiveCfg = Release|Any CPU
-		{337DAF53-DCC0-477D-A7B9-5C4C37547292}.Release|x86.Build.0 = Release|Any CPU
 		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -190,18 +174,6 @@ Global
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x64.Build.0 = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x86.ActiveCfg = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x86.Build.0 = Release|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Debug|x64.Build.0 = Debug|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Debug|x86.Build.0 = Debug|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Release|x64.ActiveCfg = Release|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Release|x64.Build.0 = Release|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Release|x86.ActiveCfg = Release|Any CPU
-		{A3A900F9-D9CD-4744-9289-7A42F4A8B82F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

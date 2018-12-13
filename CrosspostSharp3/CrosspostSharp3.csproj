@@ -142,9 +142,6 @@
     <Compile Include="Pillowfort\PillowfortPostForm.Designer.cs">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pixiv\MainForm.Pixiv.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Inkbunny\MainForm.Inkbunny.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -358,11 +355,11 @@
       <Project>{5939939e-b9b0-4766-afb9-4fff83c16fb8}</Project>
       <Name>FAWinFormsLogin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FurAffinityFs\FurAffinityFs\FurAffinityFs.fsproj">
+    <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj">
       <Project>{48e5e654-f069-4af6-bd06-84e2d0c05a53}</Project>
       <Name>FurAffinityFs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib\FurryNetworkLib.csproj">
+    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj">
       <Project>{46595381-e1fc-4be3-a970-b1988c4a2d0e}</Project>
       <Name>FurryNetworkLib</Name>
     </ProjectReference>
@@ -370,7 +367,7 @@
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PillowfortFs\PillowfortFs\PillowfortFs.fsproj">
+    <ProjectReference Include="..\PillowfortFs\PillowfortFs.fsproj">
       <Project>{cb2d34c8-7afc-4f4c-b08d-09460d50e06a}</Project>
       <Name>PillowfortFs</Name>
     </ProjectReference>
@@ -378,7 +375,7 @@
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WeasylLib\WeasylLib\WeasylLib.csproj">
+    <ProjectReference Include="..\WeasylLib\WeasylLib.csproj">
       <Project>{ddc6b066-0c3a-4f0e-a06e-dfcfd7286b17}</Project>
       <Name>WeasylLib</Name>
     </ProjectReference>

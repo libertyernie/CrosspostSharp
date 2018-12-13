@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="FurAffinityCategory.fs" />
+    <Compile Include="FurAffinityType.fs" />
+    <Compile Include="FurAffinitySpecies.fs" />
+    <Compile Include="FurAffinityGender.fs" />
+    <Compile Include="FurAffinityRating.fs" />
+    <Compile Include="FurAffinitySubmission.fs" />
+    <Compile Include="FurAffinityClient.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.5.3" />
+  </ItemGroup>
+
+</Project>

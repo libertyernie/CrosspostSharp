@@ -1,27 +1,9 @@
-[submodule "WeasylLib"]
-	path = WeasylLib
-	url = https://github.com/libertyernie/WeasylLib
-[submodule "InkbunnyLib"]
-	path = InkbunnyLib
-	url = https://github.com/libertyernie/InkbunnyLib
-[submodule "FAExportLib"]
-	path = FAExportLib
-	url = https://github.com/libertyernie/FAExportLib
 [submodule "FAWinFormsLogin"]
 	path = FAWinFormsLogin
 	url = https://github.com/libertyernie/FAWinFormsLogin
 [submodule "PixivUniversal"]
 	path = PixivUniversal
 	url = https://github.com/libertyernie/PixivUniversal
-[submodule "FurryNetworkLib"]
-	path = FurryNetworkLib
-	url = https://github.com/libertyernie/FurryNetworkLib
 [submodule "DeviantartApi"]
 	path = DeviantartApi
 	url = https://github.com/libertyernie/DeviantartApi
-[submodule "PillowfortFs"]
-	path = PillowfortFs
-	url = https://github.com/libertyernie/PillowfortFs
-[submodule "FurAffinityFs"]
-	path = FurAffinityFs
-	url = https://github.com/libertyernie/FurAffinityFs
