@@ -33,6 +33,7 @@ multiple blogs/characters using a single account.
 * FurAffinity
 * Furry Network
 * Inkbunny
+* Mastodon
 * Pillowfort
 * Tumblr
 * Twitter
@@ -101,3 +102,32 @@ OAuth keys, then put the following into OAuthConsumer.cs:
             }
         }
     }
+
+Libraries Used
+----------------
+
+* [CommonMark.NET](https://www.nuget.org/packages/CommonMark.NET) (Markdown support)
+* [DeviantartApi](https://github.com/libertyernie/DeviantartApi) (DeviantArt and Sta.sh support)
+* [FlickrNet](https://www.nuget.org/packages/FlickrNet) (Flickr support)
+* [FSharp.Control.AsyncSeq](https://www.nuget.org/packages/FSharp.Control.AsyncSeq) (asynchronous sequence support)
+* [Furloader](https://github.com/Kycklingar/Furloader) (Fur Affinity login window)
+* [Imgur.API](https://www.nuget.org/packages/Imgur.API) (Imgur support)
+* [ISchemm.WinFormsOAuth](https://www.nuget.org/packages/ISchemm.WinFormsOAuth) (Flickr, Tumblr, and Twitter login windows)
+* [Mastonet](https://www.nuget.org/packages/Mastonet) (Mastodon support)
+* [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json) (JSON support)
+* [NewTumblrSharp](https://www.nuget.org/packages/NewTumblrSharp) (Tumblr support)
+* [TweetinviAPI](https://www.nuget.org/packages/TweetinviAPI) (Twitter support)
+
+|                   | Login                       | Download        | Upload          |
+|-------------------|-----------------------------|-----------------|-----------------|
+| DeviantArt/Sta.sh | DeviantartApi.WinForms      | DeviantartApi   | DeviantartApi   |
+| Flickr            | ISchemm.WinFormsOAuth       | FlickrNet       | FlickrNet       |
+| Fur Affinity      | FAWinFormsLogin (Furloader) | FAExportLib     | FurAffinityFs   |
+| Furry Network     | FurryNetworkLib             | FurryNetworkLib | FurryNetworkLib |
+| Imgur (anonymous) | N/A                         | N/A             | Imgur.API       |
+| Inkbunny          | InkbunnyLib                 | InkbunnyLib     | InkbunnyLib     |
+| Mastodon          | Mastonet                    | Mastonet        | Mastonet        |
+| Pillowfort        | PillowfortFs                | PillowfortFs    | PillowfortFs    |
+| Tumblr            | ISchemm.WinFormsOAuth       | NewTumblrSharp  | NewTumblrSharp  |
+| Twitter           | ISchemm.WinFormsOAuth       | TweetinviAPI    | TweetinviAPI    |
+| Weasyl            | N/A                         | WeasylLib       | WeasylLib       |
