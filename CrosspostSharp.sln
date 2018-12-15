@@ -32,6 +32,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FurAffinityFs", "FurAffinit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib", "WeasylLib\WeasylLib.csproj", "{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantArtFs.WinForms", "DeviantArtFs.WinForms\DeviantArtFs.WinForms.csproj", "{9A66E829-3D74-4AE9-A200-21B5C9F170B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +176,18 @@ Global
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x64.Build.0 = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x86.ActiveCfg = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x86.Build.0 = Release|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Debug|x64.Build.0 = Debug|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Debug|x86.Build.0 = Debug|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x64.ActiveCfg = Release|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x64.Build.0 = Release|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
