@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib", "WeasylLib\Weas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviantArtFs.WinForms", "DeviantArtFs.WinForms\DeviantArtFs.WinForms.csproj", "{9A66E829-3D74-4AE9-A200-21B5C9F170B6}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DeviantArtFs", "DeviantArtFs\DeviantArtFs.fsproj", "{9E00C3A6-26AD-4636-AFE3-64D4894010F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -188,6 +190,18 @@ Global
 		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x64.Build.0 = Release|Any CPU
 		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x86.ActiveCfg = Release|Any CPU
 		{9A66E829-3D74-4AE9-A200-21B5C9F170B6}.Release|x86.Build.0 = Release|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Debug|x64.Build.0 = Debug|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Debug|x86.Build.0 = Debug|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Release|x64.ActiveCfg = Release|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Release|x64.Build.0 = Release|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Release|x86.ActiveCfg = Release|Any CPU
+		{9E00C3A6-26AD-4636-AFE3-64D4894010F7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
