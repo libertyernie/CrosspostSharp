@@ -1,4 +1,4 @@
-CrosspostSharp 3.4
+CrosspostSharp 3.5
 ==================
 
 Source: https://github.com/libertyernie/CrosspostSharp
@@ -106,8 +106,9 @@ OAuth keys, then put the following into OAuthConsumer.cs:
 Libraries Used
 ----------------
 
+From NuGet:
+
 * [CommonMark.NET](https://www.nuget.org/packages/CommonMark.NET) (Markdown support)
-* [DeviantartApi](https://github.com/libertyernie/DeviantartApi) (DeviantArt and Sta.sh support)
 * [FlickrNet](https://www.nuget.org/packages/FlickrNet) (Flickr support)
 * [FSharp.Control.AsyncSeq](https://www.nuget.org/packages/FSharp.Control.AsyncSeq) (asynchronous sequence support)
 * [Furloader](https://github.com/Kycklingar/Furloader) (Fur Affinity login window)
@@ -118,16 +119,16 @@ Libraries Used
 * [NewTumblrSharp](https://www.nuget.org/packages/NewTumblrSharp) (Tumblr support)
 * [TweetinviAPI](https://www.nuget.org/packages/TweetinviAPI) (Twitter support)
 
-|                   | Login                       | Download        | Upload          |
-|-------------------|-----------------------------|-----------------|-----------------|
-| DeviantArt/Sta.sh | DeviantartApi.WinForms      | DeviantartApi   | DeviantartApi   |
-| Flickr            | ISchemm.WinFormsOAuth       | FlickrNet       | FlickrNet       |
-| Fur Affinity      | FAWinFormsLogin (Furloader) | FAExportLib     | FurAffinityFs   |
-| Furry Network     | FurryNetworkLib             | FurryNetworkLib | FurryNetworkLib |
-| Imgur (anonymous) | N/A                         | N/A             | Imgur.API       |
-| Inkbunny          | InkbunnyLib                 | InkbunnyLib     | InkbunnyLib     |
-| Mastodon          | Mastonet                    | Mastonet        | Mastonet        |
-| Pillowfort        | PillowfortFs                | PillowfortFs    | PillowfortFs    |
-| Tumblr            | ISchemm.WinFormsOAuth       | NewTumblrSharp  | NewTumblrSharp  |
-| Twitter           | ISchemm.WinFormsOAuth       | TweetinviAPI    | TweetinviAPI    |
-| Weasyl            | N/A                         | WeasylLib       | WeasylLib       |
+From GitHub:
+
+* [DeviantartApi](https://github.com/libertyernie/DeviantartApi) (DeviantArt and Sta.sh support)
+* [FAWinFormsLogin](https://github.com/libertyernie/FAWinFormsLogin) (Fur Affinity login window) - originally part of [Furloader](https://github.com/Kycklingar/Furloader)
+
+From this repository:
+
+* FAExportLib (Fur Affinity download via [FAExport](https://faexport.boothale.net/))
+* FurAffinityFs (Fur Affinity upload)
+* FurryNetworkLib
+* InkbunnyLib
+* PillowfortFs
+* WeasylLib
