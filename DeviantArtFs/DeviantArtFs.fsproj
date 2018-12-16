@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Types\Authentication\TokenResponse.fs" />
     <Compile Include="DeviantArtToken.fs" />
+    <Compile Include="DeviantArtAuth.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

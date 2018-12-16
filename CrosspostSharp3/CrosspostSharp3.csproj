@@ -351,6 +351,14 @@
       <Project>{bedb9fa0-1b50-4c19-ad30-fd84d38d6d3b}</Project>
       <Name>DeviantartApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DeviantArtFs.WinForms\DeviantArtFs.WinForms.csproj">
+      <Project>{9a66e829-3d74-4ae9-a200-21b5c9f170b6}</Project>
+      <Name>DeviantArtFs.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeviantArtFs\DeviantArtFs.fsproj">
+      <Project>{9e00c3a6-26ad-4636-afe3-64d4894010f7}</Project>
+      <Name>DeviantArtFs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FAWinFormsLogin\FAWinFormsLogin.csproj">
       <Project>{5939939e-b9b0-4766-afb9-4fff83c16fb8}</Project>
       <Name>FAWinFormsLogin</Name>

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DeviantArtLib.WinForms {
+namespace DeviantArtFs.WinForms {
 	public class DeviantArtAuthorizationCodeForm : Form {
 		public string Code { get; private set; }
 

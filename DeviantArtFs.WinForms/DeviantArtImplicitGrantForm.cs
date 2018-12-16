@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DeviantArtLib.WinForms {
+namespace DeviantArtFs.WinForms {
 	public class DeviantArtImplicitGrantForm : Form {
 		private readonly string _state;
 
