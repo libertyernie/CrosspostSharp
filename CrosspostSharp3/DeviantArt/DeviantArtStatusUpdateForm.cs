@@ -1,5 +1,4 @@
-﻿using DeviantartApi.Requests.User.Statuses;
-using DeviantArtFs;
+﻿using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -67,17 +66,8 @@ namespace CrosspostSharp3 {
 					itemId = resp1.Result.ItemId;
 				}
 
-				var req = new PostStatusRequest {
-					Body = textBox1.Text,
-					StashId = itemId?.ToString()
-				};
-				var resp = await req.ExecuteAsync();
-				if (resp.IsError) {
-					throw new Exception(resp.ErrorText);
-				}
-				if (!string.IsNullOrEmpty(resp.Result.Error)) {
-					throw new Exception(resp.Result.ErrorDescription);
-				}
+				await _client.UserStatusesPostAsync(new DeviantArtStatusPostParameters(textBox1.Text, null, null, itemId));
+
 				Close();
 			} catch (Exception ex) {
 				btnPost.Enabled = true;

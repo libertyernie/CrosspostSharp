@@ -178,7 +178,7 @@ namespace CrosspostSharp3 {
 		public async Task<bool> UpdateTokensAsync() {
 			bool changed = false;
 			foreach (var da in DeviantArtAccounts.ToArray()) {
-				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-1)) {
+				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-15)) {
 					// Get new access token
 					var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
 					var t = await a.RefreshAsync(da.RefreshToken);

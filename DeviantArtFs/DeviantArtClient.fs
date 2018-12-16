@@ -307,11 +307,7 @@ type DeviantArtStatusesResponse = JsonProvider<"""[
                 "usericon": "https://a.deviantart.net/avatars/j/u/justgalym.jpg?1",
                 "type": "admin"
             },
-            "items": [
-                {
-                    "type": "some_other_type"
-                }
-            ]
+            "items": []
         }
     ]
 }, {
@@ -416,9 +412,54 @@ type DeviantArtStatusesResponse = JsonProvider<"""[
 }, {
     "has_more": false,
     "next_offset": null,
+    "results": [
+        {
+            "statusid": "1358FE0E-8A9D-E39F-3BC8-A7ACEC0EEE8C",
+            "body": "test",
+            "ts": "2018-12-16T15:33:10-0800",
+            "url": "https://www.deviantart.com/libertyernie/status/15844513",
+            "comments_count": 0,
+            "is_share": true,
+            "is_deleted": false,
+            "author": {
+                "userid": "FE89BDF5-90DF-951A-24CD-366353ECC271",
+                "username": "libertyernie",
+                "usericon": "https://a.deviantart.net/avatars/l/i/libertyernie.jpg?2",
+                "type": "regular"
+            },
+            "items": [
+                {
+                    "type": "status",
+                    "status": {
+                        "statusid": "163DB8A7-49CF-657D-FE3A-A877222A6161",
+                        "body": "<p>Sad monsters?? This is my kind of game </p><br /><br /><a class=\"embedded-deviation embedded-image-deviation\" href=\"https://sta.sh/01o8rj7yawnx\" data-embed-type=\"deviation\" data-embed-id=\"6118323951538653\" data-extension=\"jpg\" data-fullview=\"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_1024,h_576,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-fullview.jpg\" data-fullview-width=\"1024\" data-fullview-height=\"576\"><img src=\"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_1024,h_576,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-fullview.jpg\" alt=\"Status Update 10/21/2018 11:11:10 AM by lizard-socks\" title=\"Status Update 10/21/2018 11:11:10 AM by lizard-socks\" style=\"\"></a>",
+                        "ts": "2018-10-21T09:11:15-0700",
+                        "url": "https://www.deviantart.com/lizard-socks/status/15268122",
+                        "comments_count": 0,
+                        "is_share": false,
+                        "is_deleted": false,
+                        "author": {
+                            "userid": "7EE6490E-FCA7-3129-410A-AA684C3BC7DB",
+                            "username": "lizard-socks",
+                            "usericon": "https://a.deviantart.net/avatars/l/i/lizard-socks.png",
+                            "type": "regular"
+                        },
+                        "items": []
+                    }
+                }
+            ]
+        }
+    ]
+}, {
+    "has_more": false,
+    "next_offset": null,
     "results": []
 }
 ]""", SampleIsList=true>
+
+type DeviantArtStatusPostResponse = JsonProvider<"""{
+    "statusid": "85B05A5E-7773-9AAF-CEC7-88F522A5AF5B"
+}""">
 
 type DeviantArtMetadataResponse = JsonProvider<"""{
     "metadata": [
@@ -776,6 +817,13 @@ type DeviantArtMetadataResponse = JsonProvider<"""{
     ]
 }""">
 
+type DeviantArtStatusPostParameters = {
+    Body: string
+    StatusId: Nullable<Guid>
+    ParentId: Nullable<Guid>
+    StashId: Nullable<int64>
+}
+
 type DeviantArtClient(token: IDeviantArtAccessToken) =
     let current_token = token
 
@@ -867,6 +915,34 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
         return DeviantArtStatusesResponse.Parse json
     }
 
+    member __.AsyncUserStatusesPost (ps: DeviantArtStatusPostParameters) = async {
+        let query = seq {
+            match Option.ofObj ps.Body with
+            | Some s -> yield sprintf "body=%s" s
+            | None -> ()
+            match Option.ofNullable ps.ParentId with
+            | Some s -> yield sprintf "parentid=%O" s
+            | None -> ()
+            match Option.ofNullable ps.StatusId with
+            | Some s -> yield sprintf "id=%O" s
+            | None -> ()
+            match Option.ofNullable ps.StashId with
+            | Some s -> yield sprintf "stashid=%O" s
+            | None -> ()
+        }
+        let req = createRequest "https://www.deviantart.com/api/v1/oauth2/user/statuses/post"
+        req.Method <- "POST"
+        req.ContentType <- "application/x-www-form-urlencoded"
+        do! async {
+            use! stream = req.GetRequestStreamAsync() |> Async.AwaitTask
+            use sw = new StreamWriter(stream)
+            do! String.concat "&" query |> sw.WriteAsync |> Async.AwaitTask
+        }
+        let! json = asyncRead req
+        let result = DeviantArtStatusPostResponse.Parse json
+        return result.Statusid
+    }
+
     member __.AsyncDeviation (deviationid: Guid) = async {
         let req =
             sprintf "https://www.deviantart.com/api/v1/oauth2/deviation/%O" deviationid
@@ -907,3 +983,4 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
     member this.GetUsernameAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Username) |> Async.StartAsTask
     member this.GetUserIconAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Usericon) |> Async.StartAsTask
     member this.GetGalleryThumbnailsAsync() = this.AsyncGalleryAll None None None |> whenDone (fun g -> g.Results |> Seq.map (fun d -> d.Thumbs |> Seq.map (fun t -> t.Src) |> Seq.head)) |> Async.StartAsTask
+    member this.UserStatusesPostAsync(ps) = this.AsyncUserStatusesPost ps |> Async.StartAsTask
