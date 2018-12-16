@@ -1,8 +1,10 @@
-﻿using FlickrNet;
+﻿using DeviantArtFs;
+using FlickrNet;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
@@ -171,6 +173,26 @@ namespace CrosspostSharp3 {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
 			}
 			return s;
+		}
+
+		public async Task<bool> UpdateTokensAsync() {
+			bool changed = false;
+			foreach (var da in DeviantArtAccounts.ToArray()) {
+				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-1)) {
+					// Get new access token
+					var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+					var t = await a.RefreshAsync(da.RefreshToken);
+					DeviantArtAccounts.Remove(da);
+					DeviantArtAccounts.Add(new DeviantArtSettings {
+						AccessToken = t.AccessToken,
+						ExpiresAt = t.ExpiresAt,
+						RefreshToken = t.RefreshToken,
+						Username = da.Username
+					});
+					changed = true;
+				}
+			}
+			return changed;
 		}
 
 		public void Save(string filename = "CrosspostSharp3.json") {

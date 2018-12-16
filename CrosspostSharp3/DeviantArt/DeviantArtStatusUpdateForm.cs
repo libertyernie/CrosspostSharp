@@ -1,4 +1,5 @@
 ﻿using DeviantartApi.Requests.User.Statuses;
+using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -14,15 +15,16 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public partial class DeviantArtStatusUpdateForm : Form {
 		private byte[] _image;
 
-		public DeviantArtStatusUpdateForm(IPostBase post) {
+		private readonly DeviantArtClient _client;
+
+		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, IPostBase post) {
 			InitializeComponent();
+			_client = new DeviantArtClient(token);
 
 			textBox1.Text = post.HTMLDescription;
 			_image = (post as SavedPhotoPost)?.data;
@@ -38,17 +40,8 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				var wrapper = new DeviantArtStatusSourceWrapper();
-				lblUsername1.Text = await wrapper.WhoamiAsync();
-
-				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync());
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					ms.Position = 0;
-					picUserIcon.Image = Image.FromStream(ms);
-				}
+				lblUsername1.Text = await _client.GetUsernameAsync();
+				picUserIcon.ImageLocation = await _client.GetUserIconAsync();
 			} catch (Exception) { }
 		}
 		

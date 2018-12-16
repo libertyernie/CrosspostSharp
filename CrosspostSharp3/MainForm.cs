@@ -120,6 +120,10 @@ namespace CrosspostSharp3 {
 			tsiPageSize4.Checked = tableLayoutPanel1.RowCount == 2 && tableLayoutPanel1.ColumnCount == 2;
 			tsiPageSize9.Checked = tableLayoutPanel1.RowCount == 3 && tableLayoutPanel1.ColumnCount == 3;
 
+			if (await s.UpdateTokensAsync()) {
+				s.Save();
+			}
+
 			foreach (var da in s.DeviantArtAccounts) {
 				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
 				var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);

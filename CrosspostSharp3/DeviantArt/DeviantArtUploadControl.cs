@@ -1,5 +1,6 @@
 ﻿using DeviantartApi.Objects;
 using DeviantartApi.Requests.Stash;
+using DeviantArtFs;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
@@ -46,10 +47,13 @@ namespace CrosspostSharp3 {
 
 		public string UploadedUrl { get; private set; }
 
-        public DeviantArtUploadControl() {
-            InitializeComponent();
+		private readonly DeviantArtClient _client;
 
-            radNone.CheckedChanged += MatureChanged;
+		public DeviantArtUploadControl(IDeviantArtAccessToken token) {
+            InitializeComponent();
+			_client = new DeviantArtClient(token);
+
+			radNone.CheckedChanged += MatureChanged;
             radModerate.CheckedChanged += MatureChanged;
             radStrict.CheckedChanged += MatureChanged;
 

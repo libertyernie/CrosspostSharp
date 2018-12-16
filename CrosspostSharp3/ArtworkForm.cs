@@ -152,8 +152,12 @@ namespace CrosspostSharp3 {
 			BeginInvoke(new Action(ReloadOptions));
 		}
 
-		private void ReloadOptions() {
+		private async void ReloadOptions() {
 			Settings settings = Settings.Load();
+
+			if (await settings.UpdateTokensAsync()) {
+				settings.Save();
+			}
 
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
@@ -169,7 +173,7 @@ namespace CrosspostSharp3 {
 						using (var f = new Form()) {
 							f.Width = 600;
 							f.Height = 350;
-							var d = new DeviantArtUploadControl {
+							var d = new DeviantArtUploadControl(da) {
 								Dock = DockStyle.Fill
 							};
 							f.Controls.Add(d);
@@ -179,7 +183,7 @@ namespace CrosspostSharp3 {
 						}
 					}));
 					listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
-						using (var f = new DeviantArtStatusUpdateForm(ExportAsPhoto())) {
+						using (var f = new DeviantArtStatusUpdateForm(da, ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -268,7 +272,7 @@ namespace CrosspostSharp3 {
 
 			foreach (var da in settings.DeviantArtAccounts) {
 				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
-					using (var f = new DeviantArtStatusUpdateForm(ExportAsText())) {
+					using (var f = new DeviantArtStatusUpdateForm(da, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));

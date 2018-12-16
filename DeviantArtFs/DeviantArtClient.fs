@@ -708,4 +708,5 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
     }
 
     member this.GetUsernameAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Username) |> Async.StartAsTask
+    member this.GetUserIconAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Usericon) |> Async.StartAsTask
     member this.GetGalleryThumbnailsAsync() = this.AsyncGalleryAll None None None |> whenDone (fun g -> g.Results |> Seq.map (fun d -> d.Thumbs |> Seq.map (fun t -> t.Src) |> Seq.head)) |> Async.StartAsTask
