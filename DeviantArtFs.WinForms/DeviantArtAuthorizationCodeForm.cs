@@ -10,7 +10,7 @@ namespace DeviantArtFs.WinForms {
 	public class DeviantArtAuthorizationCodeForm : Form {
 		public string Code { get; private set; }
 
-		public DeviantArtAuthorizationCodeForm(string clientId, Uri callbackUrl, IEnumerable<string> scopes = null) {
+		public DeviantArtAuthorizationCodeForm(int clientId, Uri callbackUrl, IEnumerable<string> scopes = null) {
 			this.Width = 322;
 			this.Height = 573;
 

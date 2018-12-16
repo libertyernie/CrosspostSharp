@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Types\Authentication\TokenResponse.fs" />
     <Compile Include="DeviantArtToken.fs" />
     <Compile Include="DeviantArtAuth.fs" />
   </ItemGroup>
