@@ -164,8 +164,8 @@ namespace CrosspostSharp3 {
 				saveAsToolStripMenuItem.Enabled = true;
 				exportAsToolStripMenuItem.Enabled = true;
 
-				if (settings.DeviantArt.RefreshToken != null) {
-					listBox1.Items.Add(new DestinationOption("DeviantArt / Sta.sh", () => {
+				foreach (var da in settings.DeviantArtAccounts) {
+					listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
 						using (var f = new Form()) {
 							f.Width = 600;
 							f.Height = 350;
@@ -174,11 +174,11 @@ namespace CrosspostSharp3 {
 							};
 							f.Controls.Add(d);
 							d.Uploaded += url => f.Close();
-							d.SetSubmission(ExportAsPhoto(), (_origWrapper as StashPostWrapper)?.ItemId);
+							d.SetSubmission(ExportAsPhoto(), null/*(_origWrapper as StashPostWrapper)?.ItemId*/);
 							f.ShowDialog(this);
 						}
 					}));
-					listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+					listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
 						using (var f = new DeviantArtStatusUpdateForm(ExportAsPhoto())) {
 							f.ShowDialog(this);
 						}
@@ -266,8 +266,8 @@ namespace CrosspostSharp3 {
 
 			listBox1.Items.Add("--- Post as text ---");
 
-			if (settings.DeviantArt.RefreshToken != null) {
-				listBox1.Items.Add(new DestinationOption("DeviantArt status update", () => {
+			foreach (var da in settings.DeviantArtAccounts) {
+				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
 					using (var f = new DeviantArtStatusUpdateForm(ExportAsText())) {
 						f.ShowDialog(this);
 					}

@@ -3,11 +3,12 @@
 open SourceWrappers
 open System
 open System.Text.RegularExpressions
-open DeviantartApi.Requests.Deviation
 open FSharp.Control
-open DeviantartApi.Requests.User.Profile
+open System.Net
+open System.IO
+open DeviantArtFs
 
-type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string) =
+type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client: DeviantArtClient) =
     inherit DeferredPhotoPost()
     
     let app_link_regex = new Regex("DeviantArt://deviation/(........-....-....-....-............)")
@@ -17,10 +18,12 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string) =
     override __.ThumbnailURL = img
     override __.Timestamp = None
     override __.AsyncGetActual() = async {
-        let! html =
-            new Uri(url)
-            |> DeviantartApi.Requester.MakeRequestRawAsync
-            |> Async.AwaitTask
+        let req = WebRequest.CreateHttp url
+        req.UserAgent <- "SourceWrapper/0.0 (https://github.com/libertyernie/CrosspostSharp)"
+        use! resp = req.AsyncGetResponse()
+        use sr = new StreamReader(resp.GetResponseStream())
+
+        let! html = sr.ReadToEndAsync() |> Async.AwaitTask
 
         let m = app_link_regex.Match(html)
         if not m.Success then
@@ -28,14 +31,14 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string) =
 
         let! deviation =
             m.Groups.[1].Value
-            |> DeviationRequest
-            |> Swu.executeAsync
+            |> Guid.Parse
+            |> client.AsyncDeviation
 
         let! metadata =
             m.Groups.[1].Value
+            |> Guid.Parse
             |> Seq.singleton
-            |> MetadataRequest
-            |> Swu.executeAsync
+            |> client.AsyncDeviationMetadata None None None None
 
         let d = deviation
         let m = metadata.Metadata |> Seq.head
@@ -43,7 +46,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string) =
         return new DeviantArtPostWrapper(d, Some m) :> IRemotePhotoPost
     }
 
-type DeviantArtScrapsLinkSourceWrapper(username: string) =
+type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClient) =
     inherit AsyncSeqWrapper()
 
     let next_regex = new Regex("<link href=\"([^'\"]+)\" rel=\"next\">")
@@ -60,10 +63,12 @@ type DeviantArtScrapsLinkSourceWrapper(username: string) =
         let mutable more = true
 
         while more do
-            let! html =
-                new Uri(url)
-                |> DeviantartApi.Requester.MakeRequestRawAsync
-                |> Async.AwaitTask
+            let req = WebRequest.CreateHttp url
+            req.UserAgent <- "SourceWrapper/0.0 (https://github.com/libertyernie/CrosspostSharp)"
+            use! resp = req.AsyncGetResponse()
+            use sr = new StreamReader(resp.GetResponseStream())
+
+            let! html = sr.ReadToEndAsync() |> Async.AwaitTask
 
             let posts_complex = Seq.cache <| seq {
                 let link_complex_regex = new Regex("<a class=\"torpedo-thumb-link\" href=\"([^\"]+)\"><img data-sigil=\"torpedo-img\" src=\"([^\"]+)\" alt=\"([^\"]+)\"")
@@ -75,7 +80,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string) =
             }
 
             for (url, title, img) in posts_complex do
-                yield new DeviantArtScrapsLinkWrapper(url, title, img) :> IPostBase
+                yield new DeviantArtScrapsLinkWrapper(url, title, img, client) :> IPostBase
 
             if Seq.isEmpty posts_complex then
                 let urls = seq {
@@ -84,7 +89,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string) =
                         yield o.Value
                 }
                 for url in Seq.distinct urls do
-                    let w = new DeviantArtScrapsLinkWrapper(url, "", "")
+                    let w = new DeviantArtScrapsLinkWrapper(url, "", "", client)
                     let! p = w.AsyncGetActual()
                     yield p :> IPostBase
 
@@ -95,18 +100,17 @@ type DeviantArtScrapsLinkSourceWrapper(username: string) =
     }
 
     override __.FetchUserInternal() = async {
-        let req = new UsernameRequest(username)
-        let! profile = Swu.executeAsync req
+        let! profile = client.AsyncUserProfile None None username
         return {
             username = username
-            icon_url = Some profile.User.UserIconUrl.AbsoluteUri
+            icon_url = Some profile.User.Usericon
         }
     }
 
-type DeviantArtScrapsSourceWrapper(username: string) =
+type DeviantArtScrapsSourceWrapper(username: string, client: DeviantArtClient) =
     inherit AsyncSeqWrapper()
 
-    let parent = new DeviantArtScrapsLinkSourceWrapper(username) :> AsyncSeqWrapper
+    let parent = new DeviantArtScrapsLinkSourceWrapper(username, client) :> AsyncSeqWrapper
 
     let get (p: IPostBase) = async {
         match p with

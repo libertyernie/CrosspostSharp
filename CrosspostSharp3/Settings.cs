@@ -17,11 +17,14 @@ namespace CrosspostSharp3 {
 			string Username { get; }
 		}
 
-		public struct DeviantArtSettings {
+		public struct DeviantArtSettings : IAccountCredentials, DeviantArtFs.IDeviantArtRefreshToken {
+			public string AccessToken { get; set; }
+			public DateTimeOffset ExpiresAt { get; set; }
 			public string RefreshToken { get; set; }
+			public string Username { get; set; }
 		}
 
-		public DeviantArtSettings DeviantArt { get; set; }
+		public List<DeviantArtSettings> DeviantArtAccounts = new List<DeviantArtSettings>();
 
 		public struct FlickrSettings : IAccountCredentials {
 			public string tokenKey;

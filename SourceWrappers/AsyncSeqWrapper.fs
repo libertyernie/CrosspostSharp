@@ -5,8 +5,6 @@ open System.Threading.Tasks
 open FSharp.Control
 
 module internal Swu =
-    open DeviantartApi.Objects
-
     let skipSafe num = 
         Seq.zip (Seq.initInfinite id)
         >> Seq.skipWhile (fun (i, _) -> i < num)
@@ -17,12 +15,7 @@ module internal Swu =
         return f result
     }
 
-    let executeAsync (r: DeviantartApi.Requests.Request<'a>) = async {
-        let! resp = r.ExecuteAsync() |> Async.AwaitTask
-        if (resp.IsError) then failwith resp.ErrorText
-        if (resp.Result.Error |> String.IsNullOrEmpty |> not) then failwith resp.Result.Error
-        return resp.Result
-    }
+    let fromUnixTime (secs: int) = (new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddSeconds(float secs)
 
 type AsyncSeqWrapperUserInfo = {
     username: string

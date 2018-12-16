@@ -1,4 +1,5 @@
-﻿using DontPanic.TumblrSharp;
+﻿using DeviantArtFs;
+using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
 using SourceWrappers;
@@ -119,22 +120,20 @@ namespace CrosspostSharp3 {
 			tsiPageSize4.Checked = tableLayoutPanel1.RowCount == 2 && tableLayoutPanel1.ColumnCount == 2;
 			tsiPageSize9.Checked = tableLayoutPanel1.RowCount == 3 && tableLayoutPanel1.ColumnCount == 3;
 
-			if (s.DeviantArt.RefreshToken != null) {
-				lblLoadStatus.Text = "Adding DeviantArt...";
-				if (await UpdateDeviantArtTokens()) {
-					var w = new DeviantArtSourceWrapper(loadAll: false, includeLiterature: false);
+			foreach (var da in s.DeviantArtAccounts) {
+				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
+				var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+				try {
+					var c = new DeviantArtClient(da);
+					var w = new DeviantArtSourceWrapper(c, loadAll: false, includeLiterature: false);
 					var u = await w.GetUserAsync();
 
 					add(w);
-					add(new DeviantArtScrapsLinkSourceWrapper(u.username));
-					add(new DeviantArtStatusSourceWrapper());
-					add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper()));
-				} else {
-					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					s.DeviantArt = new Settings.DeviantArtSettings {
-						RefreshToken = null
-					};
-					s.Save();
+					add(new DeviantArtScrapsLinkSourceWrapper(u.username, c));
+					//add(new DeviantArtStatusSourceWrapper());
+					//add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper()));
+				} catch (WebException ex) {
+					throw new Exception("Could not load DeviantArt", ex);
 				}
 			}
 			foreach (var fl in s.Flickr) {

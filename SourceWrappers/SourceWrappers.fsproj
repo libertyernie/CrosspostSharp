@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
+    <ProjectReference Include="..\DeviantArtFs\DeviantArtFs.fsproj" />
     <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
