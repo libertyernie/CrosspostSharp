@@ -1,15 +1,16 @@
 ﻿namespace SourceWrappers
 
-open DeviantartApi.Objects
 open System
-open DeviantartApi.Requests.User
 open FSharp.Control
+open DeviantArtFs
 
-type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
+type internal Status = DeviantArtStatusesResponse.Result
+type internal StatusDeviation = DeviantArtStatusesResponse.Deviation
+
+type DeviantArtStatusPostWrapper(status: Status, deviation: StatusDeviation option) =
     let Mature =
         deviation
-        |> Option.map (fun d -> Option.ofNullable d.IsMature)
-        |> Option.flatten
+        |> Option.map (fun d -> d.IsMature)
         |> Option.defaultValue false
 
     interface IPostBase with
@@ -18,17 +19,16 @@ type DeviantArtStatusPostWrapper(status: Status, deviation: Deviation option) =
         member this.Mature = Mature
         member this.Adult = false
         member this.Tags = Seq.empty
-        member this.Timestamp = status.TimeStamp
-        member this.ViewURL = status.Url.AbsoluteUri
+        member this.Timestamp = status.Ts.UtcDateTime
+        member this.ViewURL = status.Url
 
-type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: Deviation) =
+type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: StatusDeviation) =
     inherit DeviantArtStatusPostWrapper(status, Some deviation)
-    let Icon = status.Author.UserIconUrl.AbsoluteUri
+    let Icon = status.Author.Usericon
 
     interface IRemotePhotoPost with
         member __.ImageURL =
             deviation.Content
-            |> Option.ofObj
             |> Option.map (fun d -> d.Src)
             |> Option.defaultValue Icon
         member __.ThumbnailURL =
@@ -37,7 +37,7 @@ type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: Deviation) =
             |> Seq.tryHead
             |> Option.defaultValue Icon
 
-type DeviantArtStatusSourceWrapper() =
+type DeviantArtStatusSourceWrapper(client: DeviantArtClient) =
     inherit AsyncSeqWrapper()
 
     override this.Name = "DeviantArt (statuses)"
@@ -46,17 +46,18 @@ type DeviantArtStatusSourceWrapper() =
         let mutable position = 0
         let mutable more = true
 
+        let! username = this.WhoamiAsync() |> Async.AwaitTask
+
         while more do
-            let! username = this.WhoamiAsync() |> Async.AwaitTask
-
-            let statusesRequest = new StatusesRequest(username)
-            statusesRequest.Limit <- 50 |> uint32 |> Nullable
-            statusesRequest.Offset <- position |> uint32 |> Nullable
-
-            let! statuses = Swu.executeAsync statusesRequest
+            let! statuses = client.AsyncUserStatuses (Some position) None username
 
             for r in statuses.Results do
-                let items = r.Items |> Seq.map (fun i -> i.Deviation) |> Seq.filter (not << isNull)
+                let items = seq {
+                    for i in r.Items do
+                        match i.Deviation with
+                        | Some d -> yield d
+                        | None -> ()
+                }
                 if Seq.isEmpty items then
                     yield new DeviantArtStatusPostWrapper(r, None) :> IPostBase
                 else
@@ -65,16 +66,14 @@ type DeviantArtStatusSourceWrapper() =
 
             position <-
                 statuses.NextOffset
-                |> Option.ofNullable
                 |> Option.defaultValue position
             more <- statuses.HasMore
     }
 
     override __.FetchUserInternal() = async {
-        let req = new WhoAmIRequest()
-        let! u = Swu.executeAsync req
+        let! u = client.AsyncUserWhoami()
         return {
             username = u.Username
-            icon_url = Some u.UserIconUrl.AbsoluteUri
+            icon_url = Some u.Usericon
         }
     }

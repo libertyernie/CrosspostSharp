@@ -242,6 +242,184 @@ type DeviantArtGalleryResponse = JsonProvider<"""[
 }
 ]""", SampleIsList=true>
 
+type DeviantArtStatusesResponse = JsonProvider<"""[
+{
+    "has_more": true,
+    "next_offset": 3,
+    "results": [
+        {
+            "statusid": "9F680E12-C156-55F2-F026-53B8BC00E291",
+            "body": "sharing journals",
+            "ts": "2014-10-15T22:03:46-0700",
+            "url": "https://justgalym.deviantart.com/status/25704",
+            "comments_count": 0,
+            "is_share": true,
+            "is_deleted": false,
+            "author": {
+                "userid": "09A4052C-88B2-65CB-CEC5-B1E31C18B940",
+                "username": "justgalym",
+                "usericon": "https://a.deviantart.net/avatars/j/u/justgalym.jpg?1",
+                "type": "admin"
+            },
+            "items": [
+                {
+                    "type": "deviation",
+                    "deviation": {
+                        "deviationid": "F9921FC4-3A0F-90A9-3625-AA8E105747AD",
+                        "printid": null,
+                        "url": "https://justgalym.deviantart.com/journal/Another-post-written-in-stash-446384730",
+                        "title": "Another post written in stash",
+                        "category": "Personal Journal",
+                        "category_path": "personaljournal",
+                        "is_downloadable": false,
+                        "is_mature": false,
+                        "is_favourited": false,
+                        "is_deleted": false,
+                        "author": {
+                            "userid": "09A4052C-88B2-65CB-CEC5-B1E31C18B940",
+                            "username": "justgalym",
+                            "usericon": "https://a.deviantart.net/avatars/j/u/justgalym.jpg?1",
+                            "type": "admin"
+                        },
+                        "stats": {
+                            "comments": 0,
+                            "favourites": 0
+                        },
+                        "published_time": 1397059526,
+                        "allows_comments": true,
+                        "excerpt": "I'm checking out stash writer",
+                        "thumbs": []
+                    }
+                }
+            ]
+        },
+        {
+            "statusid": "C2967EDD-B16C-760C-9A53-263DEC8F0A36",
+            "body": "<a class=\"discoverytag\" href=\"https://www.deviantart.com/tag/foundonnewest\" data-canonical-tag=\"foundonnewest\">#FoundOnNewest</a>&nbsp;<br /><br /><span class=\"shadow-holder\" data-embed-type=\"deviation\" data-embed-id=\"487110297\" data-embed-format=\"thumb\"><span class=\"tt-fh-tc\" style=\"width: 133px;\"><span class=\"tt-bb\" style=\"width: 133px;\"></span><span class=\"shadow mild\" style=\"width: 133px;\"><a class=\"thumb\" href=\"https://debyauliaa.deviantart.com/art/Autumn-487110297\" title=\"Autumn by debyauliaa, Oct 8, 2014 in Photography &gt; People &amp; Portraits &gt; Classic Portraits\" data-super-img=\"https://th04.deviantart.net/fs71/PRE/i/2014/280/5/3/autumn_by_debyauliaa-d820gpl.jpg\" data-super-width=\"730\" data-super-height=\"1095\" data-super-transparent=\"false\" data-super-full-img=\"https://fc03.deviantart.net/fs71/i/2014/280/5/3/autumn_by_debyauliaa-d820gpl.jpg\" data-super-full-width=\"1024\" data-super-full-height=\"1536\"><i></i><img   width=\"133\" height=\"200\" alt=\"Autumn by debyauliaa\" src=\"https://th06.deviantart.net/fs71/200H/i/2014/280/5/3/autumn_by_debyauliaa-d820gpl.jpg\" data-src=\"https://th06.deviantart.net/fs71/200H/i/2014/280/5/3/autumn_by_debyauliaa-d820gpl.jpg\"></a></span><!-- ^TTT --></span><span class=\"details\" ></span><!-- TTT$ --></span> ",
+            "ts": "2014-10-07T21:26:42-0700",
+            "url": "https://justgalym.deviantart.com/status/13434",
+            "comments_count": 0,
+            "is_share": false,
+            "is_deleted": false,
+            "author": {
+                "userid": "09A4052C-88B2-65CB-CEC5-B1E31C18B940",
+                "username": "justgalym",
+                "usericon": "https://a.deviantart.net/avatars/j/u/justgalym.jpg?1",
+                "type": "admin"
+            },
+            "items": [
+                {
+                    "type": "some_other_type"
+                }
+            ]
+        }
+    ]
+}, {
+    "has_more": false,
+    "next_offset": null,
+    "results": [
+        {
+            "statusid": "23B744A7-3842-043A-1AA4-71234113A7E7",
+            "body": "I was gonna go to bed, but then Backstreet Boys stared playing on the radio",
+            "ts": "2018-11-11T18:47:39-0800",
+            "url": "https://www.deviantart.com/lizard-socks/status/15474448",
+            "comments_count": 0,
+            "is_share": false,
+            "is_deleted": false,
+            "author": {
+                "userid": "7EE6490E-FCA7-3129-410A-AA684C3BC7DB",
+                "username": "lizard-socks",
+                "usericon": "https://a.deviantart.net/avatars/l/i/lizard-socks.png",
+                "type": "regular"
+            },
+            "items": []
+        },
+        {
+            "statusid": "163DB8A7-49CF-657D-FE3A-A877222A6161",
+            "body": "<p>Sad monsters?? This is my kind of game </p><br /><br /><a class=\"embedded-deviation embedded-image-deviation\" href=\"https://sta.sh/01o8rj7yawnx\" data-embed-type=\"deviation\" data-embed-id=\"6118323951538653\" data-extension=\"jpg\" data-fullview=\"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_1024,h_576,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-fullview.jpg\" data-fullview-width=\"1024\" data-fullview-height=\"576\"><img src=\"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_1024,h_576,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-fullview.jpg\" alt=\"Status Update 10/21/2018 11:11:10 AM by lizard-socks\" title=\"Status Update 10/21/2018 11:11:10 AM by lizard-socks\" style=\"\"></a>",
+            "ts": "2018-10-21T09:11:15-0700",
+            "url": "https://www.deviantart.com/lizard-socks/status/15268122",
+            "comments_count": 0,
+            "is_share": false,
+            "is_deleted": false,
+            "author": {
+                "userid": "7EE6490E-FCA7-3129-410A-AA684C3BC7DB",
+                "username": "lizard-socks",
+                "usericon": "https://a.deviantart.net/avatars/l/i/lizard-socks.png",
+                "type": "regular"
+            },
+            "items": [
+                {
+                    "type": "thumb_background_deviation",
+                    "deviation": {
+                        "deviationid": "10DB0566-619F-FEF7-AF81-FC84BBF39D7B",
+                        "printid": null,
+                        "url": "https://www.deviantart.com/lizard-socks/art/Status-Update-10-21-2018-11-11-10-AM-769251820",
+                        "title": "Status Update 10/21/2018 11:11:10 AM",
+                        "category": "Uncategorized",
+                        "category_path": "",
+                        "is_favourited": false,
+                        "is_deleted": false,
+                        "author": {
+                            "userid": "7EE6490E-FCA7-3129-410A-AA684C3BC7DB",
+                            "username": "lizard-socks",
+                            "usericon": "https://a.deviantart.net/avatars/l/i/lizard-socks.png",
+                            "type": "regular"
+                        },
+                        "stats": {
+                            "comments": 0,
+                            "favourites": 0
+                        },
+                        "published_time": "1540138272",
+                        "allows_comments": true,
+                        "preview": {
+                            "src": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_1024,h_576,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-fullview.jpg",
+                            "height": 576,
+                            "width": 1024,
+                            "transparency": false
+                        },
+                        "content": {
+                            "src": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_1024,h_576,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-fullview.jpg",
+                            "height": 576,
+                            "width": 1024,
+                            "transparency": false,
+                            "filesize": 171897
+                        },
+                        "thumbs": [
+                            {
+                                "src": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fit/w_150,h_150,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-150.jpg",
+                                "height": 84,
+                                "width": 150,
+                                "transparency": false
+                            },
+                            {
+                                "src": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fill/w_300,h_169,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-200h.jpg",
+                                "height": 169,
+                                "width": 300,
+                                "transparency": false
+                            },
+                            {
+                                "src": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/a26676ed-5753-4a81-8907-199bd9057960/dcpzqi4-2127463d-51c3-4a3e-b5ed-98c69457015d.jpg/v1/fit/w_300,h_720,q_70,strp/status_update_10_21_2018_11_11_10_am_by_lizard_socks_dcpzqi4-300w.jpg",
+                                "height": 169,
+                                "width": 300,
+                                "transparency": false
+                            }
+                        ],
+                        "is_mature": false,
+                        "is_downloadable": true,
+                        "download_filesize": 171897
+                    }
+                }
+            ]
+        }
+    ]
+}, {
+    "has_more": false,
+    "next_offset": null,
+    "results": []
+}
+]""", SampleIsList=true>
+
 type DeviantArtMetadataResponse = JsonProvider<"""{
     "metadata": [
         {
@@ -668,6 +846,25 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
             |> createRequest
         let! json = asyncRead req
         return DeviantArtGalleryResponse.Parse json
+    }
+
+    member __.AsyncUserStatuses offset limit username = async {
+        let query = seq {
+            yield sprintf "username=%s" (WebUtility.UrlEncode username)
+            match offset with
+            | Some s -> yield sprintf "offset=%d" s
+            | None -> ()
+            match limit with
+            | Some s -> yield sprintf "limit=%d" s
+            | None -> ()
+        }
+        let req =
+            query
+            |> String.concat "&"
+            |> sprintf "https://www.deviantart.com/api/v1/oauth2/user/statuses?%s"
+            |> createRequest
+        let! json = asyncRead req
+        return DeviantArtStatusesResponse.Parse json
     }
 
     member __.AsyncDeviation (deviationid: Guid) = async {

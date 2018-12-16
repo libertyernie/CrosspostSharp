@@ -134,7 +134,7 @@ namespace CrosspostSharp3 {
 
 					add(w);
 					add(new DeviantArtScrapsLinkSourceWrapper(u.username, c));
-					//add(new DeviantArtStatusSourceWrapper());
+					add(new DeviantArtStatusSourceWrapper(c));
 					//add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper()));
 				} catch (WebException ex) {
 					throw new Exception("Could not load DeviantArt", ex);
