@@ -118,7 +118,7 @@ type DeviantArtSourceWrapper(client: DeviantArtClient, loadAll: bool, includeLit
     }
 
     override __.FetchUserInternal() = async {
-        let! u = client.AsyncUserWhoami()
+        let! u = DeviantArtFs.User.Whoami.AsyncUserWhoami client
         return {
             username = u.Username
             icon_url = Some u.Usericon

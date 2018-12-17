@@ -40,8 +40,8 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				lblUsername1.Text = await _client.GetUsernameAsync();
-				picUserIcon.ImageLocation = await _client.GetUserIconAsync();
+				lblUsername1.Text = await DeviantArtFs.User.Whoami.GetUsernameAsync(_client);
+				picUserIcon.ImageLocation = await DeviantArtFs.User.Whoami.GetUserIconAsync(_client);
 			} catch (Exception) { }
 		}
 		

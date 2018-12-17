@@ -8,6 +8,8 @@
     <Compile Include="DeviantArtToken.fs" />
     <Compile Include="DeviantArtAuth.fs" />
     <Compile Include="DeviantArtClient.fs" />
+    <Compile Include="User\Profile.fs" />
+    <Compile Include="User\Whoami.fs" />
   </ItemGroup>
 
   <ItemGroup>

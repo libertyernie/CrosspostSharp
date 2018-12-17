@@ -30,7 +30,7 @@ namespace CrosspostSharp3 {
 									AccessToken = token.AccessToken,
 									ExpiresAt = token.ExpiresAt,
 									RefreshToken = token.RefreshToken,
-									Username = await new DeviantArtClient(token).GetUsernameAsync()
+									Username = await DeviantArtFs.User.Whoami.GetUsernameAsync(token)
 								}
 							};
 						}

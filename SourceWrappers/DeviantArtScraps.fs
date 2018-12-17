@@ -100,7 +100,10 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClien
     }
 
     override __.FetchUserInternal() = async {
-        let! profile = client.AsyncUserProfile None None username
+        let! profile =
+            username
+            |> DeviantArtFs.User.ProfileRequest
+            |> DeviantArtFs.User.Profile.AsyncUserProfile client
         return {
             username = username
             icon_url = Some profile.User.Usericon
