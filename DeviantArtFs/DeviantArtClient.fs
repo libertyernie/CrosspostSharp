@@ -820,6 +820,28 @@ type DeviantArtMetadataResponse = JsonProvider<"""{
     ]
 }""">
 
+type DeviantArtGalleryFoldersResponse = JsonProvider<"""[{
+    "results": [
+        {
+            "folderid": "47D47436-5683-8DF2-EEBF-2A6760BE1336",
+            "parent": null,
+            "name": "Featured",
+            "size": 2
+        },
+        {
+            "folderid": "E431BAFB-7A00-7EA1-EED7-2EF9FA0F04CE",
+            "parent": "47D47436-5683-8DF2-EEBF-2A6760BE1336",
+            "name": "My New Gallery"
+        }
+    ],
+    "has_more": true,
+    "next_offset": 2
+}, {
+    "results": [],
+    "has_more": false,
+    "next_offset": null
+}]""", SampleIsList=true>
+
 type StashSubmitResponse = JsonProvider<"""{
     "status": "success",
     "itemid": 123456789876,
@@ -996,6 +1018,30 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
         return DeviantArtMetadataResponse.Parse json
     }
 
+    member __.AsyncGalleryFolders (ps: GalleryFoldersRequest) = async {
+        let query = seq {
+            match Option.ofObj ps.Username with
+            | Some s -> yield sprintf "username=%s" (WebUtility.UrlEncode s)
+            | None -> ()
+            match Option.ofNullable ps.CalculateSize with
+            | Some s -> yield sprintf "calculate_size=%b" s
+            | None -> ()
+            match Option.ofNullable ps.Offset with
+            | Some s -> yield sprintf "offset=%d" s
+            | None -> ()
+            match Option.ofNullable ps.Limit with
+            | Some s -> yield sprintf "limit=%d" s
+            | None -> ()
+        }
+        let req =
+            query
+            |> String.concat "&"
+            |> sprintf "https://www.deviantart.com/api/v1/oauth2/gallery/folders?%s"
+            |> createRequest
+        let! json = asyncRead req
+        return DeviantArtGalleryFoldersResponse.Parse json
+    }
+
     member __.AsyncStashSubmit (ps: StashSubmitRequest) = async {
         // multipart separators
         let h1 = sprintf "-----------------------------%d" DateTime.UtcNow.Ticks
@@ -1105,4 +1151,8 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
     member this.GetUserIconAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Usericon) |> Async.StartAsTask
     member this.GetGalleryThumbnailsAsync() = this.AsyncGalleryAll None None None |> whenDone (fun g -> g.Results |> Seq.map (fun d -> d.Thumbs |> Seq.map (fun t -> t.Src) |> Seq.head)) |> Async.StartAsTask
     member this.UserStatusesPostAsync(ps) = this.AsyncUserStatusesPost ps |> Async.StartAsTask
+    member this.GalleryFoldersAsync(ps) = this.AsyncGalleryFolders ps |> whenDone (fun r -> r.Results |> Seq.map (fun f -> (f.Folderid, f.Name)) |> dict) |> Async.StartAsTask
     member this.StashSubmitAsync(ps) = this.AsyncStashSubmit ps |> Async.StartAsTask
+
+    interface IDeviantArtAccessToken with
+        member this.AccessToken = current_token.AccessToken

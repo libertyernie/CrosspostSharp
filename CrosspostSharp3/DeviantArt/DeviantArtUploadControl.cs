@@ -89,7 +89,7 @@ namespace CrosspostSharp3 {
 
         private void btnGalleryFolders_Click(object sender, EventArgs e) {
             try {
-                using (var form = new DeviantArtFolderSelectionForm()) {
+                using (var form = new DeviantArtFolderSelectionForm(_client)) {
                     if (form.ShowDialog() == DialogResult.OK) {
                         SelectedFolders = form.SelectedFolders;
                     }
