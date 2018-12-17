@@ -1,5 +1,4 @@
-﻿using DeviantartApi.Requests.Browse;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,21 +60,22 @@ namespace CrosspostSharp3 {
         }
 
         private async Task PopulateAsync(TreeNodeCollection nodes, string path = null) {
-            var result = await new CategoryTreeRequest {
-                Catpath = path ?? "/"
-            }.ExecuteAsync();
-            if (result.IsError) {
-                throw new Exception("The list of categories could not be loaded. You probably need to log in with one of the methods in DeviantartApi.Login.");
-            }
-            if (!string.IsNullOrEmpty(result.Result.Error)) {
-                throw new Exception(result.Result.ErrorDescription);
-            }
-            foreach (var c in result.Result.Categories) {
-                TreeNode node = nodes.Add(c.Catpath, c.Title);
-                if (c.HasSubcategory) {
-                    node.Nodes.Add("loading", "Loading...");
-                }
-            }
+			throw new NotImplementedException();
+			//var result = await new CategoryTreeRequest {
+            //    Catpath = path ?? "/"
+            //}.ExecuteAsync();
+            //if (result.IsError) {
+            //    throw new Exception("The list of categories could not be loaded. You probably need to log in with one of the methods in DeviantartApi.Login.");
+            //}
+            //if (!string.IsNullOrEmpty(result.Result.Error)) {
+            //    throw new Exception(result.Result.ErrorDescription);
+            //}
+            //foreach (var c in result.Result.Categories) {
+            //    TreeNode node = nodes.Add(c.Catpath, c.Title);
+            //    if (c.HasSubcategory) {
+            //        node.Nodes.Add("loading", "Loading...");
+            //    }
+            //}
         }
 
         private async void DeviantArtCategoryBrowser_Load(object sender, EventArgs e) {

@@ -77,7 +77,6 @@
     <Compile Include="DeviantArt\DeviantArtFolderSelectionForm.Designer.cs">
       <DependentUpon>DeviantArtFolderSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeviantArt\DeviantArtLoginStatic.cs" />
     <Compile Include="DeviantArt\DeviantArtStatusUpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -343,13 +342,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeviantartApi\DeviantartApi.WinForms\DeviantartApi.WinForms.csproj">
-      <Project>{891fd4c3-111b-4c55-a59e-89de662a9497}</Project>
-      <Name>DeviantartApi.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj">
-      <Project>{bedb9fa0-1b50-4c19-ad30-fd84d38d6d3b}</Project>
-      <Name>DeviantartApi</Name>
+    <ProjectReference Include="..\DeviantArtFs.RequestTypes\DeviantArtFs.RequestTypes.csproj">
+      <Project>{995c5c13-a5c6-49ff-952b-9d976c98733e}</Project>
+      <Name>DeviantArtFs.RequestTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\DeviantArtFs.WinForms\DeviantArtFs.WinForms.csproj">
       <Project>{9a66e829-3d74-4ae9-a200-21b5c9f170b6}</Project>

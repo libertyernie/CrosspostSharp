@@ -1,9 +1,12 @@
 ﻿namespace DeviantArtFs
 
+open DeviantArtFs.RequestTypes
 open FSharp.Data
 open System.Net
 open System.IO
 open System
+
+type DeviantArtBaseResponse = JsonProvider<"""{"status":"error"}""">
 
 type DeviantArtErrorResponse = JsonProvider<"""{"error":"invalid_request","error_description":"Must provide an access_token to access this resource.","status":"error"}""">
 
@@ -817,6 +820,13 @@ type DeviantArtMetadataResponse = JsonProvider<"""{
     ]
 }""">
 
+type StashSubmitResponse = JsonProvider<"""{
+    "status": "success",
+    "itemid": 123456789876,
+    "stack": "Stash Uploads 1",
+    "stackid": 12345678987
+}""">
+
 type DeviantArtStatusPostParameters = {
     Body: string
     StatusId: Nullable<Guid>
@@ -842,7 +852,13 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
         try
             use! resp = req.AsyncGetResponse()
             use sr = new StreamReader(resp.GetResponseStream())
-            return! sr.ReadToEndAsync() |> Async.AwaitTask
+            let! json = sr.ReadToEndAsync() |> Async.AwaitTask
+            let obj = DeviantArtBaseResponse.Parse json
+            if obj.Status = "error" then
+                let error_obj = DeviantArtErrorResponse.Parse json
+                return raise (new DeviantArtException(resp, error_obj))
+            else
+                return json
         with
             | :? WebException as ex ->
                 use resp = ex.Response
@@ -980,7 +996,113 @@ type DeviantArtClient(token: IDeviantArtAccessToken) =
         return DeviantArtMetadataResponse.Parse json
     }
 
+    member __.AsyncStashSubmit (ps: StashSubmitRequest) = async {
+        // multipart separators
+        let h1 = sprintf "-----------------------------%d" DateTime.UtcNow.Ticks
+        let h2 = sprintf "--%s" h1
+        let h3 = sprintf "--%s--" h1
+
+        let req = createRequest "https://www.deviantart.com/api/v1/oauth2/stash/submit"
+        req.Method <- "POST"
+        req.ContentType <- sprintf "multipart/form-data; boundary=%s" h1
+
+        do! async {
+            use ms = new MemoryStream()
+            let w (s: string) =
+                let bytes = System.Text.Encoding.UTF8.GetBytes(sprintf "%s\n" s)
+                ms.Write(bytes, 0, bytes.Length)
+            
+            match Option.ofObj ps.Title with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"title\""
+                w ""
+                w s
+            | None -> ()
+
+            match Option.ofObj ps.ArtistComments with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"artist_comments\""
+                w ""
+                w s
+            | None -> ()
+
+            match Option.ofObj ps.Tags with
+            | Some s ->
+                let mutable index = 0
+                for t in s do
+                    w h2
+                    w (sprintf "Content-Disposition: form-data; name=\"tags[%d]\"" index)
+                    w ""
+                    w t
+                    index <- index + 1
+            | None -> ()
+
+            match Option.ofObj ps.OriginalUrl with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"original_url\""
+                w ""
+                w s
+            | None -> ()
+
+            match Option.ofNullable ps.IsDirty with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"is_dirty\""
+                w ""
+                w (sprintf "%b" s)
+            | None -> ()
+
+            match Option.ofNullable ps.ItemId with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"itemid\""
+                w ""
+                w (sprintf "%d" s)
+            | None -> ()
+
+            match Option.ofObj ps.Stack with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"stack\""
+                w ""
+                w s
+            | None -> ()
+
+            match Option.ofNullable ps.StackId with
+            | Some s ->
+                w h2
+                w "Content-Disposition: form-data; name=\"stackid\""
+                w ""
+                w (sprintf "%d" s)
+            | None -> ()
+
+            w h2
+            w (sprintf "Content-Disposition: form-data; name=\"submission\"; filename=\"%s\"" ps.Filename)
+            w (sprintf "Content-Type: %s" ps.ContentType)
+            w ""
+            ms.Flush()
+            ms.Write(ps.Data, 0, ps.Data.Length)
+            ms.Flush()
+            w ""
+            w h3
+
+            use! reqStream = req.GetRequestStreamAsync() |> Async.AwaitTask
+            ms.Position <- 0L
+            do! ms.CopyToAsync(reqStream) |> Async.AwaitTask
+
+            System.IO.File.WriteAllBytes("C:/Users/admin/out.txt", ms.ToArray())
+        }
+
+        let! json = asyncRead req
+        let o = StashSubmitResponse.Parse json
+        return o.Itemid
+    }
+
     member this.GetUsernameAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Username) |> Async.StartAsTask
     member this.GetUserIconAsync() = this.AsyncUserWhoami() |> whenDone (fun u -> u.Usericon) |> Async.StartAsTask
     member this.GetGalleryThumbnailsAsync() = this.AsyncGalleryAll None None None |> whenDone (fun g -> g.Results |> Seq.map (fun d -> d.Thumbs |> Seq.map (fun t -> t.Src) |> Seq.head)) |> Async.StartAsTask
     member this.UserStatusesPostAsync(ps) = this.AsyncUserStatusesPost ps |> Async.StartAsTask
+    member this.StashSubmitAsync(ps) = this.AsyncStashSubmit ps |> Async.StartAsTask

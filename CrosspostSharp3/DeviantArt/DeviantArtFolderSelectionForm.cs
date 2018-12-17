@@ -1,5 +1,4 @@
-﻿using DeviantartApi.Objects.SubObjects.Profile;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,49 +17,52 @@ namespace CrosspostSharp3 {
 
         public IEnumerable<Folder> InitialFolders { get; set; }
 
-        private List<GalleryFolder> _selectedFolders;
-        public IEnumerable<Folder> SelectedFolders => _selectedFolders.Select(f => new Folder {
-            FolderId = f.FolderId,
-            Name = f.Name
-        });
+		//private List<GalleryFolder> _selectedFolders;
+		public IEnumerable<Folder> SelectedFolders =>
+			throw new NotImplementedException();
+			//_selectedFolders.Select(f => new Folder {
+			//	FolderId = f.FolderId,
+			//	Name = f.Name
+			//});
 
-        public DeviantArtFolderSelectionForm() {
+		public DeviantArtFolderSelectionForm() {
             InitializeComponent();
-            _selectedFolders = new List<GalleryFolder>();
+            //_selectedFolders = new List<GalleryFolder>();
         }
 
         private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
             try {
-                this.Enabled = false;
+				throw new NotImplementedException();
+                //this.Enabled = false;
 
-                var list = new List<GalleryFolder>();
+                //var list = new List<GalleryFolder>();
 
-                var req = new DeviantartApi.Requests.Gallery.FoldersRequest {
-                    CalculateSize = false,
-                    ExtPreload = false
-                };
+                //var req = new DeviantartApi.Requests.Gallery.FoldersRequest {
+                //    CalculateSize = false,
+                //    ExtPreload = false
+                //};
 
-                while (true) {
-                    var resp = await req.GetNextPageAsync();
-                    foreach (var f in resp.Result.Results) {
-                        var chk = new CheckBox {
-                            AutoSize = true,
-                            Text = f.Name,
-                            Checked = InitialFolders?.Any(f2 => f.FolderId == f2.FolderId) == true
-                        };
-                        chk.CheckedChanged += (o, ea) => {
-                            if (chk.Checked) {
-                                _selectedFolders.Add(f);
-                            } else {
-                                _selectedFolders.Remove(f);
-                            }
-                        };
-                        flowLayoutPanel1.Controls.Add(chk);
-                    }
-                    if (!resp.Result.HasMore) break;
-                }
+                //while (true) {
+                //    var resp = await req.GetNextPageAsync();
+                //    foreach (var f in resp.Result.Results) {
+                //        var chk = new CheckBox {
+                //            AutoSize = true,
+                //            Text = f.Name,
+                //            Checked = InitialFolders?.Any(f2 => f.FolderId == f2.FolderId) == true
+                //        };
+                //        chk.CheckedChanged += (o, ea) => {
+                //            if (chk.Checked) {
+                //                _selectedFolders.Add(f);
+                //            } else {
+                //                _selectedFolders.Remove(f);
+                //            }
+                //        };
+                //        flowLayoutPanel1.Controls.Add(chk);
+                //    }
+                //    if (!resp.Result.HasMore) break;
+                //}
 
-                this.Enabled = true;
+                //this.Enabled = true;
             } catch (Exception ex) {
                 MessageBox.Show(this.ParentForm, ex.Message, $"{this.GetType().Name}: {ex.GetType().Name}");
                 this.Close();

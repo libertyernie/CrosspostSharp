@@ -14,4 +14,8 @@
     <PackageReference Include="FSharp.Data" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DeviantArtFs.RequestTypes\DeviantArtFs.RequestTypes.csproj" />
+  </ItemGroup>
+
 </Project>
