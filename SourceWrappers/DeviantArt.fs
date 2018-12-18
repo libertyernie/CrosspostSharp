@@ -4,7 +4,7 @@ open System
 open FSharp.Control
 open DeviantArtFs
 
-type internal Deviation = DeviantArtGalleryResponse.Result
+type internal Deviation = DeviantArtFs.Gallery.GalleryResponse.Result
 type internal Metadata = DeviantArtMetadataResponse.Metadata
 
 type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
@@ -97,7 +97,9 @@ type DeviantArtSourceWrapper(client: DeviantArtClient, loadAll: bool, includeLit
         let mutable more = true
 
         while more do
-            let! gallery = client.AsyncGalleryAll (Some cursor) None None
+            let! gallery =
+                new DeviantArtFs.Gallery.AllRequest(Offset = cursor, Limit = 24)
+                |> DeviantArtFs.Gallery.All.AsyncExecute client
             if loadAll then
                 let! metadata = asyncGetMetadata gallery.Results
                 for d in gallery.Results do
@@ -118,7 +120,7 @@ type DeviantArtSourceWrapper(client: DeviantArtClient, loadAll: bool, includeLit
     }
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.User.Whoami.AsyncUserWhoami client
+        let! u = DeviantArtFs.User.Whoami.AsyncExecute client
         return {
             username = u.Username
             icon_url = Some u.Usericon

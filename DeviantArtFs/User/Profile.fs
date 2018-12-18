@@ -147,7 +147,7 @@ type ProfileRequest(username: string) =
     member val ExtGalleries = false with get, set
 
 module Profile =
-    let AsyncUserProfile token (req: ProfileRequest) = async {
+    let AsyncExecute token (req: ProfileRequest) = async {
         let query = seq {
             yield sprintf "ext_collections=%b" req.ExtCollections
             yield sprintf "ext_galleries=%b" req.ExtGalleries

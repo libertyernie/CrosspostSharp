@@ -11,11 +11,11 @@ type WhoamiRepsonse = JsonProvider<"""{
 }""">
 
 module Whoami =
-    let AsyncUserWhoami token = async {
+    let AsyncExecute token = async {
         let req = dafs.createRequest token "https://www.deviantart.com/api/v1/oauth2/user/whoami"
         let! json = dafs.asyncRead req
         return WhoamiRepsonse.Parse json
     }
 
-    let GetUsernameAsync token = AsyncUserWhoami token |> dafs.whenDone (fun u -> u.Username) |> Async.StartAsTask
-    let GetUserIconAsync token = AsyncUserWhoami token |> dafs.whenDone (fun u -> u.Usericon) |> Async.StartAsTask
+    let GetUsernameAsync token = AsyncExecute token |> dafs.whenDone (fun u -> u.Username) |> Async.StartAsTask
+    let GetUserIconAsync token = AsyncExecute token |> dafs.whenDone (fun u -> u.Usericon) |> Async.StartAsTask

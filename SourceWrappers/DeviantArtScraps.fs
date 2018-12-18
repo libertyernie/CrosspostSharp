@@ -8,6 +8,36 @@ open System.Net
 open System.IO
 open DeviantArtFs
 
+type DeviantArtScrapsPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, metadata: DeviantArtMetadataResponse.Metadata) =
+    let src =
+        deviation.Content
+        |> Option.map (fun c -> c.Src)
+        |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
+
+    interface IRemotePhotoPost with
+        member __.Title =
+            deviation.Title
+            |> Option.defaultValue (deviation.Deviationid.ToString())
+        member __.HTMLDescription = metadata.Description
+        member __.Mature =
+            deviation.IsMature
+            |> Option.defaultValue false
+        member __.Adult = false
+        member __.Tags = metadata.Tags |> Seq.map (fun t -> t.TagName)
+        member __.Timestamp =
+            deviation.PublishedTime
+            |> Option.defaultValue 0
+            |> Swu.fromUnixTime
+        member __.ViewURL =
+            deviation.Url
+            |> Option.defaultValue "https://www.example.com"
+        member __.ImageURL = src
+        member __.ThumbnailURL =
+            deviation.Thumbs
+            |> Seq.map (fun d -> d.Src)
+            |> Seq.tryHead
+            |> Option.defaultValue src
+
 type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client: DeviantArtClient) =
     inherit DeferredPhotoPost()
     
@@ -32,7 +62,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client
         let! deviation =
             m.Groups.[1].Value
             |> Guid.Parse
-            |> client.AsyncDeviation
+            |> DeviantArtFs.Deviation.Id.AsyncExecute client
 
         let! metadata =
             m.Groups.[1].Value
@@ -43,7 +73,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client
         let d = deviation
         let m = metadata.Metadata |> Seq.head
 
-        return new DeviantArtPostWrapper(d, Some m) :> IRemotePhotoPost
+        return new DeviantArtScrapsPostWrapper(d, m) :> IRemotePhotoPost
     }
 
 type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClient) =
@@ -103,7 +133,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClien
         let! profile =
             username
             |> DeviantArtFs.User.ProfileRequest
-            |> DeviantArtFs.User.Profile.AsyncUserProfile client
+            |> DeviantArtFs.User.Profile.AsyncExecute client
         return {
             username = username
             icon_url = Some profile.User.Usericon

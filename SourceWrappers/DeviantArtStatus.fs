@@ -1,11 +1,10 @@
 ﻿namespace SourceWrappers
 
-open System
 open FSharp.Control
 open DeviantArtFs
 
-type internal Status = DeviantArtStatusesResponse.Result
-type internal StatusDeviation = DeviantArtStatusesResponse.Deviation
+type internal Status = DeviantArtFs.User.StatusesResponse.Result
+type internal StatusDeviation = DeviantArtFs.User.StatusesResponse.Deviation
 
 type DeviantArtStatusPostWrapper(status: Status, deviation: StatusDeviation option) =
     let Mature =
@@ -49,7 +48,9 @@ type DeviantArtStatusSourceWrapper(client: DeviantArtClient) =
         let! username = this.WhoamiAsync() |> Async.AwaitTask
 
         while more do
-            let! statuses = client.AsyncUserStatuses (Some position) None username
+            let! statuses =
+                new DeviantArtFs.User.StatusesRequest(username, Offset = position, Limit = 50)
+                |> DeviantArtFs.User.Statuses.AsyncExecute client
 
             for r in statuses.Results do
                 let items = seq {
@@ -71,7 +72,7 @@ type DeviantArtStatusSourceWrapper(client: DeviantArtClient) =
     }
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.User.Whoami.AsyncUserWhoami client
+        let! u = DeviantArtFs.User.Whoami.AsyncExecute client
         return {
             username = u.Username
             icon_url = Some u.Usericon
