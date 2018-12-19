@@ -59,7 +59,9 @@ namespace CrosspostSharp3 {
 					itemId = await _client.StashSubmitAsync(req);
 				}
 
-				await _client.UserStatusesPostAsync(new DeviantArtStatusPostParameters(textBox1.Text, null, null, itemId));
+				await DeviantArtFs.User.StatusPost.UserStatusesPostAsync(_client, new DeviantArtFs.User.StatusPostRequest(textBox1.Text) {
+					StashId = itemId
+				});
 
 				Close();
 			} catch (Exception ex) {

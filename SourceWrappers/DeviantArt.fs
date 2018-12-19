@@ -4,10 +4,7 @@ open System
 open FSharp.Control
 open DeviantArtFs
 
-type internal Deviation = DeviantArtFs.Gallery.GalleryResponse.Result
-type internal Metadata = DeviantArtMetadataResponse.Metadata
-
-type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
+type DeviantArtPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Result, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata option) =
     let src =
         deviation.Content
         |> Option.map (fun c -> c.Src)
@@ -43,7 +40,7 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: Metadata option) =
             |> Seq.tryHead
             |> Option.defaultValue src
 
-type DeviantArtDeferredPostWrapper(deviation: Deviation, client: DeviantArtClient) =
+type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Result, client: DeviantArtClient) =
     inherit DeferredPhotoPost()
 
     let src =
@@ -70,21 +67,23 @@ type DeviantArtDeferredPostWrapper(deviation: Deviation, client: DeviantArtClien
     override __.AsyncGetActual() = async {
         let! resp =
             Seq.singleton deviation.Deviationid
-            |> client.AsyncDeviationMetadata None None None None
+            |> DeviantArtFs.Deviation.MetadataRequest
+            |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata client
         return new DeviantArtPostWrapper(deviation, Seq.tryHead resp.Metadata) :> IRemotePhotoPost
     }
 
 type DeviantArtSourceWrapper(client: DeviantArtClient, loadAll: bool, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
-    let asyncGetMetadata (list: seq<Deviation>) = async {
+    let asyncGetMetadata (list: seq<DeviantArtFs.Gallery.GalleryResponse.Result>) = async {
         if Seq.isEmpty list then
             return Seq.empty
         else
             let! response =
                 list
                 |> Seq.map (fun d -> d.Deviationid)
-                |> client.AsyncDeviationMetadata None None None None
+                |> DeviantArtFs.Deviation.MetadataRequest
+                |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata client
             return seq {
                 yield! response.Metadata
             }

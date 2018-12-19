@@ -8,7 +8,7 @@ open System.Net
 open System.IO
 open DeviantArtFs
 
-type DeviantArtScrapsPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, metadata: DeviantArtMetadataResponse.Metadata) =
+type DeviantArtScrapsPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata) =
     let src =
         deviation.Content
         |> Option.map (fun c -> c.Src)
@@ -68,7 +68,8 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client
             m.Groups.[1].Value
             |> Guid.Parse
             |> Seq.singleton
-            |> client.AsyncDeviationMetadata None None None None
+            |> DeviantArtFs.Deviation.MetadataRequest
+            |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata client
 
         let d = deviation
         let m = metadata.Metadata |> Seq.head
