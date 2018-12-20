@@ -40,7 +40,7 @@ type DeviantArtPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Resul
             |> Seq.tryHead
             |> Option.defaultValue src
 
-type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Result, client: DeviantArtClient) =
+type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Result, client: IDeviantArtAccessToken) =
     inherit DeferredPhotoPost()
 
     let src =
@@ -72,7 +72,7 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Gallery.GalleryRespon
         return new DeviantArtPostWrapper(deviation, Seq.tryHead resp.Metadata) :> IRemotePhotoPost
     }
 
-type DeviantArtSourceWrapper(client: DeviantArtClient, loadAll: bool, includeLiterature: bool) =
+type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
     let asyncGetMetadata (list: seq<DeviantArtFs.Gallery.GalleryResponse.Result>) = async {

@@ -38,7 +38,7 @@ type DeviantArtScrapsPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Ro
             |> Seq.tryHead
             |> Option.defaultValue src
 
-type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client: DeviantArtClient) =
+type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token: IDeviantArtAccessToken) =
     inherit DeferredPhotoPost()
     
     let app_link_regex = new Regex("DeviantArt://deviation/(........-....-....-....-............)")
@@ -62,14 +62,14 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client
         let! deviation =
             m.Groups.[1].Value
             |> Guid.Parse
-            |> DeviantArtFs.Deviation.Id.AsyncExecute client
+            |> DeviantArtFs.Deviation.Id.AsyncExecute token
 
         let! metadata =
             m.Groups.[1].Value
             |> Guid.Parse
             |> Seq.singleton
             |> DeviantArtFs.Deviation.MetadataRequest
-            |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata client
+            |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata token
 
         let d = deviation
         let m = metadata.Metadata |> Seq.head
@@ -77,7 +77,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, client
         return new DeviantArtScrapsPostWrapper(d, m) :> IRemotePhotoPost
     }
 
-type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClient) =
+type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
     let next_regex = new Regex("<link href=\"([^'\"]+)\" rel=\"next\">")
@@ -111,7 +111,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClien
             }
 
             for (url, title, img) in posts_complex do
-                yield new DeviantArtScrapsLinkWrapper(url, title, img, client) :> IPostBase
+                yield new DeviantArtScrapsLinkWrapper(url, title, img, token) :> IPostBase
 
             if Seq.isEmpty posts_complex then
                 let urls = seq {
@@ -120,7 +120,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClien
                         yield o.Value
                 }
                 for url in Seq.distinct urls do
-                    let w = new DeviantArtScrapsLinkWrapper(url, "", "", client)
+                    let w = new DeviantArtScrapsLinkWrapper(url, "", "", token)
                     let! p = w.AsyncGetActual()
                     yield p :> IPostBase
 
@@ -134,17 +134,17 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, client: DeviantArtClien
         let! profile =
             username
             |> DeviantArtFs.User.ProfileRequest
-            |> DeviantArtFs.User.Profile.AsyncExecute client
+            |> DeviantArtFs.User.Profile.AsyncExecute token
         return {
             username = username
             icon_url = Some profile.User.Usericon
         }
     }
 
-type DeviantArtScrapsSourceWrapper(username: string, client: DeviantArtClient) =
+type DeviantArtScrapsSourceWrapper(username: string, token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
-    let parent = new DeviantArtScrapsLinkSourceWrapper(username, client) :> AsyncSeqWrapper
+    let parent = new DeviantArtScrapsLinkSourceWrapper(username, token) :> AsyncSeqWrapper
 
     let get (p: IPostBase) = async {
         match p with

@@ -128,13 +128,12 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
 				var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
 				try {
-					var c = new DeviantArtClient(da);
-					var w = new DeviantArtSourceWrapper(c, loadAll: false, includeLiterature: false);
+					var w = new DeviantArtSourceWrapper(da, loadAll: false, includeLiterature: false);
 					var u = await w.GetUserAsync();
 
 					add(w);
-					add(new DeviantArtScrapsLinkSourceWrapper(u.username, c));
-					add(new DeviantArtStatusSourceWrapper(c));
+					add(new DeviantArtScrapsLinkSourceWrapper(u.username, da));
+					add(new DeviantArtStatusSourceWrapper(da));
 					//add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper()));
 				} catch (WebException ex) {
 					throw new Exception("Could not load DeviantArt", ex);

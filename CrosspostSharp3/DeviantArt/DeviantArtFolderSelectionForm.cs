@@ -18,7 +18,7 @@ namespace CrosspostSharp3 {
 
         public IEnumerable<Folder> InitialFolders { get; set; }
 
-		private readonly DeviantArtClient _client;
+		private readonly IDeviantArtAccessToken _token;
 		private List<KeyValuePair<Guid, string>> _selectedFolders;
 		public IEnumerable<Folder> SelectedFolders =>
 			_selectedFolders.Select(f => new Folder {
@@ -28,7 +28,7 @@ namespace CrosspostSharp3 {
 
 		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
             InitializeComponent();
-			_client = new DeviantArtClient(token);
+			_token = token;
             _selectedFolders = new List<KeyValuePair<Guid, string>>();
         }
 
@@ -36,7 +36,7 @@ namespace CrosspostSharp3 {
             try {
 				this.Enabled = false;
 
-				var resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_client, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
+				var resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
 
 				int skip = 0;
 				while (resp.Any()) {
@@ -56,7 +56,7 @@ namespace CrosspostSharp3 {
 						flowLayoutPanel1.Controls.Add(chk);
 					}
 					skip += resp.Count;
-					resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_client, new DeviantArtFs.Gallery.GalleryFoldersRequest {
+					resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest {
 						Offset = skip
 					});
 				}

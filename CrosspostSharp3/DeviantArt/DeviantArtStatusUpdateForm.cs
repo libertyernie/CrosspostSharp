@@ -19,11 +19,11 @@ namespace CrosspostSharp3 {
 	public partial class DeviantArtStatusUpdateForm : Form {
 		private SavedPhotoPost _image;
 
-		private readonly DeviantArtClient _client;
+		private readonly IDeviantArtAccessToken _token;
 
 		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, IPostBase post) {
 			InitializeComponent();
-			_client = new DeviantArtClient(token);
+			_token = token;
 
 			textBox1.Text = post.HTMLDescription;
 			_image = post as SavedPhotoPost;
@@ -39,8 +39,8 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				lblUsername1.Text = await DeviantArtFs.User.Whoami.GetUsernameAsync(_client);
-				picUserIcon.ImageLocation = await DeviantArtFs.User.Whoami.GetUserIconAsync(_client);
+				lblUsername1.Text = await DeviantArtFs.User.Whoami.GetUsernameAsync(_token);
+				picUserIcon.ImageLocation = await DeviantArtFs.User.Whoami.GetUserIconAsync(_token);
 			} catch (Exception) { }
 		}
 		
@@ -51,13 +51,13 @@ namespace CrosspostSharp3 {
 				long? itemId = null;
 
 				if (picImageToPost.Image != null) {
-					itemId = await DeviantArtFs.Stash.Submit.StashSubmitAsync(_client, new DeviantArtFs.Stash.SubmitRequest(
+					itemId = await DeviantArtFs.Stash.Submit.StashSubmitAsync(_token, new DeviantArtFs.Stash.SubmitRequest(
 						PostConverter.CreateFilename(_image),
 						PostConverter.GetContentType(_image),
 						_image.data));
 				}
 
-				await DeviantArtFs.User.StatusPost.UserStatusesPostAsync(_client, new DeviantArtFs.User.StatusPostRequest(textBox1.Text) {
+				await DeviantArtFs.User.StatusPost.UserStatusesPostAsync(_token, new DeviantArtFs.User.StatusPostRequest(textBox1.Text) {
 					StashId = itemId
 				});
 

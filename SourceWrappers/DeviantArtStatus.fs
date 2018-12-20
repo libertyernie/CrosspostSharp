@@ -36,7 +36,7 @@ type DeviantArtStatusPhotoPostWrapper(status: Status, deviation: StatusDeviation
             |> Seq.tryHead
             |> Option.defaultValue Icon
 
-type DeviantArtStatusSourceWrapper(client: DeviantArtClient) =
+type DeviantArtStatusSourceWrapper(client: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
     override this.Name = "DeviantArt (statuses)"

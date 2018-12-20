@@ -45,11 +45,11 @@ namespace CrosspostSharp3 {
 
 		public string UploadedUrl { get; private set; }
 
-		private readonly DeviantArtClient _client;
+		private readonly IDeviantArtAccessToken _token;
 
 		public DeviantArtUploadControl(IDeviantArtAccessToken token) {
             InitializeComponent();
-			_client = new DeviantArtClient(token);
+			_token = token;
 
 			radNone.CheckedChanged += MatureChanged;
             radModerate.CheckedChanged += MatureChanged;
@@ -89,7 +89,7 @@ namespace CrosspostSharp3 {
 
         private void btnGalleryFolders_Click(object sender, EventArgs e) {
             try {
-                using (var form = new DeviantArtFolderSelectionForm(_client)) {
+                using (var form = new DeviantArtFolderSelectionForm(_token)) {
                     if (form.ShowDialog() == DialogResult.OK) {
                         SelectedFolders = form.SelectedFolders;
                     }
@@ -100,7 +100,7 @@ namespace CrosspostSharp3 {
         }
 
         private async Task<long> UploadToStash() {
-			return await DeviantArtFs.Stash.Submit.StashSubmitAsync(_client, new DeviantArtFs.Stash.SubmitRequest(
+			return await DeviantArtFs.Stash.Submit.StashSubmitAsync(_token, new DeviantArtFs.Stash.SubmitRequest(
 				PostConverter.CreateFilename(_downloaded),
 				PostConverter.GetContentType(_downloaded),
 				_downloaded.data
