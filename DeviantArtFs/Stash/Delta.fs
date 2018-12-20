@@ -33,9 +33,9 @@ type DeltaResponse = JsonProvider<"""[{
             "metadata": {
                 "title": "Bsictiu",
                 "description": null,
-                "artist_comments": "",
-                "original_url": "",
-                "category": "",
+                "artist_comments": "A",
+                "original_url": "O",
+                "category": "C",
                 "creation_time": 1539568626,
                 "files": [
                     {
@@ -85,7 +85,7 @@ type DeltaResponse = JsonProvider<"""[{
                 },
                 "stackid": 82528086903970,
                 "itemid": 5041946760955267,
-                "tags": []
+                "tags": ["t"]
             },
             "position": 0
         },

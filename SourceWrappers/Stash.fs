@@ -24,10 +24,10 @@ type StashPostWrapper(entry: DeviantArtFs.Stash.DeltaResponse.Entry) =
 
     interface IRemotePhotoPost with
         member this.Title = entry.Metadata.Title
-        member this.HTMLDescription = entry.Metadata.ArtistComments.JsonValue.ToString()
+        member this.HTMLDescription = entry.Metadata.ArtistComments |> Option.defaultValue ""
         member this.Mature = false
         member this.Adult = false
-        member this.Tags = entry.Metadata.Tags |> Seq.map (fun t -> t.JsonValue.ToString())
+        member this.Tags = entry.Metadata.Tags :> seq<string>
         member this.Timestamp = entry.Metadata.CreationTime |> Option.map Swu.fromUnixTime |> Option.defaultValue DateTime.MinValue
         member this.ViewURL =
             let url = new StringBuilder()
