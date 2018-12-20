@@ -51,7 +51,7 @@ namespace CrosspostSharp3 {
 				long? itemId = null;
 
 				if (picImageToPost.Image != null) {
-					itemId = await DeviantArtFs.Stash.Submit.StashSubmitAsync(_token, new DeviantArtFs.Stash.SubmitRequest(
+					itemId = await DeviantArtFs.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Stash.SubmitRequest(
 						PostConverter.CreateFilename(_image),
 						PostConverter.GetContentType(_image),
 						_image.data));

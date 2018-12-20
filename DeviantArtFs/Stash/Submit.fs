@@ -26,7 +26,7 @@ type SubmitRequest(filename: string, contentType: string, data: byte[]) =
     member val StackId = Nullable<int64>() with get, set
 
 module Submit =
-    let AsyncStashSubmit token (ps: SubmitRequest) = async {
+    let AsyncExecute token (ps: SubmitRequest) = async {
         // multipart separators
         let h1 = sprintf "-----------------------------%d" DateTime.UtcNow.Ticks
         let h2 = sprintf "--%s" h1
@@ -131,4 +131,4 @@ module Submit =
         return o.Itemid
     }
 
-    let StashSubmitAsync token ps = AsyncStashSubmit token ps |> Async.StartAsTask
+    let ExecuteAsync token ps = AsyncExecute token ps |> Async.StartAsTask

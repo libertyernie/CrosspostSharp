@@ -12,6 +12,7 @@
     <Compile Include="Deviation\Id.fs" />
     <Compile Include="Gallery\Folders.fs" />
     <Compile Include="Gallery\All.fs" />
+    <Compile Include="Stash\Delta.fs" />
     <Compile Include="Stash\Submit.fs" />
     <Compile Include="User\StatusesPost.fs" />
     <Compile Include="User\Statuses.fs" />
