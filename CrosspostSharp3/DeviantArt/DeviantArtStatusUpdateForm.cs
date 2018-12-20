@@ -1,5 +1,4 @@
 ﻿using DeviantArtFs;
-using DeviantArtFs.RequestTypes;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -52,11 +51,10 @@ namespace CrosspostSharp3 {
 				long? itemId = null;
 
 				if (picImageToPost.Image != null) {
-					var req = new StashSubmitRequest(
+					itemId = await DeviantArtFs.Stash.Submit.StashSubmitAsync(_client, new DeviantArtFs.Stash.SubmitRequest(
 						PostConverter.CreateFilename(_image),
 						PostConverter.GetContentType(_image),
-						_image.data);
-					itemId = await _client.StashSubmitAsync(req);
+						_image.data));
 				}
 
 				await DeviantArtFs.User.StatusPost.UserStatusesPostAsync(_client, new DeviantArtFs.User.StatusPostRequest(textBox1.Text) {

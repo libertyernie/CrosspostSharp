@@ -100,7 +100,7 @@ namespace CrosspostSharp3 {
         }
 
         private async Task<long> UploadToStash() {
-			return await _client.StashSubmitAsync(new DeviantArtFs.RequestTypes.StashSubmitRequest(
+			return await DeviantArtFs.Stash.Submit.StashSubmitAsync(_client, new DeviantArtFs.Stash.SubmitRequest(
 				PostConverter.CreateFilename(_downloaded),
 				PostConverter.GetContentType(_downloaded),
 				_downloaded.data

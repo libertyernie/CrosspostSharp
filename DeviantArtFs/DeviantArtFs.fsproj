@@ -10,7 +10,9 @@
     <Compile Include="DeviantArtClient.fs" />
     <Compile Include="Deviation\Metadata.fs" />
     <Compile Include="Deviation\Id.fs" />
+    <Compile Include="Gallery\Folders.fs" />
     <Compile Include="Gallery\All.fs" />
+    <Compile Include="Stash\Submit.fs" />
     <Compile Include="User\StatusesPost.fs" />
     <Compile Include="User\Statuses.fs" />
     <Compile Include="User\Profile.fs" />
@@ -19,10 +21,6 @@
 
   <ItemGroup>
     <PackageReference Include="FSharp.Data" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DeviantArtFs.RequestTypes\DeviantArtFs.RequestTypes.csproj" />
   </ItemGroup>
 
 </Project>

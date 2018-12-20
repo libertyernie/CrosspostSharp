@@ -342,10 +342,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeviantArtFs.RequestTypes\DeviantArtFs.RequestTypes.csproj">
-      <Project>{995c5c13-a5c6-49ff-952b-9d976c98733e}</Project>
-      <Name>DeviantArtFs.RequestTypes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeviantArtFs.WinForms\DeviantArtFs.WinForms.csproj">
       <Project>{9a66e829-3d74-4ae9-a200-21b5c9f170b6}</Project>
       <Name>DeviantArtFs.WinForms</Name>

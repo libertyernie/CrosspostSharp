@@ -1,5 +1,4 @@
 ﻿using DeviantArtFs;
-using DeviantArtFs.RequestTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,7 +36,7 @@ namespace CrosspostSharp3 {
             try {
 				this.Enabled = false;
 
-				var resp = await _client.GalleryFoldersAsync(new GalleryFoldersRequest());
+				var resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_client, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
 
 				int skip = 0;
 				while (resp.Any()) {
@@ -57,7 +56,7 @@ namespace CrosspostSharp3 {
 						flowLayoutPanel1.Controls.Add(chk);
 					}
 					skip += resp.Count;
-					resp = await _client.GalleryFoldersAsync(new GalleryFoldersRequest {
+					resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_client, new DeviantArtFs.Gallery.GalleryFoldersRequest {
 						Offset = skip
 					});
 				}
