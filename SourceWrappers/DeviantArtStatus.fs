@@ -3,8 +3,8 @@
 open FSharp.Control
 open DeviantArtFs
 
-type internal Status = DeviantArtFs.User.StatusesResponse.Result
-type internal StatusDeviation = DeviantArtFs.User.StatusesResponse.Deviation
+type internal Status = DeviantArtFs.User.StatusesIdResponse.Root
+type internal StatusDeviation = DeviantArtFs.User.StatusesIdResponse.Deviation
 
 type DeviantArtStatusPostWrapper(status: Status, deviation: StatusDeviation option) =
     let Mature =

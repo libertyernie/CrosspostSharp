@@ -18,6 +18,12 @@ type DeviantArtException(resp: WebResponse, body: DeviantArtErrorResponse.Root) 
         | :? HttpWebResponse as h -> Nullable h.StatusCode
         | _ -> Nullable()
 
+type DeviantArtPagedResult<'a> = {
+    HasMore: bool
+    NextOffset: int option
+    Results: seq<'a>
+}
+
 module internal dafs =
     let whenDone (f: 'a -> 'b) (workflow: Async<'a>) = async {
         let! result = workflow

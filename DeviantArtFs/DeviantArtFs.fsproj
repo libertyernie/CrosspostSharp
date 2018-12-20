@@ -14,6 +14,7 @@
     <Compile Include="Gallery\All.fs" />
     <Compile Include="Stash\Delta.fs" />
     <Compile Include="Stash\Submit.fs" />
+    <Compile Include="User\StatusesId.fs" />
     <Compile Include="User\StatusesPost.fs" />
     <Compile Include="User\Statuses.fs" />
     <Compile Include="User\Profile.fs" />

@@ -4,7 +4,7 @@ open System
 open FSharp.Control
 open DeviantArtFs
 
-type DeviantArtPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Result, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata option) =
+type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata option) =
     let src =
         deviation.Content
         |> Option.map (fun c -> c.Src)
@@ -40,7 +40,7 @@ type DeviantArtPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Resul
             |> Seq.tryHead
             |> Option.defaultValue src
 
-type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Gallery.GalleryResponse.Result, client: IDeviantArtAccessToken) =
+type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, client: IDeviantArtAccessToken) =
     inherit DeferredPhotoPost()
 
     let src =
@@ -75,7 +75,7 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Gallery.GalleryRespon
 type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
-    let asyncGetMetadata (list: seq<DeviantArtFs.Gallery.GalleryResponse.Result>) = async {
+    let asyncGetMetadata (list: seq<DeviantArtFs.Deviation.IdResponse.Root>) = async {
         if Seq.isEmpty list then
             return Seq.empty
         else
