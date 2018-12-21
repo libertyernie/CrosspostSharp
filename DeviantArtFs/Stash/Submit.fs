@@ -122,8 +122,6 @@ module Submit =
             use! reqStream = req.GetRequestStreamAsync() |> Async.AwaitTask
             ms.Position <- 0L
             do! ms.CopyToAsync(reqStream) |> Async.AwaitTask
-
-            System.IO.File.WriteAllBytes("C:/Users/admin/out.txt", ms.ToArray())
         }
 
         let! json = dafs.asyncRead req
