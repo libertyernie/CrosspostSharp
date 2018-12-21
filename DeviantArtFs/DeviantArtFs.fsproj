@@ -5,25 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="DeviantArtToken.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="DeviantArtAuth.fs" />
     <Compile Include="dafs.fs" />
-    <Compile Include="Data\Tos.fs" />
-    <Compile Include="Data\Submission.fs" />
-    <Compile Include="Data\Privacy.fs" />
     <Compile Include="Data\Countries.fs" />
-    <Compile Include="Deviation\Metadata.fs" />
+    <Compile Include="Data\Privacy.fs" />
+    <Compile Include="Data\Submission.fs" />
+    <Compile Include="Data\Tos.fs" />
     <Compile Include="Deviation\Id.fs" />
-    <Compile Include="Gallery\Folders.fs" />
+    <Compile Include="Deviation\Metadata.fs" />
     <Compile Include="Gallery\All.fs" />
-    <Compile Include="Stash\PublishCategoryTree.fs" />
-    <Compile Include="Stash\Publish.fs" />
+    <Compile Include="Gallery\Folders.fs" />
     <Compile Include="Stash\Delta.fs" />
+    <Compile Include="Stash\Publish.fs" />
+    <Compile Include="Stash\PublishCategoryTree.fs" />
     <Compile Include="Stash\Submit.fs" />
-    <Compile Include="User\StatusesId.fs" />
-    <Compile Include="User\StatusesPost.fs" />
-    <Compile Include="User\Statuses.fs" />
     <Compile Include="User\Profile.fs" />
+    <Compile Include="User\StatusesId.fs" />
+    <Compile Include="User\Statuses.fs" />
+    <Compile Include="User\StatusesPost.fs" />
     <Compile Include="User\Whoami.fs" />
   </ItemGroup>
 

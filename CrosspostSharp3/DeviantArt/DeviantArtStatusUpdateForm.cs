@@ -57,7 +57,7 @@ namespace CrosspostSharp3 {
 						_image.data));
 				}
 
-				await DeviantArtFs.User.StatusPost.UserStatusesPostAsync(_token, new DeviantArtFs.User.StatusPostRequest(textBox1.Text) {
+				await DeviantArtFs.User.StatusPost.ExecuteAsync(_token, new DeviantArtFs.User.StatusPostRequest(textBox1.Text) {
 					StashId = itemId
 				});
 

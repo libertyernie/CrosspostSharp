@@ -32,7 +32,7 @@ type GalleryFoldersRequest() =
     member val Limit = 10 with get, set
 
 module Folders =
-    let AsyncGalleryFolders token (ps: GalleryFoldersRequest) = async {
+    let AsyncExecute token (ps: GalleryFoldersRequest) = async {
         let query = seq {
             match Option.ofObj ps.Username with
             | Some s -> yield sprintf "username=%s" (dafs.urlEncode s)
@@ -50,7 +50,7 @@ module Folders =
         return GalleryFoldersResponse.Parse json
     }
 
-    let GalleryFoldersAsync token ps =
-        AsyncGalleryFolders token ps
+    let ExecuteAsync token ps =
+        AsyncExecute token ps
         |> dafs.whenDone (fun r -> r.Results |> Seq.map (fun f -> (f.Folderid, f.Name)) |> dict)
         |> Async.StartAsTask

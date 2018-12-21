@@ -36,7 +36,7 @@ namespace CrosspostSharp3 {
             try {
 				this.Enabled = false;
 
-				var resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
+				var resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
 
 				int skip = 0;
 				while (resp.Any()) {
@@ -56,7 +56,7 @@ namespace CrosspostSharp3 {
 						flowLayoutPanel1.Controls.Add(chk);
 					}
 					skip += resp.Count;
-					resp = await DeviantArtFs.Gallery.Folders.GalleryFoldersAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest {
+					resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest {
 						Offset = skip
 					});
 				}

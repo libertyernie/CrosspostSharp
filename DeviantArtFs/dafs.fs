@@ -1,28 +1,7 @@
 ﻿namespace DeviantArtFs
 
-open FSharp.Data
 open System.Net
 open System.IO
-open System
-
-type DeviantArtBaseResponse = JsonProvider<"""{"status":"error"}""">
-
-type DeviantArtErrorResponse = JsonProvider<"""{"error":"invalid_request","error_description":"Must provide an access_token to access this resource.","status":"error"}""">
-
-type DeviantArtException(resp: WebResponse, body: DeviantArtErrorResponse.Root) =
-    inherit Exception(body.ErrorDescription)
-
-    member __.ResponseBody = body
-    member __.StatusCode =
-        match resp with
-        | :? HttpWebResponse as h -> Nullable h.StatusCode
-        | _ -> Nullable()
-
-type DeviantArtPagedResult<'a> = {
-    HasMore: bool
-    NextOffset: int option
-    Results: seq<'a>
-}
 
 module internal dafs =
     let whenDone (f: 'a -> 'b) (workflow: Async<'a>) = async {

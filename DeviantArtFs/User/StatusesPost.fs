@@ -17,7 +17,7 @@ type StatusPostRequest(body: string) =
 module StatusPost =
     open System.IO
 
-    let AsyncUserStatusesPost token (ps: StatusPostRequest) = async {
+    let AsyncExecute token (ps: StatusPostRequest) = async {
         let query = seq {
             match Option.ofObj ps.Body with
             | Some s -> yield sprintf "body=%s" s
@@ -45,4 +45,4 @@ module StatusPost =
         return result.Statusid
     }
 
-    let UserStatusesPostAsync token ps = AsyncUserStatusesPost token ps |> Async.StartAsTask
+    let ExecuteAsync token ps = AsyncExecute token ps |> Async.StartAsTask
