@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DeviantArtFs.WinForms {
 	public class DeviantArtAuthorizationCodeForm : Form {
+		[DllImport("wininet.dll", SetLastError = true)]
+		private static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int lpdwBufferLength);
+
 		public string Code { get; private set; }
 
 		public DeviantArtAuthorizationCodeForm(int clientId, Uri callbackUrl, IEnumerable<string> scopes = null) {
 			this.Width = 322;
 			this.Height = 573;
+
+			InternetSetOption(IntPtr.Zero, 42, IntPtr.Zero, 0);
 
 			var webBrowser1 = new WebBrowser {
 				Dock = DockStyle.Fill,
