@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
+    <PackageReference Include="DeviantArtFs" Version="0.1.0-alpha" />
     <PackageReference Include="FlickrNet" Version="3.25.0" />
     <PackageReference Include="FSharp.Control.AsyncSeq" Version="2.0.21" />
     <PackageReference Include="Mastonet" Version="1.4.0" />
@@ -34,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeviantartApi\DeviantartApi\DeviantartApi.csproj" />
     <ProjectReference Include="..\FAExportLib\FAExportLib.csproj" />
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />

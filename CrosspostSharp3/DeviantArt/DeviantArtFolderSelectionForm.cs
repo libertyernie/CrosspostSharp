@@ -1,4 +1,4 @@
-﻿using DeviantartApi.Objects.SubObjects.Profile;
+﻿using DeviantArtFs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,61 +10,62 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
-    public partial class DeviantArtFolderSelectionForm : Form {
-        public class Folder {
-            public string FolderId;
-            public string Name;
-        }
+	public partial class DeviantArtFolderSelectionForm : Form {
+		public class Folder {
+			public Guid FolderId;
+			public string Name;
+		}
 
-        public IEnumerable<Folder> InitialFolders { get; set; }
+		public IEnumerable<Folder> InitialFolders { get; set; }
 
-        private List<GalleryFolder> _selectedFolders;
-        public IEnumerable<Folder> SelectedFolders => _selectedFolders.Select(f => new Folder {
-            FolderId = f.FolderId,
-            Name = f.Name
-        });
+		private readonly IDeviantArtAccessToken _token;
+		private List<KeyValuePair<Guid, string>> _selectedFolders;
+		public IEnumerable<Folder> SelectedFolders =>
+			_selectedFolders.Select(f => new Folder {
+				FolderId = f.Key,
+				Name = f.Value
+			});
 
-        public DeviantArtFolderSelectionForm() {
-            InitializeComponent();
-            _selectedFolders = new List<GalleryFolder>();
-        }
+		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
+			InitializeComponent();
+			_token = token;
+			_selectedFolders = new List<KeyValuePair<Guid, string>>();
+		}
 
-        private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
-            try {
-                this.Enabled = false;
+		private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
+			try {
+				this.Enabled = false;
 
-                var list = new List<GalleryFolder>();
+				var resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
 
-                var req = new DeviantartApi.Requests.Gallery.FoldersRequest {
-                    CalculateSize = false,
-                    ExtPreload = false
-                };
+				int skip = 0;
+				while (resp.Any()) {
+					foreach (var f in resp) {
+						var chk = new CheckBox {
+							AutoSize = true,
+							Text = f.Value,
+							Checked = InitialFolders?.Any(f2 => f.Key == f2.FolderId) == true
+						};
+						chk.CheckedChanged += (o, ea) => {
+							if (chk.Checked) {
+								_selectedFolders.Add(f);
+							} else {
+								_selectedFolders.Remove(f);
+							}
+						};
+						flowLayoutPanel1.Controls.Add(chk);
+					}
+					skip += resp.Count;
+					resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest {
+						Offset = skip
+					});
+				}
 
-                while (true) {
-                    var resp = await req.GetNextPageAsync();
-                    foreach (var f in resp.Result.Results) {
-                        var chk = new CheckBox {
-                            AutoSize = true,
-                            Text = f.Name,
-                            Checked = InitialFolders?.Any(f2 => f.FolderId == f2.FolderId) == true
-                        };
-                        chk.CheckedChanged += (o, ea) => {
-                            if (chk.Checked) {
-                                _selectedFolders.Add(f);
-                            } else {
-                                _selectedFolders.Remove(f);
-                            }
-                        };
-                        flowLayoutPanel1.Controls.Add(chk);
-                    }
-                    if (!resp.Result.HasMore) break;
-                }
-
-                this.Enabled = true;
-            } catch (Exception ex) {
-                MessageBox.Show(this.ParentForm, ex.Message, $"{this.GetType().Name}: {ex.GetType().Name}");
-                this.Close();
-            }
-        }
-    }
+				this.Enabled = true;
+			} catch (Exception ex) {
+				MessageBox.Show(this.ParentForm, ex.Message, $"{this.GetType().Name}: {ex.GetType().Name}");
+				this.Close();
+			}
+		}
+	}
 }

@@ -1,4 +1,5 @@
-﻿using DeviantartApiLogin;
+﻿using DeviantArtFs;
+using DeviantArtFs.WinForms;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
@@ -9,89 +10,42 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async Task<bool> UpdateDeviantArtTokens() {
-			Settings s = Settings.Load();
-			try {
-				string currentToken = s.DeviantArt.RefreshToken;
-				if (currentToken != null) {
-					string newToken = await DeviantArtLoginStatic.UpdateTokens(
-						OAuthConsumer.DeviantArt.CLIENT_ID,
-						OAuthConsumer.DeviantArt.CLIENT_SECRET,
-						currentToken);
-					if (currentToken != newToken) {
-						s.DeviantArt = new Settings.DeviantArtSettings {
-							RefreshToken = newToken
-						};
-						s.Save();
-					}
-				}
-				return true;
-			} catch (Exception) { }
-			return false;
-		}
-
 		private async void deviantArtToolStripMenuItem_Click(object sender, EventArgs e) {
+			toolsToolStripMenuItem.Enabled = false;
+
 			Settings s = Settings.Load();
-			try {
-				string currentToken = s.DeviantArt.RefreshToken;
-				if (currentToken != null) {
-					string newToken = await DeviantArtLoginStatic.UpdateTokens(
+			using (var acctSelForm = new AccountSelectionForm<Settings.DeviantArtAccountSettings>(
+				s.DeviantArtAccounts,
+				async () => {
+					using (var f = new DeviantArtAuthorizationCodeForm(
 						OAuthConsumer.DeviantArt.CLIENT_ID,
-						OAuthConsumer.DeviantArt.CLIENT_SECRET,
-						currentToken);
-					if (currentToken != newToken) {
-						s.DeviantArt = new Settings.DeviantArtSettings {
-							RefreshToken = newToken
-						};
-						s.Save();
-					}
-
-					string user = await new DeviantArtSourceWrapper(loadAll: false, includeLiterature: false).WhoamiAsync();
-					if (MessageBox.Show(this, $"You are currenty logged into DeviantArt and sta.sh as {user}. Would you like to log out?", Text, MessageBoxButtons.YesNo) == DialogResult.Yes) {
-						await DeviantArtLoginStatic.LogoutAsync();
-						s.DeviantArt = new Settings.DeviantArtSettings {
-							RefreshToken = null
-						};
-						s.Save();
-						MessageBox.Show(this, "You have been logged out.", Text);
-						await ReloadWrapperList();
-					} else {
-						return;
-					}
-				}
-			} catch (DeviantArtLoginException ex) when (ex.Message == "User canceled" || ex.Message == "The refresh_token is invalid.") {
-				s.DeviantArt = new Settings.DeviantArtSettings {
-					RefreshToken = null
-				};
-				s.Save();
-				await ReloadWrapperList();
-			} catch (Exception ex) {
-				Console.Error.WriteLine(ex.Message);
-				Console.Error.WriteLine(ex.StackTrace);
-				MessageBox.Show(this, "Could not check DeviantArt login status", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-
-			try {
-				var result = await DeviantartApiLogin.WinForms.Login.SignInAsync(
-						OAuthConsumer.DeviantArt.CLIENT_ID,
-						OAuthConsumer.DeviantArt.CLIENT_SECRET,
 						new Uri("https://www.example.com"),
-						u => { },
-						new[] { DeviantartApi.Login.Scope.Browse, DeviantartApi.Login.Scope.User, DeviantartApi.Login.Scope.Stash, DeviantartApi.Login.Scope.Publish, DeviantartApi.Login.Scope.UserManage });
-				if (result.IsLoginError) {
-					throw new Exception(result.LoginErrorText);
-				}
+						new[] { "browse", "user", "stash", "publish", "user.manage" })
+					) {
+						if (f.ShowDialog(this) == DialogResult.OK) {
+							var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+							var token = await a.GetTokenAsync(f.Code, new Uri("https://www.example.com"));
+							return new[] {
+								new Settings.DeviantArtAccountSettings {
+									AccessToken = token.AccessToken,
+									ExpiresAt = token.ExpiresAt,
+									RefreshToken = token.RefreshToken,
+									Username = await DeviantArtFs.User.Whoami.GetUsernameAsync(token)
+								}
+							};
+						}
+					}
 
-				s.DeviantArt = new Settings.DeviantArtSettings {
-					RefreshToken = result.RefreshToken
-				};
+					return Enumerable.Empty<Settings.DeviantArtAccountSettings>();
+				}
+			)) {
+				acctSelForm.ShowDialog(this);
+				s.DeviantArtAccounts = acctSelForm.CurrentList.ToList();
 				s.Save();
 				await ReloadWrapperList();
-			} catch (Exception ex) {
-				Console.Error.WriteLine(ex.Message);
-				Console.Error.WriteLine(ex.StackTrace);
-				MessageBox.Show(this, "Could not log into DeviantArt", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+
+			toolsToolStripMenuItem.Enabled = true;
 		}
 	}
 }

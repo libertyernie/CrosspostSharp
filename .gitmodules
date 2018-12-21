@@ -4,6 +4,3 @@
 [submodule "PixivUniversal"]
 	path = PixivUniversal
 	url = https://github.com/libertyernie/PixivUniversal
-[submodule "DeviantartApi"]
-	path = DeviantartApi
-	url = https://github.com/libertyernie/DeviantartApi
