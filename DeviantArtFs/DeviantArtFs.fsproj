@@ -13,6 +13,10 @@
     <Compile Include="Data\Submission.fs" />
     <Compile Include="Data\Tos.fs" />
     <Compile Include="Deviation\Id.fs" />
+    <Compile Include="Deviation\Content.fs" />
+    <Compile Include="Deviation\Download.fs" />
+    <Compile Include="Deviation\EmbeddedContent.fs" />
+    <Compile Include="Deviation\WhoFaved.fs" />
     <Compile Include="Deviation\Metadata.fs" />
     <Compile Include="Gallery\All.fs" />
     <Compile Include="Gallery\Folders.fs" />
