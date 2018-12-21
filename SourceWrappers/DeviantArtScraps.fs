@@ -39,7 +39,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token:
             |> Guid.Parse
             |> Seq.singleton
             |> DeviantArtFs.Deviation.MetadataRequest
-            |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata token
+            |> DeviantArtFs.Deviation.Metadata.AsyncExecute token
 
         let d = deviation
         let m = metadata.Metadata |> Seq.head

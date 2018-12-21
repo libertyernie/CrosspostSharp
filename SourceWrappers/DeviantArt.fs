@@ -68,7 +68,7 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.
         let! resp =
             Seq.singleton deviation.Deviationid
             |> DeviantArtFs.Deviation.MetadataRequest
-            |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata client
+            |> DeviantArtFs.Deviation.Metadata.AsyncExecute client
         return new DeviantArtPostWrapper(deviation, Seq.tryHead resp.Metadata) :> IRemotePhotoPost
     }
 
@@ -83,7 +83,7 @@ type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, incl
                 list
                 |> Seq.map (fun d -> d.Deviationid)
                 |> DeviantArtFs.Deviation.MetadataRequest
-                |> DeviantArtFs.Deviation.Metadata.AsyncDeviationMetadata client
+                |> DeviantArtFs.Deviation.Metadata.AsyncExecute client
             return seq {
                 yield! response.Metadata
             }

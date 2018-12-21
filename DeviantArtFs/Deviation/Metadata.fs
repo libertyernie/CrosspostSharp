@@ -368,7 +368,7 @@ type MetadataRequest(deviationids: seq<Guid>) =
     member val ExtCollection = false with get, set
 
 module Metadata =
-    let AsyncDeviationMetadata token (req: MetadataRequest) = async {
+    let AsyncExecute token (req: MetadataRequest) = async {
         let query = seq {
             yield sprintf "ext_submission=%b" req.ExtSubmission
             yield sprintf "ext_camera=%b" req.ExtCamera
