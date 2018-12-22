@@ -25,7 +25,7 @@ namespace CrosspostSharp3 {
 		}
 
 		[Obsolete]
-		public DeviantArtSettings DeviantArt { get; set; }
+		public DeviantArtSettings? DeviantArt { get; set; }
 
 		public struct DeviantArtAccountSettings : IAccountCredentials, DeviantArtFs.IDeviantArtRefreshToken {
 			public string AccessToken { get; set; }
@@ -185,6 +185,15 @@ namespace CrosspostSharp3 {
 
 		public async Task<bool> UpdateTokensAsync() {
 			bool changed = false;
+			if (DeviantArt?.RefreshToken != null) {
+				DeviantArtAccounts.Add(new DeviantArtAccountSettings {
+					AccessToken = "",
+					ExpiresAt = DateTimeOffset.UtcNow,
+					RefreshToken = DeviantArt?.RefreshToken,
+					Username = ""
+				});
+				DeviantArt = null;
+			}
 			foreach (var da in DeviantArtAccounts.ToArray()) {
 				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-15)) {
 					// Get new access token
@@ -195,7 +204,7 @@ namespace CrosspostSharp3 {
 						AccessToken = t.AccessToken,
 						ExpiresAt = t.ExpiresAt,
 						RefreshToken = t.RefreshToken,
-						Username = da.Username
+						Username = await DeviantArtFs.User.Whoami.GetUsernameAsync(t)
 					});
 					changed = true;
 				}
