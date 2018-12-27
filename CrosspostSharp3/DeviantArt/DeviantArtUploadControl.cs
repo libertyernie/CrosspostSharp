@@ -106,7 +106,7 @@ namespace CrosspostSharp3 {
 				_downloaded.data
 			) {
 				ArtistComments = txtArtistComments.Text,
-				ItemId = _stashItemId,
+				Itemid = _stashItemId,
 				IsDirty = false,
 				OriginalUrl = _originalUrl,
 				Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
@@ -177,7 +177,7 @@ namespace CrosspostSharp3 {
 							: ddlLicense.SelectedItem.ToString().Contains("-SA") ? DeviantArtFs.Stash.LicenseModifyOption.ShareAlike
 							: DeviantArtFs.Stash.LicenseModifyOption.Yes,
 					},
-					GalleryIds = SelectedFolders == null
+					Galleryids = SelectedFolders == null
 						? Enumerable.Empty<Guid>()
 						: SelectedFolders.Select(f => f.FolderId),
 					AllowFreeDownload = chkAllowFreeDownload.Checked

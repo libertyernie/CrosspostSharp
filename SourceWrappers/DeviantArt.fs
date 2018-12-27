@@ -3,7 +3,7 @@
 open FSharp.Control
 open DeviantArtFs
 
-type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata option) =
+type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.DeviationResponse.Root, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata option) =
     let src =
         deviation.Content
         |> Option.map (fun c -> c.Src)
@@ -28,6 +28,7 @@ type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, me
         member this.Timestamp =
             deviation.PublishedTime
             |> Option.defaultValue 0
+            |> int64
             |> Swu.fromUnixTime
         member this.ViewURL =
             deviation.Url
@@ -39,7 +40,7 @@ type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, me
             |> Seq.tryHead
             |> Option.defaultValue src
 
-type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.Root, client: IDeviantArtAccessToken) =
+type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.DeviationResponse.Root, client: IDeviantArtAccessToken) =
     inherit DeferredPhotoPost()
 
     let src =
@@ -61,6 +62,7 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.
     override __.Timestamp = 
         deviation.PublishedTime
         |> Option.defaultValue 0
+        |> int64
         |> Swu.fromUnixTime
         |> Some
     override __.AsyncGetActual() = async {
@@ -74,7 +76,7 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.IdResponse.
 type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
-    let asyncGetMetadata (list: seq<DeviantArtFs.Deviation.IdResponse.Root>) = async {
+    let asyncGetMetadata (list: seq<DeviantArtFs.Deviation.DeviationResponse.Root>) = async {
         if Seq.isEmpty list then
             return Seq.empty
         else

@@ -6,18 +6,18 @@ open System.Threading.Tasks
 open DeviantArtFs
 open FSharp.Control
 
-type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.DeltaResponse.Metadata, token: IDeviantArtAccessToken) =
+type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.StackResponse.Root, token: IDeviantArtAccessToken) =
     let imageUrl =
         metadata.Files
         |> Seq.sortByDescending (fun f -> f.Width)
         |> Seq.map (fun f -> f.Src)
         |> Seq.tryHead
-        |> Option.defaultValue null
+        |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
 
     member __.ItemId = itemId
 
     interface IRemotePhotoPost with
-        member this.Title = metadata.Title
+        member this.Title = metadata.Title |> Option.defaultValue ""
         member this.HTMLDescription = metadata.ArtistComments |> Option.defaultValue ""
         member this.Mature = false
         member this.Adult = false
@@ -57,16 +57,12 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
                 new DeviantArtFs.Stash.DeltaRequest(Limit = 120, Offset = cursor)
                 |> DeviantArtFs.Stash.Delta.AsyncExecute token
 
-            let wrappers =
-                result.Entries
-                |> Seq.filter (fun e -> (not << Option.isNone) e.Itemid)
-                |> Seq.filter (fun e -> (not << isNull) e.Metadata.Files)
-                |> Seq.map (fun e -> StashPostWrapper(e.Itemid.Value, e.Metadata, token))
-            for o in wrappers do
-                yield o :> IPostBase
+            for o in result.Entries do
+                match (o.Itemid, o.Metadata) with
+                | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
+                | _ -> ()
 
-            cursor <- result.NextOffset
-                |> Option.defaultValue 0
+            cursor <- result.NextOffset.GetValueOrDefault()
             more <- result.HasMore
     }
 

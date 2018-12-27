@@ -32,7 +32,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token:
         let! deviation =
             m.Groups.[1].Value
             |> Guid.Parse
-            |> DeviantArtFs.Deviation.Id.AsyncExecute token
+            |> DeviantArtFs.Deviation.Deviation.AsyncExecute token
 
         let! metadata =
             m.Groups.[1].Value
