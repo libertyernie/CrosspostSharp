@@ -100,18 +100,23 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<long> UploadToStash() {
-			return await DeviantArtFs.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Stash.SubmitRequest(
-				PostConverter.CreateFilename(_downloaded),
-				PostConverter.GetContentType(_downloaded),
-				_downloaded.data
-			) {
-				ArtistComments = txtArtistComments.Text,
-				Itemid = _stashItemId,
-				IsDirty = false,
-				OriginalUrl = _originalUrl,
-				Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
-				Title = txtTitle.Text
-			});
+			try {
+				return await DeviantArtFs.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Stash.SubmitRequest(
+					PostConverter.CreateFilename(_downloaded),
+					PostConverter.GetContentType(_downloaded),
+					_downloaded.data
+				) {
+					ArtistComments = txtArtistComments.Text,
+					Itemid = _stashItemId,
+					IsDirty = false,
+					OriginalUrl = _originalUrl,
+					Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
+					Title = txtTitle.Text
+				});
+			} catch (DeviantArtException ex) when (ex.Message == "Cannot modify this item, it does not belong to this user." && _stashItemId != null) {
+				_stashItemId = null;
+				return await UploadToStash();
+			}
 		}
 
 		private async void btnUpload_Click(object sender, EventArgs e) {
