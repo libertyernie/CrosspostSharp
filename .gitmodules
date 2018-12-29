@@ -1,6 +1,3 @@
 [submodule "FAWinFormsLogin"]
 	path = FAWinFormsLogin
 	url = https://github.com/libertyernie/FAWinFormsLogin
-[submodule "DeviantartApi"]
-	path = DeviantartApi
-	url = https://github.com/libertyernie/DeviantartApi

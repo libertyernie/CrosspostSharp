@@ -1,38 +1,31 @@
 ﻿namespace SourceWrappers
 
 open System
-open DeviantartApi.Objects.SubObjects.StashDelta
 open System.Text
 open System.Threading.Tasks
-open DeviantartApi.Requests.Stash
+open DeviantArtFs
 open FSharp.Control
-open DeviantartApi.Requests.User
 
-type StashPostWrapper(entry: Entry) =
+type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.StackResponse.Root, token: IDeviantArtAccessToken) =
     let imageUrl =
-        entry.Metadata.Files
+        metadata.Files
         |> Seq.sortByDescending (fun f -> f.Width)
         |> Seq.map (fun f -> f.Src)
         |> Seq.tryHead
-        |> Option.defaultValue null
+        |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
 
-    let delete = async {
-        let req = new DeviantartApi.Requests.Stash.DeleteRequest(entry.ItemId)
-        do! Swu.executeAsync req |> Swu.whenDone ignore
-    }
-
-    member __.ItemId = entry.ItemId
+    member __.ItemId = itemId
 
     interface IRemotePhotoPost with
-        member this.Title = entry.Metadata.Title
-        member this.HTMLDescription = entry.Metadata.ArtistComment
+        member this.Title = metadata.Title |> Option.defaultValue ""
+        member this.HTMLDescription = metadata.ArtistComments |> Option.defaultValue ""
         member this.Mature = false
         member this.Adult = false
-        member this.Tags = entry.Metadata.Tags :> seq<string>
-        member this.Timestamp = entry.Metadata.CreationTime
+        member this.Tags = metadata.Tags :> seq<string>
+        member this.Timestamp = metadata.CreationTime |> Option.map Swu.fromUnixTime |> Option.defaultValue DateTime.MinValue
         member this.ViewURL =
             let url = new StringBuilder()
-            let mutable itemId = entry.ItemId
+            let mutable itemId = itemId
             while itemId > int64 0 do
                 let n = itemId % int64 36
                 let c = "0123456789abcdefghijklmnopqrstuvwxyz".[int32 n]
@@ -42,50 +35,41 @@ type StashPostWrapper(entry: Entry) =
             url.ToString()
         member this.ImageURL = imageUrl
         member this.ThumbnailURL =
-            if isNull entry.Metadata.Thumb
-            then imageUrl
-            else entry.Metadata.Thumb.Src
+            metadata.Thumb
+            |> Option.map (fun t -> t.Src)
+            |> Option.defaultValue imageUrl
 
     interface IDeletable with
         member this.SiteName = "Sta.sh"
-        member this.DeleteAsync() = delete |> Async.StartAsTask :> Task
+        member this.DeleteAsync() = DeviantArtFs.Stash.Delete.ExecuteAsync token itemId
 
-type UnorderedStashSourceWrapper() =
+type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
     override __.Name = "Sta.sh"
 
     override __.FetchSubmissionsInternal() = asyncSeq {
-        let mutable cursor = uint32 0
+        let mutable cursor = 0
         let mutable more = true
         
         while more do
-            let deltaRequest = new DeltaRequest()
-            deltaRequest.Limit <- uint32 120 |> Nullable
-            deltaRequest.Offset <- cursor |> Nullable
+            let! result =
+                new DeviantArtFs.Stash.DeltaRequest(Limit = 120, Offset = cursor)
+                |> DeviantArtFs.Stash.Delta.AsyncExecute token
 
-            let! result = Swu.executeAsync deltaRequest
+            for o in result.Entries do
+                match (o.Itemid, o.Metadata) with
+                | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
+                | _ -> ()
 
-            let wrappers =
-                result.Entries
-                |> Seq.filter (fun e -> e.ItemId <> int64 0)
-                |> Seq.filter (fun e -> (not << isNull) e.Metadata.Files)
-                |> Seq.map StashPostWrapper
-            for o in wrappers do
-                yield o :> IPostBase
-
-            cursor <- result.NextOffset
-                |> Option.ofNullable
-                |> Option.defaultValue 0
-                |> uint32
+            cursor <- result.NextOffset.GetValueOrDefault()
             more <- result.HasMore
     }
 
     override __.FetchUserInternal() = async {
-        let req = new WhoAmIRequest()
-        let! u = Swu.executeAsync req
+        let! u = DeviantArtFs.User.Whoami.AsyncExecute token
         return {
             username = u.Username
-            icon_url = Some u.UserIconUrl.AbsoluteUri
+            icon_url = Some u.Usericon
         }
     }

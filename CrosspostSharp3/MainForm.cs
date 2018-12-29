@@ -1,4 +1,5 @@
-﻿using DontPanic.TumblrSharp;
+﻿using DeviantArtFs;
+using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
 using SourceWrappers;
@@ -91,7 +92,7 @@ namespace CrosspostSharp3 {
 			lblUsername.Text = await _currentWrapper.WhoamiAsync();
 			lblSiteName.Text = _currentWrapper.Name;
 		}
-		
+
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
@@ -119,22 +120,23 @@ namespace CrosspostSharp3 {
 			tsiPageSize4.Checked = tableLayoutPanel1.RowCount == 2 && tableLayoutPanel1.ColumnCount == 2;
 			tsiPageSize9.Checked = tableLayoutPanel1.RowCount == 3 && tableLayoutPanel1.ColumnCount == 3;
 
-			if (s.DeviantArt.RefreshToken != null) {
-				lblLoadStatus.Text = "Adding DeviantArt...";
-				if (await UpdateDeviantArtTokens()) {
-					var w = new DeviantArtSourceWrapper(loadAll: false, includeLiterature: false);
+			if (await s.UpdateTokensAsync()) {
+				s.Save();
+			}
+
+			foreach (var da in s.DeviantArtAccounts) {
+				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
+				var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+				try {
+					var w = new DeviantArtSourceWrapper(da, loadAll: false, includeLiterature: false);
 					var u = await w.GetUserAsync();
 
 					add(w);
-					add(new DeviantArtScrapsLinkSourceWrapper(u.username));
-					add(new DeviantArtStatusSourceWrapper());
-					add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper()));
-				} else {
-					MessageBox.Show(this, "DeviantArt refresh token is no longer valid", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					s.DeviantArt = new Settings.DeviantArtSettings {
-						RefreshToken = null
-					};
-					s.Save();
+					add(new DeviantArtScrapsLinkSourceWrapper(u.username, da));
+					add(new DeviantArtStatusSourceWrapper(da));
+					add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
+				} catch (WebException ex) {
+					throw new Exception("Could not load DeviantArt", ex);
 				}
 			}
 			foreach (var fl in s.Flickr) {
@@ -201,9 +203,9 @@ namespace CrosspostSharp3 {
 			if (imgur.Any()) {
 				add(new AsyncSeqWrapperOfSeq("Previous Imgur uploads", imgur.Reverse()));
 			}
-			
+
 			lblLoadStatus.Text = "Connecting to sites...";
-			
+
 			var tasks = list.Select(async c => {
 				AsyncSeqWrapperPagedConsumer w = new AsyncSeqWrapperPagedConsumer(c, tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount);
 				try {
@@ -230,7 +232,7 @@ namespace CrosspostSharp3 {
 				.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
 				.ToArray();
 			ddlSource.Items.AddRange(wrappers);
-			
+
 			lblLoadStatus.Visible = false;
 
 			if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
@@ -282,7 +284,7 @@ namespace CrosspostSharp3 {
 				}
 			}
 		}
-		
+
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
 			Application.Exit();
 		}
@@ -300,7 +302,7 @@ namespace CrosspostSharp3 {
 				f.ShowDialog(this);
 			}
 		}
-		
+
 		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
 			IEnumerable<IPagedWrapperConsumer> GetWrappers() {
 				foreach (var o in ddlSource.Items) {
