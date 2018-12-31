@@ -6,7 +6,7 @@ open System.Threading.Tasks
 open DeviantArtFs
 open FSharp.Control
 
-type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.StackResponse.Root, token: IDeviantArtAccessToken) =
+type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.StashMetadata.Root, token: IDeviantArtAccessToken) =
     let imageUrl =
         metadata.Files
         |> Seq.sortByDescending (fun f -> f.Width)

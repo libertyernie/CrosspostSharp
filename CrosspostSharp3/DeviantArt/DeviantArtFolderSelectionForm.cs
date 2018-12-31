@@ -11,40 +11,31 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class DeviantArtFolderSelectionForm : Form {
-		public class Folder {
-			public Guid FolderId;
-			public string Name;
-		}
-
-		public IEnumerable<Folder> InitialFolders { get; set; }
+		public IEnumerable<DeviantArtFs.Gallery.Folder> InitialFolders { get; set; }
 
 		private readonly IDeviantArtAccessToken _token;
-		private List<KeyValuePair<Guid, string>> _selectedFolders;
-		public IEnumerable<Folder> SelectedFolders =>
-			_selectedFolders.Select(f => new Folder {
-				FolderId = f.Key,
-				Name = f.Value
-			});
+		private List<DeviantArtFs.Gallery.Folder> _selectedFolders;
+		public IEnumerable<DeviantArtFs.Gallery.Folder> SelectedFolders => _selectedFolders;
 
 		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
 			InitializeComponent();
 			_token = token;
-			_selectedFolders = new List<KeyValuePair<Guid, string>>();
+			_selectedFolders = new List<DeviantArtFs.Gallery.Folder>();
 		}
 
 		private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
 			try {
 				this.Enabled = false;
 
-				var resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest { });
+				var resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.FoldersRequest { });
 
 				int skip = 0;
-				while (resp.Any()) {
-					foreach (var f in resp) {
+				while (resp.Results.Any()) {
+					foreach (var f in resp.Results) {
 						var chk = new CheckBox {
 							AutoSize = true,
-							Text = f.Value,
-							Checked = InitialFolders?.Any(f2 => f.Key == f2.FolderId) == true
+							Text = f.Name,
+							Checked = InitialFolders?.Any(f2 => f.Folderid == f2.Folderid) == true
 						};
 						chk.CheckedChanged += (o, ea) => {
 							if (chk.Checked) {
@@ -55,8 +46,8 @@ namespace CrosspostSharp3 {
 						};
 						flowLayoutPanel1.Controls.Add(chk);
 					}
-					skip += resp.Count;
-					resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.GalleryFoldersRequest {
+					skip += resp.Results.Count();
+					resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.FoldersRequest {
 						Offset = skip
 					});
 				}

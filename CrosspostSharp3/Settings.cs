@@ -199,12 +199,13 @@ namespace CrosspostSharp3 {
 					// Get new access token
 					var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
 					var t = await a.RefreshAsync(da.RefreshToken);
+					var u = await DeviantArtFs.User.Whoami.ExecuteAsync(t);
 					DeviantArtAccounts.Remove(da);
 					DeviantArtAccounts.Add(new DeviantArtAccountSettings {
 						AccessToken = t.AccessToken,
 						ExpiresAt = t.ExpiresAt,
 						RefreshToken = t.RefreshToken,
-						Username = await DeviantArtFs.User.Whoami.GetUsernameAsync(t)
+						Username = u.Username
 					});
 					changed = true;
 				}

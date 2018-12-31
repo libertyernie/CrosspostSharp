@@ -27,8 +27,7 @@ type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.DeviationResponse.R
                 | None -> Seq.empty
         member this.Timestamp =
             deviation.PublishedTime
-            |> Option.defaultValue 0
-            |> int64
+            |> Option.defaultValue 0L
             |> Swu.fromUnixTime
         member this.ViewURL =
             deviation.Url
@@ -61,8 +60,7 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.DeviationRe
             |> Option.defaultValue "https://www.example.com"
     override __.Timestamp = 
         deviation.PublishedTime
-        |> Option.defaultValue 0
-        |> int64
+        |> Option.defaultValue 0L
         |> Swu.fromUnixTime
         |> Some
     override __.AsyncGetActual() = async {

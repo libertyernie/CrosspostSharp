@@ -3,8 +3,8 @@
 open FSharp.Control
 open DeviantArtFs
 
-type internal Status = DeviantArtFs.User.StatusesIdResponse.Root
-type internal StatusDeviation = DeviantArtFs.User.StatusesIdResponse.Deviation
+type internal Status = DeviantArtFs.User.StatusesStatusResponse.Root
+type internal StatusDeviation = DeviantArtFs.User.StatusesStatusResponse.Deviation
 
 type DeviantArtStatusPostWrapper(status: Status, deviation: StatusDeviation option) =
     let Mature =
@@ -49,8 +49,8 @@ type DeviantArtStatusSourceWrapper(client: IDeviantArtAccessToken) =
 
         while more do
             let! statuses =
-                new DeviantArtFs.User.StatusesRequest(username, Offset = position, Limit = 50)
-                |> DeviantArtFs.User.Statuses.AsyncExecute client
+                new DeviantArtFs.User.StatusesListRequest(username, Offset = position, Limit = 50)
+                |> DeviantArtFs.User.StatusesList.AsyncExecute client
 
             for r in statuses.Results do
                 let items = seq {

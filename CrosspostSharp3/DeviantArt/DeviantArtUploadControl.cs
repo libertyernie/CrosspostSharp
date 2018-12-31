@@ -25,8 +25,8 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private IEnumerable<DeviantArtFolderSelectionForm.Folder> _selectedFolders;
-		public IEnumerable<DeviantArtFolderSelectionForm.Folder> SelectedFolders {
+		private IEnumerable<DeviantArtFs.Gallery.Folder> _selectedFolders;
+		public IEnumerable<DeviantArtFs.Gallery.Folder> SelectedFolders {
 			get {
 				return _selectedFolders;
 			}
@@ -184,7 +184,7 @@ namespace CrosspostSharp3 {
 					},
 					Galleryids = SelectedFolders == null
 						? Enumerable.Empty<Guid>()
-						: SelectedFolders.Select(f => f.FolderId),
+						: SelectedFolders.Select(f => f.Folderid),
 					AllowFreeDownload = chkAllowFreeDownload.Checked
 				};
 
