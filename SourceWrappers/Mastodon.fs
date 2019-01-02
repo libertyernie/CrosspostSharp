@@ -6,6 +6,7 @@ open FSharp.Control
 open System
 
 type MastodonPostWrapper(status: Status) =
+    member __.SpoilerText = status.SpoilerText
     interface IPostBase with
         member __.Title = ""
         member __.HTMLDescription = status.Content

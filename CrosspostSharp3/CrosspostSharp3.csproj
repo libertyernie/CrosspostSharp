@@ -114,23 +114,17 @@
     <Compile Include="Mastodon\MainForm.Mastodon.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Mastodon\MastodonCwPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mastodon\MastodonCwPostForm.Designer.cs">
+      <DependentUpon>MastodonCwPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mastodon\MastodonLoginDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Mastodon\MastodonLoginDialog.Designer.cs">
       <DependentUpon>MastodonLoginDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Mastodon\MastodonPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Mastodon\MastodonPostForm.Designer.cs">
-      <DependentUpon>MastodonPostForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Mastodon\MastodonNoPhotoPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Mastodon\MastodonNoPhotoPostForm.Designer.cs">
-      <DependentUpon>MastodonNoPhotoPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Pillowfort\MainForm.Pillowfort.cs">
       <SubType>Form</SubType>
@@ -274,14 +268,11 @@
     <EmbeddedResource Include="FurryNetwork\FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Mastodon\MastodonCwPostForm.resx">
+      <DependentUpon>MastodonCwPostForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mastodon\MastodonLoginDialog.resx">
       <DependentUpon>MastodonLoginDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mastodon\MastodonPostForm.resx">
-      <DependentUpon>MastodonPostForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mastodon\MastodonNoPhotoPostForm.resx">
-      <DependentUpon>MastodonNoPhotoPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pillowfort\PillowfortPostForm.resx">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>

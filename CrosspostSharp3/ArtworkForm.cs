@@ -218,7 +218,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var m in settings.Mastodon) {
 					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
-						using (var f = new MastodonPostForm(m, ExportAsPhoto())) {
+						using (var f = new MastodonCwPostForm(m, ExportAsPhoto(), _origWrapper as MastodonPostWrapper)) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -279,7 +279,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var m in settings.Mastodon) {
 				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
-					using (var f = new MastodonNoPhotoPostForm(m, ExportAsText())) {
+					using (var f = new MastodonCwPostForm(m, ExportAsText(), _origWrapper as MastodonPostWrapper)) {
 						f.ShowDialog(this);
 					}
 				}));
