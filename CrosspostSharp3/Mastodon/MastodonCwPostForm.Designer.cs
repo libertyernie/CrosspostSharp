@@ -33,8 +33,6 @@
             this.lblUsername2 = new System.Windows.Forms.Label();
             this.btnPost = new System.Windows.Forms.Button();
             this.chkImageSensitive = new System.Windows.Forms.CheckBox();
-            this.txtImageDesc = new System.Windows.Forms.TextBox();
-            this.lblImageDesc = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,14 +94,14 @@
             this.txtContent.Location = new System.Drawing.Point(12, 105);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
-            this.txtContent.Size = new System.Drawing.Size(318, 111);
+            this.txtContent.Size = new System.Drawing.Size(318, 127);
             this.txtContent.TabIndex = 5;
             // 
             // chkIncludeImage
             // 
             this.chkIncludeImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkIncludeImage.AutoSize = true;
-            this.chkIncludeImage.Location = new System.Drawing.Point(12, 222);
+            this.chkIncludeImage.Location = new System.Drawing.Point(12, 242);
             this.chkIncludeImage.Name = "chkIncludeImage";
             this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
             this.chkIncludeImage.TabIndex = 6;
@@ -125,7 +123,7 @@
             // btnPost
             // 
             this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(255, 288);
+            this.btnPost.Location = new System.Drawing.Point(255, 238);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
             this.btnPost.TabIndex = 10;
@@ -137,43 +135,21 @@
             // 
             this.chkImageSensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkImageSensitive.AutoSize = true;
-            this.chkImageSensitive.Location = new System.Drawing.Point(110, 222);
+            this.chkImageSensitive.Location = new System.Drawing.Point(110, 242);
             this.chkImageSensitive.Name = "chkImageSensitive";
             this.chkImageSensitive.Size = new System.Drawing.Size(108, 17);
             this.chkImageSensitive.TabIndex = 7;
             this.chkImageSensitive.Text = "Mark as sensitive";
             this.chkImageSensitive.UseVisualStyleBackColor = true;
             // 
-            // txtImageDesc
-            // 
-            this.txtImageDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImageDesc.Enabled = false;
-            this.txtImageDesc.Location = new System.Drawing.Point(12, 258);
-            this.txtImageDesc.Multiline = true;
-            this.txtImageDesc.Name = "txtImageDesc";
-            this.txtImageDesc.Size = new System.Drawing.Size(237, 53);
-            this.txtImageDesc.TabIndex = 9;
-            // 
-            // lblImageDesc
-            // 
-            this.lblImageDesc.AutoSize = true;
-            this.lblImageDesc.Location = new System.Drawing.Point(12, 242);
-            this.lblImageDesc.Name = "lblImageDesc";
-            this.lblImageDesc.Size = new System.Drawing.Size(220, 13);
-            this.lblImageDesc.TabIndex = 20;
-            this.lblImageDesc.Text = "Description of image (not currently supported)";
-            // 
             // MastodonCwPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(342, 323);
-            this.Controls.Add(this.lblImageDesc);
+            this.ClientSize = new System.Drawing.Size(342, 273);
             this.Controls.Add(this.chkImageSensitive);
             this.Controls.Add(this.btnPost);
             this.Controls.Add(this.lblUsername2);
-            this.Controls.Add(this.txtImageDesc);
             this.Controls.Add(this.chkIncludeImage);
             this.Controls.Add(this.txtContent);
             this.Controls.Add(this.lblContent);
@@ -202,7 +178,5 @@
 		private System.Windows.Forms.Label lblUsername2;
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.CheckBox chkImageSensitive;
-		private System.Windows.Forms.TextBox txtImageDesc;
-		private System.Windows.Forms.Label lblImageDesc;
 	}
 }
