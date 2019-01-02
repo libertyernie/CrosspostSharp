@@ -29,8 +29,7 @@ namespace CrosspostSharp3 {
 
 				var resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.FoldersRequest { });
 
-				int skip = 0;
-				while (resp.Results.Any()) {
+				while (true) {
 					foreach (var f in resp.Results) {
 						var chk = new CheckBox {
 							AutoSize = true,
@@ -46,9 +45,11 @@ namespace CrosspostSharp3 {
 						};
 						flowLayoutPanel1.Controls.Add(chk);
 					}
-					skip += resp.Results.Count();
+
+					if (!resp.HasMore) break;
+
 					resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.FoldersRequest {
-						Offset = skip
+						Offset = resp.NextOffset.Value
 					});
 				}
 
