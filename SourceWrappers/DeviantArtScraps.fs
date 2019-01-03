@@ -32,17 +32,17 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token:
         let! deviation =
             m.Groups.[1].Value
             |> Guid.Parse
-            |> DeviantArtFs.Deviation.Deviation.AsyncExecute token
+            |> DeviantArtFs.Requests.Deviation.DeviationById.AsyncExecute token
 
         let! metadata =
             m.Groups.[1].Value
             |> Guid.Parse
             |> Seq.singleton
-            |> DeviantArtFs.Deviation.MetadataRequest
-            |> DeviantArtFs.Deviation.Metadata.AsyncExecute token
+            |> DeviantArtFs.Requests.Deviation.MetadataRequest
+            |> DeviantArtFs.Requests.Deviation.MetadataById.AsyncExecute token
 
         let d = deviation
-        let m = metadata.Metadata |> Seq.head
+        let m = metadata |> Seq.head
 
         return new DeviantArtPostWrapper(d, Some m) :> IRemotePhotoPost
     }
@@ -51,11 +51,6 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAcces
     inherit AsyncSeqWrapper()
 
     let next_regex = new Regex("<link href=\"([^'\"]+)\" rel=\"next\">")
-
-    let findMatches html (r: Regex) = seq {
-        for o in r.Matches(html) do
-            yield o.Value
-    }
 
     override __.Name = "DeviantArt (scraps)"
 
@@ -103,8 +98,8 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAcces
     override __.FetchUserInternal() = async {
         let! profile =
             username
-            |> DeviantArtFs.User.ProfileRequest
-            |> DeviantArtFs.User.Profile.AsyncExecute token
+            |> DeviantArtFs.Requests.User.ProfileRequest
+            |> DeviantArtFs.Requests.User.ProfileByName.AsyncExecute token
         return {
             username = username
             icon_url = Some profile.User.Usericon

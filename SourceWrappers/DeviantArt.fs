@@ -3,7 +3,10 @@
 open FSharp.Control
 open DeviantArtFs
 
-type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.DeviationResponse.Root, metadata: DeviantArtFs.Deviation.MetadataResponse.Metadata option) =
+type DeviantArtPostWrapper(deviation_obj: Deviation, metadata_obj: Metadata option) =
+    let deviation = deviation_obj.Original
+    let metadata = metadata_obj |> Option.map (fun m -> m.Original)
+
     let src =
         deviation.Content
         |> Option.map (fun c -> c.Src)
@@ -39,8 +42,10 @@ type DeviantArtPostWrapper(deviation: DeviantArtFs.Deviation.DeviationResponse.R
             |> Seq.tryHead
             |> Option.defaultValue src
 
-type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.DeviationResponse.Root, client: IDeviantArtAccessToken) =
+type DeviantArtDeferredPostWrapper(deviation_obj: Deviation, client: IDeviantArtAccessToken) =
     inherit DeferredPhotoPost()
+    
+    let deviation = deviation_obj.Original
 
     let src =
         deviation.Content
@@ -66,26 +71,23 @@ type DeviantArtDeferredPostWrapper(deviation: DeviantArtFs.Deviation.DeviationRe
     override __.AsyncGetActual() = async {
         let! resp =
             Seq.singleton deviation.Deviationid
-            |> DeviantArtFs.Deviation.MetadataRequest
-            |> DeviantArtFs.Deviation.Metadata.AsyncExecute client
-        return new DeviantArtPostWrapper(deviation, Seq.tryHead resp.Metadata) :> IRemotePhotoPost
+            |> DeviantArtFs.Requests.Deviation.MetadataRequest
+            |> DeviantArtFs.Requests.Deviation.MetadataById.AsyncExecute client
+        return new DeviantArtPostWrapper(deviation_obj, Seq.tryHead resp) :> IRemotePhotoPost
     }
 
 type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
-    let asyncGetMetadata (list: seq<DeviantArtFs.Deviation.DeviationResponse.Root>) = async {
+    let asyncGetMetadata (list: seq<Deviation>) = async {
         if Seq.isEmpty list then
             return Seq.empty
         else
-            let! response =
+            return!
                 list
                 |> Seq.map (fun d -> d.Deviationid)
-                |> DeviantArtFs.Deviation.MetadataRequest
-                |> DeviantArtFs.Deviation.Metadata.AsyncExecute client
-            return seq {
-                yield! response.Metadata
-            }
+                |> DeviantArtFs.Requests.Deviation.MetadataRequest
+                |> DeviantArtFs.Requests.Deviation.MetadataById.AsyncExecute client
     }
     
     override __.Name = "DeviantArt"
@@ -96,12 +98,13 @@ type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, incl
 
         while more do
             let! gallery =
-                new DeviantArtFs.Gallery.AllRequest(Offset = cursor, Limit = 24)
-                |> DeviantArtFs.Gallery.All.AsyncExecute client
+                new DeviantArtFs.Requests.Gallery.AllRequest(Offset = cursor, Limit = 24)
+                |> DeviantArtFs.Requests.Gallery.All.AsyncExecute client
+
             if loadAll then
                 let! metadata = asyncGetMetadata gallery.Results
                 for d in gallery.Results do
-                    if includeLiterature || not (Option.isNone d.Content) then
+                    if includeLiterature || not (isNull d.Content) then
                         let m =
                             metadata
                             |> Seq.filter (fun m -> m.Deviationid = d.Deviationid)
@@ -109,7 +112,7 @@ type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, incl
                         yield DeviantArtPostWrapper(d, m) :> IPostBase
             else
                 for d in gallery.Results do
-                    if includeLiterature || not (Option.isNone d.Content) then
+                    if includeLiterature || not (isNull d.Content) then
                         yield DeviantArtDeferredPostWrapper(d, client) :> IPostBase
             
             cursor <- gallery.NextOffset
@@ -118,7 +121,7 @@ type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, loadAll: bool, incl
     }
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.User.Whoami.AsyncExecute client
+        let! u = DeviantArtFs.Requests.User.Whoami.AsyncExecute client
         return {
             username = u.Username
             icon_url = Some u.Usericon

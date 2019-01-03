@@ -2,11 +2,10 @@
 
 open System
 open System.Text
-open System.Threading.Tasks
 open DeviantArtFs
 open FSharp.Control
 
-type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.StashMetadata.Root, token: IDeviantArtAccessToken) =
+type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Requests.Stash.StashMetadata.Root, token: IDeviantArtAccessToken) =
     let imageUrl =
         metadata.Files
         |> Seq.sortByDescending (fun f -> f.Width)
@@ -41,7 +40,7 @@ type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Stash.StashMetadata.
 
     interface IDeletable with
         member this.SiteName = "Sta.sh"
-        member this.DeleteAsync() = DeviantArtFs.Stash.Delete.ExecuteAsync token itemId
+        member this.DeleteAsync() = DeviantArtFs.Requests.Stash.Delete.ExecuteAsync token itemId
 
 type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
@@ -54,8 +53,8 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
         
         while more do
             let! result =
-                new DeviantArtFs.Stash.DeltaRequest(Limit = 120, Offset = cursor)
-                |> DeviantArtFs.Stash.Delta.AsyncExecute token
+                new DeviantArtFs.Requests.Stash.DeltaRequest(Limit = 120, Offset = cursor)
+                |> DeviantArtFs.Requests.Stash.Delta.AsyncExecute token
 
             for o in result.Entries do
                 match (o.Itemid, o.Metadata) with
@@ -67,7 +66,7 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     }
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.User.Whoami.AsyncExecute token
+        let! u = DeviantArtFs.Requests.User.Whoami.AsyncExecute token
         return {
             username = u.Username
             icon_url = Some u.Usericon

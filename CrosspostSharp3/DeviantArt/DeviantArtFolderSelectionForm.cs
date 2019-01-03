@@ -11,23 +11,23 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class DeviantArtFolderSelectionForm : Form {
-		public IEnumerable<DeviantArtFs.Gallery.Folder> InitialFolders { get; set; }
+		public IEnumerable<IDeviantArtFolder> InitialFolders { get; set; }
 
 		private readonly IDeviantArtAccessToken _token;
-		private List<DeviantArtFs.Gallery.Folder> _selectedFolders;
-		public IEnumerable<DeviantArtFs.Gallery.Folder> SelectedFolders => _selectedFolders;
+		private List<IDeviantArtFolder> _selectedFolders;
+		public IEnumerable<IDeviantArtFolder> SelectedFolders => _selectedFolders;
 
 		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
 			InitializeComponent();
 			_token = token;
-			_selectedFolders = new List<DeviantArtFs.Gallery.Folder>();
+			_selectedFolders = new List<IDeviantArtFolder>();
 		}
 
 		private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
 			try {
 				this.Enabled = false;
 
-				var resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.FoldersRequest { });
+				var resp = await DeviantArtFs.Requests.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Requests.Gallery.FoldersRequest { });
 
 				while (true) {
 					foreach (var f in resp.Results) {
@@ -48,7 +48,7 @@ namespace CrosspostSharp3 {
 
 					if (!resp.HasMore) break;
 
-					resp = await DeviantArtFs.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Gallery.FoldersRequest {
+					resp = await DeviantArtFs.Requests.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Requests.Gallery.FoldersRequest {
 						Offset = resp.NextOffset.Value
 					});
 				}

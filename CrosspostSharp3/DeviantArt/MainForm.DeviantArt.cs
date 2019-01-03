@@ -25,7 +25,7 @@ namespace CrosspostSharp3 {
 						if (f.ShowDialog(this) == DialogResult.OK) {
 							var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
 							var token = await a.GetTokenAsync(f.Code, new Uri("https://www.example.com"));
-							var u = await DeviantArtFs.User.Whoami.ExecuteAsync(token);
+							var u = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(token);
 							return new[] {
 								new Settings.DeviantArtAccountSettings {
 									AccessToken = token.AccessToken,
