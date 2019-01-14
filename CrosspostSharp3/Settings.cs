@@ -27,7 +27,7 @@ namespace CrosspostSharp3 {
 		[Obsolete]
 		public DeviantArtSettings? DeviantArt { get; set; }
 
-		public struct DeviantArtAccountSettings : IAccountCredentials, DeviantArtFs.IDeviantArtRefreshToken {
+		public struct DeviantArtAccountSettings : IAccountCredentials, IDeviantArtRefreshToken {
 			public string AccessToken { get; set; }
 			public DateTimeOffset ExpiresAt { get; set; }
 			public string RefreshToken { get; set; }

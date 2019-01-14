@@ -98,7 +98,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAcces
     override __.FetchUserInternal() = async {
         let! profile =
             username
-            |> DeviantArtFs.Requests.User.ProfileRequest
+            |> DeviantArtFs.Requests.User.ProfileByNameRequest
             |> DeviantArtFs.Requests.User.ProfileByName.AsyncExecute token
         return {
             username = username

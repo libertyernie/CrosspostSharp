@@ -3,12 +3,10 @@
 open FSharp.Control
 open DeviantArtFs
 
-type DeviantArtStatusPostWrapper(status_obj: Status) =
-    let status = status_obj.Original
-
+type DeviantArtStatusPostWrapper(status: DeviantArtStatus) =
     let Mature =
-        status_obj.EmbeddedDeviations
-        |> Seq.exists (fun d -> d.Original.IsMature |> Option.defaultValue false)
+        status.EmbeddedDeviations
+        |> Seq.exists (fun i -> i.IsMature)
 
     interface IPostBase with
         member this.Title = ""
@@ -19,11 +17,8 @@ type DeviantArtStatusPostWrapper(status_obj: Status) =
         member this.Timestamp = status.Ts.UtcDateTime
         member this.ViewURL = status.Url
 
-type DeviantArtStatusPhotoPostWrapper(status_obj: Status, deviation_obj: Deviation) =
-    inherit DeviantArtStatusPostWrapper(status_obj)
-
-    let status = status_obj.Original
-    let deviation = deviation_obj.Original
+type DeviantArtStatusPhotoPostWrapper(status: DeviantArtStatus, deviation: Deviation) =
+    inherit DeviantArtStatusPostWrapper(status)
 
     let icon = status.Author.Usericon
 
@@ -44,27 +39,14 @@ type DeviantArtStatusSourceWrapper(client: IDeviantArtAccessToken) =
     override this.Name = "DeviantArt (statuses)"
 
     override this.FetchSubmissionsInternal() = asyncSeq {
-        let mutable position = 0
-        let mutable more = true
-
         let! username = this.WhoamiAsync() |> Async.AwaitTask
-
-        while more do
-            let! statuses =
-                new DeviantArtFs.Requests.User.StatusesListRequest(username, Offset = position, Limit = 50)
-                |> DeviantArtFs.Requests.User.StatusesList.AsyncExecute client
-
-            for r in statuses.Results do
-                if Seq.isEmpty r.EmbeddedDeviations then
-                    yield new DeviantArtStatusPostWrapper(r) :> IPostBase
-                else
-                    for d in r.EmbeddedDeviations do
-                        yield new DeviantArtStatusPhotoPostWrapper(r, d) :> IPostBase
-
-            position <-
-                statuses.NextOffset
-                |> Option.defaultValue position
-            more <- statuses.HasMore
+        for r in DeviantArtFs.Requests.User.StatusesList.ToAsyncSeq client username 0 do
+            if Seq.isEmpty r.EmbeddedDeviations then
+                yield new DeviantArtStatusPostWrapper(r) :> IPostBase
+            else
+                for d in r.EmbeddedDeviations do
+                    let dd = d :?> Deviation
+                    yield new DeviantArtStatusPhotoPostWrapper(r, dd) :> IPostBase
     }
 
     override __.FetchUserInternal() = async {
