@@ -5,7 +5,7 @@ open System.Text
 open DeviantArtFs
 open FSharp.Control
 
-type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Requests.Stash.StashMetadata.Root, token: IDeviantArtAccessToken) =
+type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArtAccessToken) =
     let imageUrl =
         metadata.Files
         |> Seq.sortByDescending (fun f -> f.Width)
@@ -21,7 +21,10 @@ type StashPostWrapper(itemId: int64, metadata: DeviantArtFs.Requests.Stash.Stash
         member this.Mature = false
         member this.Adult = false
         member this.Tags = metadata.Tags :> seq<string>
-        member this.Timestamp = metadata.CreationTime |> Option.map Swu.fromUnixTime |> Option.defaultValue DateTime.MinValue
+        member this.Timestamp =
+            metadata.CreationTime
+            |> Option.map (fun t -> t.UtcDateTime)
+            |> Option.defaultValue DateTime.MinValue
         member this.ViewURL =
             let url = new StringBuilder()
             let mutable itemId = itemId
@@ -48,21 +51,10 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     override __.Name = "Sta.sh"
 
     override __.FetchSubmissionsInternal() = asyncSeq {
-        let mutable cursor = 0
-        let mutable more = true
-        
-        while more do
-            let! result =
-                new DeviantArtFs.Requests.Stash.DeltaRequest(Limit = 120, Offset = cursor)
-                |> DeviantArtFs.Requests.Stash.Delta.AsyncExecute token
-
-            for o in result.Entries do
-                match (o.Itemid, o.Metadata) with
-                | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
-                | _ -> ()
-
-            cursor <- result.NextOffset.GetValueOrDefault()
-            more <- result.HasMore
+        for o in DeviantArtFs.Requests.Stash.Delta.GetAll token (new ExtParams()) do
+            match (o.Itemid, o.Metadata) with
+            | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
+            | _ -> ()
     }
 
     override __.FetchUserInternal() = async {

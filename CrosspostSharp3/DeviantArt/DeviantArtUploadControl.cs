@@ -25,8 +25,8 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private IEnumerable<IDeviantArtFolder> _selectedFolders;
-		public IEnumerable<IDeviantArtFolder> SelectedFolders {
+		private IEnumerable<IBclDeviantArtGalleryFolder> _selectedFolders;
+		public IEnumerable<IBclDeviantArtGalleryFolder> SelectedFolders {
 			get {
 				return _selectedFolders;
 			}

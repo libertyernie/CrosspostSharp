@@ -128,7 +128,7 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
 				var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
 				try {
-					var w = new DeviantArtSourceWrapper(da, loadAll: false, includeLiterature: false);
+					var w = new DeviantArtSourceWrapper(da, includeLiterature: false);
 					var u = await w.GetUserAsync();
 
 					add(w);

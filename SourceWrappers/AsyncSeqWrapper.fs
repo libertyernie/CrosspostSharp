@@ -14,8 +14,6 @@ module internal Swu =
         return f result
     }
 
-    let fromUnixTime (secs: int64) = (new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).AddSeconds(float secs)
-
 type AsyncSeqWrapperUserInfo = {
     username: string
     icon_url: string option

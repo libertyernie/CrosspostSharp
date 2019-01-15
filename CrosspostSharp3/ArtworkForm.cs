@@ -170,6 +170,23 @@ namespace CrosspostSharp3 {
 
 				foreach (var da in settings.DeviantArtAccounts) {
 					listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
+						var photo = ExportAsPhoto();
+						long? itemId = (_origWrapper as StashPostWrapper)?.ItemId;
+						if (PostConverter.GetContentType(photo) == "image/gif") {
+							switch (MessageBox.Show(this, "GIF images on DeviantArt require a separate preview image, which isn't possible via the API. Would you like to upload this image in PNG format instead?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {
+								case DialogResult.Cancel:
+									return;
+								case DialogResult.Yes:
+									using (var ms = new MemoryStream(photo.data))
+									using (var image = Image.FromStream(ms))
+									using (var ms2 = new MemoryStream()) {
+										image.Save(ms2, ImageFormat.Png);
+										photo = PostConverter.ReplaceData(ms2.ToArray(), photo);
+										itemId = null;
+									}
+									break;
+							}
+						}
 						using (var f = new Form()) {
 							f.Width = 600;
 							f.Height = 350;
@@ -178,7 +195,7 @@ namespace CrosspostSharp3 {
 							};
 							f.Controls.Add(d);
 							d.Uploaded += url => f.Close();
-							d.SetSubmission(ExportAsPhoto(), (_origWrapper as StashPostWrapper)?.ItemId);
+							d.SetSubmission(photo, itemId);
 							f.ShowDialog(this);
 						}
 					}));

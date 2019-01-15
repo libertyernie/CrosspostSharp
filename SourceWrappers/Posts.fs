@@ -121,6 +121,17 @@ module PostConverter =
         else if startsWith [0x47; 0x49; 0x46] post.data then "image/gif"
         else "application/octet-stream"
 
+    let ReplaceData (data: byte[]) (post: SavedPhotoPost) =
+        {
+            data = data
+            title = post.title
+            description = post.description
+            tags = post.tags
+            mature = post.mature
+            adult = post.adult
+            url = post.url
+        }
+
     let FromData data title =
         {
             data = data

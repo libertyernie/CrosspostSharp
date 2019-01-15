@@ -11,46 +11,38 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class DeviantArtFolderSelectionForm : Form {
-		public IEnumerable<IDeviantArtFolder> InitialFolders { get; set; }
+		public IEnumerable<IBclDeviantArtGalleryFolder> InitialFolders { get; set; }
 
 		private readonly IDeviantArtAccessToken _token;
-		private List<IDeviantArtFolder> _selectedFolders;
-		public IEnumerable<IDeviantArtFolder> SelectedFolders => _selectedFolders;
+		private List<IBclDeviantArtGalleryFolder> _selectedFolders;
+		public IEnumerable<IBclDeviantArtGalleryFolder> SelectedFolders => _selectedFolders;
 
 		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
 			InitializeComponent();
 			_token = token;
-			_selectedFolders = new List<IDeviantArtFolder>();
+			_selectedFolders = new List<IBclDeviantArtGalleryFolder>();
 		}
 
 		private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
 			try {
 				this.Enabled = false;
 
-				var resp = await DeviantArtFs.Requests.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Requests.Gallery.FoldersRequest { });
+				var list = await DeviantArtFs.Requests.Gallery.GalleryFolders.ToArrayAsync(_token, new DeviantArtFs.Requests.Gallery.GalleryFoldersRequest { });
 
-				while (true) {
-					foreach (var f in resp.Results) {
-						var chk = new CheckBox {
-							AutoSize = true,
-							Text = f.Name,
-							Checked = InitialFolders?.Any(f2 => f.Folderid == f2.Folderid) == true
-						};
-						chk.CheckedChanged += (o, ea) => {
-							if (chk.Checked) {
-								_selectedFolders.Add(f);
-							} else {
-								_selectedFolders.Remove(f);
-							}
-						};
-						flowLayoutPanel1.Controls.Add(chk);
-					}
-
-					if (!resp.HasMore) break;
-
-					resp = await DeviantArtFs.Requests.Gallery.Folders.ExecuteAsync(_token, new DeviantArtFs.Requests.Gallery.FoldersRequest {
-						Offset = resp.NextOffset.Value
-					});
+				foreach (var f in list) {
+					var chk = new CheckBox {
+						AutoSize = true,
+						Text = f.Name,
+						Checked = InitialFolders?.Any(f2 => f.Folderid == f2.Folderid) == true
+					};
+					chk.CheckedChanged += (o, ea) => {
+						if (chk.Checked) {
+							_selectedFolders.Add(f);
+						} else {
+							_selectedFolders.Remove(f);
+						}
+					};
+					flowLayoutPanel1.Controls.Add(chk);
 				}
 
 				this.Enabled = true;
