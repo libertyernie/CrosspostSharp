@@ -57,6 +57,8 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblSiteName = new System.Windows.Forms.Label();
             this.lblLoadStatus = new System.Windows.Forms.Label();
+            this.statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.postToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
@@ -116,6 +118,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.toolsToolStripMenuItem,
+            this.statusToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -262,14 +265,14 @@
             // tsiPageSize4
             // 
             this.tsiPageSize4.Name = "tsiPageSize4";
-            this.tsiPageSize4.Size = new System.Drawing.Size(80, 22);
+            this.tsiPageSize4.Size = new System.Drawing.Size(180, 22);
             this.tsiPageSize4.Text = "4";
             this.tsiPageSize4.Click += new System.EventHandler(this.tsiPageSize4_Click);
             // 
             // tsiPageSize9
             // 
             this.tsiPageSize9.Name = "tsiPageSize9";
-            this.tsiPageSize9.Size = new System.Drawing.Size(80, 22);
+            this.tsiPageSize9.Size = new System.Drawing.Size(180, 22);
             this.tsiPageSize9.Text = "9";
             this.tsiPageSize9.Click += new System.EventHandler(this.tsiPageSize9_Click);
             // 
@@ -285,14 +288,14 @@
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -359,6 +362,21 @@
             this.lblLoadStatus.Size = new System.Drawing.Size(310, 51);
             this.lblLoadStatus.TabIndex = 0;
             // 
+            // statusToolStripMenuItem
+            // 
+            this.statusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.postToolStripMenuItem});
+            this.statusToolStripMenuItem.Name = "statusToolStripMenuItem";
+            this.statusToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.statusToolStripMenuItem.Text = "&Status";
+            // 
+            // postToolStripMenuItem
+            // 
+            this.postToolStripMenuItem.Name = "postToolStripMenuItem";
+            this.postToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.postToolStripMenuItem.Text = "&Post...";
+            this.postToolStripMenuItem.Click += new System.EventHandler(this.postToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -423,6 +441,8 @@
 		private System.Windows.Forms.ToolStripMenuItem tsiPageSize4;
 		private System.Windows.Forms.ToolStripMenuItem tsiPageSize9;
 		private System.Windows.Forms.ToolStripMenuItem mastodonToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem postToolStripMenuItem;
 	}
 }
 

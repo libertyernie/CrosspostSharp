@@ -344,5 +344,11 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Visible = false;
 			}
 		}
+
+		private void postToolStripMenuItem_Click(object sender, EventArgs e) {
+			using (var f = new StatusPostForm()) {
+				f.ShowDialog(this);
+			}
+		}
 	}
 }

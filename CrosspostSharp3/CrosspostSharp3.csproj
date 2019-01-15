@@ -144,6 +144,12 @@
     <Compile Include="Flickr\MainForm.Flickr.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="StatusPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusPostForm.Designer.cs">
+      <DependentUpon>StatusPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tumblr\TumblrNoPhotoPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,6 +282,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pillowfort\PillowfortPostForm.resx">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusPostForm.resx">
+      <DependentUpon>StatusPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tumblr\TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
