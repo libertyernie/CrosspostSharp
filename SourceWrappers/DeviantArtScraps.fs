@@ -102,7 +102,7 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAcces
             |> DeviantArtFs.Requests.User.ProfileByName.AsyncExecute token
         return {
             username = username
-            icon_url = Some profile.User.Usericon
+            icon_url = Some profile.user.usericon
         }
     }
 

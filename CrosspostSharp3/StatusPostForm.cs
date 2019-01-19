@@ -80,7 +80,7 @@ namespace CrosspostSharp3 {
 				token,
 				new DeviantArtFs.Requests.User.StatusPostRequest(CurrentHtml));
 			try {
-				var status = await DeviantArtFs.Requests.User.StatusesStatus.ExecuteAsync(token, id);
+				var status = await DeviantArtFs.Requests.User.StatusById.ExecuteAsync(token, id);
 				return new Uri(status.Url);
 			} catch (DeviantArtException) {
 				return new Uri("https://www.deviantart.com/" + await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(token));

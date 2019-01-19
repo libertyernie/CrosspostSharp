@@ -7,22 +7,24 @@ open FSharp.Control
 
 type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArtAccessToken) =
     let imageUrl =
-        metadata.Files
-        |> Seq.sortByDescending (fun f -> f.Width)
-        |> Seq.map (fun f -> f.Src)
+        metadata.files
+        |> Option.map Seq.ofArray
+        |> Option.defaultValue Seq.empty
+        |> Seq.sortByDescending (fun f -> f.width)
+        |> Seq.map (fun f -> f.src)
         |> Seq.tryHead
         |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
 
     member __.ItemId = itemId
 
     interface IRemotePhotoPost with
-        member this.Title = metadata.Title |> Option.defaultValue ""
-        member this.HTMLDescription = metadata.ArtistComments |> Option.defaultValue ""
+        member this.Title = metadata.title
+        member this.HTMLDescription = metadata.artist_comments |> Option.defaultValue ""
         member this.Mature = false
         member this.Adult = false
-        member this.Tags = metadata.Tags :> seq<string>
+        member this.Tags = metadata.tags |> Option.map Seq.ofArray |> Option.defaultValue Seq.empty
         member this.Timestamp =
-            metadata.CreationTime
+            metadata.creation_time
             |> Option.map (fun t -> t.UtcDateTime)
             |> Option.defaultValue DateTime.MinValue
         member this.ViewURL =
@@ -37,8 +39,8 @@ type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArt
             url.ToString()
         member this.ImageURL = imageUrl
         member this.ThumbnailURL =
-            metadata.Thumb
-            |> Option.map (fun t -> t.Src)
+            metadata.thumb
+            |> Option.map (fun t -> t.src)
             |> Option.defaultValue imageUrl
 
     interface IDeletable with
@@ -51,8 +53,11 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     override __.Name = "Sta.sh"
 
     override __.FetchSubmissionsInternal() = asyncSeq {
-        for o in DeviantArtFs.Requests.Stash.Delta.GetAll token (new ExtParams()) do
-            match (o.Itemid, o.Metadata) with
+        let source =
+            (token, new DeviantArtFs.Requests.Stash.DeltaRequest(), 0)
+            |||> DeviantArtFs.Requests.Stash.Delta.GetAll
+        for o in source do
+            match (o.itemid, o.metadata) with
             | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
             | _ -> ()
     }
@@ -60,7 +65,7 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     override __.FetchUserInternal() = async {
         let! u = DeviantArtFs.Requests.User.Whoami.AsyncExecute token
         return {
-            username = u.Username
-            icon_url = Some u.Usericon
+            username = u.username
+            icon_url = Some u.usericon
         }
     }
