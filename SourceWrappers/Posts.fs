@@ -20,6 +20,12 @@ type IRemotePhotoPost =
     abstract member ImageURL: string with get
     abstract member ThumbnailURL: string with get
 
+/// A wrapper around a post with a video (probably a converted animated GIF.)
+type IRemoteVideoPost =
+    inherit IPostBase
+
+    abstract member VideoURL: string with get
+
 type DeferredPhotoPostParameters = {
     Title: string
     Mature: bool

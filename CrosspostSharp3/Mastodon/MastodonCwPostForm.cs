@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,8 +17,9 @@ namespace CrosspostSharp3 {
 	public partial class MastodonCwPostForm : Form {
 		private readonly MastodonClient _client;
 		private readonly SavedPhotoPost _artworkData;
+		private readonly string _mp4url;
 
-		public MastodonCwPostForm(Settings.MastodonSettings s, IPostBase post, MastodonPostWrapper original) {
+		public MastodonCwPostForm(Settings.MastodonSettings s, IPostBase post, IPostBase original) {
 			InitializeComponent();
 			_client = s.CreateClient();
 
@@ -37,8 +39,16 @@ namespace CrosspostSharp3 {
 				chkContentWarning.Checked = true;
 			}
 
-			if (original != null) {
-				txtContentWarning.Text = original.SpoilerText;
+			if (original is MastodonPostWrapper m) {
+				txtContentWarning.Text = m.SpoilerText;
+			} else if (original is IRemoteVideoPost t) {
+				if (chkIncludeImage.Enabled == false) {
+					// No image - check for video
+					chkIncludeImage.Enabled = true;
+					chkIncludeImage.Checked = true;
+					chkIncludeImage.Text = "Include video";
+					_mp4url = t.VideoURL;
+				}
 			}
 		}
 
@@ -71,11 +81,21 @@ namespace CrosspostSharp3 {
 			}
 			try {
 				var attachments = Enumerable.Empty<Attachment>();
-				if (chkIncludeImage.Checked && _artworkData != null) {
-					using (var ms = new MemoryStream(_artworkData.data, false)) {
-						attachments = new[] {
-							await _client.UploadMedia(ms, PostConverter.CreateFilename(_artworkData))
-						};
+				if (chkIncludeImage.Checked) {
+					if (_artworkData != null) {
+						using (var ms = new MemoryStream(_artworkData.data, false)) {
+							attachments = new[] {
+								await _client.UploadMedia(ms, PostConverter.CreateFilename(_artworkData))
+							};
+						}
+					} else if (_mp4url != null) {
+						var req = WebRequest.Create(_mp4url);
+						using (var resp = await req.GetResponseAsync())
+						using (var s = resp.GetResponseStream()) {
+							attachments = new[] {
+								await _client.UploadMedia(s, "video.mp4")
+							};
+						}
 					}
 				}
 				await _client.PostStatus(

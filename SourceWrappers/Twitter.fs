@@ -32,6 +32,16 @@ type TwitterPhotoPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCredenti
         member this.ImageURL = sprintf "%s:large" media.MediaURLHttps
         member this.ThumbnailURL = sprintf "%s:thumb" media.MediaURLHttps
 
+type TwitterAnimatedGifPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCredentials: ITwitterCredentials) =
+    inherit TwitterPostWrapper(tweet, Some media, twitterCredentials)
+    interface IRemoteVideoPost with
+        member this.VideoURL =
+            media.VideoDetails.Variants
+            |> Seq.where (fun v -> v.ContentType = "video/mp4")
+            |> Seq.sortByDescending (fun v -> v.Bitrate)
+            |> Seq.map (fun v -> v.URL)
+            |> Seq.head
+
 type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: bool) =
     inherit AsyncSeqWrapper()
 
@@ -43,8 +53,10 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
 
     let wrap t = TwitterPostWrapper (t, None, twitterCredentials) :> IPostBase
     let wrapPhoto t m = TwitterPhotoPostWrapper (t, m, twitterCredentials) :> IPostBase
+    let wrapAnimatedGif t m = TwitterAnimatedGifPostWrapper (t, m, twitterCredentials) :> IPostBase
 
     let isPhoto (m: IMediaEntity) = m.MediaType = "photo"
+    let isAnimatedGif (m: IMediaEntity) = m.MediaType = "animated_gif"
 
     member val BatchSize: int = 20 with get, set
 
@@ -72,9 +84,12 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
             for t in tweets do
                 if not t.IsRetweet then
                     let photos = t.Media |> Seq.filter isPhoto
+                    let gifs = t.Media |> Seq.filter isAnimatedGif
                     if Seq.isEmpty photos then
                         if not photosOnly then
-                            yield wrap t
+                            match Seq.tryHead gifs with
+                            | Some gif -> yield wrapAnimatedGif t gif
+                            | None -> yield wrap t
                     else
                         for m in photos do
                             yield wrapPhoto t m
