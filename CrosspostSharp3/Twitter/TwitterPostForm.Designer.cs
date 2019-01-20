@@ -26,13 +26,11 @@
             this.picUserIcon = new System.Windows.Forms.PictureBox();
             this.lblUsername1 = new System.Windows.Forms.Label();
             this.lblUsername2 = new System.Windows.Forms.Label();
-            this.chkIncludeTitle = new System.Windows.Forms.CheckBox();
-            this.chkIncludeDescription = new System.Windows.Forms.CheckBox();
-            this.chkIncludeLink = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtContent = new System.Windows.Forms.TextBox();
             this.btnPost = new System.Windows.Forms.Button();
             this.chkPotentiallySensitive = new System.Windows.Forms.CheckBox();
             this.lblCounter = new System.Windows.Forms.Label();
+            this.chkIncludeImage = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,54 +65,18 @@
             this.lblUsername2.TabIndex = 1;
             this.lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // chkIncludeTitle
+            // txtContent
             // 
-            this.chkIncludeTitle.AutoSize = true;
-            this.chkIncludeTitle.Checked = true;
-            this.chkIncludeTitle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeTitle.Location = new System.Drawing.Point(12, 66);
-            this.chkIncludeTitle.Name = "chkIncludeTitle";
-            this.chkIncludeTitle.Size = new System.Drawing.Size(80, 17);
-            this.chkIncludeTitle.TabIndex = 2;
-            this.chkIncludeTitle.Text = "Include title";
-            this.chkIncludeTitle.UseVisualStyleBackColor = true;
-            // 
-            // chkIncludeDescription
-            // 
-            this.chkIncludeDescription.AutoSize = true;
-            this.chkIncludeDescription.Checked = true;
-            this.chkIncludeDescription.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeDescription.Location = new System.Drawing.Point(98, 66);
-            this.chkIncludeDescription.Name = "chkIncludeDescription";
-            this.chkIncludeDescription.Size = new System.Drawing.Size(115, 17);
-            this.chkIncludeDescription.TabIndex = 3;
-            this.chkIncludeDescription.Text = "Include description";
-            this.chkIncludeDescription.UseVisualStyleBackColor = true;
-            // 
-            // chkIncludeLink
-            // 
-            this.chkIncludeLink.AutoSize = true;
-            this.chkIncludeLink.Checked = true;
-            this.chkIncludeLink.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIncludeLink.Location = new System.Drawing.Point(219, 66);
-            this.chkIncludeLink.Name = "chkIncludeLink";
-            this.chkIncludeLink.Size = new System.Drawing.Size(80, 17);
-            this.chkIncludeLink.TabIndex = 4;
-            this.chkIncludeLink.Text = "Include link";
-            this.chkIncludeLink.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(12, 89);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(360, 81);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtContent.Location = new System.Drawing.Point(12, 66);
+            this.txtContent.Multiline = true;
+            this.txtContent.Name = "txtContent";
+            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtContent.Size = new System.Drawing.Size(360, 104);
+            this.txtContent.TabIndex = 2;
+            this.txtContent.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btnPost
             // 
@@ -122,7 +84,7 @@
             this.btnPost.Location = new System.Drawing.Point(297, 176);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 7;
+            this.btnPost.TabIndex = 6;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
@@ -131,13 +93,11 @@
             // 
             this.chkPotentiallySensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkPotentiallySensitive.AutoSize = true;
-            this.chkPotentiallySensitive.Checked = true;
-            this.chkPotentiallySensitive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkPotentiallySensitive.Location = new System.Drawing.Point(12, 180);
+            this.chkPotentiallySensitive.Location = new System.Drawing.Point(110, 180);
             this.chkPotentiallySensitive.Name = "chkPotentiallySensitive";
-            this.chkPotentiallySensitive.Size = new System.Drawing.Size(199, 17);
-            this.chkPotentiallySensitive.TabIndex = 6;
-            this.chkPotentiallySensitive.Text = "Includes potentially sensitive material";
+            this.chkPotentiallySensitive.Size = new System.Drawing.Size(118, 17);
+            this.chkPotentiallySensitive.TabIndex = 4;
+            this.chkPotentiallySensitive.Text = "Potentially sensitive";
             this.chkPotentiallySensitive.UseVisualStyleBackColor = true;
             // 
             // lblCounter
@@ -147,21 +107,30 @@
             this.lblCounter.Location = new System.Drawing.Point(243, 181);
             this.lblCounter.Name = "lblCounter";
             this.lblCounter.Size = new System.Drawing.Size(48, 13);
-            this.lblCounter.TabIndex = 18;
+            this.lblCounter.TabIndex = 5;
             this.lblCounter.Text = "280/280";
+            // 
+            // chkIncludeImage
+            // 
+            this.chkIncludeImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkIncludeImage.AutoSize = true;
+            this.chkIncludeImage.Location = new System.Drawing.Point(12, 180);
+            this.chkIncludeImage.Name = "chkIncludeImage";
+            this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
+            this.chkIncludeImage.TabIndex = 3;
+            this.chkIncludeImage.Text = "Include image";
+            this.chkIncludeImage.UseVisualStyleBackColor = true;
             // 
             // TwitterPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 211);
+            this.Controls.Add(this.chkIncludeImage);
             this.Controls.Add(this.lblCounter);
             this.Controls.Add(this.chkPotentiallySensitive);
             this.Controls.Add(this.btnPost);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.chkIncludeLink);
-            this.Controls.Add(this.chkIncludeDescription);
-            this.Controls.Add(this.chkIncludeTitle);
+            this.Controls.Add(this.txtContent);
             this.Controls.Add(this.picUserIcon);
             this.Controls.Add(this.lblUsername1);
             this.Controls.Add(this.lblUsername2);
@@ -179,12 +148,10 @@
 		private System.Windows.Forms.PictureBox picUserIcon;
 		private System.Windows.Forms.Label lblUsername1;
 		private System.Windows.Forms.Label lblUsername2;
-		private System.Windows.Forms.CheckBox chkIncludeTitle;
-		private System.Windows.Forms.CheckBox chkIncludeDescription;
-		private System.Windows.Forms.CheckBox chkIncludeLink;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox txtContent;
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.CheckBox chkPotentiallySensitive;
 		private System.Windows.Forms.Label lblCounter;
+		private System.Windows.Forms.CheckBox chkIncludeImage;
 	}
 }

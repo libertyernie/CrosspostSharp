@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,42 +17,37 @@ namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
 		private readonly SavedPhotoPost _artworkData;
-		private string _plainTextDescription;
+		private string _mp4url;
 
-		private static int? _tcoUrlLength;
-
-		public TwitterPostForm(Settings.TwitterSettings s, SavedPhotoPost d) {
+		public TwitterPostForm(Settings.TwitterSettings s, IPostBase post, IPostBase original = null) {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
-			_artworkData = d;
 			lblUsername2.Text = "@" + s.screenName;
 
-			if (string.IsNullOrEmpty(_artworkData.title)) {
-				chkIncludeTitle.Enabled = false;
-				chkIncludeTitle.Checked = false;
-			}
-			if (string.IsNullOrEmpty(_artworkData.description)) {
-				chkIncludeDescription.Enabled = false;
-				chkIncludeDescription.Checked = false;
-			}
-			if (string.IsNullOrEmpty(_artworkData.url)) {
-				chkIncludeLink.Enabled = false;
-				chkIncludeLink.Checked = false;
-			}
-			chkPotentiallySensitive.Checked = _artworkData.mature;
+			txtContent.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
 
-			chkIncludeTitle.CheckedChanged += (o, e) => UpdateText();
-			chkIncludeDescription.CheckedChanged += (o, e) => UpdateText();
-			chkIncludeLink.CheckedChanged += (o, e) => UpdateText();
-
-			if (_tcoUrlLength == null) {
-				_tcoUrlLength = Auth.ExecuteOperationWithCredentials(_credentials, () => {
-					var conf = Tweetinvi.Help.GetTwitterConfiguration();
-					return conf.ShortURLLengthHttps;
-				});
+			if (post is SavedPhotoPost p) {
+				_artworkData = p;
+				chkIncludeImage.Enabled = true;
+				chkIncludeImage.Checked = true;
+			} else {
+				chkIncludeImage.Checked = false;
+				chkIncludeImage.Enabled = false;
 			}
 
-			UpdateText();
+			if (post.Mature || post.Adult) {
+				chkPotentiallySensitive.Checked = true;
+			}
+
+			if (original is IRemoteVideoPost t) {
+				if (chkIncludeImage.Enabled == false) {
+					// No image - check for video
+					chkIncludeImage.Enabled = true;
+					chkIncludeImage.Checked = true;
+					chkIncludeImage.Text = "Include video";
+					_mp4url = t.VideoURL;
+				}
+			}
 		}
 
 		private async void TwitterPostForm_Shown(object sender, EventArgs e) {
@@ -73,50 +69,35 @@ namespace CrosspostSharp3 {
 			} catch (Exception) { }
 		}
 
-		private void UpdateText() {
-			StringBuilder sb = new StringBuilder();
-			if (chkIncludeTitle.Checked) {
-				sb.Append(_artworkData.title);
-			}
-			if (chkIncludeTitle.Checked && chkIncludeDescription.Checked) {
-				sb.Append("﹘");
-			}
-			if (chkIncludeDescription.Checked) {
-				if (_plainTextDescription == null) {
-					try {
-						_plainTextDescription = HtmlConversion.ConvertHtmlToText(_artworkData.description);
-					} catch (Exception) {
-						_plainTextDescription = _artworkData.description;
-					}
-				}
-				sb.Append(_plainTextDescription); // todo convert to plaintext
-			}
-
-			int available = 280;
-			if (chkIncludeLink.Checked) {
-				available -= _tcoUrlLength.Value + 1;
-			}
-			if (sb.Length > available) {
-				sb.Remove(available - 1, sb.Length - available + 1);
-				sb.Append('…');
-			}
-
-			if (chkIncludeLink.Checked) {
-				sb.Append(' ');
-				sb.Append(_artworkData.url);
-			}
-			textBox1.Text = sb.ToString();
-		}
-
 		private async void btnPost_Click(object sender, EventArgs e) {
 			try {
+				var attachments = new List<IMedia>();
+				if (chkIncludeImage.Checked) {
+					if (_artworkData != null) {
+						attachments.Add(
+							Auth.ExecuteOperationWithCredentials(
+								_credentials,
+								() => Upload.UploadBinary(_artworkData.data)));
+					} else if (_mp4url != null) {
+						var req = WebRequest.Create(_mp4url);
+						using (var resp = await req.GetResponseAsync())
+						using (var s = resp.GetResponseStream())
+						using (var ms = new MemoryStream()) {
+							await s.CopyToAsync(ms);
+							attachments.Add(
+							Auth.ExecuteOperationWithCredentials(
+								_credentials,
+								() => Upload.UploadVideo(ms.ToArray())));
+						}
+					}
+				}
+
 				await Auth.ExecuteOperationWithCredentials(
 					_credentials,
 					async () => {
-						IMedia media = Upload.UploadBinary(_artworkData.data);
-						var tweet = await TweetAsync.PublishTweet(textBox1.Text, new Tweetinvi.Parameters.PublishTweetOptionalParameters {
+						var tweet = await TweetAsync.PublishTweet(txtContent.Text, new Tweetinvi.Parameters.PublishTweetOptionalParameters {
 							PossiblySensitive = chkPotentiallySensitive.Checked,
-							Medias = new List<IMedia> { media }
+							Medias = attachments
 						});
 						if (tweet == null) {
 							MessageBox.Show(this, "Could not post tweet");
@@ -129,11 +110,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e) {
-			int count = textBox1.Text.Where(c => !char.IsLowSurrogate(c)).Count();
-			if (_artworkData.url != null && textBox1.Text.Contains(_artworkData.url)) {
-				count -= _artworkData.url.Length;
-				count += _tcoUrlLength.Value;
-			}
+			int count = txtContent.Text.Where(c => !char.IsLowSurrogate(c)).Count();
 			lblCounter.Text = $"{count}/280";
 		}
 	}

@@ -17,7 +17,7 @@ namespace CrosspostSharp3 {
 		private readonly SavedPhotoPost _artworkData;
 		private readonly string _mp4url;
 
-		public MastodonCwPostForm(Settings.MastodonSettings s, IPostBase post, IPostBase original) {
+		public MastodonCwPostForm(Settings.MastodonSettings s, IPostBase post, IPostBase original = null) {
 			InitializeComponent();
 			_s = s;
 

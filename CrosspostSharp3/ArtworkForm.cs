@@ -249,7 +249,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using (var f = new TwitterPostForm(t, ExportAsPhoto())) {
+						using (var f = new TwitterPostForm(t, ExportAsPhoto(), _origWrapper)) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -285,7 +285,7 @@ namespace CrosspostSharp3 {
 				listBox1.Items.Add("");
 			}
 
-			listBox1.Items.Add("--- Post as text ---");
+			listBox1.Items.Add("--- Post as text or other media ---");
 
 			foreach (var da in settings.DeviantArtAccounts) {
 				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
@@ -310,7 +310,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					using (var f = new TwitterNoPhotoPostForm(t, ExportAsText())) {
+					using (var f = new TwitterPostForm(t, ExportAsText(), _origWrapper)) {
 						f.ShowDialog(this);
 					}
 				}));

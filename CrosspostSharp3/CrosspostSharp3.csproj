@@ -156,12 +156,6 @@
     <Compile Include="Tumblr\TumblrNoPhotoPostForm.Designer.cs">
       <DependentUpon>TumblrNoPhotoPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Twitter\TwitterNoPhotoPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Twitter\TwitterNoPhotoPostForm.Designer.cs">
-      <DependentUpon>TwitterNoPhotoPostForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Weasyl\MainForm.Weasyl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -315,9 +309,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Tumblr\TumblrPostForm.resx">
       <DependentUpon>TumblrPostForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Twitter\TwitterNoPhotoPostForm.resx">
-      <DependentUpon>TwitterNoPhotoPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Twitter\TwitterPostForm.resx">
       <DependentUpon>TwitterPostForm.cs</DependentUpon>
