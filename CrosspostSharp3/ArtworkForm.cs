@@ -234,7 +234,7 @@ namespace CrosspostSharp3 {
 					}));
 				}
 				foreach (var m in settings.Mastodon) {
-					listBox1.Items.Add(new DestinationOption($"{m.instance} ({m.username})", () => {
+					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
 						using (var f = new MastodonCwPostForm(m, ExportAsPhoto(), _origWrapper)) {
 							f.ShowDialog(this);
 						}
@@ -295,7 +295,7 @@ namespace CrosspostSharp3 {
 				}));
 			}
 			foreach (var m in settings.Mastodon) {
-				listBox1.Items.Add(new DestinationOption($"{m.instance} ({m.username})", () => {
+				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
 					using (var f = new MastodonCwPostForm(m, ExportAsText(), _origWrapper)) {
 						f.ShowDialog(this);
 					}

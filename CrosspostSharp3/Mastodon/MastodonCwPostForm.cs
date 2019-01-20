@@ -60,9 +60,9 @@ namespace CrosspostSharp3 {
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
 			try {
-				var user = await Mastodon.Api.Accounts.VerifyCredentials(_s.instance, _s.accessToken);
+				var user = await Mastodon.Api.Accounts.VerifyCredentials(_s.Instance, _s.accessToken);
 				lblUsername1.Text = user.DisplayName;
-				lblUsername2.Text = "@" + user.UserName + "@" + _s.instance;
+				lblUsername2.Text = "@" + user.UserName + "@" + _s.Instance;
 
 				picUserIcon.ImageLocation = user.AvatarUrl;
 			} catch (Exception) { }
@@ -82,7 +82,7 @@ namespace CrosspostSharp3 {
 				if (chkIncludeImage.Checked) {
 					if (_artworkData != null) {
 						attachments = new[] {
-							await Mastodon.Api.Media.Uploading(_s.instance, _s.accessToken, _artworkData.data, "alt text test 4")
+							await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, _artworkData.data, "alt text test 4")
 						};
 					} else if (_mp4url != null) {
 						var req = WebRequest.Create(_mp4url);
@@ -91,13 +91,13 @@ namespace CrosspostSharp3 {
 						using (var ms = new MemoryStream()) {
 							await s.CopyToAsync(ms);
 							attachments = new[] {
-								await Mastodon.Api.Media.Uploading(_s.instance, _s.accessToken, ms.ToArray(), "video.mp4")
+								await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, ms.ToArray(), "video.mp4")
 							};
 						}
 					}
 				}
 				await Mastodon.Api.Statuses.Posting(
-					_s.instance,
+					_s.Instance,
 					_s.accessToken,
 					txtContent.Text,
 					sensitive: chkImageSensitive.Checked,

@@ -32,7 +32,7 @@ namespace CrosspostSharp3 {
 								var account = await Mastodon.Api.Accounts.VerifyCredentials(f.Instance, token.AccessToken);
 								return new[] {
 									new Settings.MastodonSettings {
-										instance = f.Instance,
+										Instance = f.Instance,
 										accessToken = token.AccessToken,
 										username = account.UserName
 									}

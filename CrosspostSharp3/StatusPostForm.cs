@@ -40,7 +40,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var m in settings.Mastodon) {
 				var checkbox = new CheckBox {
-					Text = $"{m.instance} ({m.username})",
+					Text = $"{m.Instance} ({m.username})",
 					AutoSize = true
 				};
 				pnlAccounts.Controls.Add(checkbox);
@@ -88,7 +88,7 @@ namespace CrosspostSharp3 {
 
 		private async Task<Uri> PostToMastodon(Settings.MastodonSettings m) {
 			var status = await Mastodon.Api.Statuses.Posting(
-				m.instance,
+				m.Instance,
 				m.accessToken,
 				CurrentText);
 			return new Uri(status.Url);

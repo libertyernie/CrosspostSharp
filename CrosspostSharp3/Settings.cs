@@ -93,9 +93,17 @@ namespace CrosspostSharp3 {
 		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
 
 		public struct MastodonSettings : IAccountCredentials {
-			public string instance;
+			public string Instance;
 			public string accessToken;
 			public string username;
+
+			[Obsolete]
+			public class MigratedAuth {
+				public string access_token;
+			}
+
+			[Obsolete]
+			public MigratedAuth auth;
 
 			string IAccountCredentials.Username => username;
 		}
@@ -180,6 +188,17 @@ namespace CrosspostSharp3 {
 					Username = ""
 				});
 				DeviantArt = null;
+			}
+			foreach (var m in Mastodon.ToArray()) {
+				if (m.accessToken == null && m.auth != null) {
+					Mastodon.Remove(m);
+					Mastodon.Add(new MastodonSettings {
+						accessToken = m.auth.access_token,
+						Instance = m.Instance,
+						username = m.username
+					});
+					changed = true;
+				}
 			}
 			foreach (var da in DeviantArtAccounts.ToArray()) {
 				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-15)) {
