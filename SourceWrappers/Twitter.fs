@@ -84,15 +84,18 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
             for t in tweets do
                 if not t.IsRetweet then
                     let photos = t.Media |> Seq.filter isPhoto
-                    let gifs = t.Media |> Seq.filter isAnimatedGif
-                    if Seq.isEmpty photos then
+                    let gifs =
+                        if photosOnly
+                        then Seq.empty
+                        else t.Media |> Seq.filter isAnimatedGif
+                    if Seq.isEmpty photos && Seq.isEmpty gifs then
                         if not photosOnly then
-                            match Seq.tryHead gifs with
-                            | Some gif -> yield wrapAnimatedGif t gif
-                            | None -> yield wrap t
+                            yield wrap t
                     else
                         for m in photos do
                             yield wrapPhoto t m
+                        for m in gifs do
+                            yield wrapAnimatedGif t m
                             
             more <- not (Seq.isEmpty tweets)
             if more then

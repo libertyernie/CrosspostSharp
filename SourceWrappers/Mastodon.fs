@@ -20,6 +20,11 @@ type MastodonPhotoPostWrapper(status: Status, attachment: Attachment) =
         member __.ImageURL = attachment.Url
         member __.ThumbnailURL = attachment.PreviewUrl
 
+type MastodonVideoPostWrapper(status: Status, attachment: Attachment) =
+    inherit MastodonPostWrapper(status)
+    interface IRemoteVideoPost with
+        member __.VideoURL = attachment.Url
+
 type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
     inherit AsyncSeqWrapper()
 
@@ -28,6 +33,7 @@ type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
     let getUser = user_task.Force() |> Async.AwaitTask
 
     let isPhoto (a: Attachment) = a.Type = "image"
+    let isAnimatedGif (a: Attachment) = a.Type = "gifv"
 
     override __.Name =
         if photosOnly then
@@ -47,12 +53,18 @@ type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
             for t in toots do
                 if isNull t.Reblog then
                     let photos = t.MediaAttachments |> Seq.filter isPhoto
-                    if Seq.isEmpty photos then
+                    let gifs =
+                        if photosOnly
+                        then Seq.empty
+                        else t.MediaAttachments |> Seq.filter isAnimatedGif
+                    if Seq.isEmpty photos && Seq.isEmpty gifs then
                         if not photosOnly then
                             yield new MastodonPostWrapper(t) :> IPostBase
                     else
                         for a in photos do
                             yield new MastodonPhotoPostWrapper(t, a) :> IPostBase
+                        for a in gifs do
+                            yield new MastodonVideoPostWrapper(t, a) :> IPostBase
                 
             more <- not (Seq.isEmpty toots)
             if more then
