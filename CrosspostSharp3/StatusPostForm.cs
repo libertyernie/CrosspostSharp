@@ -1,7 +1,6 @@
 ﻿using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
-using Mastonet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,7 +40,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var m in settings.Mastodon) {
 				var checkbox = new CheckBox {
-					Text = $"{m.Instance} ({m.username})",
+					Text = $"{m.instance} ({m.username})",
 					AutoSize = true
 				};
 				pnlAccounts.Controls.Add(checkbox);
@@ -88,9 +87,10 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<Uri> PostToMastodon(Settings.MastodonSettings m) {
-			var status = await m.CreateClient().PostStatus(
-				CurrentText,
-				Visibility.Public);
+			var status = await Mastodon.Api.Statuses.Posting(
+				m.instance,
+				m.accessToken,
+				CurrentText);
 			return new Uri(status.Url);
 		}
 

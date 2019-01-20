@@ -1,5 +1,4 @@
-﻿using Mastonet;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -15,15 +14,26 @@ namespace CrosspostSharp3 {
 					using (var f = new MastodonLoginDialog()) {
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var authClient = new AuthenticationClient(f.Instance);
-								var appRegistration = await authClient.CreateApp("CrosspostSharp", Scope.Read | Scope.Write, website: "https://github.com/libertyernie/CrosspostSharp");
-								var auth = await authClient.ConnectWithPassword(f.Email, f.Password);
-								var client = new MastodonClient(appRegistration, auth);
-								var account = await client.GetCurrentUser();
+								var oauth = await Mastodon.Api.Apps.Register(
+									f.Instance,
+									"CrosspostSharp",
+									scopes: new[] {
+										Mastodon.Model.Scope.Read,
+										Mastodon.Model.Scope.Write
+									});
+								var token = await Mastodon.Api.OAuth.GetAccessTokenByPassword(
+									f.Instance,
+									oauth.ClientId,
+									oauth.ClientSecret,
+									f.Email,
+									f.Password,
+									Mastodon.Model.Scope.Read,
+									Mastodon.Model.Scope.Write);
+								var account = await Mastodon.Api.Accounts.VerifyCredentials(f.Instance, token.AccessToken);
 								return new[] {
 									new Settings.MastodonSettings {
-										appRegistration = appRegistration,
-										auth = auth,
+										instance = f.Instance,
+										accessToken = token.AccessToken,
 										username = account.UserName
 									}
 								};

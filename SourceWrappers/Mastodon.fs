@@ -1,9 +1,7 @@
 ﻿namespace SourceWrappers
 
-open Mastonet
-open Mastonet.Entities
+open Mastodon.Model
 open FSharp.Control
-open System
 
 type MastodonPostWrapper(status: Status) =
     member __.SpoilerText = status.SpoilerText
@@ -22,10 +20,10 @@ type MastodonPhotoPostWrapper(status: Status, attachment: Attachment) =
         member __.ImageURL = attachment.Url
         member __.ThumbnailURL = attachment.PreviewUrl
 
-type MastodonSourceWrapper(client: IMastodonClient, photosOnly: bool) =
+type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
     inherit AsyncSeqWrapper()
 
-    let user_task = lazy(client.GetCurrentUser())
+    let user_task = lazy(Mastodon.Api.Accounts.VerifyCredentials(domain, token))
 
     let getUser = user_task.Force() |> Async.AwaitTask
 
@@ -33,18 +31,18 @@ type MastodonSourceWrapper(client: IMastodonClient, photosOnly: bool) =
 
     override __.Name =
         if photosOnly then
-            sprintf "%s (images)" client.Instance
+            sprintf "%s (images)" domain
         else
-            sprintf "%s (text + images)" client.Instance
+            sprintf "%s (text + images)" domain
 
     override __.FetchSubmissionsInternal() = asyncSeq {
         let! user = getUser
 
-        let mutable maxId = Nullable<int64>()
+        let mutable maxId = 0L
         let mutable more = true
 
         while more do
-            let! toots = client.GetAccountStatuses(user.Id, maxId) |> Async.AwaitTask
+            let! toots = Mastodon.Api.Accounts.Statuses(domain, token, user.Id, maxId) |> Async.AwaitTask
 
             for t in toots do
                 if isNull t.Reblog then
@@ -58,7 +56,7 @@ type MastodonSourceWrapper(client: IMastodonClient, photosOnly: bool) =
                 
             more <- not (Seq.isEmpty toots)
             if more then
-                maxId <- (toots |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L |> Nullable
+                maxId <- (toots |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
     }
 
     override __.FetchUserInternal() = async {

@@ -93,24 +93,11 @@ namespace CrosspostSharp3 {
 		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
 
 		public struct MastodonSettings : IAccountCredentials {
-			public Mastonet.Entities.AppRegistration appRegistration;
-			public Mastonet.Entities.Auth auth;
-
-			public string Instance {
-				get {
-					return appRegistration.Instance;
-				}
-				set {
-					appRegistration.Instance = value;
-				}
-			}
-
+			public string instance;
+			public string accessToken;
 			public string username;
-			string IAccountCredentials.Username => username;
 
-			public Mastonet.MastodonClient CreateClient() {
-				return new Mastonet.MastodonClient(appRegistration, auth);
-			}
+			string IAccountCredentials.Username => username;
 		}
 
 		public List<PillowfortSettings> Pillowfort = new List<PillowfortSettings>();

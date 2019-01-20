@@ -164,9 +164,9 @@ namespace CrosspostSharp3 {
 				add(new InkbunnySourceWrapper(new InkbunnyLib.InkbunnyClient(i.sid, i.userId), loadAll: false));
 			}
 			foreach (var p in s.Mastodon) {
-				lblLoadStatus.Text = $"Adding Mastodon (@{p.username}@{p.appRegistration.Instance})...";
-				add(new MastodonSourceWrapper(p.CreateClient(), photosOnly: true));
-				add(new MastodonSourceWrapper(p.CreateClient(), photosOnly: false));
+				lblLoadStatus.Text = $"Adding Mastodon (@{p.username}@{p.instance})...";
+				add(new MastodonSourceWrapper(p.instance, p.accessToken, photosOnly: true));
+				add(new MastodonSourceWrapper(p.instance, p.accessToken, photosOnly: false));
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
@@ -220,6 +220,7 @@ namespace CrosspostSharp3 {
 					while (inner is AggregateException a) {
 						inner = inner.InnerException;
 					}
+					Console.Error.WriteLine(inner);
 					if (inner is FurryNetworkClient.TokenException t) {
 						return new WrapperMenuItem(w, $"{c.Name} (cannot connect: {t.Message})");
 					} else {

@@ -1,6 +1,4 @@
-﻿using Mastonet;
-using Mastonet.Entities;
-using SourceWrappers;
+﻿using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,13 +13,13 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MastodonCwPostForm : Form {
-		private readonly MastodonClient _client;
+		private readonly Settings.MastodonSettings _s;
 		private readonly SavedPhotoPost _artworkData;
 		private readonly string _mp4url;
 
 		public MastodonCwPostForm(Settings.MastodonSettings s, IPostBase post, IPostBase original) {
 			InitializeComponent();
-			_client = s.CreateClient();
+			_s = s;
 
 			txtContent.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
 
@@ -62,9 +60,9 @@ namespace CrosspostSharp3 {
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
 			try {
-				var user = await _client.GetCurrentUser();
+				var user = await Mastodon.Api.Accounts.VerifyCredentials(_s.instance, _s.accessToken);
 				lblUsername1.Text = user.DisplayName;
-				lblUsername2.Text = "@" + user.UserName + "@" + _client.Instance;
+				lblUsername2.Text = "@" + user.UserName + "@" + _s.instance;
 
 				picUserIcon.ImageLocation = user.AvatarUrl;
 			} catch (Exception) { }
@@ -80,30 +78,31 @@ namespace CrosspostSharp3 {
 				return;
 			}
 			try {
-				var attachments = Enumerable.Empty<Attachment>();
+				var attachments = Enumerable.Empty<Mastodon.Model.Attachment>();
 				if (chkIncludeImage.Checked) {
 					if (_artworkData != null) {
-						using (var ms = new MemoryStream(_artworkData.data, false)) {
-							attachments = new[] {
-								await _client.UploadMedia(ms, PostConverter.CreateFilename(_artworkData))
-							};
-						}
+						attachments = new[] {
+							await Mastodon.Api.Media.Uploading(_s.instance, _s.accessToken, _artworkData.data, "alt text test 4")
+						};
 					} else if (_mp4url != null) {
 						var req = WebRequest.Create(_mp4url);
 						using (var resp = await req.GetResponseAsync())
-						using (var s = resp.GetResponseStream()) {
+						using (var s = resp.GetResponseStream())
+						using (var ms = new MemoryStream()) {
+							await s.CopyToAsync(ms);
 							attachments = new[] {
-								await _client.UploadMedia(s, "video.mp4")
+								await Mastodon.Api.Media.Uploading(_s.instance, _s.accessToken, ms.ToArray(), "video.mp4")
 							};
 						}
 					}
 				}
-				await _client.PostStatus(
+				await Mastodon.Api.Statuses.Posting(
+					_s.instance,
+					_s.accessToken,
 					txtContent.Text,
-					Visibility.Public,
-					mediaIds: attachments.Select(a => a.Id),
 					sensitive: chkImageSensitive.Checked,
-					spoilerText: chkContentWarning.Checked ? txtContentWarning.Text : null);
+					spoiler_text: chkContentWarning.Checked ? txtContentWarning.Text : null,
+					media_ids: attachments.Select(a => checked((int)a.Id)).ToArray());
 				Close();
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);
