@@ -56,6 +56,7 @@ namespace CrosspostSharp3 {
 
 		private void chkIncludeImage_CheckedChanged(object sender, EventArgs e) {
 			chkImageSensitive.Enabled = chkIncludeImage.Checked;
+			txtImageDescription.Enabled = chkIncludeImage.Checked;
 		}
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
@@ -78,24 +79,26 @@ namespace CrosspostSharp3 {
 				return;
 			}
 			try {
-				var attachments = Enumerable.Empty<Mastodon.Model.Attachment>();
+				byte[] attachment_data = null;
 				if (chkIncludeImage.Checked) {
 					if (_artworkData != null) {
-						attachments = new[] {
-							await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, _artworkData.data, "alt text test 4")
-						};
+						attachment_data = _artworkData.data;
 					} else if (_mp4url != null) {
 						var req = WebRequest.Create(_mp4url);
 						using (var resp = await req.GetResponseAsync())
 						using (var s = resp.GetResponseStream())
 						using (var ms = new MemoryStream()) {
 							await s.CopyToAsync(ms);
-							attachments = new[] {
-								await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, ms.ToArray(), "video.mp4")
-							};
+							attachment_data = ms.ToArray();
 						}
 					}
 				}
+				string desc = chkIncludeImage.Checked ? txtImageDescription.Text : "";
+				var attachments = attachment_data == null
+					? Enumerable.Empty<Mastodon.Model.Attachment>()
+					: new[] {
+						await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, attachment_data, desc)
+					};
 				await Mastodon.Api.Statuses.Posting(
 					_s.Instance,
 					_s.accessToken,
