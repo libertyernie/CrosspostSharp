@@ -157,6 +157,8 @@ namespace CrosspostSharp3 {
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
 
+			var downloaded = await Downloader.DownloadAsync(_savedPhotoPost ?? _origWrapper);
+
 			if (_savedPhotoPost?.data != null) {
 				listBox1.Items.Add("--- Post as photo ---");
 
@@ -244,7 +246,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using (var f = new TwitterPostForm(t, ExportAsPhoto(), _origWrapper)) {
+						using (var f = new TwitterPostForm(t, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -291,7 +293,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using (var f = new TwitterPostForm(t, ExportAsText(), _origWrapper)) {
+						using (var f = new TwitterPostForm(t, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));

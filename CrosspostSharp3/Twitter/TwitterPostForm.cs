@@ -16,37 +16,32 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
-		private readonly SavedPhotoPost _artworkData;
-		private string _mp4url;
+		private readonly IPostBase _post;
+		private readonly IDownloadedData _downloaded;
 
-		public TwitterPostForm(Settings.TwitterSettings s, IPostBase post, IPostBase original = null) {
+		public TwitterPostForm(Settings.TwitterSettings s, IPostBase post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
 			lblUsername2.Text = "@" + s.screenName;
 
-			txtContent.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
+			_post = post;
+			_downloaded = downloaded;
 
-			if (post is SavedPhotoPost p) {
-				_artworkData = p;
+			if (_downloaded != null) {
 				chkIncludeImage.Enabled = true;
 				chkIncludeImage.Checked = true;
+				if (_downloaded.ContentType.StartsWith("video/")) {
+					chkIncludeImage.Text = "Include video";
+				}
 			} else {
-				chkIncludeImage.Checked = false;
 				chkIncludeImage.Enabled = false;
+				chkIncludeImage.Checked = false;
 			}
+
+			txtContent.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
 
 			if (post.Mature || post.Adult) {
 				chkPotentiallySensitive.Checked = true;
-			}
-
-			if (original is IRemoteVideoPost t) {
-				if (chkIncludeImage.Enabled == false) {
-					// No image - check for video
-					chkIncludeImage.Enabled = true;
-					chkIncludeImage.Checked = true;
-					chkIncludeImage.Text = "Include video";
-					_mp4url = t.VideoURL;
-				}
 			}
 		}
 
@@ -72,23 +67,17 @@ namespace CrosspostSharp3 {
 		private async void btnPost_Click(object sender, EventArgs e) {
 			try {
 				var attachments = new List<IMedia>();
-				if (chkIncludeImage.Checked) {
-					if (_artworkData != null) {
+				if (chkIncludeImage.Checked && _downloaded != null) {
+					if (_downloaded.ContentType.StartsWith("video/")) {
 						attachments.Add(
 							Auth.ExecuteOperationWithCredentials(
 								_credentials,
-								() => Upload.UploadBinary(_artworkData.data)));
-					} else if (_mp4url != null) {
-						var req = WebRequest.Create(_mp4url);
-						using (var resp = await req.GetResponseAsync())
-						using (var s = resp.GetResponseStream())
-						using (var ms = new MemoryStream()) {
-							await s.CopyToAsync(ms);
-							attachments.Add(
+								() => Upload.UploadVideo(_downloaded.Data)));
+					} else {
+						attachments.Add(
 							Auth.ExecuteOperationWithCredentials(
 								_credentials,
-								() => Upload.UploadVideo(ms.ToArray())));
-						}
+								() => Upload.UploadBinary(_downloaded.Data)));
 					}
 				}
 

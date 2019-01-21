@@ -177,3 +177,60 @@ module PostConverter =
             |> String.concat ""
         let ext = (GetContentType post).Split('/') |> Seq.last
         sprintf "%s (%s).%s" title md5 ext
+
+[<AllowNullLiteral>]
+type IDownloadedData =
+    abstract member Data: byte[]
+    abstract member ContentType: string
+
+type DownloadedData = {
+    data: byte[]
+    contentType: string
+} with
+    interface IDownloadedData with
+        member this.ContentType = this.contentType
+        member this.Data = this.data
+
+module Downloader =
+    open System.Net
+    open System.IO
+
+    let AsyncDownload (post: IPostBase) = async {
+        match post with
+        | :? IRemotePhotoPost as remotePhoto ->
+            let req = WebRequest.Create remotePhoto.ImageURL
+            use! resp = req.AsyncGetResponse()
+
+            use stream = resp.GetResponseStream()
+            use ms = new MemoryStream()
+            do! stream.CopyToAsync ms |> Async.AwaitTask
+
+            return Some {
+                data = ms.ToArray()
+                contentType = resp.ContentType
+            }
+        | :? IRemoteVideoPost as remoteVideo ->
+            let req = WebRequest.Create remoteVideo.VideoURL
+            use! resp = req.AsyncGetResponse()
+
+            use stream = resp.GetResponseStream()
+            use ms = new MemoryStream()
+            do! stream.CopyToAsync ms |> Async.AwaitTask
+
+            return Some {
+                data = ms.ToArray()
+                contentType = resp.ContentType
+            }
+        | :? SavedPhotoPost as saved ->
+            return Some {
+                data = saved.data
+                contentType = PostConverter.GetContentType(saved)
+            }
+        | _ ->
+            return None
+    }
+
+    let DownloadAsync post = Async.StartAsTask (async {
+        let! d = AsyncDownload post
+        return d |> Option.map (fun o -> o :> IDownloadedData) |> Option.toObj
+    })
