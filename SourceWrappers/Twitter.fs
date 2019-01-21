@@ -41,6 +41,7 @@ type TwitterAnimatedGifPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCr
             |> Seq.sortByDescending (fun v -> v.Bitrate)
             |> Seq.map (fun v -> v.URL)
             |> Seq.head
+        member this.ThumbnailURL = media.MediaURLHttps
 
 type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: bool) =
     inherit AsyncSeqWrapper()

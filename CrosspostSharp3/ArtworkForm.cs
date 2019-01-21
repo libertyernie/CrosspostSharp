@@ -20,7 +20,6 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
-		private byte[] _downloaded;
 		private IPostBase _origWrapper;
 
 		private class DestinationOption {
@@ -62,10 +61,10 @@ namespace CrosspostSharp3 {
 		}
 
 		public SavedPhotoPost ExportAsPhoto() {
-			if (_downloaded == null) throw new Exception("Not a photo post (_downloaded is null)");
+			if (!(_origWrapper is SavedPhotoPost p)) throw new Exception("Not a saved photo post");
 
 			return new SavedPhotoPost(
-				_downloaded,
+				p.data,
 				txtTitle.Text,
 				wbrDescription.Document.Body.InnerHtml,
 				_origWrapper.ViewURL,
@@ -97,6 +96,12 @@ namespace CrosspostSharp3 {
 		}
 
 		public async void LoadImage(IPostBase artwork) {
+			// Store original post object (used for View and Delete actions)
+			_origWrapper = artwork;
+			btnView.Enabled = _origWrapper.ViewURL != null;
+			btnDelete.Enabled = _origWrapper is IDeletable;
+
+			// Convert DeferredPhotoPost to IRemotePhotoPost
 			if (artwork is DeferredPhotoPost deferred) {
 				for (int i = 0; i < Controls.Count; i++) {
 					Controls[i].Enabled = false;
@@ -116,27 +121,19 @@ namespace CrosspostSharp3 {
 				}
 			}
 
-			_origWrapper = artwork;
-			btnDelete.Enabled = _origWrapper is IDeletable;
+			// Convert IRemotePhotoPost to SavedPhotoPost
+			var saved = _origWrapper is SavedPhotoPost p1 ? p1
+				: _origWrapper is IRemotePhotoPost p2 ? await PostConverter.DownloadAsync(p2)
+				: null;
 
-			if (_origWrapper is SavedPhotoPost saved) {
-				_downloaded = saved.data;
-			} else if (_origWrapper is IRemotePhotoPost remote) {
-				var req = WebRequestFactory.Create(remote.ImageURL);
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					_downloaded = ms.ToArray();
-				}
-			}
-
-			if (_downloaded != null) {
-				using (var ms = new MemoryStream(_downloaded, false)) {
+			// Get photo (or thumbnail of video)
+			if (saved != null) {
+				using (var ms = new MemoryStream(saved.data, false)) {
 					var image = Image.FromStream(ms);
-					splitContainer1.Panel1.BackgroundImage = image;
-					splitContainer1.Panel1.BackgroundImageLayout = ImageLayout.Zoom;
+					pictureBox1.Image = image;
 				}
+			} else if (_origWrapper is IThumbnailPost thumb) {
+				pictureBox1.ImageLocation = thumb.ThumbnailURL;
 			}
 
 			btnView.Enabled = _origWrapper.ViewURL != null;
@@ -149,10 +146,6 @@ namespace CrosspostSharp3 {
 			chkMature.Checked = artwork.Mature;
 			chkAdult.Checked = artwork.Adult;
 
-			BeginInvoke(new Action(ReloadOptions));
-		}
-
-		private async void ReloadOptions() {
 			Settings settings = Settings.Load();
 
 			if (await settings.UpdateTokensAsync()) {
@@ -162,7 +155,7 @@ namespace CrosspostSharp3 {
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
 
-			if (_downloaded != null) {
+			if (saved?.data != null) {
 				listBox1.Items.Add("--- Post as photo ---");
 
 				saveAsToolStripMenuItem.Enabled = true;
@@ -272,7 +265,7 @@ namespace CrosspostSharp3 {
 				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
 					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
 						try {
-							var image = await ImgurAnonymousUpload.UploadAsync(_downloaded,
+							var image = await ImgurAnonymousUpload.UploadAsync(saved.data,
 								title: txtTitle.Text,
 								description: wbrDescription.Document.Body.InnerHtml);
 							Process.Start(image);
@@ -285,7 +278,26 @@ namespace CrosspostSharp3 {
 				listBox1.Items.Add("");
 			}
 
-			listBox1.Items.Add("--- Post as text or other media ---");
+			if (_origWrapper is IRemoteVideoPost video) {
+				listBox1.Items.Add("--- Post as video ---");
+				foreach (var m in settings.Mastodon) {
+					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
+						using (var f = new MastodonCwPostForm(m, ExportAsText(), _origWrapper)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
+				foreach (var t in settings.Twitter) {
+					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
+						using (var f = new TwitterPostForm(t, ExportAsText(), _origWrapper)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
+				listBox1.Items.Add("");
+			}
+
+			listBox1.Items.Add("--- Post as text ---");
 
 			foreach (var da in settings.DeviantArtAccounts) {
 				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
@@ -296,7 +308,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var m in settings.Mastodon) {
 				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
-					using (var f = new MastodonCwPostForm(m, ExportAsText(), _origWrapper)) {
+					using (var f = new MastodonCwPostForm(m, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));
@@ -310,7 +322,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in settings.Twitter) {
 				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					using (var f = new TwitterPostForm(t, ExportAsText(), _origWrapper)) {
+					using (var f = new TwitterPostForm(t, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));
@@ -342,7 +354,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (_downloaded == null) {
+			if (!(_origWrapper is SavedPhotoPost)) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
 				return;
 			}
@@ -356,13 +368,13 @@ namespace CrosspostSharp3 {
 		}
 
 		private void exportAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (_downloaded == null) {
+			if (!(_origWrapper is SavedPhotoPost saved)) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
 				return;
 			}
 
 			using (var saveFileDialog = new SaveFileDialog()) {
-				using (var ms = new MemoryStream(_downloaded, false))
+				using (var ms = new MemoryStream(saved.data, false))
 				using (var image = Image.FromStream(ms)) {
 					saveFileDialog.Filter = image.RawFormat.Equals(ImageFormat.Png) ? "PNG images|*.png"
 						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "JPEG images|*.jpg;*.jpeg"
@@ -370,7 +382,7 @@ namespace CrosspostSharp3 {
 						: "All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllBytes(saveFileDialog.FileName, _downloaded);
+					File.WriteAllBytes(saveFileDialog.FileName, saved.data);
 				}
 			}
 		}

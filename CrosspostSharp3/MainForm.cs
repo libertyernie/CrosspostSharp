@@ -55,8 +55,8 @@ namespace CrosspostSharp3 {
 						Dock = DockStyle.Fill
 					};
 
-					if (item is IRemotePhotoPost remote) {
-						p.ImageLocation = remote.ThumbnailURL;
+					if (item is IThumbnailPost t) {
+						p.ImageLocation = t.ThumbnailURL;
 					} else if (item is SavedPhotoPost saved) {
 						using (var ms = new MemoryStream(saved.data, false)) {
 							p.Image = Image.FromStream(ms);

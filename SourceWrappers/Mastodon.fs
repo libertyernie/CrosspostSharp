@@ -24,6 +24,7 @@ type MastodonVideoPostWrapper(status: Status, attachment: Attachment) =
     inherit MastodonPostWrapper(status)
     interface IRemoteVideoPost with
         member __.VideoURL = attachment.Url
+        member __.ThumbnailURL = attachment.PreviewUrl
 
 type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
     inherit AsyncSeqWrapper()

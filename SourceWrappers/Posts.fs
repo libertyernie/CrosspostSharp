@@ -13,17 +13,19 @@ type IPostBase =
     abstract member Timestamp: DateTime with get
     abstract member ViewURL: string with get
 
+/// A wrapper around a post with a thumbnail.
+type IThumbnailPost =
+    inherit IPostBase
+    abstract member ThumbnailURL: string with get
+
 /// A wrapper around a post (probably an image post) from an art or social media site.
 type IRemotePhotoPost =
-    inherit IPostBase
-
+    inherit IThumbnailPost
     abstract member ImageURL: string with get
-    abstract member ThumbnailURL: string with get
 
 /// A wrapper around a post with a video (probably a converted animated GIF.)
 type IRemoteVideoPost =
-    inherit IPostBase
-
+    inherit IThumbnailPost
     abstract member VideoURL: string with get
 
 type DeferredPhotoPostParameters = {
