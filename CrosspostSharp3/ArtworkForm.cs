@@ -21,6 +21,7 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class ArtworkForm : Form {
 		private IPostBase _origWrapper;
+		private SavedPhotoPost _savedPhotoPost;
 
 		private class DestinationOption {
 			public readonly string Name;
@@ -61,10 +62,10 @@ namespace CrosspostSharp3 {
 		}
 
 		public SavedPhotoPost ExportAsPhoto() {
-			if (!(_origWrapper is SavedPhotoPost p)) throw new Exception("Not a saved photo post");
+			if (_savedPhotoPost == null) throw new Exception("Not a saved photo post");
 
 			return new SavedPhotoPost(
-				p.data,
+				_savedPhotoPost.data,
 				txtTitle.Text,
 				wbrDescription.Document.Body.InnerHtml,
 				_origWrapper.ViewURL,
@@ -122,13 +123,14 @@ namespace CrosspostSharp3 {
 			}
 
 			// Convert IRemotePhotoPost to SavedPhotoPost
-			var saved = _origWrapper is SavedPhotoPost p1 ? p1
+			// This does not maintain the view and delete functions, so we'll use a separate variable
+			_savedPhotoPost = _origWrapper is SavedPhotoPost p1 ? p1
 				: _origWrapper is IRemotePhotoPost p2 ? await PostConverter.DownloadAsync(p2)
 				: null;
 
 			// Get photo (or thumbnail of video)
-			if (saved != null) {
-				using (var ms = new MemoryStream(saved.data, false)) {
+			if (_savedPhotoPost != null) {
+				using (var ms = new MemoryStream(_savedPhotoPost.data, false)) {
 					var image = Image.FromStream(ms);
 					pictureBox1.Image = image;
 				}
@@ -155,7 +157,7 @@ namespace CrosspostSharp3 {
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
 
-			if (saved?.data != null) {
+			if (_savedPhotoPost?.data != null) {
 				listBox1.Items.Add("--- Post as photo ---");
 
 				saveAsToolStripMenuItem.Enabled = true;
@@ -265,7 +267,7 @@ namespace CrosspostSharp3 {
 				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
 					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
 						try {
-							var image = await ImgurAnonymousUpload.UploadAsync(saved.data,
+							var image = await ImgurAnonymousUpload.UploadAsync(_savedPhotoPost.data,
 								title: txtTitle.Text,
 								description: wbrDescription.Document.Body.InnerHtml);
 							Process.Start(image);
@@ -354,7 +356,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (!(_origWrapper is SavedPhotoPost)) {
+			if (_savedPhotoPost == null) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
 				return;
 			}
@@ -368,13 +370,13 @@ namespace CrosspostSharp3 {
 		}
 
 		private void exportAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (!(_origWrapper is SavedPhotoPost saved)) {
+			if (_savedPhotoPost == null) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
 				return;
 			}
 
 			using (var saveFileDialog = new SaveFileDialog()) {
-				using (var ms = new MemoryStream(saved.data, false))
+				using (var ms = new MemoryStream(_savedPhotoPost.data, false))
 				using (var image = Image.FromStream(ms)) {
 					saveFileDialog.Filter = image.RawFormat.Equals(ImageFormat.Png) ? "PNG images|*.png"
 						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "JPEG images|*.jpg;*.jpeg"
@@ -382,7 +384,7 @@ namespace CrosspostSharp3 {
 						: "All files|*.*";
 				}
 				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllBytes(saveFileDialog.FileName, saved.data);
+					File.WriteAllBytes(saveFileDialog.FileName, _savedPhotoPost.data);
 				}
 			}
 		}
