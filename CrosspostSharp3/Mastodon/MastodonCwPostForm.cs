@@ -14,39 +14,32 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class MastodonCwPostForm : Form {
 		private readonly Settings.MastodonSettings _s;
-		private readonly SavedPhotoPost _artworkData;
-		private readonly string _mp4url;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public MastodonCwPostForm(Settings.MastodonSettings s, IPostBase post, IPostBase original = null) {
+		public MastodonCwPostForm(Settings.MastodonSettings s, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_s = s;
 
-			txtContent.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
+			_post = post;
+			_downloaded = downloaded;
 
-			if (post is SavedPhotoPost p) {
-				_artworkData = p;
+			if (_downloaded != null) {
 				chkIncludeImage.Enabled = true;
 				chkIncludeImage.Checked = true;
+				if (_downloaded.ContentType.StartsWith("video/")) {
+					chkIncludeImage.Text = "Include video";
+				}
 			} else {
-				chkIncludeImage.Checked = false;
 				chkIncludeImage.Enabled = false;
+				chkIncludeImage.Checked = false;
 			}
+
+			txtContent.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
 
 			if (post.Mature || post.Adult) {
 				chkImageSensitive.Checked = true;
 				chkContentWarning.Checked = true;
-			}
-
-			if (original is MastodonPostWrapper m) {
-				txtContentWarning.Text = m.SpoilerText;
-			} else if (original is IRemoteVideoPost t) {
-				if (chkIncludeImage.Enabled == false) {
-					// No image - check for video
-					chkIncludeImage.Enabled = true;
-					chkIncludeImage.Checked = true;
-					chkIncludeImage.Text = "Include video";
-					_mp4url = t.VideoURL;
-				}
 			}
 		}
 
@@ -80,24 +73,13 @@ namespace CrosspostSharp3 {
 			}
 			try {
 				byte[] attachment_data = null;
-				if (chkIncludeImage.Checked) {
-					if (_artworkData != null) {
-						attachment_data = _artworkData.data;
-					} else if (_mp4url != null) {
-						var req = WebRequest.Create(_mp4url);
-						using (var resp = await req.GetResponseAsync())
-						using (var s = resp.GetResponseStream())
-						using (var ms = new MemoryStream()) {
-							await s.CopyToAsync(ms);
-							attachment_data = ms.ToArray();
-						}
-					}
+				if (chkIncludeImage.Checked && _downloaded != null) {
+					attachment_data = _downloaded.Data;
 				}
-				string desc = chkIncludeImage.Checked ? txtImageDescription.Text : "";
 				var attachments = attachment_data == null
 					? Enumerable.Empty<Mastodon.Model.Attachment>()
 					: new[] {
-						await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, attachment_data, desc)
+						await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, attachment_data, txtImageDescription.Text)
 					};
 				await Mastodon.Api.Statuses.Posting(
 					_s.Instance,

@@ -150,6 +150,7 @@
     <Compile Include="StatusPostForm.Designer.cs">
       <DependentUpon>StatusPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TextPost.cs" />
     <Compile Include="Tumblr\TumblrNoPhotoPostForm.cs">
       <SubType>Form</SubType>
     </Compile>

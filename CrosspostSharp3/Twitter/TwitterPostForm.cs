@@ -16,10 +16,10 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
 		private readonly ITwitterCredentials _credentials;
-		private readonly IPostBase _post;
+		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
-		public TwitterPostForm(Settings.TwitterSettings s, IPostBase post, IDownloadedData downloaded = null) {
+		public TwitterPostForm(Settings.TwitterSettings s, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_credentials = s.GetCredentials();
 			lblUsername2.Text = "@" + s.screenName;

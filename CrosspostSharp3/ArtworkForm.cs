@@ -37,27 +37,13 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private class TextPost : IPostBase {
-			public string Title { get; set; }
-			public string HTMLDescription { get; set; }
-			public bool Mature { get; set; }
-			public bool Adult { get; set; }
-			public IEnumerable<string> Tags { get; set; }
-			public string ViewURL { get; set; }
-
-			DateTime IPostBase.Timestamp => DateTime.UtcNow;
-
-			public TextPost() { }
-		}
-
-		public IPostBase ExportAsText() {
+		public TextPost ExportAsText() {
 			return new TextPost {
 				Title = txtTitle.Text,
 				HTMLDescription = wbrDescription.Document.Body.InnerHtml,
 				Tags = txtTags.Text.Split(' ').Where(s => s != ""),
 				Mature = chkMature.Checked,
-				Adult = chkAdult.Checked,
-				ViewURL = _origWrapper.ViewURL
+				Adult = chkAdult.Checked
 			};
 		}
 
@@ -232,7 +218,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var m in settings.Mastodon) {
 					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
-						using (var f = new MastodonCwPostForm(m, ExportAsPhoto(), _origWrapper)) {
+						using (var f = new MastodonCwPostForm(m, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -286,7 +272,7 @@ namespace CrosspostSharp3 {
 				listBox1.Items.Add("--- Post as video ---");
 				foreach (var m in settings.Mastodon) {
 					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
-						using (var f = new MastodonCwPostForm(m, ExportAsText(), _origWrapper)) {
+						using (var f = new MastodonCwPostForm(m, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
