@@ -234,3 +234,6 @@ module Downloader =
         let! d = AsyncDownload post
         return d |> Option.map (fun o -> o :> IDownloadedData) |> Option.toObj
     })
+
+    let GetExtension (post: IDownloadedData) =
+        post.ContentType.Split('/') |> Seq.last

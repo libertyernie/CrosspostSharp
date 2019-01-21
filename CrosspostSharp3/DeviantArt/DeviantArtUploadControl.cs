@@ -38,10 +38,9 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private SavedPhotoPost _downloaded;
+		private TextPost _post;
+		private IDownloadedData _downloaded;
 		private long? _stashItemId;
-
-		private string _originalUrl;
 
 		public string UploadedUrl { get; private set; }
 
@@ -59,19 +58,19 @@ namespace CrosspostSharp3 {
 			ddlSharing.SelectedIndex = 0;
 		}
 
-		public void SetSubmission(SavedPhotoPost post, long? stashItemId) {
-			_downloaded = post;
+		public void SetSubmission(TextPost post, IDownloadedData downloaded, long? stashItemId) {
+			_post = post;
+			_downloaded = downloaded;
 			_stashItemId = stashItemId;
-
-			txtTitle.Text = post.title ?? "";
-			txtArtistComments.Text = post.description ?? "";
-			txtTags.Text = string.Join(" ", post.tags?.Select(s => $"#{s}") ?? Enumerable.Empty<string>());
-			if (post.mature) {
+			
+			txtTitle.Text = post.Title ?? "";
+			txtArtistComments.Text = post.HTMLDescription ?? "";
+			txtTags.Text = string.Join(" ", post.Tags?.Select(s => $"#{s}") ?? Enumerable.Empty<string>());
+			if (post.Mature) {
 				radStrict.Checked = true;
 			} else {
 				radNone.Checked = true;
 			}
-			_originalUrl = post.url;
 		}
 
 		private void MatureChanged(object sender, EventArgs e) {
@@ -102,14 +101,13 @@ namespace CrosspostSharp3 {
 		private async Task<long> UploadToStash() {
 			try {
 				return await DeviantArtFs.Requests.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.SubmitRequest(
-					PostConverter.CreateFilename(_downloaded),
-					PostConverter.GetContentType(_downloaded),
-					_downloaded.data
+					"image." + Downloader.GetExtension(_downloaded),
+					_downloaded.ContentType,
+					_downloaded.Data
 				) {
 					ArtistComments = txtArtistComments.Text,
 					Itemid = _stashItemId,
 					IsDirty = false,
-					OriginalUrl = _originalUrl,
 					Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
 					Title = txtTitle.Text
 				});

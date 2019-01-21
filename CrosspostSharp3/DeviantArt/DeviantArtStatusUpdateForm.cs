@@ -17,22 +17,24 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class DeviantArtStatusUpdateForm : Form {
-		private SavedPhotoPost _image;
+		private readonly TextPost _post;
+		private readonly DownloadedData _downloaded;
 
 		private readonly IDeviantArtAccessToken _token;
 
-		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, IPostBase post) {
+		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, TextPost post, DownloadedData downloaded = null) {
 			InitializeComponent();
 			_token = token;
+			_post = post;
+			_downloaded = downloaded;
 
 			textBox1.Text = post.HTMLDescription;
-			_image = post as SavedPhotoPost;
 		}
 
 		private async void DeviantArtStatusUpdateForm_Shown(object sender, EventArgs e) {
 			try {
-				if (_image != null) {
-					using (var ms = new MemoryStream(_image.data, false)) {
+				if (_downloaded != null) {
+					using (var ms = new MemoryStream(_downloaded.data, false)) {
 						picImageToPost.Image = Image.FromStream(ms);
 					}
 				} else {
@@ -51,11 +53,11 @@ namespace CrosspostSharp3 {
 			try {
 				long? itemId = null;
 
-				if (picImageToPost.Image != null) {
+				if (_downloaded != null) {
 					itemId = await DeviantArtFs.Requests.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.SubmitRequest(
-						PostConverter.CreateFilename(_image),
-						PostConverter.GetContentType(_image),
-						_image.data));
+						"image." + Downloader.GetExtension(_downloaded),
+						_downloaded.contentType,
+						_downloaded.data));
 				}
 
 				await DeviantArtFs.Requests.User.StatusPost.ExecuteAsync(_token, new DeviantArtFs.Requests.User.StatusPostRequest(textBox1.Text) {
