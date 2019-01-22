@@ -17,17 +17,19 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class InkbunnyPostForm : Form {
 		private readonly InkbunnyClient _client;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public InkbunnyPostForm(Settings.InkbunnySettings s, SavedPhotoPost d) {
+		public InkbunnyPostForm(Settings.InkbunnySettings s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 			_client = new InkbunnyClient(s.sid, s.userId);
-			_artworkData = d;
+			_post = post;
+			_downloaded = downloaded;
 			lblUsername1.Text = s.username;
 
-			txtTitle.Text = d.title;
-			txtDescription.Text = HtmlConversion.ConvertHtmlToText(d.description);
-			txtTags.Text = string.Join(" ", d.tags);
+			txtTitle.Text = post.Title;
+			txtDescription.Text = HtmlConversion.ConvertHtmlToText(post.HTMLDescription);
+			txtTags.Text = string.Join(" ", post.Tags);
 		}
 
 		private async void Form_Shown(object sender, EventArgs e) {
@@ -56,7 +58,7 @@ namespace CrosspostSharp3 {
 				if (chkInkbunnyTag5.Checked) rating.Add(InkbunnyRatingTag.StrongViolence);
 
 				long submission_id = await _client.UploadAsync(files: new byte[][] {
-					_artworkData.data
+					_downloaded.Data
 				});
 
 				var o = await _client.EditSubmissionAsync(

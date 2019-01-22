@@ -198,14 +198,14 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var fn in settings.FurryNetwork) {
 					listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
-						using (var f = new FurryNetworkPostForm(fn, ExportAsPhoto())) {
+						using (var f = new FurryNetworkPostForm(fn, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var i in settings.Inkbunny) {
 					listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
-						using (var f = new InkbunnyPostForm(i, ExportAsPhoto())) {
+						using (var f = new InkbunnyPostForm(i, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));

@@ -18,22 +18,24 @@ namespace CrosspostSharp3 {
 	public partial class FurryNetworkPostForm : Form {
 		private readonly FurryNetworkClient _client;
 		private readonly string _characterName;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public FurryNetworkPostForm(Settings.FurryNetworkSettings s, SavedPhotoPost d) {
+		public FurryNetworkPostForm(Settings.FurryNetworkSettings s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 			_client = new FurryNetworkClient(s.refreshToken);
-			_artworkData = d;
+			_post = post;
+			_downloaded = downloaded;
 			_characterName = s.characterName;
 			lblUsername1.Text = s.characterName;
 
-			txtTitle.Text = d.title;
+			txtTitle.Text = post.Title;
 			txtDescription.Enabled = false;
-			txtTags.Text = string.Join(" ", d.tags.Where(t => t.Length >= 3));
+			txtTags.Text = string.Join(" ", post.Tags.Where(t => t.Length >= 3));
 
-			if (_artworkData.adult) {
+			if (post.Adult) {
 				radFurryNetworkRating2.Checked = true;
-			} else if (_artworkData.mature) {
+			} else if (post.Mature) {
 				radFurryNetworkRating1.Checked = true;
 			} else {
 				radFurryNetworkRating0.Checked = true;
@@ -47,7 +49,7 @@ namespace CrosspostSharp3 {
 
 		private void PopulateDescription() {
 			try {
-				txtDescription.Text = HtmlConversion.ConvertHtmlToText(_artworkData.description);
+				txtDescription.Text = HtmlConversion.ConvertHtmlToText(_post.HTMLDescription);
 			} catch (Exception) { }
 			txtDescription.Enabled = true;
 		}
@@ -76,9 +78,9 @@ namespace CrosspostSharp3 {
 				var user = await _client.GetUserAsync();
 				var artwork = await _client.UploadArtwork(
 					_characterName,
-					_artworkData.data,
-					PostConverter.GetContentType(_artworkData),
-					PostConverter.CreateFilename(_artworkData));
+					_downloaded.Data,
+					_downloaded.ContentType,
+					_downloaded.Filename);
 				await _client.UpdateArtwork(artwork.Id, new FurryNetworkClient.UpdateArtworkParameters {
 					Community_tags_allowed = chkFurryNetworkAllowCommunityTags.Checked,
 					Description = txtDescription.Text,
