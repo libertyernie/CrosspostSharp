@@ -191,7 +191,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var fa in settings.FurAffinity) {
 					listBox1.Items.Add(new DestinationOption($"Fur Affinity ({fa.username})", () => {
-						using (var f = new FurAffinityPostForm(fa, ExportAsPhoto())) {
+						using (var f = new FurAffinityPostForm(fa, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));

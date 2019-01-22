@@ -13,20 +13,22 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class FurAffinityPostForm : Form {
 		private readonly FurAffinityClient _client;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public FurAffinityPostForm(Settings.FurAffinitySettings s, SavedPhotoPost d) {
+		public FurAffinityPostForm(Settings.FurAffinitySettings s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 			_client = new FurAffinityClient(a: s.a, b: s.b);
-			_artworkData = d;
+			_post = post;
+			_downloaded = downloaded;
 
-			txtTitle.Text = d.title;
+			txtTitle.Text = post.Title;
 			txtDescription.Enabled = false;
-			txtTags.Text = string.Join(" ", d.tags.Where(t => t.Length >= 3));
+			txtTags.Text = string.Join(" ", post.Tags.Where(t => t.Length >= 3));
 
-			if (_artworkData.adult) {
+			if (post.Adult) {
 				radRating2.Checked = true;
-			} else if (_artworkData.mature) {
+			} else if (post.Mature) {
 				radRating1.Checked = true;
 			} else {
 				radRating0.Checked = true;
@@ -54,7 +56,7 @@ namespace CrosspostSharp3 {
 			PopulateDescription();
 			PopulateIcon();
 
-			using (var ms = new MemoryStream(_artworkData.data, false))
+			using (var ms = new MemoryStream(_downloaded.Data, false))
 			using (var image = Image.FromStream(ms)) {
 				chkRemoveTransparency.Enabled = HasAlpha(image);
 			}
@@ -62,7 +64,7 @@ namespace CrosspostSharp3 {
 
 		private void PopulateDescription() {
 			try {
-				txtDescription.Text = HtmlConversion.ConvertHtmlToText(_artworkData.description);
+				txtDescription.Text = HtmlConversion.ConvertHtmlToText(_post.HTMLDescription);
 			} catch (Exception) { }
 			txtDescription.Enabled = true;
 		}
@@ -94,8 +96,8 @@ namespace CrosspostSharp3 {
 			btnPost.Enabled = false;
 			try {
 				string contentType;
-				byte[] data = _artworkData.data;
-				using (var ms = new MemoryStream(_artworkData.data, false))
+				byte[] data = _downloaded.Data;
+				using (var ms = new MemoryStream(_downloaded.Data, false))
 				using (var image = Image.FromStream(ms)) {
 					contentType = image.RawFormat.Equals(ImageFormat.Png) ? "image/png"
 						: image.RawFormat.Equals(ImageFormat.Jpeg) ? "image/jpeg"
