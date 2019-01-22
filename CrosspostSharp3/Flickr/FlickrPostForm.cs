@@ -87,7 +87,7 @@ namespace CrosspostSharp3 {
 					
 					_client.UploadPictureAsync(
 						ms,
-						"image." + Downloader.GetExtension(_downloaded),
+						_downloaded.Filename,
 						txtTitle.Text,
 						txtDescription.Text,
 						txtTags.Text.Replace("#", ""),

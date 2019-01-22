@@ -159,13 +159,8 @@ namespace CrosspostSharp3 {
 								case DialogResult.Cancel:
 									return;
 								case DialogResult.Yes:
-									using (var ms = new MemoryStream(downloaded.Data))
-									using (var image = Image.FromStream(ms))
-									using (var ms2 = new MemoryStream()) {
-										image.Save(ms2, ImageFormat.Png);
-										downloaded = new DownloadedData(ms2.ToArray(), "image/png");
-										itemId = null;
-									}
+									downloaded = Downloader.ConvertToPng(downloaded);
+									itemId = null;
 									break;
 							}
 						}

@@ -55,7 +55,7 @@ namespace CrosspostSharp3 {
 
 				if (_downloaded != null) {
 					itemId = await DeviantArtFs.Requests.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.SubmitRequest(
-						"image." + Downloader.GetExtension(_downloaded),
+						_downloaded.Filename,
 						_downloaded.ContentType,
 						_downloaded.Data));
 				}

@@ -182,49 +182,50 @@ module PostConverter =
 type IDownloadedData =
     abstract member Data: byte[]
     abstract member ContentType: string
-
-type DownloadedData = {
-    data: byte[]
-    contentType: string
-} with
-    interface IDownloadedData with
-        member this.ContentType = this.contentType
-        member this.Data = this.data
+    abstract member Filename: string
 
 module Downloader =
     open System.Net
     open System.IO
+    open System.Security.Cryptography
+    open System.Drawing
+    open System.Drawing.Imaging
+
+    let private AsyncDownloadUrl (url: string) = async {
+        let req = WebRequest.Create url
+        use! resp = req.AsyncGetResponse()
+
+        use stream = resp.GetResponseStream()
+        use ms = new MemoryStream()
+        do! stream.CopyToAsync ms |> Async.AwaitTask
+
+        let data = ms.ToArray()
+
+        let md5 =
+            MD5.Create().ComputeHash(data)
+            |> Seq.map (fun b -> (int b).ToString("x2"))
+            |> String.concat ""
+        let ext = resp.ContentType.Split('/') |> Seq.last
+        return Some {
+            new IDownloadedData with
+                member __.Data = data
+                member __.ContentType = resp.ContentType
+                member __.Filename = sprintf "%s.%s" md5 ext
+        }
+    }
 
     let AsyncDownload (post: IPostBase) = async {
         match post with
         | :? IRemotePhotoPost as remotePhoto ->
-            let req = WebRequest.Create remotePhoto.ImageURL
-            use! resp = req.AsyncGetResponse()
-
-            use stream = resp.GetResponseStream()
-            use ms = new MemoryStream()
-            do! stream.CopyToAsync ms |> Async.AwaitTask
-
-            return Some {
-                data = ms.ToArray()
-                contentType = resp.ContentType
-            }
+            return! AsyncDownloadUrl remotePhoto.ImageURL
         | :? IRemoteVideoPost as remoteVideo ->
-            let req = WebRequest.Create remoteVideo.VideoURL
-            use! resp = req.AsyncGetResponse()
-
-            use stream = resp.GetResponseStream()
-            use ms = new MemoryStream()
-            do! stream.CopyToAsync ms |> Async.AwaitTask
-
-            return Some {
-                data = ms.ToArray()
-                contentType = resp.ContentType
-            }
+            return! AsyncDownloadUrl remoteVideo.VideoURL
         | :? SavedPhotoPost as saved ->
-            return Some {
-                data = saved.data
-                contentType = PostConverter.GetContentType(saved)
+           return Some {
+                new IDownloadedData with
+                    member __.Data = saved.data
+                    member __.ContentType = PostConverter.GetContentType(saved)
+                    member __.Filename = PostConverter.CreateFilename(saved)
             }
         | _ ->
             return None
@@ -232,8 +233,17 @@ module Downloader =
 
     let DownloadAsync post = Async.StartAsTask (async {
         let! d = AsyncDownload post
-        return d |> Option.map (fun o -> o :> IDownloadedData) |> Option.toObj
+        return d |> Option.toObj
     })
 
-    let GetExtension (post: IDownloadedData) =
-        post.ContentType.Split('/') |> Seq.last
+    let ConvertToPng (post: IDownloadedData) =
+        use ms = new MemoryStream(post.Data, false)
+        use image = Image.FromStream(ms)
+        use ms2 = new MemoryStream()
+        image.Save(ms2, ImageFormat.Png)
+        {
+            new IDownloadedData with
+                member __.Data = ms2.ToArray()
+                member __.ContentType = "image/png"
+                member __.Filename = Path.GetFileNameWithoutExtension(post.Filename) |> sprintf "%s.png"
+        }
