@@ -55,7 +55,7 @@ type DeferredPhotoPost() =
     abstract member AsyncGetActual: unit -> Async<IRemotePhotoPost>
     member this.GetActualAsync() = this.AsyncGetActual() |> Async.StartAsTask
 
-    interface IRemotePhotoPost with
+    interface IThumbnailPost with
         member this.Title = this.Title
         member this.ViewURL = this.ViewURL
         member this.ThumbnailURL = this.ThumbnailURL
@@ -65,7 +65,6 @@ type DeferredPhotoPost() =
         member this.Adult = false
         member this.Tags = Seq.empty
         member this.Timestamp = this.Timestamp |> Option.defaultValue DateTime.MinValue
-        member this.ImageURL = this.ThumbnailURL
 
 /// An interface that provides a method for deleting a post.
 type IDeletable =
@@ -101,8 +100,11 @@ module Downloader =
         }
     }
 
-    let AsyncDownload (post: IPostBase) = async {
+    let rec AsyncDownload (post: IPostBase) = async {
         match post with
+        | :? DeferredPhotoPost as deferred ->
+            let! x = deferred.AsyncGetActual()
+            return! AsyncDownload x
         | :? IDownloadedData as downloaded -> return Some downloaded
         | :? IRemotePhotoPost as remotePhoto -> return! AsyncDownloadUrl remotePhoto.ImageURL
         | :? IRemoteVideoPost as remoteVideo -> return! AsyncDownloadUrl remoteVideo.VideoURL
