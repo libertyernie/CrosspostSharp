@@ -91,11 +91,12 @@ module Downloader =
             MD5.Create().ComputeHash(data)
             |> Seq.map (fun b -> (int b).ToString("x2"))
             |> String.concat ""
-        let ext = resp.ContentType.Split('/') |> Seq.last
+        let contentType = resp.ContentType
+        let ext = contentType.Split('/') |> Seq.last
         return Some {
             new IDownloadedData with
                 member __.Data = data
-                member __.ContentType = resp.ContentType
+                member __.ContentType = contentType
                 member __.Filename = sprintf "%s.%s" md5 ext
         }
     }
