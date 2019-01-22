@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="Posts.fs" />
+    <Compile Include="SavedPhotoPost.fs" />
     <Compile Include="AsyncSeqWrapper.fs" />
     <Compile Include="AsyncSeqWrapperPagedConsumer.fs" />
     <Compile Include="DeviantArt.fs" />

@@ -47,12 +47,11 @@ namespace CrosspostSharp3 {
 
 				foreach (var submission in posts) {
 					progressBar1.Value++;
-					var artworkData = submission is SavedPhotoPost s ? s
-						: submission is IRemotePhotoPost p ? await PostConverter.DownloadAsync(p)
-						: null;
-					if (artworkData == null) continue;
+					var downloaded = await Downloader.DownloadAsync(submission);
+					if (downloaded == null) continue;
+					var artworkData = SavedPhotoPost.FromPost(submission, downloaded);
 
-					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, PostConverter.CreateFilename(artworkData));
+					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, artworkData.Filename);
 
 					if (chkExportImage.Checked) {
 						File.WriteAllBytes(imagePath, artworkData.data);
