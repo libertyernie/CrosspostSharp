@@ -182,14 +182,14 @@ namespace CrosspostSharp3 {
 						}
 					}));
 					listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
-						using (var f = new DeviantArtStatusUpdateForm(da, ExportAsPhoto())) {
+						using (var f = new DeviantArtStatusUpdateForm(da, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
 				}
 				foreach (var fl in settings.Flickr) {
 					listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
-						using (var f = new FlickrPostForm(fl, ExportAsPhoto())) {
+						using (var f = new FlickrPostForm(fl, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));

@@ -18,21 +18,23 @@ using Tweetinvi.Models;
 namespace CrosspostSharp3 {
 	public partial class FlickrPostForm : Form {
 		private readonly Flickr _client;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public FlickrPostForm(Settings.FlickrSettings s, SavedPhotoPost d) {
+		public FlickrPostForm(Settings.FlickrSettings s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 			_client = s.CreateClient();
-			_artworkData = d;
+			_post = post;
+			_downloaded = downloaded;
 			lblUsername1.Text = s.username;
 
-			txtTitle.Text = d.title;
-			txtDescription.Text = Regex.Replace(d.description ?? "", @"<br ?\/?>\r?\n?", Environment.NewLine);
-			txtTags.Text = string.Join(" ", d.tags);
+			txtTitle.Text = post.Title;
+			txtDescription.Text = Regex.Replace(post.HTMLDescription ?? "", @"<br ?\/?>\r?\n?", Environment.NewLine);
+			txtTags.Text = string.Join(" ", post.Tags);
 
-			if (_artworkData.adult) {
+			if (post.Adult) {
 				radFlickrRestricted.Checked = true;
-			} else if (_artworkData.mature) {
+			} else if (post.Mature) {
 				radFlickrModerate.Checked = true;
 			} else {
 				radFlickrSafe.Checked = true;
@@ -80,12 +82,12 @@ namespace CrosspostSharp3 {
 					: radFlickrModerate.Checked ? SafetyLevel.Moderate
 					: radFlickrRestricted.Checked ? SafetyLevel.Restricted
 					: SafetyLevel.None;
-				using (var ms = new MemoryStream(_artworkData.data, false)) {
+				using (var ms = new MemoryStream(_downloaded.Data, false)) {
 					var t1 = new TaskCompletionSource<string>();
 					
 					_client.UploadPictureAsync(
 						ms,
-						PostConverter.CreateFilename(_artworkData),
+						"image." + Downloader.GetExtension(_downloaded),
 						txtTitle.Text,
 						txtDescription.Text,
 						txtTags.Text.Replace("#", ""),

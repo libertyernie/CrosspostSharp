@@ -18,11 +18,11 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class DeviantArtStatusUpdateForm : Form {
 		private readonly TextPost _post;
-		private readonly DownloadedData _downloaded;
+		private readonly IDownloadedData _downloaded;
 
 		private readonly IDeviantArtAccessToken _token;
 
-		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, TextPost post, DownloadedData downloaded = null) {
+		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_token = token;
 			_post = post;
@@ -34,7 +34,7 @@ namespace CrosspostSharp3 {
 		private async void DeviantArtStatusUpdateForm_Shown(object sender, EventArgs e) {
 			try {
 				if (_downloaded != null) {
-					using (var ms = new MemoryStream(_downloaded.data, false)) {
+					using (var ms = new MemoryStream(_downloaded.Data, false)) {
 						picImageToPost.Image = Image.FromStream(ms);
 					}
 				} else {
@@ -56,8 +56,8 @@ namespace CrosspostSharp3 {
 				if (_downloaded != null) {
 					itemId = await DeviantArtFs.Requests.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.SubmitRequest(
 						"image." + Downloader.GetExtension(_downloaded),
-						_downloaded.contentType,
-						_downloaded.data));
+						_downloaded.ContentType,
+						_downloaded.Data));
 				}
 
 				await DeviantArtFs.Requests.User.StatusPost.ExecuteAsync(_token, new DeviantArtFs.Requests.User.StatusPostRequest(textBox1.Text) {
