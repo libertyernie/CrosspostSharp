@@ -151,11 +151,11 @@
       <DependentUpon>StatusPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TextPost.cs" />
-    <Compile Include="Tumblr\TumblrNoPhotoPostForm.cs">
+    <Compile Include="Tumblr\TumblrPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tumblr\TumblrNoPhotoPostForm.Designer.cs">
-      <DependentUpon>TumblrNoPhotoPostForm.cs</DependentUpon>
+    <Compile Include="Tumblr\TumblrPostForm.Designer.cs">
+      <DependentUpon>TumblrPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Weasyl\MainForm.Weasyl.cs">
       <SubType>Form</SubType>
@@ -196,12 +196,6 @@
     </Compile>
     <Compile Include="Inkbunny\InkbunnyPostForm.Designer.cs">
       <DependentUpon>InkbunnyPostForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Tumblr\TumblrPostForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Tumblr\TumblrPostForm.Designer.cs">
-      <DependentUpon>TumblrPostForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Twitter\TwitterPostForm.cs">
       <SubType>Form</SubType>
@@ -281,6 +275,9 @@
     <EmbeddedResource Include="StatusPostForm.resx">
       <DependentUpon>StatusPostForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tumblr\TumblrPostForm.resx">
+      <DependentUpon>TumblrPostForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tumblr\TumblrBlogSelectionForm.resx">
       <DependentUpon>TumblrBlogSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -304,12 +301,6 @@
     </Compile>
     <EmbeddedResource Include="Inkbunny\InkbunnyPostForm.resx">
       <DependentUpon>InkbunnyPostForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tumblr\TumblrNoPhotoPostForm.resx">
-      <DependentUpon>TumblrNoPhotoPostForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Tumblr\TumblrPostForm.resx">
-      <DependentUpon>TumblrPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Twitter\TwitterPostForm.resx">
       <DependentUpon>TwitterPostForm.cs</DependentUpon>

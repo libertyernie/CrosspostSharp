@@ -1,112 +1,69 @@
-﻿using DontPanic.TumblrSharp;
+﻿using CrosspostSharp3.Imgur;
+using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
+using PillowfortFs;
 using SourceWrappers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public partial class TumblrPostForm : Form {
 		private readonly TumblrClient _client;
 		private readonly string _blogName;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public TumblrPostForm(Settings.TumblrSettings s, SavedPhotoPost d) {
+		public TumblrPostForm(Settings.TumblrSettings s, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_client = new TumblrClientFactory().Create<TumblrClient>(
 				OAuthConsumer.Tumblr.CONSUMER_KEY,
 				OAuthConsumer.Tumblr.CONSUMER_SECRET,
 				new Token(s.tokenKey, s.tokenSecret));
-			_artworkData = d;
 			_blogName = s.blogName;
 			lblUsername1.Text = _blogName;
 
-			if (string.IsNullOrEmpty(_artworkData.title)) {
-				chkIncludeTitle.Enabled = false;
-				chkIncludeTitle.Checked = false;
-			}
-			if (string.IsNullOrEmpty(_artworkData.description)) {
-				chkIncludeDescription.Enabled = false;
-				chkIncludeDescription.Checked = false;
-			}
-			if (string.IsNullOrEmpty(_artworkData.url)) {
-				chkIncludeLink.Enabled = false;
-				chkIncludeLink.Checked = false;
-			}
+			_post = post;
+			_downloaded = downloaded;
+			txtTitle.Text = post.Title;
+			txtDescription.Text = post.HTMLDescription;
+			txtTags.Text = string.Join(", ", post.Tags);
+			chkIncludeImage.Enabled = chkMakeSquare.Enabled = downloaded != null;
+			chkIncludeImage.Checked = downloaded != null;
 
-			txtTags.Text = string.Join(", ", (s.tags ?? Enumerable.Empty<string>()).Concat(d.tags));
-
-			chkIncludeTitle.CheckedChanged += (o, e) => UpdateText();
-			chkIncludeDescription.CheckedChanged += (o, e) => UpdateText();
-			chkIncludeLink.CheckedChanged += (o, e) => UpdateText();
-
-			using (var ms = new MemoryStream(d.data, false))
-			using (var image = Image.FromStream(ms)) {
-				chkMakeSquare.Checked = image.Height > image.Width;
-			}
-
-			UpdateText();
+			picUserIcon.ImageLocation = $"https://api.tumblr.com/v2/blog/{_blogName}.tumblr.com/avatar/{picUserIcon.Width}";
 		}
 
-		private async void TumblrPostForm_Shown(object sender, EventArgs e) {
-			try {
-				var user = await _client.GetUserInfoAsync();
-				lblUsername2.Text = "Logged in as: " + user.Name;
-
-				var req = WebRequestFactory.Create($"https://api.tumblr.com/v2/blog/{_blogName}.tumblr.com/avatar/{picUserIcon.Width}");
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					ms.Position = 0;
-					picUserIcon.Image = Image.FromStream(ms);
-				}
-			} catch (Exception) { }
-		}
-
-		private void UpdateText() {
-			StringBuilder sb = new StringBuilder();
-			if (chkIncludeTitle.Checked) {
-				sb.AppendLine($"<p><b>{WebUtility.HtmlEncode(_artworkData.title)}</b></p>");
-			}
-			if (chkIncludeDescription.Checked) {
-				sb.AppendLine(_artworkData.description);
-			}
-			if (chkIncludeLink.Checked) {
-				sb.AppendLine($"<p><a href='{_artworkData.url}'>{WebUtility.HtmlEncode(_artworkData.url)}</a></p>");
-			}
-			textBox1.Text = sb.ToString();
+		private void chkIncludeImage_CheckedChanged(object sender, EventArgs e) {
+			chkMakeSquare.Enabled = chkIncludeImage.Checked;
+			txtTitle.Enabled = !chkIncludeImage.Checked;
 		}
 
 		private async void btnPost_Click(object sender, EventArgs e) {
-			btnPost.Enabled = false;
-
-			byte[] data = _artworkData.data;
-			if (chkMakeSquare.Checked) {
-				data = ImageUtils.MakeSquare(data);
-			}
-
 			try {
-				BinaryFile imageToPost = new BinaryFile(data,
-					PostConverter.CreateFilename(_artworkData),
-					PostConverter.GetContentType(_artworkData));
-				PostData post = PostData.CreatePhoto(
-					new BinaryFile[] { imageToPost },
-					textBox1.Text,
-					_artworkData.url,
-					txtTags.Text.Replace("#", "").Split(',').Select(s => s.Trim()).Where(s => s != ""));
-				PostCreationInfo info = await _client.CreatePostAsync(_blogName, post);
+				if (_downloaded != null && chkIncludeImage.Checked) {
+					byte[] data = _downloaded?.Data;
+					if (data != null && chkMakeSquare.Checked) {
+						data = ImageUtils.MakeSquare(data);
+					}
+					BinaryFile imageToPost = new BinaryFile(data,
+						_downloaded.Filename,
+						_downloaded.ContentType);
+					PostData post = PostData.CreatePhoto(
+						imageToPost,
+						txtDescription.Text,
+						txtTags.Text.Replace("#", "").Split(',').Select(s => s.Trim()).Where(s => s != ""));
+					PostCreationInfo info = await _client.CreatePostAsync(_blogName, post);
+				} else {
+					PostData post = PostData.CreateText(
+						txtTitle.Text,
+						txtDescription.Text,
+						tags: txtTags.Text.Replace("#", "").Split(',').Select(s => s.Trim()).Where(s => s != ""));
+					PostCreationInfo info = await _client.CreatePostAsync(_blogName, post);
+				}
 				Close();
 			} catch (Exception ex) {
 				btnPost.Enabled = true;

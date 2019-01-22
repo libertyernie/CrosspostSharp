@@ -233,7 +233,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var t in settings.Tumblr) {
 					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-						using (var f = new TumblrPostForm(t, ExportAsPhoto())) {
+						using (var f = new TumblrPostForm(t, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -313,7 +313,7 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in settings.Tumblr) {
 				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-					using (var f = new TumblrNoPhotoPostForm(t, ExportAsText())) {
+					using (var f = new TumblrPostForm(t, ExportAsText(), downloaded)) {
 						f.ShowDialog(this);
 					}
 				}));
