@@ -89,7 +89,7 @@ namespace CrosspostSharp3 {
 			btnDelete.Enabled = _origWrapper is IDeletable;
 
 			// Convert DeferredPhotoPost to IRemotePhotoPost
-			if (artwork is DeferredPhotoPost deferred) {
+			if (_origWrapper is DeferredPhotoPost deferred) {
 				for (int i = 0; i < Controls.Count; i++) {
 					Controls[i].Enabled = false;
 				}
@@ -97,7 +97,7 @@ namespace CrosspostSharp3 {
 				this.Text = "Loading...";
 
 				try {
-					artwork = await deferred.GetActualAsync();
+					_origWrapper = await deferred.GetActualAsync();
 				} catch (Exception) { }
 
 				if (this.IsDisposed) return;
@@ -125,14 +125,14 @@ namespace CrosspostSharp3 {
 			}
 
 			btnView.Enabled = _origWrapper.ViewURL != null;
-			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (artwork is SavedPhotoPost x && x.url != null);
-			txtTitle.Text = artwork.Title;
+			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (_origWrapper is SavedPhotoPost x && x.url != null);
+			txtTitle.Text = _origWrapper.Title;
 			wbrDescription.Navigate("about:blank");
-			wbrDescription.Document.Write($"<html><head></head><body>{artwork.HTMLDescription}</body></html>");
+			wbrDescription.Document.Write($"<html><head></head><body>{_origWrapper.HTMLDescription}</body></html>");
 			wbrDescription.Document.Body.SetAttribute("contenteditable", "true");
-			txtTags.Text = string.Join(" ", artwork.Tags);
-			chkMature.Checked = artwork.Mature;
-			chkAdult.Checked = artwork.Adult;
+			txtTags.Text = string.Join(" ", _origWrapper.Tags);
+			chkMature.Checked = _origWrapper.Mature;
+			chkAdult.Checked = _origWrapper.Adult;
 
 			Settings settings = Settings.Load();
 
