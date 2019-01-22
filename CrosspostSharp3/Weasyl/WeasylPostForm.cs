@@ -15,17 +15,19 @@ namespace CrosspostSharp3.Weasyl {
 	public partial class WeasylPostForm : Form {
 		private readonly WeasylClient _apiClient;
 		private readonly WeasylClient _frontendClient;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public WeasylPostForm(Settings.WeasylSettings s, SavedPhotoPost d) {
+		public WeasylPostForm(Settings.WeasylSettings s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 
 			_apiClient = _frontendClient = new WeasylClient(s.apiKey);
-			_artworkData = d;
+			_post = post;
+			_downloaded = downloaded;
 
-			txtTitle.Text = d.title;
-			txtDescription.Text = d.description;
-			txtTags.Text = string.Join(" ", d.tags.Select(t => t.Replace(' ', '_')));
+			txtTitle.Text = post.Title;
+			txtDescription.Text = post.HTMLDescription;
+			txtTags.Text = string.Join(" ", post.Tags.Select(t => t.Replace(' ', '_')));
 
 			foreach (var o in Enum.GetValues(typeof(WeasylClient.SubmissionType))) {
 				ddlCategory.Items.Add((WeasylClient.SubmissionType)o);
@@ -75,8 +77,8 @@ namespace CrosspostSharp3.Weasyl {
 				var folder = ddlFolder.SelectedItem as WeasylClient.Folder?;
 
 				await _frontendClient.UploadVisualAsync(
-					_artworkData.data,
-					_artworkData.title,
+					_downloaded.Data,
+					txtTitle.Text,
 					subtype,
 					folder?.FolderId,
 					rating,

@@ -241,7 +241,7 @@ namespace CrosspostSharp3 {
 				foreach (var w in settings.WeasylApi) {
 					if (w.apiKey == null) continue;
 					listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
-						using (var f = new WeasylPostForm(w, ExportAsPhoto())) {
+						using (var f = new WeasylPostForm(w, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
