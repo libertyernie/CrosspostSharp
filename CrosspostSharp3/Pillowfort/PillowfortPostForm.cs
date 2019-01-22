@@ -12,9 +12,10 @@ using System.Windows.Forms;
 namespace CrosspostSharp3 {
 	public partial class PillowfortPostForm : Form {
 		private readonly PillowfortClient _client;
-		private readonly SavedPhotoPost _artworkData;
+		private readonly TextPost _post;
+		private readonly IDownloadedData _downloaded;
 
-		public PillowfortPostForm(Settings.PillowfortSettings s, IPostBase post) {
+		public PillowfortPostForm(Settings.PillowfortSettings s, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_client = new PillowfortClient { Cookie = s.cookie };
 
@@ -23,12 +24,13 @@ namespace CrosspostSharp3 {
 			}
 			ddlPrivacy.SelectedItem = PrivacyLevel.Public;
 
-			_artworkData = post as SavedPhotoPost;
+			_post = post;
+			_downloaded = downloaded;
 			txtTitle.Text = post.Title;
 			txtDescription.Text = post.HTMLDescription;
 			txtTags.Text = string.Join(", ", post.Tags);
-			chkIncludeImage.Enabled = chkMakeSquare.Enabled = _artworkData != null;
-			chkIncludeImage.Checked = _artworkData != null;
+			chkIncludeImage.Enabled = chkMakeSquare.Enabled = downloaded != null;
+			chkIncludeImage.Checked = downloaded != null;
 			chkNsfw.Checked = post.Mature || post.Adult;
 		}
 
@@ -38,8 +40,8 @@ namespace CrosspostSharp3 {
 
 		private async void PillowfortPostForm_Shown(object sender, EventArgs e) {
 			try {
-				if (_artworkData != null) {
-					using (var ms = new MemoryStream(_artworkData.data, false))
+				if (_downloaded != null) {
+					using (var ms = new MemoryStream(_downloaded.Data, false))
 					using (var image = Image.FromStream(ms)) {
 						chkMakeSquare.Checked = image.Height > image.Width;
 					}
@@ -70,8 +72,8 @@ namespace CrosspostSharp3 {
 			}
 
 			string imageUrl = null;
-			if (_artworkData != null && chkIncludeImage.Checked) {
-				byte[] data = _artworkData.data;
+			if (_downloaded != null && chkIncludeImage.Checked) {
+				byte[] data = _downloaded.Data;
 
 				if (chkMakeSquare.Checked) {
 					data = ImageUtils.MakeSquare(data);

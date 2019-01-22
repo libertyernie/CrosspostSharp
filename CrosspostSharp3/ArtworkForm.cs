@@ -219,7 +219,7 @@ namespace CrosspostSharp3 {
 				}
 				foreach (var p in settings.Pillowfort) {
 					listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-						using (var f = new PillowfortPostForm(p, ExportAsPhoto())) {
+						using (var f = new PillowfortPostForm(p, ExportAsText(), downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
