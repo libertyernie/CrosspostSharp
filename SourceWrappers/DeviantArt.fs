@@ -76,8 +76,8 @@ type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, includeLiterature: 
     override __.Name = "DeviantArt"
 
     override __.FetchSubmissionsInternal() =
-        let req = new DeviantArtFs.Requests.Gallery.GalleryAllViewRequest()
-        DeviantArtFs.Requests.Gallery.GalleryAllView.ToAsyncSeq client req 0
+        new DeviantArtFs.Requests.Gallery.GalleryAllViewRequest()
+        |> DeviantArtFs.Requests.Gallery.GalleryAllView.ToAsyncSeq client 0
         |> AsyncSeq.filter (fun d -> includeLiterature || Option.isSome d.content)
         |> AsyncSeq.map (fun d -> new DeviantArtDeferredPostWrapper(d, client) :> IPostBase)
 

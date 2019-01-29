@@ -47,7 +47,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token:
         return new DeviantArtPostWrapper(d, Some m) :> IRemotePhotoPost
     }
 
-type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAccessToken) =
+type DeviantArtScrapsLinkSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
     let next_regex = new Regex("<link href=\"([^'\"]+)\" rel=\"next\">")
@@ -55,7 +55,9 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAcces
     override __.Name = "DeviantArt (scraps)"
 
     override __.FetchSubmissionsInternal() = asyncSeq {
-        let mutable url = sprintf "https://%s.deviantart.com/gallery/?catpath=scraps" username
+        let! user = DeviantArtFs.Requests.User.Whoami.AsyncExecute token
+
+        let mutable url = sprintf "https://%s.deviantart.com/gallery/?catpath=scraps" user.username
         let mutable more = true
 
         while more do
@@ -96,20 +98,17 @@ type DeviantArtScrapsLinkSourceWrapper(username: string, token: IDeviantArtAcces
     }
 
     override __.FetchUserInternal() = async {
-        let! profile =
-            username
-            |> DeviantArtFs.Requests.User.ProfileByNameRequest
-            |> DeviantArtFs.Requests.User.ProfileByName.AsyncExecute token
+        let! user = DeviantArtFs.Requests.User.Whoami.AsyncExecute token
         return {
-            username = username
-            icon_url = Some profile.user.usericon
+            username = user.username
+            icon_url = Some user.usericon
         }
     }
 
-type DeviantArtScrapsSourceWrapper(username: string, token: IDeviantArtAccessToken) =
+type DeviantArtScrapsSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
-    let parent = new DeviantArtScrapsLinkSourceWrapper(username, token) :> AsyncSeqWrapper
+    let parent = new DeviantArtScrapsLinkSourceWrapper(token) :> AsyncSeqWrapper
 
     let get (p: IPostBase) = async {
         match p with

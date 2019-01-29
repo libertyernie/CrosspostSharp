@@ -40,7 +40,7 @@ type DeviantArtStatusSourceWrapper(client: IDeviantArtAccessToken) =
 
     override this.FetchSubmissionsInternal() = asyncSeq {
         let! username = this.WhoamiAsync() |> Async.AwaitTask
-        for r in DeviantArtFs.Requests.User.StatusesList.ToAsyncSeq client username 0 do
+        for r in DeviantArtFs.Requests.User.StatusesList.ToAsyncSeq client 0 username do
             if Seq.isEmpty r.EmbeddedDeviations then
                 yield new DeviantArtStatusPostWrapper(r) :> IPostBase
             else

@@ -127,17 +127,10 @@ namespace CrosspostSharp3 {
 			foreach (var da in s.DeviantArtAccounts) {
 				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
 				var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-				try {
-					var w = new DeviantArtSourceWrapper(da, includeLiterature: false);
-					var u = await w.GetUserAsync();
-
-					add(w);
-					add(new DeviantArtScrapsLinkSourceWrapper(u.username, da));
-					add(new DeviantArtStatusSourceWrapper(da));
-					add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
-				} catch (WebException ex) {
-					throw new Exception("Could not load DeviantArt", ex);
-				}
+				add(new DeviantArtSourceWrapper(da, includeLiterature: false));
+				add(new DeviantArtScrapsLinkSourceWrapper(da));
+				add(new DeviantArtStatusSourceWrapper(da));
+				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
 			}
 			foreach (var fl in s.Flickr) {
 				lblLoadStatus.Text = $"Adding Flickr {fl.username}...";

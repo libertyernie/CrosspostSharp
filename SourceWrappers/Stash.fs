@@ -8,7 +8,7 @@ open FSharp.Control
 type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArtAccessToken) =
     let imageUrl =
         metadata.files
-        |> Option.map Seq.ofArray
+        |> Option.map Seq.ofList
         |> Option.defaultValue Seq.empty
         |> Seq.sortByDescending (fun f -> f.width)
         |> Seq.map (fun f -> f.src)
@@ -22,7 +22,7 @@ type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArt
         member this.HTMLDescription = metadata.artist_comments |> Option.defaultValue ""
         member this.Mature = false
         member this.Adult = false
-        member this.Tags = metadata.tags |> Option.map Seq.ofArray |> Option.defaultValue Seq.empty
+        member this.Tags = metadata.tags |> Option.map Seq.ofList |> Option.defaultValue Seq.empty
         member this.Timestamp =
             metadata.creation_time
             |> Option.map (fun t -> t.UtcDateTime)
@@ -54,8 +54,8 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
 
     override __.FetchSubmissionsInternal() = asyncSeq {
         let source =
-            (token, new DeviantArtFs.Requests.Stash.DeltaRequest(), 0)
-            |||> DeviantArtFs.Requests.Stash.Delta.GetAll
+            new DeviantArtFs.Requests.Stash.DeltaRequest()
+            |> DeviantArtFs.Requests.Stash.Delta.ToAsyncSeq token 0
         for o in source do
             match (o.itemid, o.metadata) with
             | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
