@@ -204,16 +204,20 @@ namespace CrosspostSharp3 {
 				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-15)) {
 					// Get new access token
 					var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-					var t = await a.RefreshAsync(da.RefreshToken);
-					var u = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(t);
-					DeviantArtAccounts.Remove(da);
-					DeviantArtAccounts.Add(new DeviantArtAccountSettings {
-						AccessToken = t.AccessToken,
-						ExpiresAt = t.ExpiresAt,
-						RefreshToken = t.RefreshToken,
-						Username = u.Username
-					});
-					changed = true;
+					try {
+						var t = await a.RefreshAsync(da.RefreshToken);
+						var u = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(t);
+						DeviantArtAccounts.Remove(da);
+						DeviantArtAccounts.Add(new DeviantArtAccountSettings {
+							AccessToken = t.AccessToken,
+							ExpiresAt = t.ExpiresAt,
+							RefreshToken = t.RefreshToken,
+							Username = u.Username
+						});
+						changed = true;
+					} catch (Exception ex) {
+						Console.Error.WriteLine(ex);
+					}
 				}
 			}
 			return changed;
