@@ -30,5 +30,5 @@ type FurAffinityCategory =
     | ``Screenshots`` = 27
     | ``Scraps`` = 28
     | ``Wallpaper`` = 29
-    | ``YCH_/_Sale`` = 30
+    | ``YCH_or_Sale`` = 30
     | ``Other`` = 31
