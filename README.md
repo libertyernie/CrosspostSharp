@@ -1,4 +1,4 @@
-CrosspostSharp 3.5
+CrosspostSharp 3.6
 ==================
 
 Source: https://github.com/libertyernie/CrosspostSharp

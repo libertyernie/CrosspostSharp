@@ -393,7 +393,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
-			Process.Start("https://github.com/libertyernie/CrosspostSharp/blob/v3.5/README.md");
+			Process.Start("https://github.com/libertyernie/CrosspostSharp/blob/v3.6/README.md");
 		}
 
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
