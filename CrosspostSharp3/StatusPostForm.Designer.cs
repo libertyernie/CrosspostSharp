@@ -24,9 +24,11 @@
 		/// </summary>
 		private void InitializeComponent() {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.pnlAccounts = new System.Windows.Forms.FlowLayoutPanel();
             this.btnPost = new System.Windows.Forms.Button();
             this.txtStatus = new System.Windows.Forms.TextBox();
-            this.pnlAccounts = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -45,11 +47,21 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.textBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Panel2.Controls.Add(this.btnPost);
             this.splitContainer1.Panel2.Controls.Add(this.txtStatus);
             this.splitContainer1.Size = new System.Drawing.Size(484, 211);
             this.splitContainer1.SplitterDistance = 161;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // pnlAccounts
+            // 
+            this.pnlAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlAccounts.Location = new System.Drawing.Point(0, 0);
+            this.pnlAccounts.Name = "pnlAccounts";
+            this.pnlAccounts.Size = new System.Drawing.Size(161, 211);
+            this.pnlAccounts.TabIndex = 0;
             // 
             // btnPost
             // 
@@ -57,7 +69,7 @@
             this.btnPost.Location = new System.Drawing.Point(241, 185);
             this.btnPost.Name = "btnPost";
             this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 6;
+            this.btnPost.TabIndex = 3;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
             this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
@@ -67,19 +79,27 @@
             this.txtStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtStatus.Location = new System.Drawing.Point(3, 3);
+            this.txtStatus.Location = new System.Drawing.Point(3, 29);
             this.txtStatus.Multiline = true;
             this.txtStatus.Name = "txtStatus";
-            this.txtStatus.Size = new System.Drawing.Size(313, 176);
+            this.txtStatus.Size = new System.Drawing.Size(313, 150);
             this.txtStatus.TabIndex = 2;
             // 
-            // pnlAccounts
+            // label1
             // 
-            this.pnlAccounts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlAccounts.Location = new System.Drawing.Point(0, 0);
-            this.pnlAccounts.Name = "pnlAccounts";
-            this.pnlAccounts.Size = new System.Drawing.Size(161, 211);
-            this.pnlAccounts.TabIndex = 0;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "CW (Mastodon)";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(90, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(226, 20);
+            this.textBox1.TabIndex = 1;
             // 
             // StatusPostForm
             // 
@@ -105,5 +125,7 @@
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.TextBox txtStatus;
 		private System.Windows.Forms.FlowLayoutPanel pnlAccounts;
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label label1;
 	}
 }

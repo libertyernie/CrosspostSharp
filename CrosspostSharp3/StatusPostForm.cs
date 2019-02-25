@@ -90,7 +90,8 @@ namespace CrosspostSharp3 {
 			var status = await Mastodon.Api.Statuses.Posting(
 				m.Instance,
 				m.accessToken,
-				CurrentText);
+				CurrentText,
+				spoiler_text: textBox1.Text == "" ? null : textBox1.Text);
 			return new Uri(status.Url);
 		}
 
