@@ -95,6 +95,7 @@
             this.txtContent.Location = new System.Drawing.Point(12, 105);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
+            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtContent.Size = new System.Drawing.Size(318, 101);
             this.txtContent.TabIndex = 5;
             // 
@@ -145,7 +146,7 @@
             // 
             // txtImageDescription
             // 
-            this.txtImageDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtImageDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtImageDescription.Enabled = false;
             this.txtImageDescription.Location = new System.Drawing.Point(110, 212);
