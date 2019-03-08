@@ -31,23 +31,11 @@ namespace CrosspostSharp3.DeviantArt {
 			}
 		}
 
-		private static SemaphoreSlim _refreshLock = new SemaphoreSlim(1, 1);
-
-		public async Task UpdateTokenAsync(IDeviantArtRefreshToken value) {
-			await _refreshLock.WaitAsync();
-
-			try {
-				if (!await DeviantArtFs.Requests.Util.Placebo.IsValidAsync(new AccessTokenOnly(AccessToken))) {
-					var newCredentials = await DeviantArtAuth.RefreshAsync(_current.RefreshToken);
-					_current.AccessToken = newCredentials.AccessToken;
-					_current.RefreshToken = newCredentials.RefreshToken;
-					_parent.Save();
-				}
-			} catch (Exception e) {
-				Console.Error.WriteLine(e);
-			}
-
-			_refreshLock.Release();
+		public Task UpdateTokenAsync(IDeviantArtRefreshToken value) {
+			_current.AccessToken = value.AccessToken;
+			_current.RefreshToken = value.RefreshToken;
+			_parent.Save();
+			return Task.CompletedTask;
 		}
 	}
 }
