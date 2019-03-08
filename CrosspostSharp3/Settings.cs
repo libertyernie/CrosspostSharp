@@ -1,9 +1,11 @@
-﻿using DeviantArtFs;
+﻿using CrosspostSharp3.DeviantArt;
+using DeviantArtFs;
 using FlickrNet;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 
@@ -27,14 +29,16 @@ namespace CrosspostSharp3 {
 		[Obsolete]
 		public DeviantArtSettings? DeviantArt { get; set; }
 
-		public struct DeviantArtAccountSettings : IAccountCredentials, IDeviantArtRefreshToken {
+		public class DeviantArtAccountSettings : IAccountCredentials {
 			public string AccessToken { get; set; }
-			public DateTimeOffset ExpiresAt { get; set; }
 			public string RefreshToken { get; set; }
 			public string Username { get; set; }
 		}
 
 		public List<DeviantArtAccountSettings> DeviantArtAccounts = new List<DeviantArtAccountSettings>();
+
+		public IEnumerable<DeviantArtTokenWrapper> DeviantArtTokens =>
+			DeviantArtAccounts.Select(x => new DeviantArtTokenWrapper(this, x));
 
 		public struct FlickrSettings : IAccountCredentials {
 			public string tokenKey;
@@ -178,12 +182,12 @@ namespace CrosspostSharp3 {
 			return s;
 		}
 
-		public async Task<bool> UpdateTokensAsync() {
+		[Obsolete]
+		public void UpdateFormat() {
 			bool changed = false;
 			if (DeviantArt?.RefreshToken != null) {
 				DeviantArtAccounts.Add(new DeviantArtAccountSettings {
 					AccessToken = "",
-					ExpiresAt = DateTimeOffset.UtcNow,
 					RefreshToken = DeviantArt?.RefreshToken,
 					Username = ""
 				});
@@ -200,31 +204,11 @@ namespace CrosspostSharp3 {
 					changed = true;
 				}
 			}
-			foreach (var da in DeviantArtAccounts.ToArray()) {
-				if (DateTime.UtcNow > da.ExpiresAt.AddMinutes(-15)) {
-					// Get new access token
-					var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
-					try {
-						var t = await a.RefreshAsync(da.RefreshToken);
-						var u = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(t);
-						DeviantArtAccounts.Remove(da);
-						DeviantArtAccounts.Add(new DeviantArtAccountSettings {
-							AccessToken = t.AccessToken,
-							ExpiresAt = t.ExpiresAt,
-							RefreshToken = t.RefreshToken,
-							Username = u.Username
-						});
-						changed = true;
-					} catch (Exception ex) {
-						Console.Error.WriteLine(ex);
-					}
-				}
-			}
-			return changed;
+			if (changed) Save();
 		}
 
-		public void Save(string filename = "CrosspostSharp3.json") {
-			File.WriteAllText(filename, JsonConvert.SerializeObject(this, Formatting.Indented));
+		public void Save() {
+			File.WriteAllText("CrosspostSharp3.json", JsonConvert.SerializeObject(this, Formatting.Indented));
 		}
 	}
 }

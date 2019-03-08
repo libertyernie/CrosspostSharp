@@ -29,7 +29,6 @@ namespace CrosspostSharp3 {
 							return new[] {
 								new Settings.DeviantArtAccountSettings {
 									AccessToken = token.AccessToken,
-									ExpiresAt = token.ExpiresAt,
 									RefreshToken = token.RefreshToken,
 									Username = u.Username
 								}

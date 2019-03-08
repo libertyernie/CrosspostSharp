@@ -119,10 +119,7 @@ namespace CrosspostSharp3 {
 			chkAdult.Checked = _origWrapper.Adult;
 
 			Settings settings = Settings.Load();
-
-			if (await settings.UpdateTokensAsync()) {
-				settings.Save();
-			}
+			settings.UpdateFormat();
 
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
@@ -133,7 +130,7 @@ namespace CrosspostSharp3 {
 				saveAsToolStripMenuItem.Enabled = true;
 				exportAsToolStripMenuItem.Enabled = true;
 
-				foreach (var da in settings.DeviantArtAccounts) {
+				foreach (var da in settings.DeviantArtTokens) {
 					listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
 						long? itemId = (_origWrapper as StashPostWrapper)?.ItemId;
 						var toPost = _downloaded;
@@ -266,7 +263,7 @@ namespace CrosspostSharp3 {
 
 			listBox1.Items.Add("--- Post as text ---");
 
-			foreach (var da in settings.DeviantArtAccounts) {
+			foreach (var da in settings.DeviantArtTokens) {
 				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
 					using (var f = new DeviantArtStatusUpdateForm(da, ExportAsText())) {
 						f.ShowDialog(this);

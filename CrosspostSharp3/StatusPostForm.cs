@@ -25,12 +25,9 @@ namespace CrosspostSharp3 {
 			splitContainer1.Enabled = false;
 
 			Settings settings = Settings.Load();
+			settings.UpdateFormat();
 
-			if (await settings.UpdateTokensAsync()) {
-				settings.Save();
-			}
-
-			foreach (var da in settings.DeviantArtAccounts) {
+			foreach (var da in settings.DeviantArtTokens) {
 				var checkbox = new CheckBox {
 					Text = $"DeviantArt ({da.Username})",
 					AutoSize = true
