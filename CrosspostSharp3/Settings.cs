@@ -1,12 +1,10 @@
 ﻿using CrosspostSharp3.DeviantArt;
-using DeviantArtFs;
 using FlickrNet;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
