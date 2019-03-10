@@ -5,13 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="FurAffinityCategory.fs" />
-    <Compile Include="FurAffinityType.fs" />
-    <Compile Include="FurAffinitySpecies.fs" />
-    <Compile Include="FurAffinityGender.fs" />
-    <Compile Include="FurAffinityRating.fs" />
-    <Compile Include="FurAffinitySubmission.fs" />
-    <Compile Include="FurAffinityClient.fs" />
+    <Compile Include="FurAffinityClientException.fs" />
+    <Compile Include="IFurAffinityCredentials.fs" />
+    <Compile Include="Shared.fs" />
+    <Compile Include="Models\FurAffinityCategory.fs" />
+    <Compile Include="Models\FurAffinityType.fs" />
+    <Compile Include="Models\FurAffinitySpecies.fs" />
+    <Compile Include="Models\FurAffinityGender.fs" />
+    <Compile Include="Models\FurAffinityRating.fs" />
+    <Compile Include="Models\FurAffinitySubmission.fs" />
+    <Compile Include="Requests\FurAffinityAvatarRequest.fs" />
+    <Compile Include="Requests\FurAffinityWhoamiRequest.fs" />
+    <Compile Include="Requests\FurAffinitySubmitPostRequest.fs" />
   </ItemGroup>
 
   <ItemGroup>

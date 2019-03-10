@@ -1,4 +1,4 @@
-namespace FurAffinityFs
+namespace FurAffinityFs.Models
 
 type FurAffinityRating =
     | General = 0

@@ -1,5 +1,6 @@
 ﻿using CrosspostSharp3.DeviantArt;
 using FlickrNet;
+using FurAffinityFs;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -55,12 +56,15 @@ namespace CrosspostSharp3 {
 
 		public List<FlickrSettings> Flickr = new List<FlickrSettings>();
 
-		public struct FurAffinitySettings : IAccountCredentials {
+		public struct FurAffinitySettings : IAccountCredentials, IFurAffinityCredentials {
 			public string b;
 			public string a;
 			public string username;
 
 			string IAccountCredentials.Username => username;
+
+			string IFurAffinityCredentials.A => a;
+			string IFurAffinityCredentials.B => b;
 		}
 
 		public List<FurAffinitySettings> FurAffinity = new List<FurAffinitySettings>();

@@ -1,4 +1,4 @@
-namespace FurAffinityFs
+namespace FurAffinityFs.Models
 
 type FurAffinityGender =
     | ``Any`` = 0

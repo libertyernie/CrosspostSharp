@@ -4,6 +4,7 @@ open FAExportLib
 open System
 open FSharp.Control
 open FurAffinityFs
+open FurAffinityFs.Requests
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IRemotePhotoPost>) =
     inherit DeferredPhotoPost()
@@ -39,7 +40,7 @@ type FurAffinityAbstractSourceWrapper(scraps: bool) =
     inherit AsyncSeqWrapper()
 
     abstract GetAPIClient: unit -> FAClient
-    abstract GetScraper: unit -> FurAffinityClient option
+    abstract GetScraper: unit -> IFurAffinityCredentials option
     abstract AsyncGetUsername: unit -> Async<string>
 
     member this.GetSubmission id = async {
@@ -79,7 +80,7 @@ type FurAffinityAbstractSourceWrapper(scraps: bool) =
         let client = this.GetAPIClient()
         let! icon_uri =
             match this.GetScraper() with
-            | Some s -> s.AsyncGetAvatarUri username
+            | Some s -> FurAffinityAvatarRequest.AsyncExecute s username
             | None -> async { return None }
         DateTime.UtcNow - dt |> printfn "B %O"
         return {
@@ -99,11 +100,15 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
     inherit FurAffinityAbstractSourceWrapper(scraps)
 
     let apiClient = FAUserClient(a, b)
-    let scraper = FurAffinityClient(a, b)
+    let scraper = {
+        new IFurAffinityCredentials with
+            member __.A = a
+            member __.B = b
+    }
 
     override __.GetAPIClient() = apiClient :> FAClient
     override __.GetScraper() = Some scraper
-    override __.AsyncGetUsername() = scraper.AsyncWhoami
+    override __.AsyncGetUsername() = FurAffinityWhoamiRequest.AsyncExecute scraper
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
     inherit AsyncSeqWrapper()

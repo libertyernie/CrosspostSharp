@@ -1,5 +1,6 @@
 ﻿using FurAffinityFs;
-using FurryNetworkLib;
+using FurAffinityFs.Models;
+using FurAffinityFs.Requests;
 using SourceWrappers;
 using System;
 using System.Data;
@@ -7,18 +8,17 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class FurAffinityPostForm : Form {
-		private readonly FurAffinityClient _client;
+		private readonly IFurAffinityCredentials _credentials;
 		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
-		public FurAffinityPostForm(Settings.FurAffinitySettings s, TextPost post, IDownloadedData downloaded) {
+		public FurAffinityPostForm(IFurAffinityCredentials s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
-			_client = new FurAffinityClient(a: s.a, b: s.b);
+			_credentials = s;
 			_post = post;
 			_downloaded = downloaded;
 
@@ -71,13 +71,13 @@ namespace CrosspostSharp3 {
 
 		private async void PopulateIcon() {
 			try {
-				string username = await _client.WhoamiAsync();
+				string username = await FurAffinityWhoamiRequest.ExecuteAsync(_credentials);
 				if (username == null) {
 					lblUsername1.Text = "Not logged in";
 				} else {
 					lblUsername1.Text = username;
 
-					Uri avatar = await _client.GetAvatarUriAsync(username);
+					Uri avatar = await FurAffinityAvatarRequest.ExecuteAsync(_credentials, username);
 					if (avatar != null) {
 						var req = WebRequestFactory.Create(avatar.AbsoluteUri);
 						using (var resp = await req.GetResponseAsync())
@@ -120,7 +120,7 @@ namespace CrosspostSharp3 {
 					}
 				}
 
-				await _client.SubmitPostAsync(new FurAffinitySubmission(
+				await FurAffinitySubmitPostRequest.ExecuteAsync(_credentials, new FurAffinitySubmission(
 					data: data,
 					contentType: contentType,
 					title: txtTitle.Text,
