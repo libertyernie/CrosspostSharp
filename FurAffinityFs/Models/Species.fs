@@ -1,6 +1,6 @@
 namespace FurAffinityFs.Models
 
-type FurAffinitySpecies =
+type Species =
     | ``Frog`` = 1001
     | ``Newt`` = 1002
     | ``Salamander`` = 1003

@@ -1,6 +1,6 @@
 namespace FurAffinityFs.Models
 
-type FurAffinityGender =
+type Gender =
     | ``Any`` = 0
     | ``Male`` = 2
     | ``Female`` = 3

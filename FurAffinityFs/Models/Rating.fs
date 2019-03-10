@@ -1,6 +1,6 @@
 namespace FurAffinityFs.Models
 
-type FurAffinityRating =
+type Rating =
     | General = 0
     | Mature = 1
     | Adult = 2

@@ -1,6 +1,6 @@
 namespace FurAffinityFs.Models
 
-type FurAffinityType =
+type Type =
     | ``All`` = 1
     | ``Abstract`` = 2
     | ``Animal_related_non_anthro`` = 3

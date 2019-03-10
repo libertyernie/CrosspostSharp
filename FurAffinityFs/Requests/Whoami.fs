@@ -1,6 +1,6 @@
 ﻿namespace FurAffinityFs.Requests
 
-module FurAffinityWhoamiRequest =
+module Whoami =
     open FurAffinityFs
     open System.IO
     open System.Text.RegularExpressions

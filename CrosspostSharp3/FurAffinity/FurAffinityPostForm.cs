@@ -1,6 +1,4 @@
 ﻿using FurAffinityFs;
-using FurAffinityFs.Models;
-using FurAffinityFs.Requests;
 using SourceWrappers;
 using System;
 using System.Data;
@@ -9,6 +7,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+
+using FAModels = FurAffinityFs.Models;
+using FAReq = FurAffinityFs.Requests;
 
 namespace CrosspostSharp3 {
 	public partial class FurAffinityPostForm : Form {
@@ -34,17 +35,17 @@ namespace CrosspostSharp3 {
 				radRating0.Checked = true;
 			}
 
-			foreach (var x in Enum.GetValues(typeof(FurAffinityCategory))) {
-				ddlCategory.Items.Add((FurAffinityCategory)x);
+			foreach (var x in Enum.GetValues(typeof(FAModels.Category))) {
+				ddlCategory.Items.Add((FAModels.Category)x);
 			}
-			foreach (var x in Enum.GetValues(typeof(FurAffinityType))) {
-				ddlTheme.Items.Add((FurAffinityType)x);
+			foreach (var x in Enum.GetValues(typeof(FAModels.Type))) {
+				ddlTheme.Items.Add((FAModels.Type)x);
 			}
-			foreach (var x in Enum.GetValues(typeof(FurAffinitySpecies))) {
-				ddlSpecies.Items.Add((FurAffinitySpecies)x);
+			foreach (var x in Enum.GetValues(typeof(FAModels.Species))) {
+				ddlSpecies.Items.Add((FAModels.Species)x);
 			}
-			foreach (var x in Enum.GetValues(typeof(FurAffinityGender))) {
-				ddlGender.Items.Add((FurAffinityGender)x);
+			foreach (var x in Enum.GetValues(typeof(FAModels.Gender))) {
+				ddlGender.Items.Add((FAModels.Gender)x);
 			}
 		}
 
@@ -71,13 +72,13 @@ namespace CrosspostSharp3 {
 
 		private async void PopulateIcon() {
 			try {
-				string username = await FurAffinityWhoamiRequest.ExecuteAsync(_credentials);
+				string username = await FAReq.Whoami.ExecuteAsync(_credentials);
 				if (username == null) {
 					lblUsername1.Text = "Not logged in";
 				} else {
 					lblUsername1.Text = username;
 
-					Uri avatar = await FurAffinityAvatarRequest.ExecuteAsync(_credentials, username);
+					Uri avatar = await FAReq.GetAvatar.ExecuteAsync(_credentials, username);
 					if (avatar != null) {
 						var req = WebRequestFactory.Create(avatar.AbsoluteUri);
 						using (var resp = await req.GetResponseAsync())
@@ -120,20 +121,20 @@ namespace CrosspostSharp3 {
 					}
 				}
 
-				await FurAffinitySubmitPostRequest.ExecuteAsync(_credentials, new FurAffinitySubmission(
+				await FAReq.SubmitPost.ExecuteAsync(_credentials, new FAModels.Submission(
 					data: data,
 					contentType: contentType,
 					title: txtTitle.Text,
 					message: txtDescription.Text,
 					keywords: txtTags.Text.Split(' ').Select(s => s.Trim()).Where(s => s != ""),
-					cat: (FurAffinityCategory)ddlCategory.SelectedItem,
+					cat: (FAModels.Category)ddlCategory.SelectedItem,
 					scrap: chkScraps.Checked,
-					atype: (FurAffinityType)ddlTheme.SelectedItem,
-					species: (FurAffinitySpecies)ddlSpecies.SelectedItem,
-					gender: (FurAffinityGender)ddlGender.SelectedItem,
-					rating: radRating0.Checked ? FurAffinityRating.General
-						: radRating1.Checked ? FurAffinityRating.Mature
-						: radRating2.Checked ? FurAffinityRating.Adult
+					atype: (FAModels.Type)ddlTheme.SelectedItem,
+					species: (FAModels.Species)ddlSpecies.SelectedItem,
+					gender: (FAModels.Gender)ddlGender.SelectedItem,
+					rating: radRating0.Checked ? FAModels.Rating.General
+						: radRating1.Checked ? FAModels.Rating.Mature
+						: radRating2.Checked ? FAModels.Rating.Adult
 						: throw new ApplicationException("Must select a rating"),
 					lock_comments: chkLockComments.Checked
 				));

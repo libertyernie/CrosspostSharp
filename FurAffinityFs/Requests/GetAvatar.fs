@@ -1,6 +1,6 @@
 ﻿namespace FurAffinityFs.Requests
 
-module FurAffinityAvatarRequest =
+module GetAvatar =
     open FurAffinityFs
     open System
     open System.IO

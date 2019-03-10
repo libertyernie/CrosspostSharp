@@ -1,13 +1,12 @@
 ﻿namespace FurAffinityFs.Requests
 
-module FurAffinitySubmitPostRequest =
+module SubmitPost =
     open FurAffinityFs
-    open FurAffinityFs.Models
     open System
     open System.IO
     open System.Text
 
-    let AsyncExecute (credentials: IFurAffinityCredentials) (submission: FurAffinitySubmission) = async {
+    let AsyncExecute (credentials: IFurAffinityCredentials) (submission: FurAffinityFs.Models.Submission) = async {
         let ext = Seq.last (submission.contentType.Split('/'))
         let filename = sprintf "file.%s" ext
 

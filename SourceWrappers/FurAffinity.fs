@@ -4,7 +4,6 @@ open FAExportLib
 open System
 open FSharp.Control
 open FurAffinityFs
-open FurAffinityFs.Requests
 
 type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IRemotePhotoPost>) =
     inherit DeferredPhotoPost()
@@ -80,7 +79,7 @@ type FurAffinityAbstractSourceWrapper(scraps: bool) =
         let client = this.GetAPIClient()
         let! icon_uri =
             match this.GetScraper() with
-            | Some s -> FurAffinityAvatarRequest.AsyncExecute s username
+            | Some s -> FurAffinityFs.Requests.GetAvatar.AsyncExecute s username
             | None -> async { return None }
         DateTime.UtcNow - dt |> printfn "B %O"
         return {
@@ -108,7 +107,7 @@ type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
 
     override __.GetAPIClient() = apiClient :> FAClient
     override __.GetScraper() = Some scraper
-    override __.AsyncGetUsername() = FurAffinityWhoamiRequest.AsyncExecute scraper
+    override __.AsyncGetUsername() = FurAffinityFs.Requests.Whoami.AsyncExecute scraper
 
 type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
     inherit AsyncSeqWrapper()

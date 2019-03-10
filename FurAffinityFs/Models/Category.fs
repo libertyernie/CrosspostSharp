@@ -1,6 +1,6 @@
 namespace FurAffinityFs.Models
 
-type FurAffinityCategory =
+type Category =
     | ``All`` = 1
     | ``Artwork_Digital`` = 2
     | ``Artwork_Traditional`` = 3
