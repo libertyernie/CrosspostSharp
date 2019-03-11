@@ -8,8 +8,8 @@ type ExistingSubmission = {
     description: string
     name: string
     download: Uri
-    full: Uri option
-    thumbnail: Uri option
+    full: Uri
+    thumbnail: Uri
     date: string
     keywords: seq<string>
     rating: Rating

@@ -45,13 +45,13 @@ module ViewSubmission =
             full =
                 page.Html.CssSelect "#submissionImg"
                 |> Seq.map (fun e -> e.AttributeValue "data-fullview-src")
-                |> Seq.tryHead
-                |> Option.map Shared.ToUri
+                |> Seq.head
+                |> Shared.ToUri
             thumbnail =
                 page.Html.CssSelect "#submissionImg"
                 |> Seq.map (fun e -> e.AttributeValue "data-preview-src")
-                |> Seq.tryHead
-                |> Option.map Shared.ToUri
+                |> Seq.head
+                |> Shared.ToUri
             date =
                 page.Html.CssSelect ".popup_date"
                 |> Seq.map (fun e -> e.AttributeValue "title")
@@ -74,7 +74,6 @@ module ViewSubmission =
             //                let tz = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")
             //                yield TimeZoneInfo.ConvertTimeToUtc(dt, tz)
             //    yield DateTime.UtcNow
-                        
             //})
             keywords =
                 page.Html.CssSelect "#keywords a"
