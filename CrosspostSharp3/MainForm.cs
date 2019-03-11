@@ -125,6 +125,13 @@ namespace CrosspostSharp3 {
 			foreach (var da in s.DeviantArtTokens) {
 				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
 
+				// Check access token
+				this.Enabled = false;
+				try {
+					await DeviantArtFs.Requests.Util.Placebo.IsValidAsync(da);
+				} catch (Exception) { }
+				this.Enabled = true;
+
 				add(new DeviantArtSourceWrapper(da, includeLiterature: false));
 				add(new DeviantArtScrapsLinkSourceWrapper(da));
 				add(new DeviantArtStatusSourceWrapper(da));
