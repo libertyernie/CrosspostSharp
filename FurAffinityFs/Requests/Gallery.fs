@@ -4,6 +4,7 @@ module Gallery =
     open FSharp.Data
     open FurAffinityFs
     open FurAffinityFs.Models
+    open FSharp.Control
 
     type Folder = Gallery = 0 | Scraps = 1 | Favorites = 2
 
@@ -46,6 +47,15 @@ module Gallery =
                 |> Seq.map (fun e -> e.AttributeValue "href")
                 |> Seq.tryHead
         }
+    }
+
+    let ToAsyncSeq (credentials: IFurAffinityCredentials) (folder: Folder) (username: string) = asyncSeq {
+        let mutable page_href = Some (GetFirstPageHref folder username)
+        while Option.isSome page_href do
+            let! gallery = AsyncExecute credentials page_href.Value
+            for s in gallery.submissions do
+                yield s
+            page_href <- gallery.next_page_href
     }
 
     let ExecuteAsync credentials page_href =
