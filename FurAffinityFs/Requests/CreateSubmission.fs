@@ -1,16 +1,17 @@
 ﻿namespace FurAffinityFs.Requests
 
-module SubmitPost =
-    open FurAffinityFs
+module CreateSubmission =
+    open FSharp.Data
     open System
     open System.IO
     open System.Text
+    open FurAffinityFs
 
-    let AsyncExecute (credentials: IFurAffinityCredentials) (submission: FurAffinityFs.Models.Submission) = async {
+    let AsyncExecute (credentials: IFurAffinityCredentials) (submission: FurAffinityFs.Models.NewSubmission) = async {
         let ext = Seq.last (submission.contentType.Split('/'))
         let filename = sprintf "file.%s" ext
 
-        let req1 = Shared.CreateRequest credentials "/submit/"
+        let req1 = "/submit/" |> Shared.ToUri |> Shared.CreateRequest credentials
         req1.Method <- "POST"
         req1.ContentType <- "application/x-www-form-urlencoded"
 
@@ -24,7 +25,8 @@ module SubmitPost =
             use! resp = req1.AsyncGetResponse()
             use sr = new StreamReader(resp.GetResponseStream())
             let! html = sr.ReadToEndAsync() |> Async.AwaitTask
-            return (Shared.ExtractAuthenticityToken html, resp.ResponseUri.AbsoluteUri)
+            let token = html |> HtmlDocument.Parse |> Shared.ExtractAuthenticityToken
+            return (token, resp.ResponseUri)
         }
 
         // multipart separators
@@ -78,7 +80,8 @@ module SubmitPost =
             use! resp = req2.AsyncGetResponse()
             use sr = new StreamReader(resp.GetResponseStream())
             let! html = sr.ReadToEndAsync() |> Async.AwaitTask
-            return (Shared.ExtractAuthenticityToken html, resp.ResponseUri.AbsoluteUri)
+            let token = html |> HtmlDocument.Parse |> Shared.ExtractAuthenticityToken
+            return (token, resp.ResponseUri)
         }
 
         let req3 = Shared.CreateRequest credentials url2

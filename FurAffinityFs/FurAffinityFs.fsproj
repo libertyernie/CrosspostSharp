@@ -7,16 +7,20 @@
   <ItemGroup>
     <Compile Include="FurAffinityClientException.fs" />
     <Compile Include="IFurAffinityCredentials.fs" />
-    <Compile Include="Shared.fs" />
     <Compile Include="Models\Category.fs" />
     <Compile Include="Models\Type.fs" />
     <Compile Include="Models\Species.fs" />
     <Compile Include="Models\Gender.fs" />
     <Compile Include="Models\Rating.fs" />
-    <Compile Include="Models\Submission.fs" />
-    <Compile Include="Requests\GetAvatar.fs" />
+    <Compile Include="Models\User.fs" />
+    <Compile Include="Models\ExistingSubmission.fs" />
+    <Compile Include="Models\NewSubmission.fs" />
+    <Compile Include="Shared.fs" />
+    <Compile Include="Requests\UserPage.fs" />
     <Compile Include="Requests\Whoami.fs" />
-    <Compile Include="Requests\SubmitPost.fs" />
+    <Compile Include="Requests\Gallery.fs" />
+    <Compile Include="Requests\ViewSubmission.fs" />
+    <Compile Include="Requests\CreateSubmission.fs" />
   </ItemGroup>
 
   <ItemGroup>

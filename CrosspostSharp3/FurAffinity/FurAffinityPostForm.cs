@@ -78,17 +78,8 @@ namespace CrosspostSharp3 {
 				} else {
 					lblUsername1.Text = username;
 
-					Uri avatar = await FAReq.GetAvatar.ExecuteAsync(_credentials, username);
-					if (avatar != null) {
-						var req = WebRequestFactory.Create(avatar.AbsoluteUri);
-						using (var resp = await req.GetResponseAsync())
-						using (var stream = resp.GetResponseStream())
-						using (var ms = new MemoryStream()) {
-							await stream.CopyToAsync(ms);
-							ms.Position = 0;
-							picUserIcon.Image = Image.FromStream(ms);
-						}
-					}
+					var userInfo = await FAReq.UserPage.ExecuteAsync(_credentials, username);
+					picUserIcon.ImageLocation = userInfo.avatar.AbsoluteUri;
 				}
 			} catch (Exception) { }
 		}
@@ -121,7 +112,7 @@ namespace CrosspostSharp3 {
 					}
 				}
 
-				await FAReq.SubmitPost.ExecuteAsync(_credentials, new FAModels.Submission(
+				await FAReq.CreateSubmission.ExecuteAsync(_credentials, new FAModels.NewSubmission(
 					data: data,
 					contentType: contentType,
 					title: txtTitle.Text,

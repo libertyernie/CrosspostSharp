@@ -1,6 +1,6 @@
 ﻿namespace FurAffinityFs.Models
 
-type Submission = {
+type NewSubmission = {
     data: byte[]
     contentType: string
     title: string

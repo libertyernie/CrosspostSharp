@@ -72,19 +72,17 @@ type FurAffinityAbstractSourceWrapper(scraps: bool) =
     }
 
     override this.FetchUserInternal() = async {
-        let dt = DateTime.UtcNow
         let! username = this.AsyncGetUsername()
-        DateTime.UtcNow - dt |> printfn "A %O"
-
-        let client = this.GetAPIClient()
         let! icon_uri =
             match this.GetScraper() with
-            | Some s -> FurAffinityFs.Requests.GetAvatar.AsyncExecute s username
-            | None -> async { return None }
-        DateTime.UtcNow - dt |> printfn "B %O"
+            | Some s ->
+                FurAffinityFs.Requests.UserPage.AsyncExecute s username
+                |> Swu.whenDone (fun o -> Some o.avatar.AbsoluteUri)
+            | None ->
+                async { return None }
         return {
             username = username
-            icon_url = icon_uri |> Option.map (fun u -> u.AbsoluteUri)
+            icon_url = icon_uri
         }
     }
 
