@@ -1,116 +1,96 @@
 ﻿namespace SourceWrappers
 
-open FAExportLib
-open System
 open FSharp.Control
 open FurAffinityFs
+open System
 
-type FurAffinityMinimalPostWrapper(submission: FAFolderSubmission, get: Async<IRemotePhotoPost>) =
+type FurAffinityMinimalPostWrapper(submission: Models.GalleryThumbnail, get: Async<IRemotePhotoPost>) =
     inherit DeferredPhotoPost()
 
-    override this.Title = submission.Title
-    override this.ViewURL = submission.Link
-    override this.ThumbnailURL = submission.Thumbnail
+    override this.Title = submission.title
+    override this.ViewURL = submission.href.AbsoluteUri
+    override this.ThumbnailURL = submission.thumbnail.AbsoluteUri
 
     override this.Timestamp = None
 
     override this.AsyncGetActual() = get
 
-type FurAffinityPostWrapper(submission: FASubmission) =
+type FurAffinityPostWrapper(submission: Models.ExistingSubmission) =
     interface IRemotePhotoPost with
-        member this.Title = submission.Title
-        member this.HTMLDescription =
-            let html = submission.Description
-            let index = html.IndexOf("<br><br>")
-            if index > 1 then
-                html.Substring(index + 8).TrimStart()
-            else
-                html
-        member this.Mature = submission.Rating.ToLowerInvariant() = "mature"
-        member this.Adult = submission.Rating.ToLowerInvariant() = "explicit"
-        member this.Tags = submission.Keywords
-        member this.Timestamp = submission.PostedAt.UtcDateTime
-        member this.ViewURL = submission.Link
-        member this.ImageURL = submission.Download
-        member this.ThumbnailURL = submission.Thumbnail
+        member this.Title = submission.title
+        member this.HTMLDescription = submission.description
+        member this.Mature = submission.rating <> Models.Rating.General
+        member this.Adult = submission.rating = Models.Rating.Adult
+        member this.Tags = submission.keywords
+        member this.Timestamp = DateTime.Now
+        member this.ViewURL = submission.href.AbsoluteUri
+        member this.ImageURL = submission.download.AbsoluteUri
+        member this.ThumbnailURL =
+            submission.thumbnail
+            |> Option.map (fun u -> u.AbsoluteUri)
+            |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
 
 [<AbstractClass>]
 type FurAffinityAbstractSourceWrapper(scraps: bool) =
     inherit AsyncSeqWrapper()
 
-    abstract GetAPIClient: unit -> FAClient
-    abstract GetScraper: unit -> IFurAffinityCredentials option
+    abstract GetCredentials: unit -> IFurAffinityCredentials
     abstract AsyncGetUsername: unit -> Async<string>
 
-    member this.GetSubmission id = async {
-        let apiClient = this.GetAPIClient()
-        return! apiClient.GetSubmissionAsync id |> Async.AwaitTask
-    }
+    member this.GetSubmission id =
+        Requests.ViewSubmission.AsyncExecute (this.GetCredentials()) id
     
     override __.Name = if scraps then "Fur Affinity (scraps)" else "Fur Affinity (gallery)"
 
     override this.FetchSubmissionsInternal() = asyncSeq {
-        let mutable page = 1
-        let mutable more = true
-
+        let folder =
+            if scraps
+            then Requests.Gallery.Folder.Scraps
+            else Requests.Gallery.Folder.Gallery
         let! username = this.AsyncGetUsername()
-        let apiClient = this.GetAPIClient()
+        let mutable page_href = Some (Requests.Gallery.GetFirstPageHref folder username)
 
-        while more do
-            let folder = if scraps then FAFolder.scraps else FAFolder.gallery
+        let credentials = this.GetCredentials()
 
-            let! gallery = apiClient.GetSubmissionsAsync(username, folder, page) |> Async.AwaitTask
-            for post in gallery do
+        while Option.isSome page_href do
+            let! gallery = Requests.Gallery.AsyncExecute credentials page_href.Value
+            for post in gallery.submissions do
                 let get = async {
-                    let! p = this.GetSubmission post.Id
+                    let! p = this.GetSubmission post.sid
                     return new FurAffinityPostWrapper(p) :> IRemotePhotoPost
                 }
                 yield new FurAffinityMinimalPostWrapper(post, get) :> IPostBase
-        
-            page <- page + 1
-            more <- Seq.length gallery > 0
+
+            page_href <- gallery.next_page_href
     }
 
     override this.FetchUserInternal() = async {
         let! username = this.AsyncGetUsername()
         let! icon_uri =
-            match this.GetScraper() with
-            | Some s ->
-                FurAffinityFs.Requests.UserPage.AsyncExecute s username
-                |> Swu.whenDone (fun o -> Some o.avatar.AbsoluteUri)
-            | None ->
-                async { return None }
+            FurAffinityFs.Requests.UserPage.AsyncExecute (this.GetCredentials()) username
+            |> Swu.whenDone (fun o -> Some o.avatar.AbsoluteUri)
         return {
             username = username
             icon_url = icon_uri
         }
     }
 
-type FurAffinityUserSourceWrapper(username: string, scraps: bool) =
+type FurAffinityUserSourceWrapper(creds: IFurAffinityCredentials, username: string, scraps: bool) =
     inherit FurAffinityAbstractSourceWrapper(scraps)
 
-    override __.GetAPIClient() = new FAClient()
-    override __.GetScraper() = None
+    override __.GetCredentials() = creds
     override __.AsyncGetUsername() = async { return username }
 
-type FurAffinityMinimalSourceWrapper(a: string, b: string, scraps: bool) =
+type FurAffinityMinimalSourceWrapper(creds: IFurAffinityCredentials, scraps: bool) =
     inherit FurAffinityAbstractSourceWrapper(scraps)
 
-    let apiClient = FAUserClient(a, b)
-    let scraper = {
-        new IFurAffinityCredentials with
-            member __.A = a
-            member __.B = b
-    }
+    override __.GetCredentials() = creds
+    override __.AsyncGetUsername() = FurAffinityFs.Requests.Whoami.AsyncExecute creds
 
-    override __.GetAPIClient() = apiClient :> FAClient
-    override __.GetScraper() = Some scraper
-    override __.AsyncGetUsername() = FurAffinityFs.Requests.Whoami.AsyncExecute scraper
-
-type FurAffinitySourceWrapper(a: string, b: string, scraps: bool) =
+type FurAffinitySourceWrapper(creds: IFurAffinityCredentials, scraps: bool) =
     inherit AsyncSeqWrapper()
 
-    let source = new FurAffinityMinimalSourceWrapper(a, b, scraps)
+    let source = new FurAffinityMinimalSourceWrapper(creds, scraps)
 
     let wrap id = async {
         let! post = source.GetSubmission id

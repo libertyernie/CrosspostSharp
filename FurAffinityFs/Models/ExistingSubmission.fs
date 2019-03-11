@@ -4,6 +4,7 @@ open System
 
 type ExistingSubmission = {
     title: string
+    href: Uri
     description: string
     name: string
     download: Uri

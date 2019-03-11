@@ -10,9 +10,8 @@ module ViewSubmission =
     type internal ViewSubmissionHtml = HtmlProvider<"https://www.furaffinity.net/view/30761803/">
 
     let AsyncExecute (credentials: IFurAffinityCredentials) (sid: int) = async {
-        let! html =
-            sprintf "/view/%d/" sid
-            |> Shared.AsyncGetHtml credentials
+        let href = sprintf "/view/%d/" sid
+        let! html = Shared.AsyncGetHtml credentials href
         let page = ViewSubmissionHtml.Parse html
         return {
             title =
@@ -20,16 +19,17 @@ module ViewSubmission =
                 |> Seq.map (fun e -> e.InnerText())
                 |> Seq.except ["Owner Options"]
                 |> Seq.head
+            href = href |> Shared.ToUri
             description = Seq.head (seq {
                 let index1 = html.IndexOf("""<td valign="top" align="left" width="70%" class="alt1" style="padding:8px">""")
                 if index1 > -1 then
                     let substr1 = html.Substring(index1)
                     let index2 = substr1.IndexOf("<br/><br/>")
                     if index2 > -1 then
-                        let substr2 = substr1.Substring(index2)
+                        let substr2 = substr1.Substring(index2 + 10)
                         let index3 = substr2.IndexOf("</td>")
                         if index3 > -1 then
-                            yield html.Substring(0, index3)
+                            yield substr2.Substring(0, index3).Trim()
                 yield ""
             })
             name =

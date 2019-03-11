@@ -15,6 +15,8 @@
     <Compile Include="Models\User.fs" />
     <Compile Include="Models\ExistingSubmission.fs" />
     <Compile Include="Models\NewSubmission.fs" />
+    <Compile Include="Models\GalleryThumbnail.fs" />
+    <Compile Include="Models\GalleryPage.fs" />
     <Compile Include="Shared.fs" />
     <Compile Include="Requests\UserPage.fs" />
     <Compile Include="Requests\Whoami.fs" />
@@ -24,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FSharp.Control.AsyncSeq" Version="2.0.21" />
     <PackageReference Include="FSharp.Data" Version="3.0.0" />
   </ItemGroup>
 
