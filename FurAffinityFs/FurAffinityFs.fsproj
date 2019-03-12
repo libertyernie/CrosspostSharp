@@ -18,6 +18,7 @@
     <Compile Include="Models\GalleryThumbnail.fs" />
     <Compile Include="Models\GalleryPage.fs" />
     <Compile Include="Shared.fs" />
+    <Compile Include="Requests\GetTimeZone.fs" />
     <Compile Include="Requests\UserPage.fs" />
     <Compile Include="Requests\Whoami.fs" />
     <Compile Include="Requests\Gallery.fs" />

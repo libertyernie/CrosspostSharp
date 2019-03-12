@@ -10,7 +10,7 @@ type ExistingSubmission = {
     download: Uri
     full: Uri
     thumbnail: Uri
-    date: string
+    date: DateTime
     keywords: seq<string>
     rating: Rating
 }

@@ -117,6 +117,7 @@ namespace CrosspostSharp3 {
 			txtTags.Text = string.Join(" ", _origWrapper.Tags);
 			chkMature.Checked = _origWrapper.Mature;
 			chkAdult.Checked = _origWrapper.Adult;
+			lblDateTime.Text = $"{_origWrapper.Timestamp} ({_origWrapper.Timestamp.Kind})";
 
 			Settings settings = Settings.Load();
 			settings.UpdateFormat();

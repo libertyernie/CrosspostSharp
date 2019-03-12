@@ -52,29 +52,24 @@ module ViewSubmission =
                 |> Seq.map (fun e -> e.AttributeValue "data-preview-src")
                 |> Seq.head
                 |> Shared.ToUri
-            date =
-                page.Html.CssSelect ".popup_date"
-                |> Seq.map (fun e -> e.AttributeValue "title")
-                |> Seq.head
-            //date = Seq.head (seq {
-            //    let regex = new Regex("([A-Za-z]+) ([0-9])+[^ ]+? ([0-9][0-9][0-9][0-9]) ([0-9][0-9]):([0-9][0-9]) (AM|PM)")
-            //    for e in page.Html.CssSelect ".popup_date" do
-            //        let m = e.AttributeValue "title" |> regex.Match
-            //        if m.Success then
-            //            let month = m.Groups.[1].Value
-            //            let day = m.Groups.[2].Value
-            //            let year = m.Groups.[3].Value
-            //            let hour = m.Groups.[4].Value
-            //            let minute = m.Groups.[5].Value
-            //            let ampm = m.Groups.[6].Value
-            //            let (ok, dt) =
-            //                sprintf "%s %s %s %s:%s %s" month day year hour minute ampm
-            //                |> DateTime.TryParse
-            //            if ok then
-            //                let tz = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")
-            //                yield TimeZoneInfo.ConvertTimeToUtc(dt, tz)
-            //    yield DateTime.UtcNow
-            //})
+            date = Seq.head (seq {
+                let regex = new Regex("([A-Za-z]+) ([0-9])+[^ ]+? ([0-9][0-9][0-9][0-9]) ([0-9][0-9]):([0-9][0-9]) (AM|PM)")
+                for e in page.Html.CssSelect ".popup_date" do
+                    for s in [e.AttributeValue "title"; e.InnerText()] do
+                        let m = regex.Match s
+                        if m.Success then
+                            let month = m.Groups.[1].Value
+                            let day = m.Groups.[2].Value
+                            let year = m.Groups.[3].Value
+                            let hour = m.Groups.[4].Value
+                            let minute = m.Groups.[5].Value
+                            let ampm = m.Groups.[6].Value
+                            let (ok, dt) =
+                                sprintf "%s %s %s %s:%s %s" month day year hour minute ampm
+                                |> DateTime.TryParse
+                            if ok then yield dt
+                yield DateTime.Now
+            })
             keywords =
                 page.Html.CssSelect "#keywords a"
                 |> Seq.map (fun e -> e.InnerText())

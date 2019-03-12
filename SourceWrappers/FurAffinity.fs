@@ -15,14 +15,14 @@ type FurAffinityMinimalPostWrapper(submission: Models.GalleryThumbnail, get: Asy
 
     override __.AsyncGetActual() = get
 
-type FurAffinityPostWrapper(submission: Models.ExistingSubmission) =
+type FurAffinityPostWrapper(submission: Models.ExistingSubmission, timeZone: TimeZoneInfo) =
     interface IRemotePhotoPost with
         member __.Title = submission.title
         member __.HTMLDescription = submission.description
         member __.Mature = submission.rating <> Models.Rating.General
         member __.Adult = submission.rating = Models.Rating.Adult
         member __.Tags = submission.keywords
-        member __.Timestamp = DateTime.Now
+        member __.Timestamp = TimeZoneInfo.ConvertTimeToUtc(submission.date, timeZone)
         member __.ViewURL = submission.href.AbsoluteUri
         member __.ImageURL = submission.full.AbsoluteUri
         member __.ThumbnailURL = submission.thumbnail.AbsoluteUri
@@ -43,11 +43,12 @@ type FurAffinityAbstractSourceWrapper(credentials: IFurAffinityCredentials, scra
             then Requests.Gallery.Folder.Scraps
             else Requests.Gallery.Folder.Gallery
         let! username = this.AsyncGetUsername()
+        let! tz = Requests.GetTimeZone.AsyncExecuteWithDefault credentials TimeZoneInfo.Local
 
         for post in Requests.Gallery.ToAsyncSeq credentials folder username do
             let get = async {
                 let! p = this.GetSubmission post.sid
-                return new FurAffinityPostWrapper(p) :> IRemotePhotoPost
+                return new FurAffinityPostWrapper(p, tz) :> IRemotePhotoPost
             }
             yield new FurAffinityMinimalPostWrapper(post, get) :> IPostBase
     }
