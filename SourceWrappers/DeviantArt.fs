@@ -16,7 +16,7 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: DeviationMetadata opt
             |> Option.defaultValue (deviation.deviationid.ToString())
         member this.HTMLDescription =
             match metadata with
-                | Some m -> m.description
+                | Some m -> m.description.Replace("https://www.deviantart.com/users/outgoing?", "")
                 | None -> null
         member this.Mature =
             deviation.is_mature
