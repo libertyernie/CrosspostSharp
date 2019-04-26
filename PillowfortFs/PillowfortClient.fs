@@ -14,7 +14,7 @@ type PillowfortClient() =
     let pillowfail str = raise (PillowfortClientException str)
 
     let cookies = new CookieContainer()
-    let cookie_wrapper = new SingleCookieWrapper(cookies, new Uri("https://www.pillowfort.io"), "_Pillowfort_session")
+    let cookie_wrapper = new SingleCookieWrapper(cookies, new Uri("https://www.pillowfort.social"), "_Pillowfort_session")
 
     let createRequest (url: string) =
         WebRequest.CreateHttp(url, UserAgent = UserAgent.String, CookieContainer = cookies)
@@ -29,7 +29,7 @@ type PillowfortClient() =
         and set (v: string) = cookie_wrapper.setCookieValue <| Option.ofObj v
 
     member __.AsyncWhoami = async {
-        let req = createRequest "https://www.pillowfort.io/edit/username"
+        let req = createRequest "https://www.pillowfort.social/edit/username"
 
         use! resp = req.AsyncGetResponse()
         use sr = new StreamReader(resp.GetResponseStream())
@@ -43,7 +43,7 @@ type PillowfortClient() =
     }
 
     member __.AsyncGetAvatar = async {
-        let req = createRequest "https://www.pillowfort.io/settings"
+        let req = createRequest "https://www.pillowfort.social/settings"
 
         use! resp = req.AsyncGetResponse()
         use sr = new StreamReader(resp.GetResponseStream())
@@ -54,7 +54,7 @@ type PillowfortClient() =
     }
 
     member __.AsyncGetPosts username page = async {
-        let url = sprintf " https://www.pillowfort.io/%s/json/?p=%d" (WebUtility.UrlEncode(username)) page
+        let url = sprintf " https://www.pillowfort.social/%s/json/?p=%d" (WebUtility.UrlEncode(username)) page
         let req = createRequest url
 
         use! resp = req.AsyncGetResponse()
@@ -69,7 +69,7 @@ type PillowfortClient() =
             invalidArg "post" "Commas are not allowed in tags"
 
         // Get the server-generated token for the form submission
-        let! a = AuthenticityToken.get_authenticity_token "https://www.pillowfort.io/posts/new" cookies
+        let! a = AuthenticityToken.get_authenticity_token "https://www.pillowfort.social/posts/new" cookies
 
         let authenticity_token =
             match a with
@@ -81,7 +81,7 @@ type PillowfortClient() =
         let h2 = sprintf "--%s" h1
         let h3 = sprintf "--%s--" h1
 
-        let req = createRequest "https://www.pillowfort.io/posts/create"
+        let req = createRequest "https://www.pillowfort.social/posts/create"
         req.Method <- "POST"
         req.ContentType <- sprintf "multipart/form-data; boundary=%s" h1
 
@@ -179,14 +179,14 @@ type PillowfortClient() =
     }
 
     member __.AsyncDeletePost id = async {
-        let req = sprintf "https://www.pillowfort.io/posts/%d/destroy" id |> createRequest
+        let req = sprintf "https://www.pillowfort.social/posts/%d/destroy" id |> createRequest
         req.Method <- "POST"
         use! resp = req.AsyncGetResponse()
         return ignore resp
     }
 
     member __.AsyncSignout = async {
-        let req = createRequest "https://www.pillowfort.io/signout"
+        let req = createRequest "https://www.pillowfort.social/signout"
         use! resp = req.AsyncGetResponse()
         return ignore resp
     }

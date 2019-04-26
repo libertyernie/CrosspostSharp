@@ -43,7 +43,7 @@ type PillowfortPost = {
     liked: bool
 }
 
-// https://www.pillowfort.io/{username}/json/?p=1
+// https://www.pillowfort.social/{username}/json/?p=1
 type PillowfortPostsResponse = {
     posts: seq<PillowfortPost>
     total_count: int

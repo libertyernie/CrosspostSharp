@@ -18,14 +18,14 @@ module PillowfortClientFactory =
         let cookies = new CookieContainer()
 
         // Get the server-generated token for the form submission
-        let! a = AuthenticityToken.get_authenticity_token "https://www.pillowfort.io/users/sign_in" cookies
+        let! a = AuthenticityToken.get_authenticity_token "https://www.pillowfort.social/users/sign_in" cookies
 
         let authenticity_token =
             match a with
             | Some s -> s
             | None -> pillowfail "Authenticity token not found"
         
-        let req = WebRequest.CreateHttp("https://www.pillowfort.io/users/sign_in", CookieContainer = cookies, UserAgent = ua, Method = "POST", ContentType = "application/x-www-form-urlencoded")
+        let req = WebRequest.CreateHttp("https://www.pillowfort.social/users/sign_in", CookieContainer = cookies, UserAgent = ua, Method = "POST", ContentType = "application/x-www-form-urlencoded")
 
         let parameters = [
             sprintf "%s=%s" "utf8" (WebUtility.UrlEncode "✓")
@@ -51,7 +51,7 @@ module PillowfortClientFactory =
         if resp.ResponseUri.AbsolutePath <> "/" then
             pillowfail "Did not redirect to / as expected"
 
-        let cookie = cookies.GetCookies(new Uri("https://www.pillowfort.io")).["_Pillowfort_session"]
+        let cookie = cookies.GetCookies(new Uri("https://www.pillowfort.social")).["_Pillowfort_session"]
         if isNull cookie then
             pillowfail "_Pillowfort_session cookie not found"
 

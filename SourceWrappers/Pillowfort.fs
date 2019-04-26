@@ -12,7 +12,7 @@ type PillowfortPostWrapper(client: PillowfortClient, post: PillowfortPost, media
         member __.Adult = post.nsfw
         member __.Tags = post.tags
         member __.Timestamp = post.created_at.UtcDateTime
-        member __.ViewURL = sprintf "https://pillowfort.io/posts/%d" post.id
+        member __.ViewURL = sprintf "https://pillowfort.social/posts/%d" post.id
         member __.ImageURL =
             match media with
             | Some m -> m.url

@@ -106,7 +106,7 @@ namespace CrosspostSharp3 {
 				nsfw: false,
 				media: PillowfortFs.PillowfortMediaBuilder.None));
 			string username = await client.WhoamiAsync();
-			return new Uri($"https://pillowfort.io/{username}");
+			return new Uri($"https://pillowfort.social/{username}");
 		}
 
 		private async Task<Uri> PostToTwitter(Settings.TwitterSettings t) {
