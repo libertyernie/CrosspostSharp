@@ -1,6 +1,7 @@
 ﻿using CrosspostSharp3.DeviantArt;
 using FlickrNet;
 using FurAffinityFs;
+using MapleFedNet.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -98,7 +99,7 @@ namespace CrosspostSharp3 {
 
 		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
 
-		public struct MastodonSettings : IAccountCredentials {
+		public struct MastodonSettings : IAccountCredentials, IMastodonCredentials {
 			public string Instance;
 			public string accessToken;
 			public string username;
@@ -112,6 +113,9 @@ namespace CrosspostSharp3 {
 			public MigratedAuth auth;
 
 			string IAccountCredentials.Username => username;
+
+			string IMastodonCredentials.Domain => Instance;
+			string IMastodonCredentials.Token => accessToken;
 		}
 
 		public List<PillowfortSettings> Pillowfort = new List<PillowfortSettings>();

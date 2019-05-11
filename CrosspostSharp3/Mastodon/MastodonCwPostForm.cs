@@ -54,7 +54,7 @@ namespace CrosspostSharp3 {
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
 			try {
-				var user = await Mastodon.Api.Accounts.VerifyCredentials(_s.Instance, _s.accessToken);
+				var user = await MapleFedNet.Api.Accounts.VerifyCredentials(_s);
 				lblUsername1.Text = user.DisplayName;
 				lblUsername2.Text = "@" + user.UserName + "@" + _s.Instance;
 
@@ -77,13 +77,12 @@ namespace CrosspostSharp3 {
 					attachment_data = _downloaded.Data;
 				}
 				var attachments = attachment_data == null
-					? Enumerable.Empty<Mastodon.Model.Attachment>()
+					? Enumerable.Empty<MapleFedNet.Model.Attachment>()
 					: new[] {
-						await Mastodon.Api.Media.Uploading(_s.Instance, _s.accessToken, attachment_data, txtImageDescription.Text)
+						await MapleFedNet.Api.Media.Uploading(_s, attachment_data, txtImageDescription.Text)
 					};
-				await Mastodon.Api.Statuses.Posting(
-					_s.Instance,
-					_s.accessToken,
+				await MapleFedNet.Api.Statuses.Posting(
+					_s,
 					txtContent.Text,
 					sensitive: chkImageSensitive.Checked,
 					spoiler_text: chkContentWarning.Checked ? txtContentWarning.Text : null,

@@ -84,9 +84,8 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<Uri> PostToMastodon(Settings.MastodonSettings m) {
-			var status = await Mastodon.Api.Statuses.Posting(
-				m.Instance,
-				m.accessToken,
+			var status = await MapleFedNet.Api.Statuses.Posting(
+				m,
 				CurrentText,
 				spoiler_text: textBox1.Text == "" ? null : textBox1.Text);
 			return new Uri(status.Url);

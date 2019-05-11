@@ -1,7 +1,8 @@
 ﻿namespace SourceWrappers
 
-open Mastodon.Model
 open FSharp.Control
+open MapleFedNet.Model
+open MapleFedNet.Common
 
 type MastodonPostWrapper(status: Status) =
     member __.SpoilerText = status.SpoilerText
@@ -26,10 +27,10 @@ type MastodonVideoPostWrapper(status: Status, attachment: Attachment) =
         member __.VideoURL = attachment.Url
         member __.ThumbnailURL = attachment.PreviewUrl
 
-type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
+type MastodonSourceWrapper(credentials: IMastodonCredentials, photosOnly: bool) =
     inherit AsyncSeqWrapper()
 
-    let user_task = lazy(Mastodon.Api.Accounts.VerifyCredentials(domain, token))
+    let user_task = lazy(MapleFedNet.Api.Accounts.VerifyCredentials(credentials))
 
     let getUser = user_task.Force() |> Async.AwaitTask
 
@@ -38,18 +39,18 @@ type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
 
     override __.Name =
         if photosOnly then
-            sprintf "%s (images)" domain
+            sprintf "%s (images)" credentials.Domain
         else
-            sprintf "%s (text + images)" domain
+            sprintf "%s (text + images)" credentials.Domain
 
     override __.FetchSubmissionsInternal() = asyncSeq {
         let! user = getUser
 
-        let mutable maxId = 0L
+        let mutable maxId = ""
         let mutable more = true
 
         while more do
-            let! toots = Mastodon.Api.Accounts.Statuses(domain, token, user.Id, maxId) |> Async.AwaitTask
+            let! toots = MapleFedNet.Api.Accounts.Statuses(credentials, user.Id, maxId) |> Async.AwaitTask
 
             for t in toots do
                 if isNull t.Reblog then
@@ -67,11 +68,11 @@ type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
                         for a in gifs do
                             yield new MastodonVideoPostWrapper(t, a) :> IPostBase
                 
-            if toots.MaxId.HasValue then
-                maxId <- toots.MaxId.Value
-                more <- true
-            else
+            if System.String.IsNullOrEmpty toots.MaxId then
                 more <- false
+            else
+                maxId <- toots.MaxId
+                more <- true
     }
 
     override __.FetchUserInternal() = async {

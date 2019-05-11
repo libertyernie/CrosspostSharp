@@ -14,22 +14,22 @@ namespace CrosspostSharp3 {
 					using (var f = new MastodonLoginDialog()) {
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var oauth = await Mastodon.Api.Apps.Register(
+								var oauth = await MapleFedNet.Api.Apps.Register(
 									f.Instance,
 									"CrosspostSharp",
 									scopes: new[] {
-										Mastodon.Model.Scope.Read,
-										Mastodon.Model.Scope.Write
+										MapleFedNet.Model.Scope.Read,
+										MapleFedNet.Model.Scope.Write
 									});
-								var token = await Mastodon.Api.OAuth.GetAccessTokenByPassword(
+								var token = await MapleFedNet.Api.OAuth.GetAccessTokenByPassword(
 									f.Instance,
 									oauth.ClientId,
 									oauth.ClientSecret,
 									f.Email,
 									f.Password,
-									Mastodon.Model.Scope.Read,
-									Mastodon.Model.Scope.Write);
-								var account = await Mastodon.Api.Accounts.VerifyCredentials(f.Instance, token.AccessToken);
+									MapleFedNet.Model.Scope.Read,
+									MapleFedNet.Model.Scope.Write);
+								var account = await MapleFedNet.Api.Accounts.VerifyCredentials(new MapleFedNet.Common.MastodonCredentials(f.Instance, token.AccessToken));
 								return new[] {
 									new Settings.MastodonSettings {
 										Instance = f.Instance,
