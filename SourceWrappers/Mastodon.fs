@@ -67,9 +67,11 @@ type MastodonSourceWrapper(domain: string, token: string, photosOnly: bool) =
                         for a in gifs do
                             yield new MastodonVideoPostWrapper(t, a) :> IPostBase
                 
-            more <- not (Seq.isEmpty toots)
-            if more then
-                maxId <- (toots |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
+            if toots.MaxId.HasValue then
+                maxId <- toots.MaxId.Value
+                more <- true
+            else
+                more <- false
     }
 
     override __.FetchUserInternal() = async {
