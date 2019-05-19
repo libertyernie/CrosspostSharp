@@ -112,6 +112,12 @@
     <Compile Include="ImageUtils.cs" />
     <Compile Include="Imgur\ImgurAnonymousUpload.cs" />
     <Compile Include="Imgur\PreviousImgurUploadsWrapper.cs" />
+    <Compile Include="Mastodon\FocalPointForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Mastodon\FocalPointForm.Designer.cs">
+      <DependentUpon>FocalPointForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mastodon\MainForm.Mastodon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FurryNetwork\FurryNetworkPostForm.resx">
       <DependentUpon>FurryNetworkPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mastodon\FocalPointForm.resx">
+      <DependentUpon>FocalPointForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Mastodon\MastodonCwPostForm.resx">
       <DependentUpon>MastodonCwPostForm.cs</DependentUpon>

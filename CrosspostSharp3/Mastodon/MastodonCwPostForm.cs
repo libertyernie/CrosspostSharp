@@ -73,8 +73,21 @@ namespace CrosspostSharp3 {
 			}
 			try {
 				byte[] attachment_data = null;
+				(double, double)? focus = null;
 				if (chkIncludeImage.Checked && _downloaded != null) {
 					attachment_data = _downloaded.Data;
+					if (chkFocalPoint.Checked) {
+						using (var ms = new MemoryStream(attachment_data, false))
+						using (var image = Image.FromStream(ms))
+						using (var f = new FocalPointForm(image)) {
+							if (f.ShowDialog() == DialogResult.OK) {
+								focus = f.FocalPoint;
+								return;
+							} else {
+								return;
+							}
+						}
+					}
 				}
 				var attachments = attachment_data == null
 					? Enumerable.Empty<MapleFedNet.Model.Attachment>()

@@ -34,6 +34,7 @@
             this.btnPost = new System.Windows.Forms.Button();
             this.chkImageSensitive = new System.Windows.Forms.CheckBox();
             this.txtImageDescription = new System.Windows.Forms.TextBox();
+            this.chkFocalPoint = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -154,11 +155,23 @@
             this.txtImageDescription.Size = new System.Drawing.Size(220, 20);
             this.txtImageDescription.TabIndex = 7;
             // 
+            // chkFocalPoint
+            // 
+            this.chkFocalPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkFocalPoint.AutoSize = true;
+            this.chkFocalPoint.Location = new System.Drawing.Point(126, 242);
+            this.chkFocalPoint.Name = "chkFocalPoint";
+            this.chkFocalPoint.Size = new System.Drawing.Size(114, 17);
+            this.chkFocalPoint.TabIndex = 20;
+            this.chkFocalPoint.Text = "Choose focal point";
+            this.chkFocalPoint.UseVisualStyleBackColor = true;
+            // 
             // MastodonCwPostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(342, 273);
+            this.Controls.Add(this.chkFocalPoint);
             this.Controls.Add(this.txtImageDescription);
             this.Controls.Add(this.chkImageSensitive);
             this.Controls.Add(this.btnPost);
@@ -192,5 +205,6 @@
 		private System.Windows.Forms.Button btnPost;
 		private System.Windows.Forms.CheckBox chkImageSensitive;
 		private System.Windows.Forms.TextBox txtImageDescription;
+		private System.Windows.Forms.CheckBox chkFocalPoint;
 	}
 }
