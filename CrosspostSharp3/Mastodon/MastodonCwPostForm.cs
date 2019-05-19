@@ -50,6 +50,7 @@ namespace CrosspostSharp3 {
 		private void chkIncludeImage_CheckedChanged(object sender, EventArgs e) {
 			chkImageSensitive.Enabled = chkIncludeImage.Checked;
 			txtImageDescription.Enabled = chkIncludeImage.Checked;
+			chkFocalPoint.Enabled = chkIncludeImage.Checked;
 		}
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
@@ -82,7 +83,6 @@ namespace CrosspostSharp3 {
 						using (var f = new FocalPointForm(image)) {
 							if (f.ShowDialog() == DialogResult.OK) {
 								focus = f.FocalPoint;
-								return;
 							} else {
 								return;
 							}
@@ -92,7 +92,7 @@ namespace CrosspostSharp3 {
 				var attachments = attachment_data == null
 					? Enumerable.Empty<MapleFedNet.Model.Attachment>()
 					: new[] {
-						await MapleFedNet.Api.Media.Uploading(_s, attachment_data, txtImageDescription.Text)
+						await MapleFedNet.Api.Media.Uploading(_s, attachment_data, txtImageDescription.Text, focus)
 					};
 				await MapleFedNet.Api.Statuses.Posting(
 					_s,

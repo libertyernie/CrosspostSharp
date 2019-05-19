@@ -159,6 +159,9 @@
             // 
             this.chkFocalPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkFocalPoint.AutoSize = true;
+            this.chkFocalPoint.Checked = true;
+            this.chkFocalPoint.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFocalPoint.Enabled = false;
             this.chkFocalPoint.Location = new System.Drawing.Point(126, 242);
             this.chkFocalPoint.Name = "chkFocalPoint";
             this.chkFocalPoint.Size = new System.Drawing.Size(114, 17);

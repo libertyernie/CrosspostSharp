@@ -30,8 +30,8 @@ namespace CrosspostSharp3 {
 
 		private void PictureBox1_Click(object sender, EventArgs e) {
 			var point = pictureBox1.PointToClient(Cursor.Position);
-			double newX = pictureBox1.Image.Width * point.X / (1.0 * pictureBox1.Width);
-			double newY = pictureBox1.Image.Height * point.Y / (1.0 * pictureBox1.Height);
+			double newX = 2.0 * point.X / (1.0 * pictureBox1.Width) - 1;
+			double newY = -2.0 * point.Y / (1.0 * pictureBox1.Height) + 1;
 			FocalPoint = (newX, newY);
 			DialogResult = DialogResult.OK;
 		}
