@@ -15,25 +15,21 @@ module ViewSubmission =
         let page = ViewSubmissionHtml.Parse html
         return {
             title =
-                page.Html.CssSelect "#page-submission .maintable td.cat b"
+                page.Html.CssSelect ".classic-submission-title.information h2"
                 |> Seq.map (fun e -> e.InnerText())
-                |> Seq.except ["Owner Options"]
                 |> Seq.head
             href = href |> Shared.ToUri
             description = Seq.head (seq {
                 let index1 = html.IndexOf("""<td valign="top" align="left" width="70%" class="alt1" style="padding:8px">""")
                 if index1 > -1 then
                     let substr1 = html.Substring(index1)
-                    let index2 = substr1.IndexOf("<br/><br/>")
-                    if index2 > -1 then
-                        let substr2 = substr1.Substring(index2 + 10)
-                        let index3 = substr2.IndexOf("</td>")
-                        if index3 > -1 then
-                            yield substr2.Substring(0, index3).Trim()
+                    let index3 = substr1.IndexOf("</td>")
+                    if index3 > -1 then
+                        yield substr1.Substring(0, index3).Trim()
                 yield ""
             })
             name =
-                page.Html.CssSelect "td.cat a"
+                page.Html.CssSelect ".classic-submission-title.information a"
                 |> Seq.map (fun e -> e.InnerText())
                 |> Seq.head
             download =
@@ -53,7 +49,7 @@ module ViewSubmission =
                 |> Seq.head
                 |> Shared.ToUri
             date = Seq.head (seq {
-                let regex = new Regex("([A-Za-z]+) ([0-9])+[^ ]+? ([0-9][0-9][0-9][0-9]) ([0-9][0-9]):([0-9][0-9]) (AM|PM)")
+                let regex = new Regex("([A-Za-z]+) ([0-9]+)[^ ]+? ([0-9][0-9][0-9][0-9]) ([0-9][0-9]):([0-9][0-9]) (AM|PM)")
                 for e in page.Html.CssSelect ".popup_date" do
                     for s in [e.AttributeValue "title"; e.InnerText()] do
                         let m = regex.Match s

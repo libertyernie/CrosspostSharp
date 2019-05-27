@@ -28,11 +28,8 @@ module Gallery =
                 for f in figures do
                     match f.AttributeValue "id" with
                     | Shared.HasPrefix "sid-" (Shared.CanParseInt sid) ->
-                        let t =
-                            (f.CssSelect "img" |> Seq.tryExactlyOne,
-                             f.CssSelect "figcaption" |> Seq.tryExactlyOne)
-                        match t with
-                        | ( Some img, Some caption) ->
+                        match (f.CssSelect "img", f.CssSelect "figcaption a") with
+                        | (img::_, caption::_) ->
                             yield {
                                 sid = sid
                                 title = caption.InnerText()

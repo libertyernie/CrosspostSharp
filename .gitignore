@@ -6,3 +6,4 @@ obj
 packages
 CrosspostSharp2/OAuthConsumer.cs
 CrosspostSharp3/OAuthConsumer.cs
+FurAffinityFs.Tests/Credentials.cs
