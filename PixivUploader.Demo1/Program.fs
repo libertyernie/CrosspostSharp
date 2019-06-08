@@ -7,7 +7,6 @@ open PixivUploader
 
 type IPixivCredentials =
     abstract member PHPSESSID: string
-    abstract member device_token: string
 
 module internal Shared =
     open System
@@ -35,7 +34,6 @@ module internal Shared =
     let GetCookiesFor (credentials: IPixivCredentials) =
         let c = new CookieContainer()
         c.Add(BaseUri, new Cookie("PHPSESSID", credentials.PHPSESSID))
-        c.Add(BaseUri, new Cookie("device_token", credentials.device_token))
         c
 
     let CreateRequest (credentials: IPixivCredentials) (uri: Uri) =
@@ -154,21 +152,20 @@ let main argv =
     let c = {
         new IPixivCredentials with
             member __.PHPSESSID = "4256133_33afe881f93dff6c02364258473e40df"
-            member __.device_token = "f7b4028eaa50ff78c1124a79bc9860fc"
     }
     let s = {
         new IPixivUploadParameters with
-            member __.title = "Test image 3"
-            member __.comment = "the description"
-            member __.tag = Seq.singleton "adfggfdgdf"
+            member __.title = "Fursona in profile"
+            member __.comment = "some practice"
+            member __.tag = ["lizard"; "fursona"; "furry"; "トカゲ"] :> seq<string>
             member __.x_restrict_sexual = ViewingRestriction.AllAges
             member __.sexual = SexualContent.None
             member __.lo = false
             member __.furry = true
             member __.bl = false
             member __.gl = false
-            member __.restrict = PrivacySettings.Private
+            member __.restrict = PrivacySettings.Public
             member __.original = true
     }
-    File.ReadAllBytes """C:\Users\admin\Pictures\600x600_by_doodle_shark-daqzb49.png""" |> AsyncExecute c s |> Async.RunSynchronously
+    File.ReadAllBytes """C:\Users\admin\Pictures\sona0501.png""" |> AsyncExecute c s |> Async.RunSynchronously
     0 // return an integer exit code
