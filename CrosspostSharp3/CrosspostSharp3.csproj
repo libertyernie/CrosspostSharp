@@ -357,6 +357,10 @@
       <Project>{cb2d34c8-7afc-4f4c-b08d-09460d50e06a}</Project>
       <Name>PillowfortFs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PixivUploader\PixivUploader.fsproj">
+      <Project>{86c790da-1453-40e5-a1c5-e3775f76e6b1}</Project>
+      <Name>PixivUploader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SourceWrappers\SourceWrappers.fsproj">
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
