@@ -152,6 +152,15 @@
     <Compile Include="Flickr\MainForm.Flickr.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Pixiv\MainForm.Pixiv.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pixiv\PixivPostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Pixiv\PixivPostForm.Designer.cs">
+      <DependentUpon>PixivPostForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StatusPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -282,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Pillowfort\PillowfortPostForm.resx">
       <DependentUpon>PillowfortPostForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pixiv\PixivPostForm.resx">
+      <DependentUpon>PixivPostForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatusPostForm.resx">
       <DependentUpon>StatusPostForm.cs</DependentUpon>

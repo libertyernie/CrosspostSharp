@@ -205,6 +205,14 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
+				foreach (var p in settings.PixivUpload) {
+					Settings.IAccountCredentials s = p;
+					listBox1.Items.Add(new DestinationOption($"Pixiv ({s.Username})", () => {
+						using (var f = new PixivPostForm(p, ExportAsText(), _downloaded)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 						using (var f = new TwitterPostForm(t, ExportAsText(), _downloaded)) {
