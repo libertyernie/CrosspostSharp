@@ -1,5 +1,7 @@
 namespace PixivUploader
 
+open System.IO
+
 type ViewingRestriction =
 | AllAges = 0
 | R18 = 1
@@ -14,17 +16,16 @@ type PrivacySettings =
 | MyPixivOnly = 1
 | Private = 2
 
-type NewSubmission = {
-    data: byte[]
-    title: string
-    comment: string
-    tag: seq<string> // space separated
-    x_restrict_sexual: ViewingRestriction
-    sexual: SexualContent // "" or implicit
-    lo: bool // minors
-    furry: bool
-    bl: bool // m/m
-    gl: bool // f/f
-    restrict: PrivacySettings
-    original: bool // original work
-}
+type INewSubmission =
+    abstract member Data: Stream
+    abstract member Title: string
+    abstract member Description: string
+    abstract member Tag: seq<string> // space separated
+    abstract member ViewingRestriction: ViewingRestriction
+    abstract member ImplicitSexualContent: SexualContent // "" or implicit
+    abstract member Minors: bool // minors
+    abstract member Furry: bool
+    abstract member BL: bool // m/m
+    abstract member GL: bool // f/f
+    abstract member PrivacySettings: PrivacySettings
+    abstract member OriginalWork: bool // original work
