@@ -25,7 +25,7 @@ module Uploader =
         return! sr.ReadToEndAsync() |> Async.AwaitTask
     }
 
-    let UploadIllustration (credentials: IPixivSession) (parameters: INewSubmission) = async {
+    let AsyncUploadIllustration (credentials: IPixivSession) (parameters: INewSubmission) = async {
        if parameters.Tag |> Seq.exists (fun p -> p.Contains(" ")) then
            failwithf "Spaces in tags not allowed"
 
@@ -107,4 +107,8 @@ module Uploader =
        use sr = new StreamReader(resp.GetResponseStream())
        let! html = sr.ReadToEndAsync() |> Async.AwaitTask
        ignore html
-}
+    }
+
+    let UploadIllustrationAsync (credentials: IPixivSession) (parameters: INewSubmission) =
+        AsyncUploadIllustration credentials parameters
+        |> Async.StartAsTask
