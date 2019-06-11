@@ -49,6 +49,16 @@ namespace CrosspostSharp3 {
 			}
 		}
 
+		private async void PixivPostForm_Shown(object sender, EventArgs e) {
+			try {
+				var userInfo = await Uploader.GetUserInfoAsync(_settings);
+				lblUsername1.Text = userInfo.username;
+			} catch (Exception ex) {
+				Settings.IAccountCredentials c = _settings;
+				lblUsername1.Text = c.Username;
+			}
+		}
+
 		Stream INewSubmission.Data => _ms;
 		string INewSubmission.Title => txtTitle.Text;
 		string INewSubmission.Description => txtDescription.Text;

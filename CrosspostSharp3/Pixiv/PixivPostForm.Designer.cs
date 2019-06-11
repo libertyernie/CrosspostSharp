@@ -16,7 +16,6 @@
             this.lblContent = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
-            this.picUserIcon = new System.Windows.Forms.PictureBox();
             this.lblUsername1 = new System.Windows.Forms.Label();
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblTags = new System.Windows.Forms.Label();
@@ -38,7 +37,6 @@
             this.radPublic = new System.Windows.Forms.RadioButton();
             this.chkOriginalWork = new System.Windows.Forms.CheckBox();
             this.btnPost = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -50,16 +48,16 @@
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(78, 92);
+            this.txtDescription.Location = new System.Drawing.Point(78, 61);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(331, 72);
+            this.txtDescription.Size = new System.Drawing.Size(331, 103);
             this.txtDescription.TabIndex = 25;
             // 
             // lblContent
             // 
             this.lblContent.AutoSize = true;
-            this.lblContent.Location = new System.Drawing.Point(12, 95);
+            this.lblContent.Location = new System.Drawing.Point(12, 64);
             this.lblContent.Name = "lblContent";
             this.lblContent.Size = new System.Drawing.Size(60, 13);
             this.lblContent.TabIndex = 24;
@@ -69,7 +67,7 @@
             // 
             this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTitle.Location = new System.Drawing.Point(78, 66);
+            this.txtTitle.Location = new System.Drawing.Point(78, 35);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(331, 20);
             this.txtTitle.TabIndex = 23;
@@ -77,29 +75,21 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(12, 69);
+            this.lblTitle.Location = new System.Drawing.Point(12, 38);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(27, 13);
             this.lblTitle.TabIndex = 22;
             this.lblTitle.Text = "Title";
-            // 
-            // picUserIcon
-            // 
-            this.picUserIcon.Location = new System.Drawing.Point(12, 12);
-            this.picUserIcon.Name = "picUserIcon";
-            this.picUserIcon.Size = new System.Drawing.Size(48, 48);
-            this.picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picUserIcon.TabIndex = 26;
-            this.picUserIcon.TabStop = false;
             // 
             // lblUsername1
             // 
             this.lblUsername1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUsername1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername1.Location = new System.Drawing.Point(66, 12);
+            this.lblUsername1.Location = new System.Drawing.Point(12, 12);
+            this.lblUsername1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.lblUsername1.Name = "lblUsername1";
-            this.lblUsername1.Size = new System.Drawing.Size(343, 17);
+            this.lblUsername1.Size = new System.Drawing.Size(397, 17);
             this.lblUsername1.TabIndex = 21;
             this.lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -344,11 +334,10 @@
             this.Controls.Add(this.lblContent);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.picUserIcon);
             this.Controls.Add(this.lblUsername1);
             this.Name = "PixivPostForm";
             this.Text = "Post to Pixiv";
-            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
+            this.Shown += new System.EventHandler(this.PixivPostForm_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -368,7 +357,6 @@
 		private System.Windows.Forms.Label lblContent;
 		private System.Windows.Forms.TextBox txtTitle;
 		private System.Windows.Forms.Label lblTitle;
-		private System.Windows.Forms.PictureBox picUserIcon;
 		private System.Windows.Forms.Label lblUsername1;
 		private System.Windows.Forms.TextBox txtTags;
 		private System.Windows.Forms.Label lblTags;

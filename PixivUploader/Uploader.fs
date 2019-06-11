@@ -105,10 +105,30 @@ module Uploader =
 
        use! resp = req2.AsyncGetResponse()
        use sr = new StreamReader(resp.GetResponseStream())
-       let! html = sr.ReadToEndAsync() |> Async.AwaitTask
-       ignore html
+       let! json = sr.ReadToEndAsync() |> Async.AwaitTask
+       ignore json
     }
 
     let UploadIllustrationAsync (credentials: IPixivSession) (parameters: INewSubmission) =
         AsyncUploadIllustration credentials parameters
+        |> Async.StartAsTask
+
+    type UserInfo = {
+        id: int32
+        username: string
+    }
+
+    let AsyncGetUserInfo (credentials: IPixivSession) = async {
+        let r = new Regex(""".*href="/member.php\?id=([0-9]+).*style="background-image: url\(([^\)]+)\).*?>([^< ][^<]+)""")
+        let! html = AsyncGetHtml credentials "/"
+        let m = r.Match html
+        return {
+            id = Int32.Parse m.Groups.[1].Value
+            //avatar_uri = m.Groups.[2].Value
+            username = m.Groups.[3].Value
+        }
+    }
+
+    let GetUserInfoAsync (credentials: IPixivSession) =
+        AsyncGetUserInfo credentials
         |> Async.StartAsTask
