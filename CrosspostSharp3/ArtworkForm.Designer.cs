@@ -26,6 +26,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArtworkForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblDateTime = new System.Windows.Forms.Label();
             this.wbrDescription = new System.Windows.Forms.WebBrowser();
             this.chkAdult = new System.Windows.Forms.CheckBox();
             this.chkMature = new System.Windows.Forms.CheckBox();
@@ -51,7 +52,7 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.lblDateTime = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -74,6 +75,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.button1);
             this.splitContainer1.Panel2.Controls.Add(this.lblDateTime);
             this.splitContainer1.Panel2.Controls.Add(this.wbrDescription);
             this.splitContainer1.Panel2.Controls.Add(this.chkAdult);
@@ -98,6 +100,16 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            // 
+            // lblDateTime
+            // 
+            this.lblDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDateTime.Location = new System.Drawing.Point(96, 171);
+            this.lblDateTime.Name = "lblDateTime";
+            this.lblDateTime.Size = new System.Drawing.Size(255, 23);
+            this.lblDateTime.TabIndex = 13;
+            this.lblDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // wbrDescription
             // 
@@ -333,15 +345,14 @@
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
-            // lblDateTime
+            // button1
             // 
-            this.lblDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDateTime.Location = new System.Drawing.Point(96, 171);
-            this.lblDateTime.Name = "lblDateTime";
-            this.lblDateTime.Size = new System.Drawing.Size(255, 23);
-            this.lblDateTime.TabIndex = 13;
-            this.lblDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.button1.Location = new System.Drawing.Point(36, 88);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // ArtworkForm
             // 
@@ -399,5 +410,6 @@
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label lblDateTime;
+		private System.Windows.Forms.Button button1;
 	}
 }

@@ -112,12 +112,19 @@ namespace CrosspostSharp3 {
 			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (_origWrapper is SavedPhotoPost x && x.url != null);
 			txtTitle.Text = _origWrapper.Title;
 			wbrDescription.Navigate("about:blank");
-			wbrDescription.Document.Write($"<html><head></head><body>{_origWrapper.HTMLDescription}</body></html>");
+			string html = _origWrapper.HTMLDescription;
+			wbrDescription.Document.Write($"<html><head></head><body>{html}</body></html>");
 			wbrDescription.Document.Body.SetAttribute("contenteditable", "true");
 			txtTags.Text = string.Join(" ", _origWrapper.Tags);
 			chkMature.Checked = _origWrapper.Mature;
 			chkAdult.Checked = _origWrapper.Adult;
 			lblDateTime.Text = $"{_origWrapper.Timestamp} ({_origWrapper.Timestamp.Kind})";
+
+			try {
+				MakeLinksAbsolute();
+			} catch (Exception ex) {
+				Console.Error.WriteLine(ex);
+			}
 
 			Settings settings = Settings.Load();
 			settings.UpdateFormat();
@@ -403,6 +410,33 @@ namespace CrosspostSharp3 {
 		private void mainWindowAccountSetupToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var f = new MainForm()) {
 				f.ShowDialog(this);
+			}
+		}
+
+		private void MakeLinksAbsolute() {
+			if (!Uri.TryCreate(_origWrapper.ViewURL, UriKind.Absolute, out Uri u1))
+				return;
+
+			var links = wbrDescription.Document.GetElementsByTagName("a");
+			for (int i = 0; i < links.Count; i++) {
+				var a = links[i];
+				string href = a.GetAttribute("href");
+				if (href.StartsWith("about:"))
+					href = href.Substring(6);
+				if (Uri.TryCreate(href, UriKind.RelativeOrAbsolute, out Uri u2)) {
+					a.SetAttribute("href", new Uri(u1, u2).AbsoluteUri);
+				}
+			}
+
+			var images = wbrDescription.Document.GetElementsByTagName("img");
+			for (int i = 0; i < images.Count; i++) {
+				var img = images[i];
+				string src = img.GetAttribute("src");
+				if (src.StartsWith("about:"))
+					src = src.Substring(6);
+				if (Uri.TryCreate(src, UriKind.RelativeOrAbsolute, out Uri u2)) {
+					img.SetAttribute("src", new Uri(u1, u2).AbsoluteUri);
+				}
 			}
 		}
 	}
