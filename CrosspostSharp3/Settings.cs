@@ -127,15 +127,14 @@ namespace CrosspostSharp3 {
 
 			string IAccountCredentials.Username => boardName;
 		}
-		
-		public struct PixivSettings : IAccountCredentials {
-			public string username;
-			public string password;
 
-			string IAccountCredentials.Username => username;
+		public struct PixivUploadSettings : PixivUploader.IPixivSession, IAccountCredentials {
+			public string PHPSESSID { get; set; }
+
+			string IAccountCredentials.Username => PHPSESSID;
 		}
 
-		public List<PixivSettings> Pixiv = new List<PixivSettings>();
+		public List<PixivUploadSettings> PixivUpload = new List<PixivUploadSettings>();
 
 		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
