@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Eclipse\gallery-contents.json" />
+    <Compile Include="Eclipse\Types.fs" />
+    <Compile Include="Eclipse\GalleryContents.fs" />
     <Compile Include="Posts.fs" />
     <Compile Include="SavedPhotoPost.fs" />
     <Compile Include="AsyncSeqWrapper.fs" />
     <Compile Include="AsyncSeqWrapperPagedConsumer.fs" />
     <Compile Include="DeviantArt.fs" />
+    <Compile Include="DeviantArtEclipse.fs" />
     <Compile Include="DeviantArtScraps.fs" />
     <Compile Include="DeviantArtStatus.fs" />
     <Compile Include="Flickr.fs" />
@@ -29,6 +33,7 @@
     <PackageReference Include="DeviantArtFs" Version="2.0.0-beta3" />
     <PackageReference Include="FlickrNet" Version="3.25.0" />
     <PackageReference Include="FSharp.Control.AsyncSeq" Version="2.0.21" />
+    <PackageReference Include="FSharp.Data" Version="3.1.1" />
     <PackageReference Include="MapleFedNet" Version="1.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NewTumblrSharp" Version="1.1.141" />
