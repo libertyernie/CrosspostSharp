@@ -5,12 +5,24 @@ open System.IO
 open System.Net
 open FSharp.Control
 
+[<RequireQualifiedAccess>]
+type GalleryContentsSource =
+| Folder of int
+| All
+| Scraps
+| Default
+
+[<RequireQualifiedAccess>]
+type GalleryContentsMode =
+| Newest
+| Default
+
 type GalleryContentsRequest(username: string, ?offset: int) =
     member __.Username = username
     member __.Offset = offset |> Option.defaultValue 0
     member val Limit: int option = None with get, set
-    member val FolderId: int option = None with get, set
-    member val ScrapsFolder = false with get, set
+    member val Folder = GalleryContentsSource.Default with get, set
+    member val Mode = GalleryContentsMode.Newest with get, set
 
 module GalleryContents =
     let AsyncGet (req: GalleryContentsRequest) = async {
@@ -20,12 +32,14 @@ module GalleryContents =
             match req.Limit with
             | Some l -> yield l |> sprintf "limit=%d"
             | None -> ()
-            match req.FolderId with
-            | Some f -> yield f |> sprintf "folderid=%d"
-            | None -> ()
-            match req.ScrapsFolder with
-            | true -> yield "scraps_folder=true"
-            | false -> ()
+            match req.Folder with
+            | GalleryContentsSource.Folder f -> yield f |> sprintf "folderid=%d"
+            | GalleryContentsSource.All -> yield "all_folder=true"
+            | GalleryContentsSource.Scraps -> yield "scraps_folder=true"
+            | GalleryContentsSource.Default -> ()
+            match req.Mode with
+            | GalleryContentsMode.Newest -> yield "mode=newest"
+            | GalleryContentsMode.Default -> ()
         }
         let req =
             query
@@ -50,8 +64,7 @@ module GalleryContents =
             try
                 let r = new GalleryContentsRequest(req.Username, next)
                 r.Limit <- req.Limit
-                r.FolderId <- req.FolderId
-                r.ScrapsFolder <- req.ScrapsFolder
+                r.Folder <- req.Folder
                 let! data = AsyncGet r
                 for x in data.Results do
                     yield x.Deviation

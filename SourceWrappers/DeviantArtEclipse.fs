@@ -44,10 +44,10 @@ type DeviantArtEclipseDeferredPostWrapper(deviation: GalleryContentsResponse.Dev
 type DeviantArtEclipseSourceWrapper(username: string) =
     inherit AsyncSeqWrapper()
 
-    override __.Name = "DeviantArt (Eclipse - Gallery)"
+    override __.Name = "DeviantArt (gallery)"
 
     override __.FetchSubmissionsInternal() =
-        new GalleryContentsRequest(username, Limit = Some 24)
+        new GalleryContentsRequest(username, Limit = Some 24, Folder = GalleryContentsSource.All)
         |> GalleryContents.AsyncGetAllResults
         |> AsyncSeq.map DeviantArtEclipseDeferredPostWrapper
         |> AsyncSeq.map (fun x -> x :> IPostBase)
@@ -62,10 +62,10 @@ type DeviantArtEclipseSourceWrapper(username: string) =
 type DeviantArtEclipseScrapsSourceWrapper(username: string) =
     inherit AsyncSeqWrapper()
     
-    override __.Name = "DeviantArt (Eclipse - Scraps)"
+    override __.Name = "DeviantArt (scraps)"
     
     override __.FetchSubmissionsInternal() =
-        new GalleryContentsRequest(username, Limit = Some 24, ScrapsFolder = true)
+        new GalleryContentsRequest(username, Limit = Some 24, Folder = GalleryContentsSource.Scraps)
         |> GalleryContents.AsyncGetAllResults
         |> AsyncSeq.map DeviantArtEclipseDeferredPostWrapper
         |> AsyncSeq.map (fun x -> x :> IPostBase)

@@ -133,12 +133,10 @@ namespace CrosspostSharp3 {
 				this.Enabled = true;
 
 				add(new DeviantArtSourceWrapper(da, includeLiterature: false));
-				add(new DeviantArtScrapsLinkSourceWrapper(da));
+				add(new DeviantArtEclipseScrapsSourceWrapper(da.Username));
+				//add(new DeviantArtScrapsLinkSourceWrapper(da));
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
-
-				//add(new DeviantArtEclipseSourceWrapper(da.Username));
-				//add(new DeviantArtEclipseScrapsSourceWrapper(da.Username));
 			}
 			foreach (var fl in s.Flickr) {
 				lblLoadStatus.Text = $"Adding Flickr {fl.username}...";
