@@ -8,7 +8,7 @@ open System.Net
 open System.IO
 open DeviantArtFs
 
-type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token: IDeviantArtAccessToken) =
+type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token: IDeviantArtAccessToken, cookies: CookieContainer) =
     inherit DeferredPhotoPost()
     
     let app_link_regex = new Regex("DeviantArt://deviation/(........-....-....-....-............)")
@@ -19,6 +19,7 @@ type DeviantArtScrapsLinkWrapper(url: string, title: string, img: string, token:
     override __.Timestamp = None
     override __.AsyncGetActual() = async {
         let req = WebRequest.CreateHttp url
+        req.CookieContainer <- cookies
         req.UserAgent <- "SourceWrapper/0.0 (https://github.com/libertyernie/CrosspostSharp)"
         use! resp = req.AsyncGetResponse()
         use sr = new StreamReader(resp.GetResponseStream())
@@ -60,8 +61,11 @@ type DeviantArtScrapsLinkSourceWrapper(token: IDeviantArtAccessToken) =
         let mutable url = sprintf "https://%s.deviantart.com/gallery/?catpath=scraps" user.username
         let mutable more = true
 
+        let cookies = new CookieContainer()
+
         while more do
             let req = WebRequest.CreateHttp url
+            req.CookieContainer <- cookies
             req.UserAgent <- "SourceWrapper/0.0 (https://github.com/libertyernie/CrosspostSharp)"
             use! resp = req.AsyncGetResponse()
             use sr = new StreamReader(resp.GetResponseStream())
@@ -78,7 +82,7 @@ type DeviantArtScrapsLinkSourceWrapper(token: IDeviantArtAccessToken) =
             }
 
             for (url, title, img) in posts_complex do
-                yield new DeviantArtScrapsLinkWrapper(url, title, img, token) :> IPostBase
+                yield new DeviantArtScrapsLinkWrapper(url, title, img, token, cookies) :> IPostBase
 
             if Seq.isEmpty posts_complex then
                 let urls = seq {
@@ -87,7 +91,7 @@ type DeviantArtScrapsLinkSourceWrapper(token: IDeviantArtAccessToken) =
                         yield o.Value
                 }
                 for url in Seq.distinct urls do
-                    let w = new DeviantArtScrapsLinkWrapper(url, "", "", token)
+                    let w = new DeviantArtScrapsLinkWrapper(url, "", "", token, cookies)
                     let! p = w.AsyncGetActual()
                     yield p :> IPostBase
 
