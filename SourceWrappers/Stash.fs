@@ -10,6 +10,7 @@ type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArt
         metadata.files
         |> Option.map Seq.ofList
         |> Option.defaultValue Seq.empty
+        |> Seq.where (fun f -> f.width * f.height > 0)
         |> Seq.sortByDescending (fun f -> f.width)
         |> Seq.map (fun f -> f.src)
         |> Seq.tryHead
