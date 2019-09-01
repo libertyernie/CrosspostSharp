@@ -133,7 +133,7 @@ namespace CrosspostSharp3 {
 				this.Enabled = true;
 
 				add(new DeviantArtSourceWrapper(da, includeLiterature: false));
-				add(new DeviantArtEclipseScrapsSourceWrapper(da.Username));
+				add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
 				//add(new DeviantArtScrapsLinkSourceWrapper(da));
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));

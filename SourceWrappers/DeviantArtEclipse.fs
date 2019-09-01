@@ -2,6 +2,7 @@
 
 open FSharp.Control
 open SourceWrappers.Eclipse
+open System
 
 type DeviantArtEclipsePostWrapper(deviation: GalleryContentsResponse.Deviation) =
     interface IRemotePhotoPost with
@@ -41,10 +42,15 @@ type DeviantArtEclipseDeferredPostWrapper(deviation: GalleryContentsResponse.Dev
         return new DeviantArtEclipsePostWrapper(deviation) :> IRemotePhotoPost
     }
 
-type DeviantArtEclipseSourceWrapper(username: string) =
+type DeviantArtEclipseSourceWrapper(username: string, source: GalleryContentsSource) =
     inherit AsyncSeqWrapper()
 
-    override __.Name = "DeviantArt (gallery)"
+    override __.Name =
+        match source with
+        | GalleryContentsSource.All -> "DeviantArt (gallery)"
+        | GalleryContentsSource.Default -> "DeviantArt"
+        | GalleryContentsSource.Folder f -> sprintf "DeviantArt (%d)" f
+        | GalleryContentsSource.Scraps -> "DeviantArt (scraps)"
 
     override __.FetchSubmissionsInternal() =
         new GalleryContentsRequest(username, Limit = Some 24, Folder = GalleryContentsSource.All)
@@ -55,24 +61,15 @@ type DeviantArtEclipseSourceWrapper(username: string) =
     override __.FetchUserInternal() = async {
         return {
             username = username
-            icon_url = None
-        }
-    }
-    
-type DeviantArtEclipseScrapsSourceWrapper(username: string) =
-    inherit AsyncSeqWrapper()
-    
-    override __.Name = "DeviantArt (scraps)"
-    
-    override __.FetchSubmissionsInternal() =
-        new GalleryContentsRequest(username, Limit = Some 24, Folder = GalleryContentsSource.Scraps)
-        |> GalleryContents.AsyncGetAllResults
-        |> AsyncSeq.map DeviantArtEclipseDeferredPostWrapper
-        |> AsyncSeq.map (fun x -> x :> IPostBase)
-    
-    override __.FetchUserInternal() = async {
-        return {
-            username = username
-            icon_url = None
+            icon_url =
+                seq {
+                    yield "avatars-big"
+                    yield username.Substring(0, 1) |> Uri.EscapeDataString
+                    yield username.Substring(1, 1) |> Uri.EscapeDataString
+                    yield sprintf "%s.png" username |> Uri.EscapeDataString
+                }
+                |> String.concat "/"
+                |> sprintf "https://a.deviantart.net/%s"
+                |> Some
         }
     }
