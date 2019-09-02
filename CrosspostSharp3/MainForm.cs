@@ -106,6 +106,8 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Loading settings...";
 
 			Settings s = Settings.Load();
+			eclipseToolStripMenuItem.Checked = s.DeviantArtEclipse;
+			aPIOnlyToolStripMenuItem.Checked = !s.DeviantArtEclipse;
 			tableLayoutPanel1.Controls.Clear();
 			tableLayoutPanel1.RowCount = s.MainForm?.rows ?? 2;
 			tableLayoutPanel1.ColumnCount = s.MainForm?.columns ?? 2;
@@ -133,16 +135,10 @@ namespace CrosspostSharp3 {
 				this.Enabled = true;
 
 				if (s.DeviantArtEclipse) {
-					try {
-						add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
-						add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
-					} catch (Exception ex) {
-						add(new DeviantArtSourceWrapper(da, includeLiterature: false));
-						add(new DeviantArtScrapsLinkSourceWrapper(da));
-					}
+					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
+					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
 				} else {
 					add(new DeviantArtSourceWrapper(da, includeLiterature: false));
-					add(new DeviantArtScrapsLinkSourceWrapper(da));
 				}
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
@@ -355,6 +351,28 @@ namespace CrosspostSharp3 {
 		private void postToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var f = new StatusPostForm()) {
 				f.ShowDialog(this);
+			}
+		}
+
+		private async void EclipseToolStripMenuItem_Click(object sender, EventArgs e) {
+			aPIOnlyToolStripMenuItem.Checked = false;
+
+			Settings s = Settings.Load();
+			if (s.DeviantArtEclipse == false) {
+				s.DeviantArtEclipse = true;
+				s.Save();
+				await ReloadWrapperList();
+			}
+		}
+
+		private async void APIOnlyToolStripMenuItem_Click(object sender, EventArgs e) {
+			eclipseToolStripMenuItem.Checked = false;
+
+			Settings s = Settings.Load();
+			if (s.DeviantArtEclipse == true) {
+				s.DeviantArtEclipse = false;
+				s.Save();
+				await ReloadWrapperList();
 			}
 		}
 	}
