@@ -15,12 +15,14 @@ type DeviantArtEclipsePostWrapper(deviation: ExtendedFetchResponse.Deviation) =
         member __.ViewURL = deviation.Url
         member __.ImageURL =
             deviation.Files
+            |> Seq.where (fun d -> d.Width * d.Height > 0)
             |> Seq.sortByDescending (fun d -> d.Width * d.Height)
             |> Seq.map (fun d -> d.Src)
             |> Seq.tryHead
             |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
         member __.ThumbnailURL =
             deviation.Files
+            |> Seq.where (fun d -> d.Width * d.Height > 0)
             |> Seq.sortBy (fun d -> d.Width * d.Height)
             |> Seq.map (fun d -> d.Src)
             |> Seq.tryHead
@@ -32,6 +34,7 @@ type DeviantArtEclipseDeferredPostWrapper(deviation: GalleryContentsResponse.Dev
     override __.Title = deviation.Title
     override __.ThumbnailURL =
         deviation.Files
+        |> Seq.where (fun d -> d.Width * d.Height > 0)
         |> Seq.sortBy (fun d -> d.Width * d.Height)
         |> Seq.map (fun d -> d.Src)
         |> Seq.tryHead

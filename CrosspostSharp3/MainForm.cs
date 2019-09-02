@@ -133,8 +133,13 @@ namespace CrosspostSharp3 {
 				this.Enabled = true;
 
 				if (s.DeviantArtEclipse) {
-					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
-					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
+					try {
+						add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
+						add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
+					} catch (Exception ex) {
+						add(new DeviantArtSourceWrapper(da, includeLiterature: false));
+						add(new DeviantArtScrapsLinkSourceWrapper(da));
+					}
 				} else {
 					add(new DeviantArtSourceWrapper(da, includeLiterature: false));
 					add(new DeviantArtScrapsLinkSourceWrapper(da));
