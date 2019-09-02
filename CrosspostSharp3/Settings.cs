@@ -5,6 +5,7 @@ using MapleFedNet.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Tweetinvi.Models;
@@ -39,6 +40,9 @@ namespace CrosspostSharp3 {
 
 		public IEnumerable<DeviantArtTokenWrapper> DeviantArtTokens =>
 			DeviantArtAccounts.Select(x => new DeviantArtTokenWrapper(this, x));
+
+		[DefaultValue(true), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+		public bool DeviantArtEclipse = true;
 
 		public struct FlickrSettings : IAccountCredentials {
 			public string tokenKey;
