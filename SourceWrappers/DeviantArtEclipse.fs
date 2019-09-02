@@ -4,13 +4,13 @@ open FSharp.Control
 open SourceWrappers.Eclipse
 open System
 
-type DeviantArtEclipsePostWrapper(deviation: GalleryContentsResponse.Deviation) =
+type DeviantArtEclipsePostWrapper(deviation: ExtendedFetchResponse.Deviation) =
     interface IRemotePhotoPost with
         member __.Title = deviation.Title
-        member __.HTMLDescription = null
+        member __.HTMLDescription = deviation.Extended.Description
         member __.Mature = deviation.IsMature
         member __.Adult = false
-        member __.Tags = Seq.empty
+        member __.Tags = deviation.Extended.Tags |> Seq.map (fun t -> t.Name)
         member __.Timestamp = deviation.PublishedTime.UtcDateTime
         member __.ViewURL = deviation.Url
         member __.ImageURL =
@@ -39,7 +39,8 @@ type DeviantArtEclipseDeferredPostWrapper(deviation: GalleryContentsResponse.Dev
     override __.ViewURL = deviation.Url
     override __.Timestamp = Some deviation.PublishedTime.UtcDateTime
     override __.AsyncGetActual() = async {
-        return new DeviantArtEclipsePostWrapper(deviation) :> IRemotePhotoPost
+        let! x = ExtendedFetch.AsyncGet deviation.DeviationId
+        return new DeviantArtEclipsePostWrapper(x.Deviation) :> IRemotePhotoPost
     }
 
 type DeviantArtEclipseSourceWrapper(username: string, source: GalleryContentsSource) =
@@ -53,7 +54,7 @@ type DeviantArtEclipseSourceWrapper(username: string, source: GalleryContentsSou
         | GalleryContentsSource.Scraps -> "DeviantArt (scraps)"
 
     override __.FetchSubmissionsInternal() =
-        new GalleryContentsRequest(username, Limit = Some 24, Folder = GalleryContentsSource.All)
+        new GalleryContentsRequest(username, Limit = Some 24, Folder = source)
         |> GalleryContents.AsyncGetAllResults
         |> AsyncSeq.map DeviantArtEclipseDeferredPostWrapper
         |> AsyncSeq.map (fun x -> x :> IPostBase)
