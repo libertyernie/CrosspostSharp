@@ -22,6 +22,8 @@ namespace CrosspostSharp3 {
 						new Uri("https://www.example.com"),
 						new[] { "browse", "user", "stash", "publish", "user.manage" })
 					) {
+						f.Width = 1000;
+						f.Height = 800;
 						if (f.ShowDialog(this) == DialogResult.OK) {
 							var a = new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
 							var token = await a.GetTokenAsync(f.Code, new Uri("https://www.example.com"));
