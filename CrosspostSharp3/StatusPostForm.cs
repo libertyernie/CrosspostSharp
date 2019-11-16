@@ -25,7 +25,6 @@ namespace CrosspostSharp3 {
 			splitContainer1.Enabled = false;
 
 			Settings settings = Settings.Load();
-			settings.UpdateFormat();
 
 			foreach (var da in settings.DeviantArtTokens) {
 				var checkbox = new CheckBox {

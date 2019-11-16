@@ -22,14 +22,6 @@ namespace CrosspostSharp3 {
 			string Username { get; }
 		}
 
-		[Obsolete]
-		public struct DeviantArtSettings {
-			public string RefreshToken { get; set; }
-		}
-
-		[Obsolete]
-		public DeviantArtSettings? DeviantArt { get; set; }
-
 		public class DeviantArtAccountSettings : IAccountCredentials {
 			public string AccessToken { get; set; }
 			public string RefreshToken { get; set; }
@@ -108,14 +100,6 @@ namespace CrosspostSharp3 {
 			public string accessToken;
 			public string username;
 
-			[Obsolete]
-			public class MigratedAuth {
-				public string access_token;
-			}
-
-			[Obsolete]
-			public MigratedAuth auth;
-
 			string IAccountCredentials.Username => username;
 
 			string IMastodonCredentials.Domain => Instance;
@@ -189,31 +173,6 @@ namespace CrosspostSharp3 {
 				s = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(filename));
 			}
 			return s;
-		}
-
-		[Obsolete]
-		public void UpdateFormat() {
-			bool changed = false;
-			if (DeviantArt?.RefreshToken != null) {
-				DeviantArtAccounts.Add(new DeviantArtAccountSettings {
-					AccessToken = "",
-					RefreshToken = DeviantArt?.RefreshToken,
-					Username = ""
-				});
-				DeviantArt = null;
-			}
-			foreach (var m in Mastodon.ToArray()) {
-				if (m.accessToken == null && m.auth != null) {
-					Mastodon.Remove(m);
-					Mastodon.Add(new MastodonSettings {
-						accessToken = m.auth.access_token,
-						Instance = m.Instance,
-						username = m.username
-					});
-					changed = true;
-				}
-			}
-			if (changed) Save();
 		}
 
 		public void Save() {

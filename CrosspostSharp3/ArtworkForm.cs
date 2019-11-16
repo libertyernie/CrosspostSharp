@@ -127,7 +127,6 @@ namespace CrosspostSharp3 {
 			}
 
 			Settings settings = Settings.Load();
-			settings.UpdateFormat();
 
 			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
