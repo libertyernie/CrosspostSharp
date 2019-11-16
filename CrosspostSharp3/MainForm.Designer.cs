@@ -186,7 +186,7 @@
             this.tumblrToolStripMenuItem,
             this.weasylToolStripMenuItem});
             this.accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
-            this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.accountSetupToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.accountSetupToolStripMenuItem.Text = "&Account Setup";
             // 
             // deviantArtToolStripMenuItem
@@ -272,14 +272,14 @@
             this.eclipseToolStripMenuItem,
             this.aPIOnlyToolStripMenuItem});
             this.deviantArtModeToolStripMenuItem.Name = "deviantArtModeToolStripMenuItem";
-            this.deviantArtModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deviantArtModeToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.deviantArtModeToolStripMenuItem.Text = "&DeviantArt Mode";
             // 
             // eclipseToolStripMenuItem
             // 
             this.eclipseToolStripMenuItem.CheckOnClick = true;
             this.eclipseToolStripMenuItem.Name = "eclipseToolStripMenuItem";
-            this.eclipseToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eclipseToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.eclipseToolStripMenuItem.Text = "&Eclipse + API";
             this.eclipseToolStripMenuItem.Click += new System.EventHandler(this.EclipseToolStripMenuItem_Click);
             // 
@@ -287,7 +287,7 @@
             // 
             this.aPIOnlyToolStripMenuItem.CheckOnClick = true;
             this.aPIOnlyToolStripMenuItem.Name = "aPIOnlyToolStripMenuItem";
-            this.aPIOnlyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aPIOnlyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.aPIOnlyToolStripMenuItem.Text = "&API Only";
             this.aPIOnlyToolStripMenuItem.Click += new System.EventHandler(this.APIOnlyToolStripMenuItem_Click);
             // 
@@ -297,7 +297,7 @@
             this.tsiPageSize4,
             this.tsiPageSize9});
             this.pageSizeToolStripMenuItem.Name = "pageSizeToolStripMenuItem";
-            this.pageSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pageSizeToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.pageSizeToolStripMenuItem.Text = "&Page Size";
             // 
             // tsiPageSize4
@@ -434,7 +434,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "CrosspostSharp 3";
+            this.Text = "CrosspostSharp 4";
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
