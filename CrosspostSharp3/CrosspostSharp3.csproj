@@ -97,6 +97,14 @@
     <Compile Include="Flickr\FlickrPostForm.Designer.cs">
       <DependentUpon>FlickrPostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FurAffinity\FAWinFormsLogin\Forms\loginPages\LoginFormFA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FurAffinity\FAWinFormsLogin\Forms\loginPages\LoginFormFA.Designer.cs">
+      <DependentUpon>LoginFormFA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FurAffinity\FAWinFormsLogin\Sites\FurAffinity.cs" />
+    <Compile Include="FurAffinity\FAWinFormsLogin\WebHandler.cs" />
     <Compile Include="FurAffinity\FurAffinityPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -268,6 +276,9 @@
     <EmbeddedResource Include="DeviantArt\DeviantArtUploadControl.resx">
       <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FurAffinity\FAWinFormsLogin\Forms\loginPages\LoginFormFA.resx">
+      <DependentUpon>LoginFormFA.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FurAffinity\FurAffinityPostForm.resx">
       <DependentUpon>FurAffinityPostForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -349,10 +360,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FAWinFormsLogin\FAWinFormsLogin.csproj">
-      <Project>{5939939e-b9b0-4766-afb9-4fff83c16fb8}</Project>
-      <Name>FAWinFormsLogin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj">
       <Project>{48e5e654-f069-4af6-bd06-84e2d0c05a53}</Project>
       <Name>FurAffinityFs</Name>
@@ -388,6 +395,9 @@
     </PackageReference>
     <PackageReference Include="DeviantArtFs.WinForms">
       <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.11.16</Version>
     </PackageReference>
     <PackageReference Include="Imgur.API">
       <Version>4.0.1</Version>
