@@ -141,16 +141,6 @@ namespace CrosspostSharp3 {
 					listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
 						long? itemId = (_origWrapper as StashPostWrapper)?.ItemId;
 						var toPost = _downloaded;
-						if (toPost.ContentType == "image/gif") {
-							switch (MessageBox.Show(this, "GIF images on DeviantArt require a separate preview image, which isn't possible via the API. Would you like to upload this image in PNG format instead?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {
-								case DialogResult.Cancel:
-									return;
-								case DialogResult.Yes:
-									toPost = Downloader.ConvertToPng(toPost);
-									itemId = null;
-									break;
-							}
-						}
 						using (var f = new Form()) {
 							f.Width = 600;
 							f.Height = 350;

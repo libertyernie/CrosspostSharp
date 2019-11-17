@@ -74,8 +74,6 @@ type IDeletable =
 module Downloader =
     open System.Net
     open System.Security.Cryptography
-    open System.Drawing
-    open System.Drawing.Imaging
 
     let private AsyncDownloadUrl (url: string) = async {
         let req = WebRequest.Create url
@@ -116,15 +114,3 @@ module Downloader =
         let! d = AsyncDownload post
         return d |> Option.toObj
     })
-
-    let ConvertToPng (post: IDownloadedData) =
-        use ms = new MemoryStream(post.Data, false)
-        use image = Image.FromStream(ms)
-        use ms2 = new MemoryStream()
-        image.Save(ms2, ImageFormat.Png)
-        {
-            new IDownloadedData with
-                member __.Data = ms2.ToArray()
-                member __.ContentType = "image/png"
-                member __.Filename = Path.GetFileNameWithoutExtension(post.Filename) |> sprintf "%s.png"
-        }
