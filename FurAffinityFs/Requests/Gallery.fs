@@ -21,7 +21,14 @@ module Gallery =
 
     let AsyncExecute (credentials: IFurAffinityCredentials) (page_href: string) = async {
         let! html = Shared.AsyncGetHtml credentials page_href
-        let page = GalleryHtml.Parse html
+
+        // Add empty figure before first figure (bug workaround)
+        let figure_index = html.IndexOf """<figure id="sid-"""
+        let before_figure = html.Substring (0, figure_index)
+        let after_figure = html.Substring figure_index
+        let html2 = sprintf "%s<figure></figure><!--\n-->%s" before_figure after_figure
+
+        let page = GalleryHtml.Parse html2
         return {
             submissions = seq {
                 let figures = page.Html.CssSelect("figure")

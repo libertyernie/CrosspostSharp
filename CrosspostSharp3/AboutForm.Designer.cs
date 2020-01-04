@@ -39,7 +39,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(222, 26);
             this.label1.TabIndex = 0;
-            this.label1.Text = "CrosspostSharp 3.7.1";
+            this.label1.Text = "CrosspostSharp 3.7.2";
             // 
             // linkLabel1
             // 

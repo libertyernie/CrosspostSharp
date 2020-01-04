@@ -13,40 +13,56 @@ module ViewSubmission =
         let href = sprintf "/view/%d/" sid
         let! html = Shared.AsyncGetHtml credentials href
         let page = ViewSubmissionHtml.Parse html
+
         return {
             title =
-                page.Html.CssSelect ".classic-submission-title.information h2"
+                [".classic-submission-title.information h2"; ".submission-title h2"]
+                |> Seq.collect page.Html.CssSelect
                 |> Seq.map (fun e -> e.InnerText())
-                |> Seq.head
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "Could not grab submission title")
             href = href |> Shared.ToUri
-            description = Seq.head (seq {
-                let index1 = html.IndexOf("""<td valign="top" align="left" width="70%" class="alt1" style="padding:8px">""")
-                if index1 > -1 then
-                    let substr1 = html.Substring(index1)
-                    let index3 = substr1.IndexOf("</td>")
-                    if index3 > -1 then
-                        yield substr1.Substring(0, index3).Trim()
-                yield ""
-            })
+            description =
+                seq {
+                    yield!
+                        page.Html.CssSelect ".submission-description"
+                        |> Seq.map (fun e -> e.InnerText())
+
+                    let index1 = html.IndexOf("""<td valign="top" align="left" width="70%" class="alt1" style="padding:8px">""")
+                    if index1 > -1 then
+                        let substr1 = html.Substring(index1)
+                        let index3 = substr1.IndexOf("</td>")
+                        if index3 > -1 then
+                            yield substr1.Substring(0, index3).Trim()
+                    yield ""
+                }
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "Could not grab submission description")
             name =
-                page.Html.CssSelect ".classic-submission-title.information a"
+                [".classic-submission-title.information a"; ".submission-id-sub-container a"]
+                |> Seq.collect page.Html.CssSelect
                 |> Seq.map (fun e -> e.InnerText())
-                |> Seq.head
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "Could not grab submission username")
             download =
-                page.Html.CssSelect "#page-submission td.alt1 div.actions a"
+                ["#page-submission td.alt1 div.actions a"; ".download a"]
+                |> Seq.collect page.Html.CssSelect
                 |> Seq.where (fun e -> e.InnerText() = "Download")
                 |> Seq.map (fun e -> e.AttributeValue "href")
-                |> Seq.head
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "Could not grab submission download url")
                 |> Shared.ToUri
             full =
                 page.Html.CssSelect "#submissionImg"
                 |> Seq.map (fun e -> e.AttributeValue "data-fullview-src")
-                |> Seq.head
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "Could not grab submission full url")
                 |> Shared.ToUri
             thumbnail =
                 page.Html.CssSelect "#submissionImg"
                 |> Seq.map (fun e -> e.AttributeValue "data-preview-src")
-                |> Seq.head
+                |> Seq.tryHead
+                |> Option.defaultWith (fun () -> failwith "Could not grab submission thumbnail url")
                 |> Shared.ToUri
             date = Seq.head (seq {
                 let regex = new Regex("([A-Za-z]+) ([0-9]+)[^ ]+? ([0-9][0-9][0-9][0-9]) ([0-9][0-9]):([0-9][0-9]) (AM|PM)")
@@ -64,10 +80,12 @@ module ViewSubmission =
                                 sprintf "%s %s %s %s:%s %s" month day year hour minute ampm
                                 |> DateTime.TryParse
                             if ok then yield dt
+                failwith "Could not grab submission date/time"
                 yield DateTime.Now
             })
             keywords =
-                page.Html.CssSelect "#keywords a"
+                ["#keywords a"; ".tags a"]
+                |> Seq.collect page.Html.CssSelect
                 |> Seq.map (fun e -> e.InnerText())
             rating = Seq.head (seq {
                 let ratings = [
@@ -78,6 +96,12 @@ module ViewSubmission =
                 for (alt, r) in ratings do
                     if page.Html.CssSelect "img" |> Seq.exists (fun e -> e.AttributeValue "alt" = alt) then
                         yield r
+                if page.Html.CssSelect ".rating-box.adult" |> Seq.exists (fun _ -> true) then
+                    yield Rating.Adult
+                if page.Html.CssSelect ".rating-box.mature"|> Seq.exists (fun _ -> true) then
+                    yield Rating.Mature
+                if page.Html.CssSelect ".rating-box.general"|> Seq.exists (fun _ -> true) then
+                    yield Rating.General
                 failwithf "Could not determine rating"
             })
         }

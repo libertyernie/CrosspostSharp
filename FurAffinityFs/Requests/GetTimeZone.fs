@@ -21,12 +21,13 @@ module GetTimeZone =
 
     let AsyncExecute (credentials: IFurAffinityCredentials) = async {
         let! html = Shared.AsyncGetHtml credentials "/controls/settings/"
-        let doc = HtmlDocument.Parse html
+        let regex = System.Text.RegularExpressions.Regex """<option selected="selected" value=".....">([^<]+)</option>"""
+        let m = regex.Match html
         return
-            doc.CssSelect "select[name=timezone] option[selected]"
-            |> Seq.map (fun e -> e.InnerText())
-            |> Seq.head
-            |> GetTimeZoneFromFurAffinityName
+            if m.Success then
+                GetTimeZoneFromFurAffinityName m.Groups.[1].Value
+            else
+                failwith "Cannot pull time zone from FurAffinity HTML"
     }
 
     let AsyncExecuteWithDefault credentials def = async {

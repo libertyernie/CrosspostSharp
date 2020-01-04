@@ -11,7 +11,8 @@ module Whoami =
         let page = HomePageHtml.Parse html
         let username =
             page.Html.CssSelect("#my-username")
-            |> Seq.map (fun e -> e.InnerText())
+            |> Seq.where (fun e -> not (e.HasClass "hideondesktop"))
+            |> Seq.map (fun e -> e.DirectInnerText().Trim())
             |> Seq.tryHead
         return
             match username with
