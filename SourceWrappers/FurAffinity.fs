@@ -21,7 +21,7 @@ type FurAffinityPostWrapper(submission: Models.ExistingSubmission, timeZone: Tim
         member __.HTMLDescription = submission.description
         member __.Mature = submission.rating <> Models.Rating.General
         member __.Adult = submission.rating = Models.Rating.Adult
-        member __.Tags = submission.keywords
+        member __.Tags = Seq.distinct submission.keywords
         member __.Timestamp = TimeZoneInfo.ConvertTimeToUtc(submission.date, timeZone)
         member __.ViewURL = submission.href.AbsoluteUri
         member __.ImageURL = submission.full.AbsoluteUri
