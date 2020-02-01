@@ -36,6 +36,7 @@ type DeviantArtPostWrapper(deviation: Deviation, metadata: DeviationMetadata opt
         member this.ImageURL = src
         member this.ThumbnailURL =
             deviation.thumbs
+            |> Option.defaultValue List.empty
             |> Seq.map (fun d -> d.src)
             |> Seq.tryHead
             |> Option.defaultValue src
@@ -53,6 +54,7 @@ type DeviantArtDeferredPostWrapper(deviation: Deviation, client: IDeviantArtAcce
         |> Option.defaultValue (deviation.deviationid.ToString())
     override __.ThumbnailURL =
         deviation.thumbs
+        |> Option.defaultValue List.empty
         |> Seq.map (fun d -> d.src)
         |> Seq.tryHead
         |> Option.defaultValue src
