@@ -80,6 +80,8 @@ module CreateSubmission =
             use! resp = req2.AsyncGetResponse()
             use sr = new StreamReader(resp.GetResponseStream())
             let! html = sr.ReadToEndAsync() |> Async.AwaitTask
+            if html.Contains "Security code missing or invalid." then
+                failwith "Security code missing or invalid"
             let token = html |> HtmlDocument.Parse |> Shared.ExtractAuthenticityToken
             return (token, resp.ResponseUri)
         }
@@ -165,6 +167,10 @@ module CreateSubmission =
 
         return! async {
             use! resp = req3.AsyncGetResponse()
+            use sr = new StreamReader(resp.GetResponseStream())
+            let! html = sr.ReadToEndAsync() |> Async.AwaitTask
+            if html.Contains "Security code missing or invalid." then
+                failwith "Security code missing or invalid"
             return resp.ResponseUri
         }
     }

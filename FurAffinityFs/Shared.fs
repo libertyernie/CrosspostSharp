@@ -30,7 +30,7 @@ module internal Shared =
 
     let ExtractAuthenticityToken (html: HtmlDocument) =
         let m =
-            html.CssSelect("input[name=key]")
+            html.CssSelect("form[name=myform] input[name=key]")
             |> Seq.map (fun e -> e.AttributeValue("value"))
             |> Seq.tryHead
         match m with
@@ -44,7 +44,7 @@ module internal Shared =
         c
 
     let CreateRequest (credentials: IFurAffinityCredentials) (uri: Uri) =
-        WebRequest.CreateHttp(uri, UserAgent = "FurAffinityFs/0.2 (https://github.com/libertyernie/CrosspostSharp)", CookieContainer = GetCookiesFor credentials)
+        WebRequest.CreateHttp(uri, UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0", CookieContainer = GetCookiesFor credentials)
 
     let AsyncGetHtml (credentials: IFurAffinityCredentials) (path: string) = async {
         let req = path |> ToUri |> CreateRequest credentials
