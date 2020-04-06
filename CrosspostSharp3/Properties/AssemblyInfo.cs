@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CrosspostSharp3")]
-[assembly: AssemblyCopyright("Copyright © 2014-2018 libertyernie")]
+[assembly: AssemblyCopyright("Copyright © 2014-2020 libertyernie")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
