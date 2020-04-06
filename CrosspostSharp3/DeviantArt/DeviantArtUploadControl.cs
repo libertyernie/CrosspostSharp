@@ -25,8 +25,8 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private IEnumerable<IBclDeviantArtGalleryFolder> _selectedFolders;
-		public IEnumerable<IBclDeviantArtGalleryFolder> SelectedFolders {
+		private IEnumerable<DeviantArtGalleryFolder> _selectedFolders;
+		public IEnumerable<DeviantArtGalleryFolder> SelectedFolders {
 			get {
 				return _selectedFolders;
 			}
@@ -34,7 +34,7 @@ namespace CrosspostSharp3 {
 				_selectedFolders = value;
 				txtGalleryFolders.Text = value == null
 					? ""
-					: string.Join(", ", value.Select(f => f.Name));
+					: string.Join(", ", value.Select(f => f.name));
 			}
 		}
 
@@ -182,13 +182,13 @@ namespace CrosspostSharp3 {
 					},
 					Galleryids = SelectedFolders == null
 						? Enumerable.Empty<Guid>()
-						: SelectedFolders.Select(f => f.Folderid),
+						: SelectedFolders.Select(f => f.folderid),
 					AllowFreeDownload = chkAllowFreeDownload.Checked
 				};
 
 				var resp = await DeviantArtFs.Requests.Stash.Publish.ExecuteAsync(_token, req);
 
-				Uploaded?.Invoke(resp.Url);
+				Uploaded?.Invoke(resp.url);
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, $"{GetType()} {ex.GetType()}");
 			}

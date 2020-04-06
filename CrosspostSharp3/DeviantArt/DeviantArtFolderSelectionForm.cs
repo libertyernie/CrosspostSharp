@@ -11,16 +11,16 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class DeviantArtFolderSelectionForm : Form {
-		public IEnumerable<IBclDeviantArtGalleryFolder> InitialFolders { get; set; }
+		public IEnumerable<DeviantArtGalleryFolder> InitialFolders { get; set; }
 
 		private readonly IDeviantArtAccessToken _token;
-		private List<IBclDeviantArtGalleryFolder> _selectedFolders;
-		public IEnumerable<IBclDeviantArtGalleryFolder> SelectedFolders => _selectedFolders;
+		private List<DeviantArtGalleryFolder> _selectedFolders;
+		public IEnumerable<DeviantArtGalleryFolder> SelectedFolders => _selectedFolders;
 
 		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
 			InitializeComponent();
 			_token = token;
-			_selectedFolders = new List<IBclDeviantArtGalleryFolder>();
+			_selectedFolders = new List<DeviantArtGalleryFolder>();
 		}
 
 		private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
@@ -32,8 +32,8 @@ namespace CrosspostSharp3 {
 				foreach (var f in list) {
 					var chk = new CheckBox {
 						AutoSize = true,
-						Text = f.Name,
-						Checked = InitialFolders?.Any(f2 => f.Folderid == f2.Folderid) == true
+						Text = f.name,
+						Checked = InitialFolders?.Any(f2 => f.folderid == f2.folderid) == true
 					};
 					chk.CheckedChanged += (o, ea) => {
 						if (chk.Checked) {

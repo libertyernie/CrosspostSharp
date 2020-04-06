@@ -21,7 +21,7 @@ namespace CrosspostSharp3 {
 			_postFunctions = new Dictionary<CheckBox, Func<Task<Uri>>>();
 		}
 
-		private async void StatusPostForm_Shown(object sender, EventArgs e) {
+		private void StatusPostForm_Shown(object sender, EventArgs e) {
 			splitContainer1.Enabled = false;
 
 			Settings settings = Settings.Load();
@@ -76,9 +76,10 @@ namespace CrosspostSharp3 {
 				new DeviantArtFs.Requests.User.StatusPostRequest(CurrentHtml));
 			try {
 				var status = await DeviantArtFs.Requests.User.StatusById.ExecuteAsync(token, id);
-				return new Uri(status.Url);
-			} catch (DeviantArtException) {
-				return new Uri("https://www.deviantart.com/" + await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(token));
+				return new Uri(status.url.Value);
+			} catch (Exception) {
+				var user = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(token);
+				return new Uri("https://www.deviantart.com/" + user);
 			}
 		}
 

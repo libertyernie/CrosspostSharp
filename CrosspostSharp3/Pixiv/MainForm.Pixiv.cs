@@ -12,7 +12,7 @@ namespace CrosspostSharp3 {
 			Settings s = Settings.Load();
 			using (var acctSelForm = new AccountSelectionForm<Settings.PixivUploadSettings>(
 				s.PixivUpload,
-				async () => {
+				() => {
 					using (var f = new UsernamePasswordDialog()) {
 						f.UsernameLabel = "PHPSESSID";
 						f.ShowPassword = false;

@@ -42,8 +42,8 @@ namespace CrosspostSharp3 {
 				}
 
 				var u = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(_token);
-				lblUsername1.Text = u.Username;
-				picUserIcon.ImageLocation = u.Usericon;
+				lblUsername1.Text = u.username;
+				picUserIcon.ImageLocation = u.usericon;
 			} catch (Exception) { }
 		}
 

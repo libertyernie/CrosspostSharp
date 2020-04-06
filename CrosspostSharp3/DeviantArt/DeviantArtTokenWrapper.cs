@@ -16,8 +16,8 @@ namespace CrosspostSharp3.DeviantArt {
 			_current = current;
 		}
 
-		public IDeviantArtAuth DeviantArtAuth =>
-			new DeviantArtAuth(OAuthConsumer.DeviantArt.CLIENT_ID, OAuthConsumer.DeviantArt.CLIENT_SECRET);
+		public DeviantArtApp App =>
+			new DeviantArtApp(OAuthConsumer.DeviantArt.CLIENT_ID.ToString(), OAuthConsumer.DeviantArt.CLIENT_SECRET);
 
 		public string RefreshToken => _current.RefreshToken;
 		public string AccessToken => _current.AccessToken;

@@ -27,12 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FSharp.Control.AsyncSeq" Version="2.0.22" />
-    <PackageReference Include="FSharp.Data" Version="3.3.2" />
+    <PackageReference Include="FSharp.Control.AsyncSeq" Version="2.0.23" />
+    <PackageReference Include="FSharp.Data" Version="3.3.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.7.0" />
+    <PackageReference Update="FSharp.Core" Version="4.7.1" />
   </ItemGroup>
 
 </Project>
