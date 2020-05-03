@@ -72,21 +72,23 @@ type DeviantArtDeferredPostWrapper(deviation: Deviation, client: IDeviantArtAcce
         return new DeviantArtPostWrapper(deviation, Seq.tryHead resp) :> IRemotePhotoPost
     }
 
-type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, includeLiterature: bool) =
+type DeviantArtSourceWrapper(client: IDeviantArtAccessToken, username: string, includeLiterature: bool) =
     inherit AsyncSeqWrapper()
 
     override __.Name = "DeviantArt"
 
     override __.FetchSubmissionsInternal() =
-        new DeviantArtFs.Requests.Gallery.GalleryAllViewRequest()
+        new DeviantArtFs.Requests.Gallery.GalleryAllViewRequest(Username = username)
         |> DeviantArtFs.Requests.Gallery.GalleryAllView.ToAsyncSeq client 0
         |> AsyncSeq.filter (fun d -> includeLiterature || Option.isSome d.content)
         |> AsyncSeq.map (fun d -> new DeviantArtDeferredPostWrapper(d, client) :> IPostBase)
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.Requests.User.Whoami.AsyncExecute client
+        let! u =
+            new DeviantArtFs.Requests.User.ProfileByNameRequest(username)
+            |> DeviantArtFs.Requests.User.ProfileByName.AsyncExecute client
         return {
-            username = u.username
-            icon_url = Some u.usericon
+            username = u.user.username
+            icon_url = Some u.user.usericon
         }
     }

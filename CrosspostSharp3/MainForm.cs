@@ -136,7 +136,9 @@ namespace CrosspostSharp3 {
 					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
 					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
 				} else {
-					add(new DeviantArtSourceWrapper(da, includeLiterature: false));
+					var user = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(da);
+					add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
+					add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				}
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
