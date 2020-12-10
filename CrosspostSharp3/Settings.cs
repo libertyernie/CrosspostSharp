@@ -67,14 +67,6 @@ namespace CrosspostSharp3 {
 
 		public List<InkbunnySettings> Inkbunny = new List<InkbunnySettings>();
 
-		public struct PillowfortSettings : IAccountCredentials {
-			public string username;
-			public string cookie;
-			public IEnumerable<string> tags;
-
-			string IAccountCredentials.Username => username;
-		}
-
 		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
 
 		public struct MastodonSettings : IAccountCredentials, IMastodonCredentials {
@@ -87,8 +79,6 @@ namespace CrosspostSharp3 {
 			string IMastodonCredentials.Domain => Instance;
 			string IMastodonCredentials.Token => accessToken;
 		}
-
-		public List<PillowfortSettings> Pillowfort = new List<PillowfortSettings>();
 
 		public struct PinterestSettings : IAccountCredentials {
 			public string accessToken;

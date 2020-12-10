@@ -42,14 +42,6 @@ namespace CrosspostSharp3 {
 				pnlAccounts.Controls.Add(checkbox);
 				_postFunctions.Add(checkbox, () => PostToMastodon(m));
 			}
-			foreach (var p in settings.Pillowfort) {
-				var checkbox = new CheckBox {
-					Text = $"Pillowfort ({p.username})",
-					AutoSize = true
-				};
-				pnlAccounts.Controls.Add(checkbox);
-				_postFunctions.Add(checkbox, () => PostToPillowfort(p));
-			}
 			foreach (var t in settings.Twitter) {
 				var checkbox = new CheckBox {
 					Text = $"Twitter ({t.screenName})",
@@ -89,23 +81,6 @@ namespace CrosspostSharp3 {
 				CurrentText,
 				spoiler_text: textBox1.Text == "" ? null : textBox1.Text);
 			return new Uri(status.Url);
-		}
-
-		private async Task<Uri> PostToPillowfort(Settings.PillowfortSettings p) {
-			var client = new PillowfortFs.PillowfortClient() {
-				Cookie = p.cookie
-			};
-			await client.SubmitPostAsync(new PillowfortFs.PostRequest(
-				title: "",
-				content: CurrentHtml,
-				tags: Enumerable.Empty<string>(),
-				privacy: PillowfortFs.PrivacyLevel.Public,
-				rebloggable: true,
-				commentable: true,
-				nsfw: false,
-				media: PillowfortFs.PillowfortMediaBuilder.None));
-			string username = await client.WhoamiAsync();
-			return new Uri($"https://pillowfort.social/{username}");
 		}
 
 		private async Task<Uri> PostToTwitter(Settings.TwitterSettings t) {

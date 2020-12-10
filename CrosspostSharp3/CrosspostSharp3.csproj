@@ -21,10 +21,6 @@
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PillowfortFs\PillowfortFs.fsproj">
-      <Project>{cb2d34c8-7afc-4f4c-b08d-09460d50e06a}</Project>
-      <Name>PillowfortFs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PixivUploader\PixivUploader.fsproj">
       <Project>{86c790da-1453-40e5-a1c5-e3775f76e6b1}</Project>
       <Name>PixivUploader</Name>

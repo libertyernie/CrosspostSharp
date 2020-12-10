@@ -171,10 +171,6 @@ namespace CrosspostSharp3 {
 				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true));
 				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false));
 			}
-			foreach (var p in s.Pillowfort) {
-				lblLoadStatus.Text = $"Adding Pillowfort ({p.username})...";
-				add(new PillowfortSourceWrapper(new PillowfortFs.PillowfortClient { Cookie = p.cookie }));
-			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {
 				if (tcf == null) tcf = new TumblrClientFactory();

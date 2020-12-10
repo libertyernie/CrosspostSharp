@@ -14,11 +14,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InkbunnyLib", "InkbunnyLib\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurryNetworkLib", "FurryNetworkLib\FurryNetworkLib.csproj", "{46595381-E1FC-4BE3-A970-B1988C4A2D0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrosspostSharp3", "CrosspostSharp3\CrosspostSharp3.csproj", "{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrosspostSharp3", "CrosspostSharp3\CrosspostSharp3.csproj", "{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SourceWrappers", "SourceWrappers\SourceWrappers.fsproj", "{73F76685-65DA-4557-93EF-869705950943}"
-EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PillowfortFs", "PillowfortFs\PillowfortFs.fsproj", "{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FurAffinityFs", "FurAffinityFs\FurAffinityFs.fsproj", "{48E5E654-F069-4AF6-BD06-84E2D0C05A53}"
 EndProject
@@ -86,18 +84,6 @@ Global
 		{73F76685-65DA-4557-93EF-869705950943}.Release|x64.Build.0 = Release|Any CPU
 		{73F76685-65DA-4557-93EF-869705950943}.Release|x86.ActiveCfg = Release|Any CPU
 		{73F76685-65DA-4557-93EF-869705950943}.Release|x86.Build.0 = Release|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Debug|x64.Build.0 = Debug|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Debug|x86.Build.0 = Debug|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Release|x64.ActiveCfg = Release|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Release|x64.Build.0 = Release|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Release|x86.ActiveCfg = Release|Any CPU
-		{CB2D34C8-7AFC-4F4C-B08D-09460D50E06A}.Release|x86.Build.0 = Release|Any CPU
 		{48E5E654-F069-4AF6-BD06-84E2D0C05A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{48E5E654-F069-4AF6-BD06-84E2D0C05A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48E5E654-F069-4AF6-BD06-84E2D0C05A53}.Debug|x64.ActiveCfg = Debug|Any CPU

@@ -197,13 +197,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				foreach (var p in settings.Pillowfort) {
-					listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-						using (var f = new PillowfortPostForm(p, ExportAsText(), _downloaded)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
 				foreach (var p in settings.PixivUpload) {
 					Settings.IAccountCredentials s = p;
 					listBox1.Items.Add(new DestinationOption($"Pixiv ({s.Username})", () => {
@@ -281,13 +274,6 @@ namespace CrosspostSharp3 {
 			foreach (var m in settings.Mastodon) {
 				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
 					using (var f = new MastodonCwPostForm(m, ExportAsText())) {
-						f.ShowDialog(this);
-					}
-				}));
-			}
-			foreach (var p in settings.Pillowfort) {
-				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-					using (var f = new PillowfortPostForm(p, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));

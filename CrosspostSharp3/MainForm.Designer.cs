@@ -40,7 +40,6 @@
             this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mastodonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pillowfortToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pixivToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,7 +182,6 @@
             this.furryNetworkToolStripMenuItem,
             this.inkbunnyToolStripMenuItem,
             this.mastodonToolStripMenuItem,
-            this.pillowfortToolStripMenuItem,
             this.pixivToolStripMenuItem,
             this.twitterToolStripMenuItem,
             this.tumblrToolStripMenuItem,
@@ -226,13 +224,6 @@
             this.mastodonToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.mastodonToolStripMenuItem.Text = "&Mastodon";
             this.mastodonToolStripMenuItem.Click += new System.EventHandler(this.mastodonToolStripMenuItem_Click);
-            // 
-            // pillowfortToolStripMenuItem
-            // 
-            this.pillowfortToolStripMenuItem.Name = "pillowfortToolStripMenuItem";
-            this.pillowfortToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.pillowfortToolStripMenuItem.Text = "&Pillowfort";
-            this.pillowfortToolStripMenuItem.Click += new System.EventHandler(this.pillowfortToolStripMenuItem_Click);
             // 
             // pixivToolStripMenuItem
             // 
@@ -476,7 +467,6 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pillowfortToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pageSizeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tsiPageSize4;
 		private System.Windows.Forms.ToolStripMenuItem tsiPageSize9;
