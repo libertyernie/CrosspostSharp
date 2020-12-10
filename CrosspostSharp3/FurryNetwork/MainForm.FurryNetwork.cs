@@ -14,12 +14,11 @@ namespace CrosspostSharp3 {
 			using (var acctSelForm = new AccountSelectionForm<Settings.FurryNetworkSettings>(
 				s.FurryNetwork,
 				async () => {
-					using (var f = new UsernamePasswordDialog()) {
-						f.UsernameLabel = "Email";
+					using (var f = new FurryNetworkLoginForm()) {
 						if (f.ShowDialog() != System.Windows.Forms.DialogResult.OK)
 							return Enumerable.Empty<Settings.FurryNetworkSettings>();
 
-						var client = await FurryNetworkClient.LoginAsync(f.Username, f.Password);
+						var client = new FurryNetworkClient(f.RefreshToken);
 						var user = await client.GetUserAsync();
 						return FurryNetworkChooseCharacters(client.RefreshToken, user.characters);
 					}
