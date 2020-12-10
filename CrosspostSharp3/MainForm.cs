@@ -143,10 +143,6 @@ namespace CrosspostSharp3 {
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
 			}
-			foreach (var fl in s.Flickr) {
-				lblLoadStatus.Text = $"Adding Flickr {fl.username}...";
-				add(new FlickrSourceWrapper(fl.CreateClient()));
-			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
 				add(new FurAffinityMinimalSourceWrapper(

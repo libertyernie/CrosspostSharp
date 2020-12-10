@@ -1,5 +1,4 @@
 ﻿using CrosspostSharp3.DeviantArt;
-using FlickrNet;
 using FurAffinityFs;
 using MapleFedNet.Common;
 using Newtonsoft.Json;
@@ -35,23 +34,6 @@ namespace CrosspostSharp3 {
 
 		[DefaultValue(true), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
 		public bool DeviantArtEclipse = true;
-
-		public struct FlickrSettings : IAccountCredentials {
-			public string tokenKey;
-			public string tokenSecret;
-			public string username;
-
-			string IAccountCredentials.Username => username;
-
-			public Flickr CreateClient() {
-				return new Flickr(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET) {
-					OAuthAccessToken = tokenKey,
-					OAuthAccessTokenSecret = tokenSecret
-				};
-			}
-		}
-
-		public List<FlickrSettings> Flickr = new List<FlickrSettings>();
 
 		public struct FurAffinitySettings : IAccountCredentials, IFurAffinityCredentials {
 			public string b;

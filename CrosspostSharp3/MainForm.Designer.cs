@@ -36,7 +36,6 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.accountSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deviantArtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.flickrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furAffinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -180,7 +179,6 @@
             // 
             this.accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deviantArtToolStripMenuItem,
-            this.flickrToolStripMenuItem,
             this.furAffinityToolStripMenuItem,
             this.furryNetworkToolStripMenuItem,
             this.inkbunnyToolStripMenuItem,
@@ -200,13 +198,6 @@
             this.deviantArtToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.deviantArtToolStripMenuItem.Text = "&DeviantArt";
             this.deviantArtToolStripMenuItem.Click += new System.EventHandler(this.deviantArtToolStripMenuItem_Click);
-            // 
-            // flickrToolStripMenuItem
-            // 
-            this.flickrToolStripMenuItem.Name = "flickrToolStripMenuItem";
-            this.flickrToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.flickrToolStripMenuItem.Text = "&Flickr";
-            this.flickrToolStripMenuItem.Click += new System.EventHandler(this.flickrToolStripMenuItem_Click);
             // 
             // furAffinityToolStripMenuItem
             // 
@@ -483,7 +474,6 @@
 		private System.Windows.Forms.ToolStripMenuItem furryNetworkToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem flickrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem pillowfortToolStripMenuItem;

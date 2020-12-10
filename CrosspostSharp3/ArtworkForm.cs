@@ -169,13 +169,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				foreach (var fl in settings.Flickr) {
-					listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
-						using (var f = new FlickrPostForm(fl, ExportAsText(), _downloaded)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
 				foreach (var fa in settings.FurAffinity) {
 					listBox1.Items.Add(new DestinationOption($"Fur Affinity ({fa.username})", () => {
 						using (var f = new FurAffinityPostForm(fa, ExportAsText(), _downloaded)) {
