@@ -40,7 +40,6 @@
             this.furryNetworkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mastodonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pixivToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -182,7 +181,6 @@
             this.furryNetworkToolStripMenuItem,
             this.inkbunnyToolStripMenuItem,
             this.mastodonToolStripMenuItem,
-            this.pixivToolStripMenuItem,
             this.twitterToolStripMenuItem,
             this.tumblrToolStripMenuItem,
             this.weasylToolStripMenuItem});
@@ -224,13 +222,6 @@
             this.mastodonToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.mastodonToolStripMenuItem.Text = "&Mastodon";
             this.mastodonToolStripMenuItem.Click += new System.EventHandler(this.mastodonToolStripMenuItem_Click);
-            // 
-            // pixivToolStripMenuItem
-            // 
-            this.pixivToolStripMenuItem.Name = "pixivToolStripMenuItem";
-            this.pixivToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.pixivToolStripMenuItem.Text = "Pi&xiv (alpha)";
-            this.pixivToolStripMenuItem.Click += new System.EventHandler(this.PixivToolStripMenuItem_Click);
             // 
             // twitterToolStripMenuItem
             // 
@@ -473,7 +464,6 @@
 		private System.Windows.Forms.ToolStripMenuItem mastodonToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem postToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pixivToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem deviantArtModeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem eclipseToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aPIOnlyToolStripMenuItem;

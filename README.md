@@ -1,9 +1,9 @@
-CrosspostSharp 3.7.1
-====================
+CrosspostSharp 4.0
+==================
 
 Source: https://github.com/libertyernie/CrosspostSharp
 
---------------------
+------------------
 
 CrosspostSharp is a Windows desktop application (written in C# and F#) that
 loads individual submissions from art sites and lets you post them to your
@@ -13,11 +13,6 @@ In most cases, only photo posts are supported. However, Twitter and Tumblr
 text posts and DeviantArt status updates will be recognized as simple text
 posts, and you will be able to crosspost them easily without uploading a
 photo.
-
-Requirements:
-
-* Internet Explorer 11
-* .NET Framework 4.6.1 or higher
 
 Supported Sites
 ---------------
@@ -29,12 +24,10 @@ On Tumblr and Furry Network, CrosspostSharp lets you use read from and post to
 multiple blogs/characters using a single account.
 
 * DeviantArt / Sta.sh
-* Flickr
 * FurAffinity
 * Furry Network
 * Inkbunny
 * Mastodon
-* Pillowfort
 * Tumblr
 * Twitter
 * Weasyl

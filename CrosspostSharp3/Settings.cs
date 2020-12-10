@@ -88,14 +88,6 @@ namespace CrosspostSharp3 {
 			string IAccountCredentials.Username => boardName;
 		}
 
-		public struct PixivUploadSettings : PixivUploader.IPixivSession, IAccountCredentials {
-			public string PHPSESSID { get; set; }
-
-			string IAccountCredentials.Username => PHPSESSID;
-		}
-
-		public List<PixivUploadSettings> PixivUpload = new List<PixivUploadSettings>();
-
 		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;
