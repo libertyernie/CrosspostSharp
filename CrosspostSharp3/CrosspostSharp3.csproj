@@ -97,14 +97,12 @@
     <Compile Include="Flickr\FlickrPostForm.Designer.cs">
       <DependentUpon>FlickrPostForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FurAffinity\FAWinFormsLogin\Forms\loginPages\LoginFormFA.cs">
+    <Compile Include="FurAffinity\FurAffinityLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FurAffinity\FAWinFormsLogin\Forms\loginPages\LoginFormFA.Designer.cs">
-      <DependentUpon>LoginFormFA.cs</DependentUpon>
+    <Compile Include="FurAffinity\FurAffinityLoginForm.Designer.cs">
+      <DependentUpon>FurAffinityLoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FurAffinity\FAWinFormsLogin\Sites\FurAffinity.cs" />
-    <Compile Include="FurAffinity\FAWinFormsLogin\WebHandler.cs" />
     <Compile Include="FurAffinity\FurAffinityPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -276,8 +274,8 @@
     <EmbeddedResource Include="DeviantArt\DeviantArtUploadControl.resx">
       <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FurAffinity\FAWinFormsLogin\Forms\loginPages\LoginFormFA.resx">
-      <DependentUpon>LoginFormFA.cs</DependentUpon>
+    <EmbeddedResource Include="FurAffinity\FurAffinityLoginForm.resx">
+      <DependentUpon>FurAffinityLoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FurAffinity\FurAffinityPostForm.resx">
       <DependentUpon>FurAffinityPostForm.cs</DependentUpon>

@@ -15,7 +15,7 @@ namespace CrosspostSharp3 {
 			using (var acctSelForm = new AccountSelectionForm<Settings.FurAffinitySettings>(
 				s.FurAffinity,
 				async () => {
-					using (var f = new FAWinFormsLogin.loginPages.LoginFormFA()) {
+					using (var f = new FurAffinityLoginForm()) {
 						f.Text = "Log In - FurAffinity";
 						if (f.ShowDialog() == DialogResult.OK) {
 							var newSettings = new Settings.FurAffinitySettings {
