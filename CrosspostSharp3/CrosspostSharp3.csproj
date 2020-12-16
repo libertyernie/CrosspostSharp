@@ -140,9 +140,6 @@
     <Compile Include="FurAffinity\FurAffinityLoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FurAffinity\FurAffinityLoginForm.Designer.cs">
-      <DependentUpon>FurAffinityLoginForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="FurAffinity\FurAffinityPostForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -313,9 +310,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DeviantArt\DeviantArtUploadControl.resx">
       <DependentUpon>DeviantArtUploadControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FurAffinity\FurAffinityLoginForm.resx">
-      <DependentUpon>FurAffinityLoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FurAffinity\FurAffinityPostForm.resx">
       <DependentUpon>FurAffinityPostForm.cs</DependentUpon>

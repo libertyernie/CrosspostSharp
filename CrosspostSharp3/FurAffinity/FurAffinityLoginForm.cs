@@ -8,23 +8,29 @@ namespace CrosspostSharp3 {
 		public string BCookie { get; private set; } = null;
 
 		public FurAffinityLoginForm() {
-			InitializeComponent();
-		}
+			Width = 600;
+			Height = 600;
 
-		private void FurAffinityLoginForm_Shown(object sender, EventArgs e) {
-			webBrowser1.Navigate("https://www.furaffinity.net/msg/others/");
-		}
+			var webBrowser1 = new WebBrowser {
+				Dock = DockStyle.Fill
+			};
+			Controls.Add(webBrowser1);
 
-		private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e) {
-			Text = webBrowser1.Document?.Title ?? "Log In";
+			Shown += (sender, e) => {
+				webBrowser1.Navigate("https://www.furaffinity.net/msg/others/");
+			};
 
-			var cks = CppCookieTools.Cookies.GetCookies("https://www.furaffinity.net");
-			var dict = cks.ToDictionary(x => x.Name, x => x.Value);
-			if (dict.ContainsKey("a") && dict.ContainsKey("b")) {
-				ACookie = dict["a"];
-				BCookie = dict["b"];
-				DialogResult = DialogResult.OK;
-			}
+			webBrowser1.Navigated += (sender, e) => {
+				Text = (sender as WebBrowser)?.Document?.Title ?? "";
+
+				var cks = CppCookieTools.Cookies.GetCookies("https://www.furaffinity.net");
+				var dict = cks.ToDictionary(x => x.Name, x => x.Value);
+				if (dict.ContainsKey("a") && dict.ContainsKey("b")) {
+					ACookie = dict["a"];
+					BCookie = dict["b"];
+					DialogResult = DialogResult.OK;
+				}
+			};
 		}
 	}
 }
