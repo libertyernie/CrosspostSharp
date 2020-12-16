@@ -81,8 +81,7 @@ namespace CrosspostSharp3 {
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(360, 48);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Log into furrynetwork.com in a private browsing window and provide the value of r" +
-    "efresh_token in the JSON response from /api/oauth/token.\r\n";
+            this.label1.Text = "Log into furrynetwork.com in your browser, run `JSON.parse(localStorage.token).refresh_token` in the JavaScript console, and paste the result below.\r\n";
             // 
             // FurryNetworkLoginForm
             // 
