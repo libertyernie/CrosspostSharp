@@ -1,38 +1,17 @@
 ﻿using ISchemm.WinFormsOAuth;
-using Newtonsoft.Json;
 using SourceWrappers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tweetinvi;
-using Tweetinvi.Logic.JsonConverters;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
-	public class CustomJsonLanguageConverter : JsonLanguageConverter {
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer) {
-			return reader.Value != null
-				? base.ReadJson(reader, objectType, existingValue, serializer)
-				: Language.English;
-		}
-	}
-
 	public static class Program {
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main(string[] args) {
-			ExceptionHandler.SwallowWebExceptions = false;
-			TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
-
 			IECookiePersist.Suppress(true);
 			IECompatibility.SetForCurrentProcess();
-
-			JsonPropertyConverterRepository.JsonConverters.Remove(typeof(Language));
-			JsonPropertyConverterRepository.JsonConverters.Add(typeof(Language), new CustomJsonLanguageConverter());
 
 			// Force current directory (if a file or folder was dragged onto CrosspostSharp3.exe)
 			Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;

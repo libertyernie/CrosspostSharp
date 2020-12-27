@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Tweetinvi;
 using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
@@ -92,8 +93,8 @@ namespace CrosspostSharp3 {
 
 			string IAccountCredentials.Username => screenName;
 
-			public ITwitterCredentials GetCredentials() {
-				return new TwitterCredentials(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, tokenKey, tokenSecret);
+			public TwitterClient GetCredentials() {
+				return new TwitterClient(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, tokenKey, tokenSecret);
 			}
 		}
 

@@ -138,7 +138,7 @@ namespace CrosspostSharp3 {
 								case DialogResult.Cancel:
 									return;
 								case DialogResult.Yes:
-									toPost = Downloader.ConvertToPng(toPost);
+									toPost = new PngRendition(toPost);
 									itemId = null;
 									break;
 							}

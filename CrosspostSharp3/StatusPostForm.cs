@@ -84,11 +84,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<Uri> PostToTwitter(Settings.TwitterSettings t) {
-			var tweet = await Tweetinvi.Auth.ExecuteOperationWithCredentials(
-				t.GetCredentials(),
-				async () => {
-					return await Tweetinvi.TweetAsync.PublishTweet(CurrentText);
-				});
+			var tweet = await t.GetCredentials().Tweets.PublishTweetAsync(CurrentText);
 			if (tweet == null) {
 				throw new Exception("Could not post tweet");
 			}
