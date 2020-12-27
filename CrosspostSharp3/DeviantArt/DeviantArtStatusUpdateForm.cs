@@ -41,7 +41,7 @@ namespace CrosspostSharp3 {
 					picImageToPost.Visible = false;
 				}
 
-				var u = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(_token);
+				var u = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(_token, DeviantArtObjectExpansion.None);
 				lblUsername1.Text = u.username;
 				picUserIcon.ImageLocation = u.usericon;
 			} catch (Exception) { }
@@ -54,13 +54,14 @@ namespace CrosspostSharp3 {
 				long? itemId = null;
 
 				if (_downloaded != null) {
-					itemId = await DeviantArtFs.Requests.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.SubmitRequest(
+					var resp = await DeviantArtFs.Api.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Api.Stash.SubmitRequest(
 						_downloaded.Filename,
 						_downloaded.ContentType,
 						_downloaded.Data));
+					itemId = resp.itemid;
 				}
 
-				await DeviantArtFs.Requests.User.StatusPost.ExecuteAsync(_token, new DeviantArtFs.Requests.User.StatusPostRequest(textBox1.Text) {
+				await DeviantArtFs.Api.User.StatusPost.ExecuteAsync(_token, new DeviantArtFs.Api.User.StatusPostRequest(textBox1.Text) {
 					Stashid = itemId
 				});
 

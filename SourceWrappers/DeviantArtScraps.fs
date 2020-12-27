@@ -67,14 +67,14 @@ type DeviantArtScrapsWrapper(client: IDeviantArtAccessToken, username: string, i
     override __.FetchSubmissionsInternal() =
         fetch_batches 0 24
         |> AsyncSeq.mapAsync fetch_api_id
-        |> AsyncSeq.mapAsync (DeviantArtFs.Requests.Deviation.DeviationById.AsyncExecute client)
+        |> AsyncSeq.mapAsync (DeviantArtFs.Api.Deviation.DeviationById.AsyncExecute client DeviantArtObjectExpansion.None)
         |> AsyncSeq.filter (fun d -> includeLiterature || Option.isSome d.content)
         |> AsyncSeq.map (fun d -> new DeviantArtDeferredPostWrapper(d, client) :> IPostBase)
 
     override __.FetchUserInternal() = async {
         let! u =
-            new DeviantArtFs.Requests.User.ProfileByNameRequest(username)
-            |> DeviantArtFs.Requests.User.ProfileByName.AsyncExecute client
+            new DeviantArtFs.Api.User.ProfileByNameRequest(username)
+            |> DeviantArtFs.Api.User.ProfileByName.AsyncExecute client DeviantArtObjectExpansion.None
         return {
             username = u.user.username
             icon_url = Some u.user.usericon

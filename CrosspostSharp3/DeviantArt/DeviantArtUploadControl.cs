@@ -100,7 +100,7 @@ namespace CrosspostSharp3 {
 
 		private async Task<long> UploadToStash() {
 			try {
-				return await DeviantArtFs.Requests.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.SubmitRequest(
+				var resp = await DeviantArtFs.Api.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Api.Stash.SubmitRequest(
 					_downloaded.Filename,
 					_downloaded.ContentType,
 					_downloaded.Data
@@ -111,6 +111,7 @@ namespace CrosspostSharp3 {
 					Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
 					Title = txtTitle.Text
 				});
+				return resp.itemid;
 			} catch (DeviantArtException ex) when (ex.Message == "Cannot modify this item, it does not belong to this user." && _stashItemId != null) {
 				_stashItemId = null;
 				return await UploadToStash();
@@ -148,37 +149,37 @@ namespace CrosspostSharp3 {
 
 				var item = await UploadToStash();
 
-				var classifications = DeviantArtFs.Requests.Stash.MatureClassification.None;
-				if (chkNudity.Checked) classifications |= DeviantArtFs.Requests.Stash.MatureClassification.Nudity;
-				if (chkSexual.Checked) classifications |= DeviantArtFs.Requests.Stash.MatureClassification.Sexual;
-				if (chkGore.Checked) classifications |= DeviantArtFs.Requests.Stash.MatureClassification.Gore;
-				if (chkLanguage.Checked) classifications |= DeviantArtFs.Requests.Stash.MatureClassification.Language;
-				if (chkIdeology.Checked) classifications |= DeviantArtFs.Requests.Stash.MatureClassification.Ideology;
+				var classifications = new List<DeviantArtFs.Api.Stash.MatureClassification>();
+				if (chkNudity.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Nudity);
+				if (chkSexual.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Sexual);
+				if (chkGore.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Gore);
+				if (chkLanguage.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Language);
+				if (chkIdeology.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Ideology);
 
 				var sharingStr = ddlSharing.SelectedItem?.ToString();
-				var sharing = sharingStr == "Show share buttons" ? DeviantArtFs.Requests.Stash.Sharing.Allow
-						: sharingStr == "Hide share buttons" ? DeviantArtFs.Requests.Stash.Sharing.HideShareButtons
-						: sharingStr == "Hide & require login to view" ? DeviantArtFs.Requests.Stash.Sharing.HideAndMembersOnly
+				var sharing = sharingStr == "Show share buttons" ? DeviantArtFs.Api.Stash.Sharing.Allow
+						: sharingStr == "Hide share buttons" ? DeviantArtFs.Api.Stash.Sharing.HideShareButtons
+						: sharingStr == "Hide & require login to view" ? DeviantArtFs.Api.Stash.Sharing.HideAndMembersOnly
 						: throw new Exception("Unrecognized ddlSharing.SelectedItem");
 
-				var req = new DeviantArtFs.Requests.Stash.PublishRequest(item) {
+				var req = new DeviantArtFs.Api.Stash.PublishRequest(item) {
 					IsMature = !radNone.Checked,
 					AgreeSubmission = chkAgree.Checked,
 					AgreeTos = chkAgree.Checked,
 					MatureLevel = radStrict.Checked
-						? DeviantArtFs.Requests.Stash.MatureLevel.Strict
-						: DeviantArtFs.Requests.Stash.MatureLevel.Moderate,
+						? DeviantArtFs.Api.Stash.MatureLevel.Strict
+						: DeviantArtFs.Api.Stash.MatureLevel.Moderate,
 					MatureClassification = classifications,
 					Catpath = SelectedCategory?.CategoryPath,
 					AllowComments = chkAllowComments.Checked,
 					RequestCritique = chkRequestCritique.Checked,
 					Sharing = sharing,
-					LicenseOptions = new DeviantArtFs.Requests.Stash.LicenseOptions {
+					LicenseOptions = new DeviantArtFs.Api.Stash.LicenseOptions {
 						CreativeCommons = ddlLicense.SelectedItem.ToString().Contains("CC-"),
 						Commercial = !ddlLicense.SelectedItem.ToString().Contains("-NC"),
-						Modify = ddlLicense.SelectedItem.ToString().Contains("-ND") ? DeviantArtFs.Requests.Stash.LicenseModifyOption.No
-							: ddlLicense.SelectedItem.ToString().Contains("-SA") ? DeviantArtFs.Requests.Stash.LicenseModifyOption.ShareAlike
-							: DeviantArtFs.Requests.Stash.LicenseModifyOption.Yes,
+						Modify = ddlLicense.SelectedItem.ToString().Contains("-ND") ? DeviantArtFs.Api.Stash.LicenseModifyOption.No
+							: ddlLicense.SelectedItem.ToString().Contains("-SA") ? DeviantArtFs.Api.Stash.LicenseModifyOption.ShareAlike
+							: DeviantArtFs.Api.Stash.LicenseModifyOption.Yes,
 					},
 					Galleryids = SelectedFolders == null
 						? Enumerable.Empty<Guid>()
@@ -186,7 +187,7 @@ namespace CrosspostSharp3 {
 					AllowFreeDownload = chkAllowFreeDownload.Checked
 				};
 
-				var resp = await DeviantArtFs.Requests.Stash.Publish.ExecuteAsync(_token, req);
+				var resp = await DeviantArtFs.Api.Stash.Publish.ExecuteAsync(_token, req);
 
 				Uploaded?.Invoke(resp.url);
 			} catch (Exception ex) {
@@ -213,13 +214,13 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void lnkSubmissionPolicy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			string html = await DeviantArtFs.Requests.Data.Submission.ExecuteAsync(_token);
-			ShowHTMLDialog(html);
+			var resp = await DeviantArtFs.Api.Data.Submission.ExecuteAsync(_token);
+			ShowHTMLDialog(resp.text);
 		}
 
 		private async void lnkTermsOfService_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			string html = await DeviantArtFs.Requests.Data.Tos.ExecuteAsync(_token);
-			ShowHTMLDialog(html);
+			var resp = await DeviantArtFs.Api.Data.Tos.ExecuteAsync(_token);
+			ShowHTMLDialog(resp.text);
 		}
 	}
 }

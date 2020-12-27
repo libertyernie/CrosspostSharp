@@ -128,7 +128,7 @@ namespace CrosspostSharp3 {
 				// Check access token
 				this.Enabled = false;
 				try {
-					await DeviantArtFs.Requests.Util.Placebo.IsValidAsync(da);
+					await DeviantArtFs.Api.Util.Placebo.IsValidAsync(da);
 				} catch (Exception) { }
 				this.Enabled = true;
 
@@ -136,7 +136,7 @@ namespace CrosspostSharp3 {
 					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
 					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
 				} else {
-					var user = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(da);
+					var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(da, DeviantArtObjectExpansion.None);
 					add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
 					add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				}
