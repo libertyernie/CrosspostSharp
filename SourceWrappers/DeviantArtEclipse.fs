@@ -5,6 +5,10 @@ open SourceWrappers.Eclipse
 open System
 
 type DeviantArtEclipsePostWrapper(deviation: ExtendedFetchResponse.Deviation) =
+    let url =
+        let u = deviation.Media.BaseUri |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
+        let t = deviation.Media.Token |> Array.tryHead |> Option.defaultValue ""
+        sprintf "%s?token=%s" u (Uri.EscapeDataString t)
     interface IRemotePhotoPost with
         member __.Title = deviation.Title
         member __.HTMLDescription = deviation.Extended.Description
@@ -13,32 +17,30 @@ type DeviantArtEclipsePostWrapper(deviation: ExtendedFetchResponse.Deviation) =
         member __.Tags = deviation.Extended.Tags |> Seq.map (fun t -> t.Name)
         member __.Timestamp = deviation.PublishedTime.UtcDateTime
         member __.ViewURL = deviation.Url
-        member __.ImageURL =
-            deviation.Files
-            |> Seq.where (fun d -> d.Width * d.Height > 0)
-            |> Seq.sortByDescending (fun d -> d.Width * d.Height)
-            |> Seq.map (fun d -> d.Src)
-            |> Seq.tryHead
-            |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
-        member __.ThumbnailURL =
-            deviation.Files
-            |> Seq.where (fun d -> d.Width * d.Height > 0)
-            |> Seq.sortBy (fun d -> d.Width * d.Height)
-            |> Seq.map (fun d -> d.Src)
-            |> Seq.tryHead
-            |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
+        member __.ImageURL = url
+        member __.ThumbnailURL = url
 
 type DeviantArtEclipseDeferredPostWrapper(deviation: GalleryContentsResponse.Deviation) =
     inherit DeferredPhotoPost()
 
     override __.Title = deviation.Title
     override __.ThumbnailURL =
-        deviation.Files
-        |> Seq.where (fun d -> d.Width * d.Height > 0)
-        |> Seq.sortBy (fun d -> d.Width * d.Height)
-        |> Seq.map (fun d -> d.Src)
-        |> Seq.tryHead
-        |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
+        match (deviation.Media.BaseUri, Seq.toList deviation.Media.Token) with
+        | (Some baseUri, token :: _) ->
+            let preferred_type_suffix =
+                deviation.Media.Types
+                |> Seq.where (fun d -> d.W * d.H > 0)
+                |> Seq.sortByDescending (fun d -> d.W * d.H)
+                |> Seq.choose (fun d -> d.C)
+                |> Seq.tryHead
+            match preferred_type_suffix with
+            | Some c ->
+                let real_suffix = c.Replace("<prettyName>", "crosspostsharp")
+                sprintf "%s/%s?token=%s" baseUri real_suffix (Uri.EscapeDataString token)
+            | None ->
+                sprintf "%s?token=%s" baseUri (Uri.EscapeDataString token)
+        | _ ->
+            "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
     override __.ViewURL = deviation.Url
     override __.Timestamp = Some deviation.PublishedTime.UtcDateTime
     override __.AsyncGetActual() = async {
