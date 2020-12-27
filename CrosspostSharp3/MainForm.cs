@@ -183,11 +183,6 @@ namespace CrosspostSharp3 {
 				add(new WeasylCharacterSourceWrapper(username));
 			}
 
-			IEnumerable<IPostBase> imgur = Imgur.ImgurPostWrapper.AllPreviousUploads().ToList();
-			if (imgur.Any()) {
-				add(new AsyncSeqWrapperOfSeq("Previous Imgur uploads", imgur.Reverse()));
-			}
-
 			lblLoadStatus.Text = "Connecting to sites...";
 
 			var tasks = list.Select(async c => {

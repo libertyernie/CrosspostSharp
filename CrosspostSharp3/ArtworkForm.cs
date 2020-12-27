@@ -1,21 +1,13 @@
-﻿using CrosspostSharp3.Imgur;
-using CrosspostSharp3.Weasyl;
-using Imgur.API.Authentication.Impl;
-using Imgur.API.Endpoints.Impl;
+﻿using CrosspostSharp3.Weasyl;
 using Newtonsoft.Json;
 using SourceWrappers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
@@ -219,19 +211,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
-					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
-						try {
-							var image = await ImgurAnonymousUpload.UploadAsync(_downloaded.Data,
-								title: txtTitle.Text,
-								description: wbrDescription.Document.Body.InnerHtml);
-							Process.Start(image);
-						} catch (Exception ex) {
-							Console.Error.WriteLine(ex);
-							MessageBox.Show(this, "Could not upload to Imgur (an unknown error occured.)");
-						}
-					}
-				}));
 				listBox1.Items.Add("");
 			}
 
