@@ -43,9 +43,6 @@
             this.twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deviantArtModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eclipseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aPIOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pageSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsiPageSize4 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsiPageSize9 = new System.Windows.Forms.ToolStripMenuItem();
@@ -167,7 +164,6 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.accountSetupToolStripMenuItem,
-            this.deviantArtModeToolStripMenuItem,
             this.pageSizeToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
@@ -243,31 +239,6 @@
             this.weasylToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.weasylToolStripMenuItem.Text = "&Weasyl";
             this.weasylToolStripMenuItem.Click += new System.EventHandler(this.weasylToolStripMenuItem_Click);
-            // 
-            // deviantArtModeToolStripMenuItem
-            // 
-            this.deviantArtModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.eclipseToolStripMenuItem,
-            this.aPIOnlyToolStripMenuItem});
-            this.deviantArtModeToolStripMenuItem.Name = "deviantArtModeToolStripMenuItem";
-            this.deviantArtModeToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.deviantArtModeToolStripMenuItem.Text = "&DeviantArt Mode";
-            // 
-            // eclipseToolStripMenuItem
-            // 
-            this.eclipseToolStripMenuItem.CheckOnClick = true;
-            this.eclipseToolStripMenuItem.Name = "eclipseToolStripMenuItem";
-            this.eclipseToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.eclipseToolStripMenuItem.Text = "&Eclipse + API";
-            this.eclipseToolStripMenuItem.Click += new System.EventHandler(this.EclipseToolStripMenuItem_Click);
-            // 
-            // aPIOnlyToolStripMenuItem
-            // 
-            this.aPIOnlyToolStripMenuItem.CheckOnClick = true;
-            this.aPIOnlyToolStripMenuItem.Name = "aPIOnlyToolStripMenuItem";
-            this.aPIOnlyToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.aPIOnlyToolStripMenuItem.Text = "&API Only";
-            this.aPIOnlyToolStripMenuItem.Click += new System.EventHandler(this.APIOnlyToolStripMenuItem_Click);
             // 
             // pageSizeToolStripMenuItem
             // 
@@ -464,9 +435,6 @@
 		private System.Windows.Forms.ToolStripMenuItem mastodonToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem postToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem deviantArtModeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem eclipseToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem aPIOnlyToolStripMenuItem;
 	}
 }
 

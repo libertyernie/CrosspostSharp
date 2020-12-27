@@ -5,14 +5,11 @@ using FurryNetworkLib;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -106,8 +103,6 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Loading settings...";
 
 			Settings s = Settings.Load();
-			eclipseToolStripMenuItem.Checked = s.DeviantArtEclipse;
-			aPIOnlyToolStripMenuItem.Checked = !s.DeviantArtEclipse;
 			tableLayoutPanel1.Controls.Clear();
 			tableLayoutPanel1.RowCount = s.MainForm?.rows ?? 2;
 			tableLayoutPanel1.ColumnCount = s.MainForm?.columns ?? 2;
@@ -132,14 +127,9 @@ namespace CrosspostSharp3 {
 				} catch (Exception) { }
 				this.Enabled = true;
 
-				if (s.DeviantArtEclipse) {
-					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.All));
-					add(new DeviantArtEclipseSourceWrapper(da.Username, SourceWrappers.Eclipse.GalleryContentsSource.Scraps));
-				} else {
-					var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(da, DeviantArtObjectExpansion.None);
-					add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
-					add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
-				}
+				var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(da, DeviantArtObjectExpansion.None);
+				add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
+				add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
 			}
@@ -343,28 +333,6 @@ namespace CrosspostSharp3 {
 		private void postToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var f = new StatusPostForm()) {
 				f.ShowDialog(this);
-			}
-		}
-
-		private async void EclipseToolStripMenuItem_Click(object sender, EventArgs e) {
-			aPIOnlyToolStripMenuItem.Checked = false;
-
-			Settings s = Settings.Load();
-			if (s.DeviantArtEclipse == false) {
-				s.DeviantArtEclipse = true;
-				s.Save();
-				await ReloadWrapperList();
-			}
-		}
-
-		private async void APIOnlyToolStripMenuItem_Click(object sender, EventArgs e) {
-			eclipseToolStripMenuItem.Checked = false;
-
-			Settings s = Settings.Load();
-			if (s.DeviantArtEclipse == true) {
-				s.DeviantArtEclipse = false;
-				s.Save();
-				await ReloadWrapperList();
 			}
 		}
 	}

@@ -16,7 +16,6 @@
     <Compile Include="AsyncSeqWrapperPagedConsumer.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtScraps.fs" />
-    <Compile Include="DeviantArtEclipse.fs" />
     <Compile Include="DeviantArtStatus.fs" />
     <Compile Include="FurAffinity.fs" />
     <Compile Include="FurryNetwork.fs" />

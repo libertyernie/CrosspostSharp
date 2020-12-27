@@ -32,9 +32,6 @@ namespace CrosspostSharp3 {
 		public IEnumerable<DeviantArtTokenWrapper> DeviantArtTokens =>
 			DeviantArtAccounts.Select(x => new DeviantArtTokenWrapper(this, x));
 
-		[DefaultValue(true), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-		public bool DeviantArtEclipse = true;
-
 		public struct FurAffinitySettings : IAccountCredentials, IFurAffinityCredentials {
 			public string b;
 			public string a;
