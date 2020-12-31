@@ -22,11 +22,9 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FurAffinityFs", "FurAffinit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeasylLib", "WeasylLib\WeasylLib.csproj", "{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurAffinityFs.Tests", "FurAffinityFs.Tests\FurAffinityFs.Tests.csproj", "{C01306D9-A058-4AC9-BA7B-0512B68E6978}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppCookieTools", "CppCookieTools\CppCookieTools.vcxproj", "{36D78D78-10D0-4765-BBB1-B92370910C86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtworkSourceSpecification", "ArtworkSourceSpecification\ArtworkSourceSpecification.csproj", "{CC881A81-3AEE-4422-825A-509727E5F5D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArtworkSourceSpecification", "ArtworkSourceSpecification\ArtworkSourceSpecification.csproj", "{CC881A81-3AEE-4422-825A-509727E5F5D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,14 +82,6 @@ Global
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x64.Build.0 = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x86.ActiveCfg = Release|Any CPU
 		{DDC6B066-0C3A-4F0E-A06E-DFCFD7286B17}.Release|x86.Build.0 = Release|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Debug|x64.Build.0 = Debug|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Debug|x86.Build.0 = Debug|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Release|x64.ActiveCfg = Release|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Release|x64.Build.0 = Release|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Release|x86.ActiveCfg = Release|Any CPU
-		{C01306D9-A058-4AC9-BA7B-0512B68E6978}.Release|x86.Build.0 = Release|Any CPU
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Debug|x64.ActiveCfg = Debug|x64
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Debug|x64.Build.0 = Debug|x64
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Debug|x86.ActiveCfg = Debug|Win32
@@ -100,8 +90,6 @@ Global
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Release|x64.Build.0 = Release|x64
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Release|x86.ActiveCfg = Release|Win32
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Release|x86.Build.0 = Release|Win32
-		{CC881A81-3AEE-4422-825A-509727E5F5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC881A81-3AEE-4422-825A-509727E5F5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC881A81-3AEE-4422-825A-509727E5F5D5}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{CC881A81-3AEE-4422-825A-509727E5F5D5}.Debug|x64.Build.0 = Debug|Any CPU
 		{CC881A81-3AEE-4422-825A-509727E5F5D5}.Debug|x86.ActiveCfg = Debug|Any CPU

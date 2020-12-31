@@ -73,15 +73,9 @@ namespace CrosspostSharp3 {
 
 		private async void PopulateIcon() {
 			try {
-				string username = await FAReq.Whoami.ExecuteAsync(_credentials);
-				if (username == null) {
-					lblUsername1.Text = "Not logged in";
-				} else {
-					lblUsername1.Text = username;
-
-					var userInfo = await FAReq.UserPage.ExecuteAsync(_credentials, username);
-					picUserIcon.ImageLocation = userInfo.avatar.AbsoluteUri;
-				}
+				var user = await FAExportArtworkSource.GetCurrentProfileAsync($"b={_credentials.B}; a={_credentials.A}", false);
+				lblUsername1.Text = user.name;
+				picUserIcon.ImageLocation = user.avatar;
 			} catch (Exception) { }
 		}
 

@@ -22,7 +22,7 @@ namespace CrosspostSharp3 {
 								a = f.ACookie,
 								b = f.BCookie
 							};
-							newSettings.username = await FurAffinityFs.Requests.Whoami.ExecuteAsync(newSettings);
+							newSettings.username = await FAExportArtworkSource.GetUsernameAsync($"b={f.BCookie}; a={f.ACookie}", false);
 							return new[] { newSettings };
 						} else {
 							return Enumerable.Empty<Settings.FurAffinitySettings>();
