@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Eclipse\gallery-contents.json" />
-    <Content Include="Eclipse\extended-fetch-examples.json" />
-    <Compile Include="Eclipse\Types.fs" />
-    <Compile Include="Eclipse\GalleryContents.fs" />
-    <Compile Include="Eclipse\ExtendedFetch.fs" />
     <Compile Include="Posts.fs" />
     <Compile Include="SavedPhotoPost.fs" />
     <Compile Include="AsyncSeqWrapper.fs" />
