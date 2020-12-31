@@ -2,6 +2,7 @@
 
 open System
 open System.Text
+open System.Threading.Tasks
 open DeviantArtFs
 open FSharp.Control
 
@@ -46,7 +47,7 @@ type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArt
 
     interface IDeletable with
         member this.SiteName = "Sta.sh"
-        member this.DeleteAsync() = DeviantArtFs.Requests.Stash.Delete.ExecuteAsync token itemId
+        member this.DeleteAsync() = DeviantArtFs.Api.Stash.Delete.ExecuteAsync token itemId :> Task
 
 type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
@@ -54,9 +55,8 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     override __.Name = "Sta.sh"
 
     override __.FetchSubmissionsInternal() = asyncSeq {
-        let source =
-            new DeviantArtFs.Requests.Stash.DeltaRequest()
-            |> DeviantArtFs.Requests.Stash.Delta.ToAsyncSeq token 0
+        let req = new DeviantArtFs.Api.Stash.DeltaRequest()
+        let source = DeviantArtFs.Api.Stash.Delta.ToAsyncSeq token req 0
         for o in source do
             match (o.itemid, o.metadata) with
             | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
@@ -64,7 +64,7 @@ type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
     }
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.Requests.User.Whoami.AsyncExecute token
+        let! u = DeviantArtFs.Api.User.Whoami.AsyncExecute token DeviantArtObjectExpansion.None
         return {
             username = u.username
             icon_url = Some u.usericon

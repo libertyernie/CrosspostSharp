@@ -1,21 +1,13 @@
-﻿using CrosspostSharp3.Imgur;
-using CrosspostSharp3.Weasyl;
-using Imgur.API.Authentication.Impl;
-using Imgur.API.Endpoints.Impl;
+﻿using CrosspostSharp3.Weasyl;
 using Newtonsoft.Json;
 using SourceWrappers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
@@ -146,7 +138,7 @@ namespace CrosspostSharp3 {
 								case DialogResult.Cancel:
 									return;
 								case DialogResult.Yes:
-									toPost = Downloader.ConvertToPng(toPost);
+									toPost = new PngRendition(toPost);
 									itemId = null;
 									break;
 							}
@@ -165,13 +157,6 @@ namespace CrosspostSharp3 {
 					}));
 					listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
 						using (var f = new DeviantArtStatusUpdateForm(da, ExportAsText(), _downloaded)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var fl in settings.Flickr) {
-					listBox1.Items.Add(new DestinationOption($"Flickr ({fl.username})", () => {
-						using (var f = new FlickrPostForm(fl, ExportAsText(), _downloaded)) {
 							f.ShowDialog(this);
 						}
 					}));
@@ -204,21 +189,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				foreach (var p in settings.Pillowfort) {
-					listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-						using (var f = new PillowfortPostForm(p, ExportAsText(), _downloaded)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
-				foreach (var p in settings.PixivUpload) {
-					Settings.IAccountCredentials s = p;
-					listBox1.Items.Add(new DestinationOption($"Pixiv ({s.Username})", () => {
-						using (var f = new PixivPostForm(p, ExportAsText(), _downloaded)) {
-							f.ShowDialog(this);
-						}
-					}));
-				}
 				foreach (var t in settings.Twitter) {
 					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
 						using (var f = new TwitterPostForm(t, ExportAsText(), _downloaded)) {
@@ -241,19 +211,6 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				listBox1.Items.Add(new DestinationOption($"Imgur (anonymous upload)", async () => {
-					if (MessageBox.Show(this, "Would you like to upload this image to Imgur?", Text, MessageBoxButtons.OKCancel) == DialogResult.OK) {
-						try {
-							var image = await ImgurAnonymousUpload.UploadAsync(_downloaded.Data,
-								title: txtTitle.Text,
-								description: wbrDescription.Document.Body.InnerHtml);
-							Process.Start(image);
-						} catch (Exception ex) {
-							Console.Error.WriteLine(ex);
-							MessageBox.Show(this, "Could not upload to Imgur (an unknown error occured.)");
-						}
-					}
-				}));
 				listBox1.Items.Add("");
 			}
 
@@ -288,13 +245,6 @@ namespace CrosspostSharp3 {
 			foreach (var m in settings.Mastodon) {
 				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
 					using (var f = new MastodonCwPostForm(m, ExportAsText())) {
-						f.ShowDialog(this);
-					}
-				}));
-			}
-			foreach (var p in settings.Pillowfort) {
-				listBox1.Items.Add(new DestinationOption($"Pillowfort ({p.username})", () => {
-					using (var f = new PillowfortPostForm(p, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));

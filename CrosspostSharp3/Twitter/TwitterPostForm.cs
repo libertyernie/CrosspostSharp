@@ -15,7 +15,7 @@ using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public partial class TwitterPostForm : Form {
-		private readonly ITwitterCredentials _credentials;
+		private readonly TwitterClient _credentials;
 		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
@@ -47,9 +47,7 @@ namespace CrosspostSharp3 {
 
 		private async void TwitterPostForm_Shown(object sender, EventArgs e) {
 			try {
-				var user = await Auth.ExecuteOperationWithCredentials(
-					_credentials,
-					async () => await UserAsync.GetAuthenticatedUser());
+				var user = await _credentials.Users.GetAuthenticatedUserAsync();
 				lblUsername1.Text = user.Name;
 				lblUsername2.Text = "@" + user.ScreenName;
 
@@ -69,29 +67,19 @@ namespace CrosspostSharp3 {
 				var attachments = new List<IMedia>();
 				if (chkIncludeImage.Checked && _downloaded != null) {
 					if (_downloaded.ContentType.StartsWith("video/")) {
-						attachments.Add(
-							Auth.ExecuteOperationWithCredentials(
-								_credentials,
-								() => Upload.UploadVideo(_downloaded.Data)));
+						attachments.Add(await _credentials.Upload.UploadTweetVideoAsync(_downloaded.Data));
 					} else {
-						attachments.Add(
-							Auth.ExecuteOperationWithCredentials(
-								_credentials,
-								() => Upload.UploadBinary(_downloaded.Data)));
+						attachments.Add(await _credentials.Upload.UploadBinaryAsync(_downloaded.Data));
 					}
 				}
 
-				await Auth.ExecuteOperationWithCredentials(
-					_credentials,
-					async () => {
-						var tweet = await TweetAsync.PublishTweet(txtContent.Text, new Tweetinvi.Parameters.PublishTweetOptionalParameters {
-							PossiblySensitive = chkPotentiallySensitive.Checked,
-							Medias = attachments
-						});
-						if (tweet == null) {
-							MessageBox.Show(this, "Could not post tweet");
-						}
-					});
+				var tweet = await _credentials.Tweets.PublishTweetAsync(new Tweetinvi.Parameters.PublishTweetParameters(txtContent.Text) {
+					PossiblySensitive = chkPotentiallySensitive.Checked,
+					Medias = attachments
+				});
+				if (tweet == null) {
+					MessageBox.Show(this, "Could not post tweet");
+				}
 				Close();
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);

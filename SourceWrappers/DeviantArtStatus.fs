@@ -6,8 +6,10 @@ open System
 
 type DeviantArtStatusPostWrapper(status: DeviantArtStatus) =
     let Mature =
-        status.GetEmbeddedDeviations()
-        |> Seq.exists (fun i -> i.is_mature = Some true)
+        status.items
+        |> Option.defaultValue List.empty
+        |> List.choose (fun i -> i.deviation)
+        |> Seq.exists (fun d -> d.is_mature = Some true)
 
     interface IPostBase with
         member this.Title = ""
@@ -48,20 +50,22 @@ type DeviantArtStatusPhotoPostWrapper(status: DeviantArtStatus, deviation: Devia
 type DeviantArtStatusSourceWrapper(client: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 
-    override this.Name = "DeviantArt (statuses)"
+    override __.Name = "DeviantArt (statuses)"
 
     override this.FetchSubmissionsInternal() = asyncSeq {
         let! username = this.WhoamiAsync() |> Async.AwaitTask
-        for r in DeviantArtFs.Requests.User.StatusesList.ToAsyncSeq client 0 username do
-            if r.GetEmbeddedDeviations() |> Seq.isEmpty then
-                yield new DeviantArtStatusPostWrapper(r) :> IPostBase
-            else
-                for d in r.GetEmbeddedDeviations() do
-                    yield new DeviantArtStatusPhotoPostWrapper(r, d) :> IPostBase
+        for r in DeviantArtFs.Api.User.StatusesList.ToAsyncSeq client username 0 do
+            let deviations =
+                r.items
+                |> Option.defaultValue List.empty
+                |> List.choose (fun i -> i.deviation)
+            match deviations with
+            | [] -> yield new DeviantArtStatusPostWrapper(r) :> IPostBase
+            | _ -> for d in deviations do yield new DeviantArtStatusPhotoPostWrapper(r, d) :> IPostBase
     }
 
     override __.FetchUserInternal() = async {
-        let! u = DeviantArtFs.Requests.User.Whoami.AsyncExecute client
+        let! u = DeviantArtFs.Api.User.Whoami.AsyncExecute client DeviantArtObjectExpansion.None
         return {
             username = u.username
             icon_url = Some u.usericon

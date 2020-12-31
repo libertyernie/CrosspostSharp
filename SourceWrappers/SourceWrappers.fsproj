@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,14 +16,11 @@
     <Compile Include="AsyncSeqWrapperPagedConsumer.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtScraps.fs" />
-    <Compile Include="DeviantArtEclipse.fs" />
     <Compile Include="DeviantArtStatus.fs" />
-    <Compile Include="Flickr.fs" />
     <Compile Include="FurAffinity.fs" />
     <Compile Include="FurryNetwork.fs" />
     <Compile Include="Inkbunny.fs" />
     <Compile Include="Mastodon.fs" />
-    <Compile Include="Pillowfort.fs" />
     <Compile Include="Stash.fs" />
     <Compile Include="Twitter.fs" />
     <Compile Include="Tumblr.fs" />
@@ -32,26 +29,24 @@
 
   <ItemGroup>
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
-    <PackageReference Include="DeviantArtFs" Version="5.0.0" />
-    <PackageReference Include="FlickrNet" Version="3.26.0" />
-    <PackageReference Include="FSharp.Control.AsyncSeq" Version="2.0.23" />
+    <PackageReference Include="DeviantArtFs" Version="6.0.1" />
+    <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.0.3" />
     <PackageReference Include="FSharp.Data" Version="3.3.3" />
     <PackageReference Include="MapleFedNet" Version="1.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="NewTumblrSharp" Version="1.1.141" />
-    <PackageReference Include="TweetinviAPI" Version="4.0.3" />
+    <PackageReference Include="NewTumblrSharp" Version="1.2.0.156" />
+    <PackageReference Include="TweetinviAPI" Version="5.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />
-    <ProjectReference Include="..\PillowfortFs\PillowfortFs.fsproj" />
     <ProjectReference Include="..\WeasylLib\WeasylLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.7.1" />
+    <PackageReference Update="FSharp.Core" Version="5.0.0" />
     <PackageReference Update="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 

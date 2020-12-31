@@ -15,7 +15,7 @@ module internal Shared =
         else
             None
 
-    let (|CanParseInt|_|) str =
+    let (|CanParseInt|_|) (str: string) =
         match System.Int32.TryParse str with
         | (true, int) -> Some int
         | _ -> None

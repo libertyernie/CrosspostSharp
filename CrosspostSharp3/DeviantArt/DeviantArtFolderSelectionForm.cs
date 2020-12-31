@@ -27,7 +27,7 @@ namespace CrosspostSharp3 {
 			try {
 				this.Enabled = false;
 
-				var list = await DeviantArtFs.Requests.Gallery.GalleryFolders.ToArrayAsync(_token, 0, 100, new DeviantArtFs.Requests.Gallery.GalleryFoldersRequest { });
+				var list = await DeviantArtFs.Api.Gallery.GalleryFolders.ToArrayAsync(_token, new DeviantArtFs.Api.Gallery.GalleryFoldersRequest(), 0, 100);
 
 				foreach (var f in list) {
 					var chk = new CheckBox {

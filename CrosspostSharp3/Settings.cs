@@ -1,5 +1,4 @@
 ﻿using CrosspostSharp3.DeviantArt;
-using FlickrNet;
 using FurAffinityFs;
 using MapleFedNet.Common;
 using Newtonsoft.Json;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Tweetinvi;
 using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
@@ -32,26 +32,6 @@ namespace CrosspostSharp3 {
 
 		public IEnumerable<DeviantArtTokenWrapper> DeviantArtTokens =>
 			DeviantArtAccounts.Select(x => new DeviantArtTokenWrapper(this, x));
-
-		[DefaultValue(true), JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-		public bool DeviantArtEclipse = true;
-
-		public struct FlickrSettings : IAccountCredentials {
-			public string tokenKey;
-			public string tokenSecret;
-			public string username;
-
-			string IAccountCredentials.Username => username;
-
-			public Flickr CreateClient() {
-				return new Flickr(OAuthConsumer.Flickr.KEY, OAuthConsumer.Flickr.SECRET) {
-					OAuthAccessToken = tokenKey,
-					OAuthAccessTokenSecret = tokenSecret
-				};
-			}
-		}
-
-		public List<FlickrSettings> Flickr = new List<FlickrSettings>();
 
 		public struct FurAffinitySettings : IAccountCredentials, IFurAffinityCredentials {
 			public string b;
@@ -85,14 +65,6 @@ namespace CrosspostSharp3 {
 
 		public List<InkbunnySettings> Inkbunny = new List<InkbunnySettings>();
 
-		public struct PillowfortSettings : IAccountCredentials {
-			public string username;
-			public string cookie;
-			public IEnumerable<string> tags;
-
-			string IAccountCredentials.Username => username;
-		}
-
 		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
 
 		public struct MastodonSettings : IAccountCredentials, IMastodonCredentials {
@@ -106,8 +78,6 @@ namespace CrosspostSharp3 {
 			string IMastodonCredentials.Token => accessToken;
 		}
 
-		public List<PillowfortSettings> Pillowfort = new List<PillowfortSettings>();
-
 		public struct PinterestSettings : IAccountCredentials {
 			public string accessToken;
 			public string username;
@@ -116,14 +86,6 @@ namespace CrosspostSharp3 {
 			string IAccountCredentials.Username => boardName;
 		}
 
-		public struct PixivUploadSettings : PixivUploader.IPixivSession, IAccountCredentials {
-			public string PHPSESSID { get; set; }
-
-			string IAccountCredentials.Username => PHPSESSID;
-		}
-
-		public List<PixivUploadSettings> PixivUpload = new List<PixivUploadSettings>();
-
 		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;
@@ -131,8 +93,8 @@ namespace CrosspostSharp3 {
 
 			string IAccountCredentials.Username => screenName;
 
-			public ITwitterCredentials GetCredentials() {
-				return new TwitterCredentials(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, tokenKey, tokenSecret);
+			public TwitterClient GetCredentials() {
+				return new TwitterClient(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, tokenKey, tokenSecret);
 			}
 		}
 

@@ -17,7 +17,7 @@ type FurryNetworkPostWrapper(artwork: FileSubmission, client: FurryNetworkClient
         member this.Adult = artwork.Rating >= 2
         member this.Tags = artwork.TagStrings
         member this.Timestamp = artwork.Created
-        member this.ViewURL = sprintf "https://beta.furrynetwork.com/artwork/%d" artwork.Id
+        member this.ViewURL = sprintf "https://furrynetwork.com/artwork/%d" artwork.Id
         member this.ImageURL = artwork.Images.Original
         member this.ThumbnailURL = artwork.Images.Thumbnail
     interface IDeletable with

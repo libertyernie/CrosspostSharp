@@ -66,7 +66,7 @@ type SavedPhotoPost = {
         else
             None
 
-    static member FromFile filename =
+    static member FromFile (filename: string) =
         let default_title = Path.GetFileName filename
         let data = File.ReadAllBytes filename
         SavedPhotoPost.TryDeserializeJson data |> Option.defaultValue (SavedPhotoPost.FromData data default_title)

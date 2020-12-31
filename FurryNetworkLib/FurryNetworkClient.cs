@@ -17,9 +17,9 @@ namespace FurryNetworkLib {
         }
 
         private async Task<HttpWebRequest> CreateRequest(string method, string urlPath, object jsonBody = null) {
-            var req = WebRequest.CreateHttp("https://beta.furrynetwork.com/api/" + urlPath);
+            var req = WebRequest.CreateHttp("https://furrynetwork.com/api/" + urlPath);
             req.Method = method;
-            req.UserAgent = "FurryNetworkLib/0.2 (https://www.github.com/libertyernie/FurryNetworkLib)";
+            req.UserAgent = "FurryNetworkLib/0.3 (https://www.github.com/libertyernie/CrosspostSharp)";
             if (AccessToken != null) {
                 req.Headers["Authorization"] = $"Bearer {AccessToken}";
             }
@@ -51,43 +51,6 @@ namespace FurryNetworkLib {
             }
         }
 
-        /// <summary>
-        /// Create a FurryNetworkClient object with a username and password.
-        /// </summary>
-        /// <param name="username">Your FurryNetwork username</param>
-        /// <param name="password">Your FurryNetwork password</param>
-        public static async Task<FurryNetworkClient> LoginAsync(string username, string password) {
-            var req = WebRequest.CreateHttp("https://beta.furrynetwork.com/api/oauth/token");
-            req.Method = "POST";
-            req.ContentType = "application/x-www-form-urlencoded";
-            req.Accept = "application/json";
-            req.UserAgent = "FurryNetworkLib/0.1 (https://www.github.com/libertyernie/FurryNetworkLib)";
-            using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
-                await sw.WriteAsync($"username={WebUtility.UrlEncode(username)}&");
-                await sw.WriteAsync($"password={WebUtility.UrlEncode(password)}&");
-                await sw.WriteAsync($"grant_type=password&client_id=123&client_secret=");
-                await sw.FlushAsync();
-            }
-            using (var resp = await req.GetResponseAsync())
-            using (var sr = new StreamReader(resp.GetResponseStream())) {
-                string json = await sr.ReadToEndAsync();
-                var obj = JsonConvert.DeserializeAnonymousType(json, new {
-                    access_token = "",
-                    expires_in = 0,
-                    token_type = "",
-                    refresh_token = "",
-                    user_id = 0
-                });
-                if (obj.token_type != "bearer") {
-                    throw new Exception("Token returned was not a bearer token");
-                }
-                return new FurryNetworkClient {
-                    AccessToken = obj.access_token,
-                    RefreshToken = obj.refresh_token
-                };
-            }
-        }
-
 		public class TokenException : Exception {
 			public readonly string Error;
 
@@ -97,11 +60,11 @@ namespace FurryNetworkLib {
 		}
         
         private async Task GetNewAccessToken() {
-            var req = WebRequest.CreateHttp("https://beta.furrynetwork.com/api/oauth/token");
+            var req = WebRequest.CreateHttp("https://furrynetwork.com/api/oauth/token");
             req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded";
             req.Accept = "application/json";
-            req.UserAgent = "FurryNetworkLib/0.1 (https://www.github.com/libertyernie/FurryNetworkLib)";
+            req.UserAgent = "FurryNetworkLib/0.2 (https://www.github.com/libertyernie/CrosspostSharp)";
             using (var sw = new StreamWriter(await req.GetRequestStreamAsync())) {
                 await sw.WriteAsync($"client_id=123&");
                 await sw.WriteAsync($"grant_type=refresh_token&");
@@ -308,9 +271,9 @@ namespace FurryNetworkLib {
 
 				using (var resp1 = await ExecuteRequest("GET", url)) { }
 
-				var req2 = WebRequest.CreateHttp("https://beta.furrynetwork.com/api/" + url);
+				var req2 = WebRequest.CreateHttp("https://furrynetwork.com/api/" + url);
 				req2.Method = "POST";
-				req2.UserAgent = "FurryNetworkLib/0.1 (https://www.github.com/libertyernie/FurryNetworkLib)";
+				req2.UserAgent = "FurryNetworkLib/0.2 (https://www.github.com/libertyernie/CrosspostSharp)";
 				if (AccessToken != null) {
 					req2.Headers["Authorization"] = $"Bearer {AccessToken}";
 				}

@@ -64,8 +64,8 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task PopulateAsync(TreeNodeCollection nodes, string path = null) {
-			var result = await DeviantArtFs.Requests.Stash.PublishCategoryTree.ExecuteAsync(_token, new DeviantArtFs.Requests.Stash.PublishCategoryTreeRequest(path ?? "/"));
-			foreach (var c in result) {
+			var result = await DeviantArtFs.Api.Stash.PublishCategoryTree.ExecuteAsync(_token, new DeviantArtFs.Api.Stash.PublishCategoryTreeRequest(path ?? "/"));
+			foreach (var c in result.categories) {
 				TreeNode node = nodes.Add(c.catpath, c.title);
 				if (c.has_subcategory) {
 					node.Nodes.Add("loading", "Loading...");

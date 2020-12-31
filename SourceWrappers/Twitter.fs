@@ -7,8 +7,9 @@ open Tweetinvi.Models.Entities
 open Tweetinvi
 open Tweetinvi.Parameters
 open FSharp.Control
+open System
 
-type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterCredentials: ITwitterCredentials) =
+type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterClient: ITwitterClient) =
     interface IPostBase with
         member this.Title = ""
         member this.HTMLDescription =
@@ -20,20 +21,20 @@ type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterCreden
         member this.Mature = tweet.PossiblySensitive
         member this.Adult = false
         member this.Tags = tweet.Hashtags |> Seq.map (fun t -> t.Text)
-        member this.Timestamp = tweet.CreatedAt
+        member this.Timestamp = tweet.CreatedAt.UtcDateTime
         member this.ViewURL = tweet.Url
     interface IDeletable with
         member this.SiteName = "Twitter"
-        member this.DeleteAsync () = Auth.ExecuteOperationWithCredentials(twitterCredentials, (fun () -> TweetAsync.DestroyTweet(tweet))) :> Task
+        member this.DeleteAsync () = twitterClient.Tweets.DestroyTweetAsync tweet
 
-type TwitterPhotoPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCredentials: ITwitterCredentials) =
-    inherit TwitterPostWrapper(tweet, Some media, twitterCredentials)
+type TwitterPhotoPostWrapper(tweet: ITweet, media: IMediaEntity, twitterClient: ITwitterClient) =
+    inherit TwitterPostWrapper(tweet, Some media, twitterClient)
     interface IRemotePhotoPost with
         member this.ImageURL = sprintf "%s:large" media.MediaURLHttps
         member this.ThumbnailURL = sprintf "%s:thumb" media.MediaURLHttps
 
-type TwitterAnimatedGifPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCredentials: ITwitterCredentials) =
-    inherit TwitterPostWrapper(tweet, Some media, twitterCredentials)
+type TwitterAnimatedGifPostWrapper(tweet: ITweet, media: IMediaEntity, twitterClient: ITwitterClient) =
+    inherit TwitterPostWrapper(tweet, Some media, twitterClient)
     interface IRemoteVideoPost with
         member this.VideoURL =
             media.VideoDetails.Variants
@@ -43,18 +44,16 @@ type TwitterAnimatedGifPostWrapper(tweet: ITweet, media: IMediaEntity, twitterCr
             |> Seq.head
         member this.ThumbnailURL = media.MediaURLHttps
 
-type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: bool) =
+type TwitterSourceWrapper(twitterClient: ITwitterClient, photosOnly: bool) =
     inherit AsyncSeqWrapper()
 
-    let execute_with_credentials (f: unit -> Task<'a>) = Auth.ExecuteOperationWithCredentials(twitterCredentials, f) |> Async.AwaitTask
-
-    let user_task = lazy(Auth.ExecuteOperationWithCredentials (twitterCredentials, fun () -> UserAsync.GetAuthenticatedUser()))
+    let user_task = lazy(twitterClient.Users.GetAuthenticatedUserAsync())
 
     let getUser = user_task.Force() |> Async.AwaitTask
 
-    let wrap t = TwitterPostWrapper (t, None, twitterCredentials) :> IPostBase
-    let wrapPhoto t m = TwitterPhotoPostWrapper (t, m, twitterCredentials) :> IPostBase
-    let wrapAnimatedGif t m = TwitterAnimatedGifPostWrapper (t, m, twitterCredentials) :> IPostBase
+    let wrap t = TwitterPostWrapper (t, None, twitterClient) :> IPostBase
+    let wrapPhoto t m = TwitterPhotoPostWrapper (t, m, twitterClient) :> IPostBase
+    let wrapAnimatedGif t m = TwitterAnimatedGifPostWrapper (t, m, twitterClient) :> IPostBase
 
     let isPhoto (m: IMediaEntity) = m.MediaType = "photo"
     let isAnimatedGif (m: IMediaEntity) = m.MediaType = "animated_gif"
@@ -68,19 +67,20 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
             "Twitter (text + images)"
 
     override this.FetchSubmissionsInternal() = asyncSeq {
-        let mutable maxId = -1L
+        let mutable maxId = Nullable<int64>()
         let mutable more = true
 
         while more do
-            let ps = new UserTimelineParameters()
+            let! user = getUser
+
+            let ps = new GetUserTimelineParameters(user)
             ps.ExcludeReplies <- false
             ps.IncludeEntities <- true
-            ps.IncludeRTS <- true
+            ps.IncludeRetweets <- true
             ps.MaxId <- maxId
-            ps.MaximumNumberOfTweetsToRetrieve <- this.BatchSize
+            ps.PageSize <- this.BatchSize
 
-            let! user = getUser
-            let! tweets = execute_with_credentials (fun () -> TimelineAsync.GetUserTimeline(user, ps))
+            let! tweets = twitterClient.Timelines.GetUserTimelineAsync ps |> Async.AwaitTask
 
             for t in tweets do
                 if not t.IsRetweet then
@@ -100,7 +100,7 @@ type TwitterSourceWrapper(twitterCredentials: ITwitterCredentials, photosOnly: b
                             
             more <- not (Seq.isEmpty tweets)
             if more then
-                maxId <- (tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L
+                maxId <- Nullable ((tweets |> Seq.map (fun t -> t.Id) |> Seq.min) - 1L)
     }
 
     override this.FetchUserInternal() = async {

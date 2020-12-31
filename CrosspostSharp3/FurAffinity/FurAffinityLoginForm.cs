@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
@@ -16,49 +8,29 @@ namespace CrosspostSharp3 {
 		public string BCookie { get; private set; } = null;
 
 		public FurAffinityLoginForm() {
-			InitializeComponent();
-		}
+			Width = 600;
+			Height = 600;
 
-		[DllImport("wininet.dll", SetLastError = true)]
-		private static extern bool InternetGetCookieEx(
-			string url,
-			string cookieName,
-			StringBuilder cookieData,
-			ref int size,
-			int flags,
-			IntPtr pReserved);
+			var webBrowser1 = new WebBrowser {
+				Dock = DockStyle.Fill
+			};
+			Controls.Add(webBrowser1);
 
-		private const int INTERNET_COOKIE_HTTPONLY = 0x00002000;
+			Shown += (sender, e) => {
+				webBrowser1.Navigate("https://www.furaffinity.net/msg/others/");
+			};
 
-		public static string GetCookie(string url, string name) {
-			int size = 512;
-			StringBuilder sb = new StringBuilder(size);
-			if (!InternetGetCookieEx(url, name, sb, ref size, INTERNET_COOKIE_HTTPONLY, IntPtr.Zero)) {
-				if (size < 0) {
-					return null;
+			webBrowser1.Navigated += (sender, e) => {
+				Text = (sender as WebBrowser)?.Document?.Title ?? "";
+
+				var cks = CppCookieTools.Cookies.GetCookies("https://www.furaffinity.net");
+				var dict = cks.ToDictionary(x => x.Name, x => x.Value);
+				if (dict.ContainsKey("a") && dict.ContainsKey("b")) {
+					ACookie = dict["a"];
+					BCookie = dict["b"];
+					DialogResult = DialogResult.OK;
 				}
-				sb = new StringBuilder(size);
-				if (!InternetGetCookieEx(url, name, sb, ref size, INTERNET_COOKIE_HTTPONLY, IntPtr.Zero)) {
-					return null;
-				}
-			}
-			return sb.ToString();
-		}
-
-		private void FurAffinityLoginForm_Shown(object sender, EventArgs e) {
-			webBrowser1.Navigate("https://www.furaffinity.net/msg/others/");
-		}
-
-		private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e) {
-			Text = webBrowser1.Document?.Title ?? "Log In";
-
-			string a = GetCookie("https://www.furaffinity.net", "a");
-			string b = GetCookie("https://www.furaffinity.net", "b");
-			if (a?.StartsWith("a=") == true && b?.StartsWith("b=") == true) {
-				ACookie = a.Split('=')[1];
-				BCookie = b.Split('=')[1];
-				DialogResult = DialogResult.OK;
-			}
+			};
 		}
 	}
 }

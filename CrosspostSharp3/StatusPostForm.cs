@@ -42,14 +42,6 @@ namespace CrosspostSharp3 {
 				pnlAccounts.Controls.Add(checkbox);
 				_postFunctions.Add(checkbox, () => PostToMastodon(m));
 			}
-			foreach (var p in settings.Pillowfort) {
-				var checkbox = new CheckBox {
-					Text = $"Pillowfort ({p.username})",
-					AutoSize = true
-				};
-				pnlAccounts.Controls.Add(checkbox);
-				_postFunctions.Add(checkbox, () => PostToPillowfort(p));
-			}
 			foreach (var t in settings.Twitter) {
 				var checkbox = new CheckBox {
 					Text = $"Twitter ({t.screenName})",
@@ -71,14 +63,14 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<Uri> PostToDeviantArt(IDeviantArtAccessToken token) {
-			Guid id = await DeviantArtFs.Requests.User.StatusPost.ExecuteAsync(
+			var post = await DeviantArtFs.Api.User.StatusPost.ExecuteAsync(
 				token,
-				new DeviantArtFs.Requests.User.StatusPostRequest(CurrentHtml));
+				new DeviantArtFs.Api.User.StatusPostRequest(CurrentHtml));
 			try {
-				var status = await DeviantArtFs.Requests.User.StatusById.ExecuteAsync(token, id);
+				var status = await DeviantArtFs.Api.User.StatusById.ExecuteAsync(token, post.statusid);
 				return new Uri(status.url.Value);
 			} catch (Exception) {
-				var user = await DeviantArtFs.Requests.User.Whoami.ExecuteAsync(token);
+				var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(token, DeviantArtObjectExpansion.None);
 				return new Uri("https://www.deviantart.com/" + user);
 			}
 		}
@@ -91,29 +83,8 @@ namespace CrosspostSharp3 {
 			return new Uri(status.Url);
 		}
 
-		private async Task<Uri> PostToPillowfort(Settings.PillowfortSettings p) {
-			var client = new PillowfortFs.PillowfortClient() {
-				Cookie = p.cookie
-			};
-			await client.SubmitPostAsync(new PillowfortFs.PostRequest(
-				title: "",
-				content: CurrentHtml,
-				tags: Enumerable.Empty<string>(),
-				privacy: PillowfortFs.PrivacyLevel.Public,
-				rebloggable: true,
-				commentable: true,
-				nsfw: false,
-				media: PillowfortFs.PillowfortMediaBuilder.None));
-			string username = await client.WhoamiAsync();
-			return new Uri($"https://pillowfort.social/{username}");
-		}
-
 		private async Task<Uri> PostToTwitter(Settings.TwitterSettings t) {
-			var tweet = await Tweetinvi.Auth.ExecuteOperationWithCredentials(
-				t.GetCredentials(),
-				async () => {
-					return await Tweetinvi.TweetAsync.PublishTweet(CurrentText);
-				});
+			var tweet = await t.GetCredentials().Tweets.PublishTweetAsync(CurrentText);
 			if (tweet == null) {
 				throw new Exception("Could not post tweet");
 			}
