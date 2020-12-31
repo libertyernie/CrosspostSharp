@@ -91,9 +91,9 @@ namespace CrosspostSharp3 {
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
-			var list = new List<AsyncSeqWrapper>();
+			var list = new List<IArtworkSource>();
 
-			void add(AsyncSeqWrapper wrapper) {
+			void add(IArtworkSource wrapper) {
 				list.Add(wrapper);
 			}
 
@@ -129,7 +129,7 @@ namespace CrosspostSharp3 {
 				add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtStatusSourceWrapper(da));
-				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
+				add(ArtworkList.Create(new UnorderedStashSourceWrapper(da)));
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
@@ -188,9 +188,9 @@ namespace CrosspostSharp3 {
 				try {
 					var user = await c.GetUserAsync();
 					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: ok)"));
-					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.username)
+					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.Name)
 						? c.Name
-						: $"{user.username} - {c.Name}");
+						: $"{user.Name} - {c.Name}");
 				} catch (Exception ex) {
 					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: failed)"));
 					var inner = ex;

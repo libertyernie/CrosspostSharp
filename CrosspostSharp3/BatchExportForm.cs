@@ -14,10 +14,10 @@ namespace CrosspostSharp3 {
 			foreach (var w in wrappers) listBox1.Items.Add(w);
 		}
 
-		public IEnumerable<IPagedWrapperConsumer> SelectedWrappers {
+		public IEnumerable<IArtworkSource> SelectedWrappers {
 			get {
 				foreach (var o in listBox1.SelectedItems) {
-					if (o is IPagedWrapperConsumer w) yield return w;
+					if (o is IArtworkSource w) yield return w;
 				}
 			}
 		}
@@ -39,7 +39,7 @@ namespace CrosspostSharp3 {
 
 				var consumer = SelectedWrappers.Single();
 
-				var posts = await consumer.FetchAllAsync((int)numericUpDown1.Value);
+				var posts = await consumer.GetPostsAsync().Take((int)numericUpDown1.Value).ToListAsync();
 
 				foreach (var submission in posts) {
 					progressBar1.Value++;
