@@ -1,4 +1,0 @@
-﻿  Source.h
-  Source.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
-Debug\Source.obj : warning LNK4042: object specified more than once; extras ignored
-  CppCookieTools.vcxproj -> C:\Users\admin\Documents\Visual Studio 2017\Projects\CrosspostSharp\Debug\CppCookieTools.dll
