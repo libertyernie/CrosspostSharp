@@ -2,6 +2,7 @@ namespace SourceWrappers
 
 open System
 open FSharp.Control
+open ArtworkSourceSpecification
 
 module internal Swu =
     let skipSafe num = 
@@ -17,7 +18,10 @@ module internal Swu =
 type AsyncSeqWrapperUserInfo = {
     username: string
     icon_url: string option
-}
+} with
+    interface IAuthor with
+        member this.Name = this.username
+        member this.IconUrl = this.icon_url |> Option.defaultValue "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif"
 
 [<AbstractClass>]
 type AsyncSeqWrapper() as this =
@@ -49,6 +53,10 @@ type AsyncSeqWrapper() as this =
 
     interface AsyncSeq<IPostBase> with
         member __.GetEnumerator() = cache.Value.GetEnumerator()
+    interface IArtworkSource with
+        member this.Name = this.Name
+        member this.GetPostsAsync() = this.FetchSubmissionsInternal() |> AsyncSeq.toAsyncEnum
+        member this.GetUserAsync() = this.FetchUserInternal() |> Swu.whenDone (fun a -> a :> IAuthor) |> Async.StartAsTask
 
 type OrderedAsyncSeqWrapper(wrapper: AsyncSeqWrapper) =
     inherit AsyncSeqWrapper()

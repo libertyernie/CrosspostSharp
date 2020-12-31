@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArtworkSourceSpecification\ArtworkSourceSpecification.csproj" />
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />

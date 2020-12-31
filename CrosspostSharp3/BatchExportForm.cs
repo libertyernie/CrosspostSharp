@@ -1,19 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using ArtworkSourceSpecification;
+using Newtonsoft.Json;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class BatchExportForm : Form {
-		public BatchExportForm(IEnumerable<IPagedWrapperConsumer> wrappers) {
+		public BatchExportForm(IEnumerable<IArtworkSource> wrappers) {
 			InitializeComponent();
 			foreach (var w in wrappers) listBox1.Items.Add(w);
 		}

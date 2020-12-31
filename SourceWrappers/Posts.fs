@@ -5,14 +5,7 @@ open System.Threading.Tasks
 open System.IO
 
 /// A shared base interface for text and photo posts.
-type IPostBase =
-    abstract member Title: string with get
-    abstract member HTMLDescription: string with get
-    abstract member Mature: bool with get
-    abstract member Adult: bool with get
-    abstract member Tags: seq<string> with get
-    abstract member Timestamp: DateTime with get
-    abstract member ViewURL: string with get
+type IPostBase = ArtworkSourceSpecification.IPostBase
 
 /// A wrapper around a post with a thumbnail.
 type IThumbnailPost =
