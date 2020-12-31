@@ -133,12 +133,14 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
-				add(new FurAffinityMinimalSourceWrapper(
-					fa,
-					scraps: false));
-				add(new FurAffinityMinimalSourceWrapper(
-					fa,
-					scraps: true));
+				add(new FAExportArtworkSource(
+					$"b={fa.b}; a={fa.a}",
+					sfw: false,
+					folder: "gallery"));
+				add(new FAExportArtworkSource(
+					$"b={fa.b}; a={fa.a}",
+					sfw: false,
+					folder: "scraps"));
 			}
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";

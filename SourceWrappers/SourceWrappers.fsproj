@@ -11,7 +11,6 @@
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtScraps.fs" />
     <Compile Include="DeviantArtStatus.fs" />
-    <Compile Include="FurAffinity.fs" />
     <Compile Include="FurryNetwork.fs" />
     <Compile Include="Inkbunny.fs" />
     <Compile Include="Mastodon.fs" />
