@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open WeasylLib
 open FSharp.Control
 

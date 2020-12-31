@@ -1,4 +1,5 @@
-﻿using DeviantArtFs;
+﻿using ArtworkSourceSpecification;
+using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using FurryNetworkLib;
@@ -15,12 +16,10 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
-		private IPagedWrapperConsumer _currentWrapper;
+		private IArtworkSource _currentWrapper;
 		private int _currentPosition = 0;
 
-		private enum Direction { PREV, NEXT, FIRST };
-
-		private async void Populate(Direction direction) {
+		private async void Populate() {
 			if (_currentWrapper == null) return;
 
 			tableLayoutPanel1.Controls.Clear();
@@ -38,12 +37,9 @@ namespace CrosspostSharp3 {
 			bool more = true;
 
 			try {
-				var posts =
-					direction == Direction.PREV ? await _currentWrapper.PrevAsync()
-					: direction == Direction.NEXT ? await _currentWrapper.NextAsync()
-					: direction == Direction.FIRST ? await _currentWrapper.FirstAsync()
-					: throw new ArgumentException(nameof(direction));
-				more = await _currentWrapper.HasMoreAsync();
+				var enumerable = _currentWrapper.GetPostsAsync();
+				var posts = await enumerable.Skip(_currentPosition).Take(4).ToListAsync();
+				more = await enumerable.Skip(_currentPosition + 4).AnyAsync();
 
 				foreach (var item in posts) {
 					var p = new PictureBox {
@@ -82,20 +78,22 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task UpdateAvatar() {
+			var user = await _currentWrapper.GetUserAsync();
+
 			lblUsername.Text = "";
 			lblSiteName.Text = "";
-			picUserIcon.ImageLocation = await _currentWrapper.GetUserIconAsync(picUserIcon.Width);
+			picUserIcon.ImageLocation = user.IconUrl;
 
-			lblUsername.Text = await _currentWrapper.WhoamiAsync();
+			lblUsername.Text = user.Name;
 			lblSiteName.Text = _currentWrapper.Name;
 		}
 
 		private async Task ReloadWrapperList() {
 			ddlSource.Items.Clear();
 
-			var list = new List<AsyncSeqWrapper>();
+			var list = new List<IArtworkSource>();
 
-			void add(AsyncSeqWrapper wrapper) {
+			void add(IArtworkSource wrapper) {
 				list.Add(wrapper);
 			}
 
@@ -131,7 +129,7 @@ namespace CrosspostSharp3 {
 				add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtStatusSourceWrapper(da));
-				add(new OrderedAsyncSeqWrapper(new UnorderedStashSourceWrapper(da)));
+				add(new StashSourceWrapper(da));
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
@@ -186,13 +184,13 @@ namespace CrosspostSharp3 {
 			lblLoadStatus.Text = "Connecting to sites...";
 
 			var tasks = list.Select(async c => {
-				AsyncSeqWrapperPagedConsumer w = new AsyncSeqWrapperPagedConsumer(c, tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount);
+				var w = new ArtworkCache(c);
 				try {
 					var user = await c.GetUserAsync();
 					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: ok)"));
-					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.username)
+					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.Name)
 						? c.Name
-						: $"{user.username} - {c.Name}");
+						: $"{user.Name} - {c.Name}");
 				} catch (Exception ex) {
 					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: failed)"));
 					var inner = ex;
@@ -240,17 +238,17 @@ namespace CrosspostSharp3 {
 		private void btnLoad_Click(object sender, EventArgs e) {
 			_currentWrapper = (ddlSource.SelectedItem as WrapperMenuItem)?.BaseWrapper;
 			_currentPosition = 0;
-			Populate(Direction.FIRST);
+			Populate();
 		}
 
 		private void btnPrevious_Click(object sender, EventArgs e) {
 			_currentPosition = Math.Max(0, _currentPosition - 4);
-			Populate(Direction.PREV);
+			Populate();
 		}
 
 		private void btnNext_Click(object sender, EventArgs e) {
 			_currentPosition += tableLayoutPanel1.RowCount + tableLayoutPanel1.ColumnCount;
-			Populate(Direction.NEXT);
+			Populate();
 		}
 
 		private void openToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -270,7 +268,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void refreshAllToolStripMenuItem_Click(object sender, EventArgs e) {
-			Populate(Direction.FIRST);
+			Populate();
 		}
 
 		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
@@ -284,7 +282,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
-			IEnumerable<IPagedWrapperConsumer> GetWrappers() {
+			IEnumerable<IArtworkSource> GetWrappers() {
 				foreach (var o in ddlSource.Items) {
 					if (o is WrapperMenuItem w) yield return w.BaseWrapper;
 				}

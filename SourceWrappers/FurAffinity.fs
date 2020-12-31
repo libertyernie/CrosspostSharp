@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open FSharp.Control
 open FurAffinityFs
 open System

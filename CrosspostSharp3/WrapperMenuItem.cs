@@ -1,16 +1,12 @@
-﻿using SourceWrappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ArtworkSourceSpecification;
+using SourceWrappers;
 
 namespace CrosspostSharp3 {
 	public class WrapperMenuItem {
-		public readonly IPagedWrapperConsumer BaseWrapper;
+		public readonly IArtworkSource BaseWrapper;
 		public readonly string DisplayName;
 
-		public WrapperMenuItem(IPagedWrapperConsumer baseWrapper, string displayName) {
+		public WrapperMenuItem(IArtworkSource baseWrapper, string displayName) {
 			BaseWrapper = baseWrapper;
 			DisplayName = displayName;
 		}

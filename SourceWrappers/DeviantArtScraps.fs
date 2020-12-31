@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open FSharp.Control
 open DeviantArtFs
 open System

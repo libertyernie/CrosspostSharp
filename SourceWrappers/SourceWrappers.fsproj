@@ -8,7 +8,6 @@
     <Compile Include="Posts.fs" />
     <Compile Include="SavedPhotoPost.fs" />
     <Compile Include="AsyncSeqWrapper.fs" />
-    <Compile Include="AsyncSeqWrapperPagedConsumer.fs" />
     <Compile Include="DeviantArt.fs" />
     <Compile Include="DeviantArtScraps.fs" />
     <Compile Include="DeviantArtStatus.fs" />
@@ -34,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArtworkSourceSpecification\ArtworkSourceSpecification.csproj" />
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj" />
     <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj" />
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj" />

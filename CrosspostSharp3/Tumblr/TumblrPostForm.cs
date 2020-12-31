@@ -1,4 +1,5 @@
-﻿using DontPanic.TumblrSharp;
+﻿using ArtworkSourceSpecification;
+using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
 using SourceWrappers;

@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open DontPanic.TumblrSharp.Client
 open DontPanic.TumblrSharp
 open FSharp.Control

@@ -1,4 +1,5 @@
-﻿using SourceWrappers;
+﻿using ArtworkSourceSpecification;
+using SourceWrappers;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;

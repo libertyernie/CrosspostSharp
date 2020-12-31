@@ -1,27 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿using ArtworkSourceSpecification;
+using Newtonsoft.Json;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class BatchExportForm : Form {
-		public BatchExportForm(IEnumerable<IPagedWrapperConsumer> wrappers) {
+		public BatchExportForm(IEnumerable<IArtworkSource> wrappers) {
 			InitializeComponent();
 			foreach (var w in wrappers) listBox1.Items.Add(w);
 		}
 
-		public IEnumerable<IPagedWrapperConsumer> SelectedWrappers {
+		public IEnumerable<IArtworkSource> SelectedWrappers {
 			get {
 				foreach (var o in listBox1.SelectedItems) {
-					if (o is IPagedWrapperConsumer w) yield return w;
+					if (o is IArtworkSource w) yield return w;
 				}
 			}
 		}
@@ -43,7 +39,7 @@ namespace CrosspostSharp3 {
 
 				var consumer = SelectedWrappers.Single();
 
-				var posts = await consumer.FetchAllAsync((int)numericUpDown1.Value);
+				var posts = await consumer.GetPostsAsync().Take((int)numericUpDown1.Value).ToListAsync();
 
 				foreach (var submission in posts) {
 					progressBar1.Value++;

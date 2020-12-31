@@ -1,4 +1,5 @@
-﻿using CrosspostSharp3.Weasyl;
+﻿using ArtworkSourceSpecification;
+using CrosspostSharp3.Weasyl;
 using Newtonsoft.Json;
 using SourceWrappers;
 using System;

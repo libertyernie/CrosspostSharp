@@ -9,6 +9,7 @@
     <AssemblyName>CrosspostSharp3</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ArtworkSourceSpecification\ArtworkSourceSpecification.csproj" />
     <ProjectReference Include="..\CppCookieTools\CppCookieTools.vcxproj" />
     <ProjectReference Include="..\FurAffinityFs\FurAffinityFs.fsproj">
       <Project>{48e5e654-f069-4af6-bd06-84e2d0c05a53}</Project>
@@ -56,6 +57,7 @@
     <PackageReference Include="NewTumblrSharp">
       <Version>1.2.0.156</Version>
     </PackageReference>
+    <PackageReference Include="System.Linq.Async" Version="5.0.0" />
     <PackageReference Include="TweetinviAPI">
       <Version>5.0.3</Version>
     </PackageReference>
