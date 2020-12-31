@@ -1,7 +1,7 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open System.Net
-open System.Threading.Tasks
 open Tweetinvi.Models
 open Tweetinvi.Models.Entities
 open Tweetinvi

@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open System.Threading.Tasks
 open FSharp.Control
 

@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open System.Text
 open Newtonsoft.Json
 open System.IO

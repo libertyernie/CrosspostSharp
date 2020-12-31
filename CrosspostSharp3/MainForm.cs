@@ -129,7 +129,7 @@ namespace CrosspostSharp3 {
 				add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtStatusSourceWrapper(da));
-				add(ArtworkList.Create(new UnorderedStashSourceWrapper(da)));
+				add(new StashSourceWrapper(da));
 			}
 			foreach (var fa in s.FurAffinity) {
 				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";

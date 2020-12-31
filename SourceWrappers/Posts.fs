@@ -1,32 +1,8 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open System
-open System.Threading.Tasks
 open System.IO
-
-/// A shared base interface for text and photo posts.
-type IPostBase = ArtworkSourceSpecification.IPostBase
-
-/// A wrapper around a post with a thumbnail.
-type IThumbnailPost =
-    inherit IPostBase
-    abstract member ThumbnailURL: string with get
-
-/// A wrapper around a post (probably an image post) from an art or social media site.
-type IRemotePhotoPost =
-    inherit IThumbnailPost
-    abstract member ImageURL: string with get
-
-/// A wrapper around a post with a video (probably a converted animated GIF.)
-type IRemoteVideoPost =
-    inherit IThumbnailPost
-    abstract member VideoURL: string with get
-
-[<AllowNullLiteral>]
-type IDownloadedData =
-    abstract member Data: byte[]
-    abstract member ContentType: string
-    abstract member Filename: string
 
 type DeferredPhotoPostParameters = {
     Title: string
@@ -58,11 +34,6 @@ type DeferredPhotoPost() =
         member this.Adult = false
         member this.Tags = Seq.empty
         member this.Timestamp = this.Timestamp |> Option.defaultValue DateTime.MinValue
-
-/// An interface that provides a method for deleting a post.
-type IDeletable =
-    abstract member DeleteAsync: unit -> Task
-    abstract member SiteName: string with get
 
 module Downloader =
     open System.Net

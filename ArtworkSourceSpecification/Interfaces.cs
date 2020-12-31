@@ -18,7 +18,30 @@ namespace ArtworkSourceSpecification {
 		string ViewURL { get; }
 	}
 
-    public interface IArtworkSource {
+	public interface IThumbnailPost : IPostBase {
+		string ThumbnailURL { get; }
+	}
+
+	public interface IRemotePhotoPost : IThumbnailPost {
+		string ImageURL { get; }
+	}
+
+	public interface IRemoteVideoPost : IThumbnailPost {
+		string VideoURL { get; }
+	}
+
+	public interface IDownloadedData {
+		byte[] Data { get; }
+		string ContentType { get; }
+		string Filename { get; }
+	}
+
+	public interface IDeletable {
+		string SiteName { get; }
+		Task DeleteAsync();
+	}
+
+	public interface IArtworkSource {
 		string Name { get; }
 		Task<IAuthor> GetUserAsync();
 		IAsyncEnumerable<IPostBase> GetPostsAsync();

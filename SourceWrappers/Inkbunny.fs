@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open InkbunnyLib
 open System
 open FSharp.Control
