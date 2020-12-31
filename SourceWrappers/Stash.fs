@@ -1,5 +1,6 @@
 ﻿namespace SourceWrappers
 
+open ArtworkSourceSpecification
 open System
 open System.Text
 open System.Threading.Tasks
@@ -49,14 +50,19 @@ type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArt
         member this.SiteName = "Sta.sh"
         member this.DeleteAsync() = DeviantArtFs.Api.Stash.Delete.ExecuteAsync token itemId :> Task
 
-type UnorderedStashSourceWrapper(token: IDeviantArtAccessToken) =
+type StashSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
+
+    let getTimestamp (o: StashDeltaEntry) =
+       o.metadata
+        |> Option.bind (fun m -> m.creation_time)
+        |> Option.defaultValue DateTimeOffset.MinValue
 
     override __.Name = "Sta.sh"
 
     override __.FetchSubmissionsInternal() = asyncSeq {
         let req = new DeviantArtFs.Api.Stash.DeltaRequest()
-        let source = DeviantArtFs.Api.Stash.Delta.ToAsyncSeq token req 0
+        let! source = DeviantArtFs.Api.Stash.Delta.ToAsyncSeq token req 0 |> AsyncSeq.toListAsync |> Swu.whenDone (List.sortByDescending getTimestamp)
         for o in source do
             match (o.itemid, o.metadata) with
             | (Some itemid, Some metadata) -> yield new StashPostWrapper(itemid, metadata, token) :> IPostBase
