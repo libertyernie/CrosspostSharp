@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using ArtworkSourceSpecification;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace FurryNetworkLib {
-    public class Character {
+namespace CrosspostSharp3.FurryNetwork {
+    public class Character : IAuthor {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Display_name { get; set; }
@@ -42,5 +42,7 @@ namespace FurryNetworkLib {
 		public Avatars Avatars => _avatars_json is JObject
 			? JsonConvert.DeserializeObject<Avatars>(_avatars_json.ToString())
 			: null;
+
+		string IAuthor.IconUrl => Avatars?.GetLargest();
 	}
 }

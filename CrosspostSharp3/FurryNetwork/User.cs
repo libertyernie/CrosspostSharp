@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace FurryNetworkLib {
+namespace CrosspostSharp3.FurryNetwork {
     public class User {
         public int Id { get; set; }
         public string Email { get; set; }

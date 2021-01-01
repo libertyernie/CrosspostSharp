@@ -3,7 +3,7 @@ using CrosspostSharp3.FurAffinity;
 using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
-using FurryNetworkLib;
+using CrosspostSharp3.FurryNetwork;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
@@ -146,7 +146,7 @@ namespace CrosspostSharp3 {
 			foreach (var fn in s.FurryNetwork) {
 				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
 				var client = new FurryNetworkClient(fn.refreshToken);
-				add(new FurryNetworkSourceWrapper(client, fn.characterName));
+				add(new FurryNetworkArtworkSource(client, fn.characterName));
 			}
 			foreach (var i in s.Inkbunny) {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";

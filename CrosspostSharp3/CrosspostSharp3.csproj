@@ -15,10 +15,6 @@
       <Project>{48e5e654-f069-4af6-bd06-84e2d0c05a53}</Project>
       <Name>FurAffinityFs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FurryNetworkLib\FurryNetworkLib.csproj">
-      <Project>{46595381-e1fc-4be3-a970-b1988c4a2d0e}</Project>
-      <Name>FurryNetworkLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\InkbunnyLib\InkbunnyLib.csproj">
       <Project>{1b81d74a-314f-4e3d-a62c-3754fb4af13a}</Project>
       <Name>InkbunnyLib</Name>

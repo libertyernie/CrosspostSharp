@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace FurryNetworkLib {
+namespace CrosspostSharp3.FurryNetwork {
     public class SearchResults {
         public IEnumerable<Hit> Hits { get; set; }
         public IEnumerable<object> Tags { get; set; }

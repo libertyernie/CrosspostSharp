@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InkbunnyLib", "InkbunnyLib\InkbunnyLib.csproj", "{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurryNetworkLib", "FurryNetworkLib\FurryNetworkLib.csproj", "{46595381-E1FC-4BE3-A970-B1988C4A2D0E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrosspostSharp3", "CrosspostSharp3\CrosspostSharp3.csproj", "{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SourceWrappers", "SourceWrappers\SourceWrappers.fsproj", "{73F76685-65DA-4557-93EF-869705950943}"
@@ -42,14 +40,6 @@ Global
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Release|x64.Build.0 = Release|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Release|x86.ActiveCfg = Release|Any CPU
 		{1B81D74A-314F-4E3D-A62C-3754FB4AF13A}.Release|x86.Build.0 = Release|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|x64.Build.0 = Debug|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Debug|x86.Build.0 = Debug|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Release|x64.ActiveCfg = Release|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Release|x64.Build.0 = Release|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Release|x86.ActiveCfg = Release|Any CPU
-		{46595381-E1FC-4BE3-A970-B1988C4A2D0E}.Release|x86.Build.0 = Release|Any CPU
 		{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}.Debug|x64.Build.0 = Debug|Any CPU
 		{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}.Debug|x86.ActiveCfg = Debug|Any CPU

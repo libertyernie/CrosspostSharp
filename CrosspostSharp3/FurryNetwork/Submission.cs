@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FurryNetworkLib {
+namespace CrosspostSharp3.FurryNetwork {
 	public class Submission {
         public int Id { get; set; }
         public int CharacterId { get; set; }

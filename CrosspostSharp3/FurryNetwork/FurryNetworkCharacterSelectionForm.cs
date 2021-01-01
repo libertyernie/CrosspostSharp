@@ -1,5 +1,5 @@
 ﻿using DontPanic.TumblrSharp.Client;
-using FurryNetworkLib;
+using CrosspostSharp3.FurryNetwork;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FurryNetworkLib {
+namespace CrosspostSharp3.FurryNetwork {
     public class JournalsResult {
 		public int Page { get; set; }
 		public int Page_count { get; set; }

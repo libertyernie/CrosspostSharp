@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FurryNetworkLib {
+namespace CrosspostSharp3.FurryNetwork {
 	public class NewJournal {
 		public Dictionary<string, object> Collections { get; set; } = new Dictionary<string, object>();
 		public bool Community_tags_allowed { get; set; } = true;
