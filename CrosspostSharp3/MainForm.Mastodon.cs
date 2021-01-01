@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrosspostSharp3.Mastodon;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 

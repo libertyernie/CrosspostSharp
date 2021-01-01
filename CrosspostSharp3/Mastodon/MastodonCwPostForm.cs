@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Mastodon {
 	public partial class MastodonCwPostForm : Form {
 		private readonly Settings.MastodonSettings _s;
 		private readonly TextPost _post;

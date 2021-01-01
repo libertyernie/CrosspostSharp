@@ -1,4 +1,4 @@
-﻿namespace CrosspostSharp3 {
+﻿namespace CrosspostSharp3.Mastodon {
 	partial class MastodonLoginDialog {
 		/// <summary>
 		/// Required designer variable.

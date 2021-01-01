@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Mastodon {
 	public partial class FocalPointForm : Form {
 		public (double, double) FocalPoint { get; set; } = (0.0, 0.0);
 

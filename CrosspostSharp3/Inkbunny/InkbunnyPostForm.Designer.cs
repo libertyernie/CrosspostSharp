@@ -1,4 +1,4 @@
-﻿namespace CrosspostSharp3 {
+﻿namespace CrosspostSharp3.Inkbunny {
 	partial class InkbunnyPostForm {
 		/// <summary>
 		/// Required designer variable.

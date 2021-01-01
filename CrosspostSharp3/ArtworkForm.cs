@@ -1,4 +1,11 @@
 ﻿using ArtworkSourceSpecification;
+using CrosspostSharp3.DeviantArt;
+using CrosspostSharp3.FurAffinity;
+using CrosspostSharp3.FurryNetwork;
+using CrosspostSharp3.Inkbunny;
+using CrosspostSharp3.Mastodon;
+using CrosspostSharp3.Tumblr;
+using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Weasyl;
 using Newtonsoft.Json;
 using SourceWrappers;

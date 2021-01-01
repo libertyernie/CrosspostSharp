@@ -1,4 +1,5 @@
-﻿using DontPanic.TumblrSharp;
+﻿using CrosspostSharp3.Tumblr;
+using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using ISchemm.WinFormsOAuth;
 using System;

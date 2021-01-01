@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Tumblr {
 	public partial class TumblrPostForm : Form {
 		private readonly TumblrClient _client;
 		private readonly string _blogName;

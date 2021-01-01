@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Mastodon {
 	public partial class MastodonLoginDialog : Form {
 		public string Instance => comboBox1.Text;
 		public string Email => txtEmail.Text;
