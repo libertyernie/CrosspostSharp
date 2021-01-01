@@ -1,17 +1,41 @@
-﻿namespace FurAffinityFs.Requests
+﻿namespace FurAffinityFs.Api
 
-module CreateSubmission =
-    open FSharp.Data
-    open System
-    open System.IO
-    open System.Text
-    open FurAffinityFs
+open System
+open System.Text
+open System.IO
+open System.Net
+open FSharp.Data
+open FurAffinityFs
+open FurAffinityFs.Models
 
-    let AsyncExecute (credentials: IFurAffinityCredentials) (submission: FurAffinityFs.Models.NewSubmission) = async {
+module PostArtwork =
+    let private BaseUri = new Uri("https://www.furaffinity.net/")
+
+    let private ToUri (path: string) = new Uri(BaseUri, path)
+
+    let private ExtractAuthenticityToken (html: HtmlDocument) =
+        let m =
+            html.CssSelect("form[name=myform] input[name=key]")
+            |> Seq.map (fun e -> e.AttributeValue("value"))
+            |> Seq.tryHead
+        match m with
+            | Some token -> token
+            | None -> failwith "Input \"key\" not found in HTML"
+
+    let private GetCookiesFor (credentials: IFurAffinityCredentials) =
+        let c = new CookieContainer()
+        c.Add(BaseUri, new Cookie("a", credentials.A))
+        c.Add(BaseUri, new Cookie("b", credentials.B))
+        c
+
+    let private CreateRequest (credentials: IFurAffinityCredentials) (uri: Uri) =
+        WebRequest.CreateHttp(uri, UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0", CookieContainer = GetCookiesFor credentials)
+
+    let AsyncExecute (credentials: IFurAffinityCredentials) (submission: Artwork) = async {
         let ext = Seq.last (submission.contentType.Split('/'))
         let filename = sprintf "file.%s" ext
 
-        let req1 = "/submit/" |> Shared.ToUri |> Shared.CreateRequest credentials
+        let req1 = "/submit/" |> ToUri |> CreateRequest credentials
         req1.Method <- "POST"
         req1.ContentType <- "application/x-www-form-urlencoded"
 
@@ -25,7 +49,7 @@ module CreateSubmission =
             use! resp = req1.AsyncGetResponse()
             use sr = new StreamReader(resp.GetResponseStream())
             let! html = sr.ReadToEndAsync() |> Async.AwaitTask
-            let token = html |> HtmlDocument.Parse |> Shared.ExtractAuthenticityToken
+            let token = html |> HtmlDocument.Parse |> ExtractAuthenticityToken
             return (token, resp.ResponseUri)
         }
 
@@ -34,7 +58,7 @@ module CreateSubmission =
         let h2 = sprintf "--%s" h1
         let h3 = sprintf "--%s--" h1
 
-        let req2 = Shared.CreateRequest credentials url1
+        let req2 = CreateRequest credentials url1
         req2.Method <- "POST"
         req2.ContentType <- sprintf "multipart/form-data; boundary=%s" h1
 
@@ -82,11 +106,11 @@ module CreateSubmission =
             let! html = sr.ReadToEndAsync() |> Async.AwaitTask
             if html.Contains "Security code missing or invalid." then
                 failwith "Security code missing or invalid"
-            let token = html |> HtmlDocument.Parse |> Shared.ExtractAuthenticityToken
+            let token = html |> HtmlDocument.Parse |> ExtractAuthenticityToken
             return (token, resp.ResponseUri)
         }
 
-        let req3 = Shared.CreateRequest credentials url2
+        let req3 = CreateRequest credentials url2
         req3.Method <- "POST"
         req3.ContentType <- sprintf "multipart/form-data; boundary=%s" h1
 

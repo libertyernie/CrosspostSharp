@@ -1,11 +1,11 @@
 ﻿namespace FurAffinityFs.Models
 
-type NewSubmission = {
+type Artwork = {
     data: byte[]
     contentType: string
     title: string
     message: string
-    keywords: seq<string>
+    keywords: string seq
     cat: Category
     scrap: bool
     atype: Type

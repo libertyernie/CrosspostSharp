@@ -5,19 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="IFurAffinityCredentials.fs" />
+    <Compile Include="FurAffinityCredentials.fs" />
     <Compile Include="Models\Category.fs" />
     <Compile Include="Models\Type.fs" />
     <Compile Include="Models\Species.fs" />
     <Compile Include="Models\Gender.fs" />
     <Compile Include="Models\Rating.fs" />
-    <Compile Include="Models\NewSubmission.fs" />
-    <Compile Include="Shared.fs" />
-    <Compile Include="Requests\CreateSubmission.fs" />
+    <Compile Include="Models\Artwork.fs" />
+    <Compile Include="Api\PostArtwork.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.0.3" />
     <PackageReference Include="FSharp.Data" Version="3.3.3" />
   </ItemGroup>
 
