@@ -1,4 +1,5 @@
-﻿using FurryNetworkLib;
+﻿using CrosspostSharp3.FurryNetwork;
+using FurryNetworkLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;

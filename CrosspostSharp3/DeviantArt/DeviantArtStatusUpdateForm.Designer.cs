@@ -1,4 +1,4 @@
-﻿namespace CrosspostSharp3 {
+﻿namespace CrosspostSharp3.DeviantArt {
 	partial class DeviantArtStatusUpdateForm {
 		/// <summary>
 		/// Required designer variable.

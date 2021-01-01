@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurryNetwork {
 	public partial class FurryNetworkLoginForm : Form {
 		public string RefreshToken => textBox1.Text;
 

@@ -1,4 +1,4 @@
-﻿namespace CrosspostSharp3 {
+﻿namespace CrosspostSharp3.Tumblr {
 	partial class TumblrPostForm {
 		/// <summary>
 		/// Required designer variable.

@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using Tweetinvi;
 using Tweetinvi.Models;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Inkbunny {
 	public partial class InkbunnyPostForm : Form {
 		private readonly InkbunnyClient _client;
 		private readonly TextPost _post;

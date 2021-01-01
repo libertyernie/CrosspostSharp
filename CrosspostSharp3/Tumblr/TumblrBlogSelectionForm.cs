@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Tumblr {
 	public partial class TumblrBlogSelectionForm : Form {
 		public IEnumerable<UserBlogInfo> SelectedItems {
 			get {

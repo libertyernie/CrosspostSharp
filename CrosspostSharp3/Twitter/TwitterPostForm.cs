@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using Tweetinvi;
 using Tweetinvi.Models;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.Twitter {
 	public partial class TwitterPostForm : Form {
 		private readonly TwitterClient _credentials;
 		private readonly TextPost _post;

@@ -1,4 +1,5 @@
 ﻿using ArtworkSourceSpecification;
+using CrosspostSharp3.FurAffinity;
 using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;

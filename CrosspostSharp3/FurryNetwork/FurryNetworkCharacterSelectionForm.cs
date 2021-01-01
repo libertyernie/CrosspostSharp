@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurryNetwork {
 	public partial class FurryNetworkCharacterSelectionForm : Form {
 		public IEnumerable<Character> SelectedItems {
 			get {

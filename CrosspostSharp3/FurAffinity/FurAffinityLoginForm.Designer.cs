@@ -1,5 +1,5 @@
 ﻿
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurAffinity {
 	partial class FurAffinityLoginForm {
 		/// <summary>
 		/// Required designer variable.

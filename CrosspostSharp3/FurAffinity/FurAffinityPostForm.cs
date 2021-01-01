@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using FAModels = FurAffinityFs.Models;
 using FAReq = FurAffinityFs.Requests;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurAffinity {
 	public partial class FurAffinityPostForm : Form {
 		private readonly IFurAffinityCredentials _credentials;
 		private readonly TextPost _post;

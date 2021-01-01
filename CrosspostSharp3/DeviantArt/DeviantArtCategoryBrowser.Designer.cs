@@ -1,4 +1,4 @@
-﻿namespace CrosspostSharp3 {
+﻿namespace CrosspostSharp3.DeviantArt {
     partial class DeviantArtCategoryBrowser {
         /// <summary>
         /// Required designer variable.

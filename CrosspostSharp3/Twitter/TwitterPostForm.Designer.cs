@@ -1,4 +1,4 @@
-﻿namespace CrosspostSharp3 {
+﻿namespace CrosspostSharp3.Twitter {
 	partial class TwitterPostForm {
 		/// <summary>
 		/// Required designer variable.

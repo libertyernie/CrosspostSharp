@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.DeviantArt {
 	public partial class DeviantArtStatusUpdateForm : Form {
 		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;

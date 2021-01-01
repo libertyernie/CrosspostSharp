@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurAffinity {
 	public partial class FurAffinityLoginForm : Form {
 		public string ACookie { get; private set; } = null;
 		public string BCookie { get; private set; } = null;

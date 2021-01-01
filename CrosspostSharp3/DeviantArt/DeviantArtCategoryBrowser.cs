@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.DeviantArt {
 	public partial class DeviantArtCategoryBrowser : Form {
 		public class Category {
 			public string CategoryPath;

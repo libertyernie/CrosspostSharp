@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurAffinity {
 	public class FAExportArtworkSource : IArtworkSource {
 		private readonly string _fa_cookie;
 		private readonly bool _sfw;

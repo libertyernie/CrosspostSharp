@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using Tweetinvi;
 using Tweetinvi.Models;
 
-namespace CrosspostSharp3 {
+namespace CrosspostSharp3.FurryNetwork {
 	public partial class FurryNetworkPostForm : Form {
 		private readonly FurryNetworkClient _client;
 		private readonly string _characterName;
