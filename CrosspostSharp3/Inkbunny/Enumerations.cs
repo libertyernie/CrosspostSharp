@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InkbunnyLib {
+namespace CrosspostSharp3.Inkbunny {
 	public enum InkbunnyRating {
 		General = 0,
 		Mature = 1,

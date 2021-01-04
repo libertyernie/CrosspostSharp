@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
@@ -17,7 +14,7 @@ namespace CrosspostSharp3 {
 					using (var f = new UsernamePasswordDialog()) {
 						f.Text = "Log In - Inkbunny";
 						if (f.ShowDialog() == DialogResult.OK) {
-							var client = await InkbunnyLib.InkbunnyClient.CreateAsync(f.Username, f.Password);
+							var client = await CrosspostSharp3.Inkbunny.InkbunnyClient.CreateAsync(f.Username, f.Password);
 							return new[] {
 								new Settings.InkbunnySettings {
 									sid = client.Sid,
@@ -31,7 +28,7 @@ namespace CrosspostSharp3 {
 					}
 				},
 				settings => {
-					new InkbunnyLib.InkbunnyClient(settings.sid, settings.userId).LogoutAsync().ContinueWith(t => {
+					new Inkbunny.InkbunnyClient(settings.sid, settings.userId).LogoutAsync().ContinueWith(t => {
 						if (t.Exception != null) MessageBox.Show(t.Exception.Message);
 					});
 				}

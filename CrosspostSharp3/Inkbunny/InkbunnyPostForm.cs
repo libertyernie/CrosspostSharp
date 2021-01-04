@@ -1,19 +1,12 @@
 ﻿using ArtworkSourceSpecification;
-using InkbunnyLib;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3.Inkbunny {
 	public partial class InkbunnyPostForm : Form {
@@ -35,10 +28,9 @@ namespace CrosspostSharp3.Inkbunny {
 
 		private async void Form_Shown(object sender, EventArgs e) {
 			try {
-				var wrapper = new InkbunnySourceWrapper(_client, loadAll: false);
-				lblUsername1.Text = await wrapper.WhoamiAsync();
+				lblUsername1.Text = await _client.WhoamiAsync();
 
-				var req = WebRequestFactory.Create(await wrapper.GetUserIconAsync());
+				var req = WebRequestFactory.Create(await _client.GetUserIconAsync());
 				using (var resp = await req.GetResponseAsync())
 				using (var stream = resp.GetResponseStream())
 				using (var ms = new MemoryStream()) {
