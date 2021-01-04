@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WeasylLib {
+namespace CrosspostSharp3.Weasyl {
 	public class WeasylMediaFile {
 		public int? mediaid;
 		public string url;

@@ -15,10 +15,6 @@
       <Project>{73f76685-65da-4557-93ef-869705950943}</Project>
       <Name>SourceWrappers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WeasylLib\WeasylLib.csproj">
-      <Project>{ddc6b066-0c3a-4f0e-a06e-dfcfd7286b17}</Project>
-      <Name>WeasylLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DeviantArtFs">

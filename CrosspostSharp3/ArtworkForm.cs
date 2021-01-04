@@ -73,7 +73,6 @@ namespace CrosspostSharp3 {
 			// Store original post object (used for View and Delete actions)
 			_origWrapper = artwork;
 			btnView.Enabled = _origWrapper.ViewURL != null;
-			btnDelete.Enabled = false;
 
 			// Convert DeferredPhotoPost to IRemotePhotoPost
 			if (_origWrapper is DeferredPhotoPost deferred) {
@@ -343,10 +342,6 @@ namespace CrosspostSharp3 {
 
 		private void listBox1_DoubleClick(object sender, EventArgs e) {
 			btnPost.PerformClick();
-		}
-
-		private async void btnDelete_Click(object sender, EventArgs e) {
-			
 		}
 
 		private void btnView_Click(object sender, EventArgs e) {

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ArtworkSourceSpecification;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,9 +7,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeasylLib {
+namespace CrosspostSharp3.Weasyl {
 	public partial class WeasylClient {
-		private string _apiKey;
+		private readonly string _apiKey;
 
 		public WeasylClient(string apiKey = null) {
 			_apiKey = apiKey;

@@ -15,7 +15,6 @@
     <Compile Include="Stash.fs" />
     <Compile Include="Twitter.fs" />
     <Compile Include="Tumblr.fs" />
-    <Compile Include="Weasyl.fs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +31,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArtworkSourceSpecification\ArtworkSourceSpecification.csproj" />
-    <ProjectReference Include="..\WeasylLib\WeasylLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

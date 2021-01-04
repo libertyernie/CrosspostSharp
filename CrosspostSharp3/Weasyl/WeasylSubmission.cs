@@ -1,7 +1,10 @@
-﻿using System;
+﻿using ArtworkSourceSpecification;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
-namespace WeasylLib {
+namespace CrosspostSharp3.Weasyl {
 	public abstract class WeasylSubmissionBase {
 		public string link;
 		public WeasylSubmissionMedia media;
@@ -11,10 +14,6 @@ namespace WeasylLib {
 		public string rating;
 		public string title;
 		public string type;
-
-		public override string ToString() {
-			return posted_at + " " + title;
-		}
 	}
 
 	public class WeasylGallerySubmission : WeasylSubmissionBase {
@@ -22,7 +21,7 @@ namespace WeasylLib {
 		public string subtype;
 	}
 	
-	public abstract class WeasylSubmissionBaseDetail : WeasylSubmissionBase {
+	public abstract class WeasylSubmissionBaseDetail : WeasylSubmissionBase, IRemotePhotoPost {
 		public abstract string HTMLDescription { get; }
 
 		public int comments;
@@ -31,6 +30,19 @@ namespace WeasylLib {
 		public bool friends_only;
 		public string[] tags;
 		public int views;
+
+		string IRemotePhotoPost.ImageURL => media.submission.Select(x => x.url).First();
+		string IThumbnailPost.ThumbnailURL => media.thumbnail.Select(x => x.url).First();
+		string IPostBase.Title => title;
+		bool IPostBase.Mature => rating == "mature";
+		bool IPostBase.Adult => rating == "explicit";
+		IEnumerable<string> IPostBase.Tags => tags;
+		DateTime IPostBase.Timestamp => posted_at;
+		string IPostBase.ViewURL => link;
+
+		public override string ToString() {
+			return posted_at + " " + title;
+		}
 	}
 
 	public class WeasylSubmissionDetail : WeasylSubmissionBaseDetail {

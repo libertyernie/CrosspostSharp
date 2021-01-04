@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CrosspostSharp3.Weasyl;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -178,10 +179,9 @@ namespace CrosspostSharp3 {
 
 				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
 
-				var wrapper = new WeasylSourceWrapper(w.apiKey, loadAll: false);
-				var username = await wrapper.WhoamiAsync();
-				add(wrapper);
-				add(new WeasylCharacterSourceWrapper(username));
+				var client = new WeasylClient(w.apiKey);
+				add(new WeasylGallerySource(client));
+				add(new WeasylCharacterSource(client));
 			}
 
 			lblLoadStatus.Text = "Connecting to sites...";

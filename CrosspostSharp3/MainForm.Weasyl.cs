@@ -1,10 +1,6 @@
-﻿using ArtworkSourceSpecification;
-using SourceWrappers;
+﻿using CrosspostSharp3.Weasyl;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
@@ -21,14 +17,11 @@ namespace CrosspostSharp3 {
 						f.ShowPassword = false;
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var wrapper = new WeasylSourceWrapper(f.Username, loadAll: true);
-								string username = await wrapper.WhoamiAsync();
-								if (username == null) {
-									throw new Exception("Username/password invalid");
-								}
+								var client = new WeasylClient(f.Username);
+								var user = await client.WhoamiAsync();
 								return new[] {
 									new Settings.WeasylSettings {
-										username = username,
+										username = user.login,
 										apiKey = f.Username
 									}
 								};

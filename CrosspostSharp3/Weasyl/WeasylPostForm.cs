@@ -1,29 +1,21 @@
 ﻿using ArtworkSourceSpecification;
-using SourceWrappers;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeasylLib;
 
 namespace CrosspostSharp3.Weasyl {
 	public partial class WeasylPostForm : Form {
 		private readonly WeasylClient _apiClient;
 		private readonly WeasylClient _frontendClient;
-		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
 		public WeasylPostForm(Settings.WeasylSettings s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 
 			_apiClient = _frontendClient = new WeasylClient(s.apiKey);
-			_post = post;
 			_downloaded = downloaded;
 
 			txtTitle.Text = post.Title;
