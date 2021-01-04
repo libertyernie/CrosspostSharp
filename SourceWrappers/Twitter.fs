@@ -23,9 +23,6 @@ type TwitterPostWrapper(tweet: ITweet, media: IMediaEntity option, twitterClient
         member this.Tags = tweet.Hashtags |> Seq.map (fun t -> t.Text)
         member this.Timestamp = tweet.CreatedAt.UtcDateTime
         member this.ViewURL = tweet.Url
-    interface IDeletable with
-        member this.SiteName = "Twitter"
-        member this.DeleteAsync () = twitterClient.Tweets.DestroyTweetAsync tweet
 
 type TwitterPhotoPostWrapper(tweet: ITweet, media: IMediaEntity, twitterClient: ITwitterClient) =
     inherit TwitterPostWrapper(tweet, Some media, twitterClient)

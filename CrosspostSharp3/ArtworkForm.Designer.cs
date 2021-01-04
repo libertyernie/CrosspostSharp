@@ -30,7 +30,6 @@
             this.wbrDescription = new System.Windows.Forms.WebBrowser();
             this.chkAdult = new System.Windows.Forms.CheckBox();
             this.chkMature = new System.Windows.Forms.CheckBox();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.btnView = new System.Windows.Forms.Button();
             this.txtTags = new System.Windows.Forms.TextBox();
             this.lblTags = new System.Windows.Forms.Label();
@@ -65,6 +64,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -78,23 +78,24 @@
             this.splitContainer1.Panel2.Controls.Add(this.wbrDescription);
             this.splitContainer1.Panel2.Controls.Add(this.chkAdult);
             this.splitContainer1.Panel2.Controls.Add(this.chkMature);
-            this.splitContainer1.Panel2.Controls.Add(this.btnDelete);
             this.splitContainer1.Panel2.Controls.Add(this.btnView);
             this.splitContainer1.Panel2.Controls.Add(this.txtTags);
             this.splitContainer1.Panel2.Controls.Add(this.lblTags);
             this.splitContainer1.Panel2.Controls.Add(this.lblDescription);
             this.splitContainer1.Panel2.Controls.Add(this.txtTitle);
             this.splitContainer1.Panel2.Controls.Add(this.lblTitle);
-            this.splitContainer1.Size = new System.Drawing.Size(444, 387);
-            this.splitContainer1.SplitterDistance = 177;
+            this.splitContainer1.Size = new System.Drawing.Size(518, 450);
+            this.splitContainer1.SplitterDistance = 205;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(444, 177);
+            this.pictureBox1.Size = new System.Drawing.Size(518, 205);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -103,9 +104,10 @@
             // 
             this.lblDateTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDateTime.Location = new System.Drawing.Point(96, 171);
+            this.lblDateTime.Location = new System.Drawing.Point(112, 199);
+            this.lblDateTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDateTime.Name = "lblDateTime";
-            this.lblDateTime.Size = new System.Drawing.Size(255, 23);
+            this.lblDateTime.Size = new System.Drawing.Size(298, 27);
             this.lblDateTime.TabIndex = 13;
             this.lblDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -114,19 +116,21 @@
             this.wbrDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.wbrDescription.Location = new System.Drawing.Point(117, 29);
-            this.wbrDescription.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbrDescription.Location = new System.Drawing.Point(136, 33);
+            this.wbrDescription.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.wbrDescription.MinimumSize = new System.Drawing.Size(23, 23);
             this.wbrDescription.Name = "wbrDescription";
-            this.wbrDescription.Size = new System.Drawing.Size(315, 82);
+            this.wbrDescription.Size = new System.Drawing.Size(368, 97);
             this.wbrDescription.TabIndex = 12;
             // 
             // chkAdult
             // 
             this.chkAdult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkAdult.AutoSize = true;
-            this.chkAdult.Location = new System.Drawing.Point(182, 143);
+            this.chkAdult.Location = new System.Drawing.Point(212, 168);
+            this.chkAdult.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkAdult.Name = "chkAdult";
-            this.chkAdult.Size = new System.Drawing.Size(50, 17);
+            this.chkAdult.Size = new System.Drawing.Size(55, 19);
             this.chkAdult.TabIndex = 9;
             this.chkAdult.Text = "Adult";
             this.chkAdult.UseVisualStyleBackColor = true;
@@ -135,32 +139,22 @@
             // 
             this.chkMature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkMature.AutoSize = true;
-            this.chkMature.Location = new System.Drawing.Point(117, 143);
+            this.chkMature.Location = new System.Drawing.Point(136, 168);
+            this.chkMature.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkMature.Name = "chkMature";
-            this.chkMature.Size = new System.Drawing.Size(59, 17);
+            this.chkMature.Size = new System.Drawing.Size(64, 19);
             this.chkMature.TabIndex = 8;
             this.chkMature.Text = "Mature";
             this.chkMature.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnDelete.Enabled = false;
-            this.btnDelete.Location = new System.Drawing.Point(15, 171);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 10;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnView
             // 
             this.btnView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnView.Enabled = false;
-            this.btnView.Location = new System.Drawing.Point(357, 171);
+            this.btnView.Location = new System.Drawing.Point(416, 199);
+            this.btnView.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnView.Name = "btnView";
-            this.btnView.Size = new System.Drawing.Size(75, 23);
+            this.btnView.Size = new System.Drawing.Size(88, 27);
             this.btnView.TabIndex = 11;
             this.btnView.Text = "View";
             this.btnView.UseVisualStyleBackColor = true;
@@ -170,27 +164,30 @@
             // 
             this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(117, 117);
+            this.txtTags.Location = new System.Drawing.Point(136, 137);
+            this.txtTags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(315, 20);
+            this.txtTags.Size = new System.Drawing.Size(367, 23);
             this.txtTags.TabIndex = 7;
             // 
             // lblTags
             // 
             this.lblTags.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblTags.AutoSize = true;
-            this.lblTags.Location = new System.Drawing.Point(80, 120);
+            this.lblTags.Location = new System.Drawing.Point(93, 140);
+            this.lblTags.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTags.Name = "lblTags";
-            this.lblTags.Size = new System.Drawing.Size(31, 13);
+            this.lblTags.Size = new System.Drawing.Size(31, 15);
             this.lblTags.TabIndex = 6;
             this.lblTags.Text = "Tags";
             // 
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(51, 30);
+            this.lblDescription.Location = new System.Drawing.Point(59, 35);
+            this.lblDescription.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(60, 13);
+            this.lblDescription.Size = new System.Drawing.Size(67, 15);
             this.lblDescription.TabIndex = 2;
             this.lblDescription.Text = "Description";
             // 
@@ -198,26 +195,29 @@
             // 
             this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTitle.Location = new System.Drawing.Point(117, 3);
+            this.txtTitle.Location = new System.Drawing.Point(136, 3);
+            this.txtTitle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(315, 20);
+            this.txtTitle.Size = new System.Drawing.Size(367, 23);
             this.txtTitle.TabIndex = 1;
             // 
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(84, 6);
+            this.lblTitle.Location = new System.Drawing.Point(98, 7);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(27, 13);
+            this.lblTitle.Size = new System.Drawing.Size(30, 15);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Title";
             // 
             // btnPost
             // 
             this.btnPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnPost.Location = new System.Drawing.Point(35, 352);
+            this.btnPost.Location = new System.Drawing.Point(41, 409);
+            this.btnPost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnPost.Name = "btnPost";
-            this.btnPost.Size = new System.Drawing.Size(70, 23);
+            this.btnPost.Size = new System.Drawing.Size(82, 27);
             this.btnPost.TabIndex = 9;
             this.btnPost.Text = "Post";
             this.btnPost.UseVisualStyleBackColor = true;
@@ -231,7 +231,8 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(584, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(681, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -325,9 +326,10 @@
             this.panel1.Controls.Add(this.btnPost);
             this.panel1.Controls.Add(this.listBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(444, 24);
+            this.panel1.Location = new System.Drawing.Point(518, 24);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(140, 387);
+            this.panel1.Size = new System.Drawing.Size(163, 450);
             this.panel1.TabIndex = 10;
             // 
             // listBox1
@@ -337,22 +339,25 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.IntegralHeight = false;
+            this.listBox1.ItemHeight = 15;
             this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(140, 340);
+            this.listBox1.Size = new System.Drawing.Size(163, 395);
             this.listBox1.TabIndex = 1;
             this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
             // 
             // ArtworkForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 411);
+            this.ClientSize = new System.Drawing.Size(681, 474);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "ArtworkForm";
             this.Text = "Edit Submission Details";
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -386,7 +391,6 @@
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.ListBox listBox1;
-		private System.Windows.Forms.Button btnDelete;
 		private System.Windows.Forms.Button btnView;
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 		private System.Windows.Forms.CheckBox chkAdult;

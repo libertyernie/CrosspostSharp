@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ArtworkSourceSpecification;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace CrosspostSharp3.FurryNetwork {
 		}
     }
 
-    public abstract class FileSubmission : Submission {
+    public abstract class FileSubmission : Submission, IRemotePhotoPost {
         public string Md5 { get; set; }
         public string Url { get; set; }
         public string File_name { get; set; }
@@ -61,7 +62,16 @@ namespace CrosspostSharp3.FurryNetwork {
         public string Content_type { get; set; }
         public int Size { get; set; }
         public Images Images { get; set; }
-    }
+
+		string IRemotePhotoPost.ImageURL => Images.Original;
+		string IThumbnailPost.ThumbnailURL => Images.Thumbnail;
+		string IPostBase.HTMLDescription => CommonMark.CommonMarkConverter.Convert(Description);
+		bool IPostBase.Mature => Rating == 1;
+		bool IPostBase.Adult => Rating >= 2;
+		IEnumerable<string> IPostBase.Tags => TagStrings;
+		DateTime IPostBase.Timestamp => Created;
+		string IPostBase.ViewURL => $"https://furrynetwork.com/artwork/{Id}";
+	}
 
     public class Artwork : FileSubmission { }
     public class Photo : FileSubmission { }

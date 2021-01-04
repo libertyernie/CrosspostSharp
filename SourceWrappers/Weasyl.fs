@@ -25,13 +25,6 @@ type WeasylPostWrapper(submission: WeasylSubmissionBaseDetail) =
         member this.ImageURL = submission.media.submission |> Seq.map (fun s -> s.url) |> Seq.head
         member this.ThumbnailURL = submission.media.thumbnail |> Seq.map (fun s -> s.url) |> Seq.head
 
-type WeasylSubmissionWrapper(submission: WeasylSubmissionDetail, client: WeasylClient) =
-    inherit WeasylPostWrapper(submission)
-
-    interface IDeletable with
-        member this.SiteName = "Weasyl"
-        member this.DeleteAsync() = client.DeleteSubmissionAsync(submission.submitid)
-
 type WeasylSourceWrapper(api_key: string, loadAll: bool) =
     inherit AsyncSeqWrapper()
 
@@ -55,7 +48,7 @@ type WeasylSourceWrapper(api_key: string, loadAll: bool) =
             for s1 in gallery.submissions do
                 let get = async {
                     let! s2 = apiClient.GetSubmissionAsync(s1.submitid) |> Async.AwaitTask
-                    return new WeasylSubmissionWrapper(s2, frontendClient) :> IRemotePhotoPost
+                    return new WeasylPostWrapper(s2) :> IRemotePhotoPost
                 }
                 
                 if loadAll then

@@ -282,31 +282,6 @@ namespace CrosspostSharp3.Inkbunny {
 			}
 		}
 
-		private class InkbunnyPostWrapper : IRemotePhotoPost, IDeletable {
-			private readonly InkbunnySubmissionDetail _detail;
-			private readonly InkbunnyClient _client;
-
-			public InkbunnyPostWrapper(InkbunnySubmissionDetail detail, InkbunnyClient client) {
-				_detail = detail;
-				_client = client;
-			}
-
-			public string ImageURL => _detail.file_url_full;
-			public string ThumbnailURL => _detail.latest_thumbnail_url_medium ?? _detail.latest_thumbnail_url_medium_noncustom ?? ImageURL;
-			public string Title => _detail.title;
-			public string HTMLDescription => _detail.description_bbcode_parsed;
-			public bool Mature => _detail.rating_id == InkbunnyRating.Mature;
-			public bool Adult => _detail.rating_id == InkbunnyRating.Adult;
-			public IEnumerable<string> Tags => _detail.keywords.Select(x => x.keyword_name);
-			public DateTime Timestamp => _detail.create_datetime.UtcDateTime;
-			public string ViewURL => $"https://inkbunny.net/submissionview.php?id={_detail.submission_id}";
-			public string SiteName => "Inkbunny";
-
-			public async Task DeleteAsync() {
-				await _client.DeleteSubmissionAsync(_detail.submission_id);
-			}
-		}
-
 		async IAsyncEnumerable<IPostBase> IArtworkSource.GetPostsAsync() {
 			InkbunnySearchResponse results = await SearchAsync(new InkbunnySearchParameters { UserId = UserId });
 			while (true) {
@@ -316,7 +291,7 @@ namespace CrosspostSharp3.Inkbunny {
 				var details = await GetSubmissionsAsync(results.submissions.Select(x => x.submission_id), show_description_bbcode_parsed: true);
 				foreach (var r in details.submissions.OrderByDescending(x => x.create_datetime)) {
 					if (r.@public.value)
-						yield return new InkbunnyPostWrapper(r, this);
+						yield return r;
 				}
 
 				if (results.page == results.pages_count)

@@ -46,10 +46,6 @@ type StashPostWrapper(itemId: int64, metadata: StashMetadata, token: IDeviantArt
             |> Option.map (fun t -> t.src)
             |> Option.defaultValue imageUrl
 
-    interface IDeletable with
-        member this.SiteName = "Sta.sh"
-        member this.DeleteAsync() = DeviantArtFs.Api.Stash.Delete.ExecuteAsync token itemId :> Task
-
 type StashSourceWrapper(token: IDeviantArtAccessToken) =
     inherit AsyncSeqWrapper()
 

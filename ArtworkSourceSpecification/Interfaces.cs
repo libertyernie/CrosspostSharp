@@ -36,11 +36,6 @@ namespace ArtworkSourceSpecification {
 		string Filename { get; }
 	}
 
-	public interface IDeletable {
-		string SiteName { get; }
-		Task DeleteAsync();
-	}
-
 	public interface IArtworkSource {
 		string Name { get; }
 		Task<IAuthor> GetUserAsync();

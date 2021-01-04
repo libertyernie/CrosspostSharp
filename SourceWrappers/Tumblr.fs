@@ -18,10 +18,6 @@ type TumblrPostWrapper<'T when 'T :> BasePost>(client: TumblrClient, post: BaseP
         member this.Timestamp = post.Timestamp
         member this.ViewURL = post.Url
 
-    interface IDeletable with
-        member this.SiteName = "Tumblr"
-        member this.DeleteAsync () = client.DeletePostAsync(post.BlogName, post.Id)
-
 type TumblrPhotoPostWrapper(client: TumblrClient, post: PhotoPost) =
     inherit TumblrPostWrapper<PhotoPost>(client, post)
     override __.HTMLDescription = post.Caption

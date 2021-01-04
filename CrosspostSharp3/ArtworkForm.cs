@@ -73,7 +73,7 @@ namespace CrosspostSharp3 {
 			// Store original post object (used for View and Delete actions)
 			_origWrapper = artwork;
 			btnView.Enabled = _origWrapper.ViewURL != null;
-			btnDelete.Enabled = _origWrapper is IDeletable;
+			btnDelete.Enabled = false;
 
 			// Convert DeferredPhotoPost to IRemotePhotoPost
 			if (_origWrapper is DeferredPhotoPost deferred) {
@@ -346,16 +346,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private async void btnDelete_Click(object sender, EventArgs e) {
-			if (_origWrapper is IDeletable d) {
-				if (MessageBox.Show(this, $"Are you sure you want to permanently delete this submission from {d.SiteName}?", "Delete Item", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-					try {
-						await d.DeleteAsync();
-						Close();
-					} catch (Exception ex) {
-						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					}
-				}
-			}
+			
 		}
 
 		private void btnView_Click(object sender, EventArgs e) {
