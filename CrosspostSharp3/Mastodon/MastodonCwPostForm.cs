@@ -1,4 +1,5 @@
 ﻿using ArtworkSourceSpecification;
+using Pleronet.Entities;
 using SourceWrappers;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,11 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3.Mastodon {
 	public partial class MastodonCwPostForm : Form {
-		private readonly Settings.MastodonSettings _s;
+		private readonly Settings.PleronetSettings _s;
 		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
-		public MastodonCwPostForm(Settings.MastodonSettings s, TextPost post, IDownloadedData downloaded = null) {
+		public MastodonCwPostForm(Settings.PleronetSettings s, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_s = s;
 
@@ -56,9 +57,9 @@ namespace CrosspostSharp3.Mastodon {
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
 			try {
-				var user = await MapleFedNet.Api.Accounts.VerifyCredentials(_s);
+				var user = await _s.GetClient().GetCurrentUser();
 				lblUsername1.Text = user.DisplayName;
-				lblUsername2.Text = "@" + user.UserName + "@" + _s.Instance;
+				lblUsername2.Text = "@" + user.UserName + "@" + _s.AppRegistration.Instance;
 
 				picUserIcon.ImageLocation = user.AvatarUrl;
 			} catch (Exception) { }
@@ -75,7 +76,7 @@ namespace CrosspostSharp3.Mastodon {
 			}
 			try {
 				byte[] attachment_data = null;
-				(double, double)? focus = null;
+				AttachmentFocusData focus = null;
 				if (chkIncludeImage.Checked && _downloaded != null) {
 					attachment_data = _downloaded.Data;
 					if (chkFocalPoint.Checked) {
@@ -83,7 +84,10 @@ namespace CrosspostSharp3.Mastodon {
 						using (var image = Image.FromStream(ms))
 						using (var f = new FocalPointForm(image)) {
 							if (f.ShowDialog() == DialogResult.OK) {
-								focus = f.FocalPoint;
+								focus = new AttachmentFocusData {
+									X = f.FocalPoint.Item1,
+									Y = f.FocalPoint.Item2
+								};
 							} else {
 								return;
 							}
@@ -91,16 +95,15 @@ namespace CrosspostSharp3.Mastodon {
 					}
 				}
 				var attachments = attachment_data == null
-					? Enumerable.Empty<MapleFedNet.Model.Attachment>()
+					? Enumerable.Empty<Attachment>()
 					: new[] {
-						await MapleFedNet.Api.Media.Uploading(_s, attachment_data, txtImageDescription.Text, focus)
+						await _s.GetClient().UploadMedia(new MemoryStream(attachment_data, false), txtImageDescription.Text, focus: focus)
 					};
-				await MapleFedNet.Api.Statuses.Posting(
-					_s,
+				await _s.GetClient().PostStatus(
 					txtContent.Text,
 					sensitive: chkImageSensitive.Checked,
-					spoiler_text: chkContentWarning.Checked ? txtContentWarning.Text : null,
-					media_ids: attachments.Select(a => checked((int)a.Id)).ToArray());
+					spoilerText: chkContentWarning.Checked ? txtContentWarning.Text : null,
+					mediaIds: attachments.Select(a => a.Id).ToArray());
 				Close();
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);

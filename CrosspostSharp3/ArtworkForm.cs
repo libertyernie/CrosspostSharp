@@ -189,8 +189,8 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
-				foreach (var m in settings.Mastodon) {
-					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
+				foreach (var m in settings.Pleronet) {
+					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 						using (var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded)) {
 							f.ShowDialog(this);
 						}
@@ -223,8 +223,8 @@ namespace CrosspostSharp3 {
 
 			if (_origWrapper is IRemoteVideoPost video) {
 				listBox1.Items.Add("--- Post as video ---");
-				foreach (var m in settings.Mastodon) {
-					listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
+				foreach (var m in settings.Pleronet) {
+					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 						using (var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded)) {
 							f.ShowDialog(this);
 						}
@@ -249,8 +249,8 @@ namespace CrosspostSharp3 {
 					}
 				}));
 			}
-			foreach (var m in settings.Mastodon) {
-				listBox1.Items.Add(new DestinationOption($"{m.Instance} ({m.username})", () => {
+			foreach (var m in settings.Pleronet) {
+				listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 					using (var f = new MastodonCwPostForm(m, ExportAsText())) {
 						f.ShowDialog(this);
 					}

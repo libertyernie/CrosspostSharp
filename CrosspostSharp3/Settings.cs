@@ -1,14 +1,12 @@
 ﻿using CrosspostSharp3.DeviantArt;
 using FurAffinityFs;
-using MapleFedNet.Common;
 using Newtonsoft.Json;
-using System;
+using Pleronet;
+using Pleronet.Entities;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Tweetinvi;
-using Tweetinvi.Models;
 
 namespace CrosspostSharp3 {
 	public class Settings {
@@ -65,17 +63,16 @@ namespace CrosspostSharp3 {
 
 		public List<InkbunnySettings> Inkbunny = new List<InkbunnySettings>();
 
-		public List<MastodonSettings> Mastodon = new List<MastodonSettings>();
+		public List<PleronetSettings> Pleronet = new List<PleronetSettings>();
 
-		public struct MastodonSettings : IAccountCredentials, IMastodonCredentials {
-			public string Instance;
-			public string accessToken;
-			public string username;
+		public struct PleronetSettings : IAccountCredentials {
+			public AppRegistration AppRegistration { get; set; }
+			public Auth Auth { get; set; }
+			public string Username { get; set; }
 
-			string IAccountCredentials.Username => username;
-
-			string IMastodonCredentials.Domain => Instance;
-			string IMastodonCredentials.Token => accessToken;
+			public MastodonClient GetClient() {
+				return new MastodonClient(AppRegistration, Auth);
+			}
 		}
 
 		public struct PinterestSettings : IAccountCredentials {

@@ -34,9 +34,9 @@ namespace CrosspostSharp3 {
 				pnlAccounts.Controls.Add(checkbox);
 				_postFunctions.Add(checkbox, () => PostToDeviantArt(da));
 			}
-			foreach (var m in settings.Mastodon) {
+			foreach (var m in settings.Pleronet) {
 				var checkbox = new CheckBox {
-					Text = $"{m.Instance} ({m.username})",
+					Text = $"{m.AppRegistration.Instance} ({m.Username})",
 					AutoSize = true
 				};
 				pnlAccounts.Controls.Add(checkbox);
@@ -75,11 +75,10 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private async Task<Uri> PostToMastodon(Settings.MastodonSettings m) {
-			var status = await MapleFedNet.Api.Statuses.Posting(
-				m,
+		private async Task<Uri> PostToMastodon(Settings.PleronetSettings m) {
+			var status = await m.GetClient().PostStatus(
 				CurrentText,
-				spoiler_text: textBox1.Text == "" ? null : textBox1.Text);
+				spoilerText: textBox1.Text == "" ? null : textBox1.Text);
 			return new Uri(status.Url);
 		}
 

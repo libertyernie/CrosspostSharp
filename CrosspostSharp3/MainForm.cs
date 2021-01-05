@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrosspostSharp3.Weasyl;
 using CrosspostSharp3.Twitter;
+using CrosspostSharp3.Mastodon;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -154,10 +155,11 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
 				add(new Inkbunny.InkbunnyClient(i.sid, i.userId));
 			}
-			foreach (var p in s.Mastodon) {
-				lblLoadStatus.Text = $"Adding Mastodon (@{p.username}@{p.Instance})...";
-				add(new MastodonSourceWrapper(p, photosOnly: true));
-				add(new MastodonSourceWrapper(p, photosOnly: false));
+			foreach (var p in s.Pleronet) {
+				lblLoadStatus.Text = $"Adding Mastodon (@{p.Username}@{p.AppRegistration.Instance})...";
+				var client = new Pleronet.MastodonClient(p.AppRegistration, p.Auth);
+				add(new MastodonSource(client));
+				add(new PhotoPostFilterSource(new MastodonSource(client)));
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";

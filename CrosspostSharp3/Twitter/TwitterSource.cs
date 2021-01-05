@@ -37,7 +37,7 @@ namespace CrosspostSharp3.Twitter {
 			}
 
 			public bool Mature => _tweet.PossiblySensitive;
-			public bool Adult => false;
+			public bool Adult => _tweet.PossiblySensitive;
 			public IEnumerable<string> Tags => _tweet.Hashtags.Select(x => x.Text);
 			public DateTime Timestamp => _tweet.CreatedAt.UtcDateTime;
 			public string ViewURL => _tweet.Url;

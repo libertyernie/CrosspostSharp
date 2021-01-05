@@ -9,33 +9,21 @@ namespace CrosspostSharp3 {
 			toolsToolStripMenuItem.Enabled = false;
 
 			Settings s = Settings.Load();
-			using (var acctSelForm = new AccountSelectionForm<Settings.MastodonSettings>(
-				s.Mastodon,
+			using (var acctSelForm = new AccountSelectionForm<Settings.PleronetSettings>(
+				s.Pleronet,
 				async () => {
 					using (var f = new MastodonLoginDialog()) {
 						if (f.ShowDialog() == DialogResult.OK) {
 							try {
-								var oauth = await MapleFedNet.Api.Apps.Register(
-									f.Instance,
-									"CrosspostSharp",
-									scopes: new[] {
-										MapleFedNet.Model.Scope.Read,
-										MapleFedNet.Model.Scope.Write
-									});
-								var token = await MapleFedNet.Api.OAuth.GetAccessTokenByPassword(
-									f.Instance,
-									oauth.ClientId,
-									oauth.ClientSecret,
-									f.Email,
-									f.Password,
-									MapleFedNet.Model.Scope.Read,
-									MapleFedNet.Model.Scope.Write);
-								var account = await MapleFedNet.Api.Accounts.VerifyCredentials(new MapleFedNet.Common.MastodonCredentials(f.Instance, token.AccessToken));
+								var authClient = new Pleronet.AuthenticationClient(f.Instance);
+								var appReg = await authClient.CreateApp("CrosspostSharp", Pleronet.Scope.Read | Pleronet.Scope.Write, "https://github.com/libertyernie/CrosspostSharp");
+								var auth = await authClient.ConnectWithPassword(f.Email, f.Password);
+								var account = await new Pleronet.MastodonClient(appReg, auth).GetCurrentUser();
 								return new[] {
-									new Settings.MastodonSettings {
-										Instance = f.Instance,
-										accessToken = token.AccessToken,
-										username = account.UserName
+									new Settings.PleronetSettings {
+										AppRegistration = appReg,
+										Auth = auth,
+										Username = account.UserName
 									}
 								};
 							} catch (Exception ex) {
@@ -44,11 +32,11 @@ namespace CrosspostSharp3 {
 						}
 					}
 
-					return Enumerable.Empty<Settings.MastodonSettings>();
+					return Enumerable.Empty<Settings.PleronetSettings>();
 				}
 			)) {
 				acctSelForm.ShowDialog(this);
-				s.Mastodon = acctSelForm.CurrentList.ToList();
+				s.Pleronet = acctSelForm.CurrentList.ToList();
 				s.Save();
 				await ReloadWrapperList();
 			}
