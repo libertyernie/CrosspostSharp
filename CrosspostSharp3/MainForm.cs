@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrosspostSharp3.Weasyl;
+using CrosspostSharp3.Twitter;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -160,8 +161,9 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var t in s.Twitter) {
 				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
-				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: true));
-				add(new TwitterSourceWrapper(t.GetCredentials(), photosOnly: false));
+				var source = new TwitterSource(t.GetCredentials());
+				add(source);
+				add(new PhotoPostFilterSource(source));
 			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {

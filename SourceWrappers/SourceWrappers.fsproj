@@ -13,7 +13,6 @@
     <Compile Include="DeviantArtStatus.fs" />
     <Compile Include="Mastodon.fs" />
     <Compile Include="Stash.fs" />
-    <Compile Include="Twitter.fs" />
     <Compile Include="Tumblr.fs" />
   </ItemGroup>
 
