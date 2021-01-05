@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DeviantArtFs">
-      <Version>6.0.1</Version>
+      <Version>6.0.2</Version>
     </PackageReference>
     <PackageReference Include="DeviantArtFs.WinForms">
       <Version>1.2.0</Version>

@@ -8,15 +8,13 @@
     <Compile Include="Posts.fs" />
     <Compile Include="SavedPhotoPost.fs" />
     <Compile Include="AsyncSeqWrapper.fs" />
-    <Compile Include="DeviantArt.fs" />
-    <Compile Include="DeviantArtScraps.fs" />
     <Compile Include="DeviantArtStatus.fs" />
     <Compile Include="Stash.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
-    <PackageReference Include="DeviantArtFs" Version="6.0.1" />
+    <PackageReference Include="DeviantArtFs" Version="6.0.2" />
     <PackageReference Include="FSharp.Control.AsyncSeq" Version="3.0.3" />
     <PackageReference Include="FSharp.Data" Version="3.3.3" />
     <PackageReference Include="FurAffinityFs" Version="1.0.0" />

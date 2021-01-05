@@ -18,6 +18,7 @@ using CrosspostSharp3.Weasyl;
 using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
+using CrosspostSharp3.DeviantArt;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -130,9 +131,11 @@ namespace CrosspostSharp3 {
 				} catch (Exception) { }
 				this.Enabled = true;
 
+				add(new DeviantArtGallerySource(da));
+				add(new PhotoPostFilterSource(new DeviantArtGallerySource(da)));
+				add(new DeviantArtScrapsSource(da));
+
 				var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(da, DeviantArtObjectExpansion.None);
-				add(new DeviantArtSourceWrapper(da, user.username, includeLiterature: false));
-				add(new DeviantArtScrapsWrapper(da, user.username, includeLiterature: false));
 				add(new DeviantArtStatusSourceWrapper(da));
 				add(new StashSourceWrapper(da));
 			}
