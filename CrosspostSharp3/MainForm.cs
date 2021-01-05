@@ -134,9 +134,7 @@ namespace CrosspostSharp3 {
 				add(new DeviantArtGallerySource(da));
 				add(new PhotoPostFilterSource(new DeviantArtGallerySource(da)));
 				add(new DeviantArtScrapsSource(da));
-
-				var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(da, DeviantArtObjectExpansion.None);
-				add(new DeviantArtStatusSourceWrapper(da));
+				add(new DeviantArtStatusSource(da));
 				add(new StashSourceWrapper(da));
 			}
 			foreach (var fa in s.FurAffinity) {
