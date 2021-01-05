@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using CrosspostSharp3.Weasyl;
 using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Mastodon;
+using CrosspostSharp3.Tumblr;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -175,8 +176,8 @@ namespace CrosspostSharp3 {
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
 					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-				add(new TumblrSourceWrapper(client, t.blogName, photosOnly: true));
-				add(new TumblrSourceWrapper(client, t.blogName, photosOnly: false));
+				add(new TumblrSource(client, t.blogName, PostType.Photo));
+				add(new TumblrSource(client, t.blogName, PostType.All));
 			}
 			foreach (var w in s.WeasylApi) {
 				if (w.apiKey == null) continue;

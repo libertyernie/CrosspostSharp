@@ -12,7 +12,6 @@
     <Compile Include="DeviantArtScraps.fs" />
     <Compile Include="DeviantArtStatus.fs" />
     <Compile Include="Stash.fs" />
-    <Compile Include="Tumblr.fs" />
   </ItemGroup>
 
   <ItemGroup>
