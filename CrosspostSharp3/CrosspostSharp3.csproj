@@ -9,7 +9,6 @@
     <AssemblyName>CrosspostSharp3</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArtworkSourceSpecification\ArtworkSourceSpecification.csproj" />
     <ProjectReference Include="..\CppCookieTools\CppCookieTools.vcxproj" />
   </ItemGroup>
   <ItemGroup>
