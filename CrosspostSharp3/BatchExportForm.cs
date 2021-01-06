@@ -45,16 +45,9 @@ namespace CrosspostSharp3 {
 					progressBar1.Value++;
 					var downloaded = await Downloader.DownloadAsync(submission);
 					if (downloaded == null) continue;
-					var artworkData = SavedPhotoPost.FromPost(submission, downloaded);
 
-					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, artworkData.Filename);
-
-					if (chkExportImage.Checked) {
-						File.WriteAllBytes(imagePath, artworkData.data);
-					}
-					if (chkExportCps.Checked) {
-						File.WriteAllText(imagePath + ".cps", JsonConvert.SerializeObject(artworkData, Formatting.Indented));
-					}
+					string imagePath = Path.Combine(folderBrowserDialog1.SelectedPath, downloaded.Filename);
+					File.WriteAllBytes(imagePath, downloaded.Data);
 				}
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);

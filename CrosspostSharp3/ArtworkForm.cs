@@ -10,6 +10,7 @@ using CrosspostSharp3.Weasyl;
 using Newtonsoft.Json;
 using SourceWrappers;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -66,7 +67,7 @@ namespace CrosspostSharp3 {
 		}
 
 		public void LoadImage(string filename) {
-			LoadImage(SavedPhotoPost.FromFile(filename));
+			LoadImage(LocalPhotoPost.FromFile(filename));
 		}
 
 		public async void LoadImage(IPostBase artwork) {
@@ -108,7 +109,6 @@ namespace CrosspostSharp3 {
 			}
 
 			btnView.Enabled = _origWrapper.ViewURL != null;
-			saveAsToolStripMenuItem.Enabled = exportAsToolStripMenuItem.Enabled = (_origWrapper is SavedPhotoPost x && x.url != null);
 			txtTitle.Text = _origWrapper.Title;
 			wbrDescription.Navigate("about:blank");
 			string html = _origWrapper.HTMLDescription;
@@ -127,18 +127,15 @@ namespace CrosspostSharp3 {
 
 			Settings settings = Settings.Load();
 
-			saveAsToolStripMenuItem.Enabled = false;
 			exportAsToolStripMenuItem.Enabled = false;
 
 			if (_downloaded != null) {
 				listBox1.Items.Add("--- Post as photo ---");
 
-				saveAsToolStripMenuItem.Enabled = true;
 				exportAsToolStripMenuItem.Enabled = true;
 
 				foreach (var da in settings.DeviantArtTokens) {
 					listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
-						long? itemId = (_origWrapper as StashSource.StashPostWrapper)?.ItemId;
 						var toPost = _downloaded;
 						if (toPost.ContentType == "image/gif") {
 							switch (MessageBox.Show(this, "GIF images on DeviantArt require a separate preview image, which isn't possible via the API. Would you like to upload this image in PNG format instead?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {
@@ -146,7 +143,6 @@ namespace CrosspostSharp3 {
 									return;
 								case DialogResult.Yes:
 									toPost = new PngRendition(toPost);
-									itemId = null;
 									break;
 							}
 						}
@@ -158,7 +154,13 @@ namespace CrosspostSharp3 {
 							};
 							f.Controls.Add(d);
 							d.Uploaded += url => f.Close();
-							d.SetSubmission(ExportAsText(), toPost, itemId);
+
+							// Submit original sta.sh item instead of uploading a new one (if unchanged)
+							long? originalItemId = toPost == _downloaded && _origWrapper is StashSource.StashPostWrapper sw
+								? sw.ItemId
+								: null;
+							d.SetSubmission(ExportAsText(), toPost, originalItemId);
+
 							f.ShowDialog(this);
 						}
 					}));
@@ -289,29 +291,6 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) {
-			if (_downloaded == null) {
-				MessageBox.Show(this, "This post does not have image data.", Text);
-				return;
-			}
-
-			var cps = new SavedPhotoPost(
-				_downloaded.Data,
-				txtTitle.Text,
-				wbrDescription.Document.Body.InnerHtml,
-				_origWrapper.ViewURL,
-				txtTags.Text.Split(' ').Where(s => s != ""),
-				chkMature.Checked,
-				chkAdult.Checked);
-
-			using (var saveFileDialog = new SaveFileDialog()) {
-				saveFileDialog.Filter = "CrosspostSharp JSON|*.cps|All files|*.*";
-				if (saveFileDialog.ShowDialog() == DialogResult.OK) {
-					File.WriteAllText(saveFileDialog.FileName, JsonConvert.SerializeObject(cps, Formatting.Indented));
-				}
-			}
-		}
-
 		private void exportAsToolStripMenuItem_Click(object sender, EventArgs e) {
 			if (_downloaded == null) {
 				MessageBox.Show(this, "This post does not have image data.", Text);
@@ -345,7 +324,7 @@ namespace CrosspostSharp3 {
 		}
 
 		private void btnView_Click(object sender, EventArgs e) {
-			Process.Start(_origWrapper.ViewURL);
+			Process.Start("explorer.exe", _origWrapper.ViewURL);
 		}
 
 		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {

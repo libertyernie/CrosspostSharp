@@ -40,7 +40,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +84,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.txtTitle);
             this.splitContainer1.Panel2.Controls.Add(this.lblTitle);
             this.splitContainer1.Size = new System.Drawing.Size(518, 450);
-            this.splitContainer1.SplitterDistance = 205;
+            this.splitContainer1.SplitterDistance = 204;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -95,7 +94,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(518, 205);
+            this.pictureBox1.Size = new System.Drawing.Size(518, 204);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -177,7 +176,7 @@
             this.lblTags.Location = new System.Drawing.Point(93, 140);
             this.lblTags.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTags.Name = "lblTags";
-            this.lblTags.Size = new System.Drawing.Size(31, 15);
+            this.lblTags.Size = new System.Drawing.Size(30, 15);
             this.lblTags.TabIndex = 6;
             this.lblTags.Text = "Tags";
             // 
@@ -207,7 +206,7 @@
             this.lblTitle.Location = new System.Drawing.Point(98, 7);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(30, 15);
+            this.lblTitle.Size = new System.Drawing.Size(29, 15);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Title";
             // 
@@ -240,7 +239,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
             this.exportAsToolStripMenuItem,
             this.closeToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -251,35 +249,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.openToolStripMenuItem.Text = "&Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.saveAsToolStripMenuItem.Text = "&Save As...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // exportAsToolStripMenuItem
             // 
             this.exportAsToolStripMenuItem.Name = "exportAsToolStripMenuItem";
-            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.exportAsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.exportAsToolStripMenuItem.Text = "Export As...";
             this.exportAsToolStripMenuItem.Click += new System.EventHandler(this.exportAsToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.closeToolStripMenuItem.Text = "&Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -288,7 +279,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainWindowAccountSetupToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // mainWindowAccountSetupToolStripMenuItem
@@ -392,7 +383,6 @@
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.ListBox listBox1;
 		private System.Windows.Forms.Button btnView;
-		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 		private System.Windows.Forms.CheckBox chkAdult;
 		private System.Windows.Forms.CheckBox chkMature;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;

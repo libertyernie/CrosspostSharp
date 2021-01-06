@@ -56,10 +56,6 @@ namespace CrosspostSharp3 {
 
 					if (item is IThumbnailPost t) {
 						p.ImageLocation = t.ThumbnailURL;
-					} else if (item is SavedPhotoPost saved) {
-						using (var ms = new MemoryStream(saved.data, false)) {
-							p.Image = Image.FromStream(ms);
-						}
 					} else {
 						p.ImageLocation = picUserIcon.ImageLocation;
 					}

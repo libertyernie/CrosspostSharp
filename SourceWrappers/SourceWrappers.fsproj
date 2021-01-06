@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Compile Include="Posts.fs" />
-    <Compile Include="SavedPhotoPost.fs" />
-    <Compile Include="AsyncSeqWrapper.fs" />
   </ItemGroup>
 
   <ItemGroup>

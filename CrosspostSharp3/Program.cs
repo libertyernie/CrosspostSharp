@@ -20,10 +20,7 @@ namespace CrosspostSharp3 {
 			Application.SetCompatibleTextRenderingDefault(false);
 			if (args.Length == 1) {
 				try {
-					var artwork = SavedPhotoPost.FromFile(args[0]);
-					if (artwork.data == null) {
-						throw new Exception("This file does not contain a base-64 encoded \"data\" field.");
-					}
+					var artwork = LocalPhotoPost.FromFile(args[0]);
 					Application.Run(new ArtworkForm(artwork));
 				} catch (Exception ex) {
 					MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
