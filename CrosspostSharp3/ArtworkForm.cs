@@ -138,7 +138,7 @@ namespace CrosspostSharp3 {
 
 				foreach (var da in settings.DeviantArtTokens) {
 					listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
-						long? itemId = (_origWrapper as StashPostWrapper)?.ItemId;
+						long? itemId = (_origWrapper as StashSource.StashPostWrapper)?.ItemId;
 						var toPost = _downloaded;
 						if (toPost.ContentType == "image/gif") {
 							switch (MessageBox.Show(this, "GIF images on DeviantArt require a separate preview image, which isn't possible via the API. Would you like to upload this image in PNG format instead?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {

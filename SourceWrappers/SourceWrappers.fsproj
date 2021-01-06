@@ -8,7 +8,6 @@
     <Compile Include="Posts.fs" />
     <Compile Include="SavedPhotoPost.fs" />
     <Compile Include="AsyncSeqWrapper.fs" />
-    <Compile Include="Stash.fs" />
   </ItemGroup>
 
   <ItemGroup>
