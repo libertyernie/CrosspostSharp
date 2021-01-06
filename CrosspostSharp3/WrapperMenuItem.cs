@@ -1,5 +1,4 @@
 ﻿using ArtworkSourceSpecification;
-using SourceWrappers;
 
 namespace CrosspostSharp3 {
 	public class WrapperMenuItem {

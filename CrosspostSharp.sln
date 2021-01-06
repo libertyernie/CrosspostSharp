@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrosspostSharp3", "CrosspostSharp3\CrosspostSharp3.csproj", "{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SourceWrappers", "SourceWrappers\SourceWrappers.fsproj", "{73F76685-65DA-4557-93EF-869705950943}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppCookieTools", "CppCookieTools\CppCookieTools.vcxproj", "{36D78D78-10D0-4765-BBB1-B92370910C86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArtworkSourceSpecification", "ArtworkSourceSpecification\ArtworkSourceSpecification.csproj", "{CC881A81-3AEE-4422-825A-509727E5F5D5}"
@@ -34,14 +32,6 @@ Global
 		{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}.Release|x64.Build.0 = Release|Any CPU
 		{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}.Release|x86.ActiveCfg = Release|Any CPU
 		{4AE5E506-8529-4DCB-BFFD-E23EDD234ADD}.Release|x86.Build.0 = Release|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Debug|x64.Build.0 = Debug|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Debug|x86.Build.0 = Debug|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Release|x64.ActiveCfg = Release|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Release|x64.Build.0 = Release|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Release|x86.ActiveCfg = Release|Any CPU
-		{73F76685-65DA-4557-93EF-869705950943}.Release|x86.Build.0 = Release|Any CPU
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Debug|x64.ActiveCfg = Debug|x64
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Debug|x64.Build.0 = Debug|x64
 		{36D78D78-10D0-4765-BBB1-B92370910C86}.Debug|x86.ActiveCfg = Debug|Win32

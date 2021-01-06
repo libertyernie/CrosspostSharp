@@ -4,7 +4,6 @@ using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using CrosspostSharp3.FurryNetwork;
-using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Data;

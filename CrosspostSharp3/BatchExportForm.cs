@@ -1,6 +1,5 @@
 ﻿using ArtworkSourceSpecification;
 using Newtonsoft.Json;
-using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.IO;

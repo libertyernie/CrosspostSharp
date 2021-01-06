@@ -8,7 +8,6 @@ using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Weasyl;
 using Newtonsoft.Json;
-using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -74,26 +73,6 @@ namespace CrosspostSharp3 {
 			// Store original post object (used for View and Delete actions)
 			_origWrapper = artwork;
 			btnView.Enabled = _origWrapper.ViewURL != null;
-
-			// Convert DeferredPhotoPost to IRemotePhotoPost
-			if (_origWrapper is DeferredPhotoPost deferred) {
-				for (int i = 0; i < Controls.Count; i++) {
-					Controls[i].Enabled = false;
-				}
-				string origText = this.Text;
-				this.Text = "Loading...";
-
-				try {
-					_origWrapper = await deferred.GetActualAsync();
-				} catch (Exception) { }
-
-				if (this.IsDisposed) return;
-
-				this.Text = origText;
-				for (int i = 0; i < Controls.Count; i++) {
-					Controls[i].Enabled = true;
-				}
-			}
 
 			// Download image (if applicable)
 			_downloaded = await Downloader.DownloadAsync(_origWrapper);

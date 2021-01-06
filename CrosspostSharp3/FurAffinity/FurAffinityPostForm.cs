@@ -1,6 +1,5 @@
 ﻿using ArtworkSourceSpecification;
 using FurAffinityFs;
-using SourceWrappers;
 using System;
 using System.Data;
 using System.Drawing;

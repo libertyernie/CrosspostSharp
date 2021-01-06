@@ -1,5 +1,4 @@
 ﻿using CrosspostSharp3.FurAffinity;
-using SourceWrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
