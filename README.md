@@ -5,7 +5,7 @@ Source: https://github.com/libertyernie/CrosspostSharp
 
 ------------------
 
-CrosspostSharp is a Windows desktop application (written in C# and F#) that
+CrosspostSharp is a Windows desktop application (written mostly in C#, with a bit of C++) that
 loads individual submissions from art sites and lets you post them to your
 other accounts, maintaining the title, description, and tags.
 
