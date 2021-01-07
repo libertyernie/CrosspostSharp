@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
@@ -75,7 +76,12 @@ namespace CrosspostSharp3 {
 			btnView.Enabled = _origWrapper.ViewURL != null;
 
 			// Download image (if applicable)
-			_downloaded = await Downloader.DownloadAsync(_origWrapper);
+			try {
+				_downloaded = await Downloader.DownloadAsync(_origWrapper);
+			} catch (WebException ex) {
+				MessageBox.Show(this, ex.Message);
+				_downloaded = null;
+			}
 
 			// Get photo (or thumbnail of video)
 			if (_downloaded != null) {

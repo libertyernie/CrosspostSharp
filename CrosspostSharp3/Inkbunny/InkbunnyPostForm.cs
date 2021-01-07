@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3.Inkbunny {
@@ -29,7 +30,7 @@ namespace CrosspostSharp3.Inkbunny {
 			try {
 				lblUsername1.Text = await _client.WhoamiAsync();
 
-				var req = WebRequestFactory.Create(await _client.GetUserIconAsync());
+				var req = WebRequest.Create(await _client.GetUserIconAsync());
 				using (var resp = await req.GetResponseAsync())
 				using (var stream = resp.GetResponseStream())
 				using (var ms = new MemoryStream()) {

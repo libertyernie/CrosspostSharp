@@ -60,7 +60,7 @@ namespace CrosspostSharp3.FurryNetwork {
 				var character = await _client.GetCharacterAsync(_characterName);
 				string avatar = character.Avatars.Tiny ?? character.Avatars.GetLargest();
 				if (avatar != null) {
-					var req = WebRequestFactory.Create(avatar);
+					var req = WebRequest.Create(avatar);
 					using (var resp = await req.GetResponseAsync())
 					using (var stream = resp.GetResponseStream())
 					using (var ms = new MemoryStream()) {

@@ -51,7 +51,7 @@ namespace CrosspostSharp3.Twitter {
 				lblUsername1.Text = user.Name;
 				lblUsername2.Text = "@" + user.ScreenName;
 
-				var req = WebRequestFactory.Create(user.ProfileImageUrl);
+				var req = WebRequest.Create(user.ProfileImageUrl);
 				using (var resp = await req.GetResponseAsync())
 				using (var stream = resp.GetResponseStream())
 				using (var ms = new MemoryStream()) {

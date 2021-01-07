@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3.Weasyl {
@@ -46,7 +47,7 @@ namespace CrosspostSharp3.Weasyl {
 
 				var avatarUrl = await _apiClient.GetAvatarUrlAsync(user.login);
 
-				var req = WebRequestFactory.Create(avatarUrl);
+				var req = WebRequest.Create(avatarUrl);
 				using (var resp = await req.GetResponseAsync())
 				using (var stream = resp.GetResponseStream())
 				using (var ms = new MemoryStream()) {
