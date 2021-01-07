@@ -9,7 +9,7 @@ namespace CrosspostSharp3 {
 		/// </summary>
 		[STAThread]
 		static void Main(string[] args) {
-			IECookiePersist.Suppress(true);
+			CppCookieTools.Cookies.SetSuppressBehaviorForProcess(CppCookieTools.SuppressBehavior.CookiePersist);
 			IECompatibility.SetForCurrentProcess();
 
 			// Force current directory (if a file or folder was dragged onto CrosspostSharp3.exe)

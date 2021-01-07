@@ -7,6 +7,7 @@
 #include <windows.h>
 
 #include <WinInet.h>
+#include <Winineti.h>
 #include <vcclr.h>
 
 using System::DateTimeOffset;
@@ -16,6 +17,15 @@ using System::Collections::Generic::IEnumerable;
 using System::ComponentModel::Win32Exception;
 
 namespace CppCookieTools {
+    [Flags]
+    public enum class SuppressBehavior {
+        ResetAll = INTERNET_SUPPRESS_RESET_ALL,
+        CookiePolicy = INTERNET_SUPPRESS_COOKIE_POLICY,
+        CookiePolicyReset = INTERNET_SUPPRESS_COOKIE_POLICY_RESET,
+        CookiePersist = INTERNET_SUPPRESS_COOKIE_PERSIST,
+        CookiePersistReset = INTERNET_SUPPRESS_COOKIE_PERSIST_RESET,
+    };
+
     [Flags]
     public enum class CookieFlags {
         IsSecure = INTERNET_COOKIE_IS_SECURE,
@@ -75,6 +85,11 @@ namespace CppCookieTools {
 
             InternetFreeCookies(pCookies, dwCookieCount);
             return arr;
+        }
+
+        static bool SetSuppressBehaviorForProcess(SuppressBehavior value) {
+            int option = (int)value;
+            return InternetSetOption(NULL, INTERNET_OPTION_SUPPRESS_BEHAVIOR, &option, sizeof(int));
         }
     };
 };
