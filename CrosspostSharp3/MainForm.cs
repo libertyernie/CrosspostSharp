@@ -44,8 +44,8 @@ namespace CrosspostSharp3 {
 
 			try {
 				var enumerable = _currentWrapper.GetPostsAsync();
-				var posts = await enumerable.Skip(_currentPosition).Take(4).ToListAsync();
-				more = await enumerable.Skip(_currentPosition + 4).AnyAsync();
+				var posts = await enumerable.Skip(_currentPosition).Take(PageSize).ToListAsync();
+				more = await enumerable.Skip(_currentPosition + PageSize).AnyAsync();
 
 				foreach (var item in posts) {
 					var p = new PictureBox {
@@ -246,13 +246,15 @@ namespace CrosspostSharp3 {
 			Populate();
 		}
 
+		private int PageSize => tableLayoutPanel1.RowCount * tableLayoutPanel1.ColumnCount;
+
 		private void btnPrevious_Click(object sender, EventArgs e) {
-			_currentPosition = Math.Max(0, _currentPosition - 4);
+			_currentPosition = Math.Max(0, _currentPosition - PageSize);
 			Populate();
 		}
 
 		private void btnNext_Click(object sender, EventArgs e) {
-			_currentPosition += tableLayoutPanel1.RowCount + tableLayoutPanel1.ColumnCount;
+			_currentPosition += PageSize;
 			Populate();
 		}
 
