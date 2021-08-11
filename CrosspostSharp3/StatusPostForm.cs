@@ -1,4 +1,6 @@
 ﻿using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using System;
@@ -63,14 +65,15 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<Uri> PostToDeviantArt(IDeviantArtAccessToken token) {
-			var post = await DeviantArtFs.Api.User.StatusPost.ExecuteAsync(
+			var post = await DeviantArtFs.Api.User.AsyncPostStatus(
 				token,
-				new DeviantArtFs.Api.User.StatusPostRequest(CurrentHtml));
+				EmbeddableStatusContent.None,
+				CurrentHtml).StartAsTask();
 			try {
-				var status = await DeviantArtFs.Api.User.StatusById.ExecuteAsync(token, post.statusid);
+				var status = await DeviantArtFs.Api.User.AsyncGetStatus(token, post.statusid).StartAsTask();
 				return new Uri(status.url.Value);
 			} catch (Exception) {
-				var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(token, DeviantArtObjectExpansion.None);
+				var user = await DeviantArtFs.Api.User.AsyncWhoami(token, ObjectExpansion.None).StartAsTask();
 				return new Uri("https://www.deviantart.com/" + user);
 			}
 		}

@@ -1,5 +1,7 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,7 +22,7 @@ namespace CrosspostSharp3.DeviantArt {
 			public IEnumerable<long> DeviationIds { get; init; }
 		}
 
-		private async Task<EclipseGalleryContents> FetchBatchAsync(string username, int offset, int limit) {
+		private static async Task<EclipseGalleryContents> FetchBatchAsync(string username, int offset, int limit) {
 			var req = WebRequest.CreateHttp($"https://www.deviantart.com/_napi/da-user-profile/api/gallery/contents?username={Uri.EscapeDataString(username)}&offset={offset}&limit={limit}&scraps_folder=true&mode=newest");
 			req.UserAgent = "CrosspostSharp/4.0 (https://github.com/libertyernie/CrosspostSharp)";
 			req.Accept = "application/json";
@@ -48,7 +50,7 @@ namespace CrosspostSharp3.DeviantArt {
 			};
 		}
 
-		private async Task<Guid> GetApiIdAsync(long deviationId) {
+		private static async Task<Guid> GetApiIdAsync(long deviationId) {
 			var req = WebRequest.CreateHttp($"https://www.deviantart.com/_napi/shared_api/deviation/extended_fetch?deviationid={deviationId}&type=art&include_session=false");
 			req.UserAgent = "CrosspostSharp/4.0 (https://github.com/libertyernie/CrosspostSharp)";
 			req.Accept = "application/json";
@@ -77,8 +79,14 @@ namespace CrosspostSharp3.DeviantArt {
 				foreach (var d in batch.DeviationIds) {
 					Guid deviationId = await GetApiIdAsync(d);
 
-					var deviation = await DeviantArtFs.Api.Deviation.DeviationById.ExecuteAsync(_token, DeviantArtObjectExpansion.None, deviationId);
-					var metadata = await DeviantArtFs.Api.Deviation.MetadataById.ExecuteAsync(_token, new DeviantArtFs.Api.Deviation.MetadataRequest(new[] { deviationId }));
+					var deviation = await DeviantArtFs.Api.Deviation.AsyncGet(
+						_token,
+						ObjectExpansion.None,
+						deviationId).StartAsTask();
+					var metadata = await DeviantArtFs.Api.Deviation.AsyncGetMetadata(
+						_token,
+						ExtParams.None,
+						new[] { deviationId }).StartAsTask();
 
 					if (!deviation.is_deleted && metadata.metadata.Any())
 						yield return new DeviantArtPostWrapper(deviation, metadata.metadata.Single());

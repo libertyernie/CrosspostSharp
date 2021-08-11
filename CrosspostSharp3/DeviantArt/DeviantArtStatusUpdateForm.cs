@@ -1,5 +1,8 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
+using DeviantArtFs.SubmissionTypes;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -17,7 +20,6 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3.DeviantArt {
 	public partial class DeviantArtStatusUpdateForm : Form {
-		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
 		private readonly IDeviantArtAccessToken _token;
@@ -25,7 +27,6 @@ namespace CrosspostSharp3.DeviantArt {
 		public DeviantArtStatusUpdateForm(IDeviantArtAccessToken token, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_token = token;
-			_post = post;
 			_downloaded = downloaded;
 
 			textBox1.Text = post.HTMLDescription;
@@ -41,7 +42,7 @@ namespace CrosspostSharp3.DeviantArt {
 					picImageToPost.Visible = false;
 				}
 
-				var u = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(_token, DeviantArtObjectExpansion.None);
+				var u = await DeviantArtFs.Api.User.AsyncWhoami(_token, ObjectExpansion.None).StartAsTask();
 				lblUsername1.Text = u.username;
 				picUserIcon.ImageLocation = u.usericon;
 			} catch (Exception) { }
@@ -54,16 +55,21 @@ namespace CrosspostSharp3.DeviantArt {
 				long? itemId = null;
 
 				if (_downloaded != null) {
-					var resp = await DeviantArtFs.Api.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Api.Stash.SubmitRequest(
-						_downloaded.Filename,
-						_downloaded.ContentType,
-						_downloaded.Data));
+					var resp = await DeviantArtFs.Api.Stash.AsyncSubmit(
+						_token,
+						SubmissionDestination.Default,
+						SubmissionParameters.Default,
+						_downloaded).StartAsTask();
 					itemId = resp.itemid;
 				}
 
-				await DeviantArtFs.Api.User.StatusPost.ExecuteAsync(_token, new DeviantArtFs.Api.User.StatusPostRequest(textBox1.Text) {
-					Stashid = itemId
-				});
+				await DeviantArtFs.Api.User.AsyncPostStatus(
+					_token,
+					new EmbeddableStatusContent(
+						EmbeddableObject.NoEmbeddableObject,
+						EmbeddableObjectParent.NoEmbeddableObjectParent,
+						itemId is long x ? EmbeddableStashItem.NewEmbeddableStashItem(x) : EmbeddableStashItem.NoEmbeddableStashItem),
+					textBox1.Text).StartAsTask();
 
 				Close();
 			} catch (Exception ex) {

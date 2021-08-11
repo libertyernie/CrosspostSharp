@@ -1,5 +1,7 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,16 +14,20 @@ namespace CrosspostSharp3.DeviantArt {
 		public override async IAsyncEnumerable<IPostBase> GetPostsAsync() {
 			var user = await GetUserAsync();
 
-			var req = new DeviantArtFs.Api.Gallery.GalleryAllViewRequest { Username = user.Name };
-			var paging = new DeviantArtPagingParams(0, 24);
+			var offset = PagingOffset.StartingOffset;
 			while (true) {
-				var deviations = await DeviantArtFs.Api.Gallery.GalleryAllView.ExecuteAsync(_token, req, paging);
-
-				var metadata = await DeviantArtFs.Api.Deviation.MetadataById.ExecuteAsync(
+				var deviations = await DeviantArtFs.Api.Gallery.AsyncPageAllView(
 					_token,
-					new DeviantArtFs.Api.Deviation.MetadataRequest(deviations.results.Select(x => x.deviationid)));
+					UserScope.ForCurrentUser,
+					PagingLimit.NewPagingLimit(24),
+					offset).StartAsTask();
 
-				foreach (var d in deviations.results) {
+				var metadata = await DeviantArtFs.Api.Deviation.AsyncGetMetadata(
+					_token,
+					ExtParams.None,
+					deviations.results.OrEmpty().Select(x => x.deviationid)).StartAsTask();
+
+				foreach (var d in deviations.results.OrEmpty()) {
 					var m = metadata.metadata.Single(x => x.deviationid == d.deviationid);
 					yield return new DeviantArtPostWrapper(d, m);
 				}
@@ -29,7 +35,7 @@ namespace CrosspostSharp3.DeviantArt {
 				if (!deviations.has_more)
 					break;
 
-				paging = new DeviantArtPagingParams(deviations.next_offset.Value, 24);
+				offset = PagingOffset.NewPagingOffset(deviations.next_offset.Value);
 			}
 		}
 	}

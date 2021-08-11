@@ -1,4 +1,6 @@
 ﻿using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
 using DeviantArtFs.WinForms;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,7 @@ namespace CrosspostSharp3 {
 						if (f.ShowDialog(this) == DialogResult.OK) {
 							var a = new DeviantArtApp(OAuthConsumer.DeviantArt.CLIENT_ID.ToString(), OAuthConsumer.DeviantArt.CLIENT_SECRET);
 							IDeviantArtRefreshToken token = await DeviantArtAuth.GetTokenAsync(a, f.Code, new Uri("https://www.example.com"));
-							var u = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(token, DeviantArtObjectExpansion.None);
+							var u = await DeviantArtFs.Api.User.AsyncWhoami(token, ObjectExpansion.None).StartAsTask();
 							return new[] {
 								new Settings.DeviantArtAccountSettings {
 									AccessToken = token.AccessToken,

@@ -1,6 +1,7 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
 using DeviantArtFs.Extensions;
+using DeviantArtFs.ResponseTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,14 @@ using System.Linq;
 namespace CrosspostSharp3.DeviantArt {
 	public class DeviantArtPostWrapper : IRemotePhotoPost {
 		private readonly Deviation _deviation;
-		private readonly DeviationMetadata _metadata;
+		private readonly Metadata _metadata;
 
-		public DeviantArtPostWrapper(Deviation deviation, DeviationMetadata metadata) {
+		public DeviantArtPostWrapper(Deviation deviation, Metadata metadata) {
 			_deviation = deviation;
 			_metadata = metadata;
 		}
 
-		public string ImageURL => _deviation.content.OrNull() is DeviationContent c
+		public string ImageURL => _deviation.content.OrNull() is Content c
 			? c.src
 			: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif";
 		public string ThumbnailURL => _deviation.thumbs.OrEmpty()

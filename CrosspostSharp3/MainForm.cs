@@ -18,6 +18,7 @@ using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.DeviantArt;
+using DeviantArtFs.Extensions;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -122,7 +123,7 @@ namespace CrosspostSharp3 {
 				// Check access token
 				this.Enabled = false;
 				try {
-					await DeviantArtFs.Api.Util.Placebo.IsValidAsync(da);
+					await DeviantArtFs.Api.Util.AsyncIsValid(da).StartAsTask();
 				} catch (Exception) { }
 				this.Enabled = true;
 

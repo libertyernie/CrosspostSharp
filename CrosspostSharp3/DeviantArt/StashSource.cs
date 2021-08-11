@@ -1,6 +1,8 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
 using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
+using DeviantArtFs.ResponseTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,7 @@ namespace CrosspostSharp3.DeviantArt {
 				.Select(f => f.src)
 				.DefaultIfEmpty("https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif")
 				.First();
-			public string ThumbnailURL => _metadata.thumb.OrNull() is DeviationPreview p
+			public string ThumbnailURL => _metadata.thumb.OrNull() is Preview p
 				? p.src
 				: ImageURL;
 			public string Title => _metadata.title;
@@ -57,9 +59,12 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		public async IAsyncEnumerable<IPostBase> GetPostsUnorderedAsync() {
-			var req = new DeviantArtFs.Api.Stash.DeltaRequest();
-			var all = await DeviantArtFs.Api.Stash.Delta.ToArrayAsync(_token, req, 0, int.MaxValue);
-			foreach (var item in all) {
+			var all = DeviantArtFs.Api.Stash.AsyncGetDelta(_token,
+				ExtParams.None,
+				StashDeltaCursor.InitialStashDeltaRequest,
+				PagingLimit.MaximumPagingLimit,
+				PagingOffset.StartingOffset);
+			await foreach (var item in all) {
 				if (item.itemid.OrNull() is long itemid && item.metadata.OrNull() is StashMetadata metadata) {
 					yield return new StashPostWrapper(itemid, metadata);
 				}

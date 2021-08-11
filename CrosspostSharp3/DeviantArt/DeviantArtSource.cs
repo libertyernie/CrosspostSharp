@@ -1,5 +1,7 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		public async Task<IAuthor> GetUserAsync() {
-			var user = await DeviantArtFs.Api.User.Whoami.ExecuteAsync(_token, DeviantArtObjectExpansion.None);
+			var user = await DeviantArtFs.Api.User.AsyncWhoami(_token, ObjectExpansion.None).StartAsTask();
 			return new Author {
 				Name = user.username,
 				IconUrl = user.usericon

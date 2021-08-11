@@ -1,6 +1,8 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
 using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
+using DeviantArtFs.ResponseTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +14,9 @@ namespace CrosspostSharp3.DeviantArt {
 		public override string Name => "DeviantArt (statuses)";
 
 		private class DeviantArtStatusPostWrapper : IPostBase {
-			protected readonly DeviantArtStatus _status;
+			protected readonly Status _status;
 
-			public DeviantArtStatusPostWrapper(DeviantArtStatus status) {
+			public DeviantArtStatusPostWrapper(Status status) {
 				_status = status;
 			}
 
@@ -30,15 +32,15 @@ namespace CrosspostSharp3.DeviantArt {
 		private class DeviantArtStatusPhotoPostWrapper : DeviantArtStatusPostWrapper, IRemotePhotoPost {
 			private readonly Deviation _deviation;
 
-			public DeviantArtStatusPhotoPostWrapper(DeviantArtStatus status, Deviation deviation) : base(status) {
+			public DeviantArtStatusPhotoPostWrapper(Status status, Deviation deviation) : base(status) {
 				_deviation = deviation;
 			}
 
-			public string UserIcon => _deviation.author.OrNull() is DeviantArtUser u
+			public string UserIcon => _deviation.author.OrNull() is User u
 				? u.usericon
 				: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Transparent.gif";
 
-			public string ImageURL => _deviation.content.OrNull() is DeviationContent c
+			public string ImageURL => _deviation.content.OrNull() is Content c
 				? c.src
 				: UserIcon;
 			public string ThumbnailURL => _deviation.thumbs.OrEmpty()
@@ -49,8 +51,7 @@ namespace CrosspostSharp3.DeviantArt {
 
 		public override async IAsyncEnumerable<IPostBase> GetPostsAsync() {
 			var user = await GetUserAsync();
-			var asyncSeq = DeviantArtFs.Api.User.StatusesList.ToAsyncSeq(_token, user.Name, 0);
-			var asyncEnum = FSharp.Control.AsyncSeq.toAsyncEnum(asyncSeq);
+			var asyncEnum = DeviantArtFs.Api.User.AsyncGetStatuses(_token, user.Name, PagingLimit.MaximumPagingLimit, PagingOffset.StartingOffset);
 			await foreach (var s in asyncEnum) {
 				var deviations = s.items.OrEmpty()
 					.Select(x => x.deviation.OrNull())

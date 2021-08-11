@@ -1,5 +1,9 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
+using DeviantArtFs.Extensions;
+using DeviantArtFs.ParameterTypes;
+using DeviantArtFs.ResponseTypes;
+using DeviantArtFs.SubmissionTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +16,8 @@ namespace CrosspostSharp3.DeviantArt {
 		public delegate void DeviantArtUploadedHandler(string url);
 		public event DeviantArtUploadedHandler Uploaded;
 
-		private DeviantArtCategoryBrowser.Category _selectedCategory;
-		public DeviantArtCategoryBrowser.Category SelectedCategory {
-			get {
-				return _selectedCategory;
-			}
-			set {
-				_selectedCategory = value;
-				txtCategory.Text = value == null
-					? ""
-					: string.Join(" > ", value?.NamePath ?? new[] { "None" });
-			}
-		}
-
-		private IEnumerable<DeviantArtGalleryFolder> _selectedFolders;
-		public IEnumerable<DeviantArtGalleryFolder> SelectedFolders {
+		private IEnumerable<GalleryFolder> _selectedFolders;
+		public IEnumerable<GalleryFolder> SelectedFolders {
 			get {
 				return _selectedFolders;
 			}
@@ -54,6 +45,9 @@ namespace CrosspostSharp3.DeviantArt {
 			radModerate.CheckedChanged += MatureChanged;
 			radStrict.CheckedChanged += MatureChanged;
 
+			ddlLicense.Items.Clear();
+			ddlLicense.Items.AddRange(DeviantArtLicense.ListAll().ToArray());
+
 			ddlLicense.SelectedIndex = 0;
 			ddlSharing.SelectedIndex = 0;
 		}
@@ -78,12 +72,7 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		private void btnCategory_Click(object sender, EventArgs e) {
-			using (var f = new DeviantArtCategoryBrowser(_token)) {
-				f.InitialCategory = SelectedCategory;
-				if (f.ShowDialog() == DialogResult.OK) {
-					SelectedCategory = f.SelectedCategory;
-				}
-			}
+			MessageBox.Show(this, "This feature is no longer supported.");
 		}
 
 		private void btnGalleryFolders_Click(object sender, EventArgs e) {
@@ -100,17 +89,16 @@ namespace CrosspostSharp3.DeviantArt {
 
 		private async Task<long> UploadToStash() {
 			try {
-				var resp = await DeviantArtFs.Api.Stash.Submit.ExecuteAsync(_token, new DeviantArtFs.Api.Stash.SubmitRequest(
-					_downloaded.Filename,
-					_downloaded.ContentType,
-					_downloaded.Data
-				) {
-					ArtistComments = txtArtistComments.Text,
-					Itemid = _stashItemId,
-					IsDirty = false,
-					Tags = new HashSet<string>(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
-					Title = txtTitle.Text
-				});
+				var resp = await DeviantArtFs.Api.Stash.AsyncSubmit(
+					_token,
+					SubmissionDestination.Default,
+					new SubmissionParameters(
+						SubmissionTitle.NewSubmissionTitle(txtTitle.Text),
+						ArtistComments.NewArtistComments(txtArtistComments.Text),
+						TagList.Create(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
+						OriginalUrl.NoOriginalUrl,
+						is_dirty: false),
+					_downloaded).StartAsTask();
 				return resp.itemid;
 			} catch (DeviantArtException ex) when (ex.Message == "Cannot modify this item, it does not belong to this user." && _stashItemId != null) {
 				_stashItemId = null;
@@ -149,45 +137,39 @@ namespace CrosspostSharp3.DeviantArt {
 
 				var item = await UploadToStash();
 
-				var classifications = new List<DeviantArtFs.Api.Stash.MatureClassification>();
-				if (chkNudity.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Nudity);
-				if (chkSexual.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Sexual);
-				if (chkGore.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Gore);
-				if (chkLanguage.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Language);
-				if (chkIdeology.Checked) classifications.Add(DeviantArtFs.Api.Stash.MatureClassification.Ideology);
+				var classifications = new List<MatureClassification>();
+				if (chkNudity.Checked) classifications.Add(MatureClassification.Nudity);
+				if (chkSexual.Checked) classifications.Add(MatureClassification.Sexual);
+				if (chkGore.Checked) classifications.Add(MatureClassification.Gore);
+				if (chkLanguage.Checked) classifications.Add(MatureClassification.Language);
+				if (chkIdeology.Checked) classifications.Add(MatureClassification.Ideology);
 
 				var sharingStr = ddlSharing.SelectedItem?.ToString();
-				var sharing = sharingStr == "Show share buttons" ? DeviantArtFs.Api.Stash.Sharing.Allow
-						: sharingStr == "Hide share buttons" ? DeviantArtFs.Api.Stash.Sharing.HideShareButtons
-						: sharingStr == "Hide & require login to view" ? DeviantArtFs.Api.Stash.Sharing.HideAndMembersOnly
-						: throw new Exception("Unrecognized ddlSharing.SelectedItem");
+				var sharing = sharingStr == "Show share buttons" ? Sharing.AllowSharing
+					: sharingStr == "Hide share buttons" ? Sharing.HideShareButtons
+					: sharingStr == "Hide & require login to view" ? Sharing.HideShareButtonsAndMembersOnly
+					: throw new Exception("Unrecognized ddlSharing.SelectedItem");
 
-				var req = new DeviantArtFs.Api.Stash.PublishRequest(item) {
-					IsMature = !radNone.Checked,
-					AgreeSubmission = chkAgree.Checked,
-					AgreeTos = chkAgree.Checked,
-					MatureLevel = radStrict.Checked
-						? DeviantArtFs.Api.Stash.MatureLevel.Strict
-						: DeviantArtFs.Api.Stash.MatureLevel.Moderate,
-					MatureClassification = classifications,
-					Catpath = SelectedCategory?.CategoryPath,
-					AllowComments = chkAllowComments.Checked,
-					RequestCritique = chkRequestCritique.Checked,
-					Sharing = sharing,
-					LicenseOptions = new DeviantArtFs.Api.Stash.LicenseOptions {
-						CreativeCommons = ddlLicense.SelectedItem.ToString().Contains("CC-"),
-						Commercial = !ddlLicense.SelectedItem.ToString().Contains("-NC"),
-						Modify = ddlLicense.SelectedItem.ToString().Contains("-ND") ? DeviantArtFs.Api.Stash.LicenseModifyOption.No
-							: ddlLicense.SelectedItem.ToString().Contains("-SA") ? DeviantArtFs.Api.Stash.LicenseModifyOption.ShareAlike
-							: DeviantArtFs.Api.Stash.LicenseModifyOption.Yes,
-					},
-					Galleryids = SelectedFolders == null
-						? Enumerable.Empty<Guid>()
-						: SelectedFolders.Select(f => f.folderid),
-					AllowFreeDownload = chkAllowFreeDownload.Checked
-				};
-
-				var resp = await DeviantArtFs.Api.Stash.Publish.ExecuteAsync(_token, req);
+				var resp = await DeviantArtFs.Api.Stash.AsyncPublish(
+					_token,
+					new PublishParameters(
+						maturity: radNone.Checked
+							? Maturity.NotMature
+							: Maturity.NewMature(
+								radStrict.Checked ? MatureLevel.MatureStrict : MatureLevel.MatureModerate,
+								MatureClassificationSet.Create(classifications)),
+						submissionPolicyAgreement: chkAgree.Checked,
+						termsOfServiceAgreement: chkAgree.Checked,
+						featured: PublishParameters.Default.featured,
+						allowComments: chkAllowComments.Checked,
+						requestCritique: chkRequestCritique.Checked,
+						displayResolution: PublishParameters.Default.displayResolution,
+						sharing: sharing,
+						license: (ddlLicense.SelectedItem as DeviantArtLicense)?.License ?? throw new Exception("No license selected"),
+						destinations: GallerySet.Create(SelectedFolders.Select(f => f.folderid)),
+						allowFreeDownload: chkAllowFreeDownload.Checked,
+						addWatermark: PublishParameters.Default.addWatermark),
+					StashItem.NewStashItem(item)).StartAsTask();
 
 				Uploaded?.Invoke(resp.url);
 			} catch (Exception ex) {
@@ -214,12 +196,12 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		private async void lnkSubmissionPolicy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			var resp = await DeviantArtFs.Api.Data.Submission.ExecuteAsync(_token);
+			var resp = await DeviantArtFs.Api.Data.AsyncGetSubmissionPolicy(_token).StartAsTask();
 			ShowHTMLDialog(resp.text);
 		}
 
 		private async void lnkTermsOfService_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			var resp = await DeviantArtFs.Api.Data.Tos.ExecuteAsync(_token);
+			var resp = await DeviantArtFs.Api.Data.AsyncGetTermsOfService(_token).StartAsTask();
 			ShowHTMLDialog(resp.text);
 		}
 	}

@@ -1,4 +1,6 @@
 ﻿using DeviantArtFs;
+using DeviantArtFs.ParameterTypes;
+using DeviantArtFs.ResponseTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,25 +13,30 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3.DeviantArt {
 	public partial class DeviantArtFolderSelectionForm : Form {
-		public IEnumerable<DeviantArtGalleryFolder> InitialFolders { get; set; }
+		public IEnumerable<GalleryFolder> InitialFolders { get; set; }
 
 		private readonly IDeviantArtAccessToken _token;
-		private List<DeviantArtGalleryFolder> _selectedFolders;
-		public IEnumerable<DeviantArtGalleryFolder> SelectedFolders => _selectedFolders;
+		private List<GalleryFolder> _selectedFolders;
+		public IEnumerable<GalleryFolder> SelectedFolders => _selectedFolders;
 
 		public DeviantArtFolderSelectionForm(IDeviantArtAccessToken token) {
 			InitializeComponent();
 			_token = token;
-			_selectedFolders = new List<DeviantArtGalleryFolder>();
+			_selectedFolders = new List<GalleryFolder>();
 		}
 
 		private async void DeviantArtFolderSelectionForm_Load(object sender, EventArgs e) {
 			try {
 				this.Enabled = false;
 
-				var list = await DeviantArtFs.Api.Gallery.GalleryFolders.ToArrayAsync(_token, new DeviantArtFs.Api.Gallery.GalleryFoldersRequest(), 0, 100);
+				var enumerable = DeviantArtFs.Api.Gallery.AsyncGetFolders(_token,
+					CalculateSize.NewCalculateSize(false),
+					FolderPreload.NewFolderPreload(false),
+					UserScope.ForCurrentUser,
+					PagingLimit.MaximumPagingLimit,
+					PagingOffset.StartingOffset);
 
-				foreach (var f in list) {
+				await foreach (var f in enumerable) {
 					var chk = new CheckBox {
 						AutoSize = true,
 						Text = f.name,
