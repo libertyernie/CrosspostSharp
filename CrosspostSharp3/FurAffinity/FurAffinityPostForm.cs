@@ -38,9 +38,6 @@ namespace CrosspostSharp3.FurAffinity {
 			foreach (var x in Enum.GetValues(typeof(FurAffinityType))) {
 				ddlTheme.Items.Add((FurAffinityType)x);
 			}
-			foreach (var x in Enum.GetValues(typeof(FurAffinitySpecies))) {
-				ddlSpecies.Items.Add((FurAffinitySpecies)x);
-			}
 			foreach (var x in Enum.GetValues(typeof(FurAffinityGender))) {
 				ddlGender.Items.Add((FurAffinityGender)x);
 			}
@@ -50,13 +47,22 @@ namespace CrosspostSharp3.FurAffinity {
 			return image.PixelFormat.HasFlag(PixelFormat.Alpha);
 		}
 
-		private void Form_Shown(object sender, EventArgs e) {
+		private async void Form_Shown(object sender, EventArgs e) {
 			PopulateDescription();
 			PopulateIcon();
 
 			using (var ms = new MemoryStream(_downloaded.Data, false))
 			using (var image = Image.FromStream(ms)) {
 				chkRemoveTransparency.Enabled = HasAlpha(image);
+			}
+
+			try {
+				var species = await FurAffinitySubmission.ListSpeciesAsync();
+				foreach (var x in species) {
+					ddlSpecies.Items.Add(x);
+				}
+			} catch (Exception ex) {
+				Console.Error.WriteLine(ex);
 			}
 		}
 
@@ -113,7 +119,9 @@ namespace CrosspostSharp3.FurAffinity {
 						cat: (FurAffinityCategory)ddlCategory.SelectedItem,
 						scrap: chkScraps.Checked,
 						atype: (FurAffinityType)ddlTheme.SelectedItem,
-						species: (FurAffinitySpecies)ddlSpecies.SelectedItem,
+						species: ddlSpecies.SelectedItem is FurAffinitySpecies s
+							? s.Id
+							: FurAffinitySpeciesId.Unspecified,
 						gender: (FurAffinityGender)ddlGender.SelectedItem,
 						rating: radRating0.Checked ? FurAffinityRating.General
 							: radRating1.Checked ? FurAffinityRating.Mature
