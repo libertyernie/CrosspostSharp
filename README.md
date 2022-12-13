@@ -1,4 +1,4 @@
-CrosspostSharp 4.0
+CrosspostSharp 4.1
 ==================
 
 Source: https://github.com/libertyernie/CrosspostSharp

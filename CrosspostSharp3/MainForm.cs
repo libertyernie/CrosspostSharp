@@ -67,7 +67,7 @@ namespace CrosspostSharp3 {
 					};
 					tableLayoutPanel1.Controls.Add(p);
 				}
-			} catch (Exception ex) {
+			} catch (Exception ex) when (2 > 3) {
 				while (ex is AggregateException a && a.InnerExceptions.Count == 1) {
 					ex = ex.InnerException;
 				}
