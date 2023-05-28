@@ -1,5 +1,4 @@
 ﻿using ArtworkSourceSpecification;
-using DeviantArtFs;
 using DeviantArtFs.Extensions;
 using DeviantArtFs.ResponseTypes;
 using System;
@@ -9,9 +8,9 @@ using System.Linq;
 namespace CrosspostSharp3.DeviantArt {
 	public class DeviantArtPostWrapper : IRemotePhotoPost {
 		private readonly Deviation _deviation;
-		private readonly Metadata _metadata;
+		private readonly DeviantArtFs.Api.Deviation.Metadata _metadata;
 
-		public DeviantArtPostWrapper(Deviation deviation, Metadata metadata) {
+		public DeviantArtPostWrapper(Deviation deviation, DeviantArtFs.Api.Deviation.Metadata metadata) {
 			_deviation = deviation;
 			_metadata = metadata;
 		}

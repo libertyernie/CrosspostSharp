@@ -1,15 +1,15 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
-using DeviantArtFs.Extensions;
 using DeviantArtFs.ParameterTypes;
 using DeviantArtFs.ResponseTypes;
-using DeviantArtFs.SubmissionTypes;
+using Microsoft.FSharp.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static DeviantArtFs.Api.Stash;
 
 namespace CrosspostSharp3.DeviantArt {
 	public partial class DeviantArtUploadControl : UserControl {
@@ -89,16 +89,16 @@ namespace CrosspostSharp3.DeviantArt {
 
 		private async Task<long> UploadToStash() {
 			try {
-				var resp = await DeviantArtFs.Api.Stash.AsyncSubmit(
+				var resp = await DeviantArtFs.Api.Stash.SubmitAsync(
 					_token,
-					SubmissionDestination.Default,
-					new SubmissionParameters(
-						SubmissionTitle.NewSubmissionTitle(txtTitle.Text),
-						ArtistComments.NewArtistComments(txtArtistComments.Text),
-						TagList.Create(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
-						OriginalUrl.NoOriginalUrl,
+					DeviantArtFs.Api.Stash.SubmissionDestination.Default,
+					new DeviantArtFs.Api.Stash.SubmissionParameters(
+						DeviantArtFs.Api.Stash.SubmissionTitle.NewSubmissionTitle(txtTitle.Text),
+						DeviantArtFs.Api.Stash.ArtistComments.NewArtistComments(txtArtistComments.Text),
+						DeviantArtFs.Api.Stash.TagList.Create(txtTags.Text.Replace("#", "").Replace(",", "").Split(' ').Where(s => s != "")),
+						DeviantArtFs.Api.Stash.OriginalUrl.NoOriginalUrl,
 						is_dirty: false),
-					_downloaded).StartAsTask();
+					_downloaded);
 				return resp.itemid;
 			} catch (DeviantArtException ex) when (ex.Message == "Cannot modify this item, it does not belong to this user." && _stashItemId != null) {
 				_stashItemId = null;
@@ -150,26 +150,26 @@ namespace CrosspostSharp3.DeviantArt {
 					: sharingStr == "Hide & require login to view" ? Sharing.HideShareButtonsAndMembersOnly
 					: throw new Exception("Unrecognized ddlSharing.SelectedItem");
 
-				var resp = await DeviantArtFs.Api.Stash.AsyncPublish(
-					_token,
-					new PublishParameters(
-						maturity: radNone.Checked
-							? Maturity.NotMature
-							: Maturity.NewMature(
-								radStrict.Checked ? MatureLevel.MatureStrict : MatureLevel.MatureModerate,
-								MatureClassificationSet.Create(classifications)),
-						submissionPolicyAgreement: chkAgree.Checked,
-						termsOfServiceAgreement: chkAgree.Checked,
-						featured: PublishParameters.Default.featured,
-						allowComments: chkAllowComments.Checked,
-						requestCritique: chkRequestCritique.Checked,
-						displayResolution: PublishParameters.Default.displayResolution,
-						sharing: sharing,
-						license: (ddlLicense.SelectedItem as DeviantArtLicense)?.License ?? throw new Exception("No license selected"),
-						destinations: GallerySet.Create(SelectedFolders.Select(f => f.folderid)),
-						allowFreeDownload: chkAllowFreeDownload.Checked,
-						addWatermark: PublishParameters.Default.addWatermark),
-					StashItem.NewStashItem(item)).StartAsTask();
+				IEnumerable<PublishParameter> getParams() {
+					yield return PublishParameter.NewMaturity(
+							radNone.Checked
+								? Maturity.NotMature
+								: Maturity.NewMature(
+									radStrict.Checked ? MatureLevel.MatureStrict : MatureLevel.MatureModerate,
+									MatureClassification.Multiple(classifications)));
+					yield return PublishParameter.NewSubmissionPolicyAgreement(chkAgree.Checked);
+					yield return PublishParameter.NewTermsOfServiceAgreement(chkAgree.Checked);
+					yield return PublishParameter.NewAllowComments(chkAllowComments.Checked);
+					yield return PublishParameter.NewRequestCritique(chkRequestCritique.Checked);
+					yield return PublishParameter.NewSharing(sharing);
+					if (ddlLicense.SelectedItem is DeviantArtLicense l)
+						yield return PublishParameter.NewLicense(l.License);
+					foreach (var f in SelectedFolders)
+						yield return PublishParameter.NewGalleryId(f.folderid);
+					yield return PublishParameter.NewAllowFreeDownload(chkAllowFreeDownload.Checked);
+				}
+
+				var resp = await PublishAsync(_token, getParams(), Item.NewItem(item));
 
 				Uploaded?.Invoke(resp.url);
 			} catch (Exception ex) {
@@ -196,12 +196,12 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		private async void lnkSubmissionPolicy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			var resp = await DeviantArtFs.Api.Data.AsyncGetSubmissionPolicy(_token).StartAsTask();
+			var resp = await DeviantArtFs.Api.Data.GetSubmissionPolicyAsync(_token);
 			ShowHTMLDialog(resp.text);
 		}
 
 		private async void lnkTermsOfService_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-			var resp = await DeviantArtFs.Api.Data.AsyncGetTermsOfService(_token).StartAsTask();
+			var resp = await DeviantArtFs.Api.Data.GetTermsOfServiceAsync(_token);
 			ShowHTMLDialog(resp.text);
 		}
 	}

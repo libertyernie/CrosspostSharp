@@ -24,7 +24,7 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		public async Task<IAuthor> GetUserAsync() {
-			var user = await DeviantArtFs.Api.User.AsyncWhoami(_token, ObjectExpansion.None).StartAsTask();
+			var user = await DeviantArtFs.Api.User.WhoamiAsync(_token);
 			return new Author {
 				Name = user.username,
 				IconUrl = user.usericon

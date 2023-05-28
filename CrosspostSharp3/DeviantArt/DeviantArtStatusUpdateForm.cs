@@ -1,8 +1,5 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
-using DeviantArtFs.Extensions;
-using DeviantArtFs.ParameterTypes;
-using DeviantArtFs.SubmissionTypes;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using DontPanic.TumblrSharp.OAuth;
@@ -42,7 +39,7 @@ namespace CrosspostSharp3.DeviantArt {
 					picImageToPost.Visible = false;
 				}
 
-				var u = await DeviantArtFs.Api.User.AsyncWhoami(_token, ObjectExpansion.None).StartAsTask();
+				var u = await DeviantArtFs.Api.User.WhoamiAsync(_token);
 				lblUsername1.Text = u.username;
 				picUserIcon.ImageLocation = u.usericon;
 			} catch (Exception) { }
@@ -55,21 +52,23 @@ namespace CrosspostSharp3.DeviantArt {
 				long? itemId = null;
 
 				if (_downloaded != null) {
-					var resp = await DeviantArtFs.Api.Stash.AsyncSubmit(
+					var resp = await DeviantArtFs.Api.Stash.SubmitAsync(
 						_token,
-						SubmissionDestination.Default,
-						SubmissionParameters.Default,
-						_downloaded).StartAsTask();
+						DeviantArtFs.Api.Stash.SubmissionDestination.Default,
+						DeviantArtFs.Api.Stash.SubmissionParameters.Default,
+						_downloaded);
 					itemId = resp.itemid;
 				}
 
-				await DeviantArtFs.Api.User.AsyncPostStatus(
+				await DeviantArtFs.Api.User.PostStatusAsync(
 					_token,
-					new EmbeddableStatusContent(
-						EmbeddableObject.NoEmbeddableObject,
-						EmbeddableObjectParent.NoEmbeddableObjectParent,
-						itemId is long x ? EmbeddableStashItem.NewEmbeddableStashItem(x) : EmbeddableStashItem.NoEmbeddableStashItem),
-					textBox1.Text).StartAsTask();
+					new DeviantArtFs.Api.User.EmbeddableStatusContent(
+						DeviantArtFs.Api.User.EmbeddableObject.Nothing,
+						DeviantArtFs.Api.User.EmbeddableObjectParent.NoParent,
+						itemId is long x
+							? DeviantArtFs.Api.User.EmbeddableStashItem.NewStashItem(x)
+							: DeviantArtFs.Api.User.EmbeddableStashItem.NoStashItem),
+					textBox1.Text);
 
 				Close();
 			} catch (Exception ex) {

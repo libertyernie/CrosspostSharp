@@ -27,12 +27,12 @@ namespace CrosspostSharp3 {
 						f.Height = 800;
 						if (f.ShowDialog(this) == DialogResult.OK) {
 							var a = new DeviantArtApp(OAuthConsumer.DeviantArt.CLIENT_ID.ToString(), OAuthConsumer.DeviantArt.CLIENT_SECRET);
-							IDeviantArtRefreshToken token = await DeviantArtAuth.GetTokenAsync(a, f.Code, new Uri("https://www.example.com"));
-							var u = await DeviantArtFs.Api.User.AsyncWhoami(token, ObjectExpansion.None).StartAsTask();
+							var token = await DeviantArtAuth.GetTokenAsync(a, f.Code, new Uri("https://www.example.com"));
+							var u = await DeviantArtFs.Api.User.WhoamiAsync(token);
 							return new[] {
 								new Settings.DeviantArtAccountSettings {
-									AccessToken = token.AccessToken,
-									RefreshToken = token.RefreshToken,
+									AccessToken = token.access_token,
+									RefreshToken = token.refresh_token,
 									Username = u.username
 								}
 							};

@@ -1,4 +1,5 @@
 ﻿using DeviantArtFs;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace CrosspostSharp3.DeviantArt {
-	public class DeviantArtTokenWrapper : IDeviantArtAutomaticRefreshToken {
+	public class DeviantArtTokenWrapper : IDeviantArtRefreshableAccessToken {
 		private readonly Settings _parent;
 		private Settings.DeviantArtAccountSettings _current;
 
@@ -31,11 +32,11 @@ namespace CrosspostSharp3.DeviantArt {
 			}
 		}
 
-		public Task UpdateTokenAsync(IDeviantArtRefreshToken value) {
-			_current.AccessToken = value.AccessToken;
-			_current.RefreshToken = value.RefreshToken;
+		async Task IDeviantArtRefreshableAccessToken.RefreshAccessTokenAsync() {
+			var resp = await DeviantArtAuth.RefreshAsync(App, RefreshToken);
+			_current.AccessToken = resp.access_token;
+			_current.RefreshToken = resp.refresh_token;
 			_parent.Save();
-			return Task.CompletedTask;
 		}
 	}
 }

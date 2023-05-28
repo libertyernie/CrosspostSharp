@@ -29,9 +29,10 @@ namespace CrosspostSharp3.DeviantArt {
 			try {
 				this.Enabled = false;
 
-				var enumerable = DeviantArtFs.Api.Gallery.AsyncGetFolders(_token,
+				var enumerable = DeviantArtFs.Api.Gallery.GetFoldersAsync(_token,
 					CalculateSize.NewCalculateSize(false),
 					FolderPreload.NewFolderPreload(false),
+					FilterEmptyFolder.NewFilterEmptyFolder(false),
 					UserScope.ForCurrentUser,
 					PagingLimit.MaximumPagingLimit,
 					PagingOffset.StartingOffset);

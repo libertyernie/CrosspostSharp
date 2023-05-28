@@ -83,14 +83,12 @@ namespace CrosspostSharp3.DeviantArt {
 			await foreach (Uri link in GetLinksAsync(user.Name).Distinct()) {
 				Guid deviationId = await GetApiIdAsync(link);
 
-				var deviation = await DeviantArtFs.Api.Deviation.AsyncGet(
+				var deviation = await DeviantArtFs.Api.Deviation.GetAsync(
 					_token,
-					ObjectExpansion.None,
-					deviationId).StartAsTask();
-				var metadata = await DeviantArtFs.Api.Deviation.AsyncGetMetadata(
+					deviationId);
+				var metadata = await DeviantArtFs.Api.Deviation.GetMetadataAsync(
 					_token,
-					ExtParams.None,
-					new[] { deviationId }).StartAsTask();
+					new[] { deviationId });
 
 				if (!deviation.is_deleted && metadata.metadata.Any())
 					yield return new DeviantArtPostWrapper(deviation, metadata.metadata.Single());

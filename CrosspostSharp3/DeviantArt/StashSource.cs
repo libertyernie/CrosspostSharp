@@ -59,9 +59,8 @@ namespace CrosspostSharp3.DeviantArt {
 		}
 
 		public async IAsyncEnumerable<IPostBase> GetPostsUnorderedAsync() {
-			var all = DeviantArtFs.Api.Stash.AsyncGetDelta(_token,
-				ExtParams.None,
-				StashDeltaCursor.InitialStashDeltaRequest,
+			var all = DeviantArtFs.Api.Stash.GetDeltaAsync(_token,
+				DeviantArtFs.Api.Stash.DeltaCursor.Initial,
 				PagingLimit.MaximumPagingLimit,
 				PagingOffset.StartingOffset);
 			await foreach (var item in all) {

@@ -30,7 +30,7 @@ namespace ArtworkSourceSpecification {
 		string VideoURL { get; }
 	}
 
-	public interface IDownloadedData : DeviantArtFs.SubmissionTypes.IFormFile { }
+	public interface IDownloadedData : DeviantArtFs.Api.Stash.IFormFile { }
 
 	public interface IArtworkSource {
 		string Name { get; }

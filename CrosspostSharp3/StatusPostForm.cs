@@ -65,15 +65,15 @@ namespace CrosspostSharp3 {
 		}
 
 		private async Task<Uri> PostToDeviantArt(IDeviantArtAccessToken token) {
-			var post = await DeviantArtFs.Api.User.AsyncPostStatus(
+			var post = await DeviantArtFs.Api.User.PostStatusAsync(
 				token,
-				EmbeddableStatusContent.None,
-				CurrentHtml).StartAsTask();
+				DeviantArtFs.Api.User.EmbeddableStatusContent.None,
+				CurrentHtml);
 			try {
-				var status = await DeviantArtFs.Api.User.AsyncGetStatus(token, post.statusid).StartAsTask();
+				var status = await DeviantArtFs.Api.User.GetStatusAsync(token, post.statusid);
 				return new Uri(status.url.Value);
 			} catch (Exception) {
-				var user = await DeviantArtFs.Api.User.AsyncWhoami(token, ObjectExpansion.None).StartAsTask();
+				var user = await DeviantArtFs.Api.User.WhoamiAsync(token);
 				return new Uri("https://www.deviantart.com/" + user);
 			}
 		}

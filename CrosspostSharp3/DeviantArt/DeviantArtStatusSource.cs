@@ -51,7 +51,7 @@ namespace CrosspostSharp3.DeviantArt {
 
 		public override async IAsyncEnumerable<IPostBase> GetPostsAsync() {
 			var user = await GetUserAsync();
-			var asyncEnum = DeviantArtFs.Api.User.AsyncGetStatuses(_token, user.Name, PagingLimit.MaximumPagingLimit, PagingOffset.StartingOffset);
+			var asyncEnum = DeviantArtFs.Api.User.GetStatusesAsync(_token, user.Name, PagingLimit.MaximumPagingLimit, PagingOffset.StartingOffset);
 			await foreach (var s in asyncEnum) {
 				var deviations = s.items.OrEmpty()
 					.Select(x => x.deviation.OrNull())
