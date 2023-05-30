@@ -123,7 +123,7 @@ namespace CrosspostSharp3 {
 				// Check access token
 				this.Enabled = false;
 				try {
-					await DeviantArtFs.Api.Util.AsyncIsValid(da);
+					await DeviantArtFs.Api.Util.IsValidAsync(da);
 				} catch (Exception) { }
 				this.Enabled = true;
 

@@ -46,7 +46,7 @@ namespace CrosspostSharp3.DeviantArt {
 			radStrict.CheckedChanged += MatureChanged;
 
 			ddlLicense.Items.Clear();
-			ddlLicense.Items.AddRange(DeviantArtLicense.ListAll().ToArray());
+			ddlLicense.Items.AddRange(License.All.ToArray());
 
 			ddlLicense.SelectedIndex = 0;
 			ddlSharing.SelectedIndex = 0;
@@ -154,16 +154,16 @@ namespace CrosspostSharp3.DeviantArt {
 					yield return PublishParameter.NewMaturity(
 							radNone.Checked
 								? Maturity.NotMature
-								: Maturity.NewMature(
+								: Maturity.MatureBecause(
 									radStrict.Checked ? MatureLevel.MatureStrict : MatureLevel.MatureModerate,
-									MatureClassification.Multiple(classifications)));
+									classifications));
 					yield return PublishParameter.NewSubmissionPolicyAgreement(chkAgree.Checked);
 					yield return PublishParameter.NewTermsOfServiceAgreement(chkAgree.Checked);
 					yield return PublishParameter.NewAllowComments(chkAllowComments.Checked);
 					yield return PublishParameter.NewRequestCritique(chkRequestCritique.Checked);
 					yield return PublishParameter.NewSharing(sharing);
-					if (ddlLicense.SelectedItem is DeviantArtLicense l)
-						yield return PublishParameter.NewLicense(l.License);
+					if (ddlLicense.SelectedItem is License l)
+						yield return PublishParameter.NewLicense(l);
 					foreach (var f in SelectedFolders)
 						yield return PublishParameter.NewGalleryId(f.folderid);
 					yield return PublishParameter.NewAllowFreeDownload(chkAllowFreeDownload.Checked);
