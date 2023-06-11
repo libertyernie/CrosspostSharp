@@ -1,11 +1,11 @@
-CrosspostSharp 4.1
+CrosspostSharp 5.0
 ==================
 
 Source: https://github.com/libertyernie/CrosspostSharp
 
 ------------------
 
-CrosspostSharp is a Windows desktop application (written mostly in C#, with a bit of C++) that
+CrosspostSharp is a Windows desktop application (written mostly in C#) that
 loads individual submissions from art sites and lets you post them to your
 other accounts, maintaining the title, description, and tags.
 
@@ -23,13 +23,13 @@ supported on all sites except DeviantArt and Sta.sh.
 On Tumblr and Furry Network, CrosspostSharp lets you use read from and post to
 multiple blogs/characters using a single account.
 
-* DeviantArt / Sta.sh
+* DeviantArt
 * Fur Affinity
-* Furry Network
-* Inkbunny
-* Mastodon
-* Tumblr
-* Twitter
+* Furry Network (untested)
+* Inkbunny (untested)
+* Mastodon (untested)
+* Pixelfed
+* Tumblr (untested)
 * Weasyl
 
 You can also open or save local files in PNG or JPEG format.
@@ -44,7 +44,7 @@ this file safe!
 Compiling from Source
 ---------------------
 
-This project can be built with Visual Studio 2019.
+This project can be built with Visual Studio 2022.
 
 The file OAuthConsumer.cs is missing from the CrosspostSharp3 project. Get your own
 OAuth keys, then put the following into OAuthConsumer.cs:

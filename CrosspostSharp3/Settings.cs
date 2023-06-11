@@ -106,6 +106,20 @@ namespace CrosspostSharp3 {
 
 		public List<MediaRSSSettings> MediaRSS = new List<MediaRSSSettings>();
 
+		public struct PixelfedSettings : IAccountCredentials {
+			public string host;
+			public string username;
+			public string token;
+
+			public MastodonClient GetClient() {
+				return new MastodonClient(new AppRegistration { Instance = host }, new Auth { AccessToken = token });
+			}
+
+			string IAccountCredentials.Username => username;
+		}
+
+		public List<PixelfedSettings> Pixelfed = new List<PixelfedSettings>();
+
 		public struct TumblrSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;

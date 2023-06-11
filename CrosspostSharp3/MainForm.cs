@@ -153,9 +153,15 @@ namespace CrosspostSharp3 {
 				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
 				add(new Inkbunny.InkbunnyClient(i.sid, i.userId));
 			}
+			foreach (var p in s.Pixelfed) {
+				lblLoadStatus.Text = $"Adding Pixelfed (@{p.username}@{p.host})...";
+				var client = p.GetClient();
+				add(new MastodonSource(client));
+				add(new PhotoPostFilterSource(new MastodonSource(client)));
+			}
 			foreach (var p in s.Pleronet) {
 				lblLoadStatus.Text = $"Adding Mastodon (@{p.Username}@{p.AppRegistration.Instance})...";
-				var client = new Pleronet.MastodonClient(p.AppRegistration, p.Auth);
+				var client = p.GetClient();
 				add(new MastodonSource(client));
 				add(new PhotoPostFilterSource(new MastodonSource(client)));
 			}
