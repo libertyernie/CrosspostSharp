@@ -69,14 +69,6 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		public struct PinterestSettings : IAccountCredentials {
-			public string accessToken;
-			public string username;
-			public string boardName;
-
-			readonly string IAccountCredentials.Username => boardName;
-		}
-
 		public struct TwitterSettings : IAccountCredentials {
 			public string tokenKey;
 			public string tokenSecret;
@@ -90,15 +82,6 @@ namespace CrosspostSharp3 {
 		}
 
 		public List<TwitterSettings> Twitter = new();
-
-		public struct MediaRSSSettings : IAccountCredentials {
-			public string url;
-			public string name;
-
-			readonly string IAccountCredentials.Username => name;
-		}
-
-		public List<MediaRSSSettings> MediaRSS = new();
 
 		public struct PixelfedSettings : IAccountCredentials {
 			public string host;
