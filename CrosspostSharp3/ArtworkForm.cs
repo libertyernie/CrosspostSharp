@@ -7,7 +7,9 @@ using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Weasyl;
+using DeviantArtFs.Api;
 using Microsoft.FSharp.Collections;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -65,8 +67,120 @@ namespace CrosspostSharp3 {
 			this.Shown += (o, e) => LoadImage(post);
 		}
 
+		public record LocalFile(string Filename) : IDownloadedData {
+			string Stash.IFormFile.ContentType {
+				get {
+					using var image = Image.FromFile(Filename);
+					return image.RawFormat.Guid == ImageFormat.Png.Guid ? "image/png"
+						: image.RawFormat.Guid == ImageFormat.Jpeg.Guid ? "image/jpeg"
+						: image.RawFormat.Guid == ImageFormat.Gif.Guid ? "image/gif"
+						: "application/octet-stream";
+				}
+			}
+
+			byte[] Stash.IFormFile.Data => File.ReadAllBytes(Filename);
+		}
+
 		public void LoadImage(string filename) {
-			LoadImage(LocalPhotoPost.FromFile(filename));
+			_downloaded = new LocalFile(filename);
+
+			pictureBox1.Image = Image.FromFile(filename);
+
+			btnView.Enabled = false;
+			txtTitle.Text = "";
+			wbrDescription.Navigate("about:blank");
+			wbrDescription.Document.Write($"<html><head></head><body></body></html>");
+			wbrDescription.Document.Body.SetAttribute("contenteditable", "true");
+			txtTags.Text = "";
+			chkMature.Checked = false;
+			chkAdult.Checked = false;
+			lblDateTime.Text = "";
+
+			Settings settings = Settings.Load();
+
+			listBox1.Items.Add("--- Post as photo ---");
+
+			foreach (var da in settings.DeviantArtTokens) {
+				listBox1.Items.Add(new DestinationOption($"DeviantArt / Sta.sh {da.Username}", () => {
+					var toPost = _downloaded;
+					if (toPost.ContentType == "image/gif") {
+						switch (MessageBox.Show(this, "GIF images on DeviantArt require a separate preview image, which isn't possible via the API. Would you like to upload this image in PNG format instead?", Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)) {
+							case DialogResult.Cancel:
+								return;
+							case DialogResult.Yes:
+								toPost = new PngRendition(toPost);
+								break;
+						}
+					}
+
+					using var f = new Form();
+
+					f.Width = 600;
+					f.Height = 350;
+					var d = new DeviantArtUploadControl(da) {
+						Dock = DockStyle.Fill
+					};
+					f.Controls.Add(d);
+					d.Uploaded += url => f.Close();
+
+					d.SetSubmission(ExportAsText(), toPost, null);
+
+					f.ShowDialog(this);
+				}));
+				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
+					using var f = new DeviantArtStatusUpdateForm(da, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var fa in settings.FurAffinity) {
+				listBox1.Items.Add(new DestinationOption($"Fur Affinity ({fa.username})", () => {
+					using var f = new FurAffinityPostForm(fa, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var fn in settings.FurryNetwork) {
+				listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
+					using var f = new FurryNetworkPostForm(fn, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var i in settings.Inkbunny) {
+				listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
+					using var f = new InkbunnyPostForm(i, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var m in settings.Pixelfed) {
+				listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
+					using var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var m in settings.Pleronet) {
+				listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
+					using var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var t in settings.Twitter) {
+				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
+					using var f = new TwitterPostForm(t, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var t in settings.Tumblr) {
+				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
+					using var f = new TumblrPostForm(t, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
+			foreach (var w in settings.WeasylApi) {
+				if (w.apiKey == null) continue;
+				listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
+					using var f = new WeasylPostForm(w, ExportAsText(), _downloaded);
+					f.ShowDialog(this);
+				}));
+			}
 		}
 
 		public async void LoadImage(IPostBase artwork) {
