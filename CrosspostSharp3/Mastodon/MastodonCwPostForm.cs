@@ -2,25 +2,28 @@
 using Pleronet.Entities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Windows.Forms;
 
 namespace CrosspostSharp3.Mastodon {
 	public partial class MastodonCwPostForm : Form {
 		private readonly Settings.PleronetSettings _s;
+		private readonly HttpClient _httpClient;
 		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
 		public MastodonCwPostForm(Settings.PleronetSettings s, TextPost post, IDownloadedData downloaded = null) {
 			InitializeComponent();
 			_s = s;
+
+			_httpClient = new HttpClient();
+			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _s.Auth.AccessToken);
 
 			_post = post;
 			_downloaded = downloaded;
@@ -54,6 +57,8 @@ namespace CrosspostSharp3.Mastodon {
 			chkFocalPoint.Enabled = chkIncludeImage.Checked;
 		}
 
+		private record PixelfedCollection(string Id, string Title);
+
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
 			try {
 				var user = await _s.GetClient().GetCurrentUser();
@@ -61,6 +66,10 @@ namespace CrosspostSharp3.Mastodon {
 				lblUsername2.Text = "@" + user.UserName + "@" + _s.AppRegistration.Instance;
 
 				picUserIcon.ImageLocation = user.AvatarUrl;
+
+				var collections = await _httpClient.GetFromJsonAsync<PixelfedCollection[]>($"https://{_s.AppRegistration.Instance}/api/local/profile/collections/{Uri.EscapeDataString(user.Id)}");
+				foreach (var c in collections)
+					listBox1.Items.Add(c);
 			} catch (Exception) { }
 		}
 
@@ -98,11 +107,20 @@ namespace CrosspostSharp3.Mastodon {
 					: new[] {
 						await _s.GetClient().UploadMedia(new MemoryStream(attachment_data, false), txtImageDescription.Text, focus: focus)
 					};
-				await _s.GetClient().PostStatus(
-					txtContent.Text,
-					sensitive: chkImageSensitive.Checked,
-					spoilerText: chkContentWarning.Checked ? txtContentWarning.Text : null,
-					mediaIds: attachments.Select(a => a.Id).ToArray());
+				IEnumerable<(string, string)> getParameters() {
+					yield return ("status", txtContent.Text);
+					if (chkImageSensitive.Checked)
+						yield return ("sensitive", "true");
+					if (chkContentWarning.Checked)
+						yield return ("spoiler_text", txtContentWarning.Text);
+					foreach (var a in attachments)
+						yield return ("media_ids[]", a.Id);
+					foreach (PixelfedCollection c in listBox1.SelectedItems)
+						yield return ("collection_ids[]", c.Id);
+				}
+				using var form = new FormUrlEncodedContent(getParameters().Select(x => new KeyValuePair<string, string>(x.Item1, x.Item2)));
+				using var resp = await _httpClient.PostAsync($"https://{_s.AppRegistration.Instance}/api/v1/statuses", form);
+				resp.EnsureSuccessStatusCode();
 				Close();
 			} catch (Exception ex) {
 				MessageBox.Show(this, ex.Message, ex.StackTrace, MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -23,176 +23,210 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-            this.picUserIcon = new System.Windows.Forms.PictureBox();
-            this.lblUsername1 = new System.Windows.Forms.Label();
-            this.chkContentWarning = new System.Windows.Forms.CheckBox();
-            this.txtContentWarning = new System.Windows.Forms.TextBox();
-            this.lblContent = new System.Windows.Forms.Label();
-            this.txtContent = new System.Windows.Forms.TextBox();
-            this.chkIncludeImage = new System.Windows.Forms.CheckBox();
-            this.lblUsername2 = new System.Windows.Forms.Label();
-            this.btnPost = new System.Windows.Forms.Button();
-            this.chkImageSensitive = new System.Windows.Forms.CheckBox();
-            this.txtImageDescription = new System.Windows.Forms.TextBox();
-            this.chkFocalPoint = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // picUserIcon
-            // 
-            this.picUserIcon.Location = new System.Drawing.Point(12, 12);
-            this.picUserIcon.Name = "picUserIcon";
-            this.picUserIcon.Size = new System.Drawing.Size(48, 48);
-            this.picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picUserIcon.TabIndex = 19;
-            this.picUserIcon.TabStop = false;
-            // 
-            // lblUsername1
-            // 
-            this.lblUsername1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUsername1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername1.Location = new System.Drawing.Point(66, 12);
-            this.lblUsername1.Name = "lblUsername1";
-            this.lblUsername1.Size = new System.Drawing.Size(264, 17);
-            this.lblUsername1.TabIndex = 0;
-            this.lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // chkContentWarning
-            // 
-            this.chkContentWarning.AutoSize = true;
-            this.chkContentWarning.Location = new System.Drawing.Point(12, 68);
-            this.chkContentWarning.Name = "chkContentWarning";
-            this.chkContentWarning.Size = new System.Drawing.Size(106, 17);
-            this.chkContentWarning.TabIndex = 2;
-            this.chkContentWarning.Text = "Content warning:";
-            this.chkContentWarning.UseVisualStyleBackColor = true;
-            this.chkContentWarning.CheckedChanged += new System.EventHandler(this.chkContentWarning_CheckedChanged);
-            // 
-            // txtContentWarning
-            // 
-            this.txtContentWarning.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtContentWarning.Enabled = false;
-            this.txtContentWarning.Location = new System.Drawing.Point(124, 66);
-            this.txtContentWarning.Name = "txtContentWarning";
-            this.txtContentWarning.Size = new System.Drawing.Size(206, 20);
-            this.txtContentWarning.TabIndex = 3;
-            // 
-            // lblContent
-            // 
-            this.lblContent.AutoSize = true;
-            this.lblContent.Location = new System.Drawing.Point(9, 89);
-            this.lblContent.Name = "lblContent";
-            this.lblContent.Size = new System.Drawing.Size(44, 13);
-            this.lblContent.TabIndex = 4;
-            this.lblContent.Text = "Content";
-            // 
-            // txtContent
-            // 
-            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtContent.Location = new System.Drawing.Point(12, 105);
-            this.txtContent.Multiline = true;
-            this.txtContent.Name = "txtContent";
-            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtContent.Size = new System.Drawing.Size(318, 101);
-            this.txtContent.TabIndex = 5;
-            // 
-            // chkIncludeImage
-            // 
-            this.chkIncludeImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkIncludeImage.AutoSize = true;
-            this.chkIncludeImage.Location = new System.Drawing.Point(12, 214);
-            this.chkIncludeImage.Name = "chkIncludeImage";
-            this.chkIncludeImage.Size = new System.Drawing.Size(92, 17);
-            this.chkIncludeImage.TabIndex = 6;
-            this.chkIncludeImage.Text = "Include image";
-            this.chkIncludeImage.UseVisualStyleBackColor = true;
-            this.chkIncludeImage.CheckedChanged += new System.EventHandler(this.chkIncludeImage_CheckedChanged);
-            // 
-            // lblUsername2
-            // 
-            this.lblUsername2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUsername2.AutoEllipsis = true;
-            this.lblUsername2.Location = new System.Drawing.Point(66, 29);
-            this.lblUsername2.Name = "lblUsername2";
-            this.lblUsername2.Size = new System.Drawing.Size(264, 13);
-            this.lblUsername2.TabIndex = 1;
-            this.lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnPost
-            // 
-            this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(255, 238);
-            this.btnPost.Name = "btnPost";
-            this.btnPost.Size = new System.Drawing.Size(75, 23);
-            this.btnPost.TabIndex = 9;
-            this.btnPost.Text = "Post";
-            this.btnPost.UseVisualStyleBackColor = true;
-            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
-            // 
-            // chkImageSensitive
-            // 
-            this.chkImageSensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkImageSensitive.AutoSize = true;
-            this.chkImageSensitive.Location = new System.Drawing.Point(12, 242);
-            this.chkImageSensitive.Name = "chkImageSensitive";
-            this.chkImageSensitive.Size = new System.Drawing.Size(108, 17);
-            this.chkImageSensitive.TabIndex = 8;
-            this.chkImageSensitive.Text = "Mark as sensitive";
-            this.chkImageSensitive.UseVisualStyleBackColor = true;
-            // 
-            // txtImageDescription
-            // 
-            this.txtImageDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtImageDescription.Enabled = false;
-            this.txtImageDescription.Location = new System.Drawing.Point(110, 212);
-            this.txtImageDescription.Name = "txtImageDescription";
-            this.txtImageDescription.Size = new System.Drawing.Size(220, 20);
-            this.txtImageDescription.TabIndex = 7;
-            // 
-            // chkFocalPoint
-            // 
-            this.chkFocalPoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkFocalPoint.AutoSize = true;
-            this.chkFocalPoint.Checked = true;
-            this.chkFocalPoint.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFocalPoint.Enabled = false;
-            this.chkFocalPoint.Location = new System.Drawing.Point(126, 242);
-            this.chkFocalPoint.Name = "chkFocalPoint";
-            this.chkFocalPoint.Size = new System.Drawing.Size(114, 17);
-            this.chkFocalPoint.TabIndex = 20;
-            this.chkFocalPoint.Text = "Choose focal point";
-            this.chkFocalPoint.UseVisualStyleBackColor = true;
-            // 
-            // MastodonCwPostForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(342, 273);
-            this.Controls.Add(this.chkFocalPoint);
-            this.Controls.Add(this.txtImageDescription);
-            this.Controls.Add(this.chkImageSensitive);
-            this.Controls.Add(this.btnPost);
-            this.Controls.Add(this.lblUsername2);
-            this.Controls.Add(this.chkIncludeImage);
-            this.Controls.Add(this.txtContent);
-            this.Controls.Add(this.lblContent);
-            this.Controls.Add(this.txtContentWarning);
-            this.Controls.Add(this.chkContentWarning);
-            this.Controls.Add(this.picUserIcon);
-            this.Controls.Add(this.lblUsername1);
-            this.Name = "MastodonCwPostForm";
-            this.Text = "Post to Mastodon";
-            this.Shown += new System.EventHandler(this.MastodonCwPostForm_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+			picUserIcon = new System.Windows.Forms.PictureBox();
+			lblUsername1 = new System.Windows.Forms.Label();
+			chkContentWarning = new System.Windows.Forms.CheckBox();
+			txtContentWarning = new System.Windows.Forms.TextBox();
+			lblContent = new System.Windows.Forms.Label();
+			txtContent = new System.Windows.Forms.TextBox();
+			chkIncludeImage = new System.Windows.Forms.CheckBox();
+			lblUsername2 = new System.Windows.Forms.Label();
+			btnPost = new System.Windows.Forms.Button();
+			chkImageSensitive = new System.Windows.Forms.CheckBox();
+			txtImageDescription = new System.Windows.Forms.TextBox();
+			chkFocalPoint = new System.Windows.Forms.CheckBox();
+			lblCollections = new System.Windows.Forms.Label();
+			listBox1 = new System.Windows.Forms.ListBox();
+			((System.ComponentModel.ISupportInitialize)picUserIcon).BeginInit();
+			SuspendLayout();
+			// 
+			// picUserIcon
+			// 
+			picUserIcon.Location = new System.Drawing.Point(14, 14);
+			picUserIcon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			picUserIcon.Name = "picUserIcon";
+			picUserIcon.Size = new System.Drawing.Size(56, 55);
+			picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			picUserIcon.TabIndex = 19;
+			picUserIcon.TabStop = false;
+			// 
+			// lblUsername1
+			// 
+			lblUsername1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			lblUsername1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			lblUsername1.Location = new System.Drawing.Point(77, 14);
+			lblUsername1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblUsername1.Name = "lblUsername1";
+			lblUsername1.Size = new System.Drawing.Size(308, 20);
+			lblUsername1.TabIndex = 0;
+			lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// chkContentWarning
+			// 
+			chkContentWarning.AutoSize = true;
+			chkContentWarning.Location = new System.Drawing.Point(14, 78);
+			chkContentWarning.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkContentWarning.Name = "chkContentWarning";
+			chkContentWarning.Size = new System.Drawing.Size(118, 19);
+			chkContentWarning.TabIndex = 2;
+			chkContentWarning.Text = "Content warning:";
+			chkContentWarning.UseVisualStyleBackColor = true;
+			chkContentWarning.CheckedChanged += chkContentWarning_CheckedChanged;
+			// 
+			// txtContentWarning
+			// 
+			txtContentWarning.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtContentWarning.Enabled = false;
+			txtContentWarning.Location = new System.Drawing.Point(145, 76);
+			txtContentWarning.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			txtContentWarning.Name = "txtContentWarning";
+			txtContentWarning.Size = new System.Drawing.Size(240, 23);
+			txtContentWarning.TabIndex = 3;
+			// 
+			// lblContent
+			// 
+			lblContent.AutoSize = true;
+			lblContent.Location = new System.Drawing.Point(10, 103);
+			lblContent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblContent.Name = "lblContent";
+			lblContent.Size = new System.Drawing.Size(50, 15);
+			lblContent.TabIndex = 4;
+			lblContent.Text = "Content";
+			// 
+			// txtContent
+			// 
+			txtContent.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtContent.Location = new System.Drawing.Point(14, 121);
+			txtContent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			txtContent.Multiline = true;
+			txtContent.Name = "txtContent";
+			txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			txtContent.Size = new System.Drawing.Size(259, 116);
+			txtContent.TabIndex = 5;
+			// 
+			// chkIncludeImage
+			// 
+			chkIncludeImage.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			chkIncludeImage.AutoSize = true;
+			chkIncludeImage.Location = new System.Drawing.Point(14, 248);
+			chkIncludeImage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkIncludeImage.Name = "chkIncludeImage";
+			chkIncludeImage.Size = new System.Drawing.Size(101, 19);
+			chkIncludeImage.TabIndex = 8;
+			chkIncludeImage.Text = "Include image";
+			chkIncludeImage.UseVisualStyleBackColor = true;
+			chkIncludeImage.CheckedChanged += chkIncludeImage_CheckedChanged;
+			// 
+			// lblUsername2
+			// 
+			lblUsername2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			lblUsername2.AutoEllipsis = true;
+			lblUsername2.Location = new System.Drawing.Point(77, 33);
+			lblUsername2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblUsername2.Name = "lblUsername2";
+			lblUsername2.Size = new System.Drawing.Size(308, 15);
+			lblUsername2.TabIndex = 1;
+			lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// btnPost
+			// 
+			btnPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			btnPost.Location = new System.Drawing.Point(298, 275);
+			btnPost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			btnPost.Name = "btnPost";
+			btnPost.Size = new System.Drawing.Size(88, 27);
+			btnPost.TabIndex = 12;
+			btnPost.Text = "Post";
+			btnPost.UseVisualStyleBackColor = true;
+			btnPost.Click += btnPost_Click;
+			// 
+			// chkImageSensitive
+			// 
+			chkImageSensitive.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			chkImageSensitive.AutoSize = true;
+			chkImageSensitive.Location = new System.Drawing.Point(14, 280);
+			chkImageSensitive.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkImageSensitive.Name = "chkImageSensitive";
+			chkImageSensitive.Size = new System.Drawing.Size(115, 19);
+			chkImageSensitive.TabIndex = 10;
+			chkImageSensitive.Text = "Mark as sensitive";
+			chkImageSensitive.UseVisualStyleBackColor = true;
+			// 
+			// txtImageDescription
+			// 
+			txtImageDescription.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtImageDescription.Enabled = false;
+			txtImageDescription.Location = new System.Drawing.Point(128, 245);
+			txtImageDescription.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			txtImageDescription.Name = "txtImageDescription";
+			txtImageDescription.Size = new System.Drawing.Size(256, 23);
+			txtImageDescription.TabIndex = 9;
+			// 
+			// chkFocalPoint
+			// 
+			chkFocalPoint.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			chkFocalPoint.AutoSize = true;
+			chkFocalPoint.Checked = true;
+			chkFocalPoint.CheckState = System.Windows.Forms.CheckState.Checked;
+			chkFocalPoint.Enabled = false;
+			chkFocalPoint.Location = new System.Drawing.Point(147, 280);
+			chkFocalPoint.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkFocalPoint.Name = "chkFocalPoint";
+			chkFocalPoint.Size = new System.Drawing.Size(126, 19);
+			chkFocalPoint.TabIndex = 11;
+			chkFocalPoint.Text = "Choose focal point";
+			chkFocalPoint.UseVisualStyleBackColor = true;
+			// 
+			// lblCollections
+			// 
+			lblCollections.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			lblCollections.AutoSize = true;
+			lblCollections.Location = new System.Drawing.Point(280, 103);
+			lblCollections.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblCollections.Name = "lblCollections";
+			lblCollections.Size = new System.Drawing.Size(66, 15);
+			lblCollections.TabIndex = 6;
+			lblCollections.Text = "Collections";
+			// 
+			// listBox1
+			// 
+			listBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			listBox1.DisplayMember = "Title";
+			listBox1.FormattingEnabled = true;
+			listBox1.IntegralHeight = false;
+			listBox1.ItemHeight = 15;
+			listBox1.Location = new System.Drawing.Point(280, 121);
+			listBox1.Name = "listBox1";
+			listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+			listBox1.Size = new System.Drawing.Size(104, 116);
+			listBox1.TabIndex = 7;
+			// 
+			// MastodonCwPostForm
+			// 
+			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(399, 315);
+			Controls.Add(listBox1);
+			Controls.Add(lblCollections);
+			Controls.Add(chkFocalPoint);
+			Controls.Add(txtImageDescription);
+			Controls.Add(chkImageSensitive);
+			Controls.Add(btnPost);
+			Controls.Add(lblUsername2);
+			Controls.Add(chkIncludeImage);
+			Controls.Add(txtContent);
+			Controls.Add(lblContent);
+			Controls.Add(txtContentWarning);
+			Controls.Add(chkContentWarning);
+			Controls.Add(picUserIcon);
+			Controls.Add(lblUsername1);
+			Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			Name = "MastodonCwPostForm";
+			Text = "Post to Mastodon / Pixelfed";
+			Shown += MastodonCwPostForm_Shown;
+			((System.ComponentModel.ISupportInitialize)picUserIcon).EndInit();
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
@@ -209,5 +243,7 @@
 		private System.Windows.Forms.CheckBox chkImageSensitive;
 		private System.Windows.Forms.TextBox txtImageDescription;
 		private System.Windows.Forms.CheckBox chkFocalPoint;
+		private System.Windows.Forms.Label lblCollections;
+		private System.Windows.Forms.ListBox listBox1;
 	}
 }
