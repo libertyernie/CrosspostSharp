@@ -56,7 +56,7 @@ namespace CrosspostSharp3 {
 			try {
 				var obj = listBox1.SelectedItem as MenuItem;
 				if (obj != null) {
-					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} form your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
+					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} from your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
 						try {
 							OnRemove?.Invoke(obj.Account);
 						} catch (Exception ex) {

@@ -10,38 +10,37 @@ namespace CrosspostSharp3 {
 			toolsToolStripMenuItem.Enabled = false;
 
 			Settings s = Settings.Load();
-			using (var acctSelForm = new AccountSelectionForm<Settings.PixelfedSettings>(
+			using (var acctSelForm = new AccountSelectionForm<Settings.PleronetSettings>(
 				s.Pixelfed,
 				async () => {
-					var p = new Settings.PixelfedSettings();
+					var p = new Settings.PleronetSettings();
 
 					using (var f = new UsernamePasswordDialog()) {
-						f.UsernameLabel = "Host";
-						f.ShowPassword = false;
-						if (f.ShowDialog() != DialogResult.OK)
-							return Enumerable.Empty<Settings.PixelfedSettings>();
+						string resp = Microsoft.VisualBasic.Interaction.InputBox("Enter the Pixelfed domain / hostname:", this.Text, "");
+						if (resp == "")
+							return Enumerable.Empty<Settings.PleronetSettings>();
 
-						p.host = f.Username;
+						p.AppRegistration = new AppRegistration { Instance = resp };
 					}
 
 					using (var f = new UsernamePasswordDialog()) {
-						f.UsernameLabel = "Token";
-						f.ShowPassword = false;
-						if (f.ShowDialog() != DialogResult.OK)
-							return Enumerable.Empty<Settings.PixelfedSettings>();
-						p.token = f.Username;
+						string resp = Microsoft.VisualBasic.Interaction.InputBox("Enter a personal access token with read and write permisssions:", this.Text, "");
+						if (resp == "")
+							return Enumerable.Empty<Settings.PleronetSettings>();
+
+						p.Auth = new Auth { AccessToken = resp };
 					}
 
 					try {
 						var client = p.GetClient();
 						var account = await client.GetCurrentUser();
-						p.username = account.UserName;
+						p.Username = account.UserName;
 						return new[] { p };
 					} catch (Exception ex) {
 						MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}
 
-					return Enumerable.Empty<Settings.PixelfedSettings>();
+					return Enumerable.Empty<Settings.PleronetSettings>();
 				}
 			)) {
 				acctSelForm.ShowDialog(this);

@@ -36,6 +36,14 @@ namespace CrosspostSharp3 {
 				pnlAccounts.Controls.Add(checkbox);
 				_postFunctions.Add(checkbox, () => PostToDeviantArt(da));
 			}
+			foreach (var m in settings.Pixelfed) {
+				var checkbox = new CheckBox {
+					Text = $"{m.AppRegistration.Instance} ({m.Username})",
+					AutoSize = true
+				};
+				pnlAccounts.Controls.Add(checkbox);
+				_postFunctions.Add(checkbox, () => PostToMastodon(m));
+			}
 			foreach (var m in settings.Pleronet) {
 				var checkbox = new CheckBox {
 					Text = $"{m.AppRegistration.Instance} ({m.Username})",

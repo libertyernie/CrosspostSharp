@@ -176,6 +176,13 @@ namespace CrosspostSharp3 {
 						}
 					}));
 				}
+				foreach (var m in settings.Pixelfed) {
+					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
+						using (var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
 				foreach (var m in settings.Pleronet) {
 					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 						using (var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded)) {
@@ -210,6 +217,13 @@ namespace CrosspostSharp3 {
 
 			if (_origWrapper is IRemoteVideoPost video) {
 				listBox1.Items.Add("--- Post as video ---");
+				foreach (var m in settings.Pixelfed) {
+					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
+						using (var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded)) {
+							f.ShowDialog(this);
+						}
+					}));
+				}
 				foreach (var m in settings.Pleronet) {
 					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 						using (var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded)) {
@@ -232,6 +246,13 @@ namespace CrosspostSharp3 {
 			foreach (var da in settings.DeviantArtTokens) {
 				listBox1.Items.Add(new DestinationOption($"DeviantArt status update ({da.Username})", () => {
 					using (var f = new DeviantArtStatusUpdateForm(da, ExportAsText())) {
+						f.ShowDialog(this);
+					}
+				}));
+			}
+			foreach (var m in settings.Pixelfed) {
+				listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
+					using (var f = new MastodonCwPostForm(m, ExportAsText())) {
 						f.ShowDialog(this);
 					}
 				}));

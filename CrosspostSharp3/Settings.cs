@@ -83,19 +83,7 @@ namespace CrosspostSharp3 {
 
 		public List<TwitterSettings> Twitter = new();
 
-		public struct PixelfedSettings : IAccountCredentials {
-			public string host;
-			public string username;
-			public string token;
-
-			public readonly MastodonClient GetClient() {
-				return new MastodonClient(new AppRegistration { Instance = host }, new Auth { AccessToken = token });
-			}
-
-			readonly string IAccountCredentials.Username => username;
-		}
-
-		public List<PixelfedSettings> Pixelfed = new();
+		public List<PleronetSettings> Pixelfed = new();
 
 		public struct TumblrSettings : IAccountCredentials {
 			public string tokenKey;
