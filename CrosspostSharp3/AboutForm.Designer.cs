@@ -40,6 +40,7 @@
 			label1.Size = new System.Drawing.Size(536, 26);
 			label1.TabIndex = 0;
 			label1.Text = "CrosspostSharp 5.0 beta";
+			label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// linkLabel1
 			// 

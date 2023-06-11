@@ -15,6 +15,7 @@ using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.DeviantArt;
+using System.Threading;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -85,112 +86,107 @@ namespace CrosspostSharp3 {
 			lblSiteName.Text = _currentWrapper.Name;
 		}
 
+		private readonly SemaphoreSlim _reloadSem = new(1, 1);
+
 		private async Task ReloadWrapperList() {
-			ddlSource.Items.Clear();
+			if (_reloadSem.CurrentCount == 0)
+				return;
 
-			var list = new List<IArtworkSource>();
+			await _reloadSem.WaitAsync();
 
-			void add(IArtworkSource wrapper) {
-				list.Add(wrapper);
-			}
+			try {
+				btnLoad.Enabled = false;
 
-			Settings s = Settings.Load();
-			tableLayoutPanel1.Controls.Clear();
-			tableLayoutPanel1.RowCount = s.MainForm?.rows ?? 2;
-			tableLayoutPanel1.ColumnCount = s.MainForm?.columns ?? 2;
-			tableLayoutPanel1.RowStyles.Clear();
-			for (int i = 0; i < tableLayoutPanel1.RowCount; i++) {
-				tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0f / tableLayoutPanel1.RowCount));
-			}
-			tableLayoutPanel1.ColumnStyles.Clear();
-			for (int i = 0; i < tableLayoutPanel1.ColumnCount; i++) {
-				tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0f / tableLayoutPanel1.ColumnCount));
-			}
-			tsiPageSize4.Checked = tableLayoutPanel1.RowCount == 2 && tableLayoutPanel1.ColumnCount == 2;
-			tsiPageSize9.Checked = tableLayoutPanel1.RowCount == 3 && tableLayoutPanel1.ColumnCount == 3;
+				ddlSource.Items.Clear();
 
-			foreach (var da in s.DeviantArtTokens) {
-				this.Enabled = false;
-				try {
-					await DeviantArtFs.Api.Util.IsValidAsync(da);
-				} catch (Exception) { }
-				this.Enabled = true;
-
-				add(new DeviantArtGallerySource(da));
-				add(new PhotoPostFilterSource(new DeviantArtGallerySource(da)));
-				add(new DeviantArtScrapsSource(da));
-				add(new DeviantArtStatusSource(da));
-				add(new StashSource(da));
-			}
-			foreach (var fa in s.FurAffinity) {
-				add(new FAExportArtworkSource(
-					$"b={fa.b}; a={fa.a}",
-					sfw: false,
-					folder: "gallery"));
-				add(new FAExportArtworkSource(
-					$"b={fa.b}; a={fa.a}",
-					sfw: false,
-					folder: "scraps"));
-			}
-			foreach (var fn in s.FurryNetwork) {
-				var client = new FurryNetworkClient(fn.refreshToken);
-				add(new FurryNetworkArtworkSource(client, fn.characterName));
-			}
-			foreach (var i in s.Inkbunny) {
-				add(new Inkbunny.InkbunnyClient(i.sid, i.userId));
-			}
-			foreach (var p in s.Pixelfed) {
-				var client = p.GetClient();
-				add(new MastodonSource(client));
-				add(new PhotoPostFilterSource(new MastodonSource(client)));
-			}
-			foreach (var p in s.Pleronet) {
-				var client = p.GetClient();
-				add(new MastodonSource(client));
-				add(new PhotoPostFilterSource(new MastodonSource(client)));
-			}
-			foreach (var t in s.Twitter) {
-				var source = new TwitterSource(t.GetCredentials());
-				add(source);
-				add(new PhotoPostFilterSource(source));
-			}
-			TumblrClientFactory tcf = null;
-			foreach (var t in s.Tumblr) {
-				tcf ??= new TumblrClientFactory();
-				var client = tcf.Create<TumblrClient>(
-					OAuthConsumer.Tumblr.CONSUMER_KEY,
-					OAuthConsumer.Tumblr.CONSUMER_SECRET,
-					new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-				add(new TumblrSource(client, t.blogName, PostType.Photo));
-				add(new TumblrSource(client, t.blogName, PostType.All));
-			}
-			foreach (var w in s.WeasylApi) {
-				if (w.apiKey == null) continue;
-				var client = new WeasylClient(w.apiKey);
-				add(new WeasylGallerySource(client));
-				add(new WeasylCharacterSource(client));
-			}
-
-			async Task init(IArtworkSource c) {
-				var w = new ArtworkCache(c);
-				try {
-					var user = await c.GetUserAsync();
-					ddlSource.Items.Add(new WrapperMenuItem(w, string.IsNullOrEmpty(user.Name)
-						? c.Name
-						: $"{user.Name} - {c.Name}"));
-				} catch (Exception ex) {
-					Console.Error.WriteLine(ex);
-					MessageBox.Show(this, $"Could not connect to {c.Name}");
+				Settings s = Settings.Load();
+				tableLayoutPanel1.Controls.Clear();
+				tableLayoutPanel1.RowStyles.Clear();
+				for (int i = 0; i < tableLayoutPanel1.RowCount; i++) {
+					tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100.0f / tableLayoutPanel1.RowCount));
 				}
+				tableLayoutPanel1.ColumnStyles.Clear();
+				for (int i = 0; i < tableLayoutPanel1.ColumnCount; i++) {
+					tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100.0f / tableLayoutPanel1.ColumnCount));
+				}
+
+				async IAsyncEnumerable<IArtworkSource> enumerateSources() {
+					foreach (var da in s.DeviantArtTokens) {
+						try { await DeviantArtFs.Api.Util.PlaceboAsync(da); } catch (Exception) { }
+						yield return new DeviantArtGallerySource(da);
+						yield return new PhotoPostFilterSource(new DeviantArtGallerySource(da));
+						yield return new DeviantArtScrapsSource(da);
+						yield return new DeviantArtStatusSource(da);
+						yield return new StashSource(da);
+					}
+					foreach (var fa in s.FurAffinity) {
+						yield return new FAExportArtworkSource(
+							$"b={fa.b}; a={fa.a}",
+							sfw: false,
+							folder: "gallery");
+						yield return new FAExportArtworkSource(
+							$"b={fa.b}; a={fa.a}",
+							sfw: false,
+							folder: "scraps");
+					}
+					foreach (var fn in s.FurryNetwork) {
+						var client = new FurryNetworkClient(fn.refreshToken);
+						yield return new FurryNetworkArtworkSource(client, fn.characterName);
+					}
+					foreach (var i in s.Inkbunny) {
+						yield return new Inkbunny.InkbunnyClient(i.sid, i.userId);
+					}
+					foreach (var p in s.Pixelfed) {
+						var client = p.GetClient();
+						yield return new MastodonSource(client);
+						yield return new PhotoPostFilterSource(new MastodonSource(client));
+					}
+					foreach (var p in s.Pleronet) {
+						var client = p.GetClient();
+						yield return new MastodonSource(client);
+						yield return new PhotoPostFilterSource(new MastodonSource(client));
+					}
+					foreach (var t in s.Twitter) {
+						var source = new TwitterSource(t.GetCredentials());
+						yield return source;
+						yield return new PhotoPostFilterSource(source);
+					}
+					foreach (var t in s.Tumblr) {
+						var client = new TumblrClientFactory().Create<TumblrClient>(
+							OAuthConsumer.Tumblr.CONSUMER_KEY,
+							OAuthConsumer.Tumblr.CONSUMER_SECRET,
+							new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
+						yield return new TumblrSource(client, t.blogName, PostType.Photo);
+						yield return new TumblrSource(client, t.blogName, PostType.All);
+					}
+					foreach (var w in s.WeasylApi) {
+						if (w.apiKey == null) continue;
+						var client = new WeasylClient(w.apiKey);
+						yield return new WeasylGallerySource(client);
+						yield return new WeasylCharacterSource(client);
+					}
+				}
+
+				await foreach (var c in enumerateSources()) {
+					var w = new ArtworkCache(c);
+					try {
+						var user = await c.GetUserAsync();
+						ddlSource.Items.Add(new WrapperMenuItem(w, string.IsNullOrEmpty(user.Name)
+							? c.Name
+							: $"{user.Name} - {c.Name}"));
+					} catch (Exception ex) {
+						Console.Error.WriteLine(ex);
+					}
+				}
+
+				if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
+					ddlSource.SelectedIndex = 0;
+				}
+
+				btnLoad.Enabled = ddlSource.Items.Count > 0;
+			} finally {
+				_reloadSem.Release();
 			}
-
-			await Task.WhenAll(list.Select(init));
-
-			if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
-				ddlSource.SelectedIndex = 0;
-			}
-
-			btnLoad.Enabled = ddlSource.Items.Count > 0;
 		}
 
 		public MainForm() {
@@ -220,9 +216,8 @@ namespace CrosspostSharp3 {
 				openFileDialog.Filter = ArtworkForm.OpenFilter;
 				openFileDialog.Multiselect = false;
 				if (openFileDialog.ShowDialog() == DialogResult.OK) {
-					using (var f = new ArtworkForm(openFileDialog.FileName)) {
-						f.ShowDialog(this);
-					}
+					using var f = new ArtworkForm(openFileDialog.FileName);
+					f.ShowDialog(this);
 				}
 			}
 		}
@@ -235,14 +230,9 @@ namespace CrosspostSharp3 {
 			Populate();
 		}
 
-		private void helpToolStripMenuItem1_Click(object sender, EventArgs e) {
-			Process.Start("https://github.com/libertyernie/CrosspostSharp/blob/v3.6/README.md");
-		}
-
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
-			using (var f = new AboutForm()) {
-				f.ShowDialog(this);
-			}
+			using var f = new AboutForm();
+			f.ShowDialog(this);
 		}
 
 		private void exportToolStripMenuItem_Click_1(object sender, EventArgs e) {
@@ -252,45 +242,13 @@ namespace CrosspostSharp3 {
 				}
 			}
 
-			using (var f = new BatchExportForm(GetWrappers())) {
-				f.ShowDialog(this);
-			}
-		}
-
-		private async void tsiPageSize4_Click(object sender, EventArgs e) {
-			Settings s = Settings.Load();
-			s.MainForm = new Settings.MainFormSettings {
-				columns = 2,
-				rows = 2,
-			};
-			s.Save();
-			try {
-				await ReloadWrapperList();
-			} catch (Exception ex) {
-				Console.Error.WriteLine(ex);
-				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
-
-		private async void tsiPageSize9_Click(object sender, EventArgs e) {
-			Settings s = Settings.Load();
-			s.MainForm = new Settings.MainFormSettings {
-				columns = 3,
-				rows = 3,
-			};
-			s.Save();
-			try {
-				await ReloadWrapperList();
-			} catch (Exception ex) {
-				Console.Error.WriteLine(ex);
-				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+			using var f = new BatchExportForm(GetWrappers());
+			f.ShowDialog(this);
 		}
 
 		private void postToolStripMenuItem_Click(object sender, EventArgs e) {
-			using (var f = new StatusPostForm()) {
-				f.ShowDialog(this);
-			}
+			using var f = new StatusPostForm();
+			f.ShowDialog(this);
 		}
 
 		private async void ddlSource_DropDown(object sender, EventArgs e) {

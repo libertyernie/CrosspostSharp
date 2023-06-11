@@ -44,13 +44,9 @@
 			twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			pageSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			tsiPageSize4 = new System.Windows.Forms.ToolStripMenuItem();
-			tsiPageSize9 = new System.Windows.Forms.ToolStripMenuItem();
 			statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			postToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			btnPrevious = new System.Windows.Forms.Button();
 			btnNext = new System.Windows.Forms.Button();
@@ -153,7 +149,7 @@
 			// 
 			// toolsToolStripMenuItem
 			// 
-			toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { accountSetupToolStripMenuItem, pageSizeToolStripMenuItem });
+			toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { accountSetupToolStripMenuItem });
 			toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
 			toolsToolStripMenuItem.Text = "&Tools";
@@ -162,92 +158,71 @@
 			// 
 			accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { deviantArtToolStripMenuItem, furAffinityToolStripMenuItem, furryNetworkToolStripMenuItem, inkbunnyToolStripMenuItem, mastodonToolStripMenuItem, pixelfedToolStripMenuItem, twitterToolStripMenuItem, tumblrToolStripMenuItem, weasylToolStripMenuItem });
 			accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
-			accountSetupToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			accountSetupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			accountSetupToolStripMenuItem.Text = "&Account Setup";
 			// 
 			// deviantArtToolStripMenuItem
 			// 
 			deviantArtToolStripMenuItem.Name = "deviantArtToolStripMenuItem";
-			deviantArtToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			deviantArtToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			deviantArtToolStripMenuItem.Text = "&DeviantArt";
 			deviantArtToolStripMenuItem.Click += deviantArtToolStripMenuItem_Click;
 			// 
 			// furAffinityToolStripMenuItem
 			// 
 			furAffinityToolStripMenuItem.Name = "furAffinityToolStripMenuItem";
-			furAffinityToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			furAffinityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			furAffinityToolStripMenuItem.Text = "Fur&Affinity";
 			furAffinityToolStripMenuItem.Click += furAffinityToolStripMenuItem_Click;
 			// 
 			// furryNetworkToolStripMenuItem
 			// 
 			furryNetworkToolStripMenuItem.Name = "furryNetworkToolStripMenuItem";
-			furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			furryNetworkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			furryNetworkToolStripMenuItem.Text = "Furry &Network";
 			furryNetworkToolStripMenuItem.Click += furryNetworkToolStripMenuItem_Click;
 			// 
 			// inkbunnyToolStripMenuItem
 			// 
 			inkbunnyToolStripMenuItem.Name = "inkbunnyToolStripMenuItem";
-			inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			inkbunnyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			inkbunnyToolStripMenuItem.Text = "&Inkbunny";
 			inkbunnyToolStripMenuItem.Click += inkbunnyToolStripMenuItem_Click;
 			// 
 			// mastodonToolStripMenuItem
 			// 
 			mastodonToolStripMenuItem.Name = "mastodonToolStripMenuItem";
-			mastodonToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			mastodonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			mastodonToolStripMenuItem.Text = "&Mastodon";
 			mastodonToolStripMenuItem.Click += mastodonToolStripMenuItem_Click;
 			// 
 			// pixelfedToolStripMenuItem
 			// 
 			pixelfedToolStripMenuItem.Name = "pixelfedToolStripMenuItem";
-			pixelfedToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			pixelfedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			pixelfedToolStripMenuItem.Text = "&Pixelfed";
 			pixelfedToolStripMenuItem.Click += pixelfedToolStripMenuItem_Click;
 			// 
 			// twitterToolStripMenuItem
 			// 
 			twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-			twitterToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			twitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			twitterToolStripMenuItem.Text = "&Twitter";
 			twitterToolStripMenuItem.Click += twitterToolStripMenuItem_Click;
 			// 
 			// tumblrToolStripMenuItem
 			// 
 			tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
-			tumblrToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			tumblrToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			tumblrToolStripMenuItem.Text = "T&umblr";
 			tumblrToolStripMenuItem.Click += tumblrToolStripMenuItem_Click;
 			// 
 			// weasylToolStripMenuItem
 			// 
 			weasylToolStripMenuItem.Name = "weasylToolStripMenuItem";
-			weasylToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+			weasylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			weasylToolStripMenuItem.Text = "&Weasyl";
 			weasylToolStripMenuItem.Click += weasylToolStripMenuItem_Click;
-			// 
-			// pageSizeToolStripMenuItem
-			// 
-			pageSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { tsiPageSize4, tsiPageSize9 });
-			pageSizeToolStripMenuItem.Name = "pageSizeToolStripMenuItem";
-			pageSizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			pageSizeToolStripMenuItem.Text = "&Page Size";
-			// 
-			// tsiPageSize4
-			// 
-			tsiPageSize4.Name = "tsiPageSize4";
-			tsiPageSize4.Size = new System.Drawing.Size(80, 22);
-			tsiPageSize4.Text = "4";
-			tsiPageSize4.Click += tsiPageSize4_Click;
-			// 
-			// tsiPageSize9
-			// 
-			tsiPageSize9.Name = "tsiPageSize9";
-			tsiPageSize9.Size = new System.Drawing.Size(80, 22);
-			tsiPageSize9.Text = "9";
-			tsiPageSize9.Click += tsiPageSize9_Click;
 			// 
 			// statusToolStripMenuItem
 			// 
@@ -265,22 +240,15 @@
 			// 
 			// helpToolStripMenuItem
 			// 
-			helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { helpToolStripMenuItem1, aboutToolStripMenuItem });
+			helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { aboutToolStripMenuItem });
 			helpToolStripMenuItem.Name = "helpToolStripMenuItem";
 			helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			helpToolStripMenuItem.Text = "&Help";
 			// 
-			// helpToolStripMenuItem1
-			// 
-			helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-			helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
-			helpToolStripMenuItem1.Text = "&Help";
-			helpToolStripMenuItem1.Click += helpToolStripMenuItem1_Click;
-			// 
 			// aboutToolStripMenuItem
 			// 
 			aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			aboutToolStripMenuItem.Text = "&About";
 			aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
 			// 
@@ -393,11 +361,7 @@
 		private System.Windows.Forms.ToolStripMenuItem furryNetworkToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem pageSizeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem tsiPageSize4;
-		private System.Windows.Forms.ToolStripMenuItem tsiPageSize9;
 		private System.Windows.Forms.ToolStripMenuItem mastodonToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem statusToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem postToolStripMenuItem;
