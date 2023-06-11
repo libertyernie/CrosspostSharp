@@ -56,7 +56,7 @@ namespace CrosspostSharp3.DeviantArt {
 			_post = post;
 			_downloaded = downloaded;
 			_stashItemId = stashItemId;
-			
+
 			txtTitle.Text = post.Title ?? "";
 			txtArtistComments.Text = post.HTMLDescription ?? "";
 			txtTags.Text = string.Join(" ", post.Tags?.Select(s => $"#{s}") ?? Enumerable.Empty<string>());

@@ -15,7 +15,6 @@ namespace CrosspostSharp3.Mastodon {
 	public partial class MastodonCwPostForm : Form {
 		private readonly Settings.PleronetSettings _s;
 		private readonly HttpClient _httpClient;
-		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
 		public MastodonCwPostForm(Settings.PleronetSettings s, TextPost post, IDownloadedData downloaded = null) {
@@ -25,7 +24,6 @@ namespace CrosspostSharp3.Mastodon {
 			_httpClient = new HttpClient();
 			_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _s.Auth.AccessToken);
 
-			_post = post;
 			_downloaded = downloaded;
 
 			if (_downloaded != null) {
