@@ -1,30 +1,33 @@
 ﻿using CrosspostSharp3.FurryNetwork;
-using CrosspostSharp3.FurryNetwork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
 		private async void furryNetworkToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
-			Settings s = Settings.Load();
-			using (var acctSelForm = new AccountSelectionForm<Settings.FurryNetworkSettings>(
-				s.FurryNetwork,
-				async () => {
-					using (var f = new FurryNetworkLoginForm()) {
-						if (f.ShowDialog() != System.Windows.Forms.DialogResult.OK)
-							return Enumerable.Empty<Settings.FurryNetworkSettings>();
+			async IAsyncEnumerable<Settings.FurryNetworkSettings> promptForCredentials() {
+				using var f1 = new FurryNetworkLoginForm();
+				if (f1.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+					yield break;
 
-						var client = new FurryNetworkClient(f.RefreshToken);
-						var user = await client.GetUserAsync();
-						return FurryNetworkChooseCharacters(client.RefreshToken, user.characters);
+				var client = new FurryNetworkClient(f1.RefreshToken);
+				var user = await client.GetUserAsync();
+				using var f2 = new FurryNetworkCharacterSelectionForm(user.characters);
+				if (f2.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+					foreach (var character in f2.SelectedItems) {
+						yield return new Settings.FurryNetworkSettings {
+							refreshToken = f1.RefreshToken,
+							characterName = character.Name
+						};
 					}
 				}
-			)) {
+			}
+
+			Settings s = Settings.Load();
+			using (var acctSelForm = new AccountSelectionForm<Settings.FurryNetworkSettings>(s.FurryNetwork, () => promptForCredentials())) {
 				acctSelForm.ShowDialog(this);
 				s.FurryNetwork = acctSelForm.CurrentList.ToList();
 				s.Save();
@@ -32,19 +35,6 @@ namespace CrosspostSharp3 {
 			}
 
 			toolsToolStripMenuItem.Enabled = true;
-		}
-
-		private static IEnumerable<Settings.FurryNetworkSettings> FurryNetworkChooseCharacters(string refreshToken, IEnumerable<Character> characters) {
-			using (var f = new FurryNetworkCharacterSelectionForm(characters)) {
-				if (f.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-					foreach (var character in f.SelectedItems) {
-						yield return new Settings.FurryNetworkSettings {
-							refreshToken = refreshToken,
-							characterName = character.Name
-						};
-					}
-				}
-			}
 		}
 	}
 }

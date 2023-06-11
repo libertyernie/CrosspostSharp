@@ -19,7 +19,7 @@ namespace CrosspostSharp3 {
 			}
 		}
 
-		private Func<Task<IEnumerable<T>>> OnAdd;
+		private Func<IAsyncEnumerable<T>> OnAdd;
 		private Action<T> OnRemove;
 
 		public IEnumerable<T> CurrentList {
@@ -34,7 +34,7 @@ namespace CrosspostSharp3 {
 
 		public AccountSelectionForm(
 			IEnumerable<T> initialList,
-			Func<Task<IEnumerable<T>>> onAdd,
+			Func<IAsyncEnumerable<T>> onAdd,
 			Action<T> onRemove = null
 		) {
 			InitializeComponent();
@@ -45,24 +45,27 @@ namespace CrosspostSharp3 {
 			OnRemove = onRemove;
 		}
 
+		private static async IAsyncEnumerable<T> toAsync(IEnumerable<T> x) {
+			foreach (var o in x) yield return o;
+		}
+
 		public AccountSelectionForm(
 			IEnumerable<T> initialList,
 			Func<IEnumerable<T>> onAdd,
 			Action<T> onRemove = null
-		) : this(initialList, () => Task.FromResult(onAdd()), onRemove) { }
+		) : this(initialList, () => toAsync(onAdd()), onRemove) { }
 
 		private void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
-				var obj = listBox1.SelectedItem as MenuItem;
-				if (obj != null) {
-					if (MessageBox.Show(this, $"Are you sure you want to remove {obj.Username} from your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
+				if (listBox1.SelectedItem is MenuItem m) {
+					if (MessageBox.Show(this, $"Are you sure you want to remove {m.Username} from your list of accounts?", Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
 						try {
-							OnRemove?.Invoke(obj.Account);
+							OnRemove?.Invoke(m.Account);
 						} catch (Exception ex) {
 							Console.Error.WriteLine(ex);
 						}
-						listBox1.Items.Remove(obj);
+						listBox1.Items.Remove(m);
 					}
 				}
 			} catch (Exception ex) {
@@ -74,14 +77,12 @@ namespace CrosspostSharp3 {
 		private async void btnAdd_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
 			try {
-				var list = await OnAdd();
-				foreach (var o in list) listBox1.Items.Add(new MenuItem(o));
+				await foreach (var o in OnAdd()) listBox1.Items.Add(new MenuItem(o));
 			} catch (Exception ex) {
 				if (ex is System.Net.WebException w) {
-					using (var s = w.Response.GetResponseStream())
-					using (var sr = new System.IO.StreamReader(s)) {
-						Console.WriteLine(await sr.ReadToEndAsync());
-					}
+					using var s = w.Response.GetResponseStream();
+					using var sr = new System.IO.StreamReader(s);
+					Console.WriteLine(await sr.ReadToEndAsync());
 				}
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
