@@ -1,6 +1,5 @@
 ﻿using ArtworkSourceSpecification;
 using CrosspostSharp3.FurAffinity;
-using DeviantArtFs;
 using DontPanic.TumblrSharp;
 using DontPanic.TumblrSharp.Client;
 using CrosspostSharp3.FurryNetwork;
@@ -8,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,7 +15,6 @@ using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.DeviantArt;
-using DeviantArtFs.Extensions;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm : Form {
@@ -61,13 +57,12 @@ namespace CrosspostSharp3 {
 					}
 
 					p.Click += (o, e) => {
-						using (var f = new ArtworkForm(item)) {
-							f.ShowDialog(this);
-						}
+						using var f = new ArtworkForm(item);
+						f.ShowDialog(this);
 					};
 					tableLayoutPanel1.Controls.Add(p);
 				}
-			} catch (Exception ex) when (2 > 3) {
+			} catch (Exception ex) {
 				while (ex is AggregateException a && a.InnerExceptions.Count == 1) {
 					ex = ex.InnerException;
 				}
@@ -99,9 +94,6 @@ namespace CrosspostSharp3 {
 				list.Add(wrapper);
 			}
 
-			lblLoadStatus.Visible = true;
-			lblLoadStatus.Text = "Loading settings...";
-
 			Settings s = Settings.Load();
 			tableLayoutPanel1.Controls.Clear();
 			tableLayoutPanel1.RowCount = s.MainForm?.rows ?? 2;
@@ -118,9 +110,6 @@ namespace CrosspostSharp3 {
 			tsiPageSize9.Checked = tableLayoutPanel1.RowCount == 3 && tableLayoutPanel1.ColumnCount == 3;
 
 			foreach (var da in s.DeviantArtTokens) {
-				lblLoadStatus.Text = $"Adding DeviantArt ({da.Username})...";
-
-				// Check access token
 				this.Enabled = false;
 				try {
 					await DeviantArtFs.Api.Util.IsValidAsync(da);
@@ -134,7 +123,6 @@ namespace CrosspostSharp3 {
 				add(new StashSource(da));
 			}
 			foreach (var fa in s.FurAffinity) {
-				lblLoadStatus.Text = $"Adding FurAffinity {fa.username}...";
 				add(new FAExportArtworkSource(
 					$"b={fa.b}; a={fa.a}",
 					sfw: false,
@@ -145,36 +133,30 @@ namespace CrosspostSharp3 {
 					folder: "scraps"));
 			}
 			foreach (var fn in s.FurryNetwork) {
-				lblLoadStatus.Text = $"Adding Furry Network ({fn.characterName})...";
 				var client = new FurryNetworkClient(fn.refreshToken);
 				add(new FurryNetworkArtworkSource(client, fn.characterName));
 			}
 			foreach (var i in s.Inkbunny) {
-				lblLoadStatus.Text = $"Adding Inkbunny {i.username}...";
 				add(new Inkbunny.InkbunnyClient(i.sid, i.userId));
 			}
 			foreach (var p in s.Pixelfed) {
-				lblLoadStatus.Text = $"Adding Pixelfed (@{p.username}@{p.host})...";
 				var client = p.GetClient();
 				add(new MastodonSource(client));
 				add(new PhotoPostFilterSource(new MastodonSource(client)));
 			}
 			foreach (var p in s.Pleronet) {
-				lblLoadStatus.Text = $"Adding Mastodon (@{p.Username}@{p.AppRegistration.Instance})...";
 				var client = p.GetClient();
 				add(new MastodonSource(client));
 				add(new PhotoPostFilterSource(new MastodonSource(client)));
 			}
 			foreach (var t in s.Twitter) {
-				lblLoadStatus.Text = $"Adding Twitter ({t.screenName})...";
 				var source = new TwitterSource(t.GetCredentials());
 				add(source);
 				add(new PhotoPostFilterSource(source));
 			}
 			TumblrClientFactory tcf = null;
 			foreach (var t in s.Tumblr) {
-				if (tcf == null) tcf = new TumblrClientFactory();
-				lblLoadStatus.Text = $"Adding Tumblr ({t.blogName})...";
+				tcf ??= new TumblrClientFactory();
 				var client = tcf.Create<TumblrClient>(
 					OAuthConsumer.Tumblr.CONSUMER_KEY,
 					OAuthConsumer.Tumblr.CONSUMER_SECRET,
@@ -184,45 +166,25 @@ namespace CrosspostSharp3 {
 			}
 			foreach (var w in s.WeasylApi) {
 				if (w.apiKey == null) continue;
-
-				lblLoadStatus.Text = $"Adding Weasyl ({w.username})...";
-
 				var client = new WeasylClient(w.apiKey);
 				add(new WeasylGallerySource(client));
 				add(new WeasylCharacterSource(client));
 			}
 
-			lblLoadStatus.Text = "Connecting to sites...";
-
-			var tasks = list.Select(async c => {
+			async Task init(IArtworkSource c) {
 				var w = new ArtworkCache(c);
 				try {
 					var user = await c.GetUserAsync();
-					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: ok)"));
-					return new WrapperMenuItem(w, string.IsNullOrEmpty(user.Name)
+					ddlSource.Items.Add(new WrapperMenuItem(w, string.IsNullOrEmpty(user.Name)
 						? c.Name
-						: $"{user.Name} - {c.Name}");
+						: $"{user.Name} - {c.Name}"));
 				} catch (Exception ex) {
-					this.BeginInvoke(new Action(() => lblLoadStatus.Text += $" ({c.Name}: failed)"));
-					var inner = ex;
-					while (inner is AggregateException a) {
-						inner = inner.InnerException;
-					}
-					Console.Error.WriteLine(inner);
-					if (inner is FurryNetworkClient.TokenException t) {
-						return new WrapperMenuItem(w, $"{c.Name} (cannot connect: {t.Message})");
-					} else {
-						return new WrapperMenuItem(w, $"{c.Name} (cannot connect)");
-					}
+					Console.Error.WriteLine(ex);
+					MessageBox.Show(this, $"Could not connect to {c.Name}");
 				}
-			}).Where(item => item != null).ToArray();
-			var wrappers = await Task.WhenAll(tasks);
-			wrappers = wrappers
-				.OrderBy(w => new string(w.DisplayName.Where(c => char.IsLetterOrDigit(c)).ToArray()))
-				.ToArray();
-			ddlSource.Items.AddRange(wrappers);
+			}
 
-			lblLoadStatus.Visible = false;
+			await Task.WhenAll(list.Select(init));
 
 			if (ddlSource.SelectedIndex < 0 && ddlSource.Items.Count > 0) {
 				ddlSource.SelectedIndex = 0;
@@ -233,17 +195,6 @@ namespace CrosspostSharp3 {
 
 		public MainForm() {
 			InitializeComponent();
-		}
-
-		private async void Form1_Shown(object sender, EventArgs e) {
-			toolsToolStripMenuItem.Enabled = false;
-			try {
-				await ReloadWrapperList();
-			} catch (Exception) {
-				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				lblLoadStatus.Visible = false;
-			}
-			toolsToolStripMenuItem.Enabled = true;
 		}
 
 		private void btnLoad_Click(object sender, EventArgs e) {
@@ -315,9 +266,9 @@ namespace CrosspostSharp3 {
 			s.Save();
 			try {
 				await ReloadWrapperList();
-			} catch (Exception) {
+			} catch (Exception ex) {
+				Console.Error.WriteLine(ex);
 				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				lblLoadStatus.Visible = false;
 			}
 		}
 
@@ -330,15 +281,26 @@ namespace CrosspostSharp3 {
 			s.Save();
 			try {
 				await ReloadWrapperList();
-			} catch (Exception) {
+			} catch (Exception ex) {
+				Console.Error.WriteLine(ex);
 				MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				lblLoadStatus.Visible = false;
 			}
 		}
 
 		private void postToolStripMenuItem_Click(object sender, EventArgs e) {
 			using (var f = new StatusPostForm()) {
 				f.ShowDialog(this);
+			}
+		}
+
+		private async void ddlSource_DropDown(object sender, EventArgs e) {
+			if (ddlSource.Items.Count == 0) {
+				try {
+					await ReloadWrapperList();
+				} catch (Exception ex) {
+					Console.Error.WriteLine(ex);
+					MessageBox.Show(this, "Could not load all source sites", Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 	}

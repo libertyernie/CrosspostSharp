@@ -23,81 +23,77 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
-            this.label1 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnOk = new System.Windows.Forms.Button();
-            this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(348, 9);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(204, 26);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "CrosspostSharp 5.0 beta";
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(292, 35);
-            this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(260, 15);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://github.com/libertyernie/CrosspostSharp";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(14, 62);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(536, 306);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Text = resources.GetString("textBox1.Text");
-            // 
-            // btnOk
-            // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(463, 376);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(88, 27);
-            this.btnOk.TabIndex = 3;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = true;
-            // 
-            // AboutForm
-            // 
-            this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(565, 417);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "AboutForm";
-            this.Text = "AboutForm";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
+			label1 = new System.Windows.Forms.Label();
+			linkLabel1 = new System.Windows.Forms.LinkLabel();
+			textBox1 = new System.Windows.Forms.TextBox();
+			btnOk = new System.Windows.Forms.Button();
+			SuspendLayout();
+			// 
+			// label1
+			// 
+			label1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			label1.Location = new System.Drawing.Point(14, 9);
+			label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			label1.Name = "label1";
+			label1.Size = new System.Drawing.Size(536, 26);
+			label1.TabIndex = 0;
+			label1.Text = "CrosspostSharp 5.0 beta";
+			// 
+			// linkLabel1
+			// 
+			linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			linkLabel1.AutoSize = true;
+			linkLabel1.Location = new System.Drawing.Point(292, 35);
+			linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			linkLabel1.Name = "linkLabel1";
+			linkLabel1.Size = new System.Drawing.Size(260, 15);
+			linkLabel1.TabIndex = 1;
+			linkLabel1.TabStop = true;
+			linkLabel1.Text = "https://github.com/libertyernie/CrosspostSharp";
+			linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+			// 
+			// textBox1
+			// 
+			textBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			textBox1.Location = new System.Drawing.Point(14, 62);
+			textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			textBox1.Multiline = true;
+			textBox1.Name = "textBox1";
+			textBox1.ReadOnly = true;
+			textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			textBox1.Size = new System.Drawing.Size(536, 306);
+			textBox1.TabIndex = 2;
+			textBox1.Text = resources.GetString("textBox1.Text");
+			// 
+			// btnOk
+			// 
+			btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+			btnOk.Location = new System.Drawing.Point(463, 376);
+			btnOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			btnOk.Name = "btnOk";
+			btnOk.Size = new System.Drawing.Size(88, 27);
+			btnOk.TabIndex = 3;
+			btnOk.Text = "OK";
+			btnOk.UseVisualStyleBackColor = true;
+			// 
+			// AboutForm
+			// 
+			AcceptButton = btnOk;
+			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(565, 417);
+			Controls.Add(btnOk);
+			Controls.Add(textBox1);
+			Controls.Add(linkLabel1);
+			Controls.Add(label1);
+			Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			Name = "AboutForm";
+			Text = "AboutForm";
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
