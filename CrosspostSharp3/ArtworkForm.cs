@@ -1,18 +1,11 @@
 ﻿using CrosspostSharp3.DeviantArt;
 using CrosspostSharp3.FurAffinity;
-using CrosspostSharp3.FurryNetwork;
-using CrosspostSharp3.Inkbunny;
 using CrosspostSharp3.Mastodon;
-using CrosspostSharp3.Tumblr;
-using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Weasyl;
 using Microsoft.FSharp.Collections;
 using System;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -110,18 +103,6 @@ namespace CrosspostSharp3 {
 						f.ShowDialog(this);
 					}));
 				}
-				foreach (var fn in settings.FurryNetwork) {
-					listBox1.Items.Add(new DestinationOption($"Furry Network ({fn.characterName})", () => {
-						using var f = new FurryNetworkPostForm(fn, ExportAsText(), _downloaded);
-						f.ShowDialog(this);
-					}));
-				}
-				foreach (var i in settings.Inkbunny) {
-					listBox1.Items.Add(new DestinationOption($"Inkbunny ({i.username})", () => {
-						using var f = new InkbunnyPostForm(i, ExportAsText(), _downloaded);
-						f.ShowDialog(this);
-					}));
-				}
 				foreach (var m in settings.Pixelfed) {
 					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 						using var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded);
@@ -131,18 +112,6 @@ namespace CrosspostSharp3 {
 				foreach (var m in settings.Pleronet) {
 					listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 						using var f = new MastodonCwPostForm(m, ExportAsText(), _downloaded);
-						f.ShowDialog(this);
-					}));
-				}
-				foreach (var t in settings.Twitter) {
-					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using var f = new TwitterPostForm(t, ExportAsText(), _downloaded);
-						f.ShowDialog(this);
-					}));
-				}
-				foreach (var t in settings.Tumblr) {
-					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-						using var f = new TumblrPostForm(t, ExportAsText(), _downloaded);
 						f.ShowDialog(this);
 					}));
 				}
