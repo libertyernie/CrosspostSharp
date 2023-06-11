@@ -1,5 +1,4 @@
-﻿using ArtworkSourceSpecification;
-using DeviantArtFs;
+﻿using DeviantArtFs;
 using DeviantArtFs.ParameterTypes;
 using DeviantArtFs.ResponseTypes;
 using Microsoft.FSharp.Collections;

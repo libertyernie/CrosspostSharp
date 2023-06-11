@@ -1,9 +1,5 @@
-﻿using ArtworkSourceSpecification;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrosspostSharp3.Inkbunny {
     public abstract class InkbunnySubmission {
@@ -80,7 +76,7 @@ namespace CrosspostSharp3.Inkbunny {
 		public int? stars;
 	}
 
-	public class InkbunnySubmissionDetail : InkbunnySubmission, IRemotePhotoPost {
+	public class InkbunnySubmissionDetail : InkbunnySubmission {
 		public IEnumerable<InkbunnyFile> files;
 		public IEnumerable<InkbunnyKeyword> keywords;
 		// pools
@@ -105,16 +101,6 @@ namespace CrosspostSharp3.Inkbunny {
 		public string sales_description;
 		public InkbunnyResponseBoolean forsale;
 		public decimal? digital_price;
-
-		string IRemotePhotoPost.ImageURL => file_url_full;
-		string IThumbnailPost.ThumbnailURL => latest_thumbnail_url_medium ?? latest_thumbnail_url_medium_noncustom ?? file_url_full;
-		string IPostBase.Title => title;
-		string IPostBase.HTMLDescription => description_bbcode_parsed;
-		bool IPostBase.Mature => rating_id == InkbunnyRating.Mature;
-		bool IPostBase.Adult => rating_id == InkbunnyRating.Adult;
-		IEnumerable<string> IPostBase.Tags => keywords.Select(x => x.keyword_name);
-		DateTime IPostBase.Timestamp => create_datetime.UtcDateTime;
-		string IPostBase.ViewURL => $"https://inkbunny.net/submissionview.php?id={submission_id}";
 	}
 
 	public class InkbunnyRatingTagInfo {

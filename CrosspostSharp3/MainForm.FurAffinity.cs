@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async void furAffinityToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void furAffinityToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
 			async IAsyncEnumerable<Settings.FurAffinitySettings> promptForCredentials() {
@@ -27,7 +27,6 @@ namespace CrosspostSharp3 {
 				acctSelForm.ShowDialog(this);
 				s.FurAffinity = acctSelForm.CurrentList.ToList();
 				s.Save();
-				await ReloadWrapperList();
 			}
 
 			toolsToolStripMenuItem.Enabled = true;

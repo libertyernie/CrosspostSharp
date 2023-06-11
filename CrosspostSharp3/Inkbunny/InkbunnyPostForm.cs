@@ -1,5 +1,4 @@
-﻿using ArtworkSourceSpecification;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -28,15 +27,23 @@ namespace CrosspostSharp3.Inkbunny {
 
 		private async void Form_Shown(object sender, EventArgs e) {
 			try {
-				lblUsername1.Text = await _client.WhoamiAsync();
+				var result = await _client.SearchAsync(
+					new InkbunnySearchParameters { UserId = _client.UserId },
+					submissions_per_page: 1,
+					get_rid: false);
+				if (result.submissions.FirstOrDefault() is InkbunnySearchSubmission ss) {
+					var submission = await _client.GetSubmissionAsync(ss.submission_id);
 
-				var req = WebRequest.Create(await _client.GetUserIconAsync());
-				using (var resp = await req.GetResponseAsync())
-				using (var stream = resp.GetResponseStream())
-				using (var ms = new MemoryStream()) {
-					await stream.CopyToAsync(ms);
-					ms.Position = 0;
-					picUserIcon.Image = Image.FromStream(ms);
+					lblUsername1.Text = submission.username;
+
+					var req = WebRequest.Create(submission.user_icon_url_small);
+					using (var resp = await req.GetResponseAsync())
+					using (var stream = resp.GetResponseStream())
+					using (var ms = new MemoryStream()) {
+						await stream.CopyToAsync(ms);
+						ms.Position = 0;
+						picUserIcon.Image = Image.FromStream(ms);
+					}
 				}
 			} catch (Exception) { }
 		}

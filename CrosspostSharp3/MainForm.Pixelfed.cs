@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async void pixelfedToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void pixelfedToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
 			async IAsyncEnumerable<Settings.PleronetSettings> promptForCredentials() {
@@ -36,7 +36,6 @@ namespace CrosspostSharp3 {
 				acctSelForm.ShowDialog(this);
 				s.Pixelfed = acctSelForm.CurrentList.ToList();
 				s.Save();
-				await ReloadWrapperList();
 			}
 
 			toolsToolStripMenuItem.Enabled = true;

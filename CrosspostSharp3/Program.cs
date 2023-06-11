@@ -19,8 +19,7 @@ namespace CrosspostSharp3 {
 			Application.SetCompatibleTextRenderingDefault(false);
 			if (args.Length == 1) {
 				try {
-					var artwork = LocalPhotoPost.FromFile(args[0]);
-					Application.Run(new ArtworkForm(artwork));
+					Application.Run(new ArtworkForm(args[0]));
 				} catch (Exception ex) {
 					MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}

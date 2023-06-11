@@ -39,7 +39,7 @@
 			label1.Name = "label1";
 			label1.Size = new System.Drawing.Size(536, 26);
 			label1.TabIndex = 0;
-			label1.Text = "CrosspostSharp 5.0 beta";
+			label1.Text = "PostSharp 5.0";
 			label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// linkLabel1

@@ -100,52 +100,28 @@ namespace CrosspostSharp3.FurryNetwork {
 					throw new TokenException(o.error, o.error_description, ex);
 				}
 			}
-        }
-
-        /// <summary>
-        /// Get information about the currently logged in user.
-        /// </summary>
-        public async Task<User> GetUserAsync() {
-            using (var resp = await ExecuteRequest("GET", "user"))
-            using (var sr = new StreamReader(resp.GetResponseStream())) {
-                string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<User>(json);
-            }
-        }
-
-        /// <summary>
-        /// Get information about the character with the given name.
-        /// </summary>
-        /// <param name="name">The character name</param>
-        public async Task<Character> GetCharacterAsync(string name) {
-            using (var resp = await ExecuteRequest("GET", $"character/{WebUtility.UrlEncode(name)}"))
-            using (var sr = new StreamReader(resp.GetResponseStream())) {
-                string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<Character>(json);
-            }
-        }
-
-        /// <summary>
-        /// Get information about a public artwork.
-        /// </summary>
-        /// <param name="id">The artwork ID</param>
-        public async Task<Artwork> GetArtworkAsync(int id) {
-            using (var resp = await ExecuteRequest("GET", $"artwork/{id}"))
-            using (var sr = new StreamReader(resp.GetResponseStream())) {
-                string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<Artwork>(json);
-            }
 		}
 
 		/// <summary>
-		/// Get information about a private artwork.
+		/// Get information about the currently logged in user.
 		/// </summary>
-		/// <param name="id">The artwork ID</param>
-		public async Task<Artwork> GetPrivateArtworkAsync(int id) {
-			using (var resp = await ExecuteRequest("GET", $"artwork/{id}"))
+		public async Task<User> GetUserAsync() {
+			using (var resp = await ExecuteRequest("GET", "user"))
 			using (var sr = new StreamReader(resp.GetResponseStream())) {
 				string json = await sr.ReadToEndAsync();
-				return JsonConvert.DeserializeObject<Artwork>(json);
+				return JsonConvert.DeserializeObject<User>(json);
+			}
+		}
+
+		/// <summary>
+		/// Get information about the character with the given name.
+		/// </summary>
+		/// <param name="name">The character name</param>
+		public async Task<Character> GetCharacterAsync(string name) {
+			using (var resp = await ExecuteRequest("GET", $"character/{WebUtility.UrlEncode(name)}"))
+			using (var sr = new StreamReader(resp.GetResponseStream())) {
+				string json = await sr.ReadToEndAsync();
+				return JsonConvert.DeserializeObject<Character>(json);
 			}
 		}
 
@@ -179,71 +155,9 @@ namespace CrosspostSharp3.FurryNetwork {
 			using (var resp = await ExecuteRequest("DELETE", $"artwork/{id}")) { }
 		}
 
-		/// <summary>
-		/// Search submissions by type.
-		/// </summary>
-		/// <param name="type">The type (e.g. "artwork")</param>
-		/// <param name="sort">The sort order</param>
-		/// <param name="tags">A list of tags to filter by</param>
-		/// <param name="from">The offset at which to start the search results</param>
-		public async Task<SearchResults> SearchByTypeAsync(string type, string sort = null, IEnumerable<string> tags = null, int? from = 0) {
-            string qs = "";
-            if (!string.IsNullOrEmpty(sort)) {
-                qs += $"&sort={WebUtility.UrlEncode(sort)}";
-            }
-			foreach (var tag in tags ?? Enumerable.Empty<string>()) {
-				qs += $"&tags[]={WebUtility.UrlEncode(tag)}";
-			}
-            if (from != null) {
-                qs += $"&from={from}";
-            }
-            using (var resp = await ExecuteRequest("GET", $"search/{WebUtility.UrlEncode(type)}?{qs}"))
-            using (var sr = new StreamReader(resp.GetResponseStream())) {
-                string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<SearchResults>(json);
-            }
-        }
-
-        /// <summary>
-        /// Search submissions by the character under whose name it was uploaded.
-        /// </summary>
-        /// <param name="character">The character name</param>
-        /// <param name="types">Filter to certain types (e.g. "artwork")</param>
-        /// <param name="sort">The sort order</param>
-        /// <param name="from">The offset at which to start the search results</param>
-        public async Task<SearchResults> SearchByCharacterAsync(string character, IEnumerable<string> types = null, string sort = null, int? from = 0) {
-            string qs = $"character={character}";
-            if (types != null && types.Any()) {
-                qs += $"&types[]={string.Join(",", types.Select(s => WebUtility.UrlEncode(s)))}";
-            }
-            if (!string.IsNullOrEmpty(sort)) {
-                qs += $"&sort={WebUtility.UrlEncode(sort)}";
-            }
-            if (from != null) {
-                qs += $"&from={from}";
-            }
-            using (var resp = await ExecuteRequest("GET", $"search?{qs}"))
-            using (var sr = new StreamReader(resp.GetResponseStream())) {
-                string json = await sr.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<SearchResults>(json);
-            }
-		}
-
-		/// <summary>
-		/// Get a list of journals uploaded by a user/character.
-		/// </summary>
-		/// <param name="character">The character name</param>
-		/// <param name="page">The page at which to start the search results</param>
-		/// <param name="status">The status of journals to get (public, unlisted, or draft)</param>
-		public async Task<JournalsResult> GetJournalsAsync(string character, int? page = 1, string status = "public") {
-			using (var resp = await ExecuteRequest("GET", $"submission/lizard-socks/journal?page={page}&status={WebUtility.UrlEncode(status)}"))
-			using (var sr = new StreamReader(resp.GetResponseStream())) {
-				string json = await sr.ReadToEndAsync();
-				return JsonConvert.DeserializeObject<JournalsResult>(json);
-			}
-		}
-
 		private const int ChunkSize = 524288;
+
+		public record Artwork(int Id);
 
 		public async Task<Artwork> UploadArtwork(string characterName, byte[] data, string contentType, string filename) {
 			string identifier = Guid.NewGuid().ToString();
@@ -298,33 +212,6 @@ namespace CrosspostSharp3.FurryNetwork {
 			}
 
 			throw new Exception("No well-formed json response recieved");
-		}
-
-		/// <summary>
-		/// Change the current character.
-		/// </summary>
-		/// <param name="newCharacterName">The character name to switch to</param>
-		/// <returns>The newly selected character</returns>
-		public async Task<Character> ChangeCharacterAsync(string newCharacterName) {
-			using (var resp = await ExecuteRequest("POST", "current-character", new { character = newCharacterName }))
-			using (var sr = new StreamReader(resp.GetResponseStream())) {
-				string json = await sr.ReadToEndAsync();
-				return JsonConvert.DeserializeObject<Character>(json);
-			}
-		}
-
-		/// <summary>
-		/// Posts a new journal entry to Furry Network.
-		/// </summary>
-		/// <param name="characterName">Character name under which to post the journal</param>
-		/// <param name="j">Journal entry data</param>
-		/// <returns>The newly created journal entry</returns>
-		public async Task<Journal> PostJournalAsync(string characterName, NewJournal j) {
-			using (var resp = await ExecuteRequest("POST", $"journal", j))
-			using (var sr = new StreamReader(resp.GetResponseStream())) {
-				string json = await sr.ReadToEndAsync();
-				return JsonConvert.DeserializeObject<Journal>(json);
-			}
 		}
 
 		/// <summary>

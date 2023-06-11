@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async void inkbunnyToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void inkbunnyToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
 			async IAsyncEnumerable<Settings.InkbunnySettings> promptForCredentials() {
@@ -34,7 +34,6 @@ namespace CrosspostSharp3 {
 				acctSelForm.ShowDialog(this);
 				s.Inkbunny = acctSelForm.CurrentList.ToList();
 				s.Save();
-				await ReloadWrapperList();
 			}
 
 			toolsToolStripMenuItem.Enabled = true;

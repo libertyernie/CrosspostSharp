@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async void furryNetworkToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void furryNetworkToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
 			async IAsyncEnumerable<Settings.FurryNetworkSettings> promptForCredentials() {
@@ -31,7 +31,6 @@ namespace CrosspostSharp3 {
 				acctSelForm.ShowDialog(this);
 				s.FurryNetwork = acctSelForm.CurrentList.ToList();
 				s.Save();
-				await ReloadWrapperList();
 			}
 
 			toolsToolStripMenuItem.Enabled = true;

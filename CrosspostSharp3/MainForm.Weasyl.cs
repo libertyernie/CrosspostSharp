@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async void weasylToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void weasylToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
 			async IAsyncEnumerable<Settings.WeasylSettings> promptForCredentials() {
@@ -28,7 +28,6 @@ namespace CrosspostSharp3 {
 				acctSelForm.ShowDialog(this);
 				s.WeasylApi = acctSelForm.CurrentList.ToList();
 				s.Save();
-				await ReloadWrapperList();
 			}
 
 			toolsToolStripMenuItem.Enabled = true;

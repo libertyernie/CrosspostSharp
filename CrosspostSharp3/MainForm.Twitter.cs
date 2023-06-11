@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CrosspostSharp3 {
 	public partial class MainForm {
-		private async void twitterToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void twitterToolStripMenuItem_Click(object sender, EventArgs e) {
 			toolsToolStripMenuItem.Enabled = false;
 
 			async IAsyncEnumerable<Settings.TwitterSettings> promptForCredentials() {
@@ -29,7 +29,6 @@ namespace CrosspostSharp3 {
 				acctSelForm.ShowDialog(this);
 				s.Twitter = acctSelForm.CurrentList.ToList();
 				s.Save();
-				await ReloadWrapperList();
 			}
 
 			toolsToolStripMenuItem.Enabled = true;

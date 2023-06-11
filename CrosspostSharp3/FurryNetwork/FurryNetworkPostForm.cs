@@ -1,5 +1,4 @@
-﻿using ArtworkSourceSpecification;
-using CrosspostSharp3.FurryNetwork;
+﻿using CrosspostSharp3.FurryNetwork;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -1,5 +1,4 @@
-﻿using ArtworkSourceSpecification;
-using CrosspostSharp3.Inkbunny.Responses;
+﻿using CrosspostSharp3.Inkbunny.Responses;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,11 +8,9 @@ using System.Net;
 using System.Threading.Tasks;
 
 namespace CrosspostSharp3.Inkbunny {
-	public class InkbunnyClient : IArtworkSource {
+	public class InkbunnyClient {
 		public string Sid { get; private set; }
 		public int UserId { get; private set; }
-
-		string IArtworkSource.Name => "Inkbunny";
 
 		public InkbunnyClient(string sid, int userId) {
             Sid = sid;
@@ -255,50 +252,6 @@ namespace CrosspostSharp3.Inkbunny {
 
 		public Task LogoutAsync() {
 			return PostMultipartAsync("https://inkbunny.net/api_logout.php", new Dictionary<string, string>());
-		}
-
-		private record Author : IAuthor {
-			public string Name { get; init; }
-			public string IconUrl { get; init; }
-		}
-
-		async Task<IAuthor> IArtworkSource.GetUserAsync() {
-			var results = await SearchAsync(
-				new InkbunnySearchParameters { UserId = UserId },
-				submissions_per_page: 1,
-				get_rid: false);
-
-			if (results.submissions.Any()) {
-				var submission = await GetSubmissionAsync(results.submissions.First().submission_id);
-				return new Author {
-					Name = submission.username,
-					IconUrl = submission.user_icon_url_small
-				};
-			} else {
-				return new Author {
-					Name = $"Unknown (user ID {UserId})",
-					IconUrl = null
-				};
-			}
-		}
-
-		async IAsyncEnumerable<IPostBase> IArtworkSource.GetPostsAsync() {
-			InkbunnySearchResponse results = await SearchAsync(new InkbunnySearchParameters { UserId = UserId });
-			while (true) {
-				if (!results.submissions.Any())
-					break;
-
-				var details = await GetSubmissionsAsync(results.submissions.Select(x => x.submission_id), show_description_bbcode_parsed: true);
-				foreach (var r in details.submissions.OrderByDescending(x => x.create_datetime)) {
-					if (r.@public.value)
-						yield return r;
-				}
-
-				if (results.page == results.pages_count)
-					break;
-
-				results = await SearchAsync(results.rid, results.page + 1);
-			}
 		}
 	}
 }
