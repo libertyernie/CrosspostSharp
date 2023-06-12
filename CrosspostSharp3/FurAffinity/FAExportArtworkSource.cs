@@ -106,7 +106,7 @@ namespace CrosspostSharp3.FurAffinity {
 			public ImmutableList<string> keywords;
 
 			string IRemotePhotoPost.ImageURL => download ?? full;
-			string IThumbnailPost.ThumbnailURL => thumbnail ?? download ?? full;
+			string IRemotePhotoPost.ThumbnailURL => thumbnail ?? download ?? full;
 			string IPostBase.Title => title;
 			string IPostBase.HTMLDescription => description;
 			bool IPostBase.Mature => rating != "General";

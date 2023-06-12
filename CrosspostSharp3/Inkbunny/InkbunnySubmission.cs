@@ -107,7 +107,7 @@ namespace CrosspostSharp3.Inkbunny {
 		public decimal? digital_price;
 
 		string IRemotePhotoPost.ImageURL => file_url_full;
-		string IThumbnailPost.ThumbnailURL => latest_thumbnail_url_medium ?? latest_thumbnail_url_medium_noncustom ?? file_url_full;
+		string IRemotePhotoPost.ThumbnailURL => latest_thumbnail_url_medium ?? latest_thumbnail_url_medium_noncustom ?? file_url_full;
 		string IPostBase.Title => title;
 		string IPostBase.HTMLDescription => description_bbcode_parsed;
 		bool IPostBase.Mature => rating_id == InkbunnyRating.Mature;

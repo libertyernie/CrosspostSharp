@@ -54,21 +54,6 @@ namespace CrosspostSharp3.Twitter {
 			public string ThumbnailURL => _media.MediaURLHttps + ":thumb";
 		}
 
-		private class TwitterAnimatedGifPostWrapper : TwitterPostWrapper, IRemoteVideoPost {
-			private readonly IMediaEntity _media;
-
-			public TwitterAnimatedGifPostWrapper(ITweet tweet, IMediaEntity media) : base(tweet) {
-				_media = media;
-			}
-
-			public string VideoURL => _media.VideoDetails.Variants
-				.Where(v => v.ContentType == "video/mp4")
-				.OrderByDescending(v => v.Bitrate)
-				.Select(v => v.URL)
-				.First();
-			public string ThumbnailURL => _media.MediaURLHttps;
-		}
-
 		public async IAsyncEnumerable<IPostBase> GetPostsAsync() {
 			var user = await GetUserAsync();
 
@@ -85,11 +70,7 @@ namespace CrosspostSharp3.Twitter {
 					foreach (var m in photos)
 						yield return new TwitterPhotoPostWrapper(t, m);
 
-					var gifs = t.Media.Where(m => m.MediaType == "animated_gif");
-					foreach (var m in gifs)
-						yield return new TwitterAnimatedGifPostWrapper(t, m);
-
-					if (!photos.Any() && !gifs.Any())
+					if (!photos.Any())
 						yield return new TwitterPostWrapper(t);
 				}
 

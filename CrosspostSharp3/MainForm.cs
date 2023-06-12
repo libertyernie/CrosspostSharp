@@ -51,7 +51,7 @@ namespace CrosspostSharp3 {
 						Dock = DockStyle.Fill
 					};
 
-					if (item is IThumbnailPost t) {
+					if (item is IRemotePhotoPost t) {
 						p.ImageLocation = t.ThumbnailURL;
 					} else {
 						p.ImageLocation = picUserIcon.ImageLocation;

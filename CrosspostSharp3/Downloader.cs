@@ -43,8 +43,6 @@ namespace CrosspostSharp3 {
 				return downloaded;
 			else if (post is IRemotePhotoPost remotePhoto)
 				return await DownloadAsync(remotePhoto.ImageURL);
-			else if (post is IRemoteVideoPost remoteVideo)
-				return await DownloadAsync(remoteVideo.VideoURL);
 			else
 				return null;
 		}

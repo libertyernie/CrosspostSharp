@@ -43,17 +43,6 @@ namespace CrosspostSharp3.Mastodon {
 			public string ThumbnailURL => _attachment.PreviewUrl;
 		}
 
-		private class MastodonAnimatedGifPostWrapper : MastodonPostWrapper, IRemoteVideoPost {
-			private readonly Attachment _attachment;
-
-			public MastodonAnimatedGifPostWrapper(Status status, Attachment attachment) : base(status) {
-				_attachment = attachment;
-			}
-
-			public string VideoURL => _attachment.Url;
-			public string ThumbnailURL => _attachment.PreviewUrl;
-		}
-
 		public async IAsyncEnumerable<IPostBase> GetPostsAsync() {
 			var user = await _client.GetCurrentUser();
 
@@ -65,11 +54,7 @@ namespace CrosspostSharp3.Mastodon {
 					foreach (var m in photos)
 						yield return new MastodonPhotoPostWrapper(s, m);
 
-					var gifs = s.MediaAttachments.Where(m => m.Type == "gifv");
-					foreach (var m in gifs)
-						yield return new MastodonAnimatedGifPostWrapper(s, m);
-
-					if (!photos.Any() && !gifs.Any())
+					if (!photos.Any())
 						yield return new MastodonPostWrapper(s);
 				}
 

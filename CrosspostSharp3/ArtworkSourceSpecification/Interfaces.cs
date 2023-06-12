@@ -18,16 +18,9 @@ namespace ArtworkSourceSpecification {
 		string ViewURL { get; }
 	}
 
-	public interface IThumbnailPost : IPostBase {
+	public interface IRemotePhotoPost : IPostBase {
 		string ThumbnailURL { get; }
-	}
-
-	public interface IRemotePhotoPost : IThumbnailPost {
 		string ImageURL { get; }
-	}
-
-	public interface IRemoteVideoPost : IThumbnailPost {
-		string VideoURL { get; }
 	}
 
 	public interface IDownloadedData : DeviantArtFs.Api.Stash.IFormFile { }

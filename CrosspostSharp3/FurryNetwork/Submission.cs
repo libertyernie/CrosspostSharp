@@ -64,7 +64,7 @@ namespace CrosspostSharp3.FurryNetwork {
         public Images Images { get; set; }
 
 		string IRemotePhotoPost.ImageURL => Images.Original;
-		string IThumbnailPost.ThumbnailURL => Images.Thumbnail;
+		string IRemotePhotoPost.ThumbnailURL => Images.Thumbnail;
 		string IPostBase.HTMLDescription => CommonMark.CommonMarkConverter.Convert(Description);
 		bool IPostBase.Mature => Rating == 1;
 		bool IPostBase.Adult => Rating >= 2;

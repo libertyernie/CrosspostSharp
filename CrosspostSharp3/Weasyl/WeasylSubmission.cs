@@ -32,7 +32,7 @@ namespace CrosspostSharp3.Weasyl {
 		public int views;
 
 		string IRemotePhotoPost.ImageURL => media.submission.Select(x => x.url).First();
-		string IThumbnailPost.ThumbnailURL => media.thumbnail.Select(x => x.url).First();
+		string IRemotePhotoPost.ThumbnailURL => media.thumbnail.Select(x => x.url).First();
 		string IPostBase.Title => title;
 		bool IPostBase.Mature => rating == "mature";
 		bool IPostBase.Adult => rating == "explicit";
