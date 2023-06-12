@@ -1,20 +1,22 @@
 ﻿using ArtworkSourceSpecification;
-using FurAffinityFs;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Fsfs = FurAffinityFs.FurAffinity;
 
 namespace CrosspostSharp3.FurAffinity {
 	public partial class FurAffinityPostForm : Form {
-		private readonly IFurAffinityCredentials _credentials;
+		private readonly Fsfs.ICredentials _credentials;
 		private readonly TextPost _post;
 		private readonly IDownloadedData _downloaded;
 
-		public FurAffinityPostForm(IFurAffinityCredentials s, TextPost post, IDownloadedData downloaded) {
+		public FurAffinityPostForm(Fsfs.ICredentials s, TextPost post, IDownloadedData downloaded) {
 			InitializeComponent();
 			_credentials = s;
 			_post = post;
@@ -32,14 +34,14 @@ namespace CrosspostSharp3.FurAffinity {
 				radRating0.Checked = true;
 			}
 
-			foreach (var x in Enum.GetValues(typeof(FurAffinityCategory))) {
-				ddlCategory.Items.Add((FurAffinityCategory)x);
+			foreach (var x in Enum.GetValues(typeof(Fsfs.Category))) {
+				ddlCategory.Items.Add((Fsfs.Category)x);
 			}
-			foreach (var x in Enum.GetValues(typeof(FurAffinityType))) {
-				ddlTheme.Items.Add((FurAffinityType)x);
+			foreach (var x in Enum.GetValues(typeof(Fsfs.Type))) {
+				ddlTheme.Items.Add((Fsfs.Type)x);
 			}
-			foreach (var x in Enum.GetValues(typeof(FurAffinityGender))) {
-				ddlGender.Items.Add((FurAffinityGender)x);
+			foreach (var x in Enum.GetValues(typeof(Fsfs.Gender))) {
+				ddlGender.Items.Add((Fsfs.Gender)x);
 			}
 		}
 
@@ -49,7 +51,7 @@ namespace CrosspostSharp3.FurAffinity {
 
 		private async void Form_Shown(object sender, EventArgs e) {
 			PopulateDescription();
-			PopulateIcon();
+			await PopulateIcon();
 
 			using (var ms = new MemoryStream(_downloaded.Data, false))
 			using (var image = Image.FromStream(ms)) {
@@ -57,12 +59,16 @@ namespace CrosspostSharp3.FurAffinity {
 			}
 
 			try {
-				var species = await FurAffinitySubmission.ListSpeciesAsync();
+				var species = await Fsfs.ListSpeciesAsync();
 				foreach (var x in species) {
 					ddlSpecies.Items.Add(x);
 				}
 			} catch (Exception ex) {
 				Console.Error.WriteLine(ex);
+			}
+
+			foreach (var galleryFolder in await Fsfs.ListGalleryFoldersAsync(_credentials)) {
+				listBox1.Items.Add(galleryFolder);
 			}
 		}
 
@@ -73,7 +79,7 @@ namespace CrosspostSharp3.FurAffinity {
 			txtDescription.Enabled = true;
 		}
 
-		private async void PopulateIcon() {
+		private async Task PopulateIcon() {
 			try {
 				var user = await FAExportArtworkSource.GetCurrentProfileAsync($"b={_credentials.B}; a={_credentials.A}", false);
 				lblUsername1.Text = user.name;
@@ -109,25 +115,35 @@ namespace CrosspostSharp3.FurAffinity {
 					}
 				}
 
-				await FurAffinitySubmission.PostArtworkAsync(
+				IEnumerable<long> folderIds() {
+					foreach (var item in listBox1.SelectedItems) {
+						if (item is Fsfs.ExistingGalleryFolderInformation f) {
+							yield return f.FolderId;
+						}
+					}
+				}
+
+				await Fsfs.PostArtworkAsync(
 					_credentials,
-					new FurAffinityFile(data, contentType),
-					new FurAffinitySubmission.ArtworkMetadata(
+					new Fsfs.File(data, contentType),
+					new Fsfs.ArtworkMetadata(
 						title: txtTitle.Text,
 						message: txtDescription.Text,
-						keywords: txtTags.Text.Split(' ').Select(s => s.Trim()).Where(s => s != ""),
-						cat: (FurAffinityCategory)ddlCategory.SelectedItem,
+						keywords: Fsfs.Keywords(txtTags.Text.Split(' ').Select(s => s.Trim()).Where(s => s != "").ToArray()),
+						cat: (Fsfs.Category)ddlCategory.SelectedItem,
 						scrap: chkScraps.Checked,
-						atype: (FurAffinityType)ddlTheme.SelectedItem,
-						species: ddlSpecies.SelectedItem is FurAffinitySpecies s
-							? s.Id
-							: FurAffinitySpeciesId.Unspecified,
-						gender: (FurAffinityGender)ddlGender.SelectedItem,
-						rating: radRating0.Checked ? FurAffinityRating.General
-							: radRating1.Checked ? FurAffinityRating.Mature
-							: radRating2.Checked ? FurAffinityRating.Adult
+						atype: (Fsfs.Type)ddlTheme.SelectedItem,
+						species: ddlSpecies.SelectedItem is Fsfs.Species s
+							? s
+							: Fsfs.Species.Unspecified,
+						gender: (Fsfs.Gender)ddlGender.SelectedItem,
+						rating: radRating0.Checked ? Fsfs.Rating.General
+							: radRating1.Checked ? Fsfs.Rating.Mature
+							: radRating2.Checked ? Fsfs.Rating.Adult
 							: throw new ApplicationException("Must select a rating"),
-						lock_comments: chkLockComments.Checked
+						lock_comments: chkLockComments.Checked,
+						folder_ids: Fsfs.FolderIds(folderIds().ToArray()),
+						create_folder_name: Fsfs.NoNewFolder
 					));
 
 				Close();

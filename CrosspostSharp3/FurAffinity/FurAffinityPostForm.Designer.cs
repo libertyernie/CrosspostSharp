@@ -23,360 +23,382 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-            this.txtDescription = new System.Windows.Forms.TextBox();
-            this.btnPost = new System.Windows.Forms.Button();
-            this.lblKeywords = new System.Windows.Forms.Label();
-            this.txtTags = new System.Windows.Forms.TextBox();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.txtTitle = new System.Windows.Forms.TextBox();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.picUserIcon = new System.Windows.Forms.PictureBox();
-            this.lblUsername1 = new System.Windows.Forms.Label();
-            this.lblUsername2 = new System.Windows.Forms.Label();
-            this.lblCategory = new System.Windows.Forms.Label();
-            this.ddlCategory = new System.Windows.Forms.ComboBox();
-            this.chkScraps = new System.Windows.Forms.CheckBox();
-            this.ddlTheme = new System.Windows.Forms.ComboBox();
-            this.lblTheme = new System.Windows.Forms.Label();
-            this.chkLockComments = new System.Windows.Forms.CheckBox();
-            this.ddlSpecies = new System.Windows.Forms.ComboBox();
-            this.lblSpecies = new System.Windows.Forms.Label();
-            this.ddlGender = new System.Windows.Forms.ComboBox();
-            this.lblGender = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radRating2 = new System.Windows.Forms.RadioButton();
-            this.radRating1 = new System.Windows.Forms.RadioButton();
-            this.radRating0 = new System.Windows.Forms.RadioButton();
-            this.chkRemoveTransparency = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // txtDescription
-            // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtDescription.Location = new System.Drawing.Point(14, 136);
-            this.txtDescription.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtDescription.Multiline = true;
-            this.txtDescription.Name = "txtDescription";
-            this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescription.Size = new System.Drawing.Size(419, 161);
-            this.txtDescription.TabIndex = 5;
-            // 
-            // btnPost
-            // 
-            this.btnPost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPost.Location = new System.Drawing.Point(580, 376);
-            this.btnPost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.btnPost.Name = "btnPost";
-            this.btnPost.Size = new System.Drawing.Size(88, 27);
-            this.btnPost.TabIndex = 19;
-            this.btnPost.Text = "Post";
-            this.btnPost.UseVisualStyleBackColor = true;
-            this.btnPost.Click += new System.EventHandler(this.btnPost_Click);
-            // 
-            // lblKeywords
-            // 
-            this.lblKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblKeywords.AutoSize = true;
-            this.lblKeywords.Location = new System.Drawing.Point(14, 301);
-            this.lblKeywords.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblKeywords.Name = "lblKeywords";
-            this.lblKeywords.Size = new System.Drawing.Size(153, 15);
-            this.lblKeywords.TabIndex = 6;
-            this.lblKeywords.Text = "Keywords (space separated)";
-            // 
-            // txtTags
-            // 
-            this.txtTags.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTags.Location = new System.Drawing.Point(14, 320);
-            this.txtTags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtTags.Name = "txtTags";
-            this.txtTags.Size = new System.Drawing.Size(419, 23);
-            this.txtTags.TabIndex = 7;
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(14, 73);
-            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(29, 15);
-            this.lblTitle.TabIndex = 2;
-            this.lblTitle.Text = "Title";
-            // 
-            // txtTitle
-            // 
-            this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTitle.Location = new System.Drawing.Point(14, 91);
-            this.txtTitle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(419, 23);
-            this.txtTitle.TabIndex = 3;
-            // 
-            // lblDescription
-            // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(14, 118);
-            this.lblDescription.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(67, 15);
-            this.lblDescription.TabIndex = 4;
-            this.lblDescription.Text = "Description";
-            // 
-            // picUserIcon
-            // 
-            this.picUserIcon.Location = new System.Drawing.Point(14, 14);
-            this.picUserIcon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.picUserIcon.Name = "picUserIcon";
-            this.picUserIcon.Size = new System.Drawing.Size(56, 55);
-            this.picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picUserIcon.TabIndex = 20;
-            this.picUserIcon.TabStop = false;
-            // 
-            // lblUsername1
-            // 
-            this.lblUsername1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUsername1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblUsername1.Location = new System.Drawing.Point(77, 14);
-            this.lblUsername1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblUsername1.Name = "lblUsername1";
-            this.lblUsername1.Size = new System.Drawing.Size(590, 20);
-            this.lblUsername1.TabIndex = 0;
-            this.lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblUsername2
-            // 
-            this.lblUsername2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblUsername2.AutoEllipsis = true;
-            this.lblUsername2.Location = new System.Drawing.Point(77, 33);
-            this.lblUsername2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblUsername2.Name = "lblUsername2";
-            this.lblUsername2.Size = new System.Drawing.Size(590, 15);
-            this.lblUsername2.TabIndex = 1;
-            this.lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblCategory
-            // 
-            this.lblCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCategory.AutoSize = true;
-            this.lblCategory.Location = new System.Drawing.Point(441, 95);
-            this.lblCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCategory.Name = "lblCategory";
-            this.lblCategory.Size = new System.Drawing.Size(55, 15);
-            this.lblCategory.TabIndex = 9;
-            this.lblCategory.Text = "Category";
-            // 
-            // ddlCategory
-            // 
-            this.ddlCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ddlCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlCategory.FormattingEnabled = true;
-            this.ddlCategory.Location = new System.Drawing.Point(505, 91);
-            this.ddlCategory.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ddlCategory.Name = "ddlCategory";
-            this.ddlCategory.Size = new System.Drawing.Size(162, 23);
-            this.ddlCategory.TabIndex = 10;
-            // 
-            // chkScraps
-            // 
-            this.chkScraps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkScraps.AutoSize = true;
-            this.chkScraps.Location = new System.Drawing.Point(453, 122);
-            this.chkScraps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.chkScraps.Name = "chkScraps";
-            this.chkScraps.Size = new System.Drawing.Size(93, 19);
-            this.chkScraps.TabIndex = 11;
-            this.chkScraps.Text = "Put in scraps";
-            this.chkScraps.UseVisualStyleBackColor = true;
-            // 
-            // ddlTheme
-            // 
-            this.ddlTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ddlTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlTheme.FormattingEnabled = true;
-            this.ddlTheme.Location = new System.Drawing.Point(505, 149);
-            this.ddlTheme.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ddlTheme.Name = "ddlTheme";
-            this.ddlTheme.Size = new System.Drawing.Size(162, 23);
-            this.ddlTheme.TabIndex = 13;
-            // 
-            // lblTheme
-            // 
-            this.lblTheme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTheme.AutoSize = true;
-            this.lblTheme.Location = new System.Drawing.Point(441, 152);
-            this.lblTheme.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblTheme.Name = "lblTheme";
-            this.lblTheme.Size = new System.Drawing.Size(43, 15);
-            this.lblTheme.TabIndex = 12;
-            this.lblTheme.Text = "Theme";
-            // 
-            // chkLockComments
-            // 
-            this.chkLockComments.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkLockComments.AutoSize = true;
-            this.chkLockComments.Location = new System.Drawing.Point(14, 351);
-            this.chkLockComments.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.chkLockComments.Name = "chkLockComments";
-            this.chkLockComments.Size = new System.Drawing.Size(352, 19);
-            this.chkLockComments.TabIndex = 8;
-            this.chkLockComments.Text = "Lock comments (minimal duration for this setting is 24 hours)";
-            this.chkLockComments.UseVisualStyleBackColor = true;
-            // 
-            // ddlSpecies
-            // 
-            this.ddlSpecies.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ddlSpecies.DisplayMember = "Name";
-            this.ddlSpecies.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlSpecies.FormattingEnabled = true;
-            this.ddlSpecies.Location = new System.Drawing.Point(505, 180);
-            this.ddlSpecies.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ddlSpecies.Name = "ddlSpecies";
-            this.ddlSpecies.Size = new System.Drawing.Size(162, 23);
-            this.ddlSpecies.TabIndex = 15;
-            this.ddlSpecies.ValueMember = "Id";
-            // 
-            // lblSpecies
-            // 
-            this.lblSpecies.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblSpecies.AutoSize = true;
-            this.lblSpecies.Location = new System.Drawing.Point(441, 183);
-            this.lblSpecies.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSpecies.Name = "lblSpecies";
-            this.lblSpecies.Size = new System.Drawing.Size(46, 15);
-            this.lblSpecies.TabIndex = 14;
-            this.lblSpecies.Text = "Species";
-            // 
-            // ddlGender
-            // 
-            this.ddlGender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ddlGender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddlGender.FormattingEnabled = true;
-            this.ddlGender.Location = new System.Drawing.Point(505, 211);
-            this.ddlGender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.ddlGender.Name = "ddlGender";
-            this.ddlGender.Size = new System.Drawing.Size(162, 23);
-            this.ddlGender.TabIndex = 17;
-            // 
-            // lblGender
-            // 
-            this.lblGender.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblGender.AutoSize = true;
-            this.lblGender.Location = new System.Drawing.Point(441, 215);
-            this.lblGender.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblGender.Name = "lblGender";
-            this.lblGender.Size = new System.Drawing.Size(45, 15);
-            this.lblGender.TabIndex = 16;
-            this.lblGender.Text = "Gender";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.radRating2);
-            this.groupBox3.Controls.Add(this.radRating1);
-            this.groupBox3.Controls.Add(this.radRating0);
-            this.groupBox3.Location = new System.Drawing.Point(441, 242);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBox3.Size = new System.Drawing.Size(226, 47);
-            this.groupBox3.TabIndex = 18;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Rating";
-            // 
-            // radRating2
-            // 
-            this.radRating2.AutoSize = true;
-            this.radRating2.Location = new System.Drawing.Point(161, 22);
-            this.radRating2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.radRating2.Name = "radRating2";
-            this.radRating2.Size = new System.Drawing.Size(54, 19);
-            this.radRating2.TabIndex = 2;
-            this.radRating2.TabStop = true;
-            this.radRating2.Text = "Adult";
-            this.radRating2.UseVisualStyleBackColor = true;
-            // 
-            // radRating1
-            // 
-            this.radRating1.AutoSize = true;
-            this.radRating1.Location = new System.Drawing.Point(86, 22);
-            this.radRating1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.radRating1.Name = "radRating1";
-            this.radRating1.Size = new System.Drawing.Size(63, 19);
-            this.radRating1.TabIndex = 1;
-            this.radRating1.TabStop = true;
-            this.radRating1.Text = "Mature";
-            this.radRating1.UseVisualStyleBackColor = true;
-            // 
-            // radRating0
-            // 
-            this.radRating0.AutoSize = true;
-            this.radRating0.Location = new System.Drawing.Point(7, 22);
-            this.radRating0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.radRating0.Name = "radRating0";
-            this.radRating0.Size = new System.Drawing.Size(65, 19);
-            this.radRating0.TabIndex = 0;
-            this.radRating0.TabStop = true;
-            this.radRating0.Text = "General";
-            this.radRating0.UseVisualStyleBackColor = true;
-            // 
-            // chkRemoveTransparency
-            // 
-            this.chkRemoveTransparency.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkRemoveTransparency.AutoSize = true;
-            this.chkRemoveTransparency.Location = new System.Drawing.Point(379, 351);
-            this.chkRemoveTransparency.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.chkRemoveTransparency.Name = "chkRemoveTransparency";
-            this.chkRemoveTransparency.Size = new System.Drawing.Size(140, 19);
-            this.chkRemoveTransparency.TabIndex = 21;
-            this.chkRemoveTransparency.Text = "Remove transparency";
-            this.chkRemoveTransparency.UseVisualStyleBackColor = true;
-            // 
-            // FurAffinityPostForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(681, 417);
-            this.Controls.Add(this.chkRemoveTransparency);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.ddlGender);
-            this.Controls.Add(this.lblGender);
-            this.Controls.Add(this.ddlSpecies);
-            this.Controls.Add(this.lblSpecies);
-            this.Controls.Add(this.chkLockComments);
-            this.Controls.Add(this.ddlTheme);
-            this.Controls.Add(this.lblTheme);
-            this.Controls.Add(this.chkScraps);
-            this.Controls.Add(this.ddlCategory);
-            this.Controls.Add(this.lblCategory);
-            this.Controls.Add(this.picUserIcon);
-            this.Controls.Add(this.lblUsername1);
-            this.Controls.Add(this.lblUsername2);
-            this.Controls.Add(this.lblDescription);
-            this.Controls.Add(this.txtTitle);
-            this.Controls.Add(this.lblTitle);
-            this.Controls.Add(this.txtTags);
-            this.Controls.Add(this.lblKeywords);
-            this.Controls.Add(this.btnPost);
-            this.Controls.Add(this.txtDescription);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "FurAffinityPostForm";
-            this.Text = "Post to FurAffinity";
-            this.Shown += new System.EventHandler(this.Form_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.picUserIcon)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+			txtDescription = new System.Windows.Forms.TextBox();
+			btnPost = new System.Windows.Forms.Button();
+			lblKeywords = new System.Windows.Forms.Label();
+			txtTags = new System.Windows.Forms.TextBox();
+			lblTitle = new System.Windows.Forms.Label();
+			txtTitle = new System.Windows.Forms.TextBox();
+			lblDescription = new System.Windows.Forms.Label();
+			picUserIcon = new System.Windows.Forms.PictureBox();
+			lblUsername1 = new System.Windows.Forms.Label();
+			lblUsername2 = new System.Windows.Forms.Label();
+			lblCategory = new System.Windows.Forms.Label();
+			ddlCategory = new System.Windows.Forms.ComboBox();
+			chkScraps = new System.Windows.Forms.CheckBox();
+			ddlTheme = new System.Windows.Forms.ComboBox();
+			lblTheme = new System.Windows.Forms.Label();
+			chkLockComments = new System.Windows.Forms.CheckBox();
+			ddlSpecies = new System.Windows.Forms.ComboBox();
+			lblSpecies = new System.Windows.Forms.Label();
+			ddlGender = new System.Windows.Forms.ComboBox();
+			lblGender = new System.Windows.Forms.Label();
+			groupBox3 = new System.Windows.Forms.GroupBox();
+			radRating2 = new System.Windows.Forms.RadioButton();
+			radRating1 = new System.Windows.Forms.RadioButton();
+			radRating0 = new System.Windows.Forms.RadioButton();
+			chkRemoveTransparency = new System.Windows.Forms.CheckBox();
+			groupBox1 = new System.Windows.Forms.GroupBox();
+			listBox1 = new System.Windows.Forms.ListBox();
+			((System.ComponentModel.ISupportInitialize)picUserIcon).BeginInit();
+			groupBox3.SuspendLayout();
+			groupBox1.SuspendLayout();
+			SuspendLayout();
+			// 
+			// txtDescription
+			// 
+			txtDescription.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtDescription.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			txtDescription.Location = new System.Drawing.Point(14, 136);
+			txtDescription.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			txtDescription.Multiline = true;
+			txtDescription.Name = "txtDescription";
+			txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			txtDescription.Size = new System.Drawing.Size(293, 161);
+			txtDescription.TabIndex = 5;
+			// 
+			// btnPost
+			// 
+			btnPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+			btnPost.Location = new System.Drawing.Point(580, 376);
+			btnPost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			btnPost.Name = "btnPost";
+			btnPost.Size = new System.Drawing.Size(88, 27);
+			btnPost.TabIndex = 19;
+			btnPost.Text = "Post";
+			btnPost.UseVisualStyleBackColor = true;
+			btnPost.Click += btnPost_Click;
+			// 
+			// lblKeywords
+			// 
+			lblKeywords.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			lblKeywords.AutoSize = true;
+			lblKeywords.Location = new System.Drawing.Point(14, 301);
+			lblKeywords.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblKeywords.Name = "lblKeywords";
+			lblKeywords.Size = new System.Drawing.Size(153, 15);
+			lblKeywords.TabIndex = 6;
+			lblKeywords.Text = "Keywords (space separated)";
+			// 
+			// txtTags
+			// 
+			txtTags.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtTags.Location = new System.Drawing.Point(14, 320);
+			txtTags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			txtTags.Name = "txtTags";
+			txtTags.Size = new System.Drawing.Size(293, 23);
+			txtTags.TabIndex = 7;
+			// 
+			// lblTitle
+			// 
+			lblTitle.AutoSize = true;
+			lblTitle.Location = new System.Drawing.Point(14, 73);
+			lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblTitle.Name = "lblTitle";
+			lblTitle.Size = new System.Drawing.Size(29, 15);
+			lblTitle.TabIndex = 2;
+			lblTitle.Text = "Title";
+			// 
+			// txtTitle
+			// 
+			txtTitle.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			txtTitle.Location = new System.Drawing.Point(14, 91);
+			txtTitle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			txtTitle.Name = "txtTitle";
+			txtTitle.Size = new System.Drawing.Size(293, 23);
+			txtTitle.TabIndex = 3;
+			// 
+			// lblDescription
+			// 
+			lblDescription.AutoSize = true;
+			lblDescription.Location = new System.Drawing.Point(14, 118);
+			lblDescription.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblDescription.Name = "lblDescription";
+			lblDescription.Size = new System.Drawing.Size(67, 15);
+			lblDescription.TabIndex = 4;
+			lblDescription.Text = "Description";
+			// 
+			// picUserIcon
+			// 
+			picUserIcon.Location = new System.Drawing.Point(14, 14);
+			picUserIcon.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			picUserIcon.Name = "picUserIcon";
+			picUserIcon.Size = new System.Drawing.Size(56, 55);
+			picUserIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			picUserIcon.TabIndex = 20;
+			picUserIcon.TabStop = false;
+			// 
+			// lblUsername1
+			// 
+			lblUsername1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			lblUsername1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			lblUsername1.Location = new System.Drawing.Point(77, 14);
+			lblUsername1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblUsername1.Name = "lblUsername1";
+			lblUsername1.Size = new System.Drawing.Size(590, 20);
+			lblUsername1.TabIndex = 0;
+			lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lblUsername2
+			// 
+			lblUsername2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+			lblUsername2.AutoEllipsis = true;
+			lblUsername2.Location = new System.Drawing.Point(77, 33);
+			lblUsername2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblUsername2.Name = "lblUsername2";
+			lblUsername2.Size = new System.Drawing.Size(590, 15);
+			lblUsername2.TabIndex = 1;
+			lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lblCategory
+			// 
+			lblCategory.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			lblCategory.AutoSize = true;
+			lblCategory.Location = new System.Drawing.Point(315, 95);
+			lblCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblCategory.Name = "lblCategory";
+			lblCategory.Size = new System.Drawing.Size(55, 15);
+			lblCategory.TabIndex = 9;
+			lblCategory.Text = "Category";
+			// 
+			// ddlCategory
+			// 
+			ddlCategory.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			ddlCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			ddlCategory.FormattingEnabled = true;
+			ddlCategory.Location = new System.Drawing.Point(379, 91);
+			ddlCategory.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			ddlCategory.Name = "ddlCategory";
+			ddlCategory.Size = new System.Drawing.Size(162, 23);
+			ddlCategory.TabIndex = 10;
+			// 
+			// chkScraps
+			// 
+			chkScraps.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			chkScraps.AutoSize = true;
+			chkScraps.Location = new System.Drawing.Point(327, 122);
+			chkScraps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkScraps.Name = "chkScraps";
+			chkScraps.Size = new System.Drawing.Size(93, 19);
+			chkScraps.TabIndex = 11;
+			chkScraps.Text = "Put in scraps";
+			chkScraps.UseVisualStyleBackColor = true;
+			// 
+			// ddlTheme
+			// 
+			ddlTheme.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			ddlTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			ddlTheme.FormattingEnabled = true;
+			ddlTheme.Location = new System.Drawing.Point(379, 149);
+			ddlTheme.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			ddlTheme.Name = "ddlTheme";
+			ddlTheme.Size = new System.Drawing.Size(162, 23);
+			ddlTheme.TabIndex = 13;
+			// 
+			// lblTheme
+			// 
+			lblTheme.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			lblTheme.AutoSize = true;
+			lblTheme.Location = new System.Drawing.Point(315, 152);
+			lblTheme.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblTheme.Name = "lblTheme";
+			lblTheme.Size = new System.Drawing.Size(43, 15);
+			lblTheme.TabIndex = 12;
+			lblTheme.Text = "Theme";
+			// 
+			// chkLockComments
+			// 
+			chkLockComments.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			chkLockComments.AutoSize = true;
+			chkLockComments.Location = new System.Drawing.Point(14, 351);
+			chkLockComments.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkLockComments.Name = "chkLockComments";
+			chkLockComments.Size = new System.Drawing.Size(352, 19);
+			chkLockComments.TabIndex = 8;
+			chkLockComments.Text = "Lock comments (minimal duration for this setting is 24 hours)";
+			chkLockComments.UseVisualStyleBackColor = true;
+			// 
+			// ddlSpecies
+			// 
+			ddlSpecies.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			ddlSpecies.DisplayMember = "Name";
+			ddlSpecies.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			ddlSpecies.FormattingEnabled = true;
+			ddlSpecies.Location = new System.Drawing.Point(379, 180);
+			ddlSpecies.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			ddlSpecies.Name = "ddlSpecies";
+			ddlSpecies.Size = new System.Drawing.Size(162, 23);
+			ddlSpecies.TabIndex = 15;
+			ddlSpecies.ValueMember = "Id";
+			// 
+			// lblSpecies
+			// 
+			lblSpecies.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			lblSpecies.AutoSize = true;
+			lblSpecies.Location = new System.Drawing.Point(315, 183);
+			lblSpecies.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblSpecies.Name = "lblSpecies";
+			lblSpecies.Size = new System.Drawing.Size(46, 15);
+			lblSpecies.TabIndex = 14;
+			lblSpecies.Text = "Species";
+			// 
+			// ddlGender
+			// 
+			ddlGender.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			ddlGender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			ddlGender.FormattingEnabled = true;
+			ddlGender.Location = new System.Drawing.Point(379, 211);
+			ddlGender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			ddlGender.Name = "ddlGender";
+			ddlGender.Size = new System.Drawing.Size(162, 23);
+			ddlGender.TabIndex = 17;
+			// 
+			// lblGender
+			// 
+			lblGender.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			lblGender.AutoSize = true;
+			lblGender.Location = new System.Drawing.Point(315, 215);
+			lblGender.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			lblGender.Name = "lblGender";
+			lblGender.Size = new System.Drawing.Size(45, 15);
+			lblGender.TabIndex = 16;
+			lblGender.Text = "Gender";
+			// 
+			// groupBox3
+			// 
+			groupBox3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			groupBox3.Controls.Add(radRating2);
+			groupBox3.Controls.Add(radRating1);
+			groupBox3.Controls.Add(radRating0);
+			groupBox3.Location = new System.Drawing.Point(315, 242);
+			groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			groupBox3.Name = "groupBox3";
+			groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			groupBox3.Size = new System.Drawing.Size(226, 47);
+			groupBox3.TabIndex = 18;
+			groupBox3.TabStop = false;
+			groupBox3.Text = "Rating";
+			// 
+			// radRating2
+			// 
+			radRating2.AutoSize = true;
+			radRating2.Location = new System.Drawing.Point(161, 22);
+			radRating2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			radRating2.Name = "radRating2";
+			radRating2.Size = new System.Drawing.Size(54, 19);
+			radRating2.TabIndex = 2;
+			radRating2.TabStop = true;
+			radRating2.Text = "Adult";
+			radRating2.UseVisualStyleBackColor = true;
+			// 
+			// radRating1
+			// 
+			radRating1.AutoSize = true;
+			radRating1.Location = new System.Drawing.Point(86, 22);
+			radRating1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			radRating1.Name = "radRating1";
+			radRating1.Size = new System.Drawing.Size(63, 19);
+			radRating1.TabIndex = 1;
+			radRating1.TabStop = true;
+			radRating1.Text = "Mature";
+			radRating1.UseVisualStyleBackColor = true;
+			// 
+			// radRating0
+			// 
+			radRating0.AutoSize = true;
+			radRating0.Location = new System.Drawing.Point(7, 22);
+			radRating0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			radRating0.Name = "radRating0";
+			radRating0.Size = new System.Drawing.Size(65, 19);
+			radRating0.TabIndex = 0;
+			radRating0.TabStop = true;
+			radRating0.Text = "General";
+			radRating0.UseVisualStyleBackColor = true;
+			// 
+			// chkRemoveTransparency
+			// 
+			chkRemoveTransparency.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			chkRemoveTransparency.AutoSize = true;
+			chkRemoveTransparency.Location = new System.Drawing.Point(379, 351);
+			chkRemoveTransparency.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkRemoveTransparency.Name = "chkRemoveTransparency";
+			chkRemoveTransparency.Size = new System.Drawing.Size(140, 19);
+			chkRemoveTransparency.TabIndex = 21;
+			chkRemoveTransparency.Text = "Remove transparency";
+			chkRemoveTransparency.UseVisualStyleBackColor = true;
+			// 
+			// groupBox1
+			// 
+			groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+			groupBox1.Controls.Add(listBox1);
+			groupBox1.Location = new System.Drawing.Point(548, 91);
+			groupBox1.Name = "groupBox1";
+			groupBox1.Size = new System.Drawing.Size(121, 198);
+			groupBox1.TabIndex = 22;
+			groupBox1.TabStop = false;
+			groupBox1.Text = "Folders";
+			// 
+			// listBox1
+			// 
+			listBox1.DisplayMember = "Name";
+			listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			listBox1.FormattingEnabled = true;
+			listBox1.IntegralHeight = false;
+			listBox1.ItemHeight = 15;
+			listBox1.Location = new System.Drawing.Point(3, 19);
+			listBox1.Name = "listBox1";
+			listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+			listBox1.Size = new System.Drawing.Size(115, 176);
+			listBox1.TabIndex = 0;
+			// 
+			// FurAffinityPostForm
+			// 
+			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			ClientSize = new System.Drawing.Size(681, 417);
+			Controls.Add(groupBox1);
+			Controls.Add(chkRemoveTransparency);
+			Controls.Add(groupBox3);
+			Controls.Add(ddlGender);
+			Controls.Add(lblGender);
+			Controls.Add(ddlSpecies);
+			Controls.Add(lblSpecies);
+			Controls.Add(chkLockComments);
+			Controls.Add(ddlTheme);
+			Controls.Add(lblTheme);
+			Controls.Add(chkScraps);
+			Controls.Add(ddlCategory);
+			Controls.Add(lblCategory);
+			Controls.Add(picUserIcon);
+			Controls.Add(lblUsername1);
+			Controls.Add(lblUsername2);
+			Controls.Add(lblDescription);
+			Controls.Add(txtTitle);
+			Controls.Add(lblTitle);
+			Controls.Add(txtTags);
+			Controls.Add(lblKeywords);
+			Controls.Add(btnPost);
+			Controls.Add(txtDescription);
+			Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			Name = "FurAffinityPostForm";
+			Text = "Post to FurAffinity";
+			Shown += Form_Shown;
+			((System.ComponentModel.ISupportInitialize)picUserIcon).EndInit();
+			groupBox3.ResumeLayout(false);
+			groupBox3.PerformLayout();
+			groupBox1.ResumeLayout(false);
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		#endregion
@@ -405,5 +427,7 @@
 		private System.Windows.Forms.RadioButton radRating1;
 		private System.Windows.Forms.RadioButton radRating0;
 		private System.Windows.Forms.CheckBox chkRemoveTransparency;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.ListBox listBox1;
 	}
 }

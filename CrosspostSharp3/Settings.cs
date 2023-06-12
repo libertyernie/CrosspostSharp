@@ -25,15 +25,15 @@ namespace CrosspostSharp3 {
 		public IEnumerable<DeviantArtTokenWrapper> DeviantArtTokens =>
 			DeviantArtAccounts.Select(x => new DeviantArtTokenWrapper(this, x));
 
-		public struct FurAffinitySettings : IAccountCredentials, IFurAffinityCredentials {
+		public struct FurAffinitySettings : IAccountCredentials, FurAffinityFs.FurAffinity.ICredentials {
 			public string b;
 			public string a;
 			public string username;
 
 			readonly string IAccountCredentials.Username => username;
 
-			readonly string IFurAffinityCredentials.A => a;
-			readonly string IFurAffinityCredentials.B => b;
+			readonly string FurAffinityFs.FurAffinity.ICredentials.A => a;
+			readonly string FurAffinityFs.FurAffinity.ICredentials.B => b;
 		}
 
 		public List<FurAffinitySettings> FurAffinity = new();
