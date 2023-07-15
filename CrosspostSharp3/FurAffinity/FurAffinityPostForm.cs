@@ -133,8 +133,8 @@ namespace CrosspostSharp3.FurAffinity {
 						cat: (Fsfs.Category)ddlCategory.SelectedItem,
 						scrap: chkScraps.Checked,
 						atype: (Fsfs.Type)ddlTheme.SelectedItem,
-						species: ddlSpecies.SelectedItem is Fsfs.Species s
-							? s
+						species: ddlSpecies.SelectedItem is Fsfs.SpeciesInformation s
+							? s.Species
 							: Fsfs.Species.Unspecified,
 						gender: (Fsfs.Gender)ddlGender.SelectedItem,
 						rating: radRating0.Checked ? Fsfs.Rating.General
