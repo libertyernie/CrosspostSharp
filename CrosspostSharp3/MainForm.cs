@@ -1,7 +1,5 @@
 ﻿using ArtworkSourceSpecification;
 using CrosspostSharp3.FurAffinity;
-using DontPanic.TumblrSharp;
-using DontPanic.TumblrSharp.Client;
 using CrosspostSharp3.FurryNetwork;
 using System;
 using System.Collections.Generic;
@@ -12,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrosspostSharp3.Weasyl;
 using CrosspostSharp3.Mastodon;
-using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.DeviantArt;
 using System.Threading;
 
@@ -144,14 +141,6 @@ namespace CrosspostSharp3 {
 						var client = p.GetClient();
 						yield return new MastodonSource(client);
 						yield return new PhotoPostFilterSource(new MastodonSource(client));
-					}
-					foreach (var t in s.Tumblr) {
-						var client = new TumblrClientFactory().Create<TumblrClient>(
-							OAuthConsumer.Tumblr.CONSUMER_KEY,
-							OAuthConsumer.Tumblr.CONSUMER_SECRET,
-							new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-						yield return new TumblrSource(client, t.blogName, PostType.Photo);
-						yield return new TumblrSource(client, t.blogName, PostType.All);
 					}
 					foreach (var w in s.WeasylApi) {
 						if (w.apiKey == null) continue;

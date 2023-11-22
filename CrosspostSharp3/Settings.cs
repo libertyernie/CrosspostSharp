@@ -69,17 +69,6 @@ namespace CrosspostSharp3 {
 
 		public List<PleronetSettings> Pixelfed = new();
 
-		public struct TumblrSettings : IAccountCredentials {
-			public string tokenKey;
-			public string tokenSecret;
-			public string blogName;
-			public IEnumerable<string> tags;
-
-			readonly string IAccountCredentials.Username => blogName;
-		}
-
-		public List<TumblrSettings> Tumblr = new();
-
 		public struct WeasylSettings : IAccountCredentials {
 			public string username;
 			public string apiKey;

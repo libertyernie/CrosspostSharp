@@ -1,8 +1,5 @@
 ﻿using ArtworkSourceSpecification;
 using DeviantArtFs;
-using DontPanic.TumblrSharp;
-using DontPanic.TumblrSharp.Client;
-using DontPanic.TumblrSharp.OAuth;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

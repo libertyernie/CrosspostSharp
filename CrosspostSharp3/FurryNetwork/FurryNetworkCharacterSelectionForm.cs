@@ -1,6 +1,4 @@
-﻿using DontPanic.TumblrSharp.Client;
-using CrosspostSharp3.FurryNetwork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;

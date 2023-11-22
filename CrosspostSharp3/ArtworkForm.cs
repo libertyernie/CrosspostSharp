@@ -4,7 +4,6 @@ using CrosspostSharp3.FurAffinity;
 using CrosspostSharp3.FurryNetwork;
 using CrosspostSharp3.Inkbunny;
 using CrosspostSharp3.Mastodon;
-using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.Weasyl;
 using DeviantArtFs.Api;
 using Microsoft.FSharp.Collections;
@@ -211,12 +210,6 @@ namespace CrosspostSharp3 {
 						f.ShowDialog(this);
 					}));
 				}
-				foreach (var t in settings.Tumblr) {
-					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-						using var f = new TumblrPostForm(t, ExportAsText(), downloadedData);
-						f.ShowDialog(this);
-					}));
-				}
 				foreach (var w in settings.WeasylApi) {
 					if (w.apiKey == null) continue;
 					listBox1.Items.Add(new DestinationOption($"Weasyl ({w.username})", () => {
@@ -244,12 +237,6 @@ namespace CrosspostSharp3 {
 			foreach (var m in settings.Pleronet) {
 				listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 					using var f = new MastodonCwPostForm(m, ExportAsText());
-					f.ShowDialog(this);
-				}));
-			}
-			foreach (var t in settings.Tumblr) {
-				listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
-					using var f = new TumblrPostForm(t, ExportAsText(), downloadedData);
 					f.ShowDialog(this);
 				}));
 			}

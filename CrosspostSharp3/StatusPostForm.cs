@@ -1,8 +1,4 @@
 ﻿using DeviantArtFs;
-using DeviantArtFs.Extensions;
-using DeviantArtFs.ParameterTypes;
-using DontPanic.TumblrSharp;
-using DontPanic.TumblrSharp.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -52,14 +48,6 @@ namespace CrosspostSharp3 {
 				pnlAccounts.Controls.Add(checkbox);
 				_postFunctions.Add(checkbox, () => PostToMastodon(m));
 			}
-			foreach (var t in settings.Tumblr) {
-				var checkbox = new CheckBox {
-					Text = $"Tumblr ({t.blogName})",
-					AutoSize = true
-				};
-				pnlAccounts.Controls.Add(checkbox);
-				_postFunctions.Add(checkbox, () => PostToTumblr(t));
-			}
 
 			splitContainer1.Enabled = true;
 		}
@@ -83,17 +71,6 @@ namespace CrosspostSharp3 {
 				CurrentText,
 				spoilerText: textBox1.Text == "" ? null : textBox1.Text);
 			return new Uri(status.Url);
-		}
-
-		private async Task<Uri> PostToTumblr(Settings.TumblrSettings t) {
-			var client = new TumblrClientFactory().Create<TumblrClient>(
-				OAuthConsumer.Tumblr.CONSUMER_KEY,
-				OAuthConsumer.Tumblr.CONSUMER_SECRET,
-				new DontPanic.TumblrSharp.OAuth.Token(t.tokenKey, t.tokenSecret));
-			PostData post = PostData.CreateText(CurrentHtml);
-			PostCreationInfo info = await client.CreatePostAsync(t.blogName, post);
-			var created = await client.GetPostAsync(t.blogName, info.PostId);
-			return new Uri(created.Url);
 		}
 
 		private async Task Run(KeyValuePair<CheckBox, Func<Task<Uri>>> pair) {

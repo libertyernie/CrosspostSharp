@@ -41,7 +41,6 @@
 			inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			mastodonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			pixelfedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			postToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,7 +154,7 @@
 			// 
 			// accountSetupToolStripMenuItem
 			// 
-			accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { deviantArtToolStripMenuItem, furAffinityToolStripMenuItem, furryNetworkToolStripMenuItem, inkbunnyToolStripMenuItem, mastodonToolStripMenuItem, pixelfedToolStripMenuItem, tumblrToolStripMenuItem, weasylToolStripMenuItem });
+			accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { deviantArtToolStripMenuItem, furAffinityToolStripMenuItem, furryNetworkToolStripMenuItem, inkbunnyToolStripMenuItem, mastodonToolStripMenuItem, pixelfedToolStripMenuItem, weasylToolStripMenuItem });
 			accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
 			accountSetupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			accountSetupToolStripMenuItem.Text = "&Account Setup";
@@ -202,13 +201,6 @@
 			pixelfedToolStripMenuItem.Text = "&Pixelfed";
 			pixelfedToolStripMenuItem.Click += pixelfedToolStripMenuItem_Click;
 			// 
-			// tumblrToolStripMenuItem
-			// 
-			tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
-			tumblrToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			tumblrToolStripMenuItem.Text = "T&umblr";
-			tumblrToolStripMenuItem.Click += tumblrToolStripMenuItem_Click;
-			// 
 			// weasylToolStripMenuItem
 			// 
 			weasylToolStripMenuItem.Name = "weasylToolStripMenuItem";
@@ -226,7 +218,7 @@
 			// postToolStripMenuItem
 			// 
 			postToolStripMenuItem.Name = "postToolStripMenuItem";
-			postToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
+			postToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			postToolStripMenuItem.Text = "&Post...";
 			postToolStripMenuItem.Click += postToolStripMenuItem_Click;
 			// 
@@ -346,7 +338,6 @@
 		private System.Windows.Forms.PictureBox picUserIcon;
 		private System.Windows.Forms.Label lblUsername;
 		private System.Windows.Forms.Label lblSiteName;
-		private System.Windows.Forms.ToolStripMenuItem tumblrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem inkbunnyToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem weasylToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem furryNetworkToolStripMenuItem;

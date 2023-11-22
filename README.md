@@ -27,7 +27,6 @@ Use the Tools menu to add and remove accounts.
 * Inkbunny
 * Mastodon (uses [Pleronet](https://github.com/Solexid/Pleronet))
 * Pixelfed (uses [Pleronet](https://github.com/Solexid/Pleronet))
-* Tumblr (uses [NewTumblrSharp](https://github.com/piedoom/TumblrSharp))
 * Weasyl
 
 You can also open or save local files in PNG or JPEG format.
@@ -49,10 +48,6 @@ OAuth keys, then put something like the following into OAuthConsumer.cs:
 
     namespace CrosspostSharp {
         public static class OAuthConsumer {
-            public static class Tumblr {
-                public static string CONSUMER_KEY = "consumer key goes here";
-                public static string CONSUMER_SECRET = "secret key goes here";
-            }
             public static class DeviantArt {
                 public static string CLIENT_ID = "client_id goes here";
                 public static string CLIENT_SECRET = "client_secret goes here";
