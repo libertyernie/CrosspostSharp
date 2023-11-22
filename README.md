@@ -9,6 +9,11 @@ CrosspostSharp is a Windows desktop application (written mostly in C#) that
 loads individual submissions from art sites and lets you post them to your
 other accounts, maintaining the title, description, and tags.
 
+There are currently no plans to post builds of CrosspostSharp 5.0+ to GitHub
+(given the other, more fully-featured crossposting applications that are out
+there, I don't think this application is all that useful to anyone who's not
+already a .NET developer).
+
 Supported Sites
 ---------------
 
