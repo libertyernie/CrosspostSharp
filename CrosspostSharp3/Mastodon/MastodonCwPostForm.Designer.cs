@@ -37,6 +37,7 @@
 			chkFocalPoint = new System.Windows.Forms.CheckBox();
 			lblCollections = new System.Windows.Forms.Label();
 			listBox1 = new System.Windows.Forms.ListBox();
+			chkRemoveTransparency = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)picUserIcon).BeginInit();
 			SuspendLayout();
 			// 
@@ -57,7 +58,7 @@
 			lblUsername1.Location = new System.Drawing.Point(77, 14);
 			lblUsername1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			lblUsername1.Name = "lblUsername1";
-			lblUsername1.Size = new System.Drawing.Size(308, 20);
+			lblUsername1.Size = new System.Drawing.Size(443, 20);
 			lblUsername1.TabIndex = 0;
 			lblUsername1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -80,7 +81,7 @@
 			txtContentWarning.Location = new System.Drawing.Point(145, 76);
 			txtContentWarning.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			txtContentWarning.Name = "txtContentWarning";
-			txtContentWarning.Size = new System.Drawing.Size(240, 23);
+			txtContentWarning.Size = new System.Drawing.Size(375, 23);
 			txtContentWarning.TabIndex = 3;
 			// 
 			// lblContent
@@ -101,7 +102,7 @@
 			txtContent.Multiline = true;
 			txtContent.Name = "txtContent";
 			txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			txtContent.Size = new System.Drawing.Size(259, 116);
+			txtContent.Size = new System.Drawing.Size(394, 116);
 			txtContent.TabIndex = 5;
 			// 
 			// chkIncludeImage
@@ -124,14 +125,14 @@
 			lblUsername2.Location = new System.Drawing.Point(77, 33);
 			lblUsername2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			lblUsername2.Name = "lblUsername2";
-			lblUsername2.Size = new System.Drawing.Size(308, 15);
+			lblUsername2.Size = new System.Drawing.Size(443, 15);
 			lblUsername2.TabIndex = 1;
 			lblUsername2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// btnPost
 			// 
 			btnPost.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-			btnPost.Location = new System.Drawing.Point(298, 275);
+			btnPost.Location = new System.Drawing.Point(433, 275);
 			btnPost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			btnPost.Name = "btnPost";
 			btnPost.Size = new System.Drawing.Size(88, 27);
@@ -159,7 +160,7 @@
 			txtImageDescription.Location = new System.Drawing.Point(128, 245);
 			txtImageDescription.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			txtImageDescription.Name = "txtImageDescription";
-			txtImageDescription.Size = new System.Drawing.Size(256, 23);
+			txtImageDescription.Size = new System.Drawing.Size(391, 23);
 			txtImageDescription.TabIndex = 9;
 			// 
 			// chkFocalPoint
@@ -169,7 +170,7 @@
 			chkFocalPoint.Checked = true;
 			chkFocalPoint.CheckState = System.Windows.Forms.CheckState.Checked;
 			chkFocalPoint.Enabled = false;
-			chkFocalPoint.Location = new System.Drawing.Point(147, 280);
+			chkFocalPoint.Location = new System.Drawing.Point(137, 280);
 			chkFocalPoint.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			chkFocalPoint.Name = "chkFocalPoint";
 			chkFocalPoint.Size = new System.Drawing.Size(126, 19);
@@ -181,7 +182,7 @@
 			// 
 			lblCollections.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
 			lblCollections.AutoSize = true;
-			lblCollections.Location = new System.Drawing.Point(280, 103);
+			lblCollections.Location = new System.Drawing.Point(415, 103);
 			lblCollections.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			lblCollections.Name = "lblCollections";
 			lblCollections.Size = new System.Drawing.Size(66, 15);
@@ -195,17 +196,30 @@
 			listBox1.FormattingEnabled = true;
 			listBox1.IntegralHeight = false;
 			listBox1.ItemHeight = 15;
-			listBox1.Location = new System.Drawing.Point(280, 121);
+			listBox1.Location = new System.Drawing.Point(415, 121);
 			listBox1.Name = "listBox1";
 			listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
 			listBox1.Size = new System.Drawing.Size(104, 116);
 			listBox1.TabIndex = 7;
 			// 
+			// chkRemoveTransparency
+			// 
+			chkRemoveTransparency.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+			chkRemoveTransparency.AutoSize = true;
+			chkRemoveTransparency.Location = new System.Drawing.Point(271, 280);
+			chkRemoveTransparency.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+			chkRemoveTransparency.Name = "chkRemoveTransparency";
+			chkRemoveTransparency.Size = new System.Drawing.Size(140, 19);
+			chkRemoveTransparency.TabIndex = 22;
+			chkRemoveTransparency.Text = "Remove transparency";
+			chkRemoveTransparency.UseVisualStyleBackColor = true;
+			// 
 			// MastodonCwPostForm
 			// 
 			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			ClientSize = new System.Drawing.Size(399, 315);
+			ClientSize = new System.Drawing.Size(534, 315);
+			Controls.Add(chkRemoveTransparency);
 			Controls.Add(listBox1);
 			Controls.Add(lblCollections);
 			Controls.Add(chkFocalPoint);
@@ -245,5 +259,6 @@
 		private System.Windows.Forms.CheckBox chkFocalPoint;
 		private System.Windows.Forms.Label lblCollections;
 		private System.Windows.Forms.ListBox listBox1;
+		private System.Windows.Forms.CheckBox chkRemoveTransparency;
 	}
 }

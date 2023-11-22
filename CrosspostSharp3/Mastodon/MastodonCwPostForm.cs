@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -55,10 +56,19 @@ namespace CrosspostSharp3.Mastodon {
 			chkFocalPoint.Enabled = chkIncludeImage.Checked;
 		}
 
+		private static bool HasAlpha(Image image) {
+			return image.PixelFormat.HasFlag(PixelFormat.Alpha);
+		}
+
 		private record PixelfedCollection(string Id, string Title);
 
 		private async void MastodonCwPostForm_Shown(object sender, EventArgs e) {
 			try {
+				using (var ms = new MemoryStream(_downloaded.Data, false))
+				using (var image = Image.FromStream(ms)) {
+					chkRemoveTransparency.Enabled = HasAlpha(image);
+				}
+
 				var user = await _s.GetClient().GetCurrentUser();
 				lblUsername1.Text = user.DisplayName;
 				lblUsername2.Text = "@" + user.UserName + "@" + _s.AppRegistration.Instance;
@@ -85,6 +95,23 @@ namespace CrosspostSharp3.Mastodon {
 				AttachmentFocusData focus = null;
 				if (chkIncludeImage.Checked && _downloaded != null) {
 					attachment_data = _downloaded.Data;
+
+					if (chkRemoveTransparency.Checked) {
+						using (var ms = new MemoryStream(_downloaded.Data, false))
+						using (var image = Image.FromStream(ms))
+						using (var newImage = new Bitmap(image.Width, image.Height, PixelFormat.Format24bppRgb)) {
+							using (var g = Graphics.FromImage(newImage)) {
+								g.FillRectangle(new SolidBrush(Color.White), 0, 0, image.Width, image.Height);
+								g.DrawImage(image, 0, 0, image.Width, image.Height);
+							}
+
+							using (var msout = new MemoryStream()) {
+								newImage.Save(msout, ImageFormat.Png);
+								attachment_data = msout.ToArray();
+							}
+						}
+					}
+
 					if (chkFocalPoint.Checked) {
 						using (var ms = new MemoryStream(attachment_data, false))
 						using (var image = Image.FromStream(ms))
