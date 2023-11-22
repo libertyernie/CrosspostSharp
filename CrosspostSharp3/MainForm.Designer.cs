@@ -41,7 +41,6 @@
 			inkbunnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			mastodonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			pixelfedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			twitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			tumblrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			weasylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			statusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -156,7 +155,7 @@
 			// 
 			// accountSetupToolStripMenuItem
 			// 
-			accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { deviantArtToolStripMenuItem, furAffinityToolStripMenuItem, furryNetworkToolStripMenuItem, inkbunnyToolStripMenuItem, mastodonToolStripMenuItem, pixelfedToolStripMenuItem, twitterToolStripMenuItem, tumblrToolStripMenuItem, weasylToolStripMenuItem });
+			accountSetupToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { deviantArtToolStripMenuItem, furAffinityToolStripMenuItem, furryNetworkToolStripMenuItem, inkbunnyToolStripMenuItem, mastodonToolStripMenuItem, pixelfedToolStripMenuItem, tumblrToolStripMenuItem, weasylToolStripMenuItem });
 			accountSetupToolStripMenuItem.Name = "accountSetupToolStripMenuItem";
 			accountSetupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			accountSetupToolStripMenuItem.Text = "&Account Setup";
@@ -203,13 +202,6 @@
 			pixelfedToolStripMenuItem.Text = "&Pixelfed";
 			pixelfedToolStripMenuItem.Click += pixelfedToolStripMenuItem_Click;
 			// 
-			// twitterToolStripMenuItem
-			// 
-			twitterToolStripMenuItem.Name = "twitterToolStripMenuItem";
-			twitterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			twitterToolStripMenuItem.Text = "&Twitter";
-			twitterToolStripMenuItem.Click += twitterToolStripMenuItem_Click;
-			// 
 			// tumblrToolStripMenuItem
 			// 
 			tumblrToolStripMenuItem.Name = "tumblrToolStripMenuItem";
@@ -248,7 +240,7 @@
 			// aboutToolStripMenuItem
 			// 
 			aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			aboutToolStripMenuItem.Text = "&About";
 			aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
 			// 
@@ -354,7 +346,6 @@
 		private System.Windows.Forms.PictureBox picUserIcon;
 		private System.Windows.Forms.Label lblUsername;
 		private System.Windows.Forms.Label lblSiteName;
-		private System.Windows.Forms.ToolStripMenuItem twitterToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tumblrToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem inkbunnyToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem weasylToolStripMenuItem;

@@ -52,14 +52,6 @@ namespace CrosspostSharp3 {
 				pnlAccounts.Controls.Add(checkbox);
 				_postFunctions.Add(checkbox, () => PostToMastodon(m));
 			}
-			foreach (var t in settings.Twitter) {
-				var checkbox = new CheckBox {
-					Text = $"Twitter ({t.screenName})",
-					AutoSize = true
-				};
-				pnlAccounts.Controls.Add(checkbox);
-				_postFunctions.Add(checkbox, () => PostToTwitter(t));
-			}
 			foreach (var t in settings.Tumblr) {
 				var checkbox = new CheckBox {
 					Text = $"Tumblr ({t.blogName})",
@@ -91,14 +83,6 @@ namespace CrosspostSharp3 {
 				CurrentText,
 				spoilerText: textBox1.Text == "" ? null : textBox1.Text);
 			return new Uri(status.Url);
-		}
-
-		private async Task<Uri> PostToTwitter(Settings.TwitterSettings t) {
-			var tweet = await t.GetCredentials().Tweets.PublishTweetAsync(CurrentText);
-			if (tweet == null) {
-				throw new Exception("Could not post tweet");
-			}
-			return new Uri(tweet.Url);
 		}
 
 		private async Task<Uri> PostToTumblr(Settings.TumblrSettings t) {

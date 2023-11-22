@@ -9,19 +9,15 @@ CrosspostSharp is a Windows desktop application (written mostly in C#) that
 loads individual submissions from art sites and lets you post them to your
 other accounts, maintaining the title, description, and tags.
 
-In most cases, only photo posts are supported. However, Twitter and Tumblr
-text posts and DeviantArt status updates will be recognized as simple text
-posts, and you will be able to crosspost them easily without uploading a
-photo.
-
 Supported Sites
 ---------------
 
 Use the Tools menu to add and remove accounts.
 
 * DeviantArt (uses [DeviantArtFs](https://github.com/IsaacSchemm/DeviantArtFs))
-* Fur Affinity (uses [FAExport](faexport.spangle.org.uk) for viewing posts and
-  [FurAffinityFs](https://github.com/IsaacSchemm/FurAffinityFs) for upload)
+* Fur Affinity (uses [FAExport](https://faexport.spangle.org.uk/) for viewing
+  posts and [FurAffinityFs](https://github.com/IsaacSchemm/FurAffinityFs) for
+  upload)
 * Furry Network
 * Inkbunny
 * Mastodon (uses [Pleronet](https://github.com/Solexid/Pleronet))
@@ -49,10 +45,6 @@ OAuth keys, then put something like the following into OAuthConsumer.cs:
     namespace CrosspostSharp {
         public static class OAuthConsumer {
             public static class Tumblr {
-                public static string CONSUMER_KEY = "consumer key goes here";
-                public static string CONSUMER_SECRET = "secret key goes here";
-            }
-            public static class Twitter {
                 public static string CONSUMER_KEY = "consumer key goes here";
                 public static string CONSUMER_SECRET = "secret key goes here";
             }

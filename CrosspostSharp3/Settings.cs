@@ -1,12 +1,10 @@
 ﻿using CrosspostSharp3.DeviantArt;
-using FurAffinityFs;
 using Newtonsoft.Json;
 using Pleronet;
 using Pleronet.Entities;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Tweetinvi;
 
 namespace CrosspostSharp3 {
 	public class Settings {
@@ -68,20 +66,6 @@ namespace CrosspostSharp3 {
 				return new MastodonClient(AppRegistration, Auth);
 			}
 		}
-
-		public struct TwitterSettings : IAccountCredentials {
-			public string tokenKey;
-			public string tokenSecret;
-			public string screenName;
-
-			readonly string IAccountCredentials.Username => screenName;
-
-			public readonly TwitterClient GetCredentials() {
-				return new TwitterClient(OAuthConsumer.Twitter.CONSUMER_KEY, OAuthConsumer.Twitter.CONSUMER_SECRET, tokenKey, tokenSecret);
-			}
-		}
-
-		public List<TwitterSettings> Twitter = new();
 
 		public List<PleronetSettings> Pixelfed = new();
 

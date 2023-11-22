@@ -5,14 +5,12 @@ using CrosspostSharp3.FurryNetwork;
 using CrosspostSharp3.Inkbunny;
 using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
-using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Weasyl;
 using DeviantArtFs.Api;
 using Microsoft.FSharp.Collections;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -213,12 +211,6 @@ namespace CrosspostSharp3 {
 						f.ShowDialog(this);
 					}));
 				}
-				foreach (var t in settings.Twitter) {
-					listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-						using var f = new TwitterPostForm(t, ExportAsText(), downloadedData);
-						f.ShowDialog(this);
-					}));
-				}
 				foreach (var t in settings.Tumblr) {
 					listBox1.Items.Add(new DestinationOption($"Tumblr ({t.blogName})", () => {
 						using var f = new TumblrPostForm(t, ExportAsText(), downloadedData);
@@ -252,12 +244,6 @@ namespace CrosspostSharp3 {
 			foreach (var m in settings.Pleronet) {
 				listBox1.Items.Add(new DestinationOption($"{m.AppRegistration.Instance} ({m.Username})", () => {
 					using var f = new MastodonCwPostForm(m, ExportAsText());
-					f.ShowDialog(this);
-				}));
-			}
-			foreach (var t in settings.Twitter) {
-				listBox1.Items.Add(new DestinationOption($"Twitter ({t.screenName})", () => {
-					using var f = new TwitterPostForm(t, ExportAsText());
 					f.ShowDialog(this);
 				}));
 			}

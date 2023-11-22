@@ -11,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CrosspostSharp3.Weasyl;
-using CrosspostSharp3.Twitter;
 using CrosspostSharp3.Mastodon;
 using CrosspostSharp3.Tumblr;
 using CrosspostSharp3.DeviantArt;
@@ -145,11 +144,6 @@ namespace CrosspostSharp3 {
 						var client = p.GetClient();
 						yield return new MastodonSource(client);
 						yield return new PhotoPostFilterSource(new MastodonSource(client));
-					}
-					foreach (var t in s.Twitter) {
-						var source = new TwitterSource(t.GetCredentials());
-						yield return source;
-						yield return new PhotoPostFilterSource(source);
 					}
 					foreach (var t in s.Tumblr) {
 						var client = new TumblrClientFactory().Create<TumblrClient>(
