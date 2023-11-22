@@ -17,19 +17,16 @@ photo.
 Supported Sites
 ---------------
 
-Use the Tools menu to add and remove accounts. Multiple accounts per site are
-supported on all sites except DeviantArt and Sta.sh.
+Use the Tools menu to add and remove accounts.
 
-On Tumblr and Furry Network, CrosspostSharp lets you use read from and post to
-multiple blogs/characters using a single account.
-
-* DeviantArt
-* Fur Affinity
-* Furry Network (untested)
-* Inkbunny (untested)
-* Mastodon (untested)
-* Pixelfed
-* Tumblr (untested)
+* DeviantArt (uses [DeviantArtFs](https://github.com/IsaacSchemm/DeviantArtFs))
+* Fur Affinity (uses [FAExport](faexport.spangle.org.uk) for viewing posts and
+  [FurAffinityFs](https://github.com/IsaacSchemm/FurAffinityFs) for upload)
+* Furry Network
+* Inkbunny
+* Mastodon (uses [Pleronet](https://github.com/Solexid/Pleronet))
+* Pixelfed (uses [Pleronet](https://github.com/Solexid/Pleronet))
+* Tumblr (uses [NewTumblrSharp](https://github.com/piedoom/TumblrSharp))
 * Weasyl
 
 You can also open or save local files in PNG or JPEG format.
@@ -38,7 +35,7 @@ Credentials
 -----------
 
 Credentials are stored in the file CrosspostSharp.json. This includes tokens
-are used to give CrosspostSharp access to your accounts. Make sure you keep
+that give CrosspostSharp access to your accounts. Make sure you keep
 this file safe!
 
 Compiling from Source
@@ -47,7 +44,7 @@ Compiling from Source
 This project can be built with Visual Studio 2022.
 
 The file OAuthConsumer.cs is missing from the CrosspostSharp3 project. Get your own
-OAuth keys, then put the following into OAuthConsumer.cs:
+OAuth keys, then put something like the following into OAuthConsumer.cs:
 
     namespace CrosspostSharp {
         public static class OAuthConsumer {
