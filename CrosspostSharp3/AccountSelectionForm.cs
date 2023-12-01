@@ -45,15 +45,11 @@ namespace CrosspostSharp3 {
 			OnRemove = onRemove;
 		}
 
-		private static async IAsyncEnumerable<T> toAsync(IEnumerable<T> x) {
-			foreach (var o in x) yield return o;
-		}
-
 		public AccountSelectionForm(
 			IEnumerable<T> initialList,
 			Func<IEnumerable<T>> onAdd,
 			Action<T> onRemove = null
-		) : this(initialList, () => toAsync(onAdd()), onRemove) { }
+		) : this(initialList, () => onAdd().ToAsyncEnumerable(), onRemove) { }
 
 		private void Remove_Click(object sender, EventArgs e) {
 			btnAdd.Enabled = btnRemove.Enabled = btnOk.Enabled = false;
