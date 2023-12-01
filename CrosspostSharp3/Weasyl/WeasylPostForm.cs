@@ -80,6 +80,9 @@ namespace CrosspostSharp3.Weasyl {
 					txtTags.Text.Split(' '));
 
 				Close();
+			} catch (WebException ex) when (ex.Response is HttpWebResponse r && r.StatusCode == HttpStatusCode.Forbidden && r.Server == "cloudflare") {
+				btnPost.Enabled = true;
+				MessageBox.Show(this, "Automated upload blocked by Cloudflare. You'll need to upload to the website manually.", ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			} catch (Exception ex) {
 				btnPost.Enabled = true;
 				MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
